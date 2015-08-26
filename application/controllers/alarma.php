@@ -17,7 +17,6 @@ class Alarma extends CI_Controller
 
         // load basicos
         $this->load->library("template");
-        $this->load->library("form_validation");
         $this->load->helper("session");
 
         sessionValidation();
@@ -37,15 +36,31 @@ class Alarma extends CI_Controller
 
         // load basicos
         $this->load->library("template");
-        $this->load->library("form_validation");
         $this->load->helper("session");
 
         sessionValidation();
 
+
+        date_default_timezone_set("America/Buenos_Aires");
         $data = array(
+            "anioActual" => date('Y')
         );
 
         $this->template->parse("default", "pages/alarma/listado", $data);
+    }
+
+    public function jsonAlarmasDT() {
+        $this->load->model("alarma_model", "Alarma");
+        $params = $this->uri->uri_to_assoc();
+        
+        $alarmas = $this->Alarma->filtrarAlarmas($params);
+
+        $json["data"] = $alarmas;
+        $json["columns"] = array(
+            array("sTitle" => "Alarmas"),
+        );
+
+        echo json_encode($json);
     }
 
     public function jsonTiposEmergencias() {
