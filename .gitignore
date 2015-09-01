@@ -3,3 +3,5 @@
 .settings
 user_guide/
 nbproject/
+*.iml
+*.sublime-workspace
