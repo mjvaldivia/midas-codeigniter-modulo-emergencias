@@ -8,21 +8,31 @@
 class Visor extends CI_Controller
 {
     public function index() {
+        // load basicos
         $this->load->library("template");
+        $this->load->helper("session");
+
+        sessionValidation();
 
         $data = array();
         $this->template->parse("visor", "pages/visor/visor", $data);
     }
 
     public function subirKML() {
+        // load basicos
+        $this->load->helper(array("session", "debug"));
+
+        sessionValidation();
+
         if (!array_key_exists("input-kml", $_FILES)){
             show_error("No se han detectado archivos", 500, "Error interno");
         }
 
-        $this->load->helper(array("debug"));
-
         foreach ($_FILES as $llave => $valor) {
-            move_uploaded_file($valor['tmp_name'][0], APPPATH . "../KML/test.kml");
+            // no dejamos subir cualquier formato
+            if ($valor["type"][0] != "application/vnd.google-earth.kml+xml") continue;
+
+            move_uploaded_file($valor["tmp_name"][0], APPPATH . "../KML/test.kml");
         }
 
         echo json_encode(array("uploaded" => true));

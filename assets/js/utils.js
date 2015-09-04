@@ -1,8 +1,10 @@
 /**
  * Created by claudio on 12-05-15.
  */
-var Utils = {
-    listenerCambioRapido: function () {
+var Utils = {};
+
+(function() {
+    this.listenerCambioRapido = function () {
         $('#pCambioRapido').on('shown.bs.modal', function () {
             $("#users").jCombo(siteUrl + "session/obtenerJsonUsuariosImpersonables", {
                 handlerLoad: function() {
@@ -25,5 +27,5 @@ var Utils = {
                 }).fail(function(data) {
                 });
         });
-    }
-}
+    };
+}).apply(Utils);

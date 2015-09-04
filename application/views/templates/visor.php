@@ -9,7 +9,7 @@
 
     <?php //jquery ?>
     <script type="text/javascript" src="<?= base_url("/assets/lib/jquery-2.1.4/jquery.min.js") ?>"></script>
-    <script src="<?= base_url("assets/js/jquery.jcombo.js") ?>" type="text/javascript"></script>
+    <script src="<?= base_url("assets/js/jquery.jcombo.min.js") ?>" type="text/javascript"></script>
 
     <?php // bootstrap ?>
     <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/bootstrap-3.3.5/css/bootstrap.min.css") ?>"/>
@@ -18,10 +18,16 @@
     <?php //font-awesome ?>
     <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/font-awesome-4.4.0/css/font-awesome.min.css") ?>"/>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/css/emergencias.css") ?>"/>
+    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/css/emergencias.min.css") ?>"/>
 
     <?php //google maps API ?>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
+
+    <style type="text/css">
+        li a.seccion {
+            font-weight: bold;
+        }
+    </style>
 
     <script type="text/javascript">
         siteUrl = '<?= site_url("/") ?>';
@@ -48,9 +54,9 @@
         </div>
         <div class="col-md-6 col-xs-12" style="padding-right: 0">
             <div class="dropdown pull-right">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="ctrlUpload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a title="Subir capa" href="#" onclick="javascript:void(0)" class="btn btn-primary dropdown-toggle" type="button" id="ctrlUpload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-upload"></i>
-                </button>
+                </a>
                 <ul class="dropdown-menu" aria-labelledby="ctrlUpload">
                     <li>
                         <a href="#modal-kml" data-toggle="modal">
@@ -62,10 +68,49 @@
             </div>
 
             <div class="dropdown pull-right">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="ctrlUpload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a title="Editar mapa" href="#" onclick="javascript:void(0)" class="btn btn-primary dropdown-toggle" type="button" id="ctrlUpload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-pencil-square-o"></i>
-                </button>
+                </a>
                 <ul class="dropdown-menu" aria-labelledby="ctrlDraw">
+                    <li>
+                        <a class="seccion" href="#" onclick="javascript:void(0)">Lugar de la emergencia</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a id="ctrlDrawLine" href="#">
+                            <i class="fa fa-caret-right"></i>
+                            Línea
+                        </a>
+                    </li>
+                    <li>
+                        <a id="ctrlDrawRectangle" href="#">
+                            <i class="fa fa-caret-right"></i>
+                            Rectángulo
+                        </a>
+                    </li>
+                    <li>
+                        <a id="ctrlDrawCircle" href="#">
+                            <i class="fa fa-caret-right"></i>
+                            Círculo
+                        </a>
+                    </li>
+                    <li>
+                        <a id="ctrlDrawPolygon" href="#">
+                            <i class="fa fa-caret-right"></i>
+                            Polígono
+                        </a>
+                    </li>
+                    <li>
+                        <a id="ctrlDrawMarker" href="#">
+                            <i class="fa fa-caret-right"></i>
+                            Marcador
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="seccion" href="#" onclick="javascript:void(0)">Otros datos</a>
+                    </li>
+                    <li class="divider"></li>
                     <li>
                         <a id="ctrlDrawLine" href="#">
                             <i class="fa fa-caret-right"></i>
@@ -105,6 +150,7 @@
                     </li>
                 </ul>
             </div>
+
         </div>
     </div>
     <div class="main col-md-12 col-xs-12">

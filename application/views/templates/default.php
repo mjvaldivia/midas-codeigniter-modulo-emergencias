@@ -9,7 +9,7 @@
 
     <?php //jquery ?>
     <script type="text/javascript" src="<?= base_url("/assets/lib/jquery-2.1.4/jquery.min.js") ?>"></script>
-    <script src="<?= base_url("assets/js/jquery.jcombo.js") ?>" type="text/javascript"></script>
+    <script src="<?= base_url("assets/js/jquery.jcombo.min.js") ?>" type="text/javascript"></script>
 
     <?php // bootstrap ?>
     <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/bootstrap-3.3.5/css/bootstrap.min.css") ?>"/>
@@ -18,7 +18,7 @@
     <?php //font-awesome ?>
     <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/font-awesome-4.4.0/css/font-awesome.min.css") ?>"/>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/css/emergencias.css") ?>"/>
+    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/css/emergencias.min.css") ?>"/>
 
     <script type="text/javascript">
         siteUrl = '<?= site_url("/") ?>';
@@ -170,7 +170,7 @@
 <link rel="stylesheet" href="<?= base_url("assets/lib/select2-4.0.0/css/select2.min.css") ?>" type="text/css"/>
 <script src="<?= base_url("assets/lib/select2-4.0.0/js/select2.min.js") ?>" type="text/javascript"></script>
 
-<script type="text/javascript" src="<?= base_url("assets/js/utils.js") ?>"></script>
+<script type="text/javascript" src="<?= base_url("assets/js/utils.min.js") ?>"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         Utils.listenerCambioRapido();

@@ -1,8 +1,10 @@
 /**
  * Created by claudio on 14-08-15.
  */
-var Alarma = {
-    inicioIngreso: function() {
+var Alarma = {};
+
+(function() {
+    this.inicioIngreso = function() {
         $("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
         $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
             handlerLoad: function() {
@@ -14,18 +16,51 @@ var Alarma = {
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
-    },
 
-    inicioListado: function() {
+        $("#frmIngresoAlarma").submit(this.irPaso2);
+    };
+
+    this.irPaso2 = function() {
+        var error = false;
+        var message = "";
+
+        $(".has-error").removeClass("has-error");
+
+        if (!parseInt($("#iTiposEmergencias").val())) {
+            message += "<span>";
+            message += "<i class='fa fa-caret-right'></i>";
+            message += "&nbsp;&nbsp;Debes especificar el tipo de emergencia<br/>";
+            message += "</span>";
+
+            $("#iTiposEmergencias").closest("div").addClass("has-error");
+            error = true;
+        }
+
+        if (error) {
+            bootbox.dialog({
+                title: "Error",
+                message: message,
+                buttons: {
+                    danger: {
+                        label: "Cerrar",
+                        className: "btn-danger"
+                    }
+                }
+            });
+        }
+        return !error;
+    };
+
+    this.inicioListado = function() {
         $("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
         $("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas");
         $("#btnBuscarAlarmas").click(this.eventoBtnBuscar);
         $(window).resize(function() {
             $("table").css("width", "100%");
         });
-    },
+    };
 
-    eventoBtnBuscar: function() {
+    this.eventoBtnBuscar = function() {
 
         var url = siteUrl + "alarma/jsonAlarmasDT";
 
@@ -112,4 +147,4 @@ var Alarma = {
             $("#pResultados").slideDown("slow");
         });
     }
-};
+}).apply(Alarma);

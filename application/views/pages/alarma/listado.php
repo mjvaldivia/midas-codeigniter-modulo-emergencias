@@ -89,8 +89,8 @@
 <script src="<?= base_url("assets/lib/DataTables-1.10.8/js/jquery.dataTables.min.js") ?>" type="text/javascript"></script>
 <script src="<?= base_url("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.min.js") ?>" type="text/javascript"></script>
 
-<script src="<?= base_url("assets/js/jquery.jcombo.js") ?>" type="text/javascript"></script>
-<script src="<?= base_url("assets/js/alarmas.js") ?>" type="text/javascript"></script>
+<script src="<?= base_url("assets/js/jquery.jcombo.min.js") ?>" type="text/javascript"></script>
+<script src="<?= base_url("assets/js/alarmas.min.js") ?>" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioListado();

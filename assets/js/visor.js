@@ -1,9 +1,11 @@
 var VisorMapa = {
     mapa: null,
     telon: null,
-    drawingManager: null,
+    drawingManager: null
+};
 
-    init: function(opciones) {
+(function() {
+    this.init = function(opciones) {
         this.telon = $("#mapa").get(0);
         $(window).resize(this.detectHeight.bind(this));
 
@@ -18,11 +20,11 @@ var VisorMapa = {
 
         this.mapa = new google.maps.Map(this.telon, opcionesFinales);
         this.makeSearchBox.call(this);
-        this.loadKML.call(this);
+        // this.loadKML.call(this);
         this.makeDrawManager.call(this);
-    },
+    };
 
-    makeDrawManager: function() {
+    this.makeDrawManager = function() {
         var self = this;
 
         this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -58,10 +60,12 @@ var VisorMapa = {
                     self.drawingManager.setDrawingMode(googleConstant);
                     self.drawingManager.setMap(self.mapa);
 
-                    var button = $(this).parents("div").first().find("button");
+                    var button = $(this).parents("div").first().find("a.btn");
                     button.removeClass("btn-primary");
                     button.addClass("btn-success");
                     $(".ctrlPowerOff").css("display", "block");
+                    event.preventDefault();
+                    event.stopPropagation();
                 };
 
                 $("#" + controlID).on("click", clickHandler);
@@ -70,14 +74,18 @@ var VisorMapa = {
 
         $("#ctrlDrawOFF").click(function() {
             self.drawingManager.setMap(null);
-            var button = $(this).parents("div").first().find("button");
+            var button = $(this).parents("div").first().find("a.btn");
             button.removeClass("btn-success");
             button.addClass("btn-primary");
             $(".ctrlPowerOff").css("display", "none");
         });
-    },
 
-    loadKML: function() {
+        google.maps.event.addListener(this.drawingManager, 'overlaycomplete', function(event) {
+            $("#ctrlDrawOFF").click();
+        });
+    };
+
+    this.loadKML = function() {
         var kmlLayer = new google.maps.KmlLayer({
             url: 'http://ssrv.cl/sipresa_test/kml.php',
             map: this.mapa,
@@ -91,13 +99,13 @@ var VisorMapa = {
             var testimonial = document.getElementById('capture');
             testimonial.innerHTML = content;
         });
-    },
+    };
 
-    detectHeight: function() {
+    this.detectHeight = function() {
         $(this.telon).css("height", $("html").height() - $("div.header").height()+"px");
-    },
+    };
 
-    makeSearchBox: function() {
+    this.makeSearchBox = function() {
         var input = $("#input-buscador-mapa").get(0);
         var searchBox = new google.maps.places.SearchBox(input);
         var self = this;
@@ -150,5 +158,5 @@ var VisorMapa = {
             });
             self.mapa.fitBounds(bounds);
         });
-    }
-};
+    };
+}).apply(VisorMapa);
