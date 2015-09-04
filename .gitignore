@@ -1,3 +1,5 @@
 .idea
 .nbproject
 .settings
+/nbproject/private/
+application/config/config.php
