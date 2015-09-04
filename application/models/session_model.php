@@ -94,8 +94,10 @@ class Session_Model extends CI_Model
             $rut,
         ));
 
-        if ($query->num_rows() > 0)
-            $resultados = $query->result_array()[0];
+        if ($query->num_rows() > 0) {
+            $resultados = $query->result_array();
+            $resultados = $resultados[0];
+        }
 
         return $resultados;
     }
