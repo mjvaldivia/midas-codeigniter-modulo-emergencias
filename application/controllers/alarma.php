@@ -1,16 +1,18 @@
-<?php if (!defined("BASEPATH")) exit("No direct script access allowed");
+<?php
+
+if (!defined("BASEPATH"))
+    exit("No direct script access allowed");
 
 /**
  * User: claudio
  * Date: 12-08-15
  * Time: 04:24 PM
  */
-class Alarma extends CI_Controller
-{
-    public function ingreso () {
+class Alarma extends CI_Controller {
 
-        if ( ! file_exists(APPPATH."/views/pages/alarma/ingreso.php"))
-        {
+    public function ingreso() {
+
+        if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
             // Whoops, we don"t have a page for that!
             show_404();
         }
@@ -27,19 +29,19 @@ class Alarma extends CI_Controller
         $this->template->parse("default", "pages/alarma/ingreso", $data);
     }
 
-    public function ingresoPaso2 () {
-        if ( ! file_exists(APPPATH."/views/pages/alarma/ingreso_paso_2.php"))
-        {
+    public function ingresoPaso2() {
+        if (!file_exists(APPPATH . "/views/pages/alarma/ingreso_paso_2.php")) {
             // Whoops, we don"t have a page for that!
             show_404();
         }
 
-        $this->load->library(array("template", "form_validation", "parser"));
+        // $this->load->library(array("template", "form_validation", "parser"));
         $this->load->helper(array("session", "debug"));
 
         sessionValidation();
 
         $params = $this->input->post();
+
 //        $validaciones = array(
 //            array(
 //                "field" => "iTiposEmergencias",
@@ -54,34 +56,33 @@ class Alarma extends CI_Controller
 //        $errorFormulario = !$this->form_validation->run();
 //
 //        if ($errorFormulario) {
-//            $data["lastPage"] = "alarma/ingreso";
+        $data["lastPage"] = "alarma/ingreso";
 //            $this->template->parse("default", "pages/error_form", $data);
 //            return;
 //        }
 
-        
-        
+
+        $this->load->library(array("template"));
         $this->load->model("alarma_model", "AlarmaModel");
-        $res_guardar = $this->AlarmaModel->guardarAlarma($params);
-        
-        
-        
-        $tipoAlarma = $params['iTiposEmergencias'];
-        $data["tipoAlarma"] = $tipoAlarma;
-        switch($tipoAlarma){
-            case 15: // radiologico
-                $data["formulario"] = $this->parser->parse("pages/alarma/formularios/radiologico", $data, true);
-                $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
-            break;
-        default : 
-            break;
+
+
+
+        if ($res_guardar = $this->AlarmaModel->guardarAlarma($params)) {
+            $tipoAlarma = $params['iTiposEmergencias'];
+            $data["tipoAlarma"] = $tipoAlarma;
+            switch ($tipoAlarma) {
+                case 15: // radiologico
+                    $data["formulario"] = $this->parser->parse("pages/alarma/formularios/radiologico", $data, true);
+                    $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
+                    break;
+                default :break;
+            }
         }
-    
+        echo ($res_guardar) ? 1 : 0;
     }
 
-    public function listado () {
-        if ( ! file_exists(APPPATH."/views/pages/alarma/listado.php"))
-        {
+    public function listado() {
+        if (!file_exists(APPPATH . "/views/pages/alarma/listado.php")) {
             // Whoops, we don"t have a page for that!
             show_404();
         }
@@ -104,7 +105,7 @@ class Alarma extends CI_Controller
     public function jsonAlarmasDT() {
         $this->load->model("alarma_model", "Alarma");
         $params = $this->uri->uri_to_assoc();
-        
+
         $alarmas = $this->Alarma->filtrarAlarmas($params);
 
         $json["data"] = $alarmas;
@@ -120,7 +121,7 @@ class Alarma extends CI_Controller
         $tiposEmergencia = $this->TipoEmergencia->get();
 
         $json = array();
-        foreach($tiposEmergencia as $te) {
+        foreach ($tiposEmergencia as $te) {
             $json[] = array(
                 $te["aux_ia_id"],
                 $te["aux_c_nombre"],
@@ -135,7 +136,7 @@ class Alarma extends CI_Controller
         $estados = $this->AlarmaModel->obtenerEstados();
 
         $json = array();
-        foreach($estados as $e) {
+        foreach ($estados as $e) {
             $json[] = array(
                 $e["est_ia_id"],
                 $e["est_c_nombre"],
@@ -144,4 +145,5 @@ class Alarma extends CI_Controller
 
         echo json_encode($json);
     }
+
 }

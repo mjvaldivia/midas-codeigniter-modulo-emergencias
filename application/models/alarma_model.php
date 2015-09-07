@@ -81,7 +81,7 @@ class Alarma_Model extends CI_Model
     
     public function guardarAlarma($params) {
        
-        
+        //var_dump($params);die;
         $this->load->helper('utils');
         
         
@@ -95,7 +95,6 @@ class Alarma_Model extends CI_Model
         rol_ia_id,
         ala_d_fecha_recepcion,
         usu_ia_id,
-        for_ia_id,
         est_ia_id,
         ala_c_observacion)
         VALUES
@@ -103,26 +102,31 @@ class Alarma_Model extends CI_Model
            '".$params['iNombreInformante']."',
            '".$params['iTelefonoInformante']."',
            '".$params['iNombreEmergencia']."',
-           '".$params['iNombreInformante']."',
            '".$params['iTiposEmergencias']."',
            '".$params['iLugarEmergencia']."',
            '".spanishDateToISO($params['fechaEmergencia'])."',
            '".$this->session->userdata('session_cargo')."',
            '".spanishDateToISO($params['fechaRecepcion'])."',
            '".$this->session->userdata('session_idUsuario')."',
-           'null',
            $this->revision,
            '".$params['iObservacion']."'   
         )
         ");
-
-        var_dump($params['iNombreInformante']);die;
         
-        $resultados = array();
-
-        if ($query->num_rows() > 0)
-            $resultados = $query->result_array();
-
-        return $resultados;
+        $ala_ia_id = $this->db->insert_id();
+        if($ala_ia_id && isset($params['iComunas']))
+        {
+            foreach ($params['iComunas'] as $k => $v){
+                
+                
+                $this->db->query("
+                INSERT INTO alertas_vs_comunas (ala_ia_id, com_ia_id)
+                VALUES ($ala_ia_id,
+                $v
+                )
+                ");   
+            } 
+        }
+        return $query;
     }
 }

@@ -7,7 +7,7 @@
 ?>
 
 
-<form  class="form-horizontal" action="<?= site_url("alarma/ingresoPaso2") ?>" name='frmIngresoAlarma' method="POST" id='frmIngresoAlarma' >
+<form  class="form-horizontal"  name='frmIngresoAlarma' id='frmIngresoAlarma' >
 
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -17,37 +17,37 @@
             <div class="form-group">
                 <label class="control-label col-md-4">Nombre del informante (*):</label>
                 <div class="col-md-6">
-                    <input name="iNombreInformante" type="text" class="form-control" placeholder="Nombre del informante"/>
+                    <input name="iNombreInformante" id="iNombreInformante" type="text" class="form-control required" placeholder="Nombre del informante"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Teléfono del informante:</label>
                 <div class="col-md-6">
-                    <input name="iTelefonoInformante" type="text" class="form-control" placeholder="Teléfono del informante"/>
+                    <input name="iTelefonoInformante" id="iTelefonoInformante" type="text" class="form-control" placeholder="Teléfono del informante"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Nombre de la emergencia (*):</label>
                 <div class="col-md-6">
-                    <input name="iNombreEmergencia" type="text" class="form-control" placeholder="Nombre de la emergencia"/>
+                    <input name="iNombreEmergencia" id="iNombreEmergencia" type="text" class="form-control required" placeholder="Nombre de la emergencia"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="iTiposEmergencias" class="control-label col-md-4">Tipo de la emergencia (*):</label>
                 <div class="col-md-6">
-                    <select name="iTiposEmergencias" id="iTiposEmergencias" class="form-control"></select>
+                    <select name="iTiposEmergencias" id="iTiposEmergencias" class="form-control required" placeholder='Tipo de la emergencia'></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Lugar o dirección de la emergencia (*):</label>
                 <div class="col-md-6">
-                    <textarea name="iLugarEmergencia" class="form-control"></textarea>
+                    <textarea name="iLugarEmergencia" id="iLugarEmergencia" class="form-control required" placeholder="Lugar o dirección de la emergencia"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Observación:</label>
                 <div class="col-md-6">
-                    <textarea name="iObservacion" class="form-control"></textarea>
+                    <textarea name="iObservacion" id="iObservacion" class="form-control"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -73,16 +73,16 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Comuna(s) afectada(s):</label>
+                <label class="control-label col-md-4">Comuna(s) afectada(s) (*):</label>
                 <div class="col-md-6">
-                    <select name="iComunas" id="iComunas" class="form-control" multiple>
+                    <select name="iComunas[]" id="iComunas" class="form-control required" multiple placeholder='Comunas'>
                     </select>
                 </div>
             </div>
 
             <div id="botonera" class="col-md-10">
                 <div class="pull-right">
-                    <button id="btnSiguiente" class="btn btn-primary">Siguiente</button>
+                    <button type="button" id="btnSiguiente" class="btn btn-primary" onclick="Alarma.guardarForm();">Siguiente</button>
                     <button type="button" class="btn btn-default">Cancelar</button>
                 </div>
             </div>

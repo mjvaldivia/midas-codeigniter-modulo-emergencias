@@ -17,27 +17,53 @@ var Alarma = {};
             format: "DD-MM-YYYY hh:mm"
         });
 
-        $("#frmIngresoAlarma").submit(this.irPaso2);
     };
 
-    this.irPaso2 = function() {
-        var error = false;
-        var message = "";
-
+    this.validaForm = function(form_id) {
         $(".has-error").removeClass("has-error");
+        var bien = true;
+        var message = '';
+        var campos = '';
+        $.each($('#'+form_id+' .required'), function (i, obj) {
+        
+                    var tipo = $(obj).get(0).tagName;
+                    var id = $(obj).attr('id');
+                    
+                    
+                    if(tipo=='SELECT'){
+                        if($('#'+id+' :selected').length<1 || $('#'+id+' :selected').val()==0) {
+                          $('#'+id).closest("div").addClass("has-error");  bien = false;
+                          campos += "<i class='fa fa-caret-right'></i>";
+                          campos += "&nbsp;"+$('#'+id).attr('placeholder')+"<br/>";
+                        }}
+                    if(tipo=='INPUT'){
+                        if($('#'+id).val()=='') {
+                          $('#'+id).closest("div").addClass("has-error"); bien = false; 
+                          campos += "<i class='fa fa-caret-right'></i>";
+                          campos += "&nbsp;"+$('#'+id).attr('placeholder')+"<br/>";
+                        }}
+                    if(tipo=='TEXTAREA'){
+                        if($('#'+id).val()=='') {
+                          $('#'+id).closest("div").addClass("has-error"); bien = false; 
+                          campos += "<i class='fa fa-caret-right'></i>";
+                          campos += "&nbsp;"+$('#'+id).attr('placeholder')+"<br/>";
+                        }}
+                    
+                    
+                });
+                
 
-        if (!parseInt($("#iTiposEmergencias").val())) {
+
+        
+
+        if (!bien) {
             message += "<span>";
-            message += "<i class='fa fa-caret-right'></i>";
-            message += "&nbsp;&nbsp;Debes especificar el tipo de emergencia<br/>";
+            
+            message += "Favor, asegúrese de llenar campos obligatorios.<br/>";
+            message +=campos;
             message += "</span>";
 
-            $("#iTiposEmergencias").closest("div").addClass("has-error");
-            error = true;
-        }
-
-        if (error) {
-            bootbox.dialog({
+           bootbox.dialog({
                 title: "Error",
                 message: message,
                 buttons: {
@@ -48,7 +74,7 @@ var Alarma = {};
                 }
             });
         }
-        return !error;
+        return bien;
     };
 
     this.inicioListado = function() {
@@ -146,5 +172,40 @@ var Alarma = {};
             $("#pResultados").css("visibility", "visible");
             $("#pResultados").slideDown("slow");
         });
-    }
+    },
+    this.guardarForm = function() {
+        if(!this.validaForm('frmIngresoAlarma'))
+        return false ;
+        
+        var params = $('#frmIngresoAlarma').serialize(); 
+        $.post(siteUrl+"alarma/ingresoPaso2", params, function(data) {
+            //console.log(data);
+            if(data == 1){
+            bootbox.dialog({
+                title: "Resultado de la operacion",
+                message: 'Se ha insertado correctamente',
+                buttons: {
+                    danger: {
+                        label: "Cerrar",
+                        className: "btn-info"
+                    }
+                }
+            });
+            $('#frmIngresoAlarma')[0].reset(); 
+            }
+            else{
+              bootbox.dialog({
+                title: "Resultado de la operacion",
+                message: 'Error al insertar',
+                buttons: {
+                    danger: {
+                        label: "Cerrar",
+                        className: "btn-danger"
+                    }
+                }
+            }); 
+            }
+        });   
+    };
+    
 }).apply(Alarma);
