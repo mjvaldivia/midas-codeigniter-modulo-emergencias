@@ -52,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Fecha/Hora de la emergencia:</label>
-                <div class="col-md-6">
+                <div class="col-md-2">
                     <div class="input-group" id="fechaEmergencia" type="datetime">
                         <input class="form-control" placeholder="Fecha / Hora" name="fechaEmergencia">
                         <div class="input-group-addon" style="cursor: pointer">
@@ -63,7 +63,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Fecha/Hora de recepción:</label>
-                <div class="col-md-6">
+                <div class="col-md-2">
                     <div class="input-group" id="fechaRecepcion" type="datetime">
                         <input class="form-control" placeholder="Fecha / Hora" name="fechaRecepcion">
                         <div class="input-group-addon" style="cursor: pointer">
