@@ -36,4 +36,12 @@ var Alarma = {
             $("#pResultados").slideDown("slow");
         });
     }
+    ,
+    guardarAlarma: function() {
+        var params = $( "#form_alarma" ).serialize();
+        console.log(params);
+        //$.post(siteUrl+"alarma/guardar/", params, function (data) {
+        //});
+        
+    }
 };

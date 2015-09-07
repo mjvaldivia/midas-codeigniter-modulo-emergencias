@@ -6,7 +6,7 @@
  */
 ?>
 
-<form action="<?= site_url("alarma/guardar") ?>" class="form-horizontal">
+<form  class="form-horizontal" name='form_alarma' id='form_alarma'>
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Datos de la alarma</h3>
@@ -80,7 +80,7 @@
 
             <div id="botonera" class="col-md-10">
                 <div class="pull-right">
-                    <button class="btn btn-primary">Guardar</button>
+                    <button class="btn btn-primary" >Guardar</button>
                     <button class="btn btn-default">Cancelar</button>
                 </div>
             </div>
