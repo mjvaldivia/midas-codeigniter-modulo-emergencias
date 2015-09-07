@@ -85,12 +85,13 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="<?= base_url("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.min.css") ?>" type="text/css"/>
-<script src="<?= base_url("assets/lib/DataTables-1.10.8/js/jquery.dataTables.min.js") ?>" type="text/javascript"></script>
-<script src="<?= base_url("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.min.js") ?>" type="text/javascript"></script>
+<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
-<script src="<?= base_url("assets/js/jquery.jcombo.min.js") ?>" type="text/javascript"></script>
-<script src="<?= base_url("assets/js/alarmas.min.js") ?>" type="text/javascript"></script>
+<?= loadJS("assets/js/jquery.jcombo.js") ?>
+<?= loadJS("assets/js/alarmas.js") ?>
+
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioListado();

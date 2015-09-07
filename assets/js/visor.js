@@ -40,6 +40,18 @@ var VisorMapa = {
                     google.maps.drawing.OverlayType.RECTANGLE
                 ]
             },
+            polygonOptions: {
+                fillColor: "#FF0000"
+            },
+            circleOptions: {
+                fillColor: "#FF0000"
+            },
+            polylineOptions: {
+                strokeColor: "#FF0000"
+            },
+            rectangleOptions: {
+                fillColor: "#FF0000"
+            },
             clickable: false,
             editable: true,
             zIndex: 1
@@ -47,11 +59,11 @@ var VisorMapa = {
         this.drawingManager.setMap(null);
 
         var controlsID = {
-            "ctrlDrawCircle": google.maps.drawing.OverlayType.CIRCLE,
+            // "ctrlDrawCircle": google.maps.drawing.OverlayType.CIRCLE,
             "ctrlDrawLine": google.maps.drawing.OverlayType.POLYLINE,
-            "ctrlDrawRectangle": google.maps.drawing.OverlayType.RECTANGLE,
-            "ctrlDrawPolygon": google.maps.drawing.OverlayType.POLYGON,
-            "ctrlDrawMarker": google.maps.drawing.OverlayType.MARKER
+            // "ctrlDrawRectangle": google.maps.drawing.OverlayType.RECTANGLE,
+            // "ctrlDrawPolygon": google.maps.drawing.OverlayType.POLYGON,
+            // "ctrlDrawMarker": google.maps.drawing.OverlayType.MARKER
         };
 
         for (var llave in controlsID) {
