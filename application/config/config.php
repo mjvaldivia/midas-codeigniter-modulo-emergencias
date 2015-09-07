@@ -16,7 +16,7 @@
 | environments.
 |
 */
-$config['base_url'] = 'http://10.8.43.171/~claudio/emergencias';
+$config['base_url'] = 'http://localhost/emergencias';
 
 /*
 |--------------------------------------------------------------------------

@@ -17,39 +17,9 @@ var Alarma = {};
             format: "DD-MM-YYYY hh:mm"
         });
 
-        $("#frmIngresoAlarma").submit(this.irPaso2);
     };
 
-    this.irPaso2 = function() {
-        var error = false;
-        var message = "";
 
-        $(".has-error").removeClass("has-error");
-
-        if (!parseInt($("#iTiposEmergencias").val())) {
-            message += "<span>";
-            message += "<i class='fa fa-caret-right'></i>";
-            message += "&nbsp;&nbsp;Debes especificar el tipo de emergencia<br/>";
-            message += "</span>";
-
-            $("#iTiposEmergencias").closest("div").addClass("has-error");
-            error = true;
-        }
-
-        if (error) {
-            bootbox.dialog({
-                title: "Error",
-                message: message,
-                buttons: {
-                    danger: {
-                        label: "Cerrar",
-                        className: "btn-danger"
-                    }
-                }
-            });
-        }
-        return !error;
-    };
 
     this.inicioListado = function() {
         $("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
@@ -146,5 +116,42 @@ var Alarma = {};
             $("#pResultados").css("visibility", "visible");
             $("#pResultados").slideDown("slow");
         });
-    }
+    },
+    this.guardarForm = function() {
+        if(!Utils.validaForm('frmIngresoAlarma'))
+        return false ;
+        
+        var params = $('#frmIngresoAlarma').serialize(); 
+        $.post(siteUrl+"alarma/ingresoPaso2", params, function(data) {
+            //console.log(data);
+            if(data == 1){
+            bootbox.dialog({
+                title: "Resultado de la operacion",
+                message: 'Se ha insertado correctamente',
+                buttons: {
+                    danger: {
+                        label: "Cerrar",
+                        className: "btn-info"
+                    }
+                }
+            });
+            $('#frmIngresoAlarma')[0].reset(); 
+            $('#iComunas').picklist('destroy');
+            $('#iComunas').picklist();
+            }
+            else{
+              bootbox.dialog({
+                title: "Resultado de la operacion",
+                message: 'Error al insertar',
+                buttons: {
+                    danger: {
+                        label: "Cerrar",
+                        className: "btn-danger"
+                    }
+                }
+            }); 
+            }
+        });   
+    };
+    
 }).apply(Alarma);

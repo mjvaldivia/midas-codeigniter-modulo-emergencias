@@ -30,7 +30,7 @@
     <div id="header" class="row">
         <div class="col-md-12">
             <div class="col-md-2">
-                <img src="<?= base_url("/assets/img/top_logo.png") ?>" width="140px"/>
+                <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" width="140px"/>
             </div>
             <div class="col-md-8">
                 <div class="page-header">
