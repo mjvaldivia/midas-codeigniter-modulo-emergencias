@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
 
     <?php //jquery ?>
-    <?= loadJS("assets/lib/jquery-2.1.4/jquery.js") ?>
+    <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js") ?>
     <?= loadJS("assets/js/jquery.jcombo.js") ?>
 
     <?php // bootstrap ?>
@@ -77,9 +77,9 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a id="ctrlDrawLine" href="#">
+                        <a id="ctrlDrawMarker" href="#">
                             <i class="fa fa-caret-right"></i>
-                            Línea
+                            Marcador
                         </a>
                     </li>
                     <li class="divider"></li>
