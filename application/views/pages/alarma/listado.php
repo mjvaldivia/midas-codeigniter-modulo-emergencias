@@ -9,6 +9,30 @@
     .form-inline .form-group {
         margin-right: 20px;
     }
+        
+    td,th {
+        vertical-align: middle!important;
+        padding-botton: 5px;
+        border: 0!important;
+    }
+    
+    tr.odd div {
+        background-color: #deeefe;
+    }
+    
+    tr.even div {
+        background-color: #bbdcfd;
+    }
+    
+    .shadow {
+        -moz-box-shadow: 5px 5px 5px 0px #999;
+        -webkit-box-shadow: 5px 5px 5px 0px #999;
+        box-shadow: 5px 5px 5px 0px #999;
+        
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
 </style>
 
 <form class="form-inline">
@@ -22,7 +46,7 @@
         <div class="panel-body">
             <div class="form-group">
                 <label for="" class="control-label">Año</label>
-                <input type="text" class="form-control" style="max-width: 100px"/>
+                <input id="iAnio" name="iAnio" type="text" class="form-control" style="max-width: 100px" value="{anioActual}"/>
             </div>
             <div class="form-group">
                 <label for="iTiposEmergencias" class="control-label">Tipo de emergencia</label>
@@ -38,47 +62,35 @@
             </button>
         </div>
     </div>
+</form>
 
-    <div id="pResultados" class="panel panel-primary" style="display: none">
+<form class="form-horizontal" onsubmit="return false;">
+
+    <div id="pResultados" class="panel panel-primary" width="100%" style="visibility: hidden">
         <div class="panel-heading">
             <h3 class="panel-title">
                 <i class="fa fa-th-list"></i>
                 Resultados
             </h3>
         </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table id="tblAlarmas" class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Alarmas</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>A</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                    </tr>
-                    </tbody>
-                    <tfoot></tfoot>
-                </table>
-            </div>
+        <div class="panel-body table-responsive">
+            <table id="tblAlarmas" class="table">
+                <thead>
+                    <tr><th></th></tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
         </div>
     </div>
-</form>
+</div>
 
-<link rel="stylesheet" href="<?= base_url("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.min.css") ?>"
-      type="text/css"/>
-<script src="<?= base_url("assets/lib/DataTables-1.10.8/js/jquery.dataTables.min.js") ?>"
-        type="text/javascript"></script>
-<script src="<?= base_url("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.min.js") ?>"
-        type="text/javascript"></script>
+<link rel="stylesheet" href="<?= base_url("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.min.css") ?>" type="text/css"/>
+<script src="<?= base_url("assets/lib/DataTables-1.10.8/js/jquery.dataTables.min.js") ?>" type="text/javascript"></script>
+<script src="<?= base_url("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.min.js") ?>" type="text/javascript"></script>
 
-
-<script src="<?= base_url("assets/js/jquery.jcombo.js") ?>" type="text/javascript"></script>
-<script src="<?= base_url("assets/js/alarmas.js") ?>" type="text/javascript"></script>
+<script src="<?= base_url("assets/js/jquery.jcombo.min.js") ?>" type="text/javascript"></script>
+<script src="<?= base_url("assets/js/alarmas.min.js") ?>" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioListado();

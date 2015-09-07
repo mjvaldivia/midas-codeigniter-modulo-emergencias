@@ -16,8 +16,7 @@ class Alarma extends CI_Controller
         }
 
         // load basicos
-        $this->load->library("template");
-        $this->load->library("form_validation");
+        $this->load->library(array("template"));
         $this->load->helper("session");
 
         sessionValidation();
@@ -26,6 +25,51 @@ class Alarma extends CI_Controller
         );
 
         $this->template->parse("default", "pages/alarma/ingreso", $data);
+    }
+
+    public function ingresoPaso2 () {
+        if ( ! file_exists(APPPATH."/views/pages/alarma/ingreso_paso_2.php"))
+        {
+            // Whoops, we don"t have a page for that!
+            show_404();
+        }
+
+        $this->load->library(array("template", "form_validation", "parser"));
+        $this->load->helper(array("session", "debug"));
+
+        sessionValidation();
+
+        $params = $this->input->post();
+        $validaciones = array(
+            array(
+                "field" => "iTiposEmergencias",
+                "label" => "Tipo de emergencia",
+                "rules" => "required|greater_than[0]",
+            ),
+        );
+        $data = array();
+
+        $this->form_validation->set_rules($validaciones);
+
+        $errorFormulario = !$this->form_validation->run();
+
+        if ($errorFormulario) {
+            $data["lastPage"] = "alarma/ingreso";
+            $this->template->parse("default", "pages/error_form", $data);
+            return;
+        }
+
+        $this->load->model("tipo_emergencia_model", "TipoEmergencia");
+        
+        $tipoAlarma = $this->TipoEmergencia->find($this->input->post("iTiposEmergencias"));
+
+        $data["tipoAlarma"] = $tipoAlarma;
+
+        if ($tipoAlarma["aux_ia_id"] == 15) {
+            $data["formulario"] = $this->parser->parse("pages/alarma/formularios/radiologico", $data, true);
+        }
+
+        $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
     }
 
     public function listado () {
@@ -37,15 +81,31 @@ class Alarma extends CI_Controller
 
         // load basicos
         $this->load->library("template");
-        $this->load->library("form_validation");
         $this->load->helper("session");
 
         sessionValidation();
 
+
+        date_default_timezone_set("America/Buenos_Aires");
         $data = array(
+            "anioActual" => date('Y')
         );
 
         $this->template->parse("default", "pages/alarma/listado", $data);
+    }
+
+    public function jsonAlarmasDT() {
+        $this->load->model("alarma_model", "Alarma");
+        $params = $this->uri->uri_to_assoc();
+        
+        $alarmas = $this->Alarma->filtrarAlarmas($params);
+
+        $json["data"] = $alarmas;
+        $json["columns"] = array(
+            array("sTitle" => "Alarmas"),
+        );
+
+        echo json_encode($json);
     }
 
     public function jsonTiposEmergencias() {

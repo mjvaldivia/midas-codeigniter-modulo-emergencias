@@ -6,46 +6,48 @@
  */
 ?>
 
-<form  class="form-horizontal" name='form_alarma' id='form_alarma'>
+
+<form  class="form-horizontal" name='frmIngresoAlarma' id='frmIngresoAlarma' >
+
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Datos de la alarma</h3>
         </div>
         <div class="panel-body">
             <div class="form-group">
-                <label class="control-label col-md-4">Nombre del informante:</label>
+                <label class="control-label col-md-4">Nombre del informante (*):</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Nombre del informante"/>
+                    <input name="iNombreInformante" type="text" class="form-control" placeholder="Nombre del informante"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Teléfono del informante:</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Teléfono del informante"/>
+                    <input name="iTelefonoInformante" type="text" class="form-control" placeholder="Teléfono del informante"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Nombre de la emergencia (*):</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Nombre de la emergencia"/>
+                    <input name="iNombreEmergencia" type="text" class="form-control" placeholder="Nombre de la emergencia"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="iTiposEmergencias" class="control-label col-md-4">Tipo de la emergencia:</label>
+                <label for="iTiposEmergencias" class="control-label col-md-4">Tipo de la emergencia (*):</label>
                 <div class="col-md-6">
                     <select name="iTiposEmergencias" id="iTiposEmergencias" class="form-control"></select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Lugar o dirección de la emergencia:</label>
+                <label class="control-label col-md-4">Lugar o dirección de la emergencia (*):</label>
                 <div class="col-md-6">
-                    <textarea class="form-control"></textarea>
+                    <textarea name="iLugarEmergencia" class="form-control"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Observación:</label>
                 <div class="col-md-6">
-                    <textarea class="form-control"></textarea>
+                    <textarea name="iObservacion" class="form-control"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -80,8 +82,8 @@
 
             <div id="botonera" class="col-md-10">
                 <div class="pull-right">
-                    <button class="btn btn-primary" >Guardar</button>
-                    <button class="btn btn-default">Cancelar</button>
+                    <button id="btnSiguiente" type="submit" class="btn btn-primary">Siguiente</button>
+                    <button type="button" class="btn btn-default">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -97,7 +99,9 @@
 
 <link rel="stylesheet" href="<?= base_url("assets/lib/jquery-ui-1.11.4/jquery-ui.min.css") ?>"/>
 
-<script src="<?= base_url("assets/js/alarmas.js") ?>" type="text/javascript"></script>
+<script src="<?= base_url("assets/js/bootbox.min.js") ?>" type="text/javascript"></script>
+
+<script src="<?= base_url("assets/js/alarmas.min.js") ?>" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         Alarma.inicioIngreso();

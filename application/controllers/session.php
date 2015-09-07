@@ -39,6 +39,15 @@ class Session extends CI_Controller
         echo json_encode($json);
     }
 
+    public function obtenerJsonMIDAS () {
+        $this->load->model("session_model", "Sesion");
+
+        $params = $this->uri->uri_to_assoc();
+
+        $usuario = $this->Sesion->obtenerDatosMIDAS($params["rut"]);
+        echo json_encode($usuario);
+    }
+
     public function impersonar() {
         $this->load->helper(array(
             "debug",
@@ -71,6 +80,7 @@ class Session extends CI_Controller
 
         $params = $this->uri->uri_to_assoc();
         $this->load->model("session_model", "SessionModel");
+
         $resultado = $this->SessionModel->autentificar($params["rut"]);
 
         if (!$resultado) {

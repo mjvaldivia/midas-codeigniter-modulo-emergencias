@@ -3,3 +3,7 @@
 .settings
 /nbproject/private/
 application/config/config.php
+user_guide/
+nbproject/
+*.iml
+*.sublime-workspace

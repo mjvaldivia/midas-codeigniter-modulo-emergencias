@@ -25,16 +25,29 @@ class Session_Model extends CI_Model
 
     public function obtenerUsuariosImpersonables() {
         $sql = "
-          select
-            usu_ia_id,
-            CONCAT(usu_c_login,' - ',UPPER(crg_c_nombre),' - ',UPPER(reg_c_nombre)) as usu_c_cargo
-          from
-            usuarios u
-            LEFT JOIN cargos c ON c.crg_ia_id=u.crg_ia_id
-            LEFT JOIN regiones r ON r.reg_ia_id=u.reg_ia_id
-          where
-            usu_ia_id <> ?
-          order by usu_c_login asc
+          select * from (
+              select
+                usu_ia_id,
+                CONCAT(usu_c_login,' - ',UPPER(crg_c_nombre),' - ',UPPER(reg_c_nombre)) as usu_c_cargo,
+                (
+                    select
+                      count(*)
+                    from
+                      usuarios u2
+                      inner join usuarios_vs_roles uvr on u2.usu_ia_id = uvr.usu_ia_id
+                      inner join roles_vs_permisos rvp on uvr.rol_ia_id = rvp.rol_ia_id
+                      inner join permisos p on rvp.per_ia_id = p.per_ia_id
+                    where
+                      u2.usu_ia_id = u.usu_ia_id and p.per_c_id_modulo = 2
+                  ) as habilitado_emergencias
+              from
+                usuarios u
+                LEFT JOIN cargos c ON c.crg_ia_id=u.crg_ia_id
+                LEFT JOIN regiones r ON r.reg_ia_id=u.reg_ia_id
+              where
+                usu_ia_id <> ?
+              order by usu_c_login asc
+            ) t where habilitado_emergencias > 0
           ";
 
         $query = $this->db->query($sql, array(
@@ -49,11 +62,52 @@ class Session_Model extends CI_Model
         return $resultados;
     }
 
+    public function obtenerDatosMIDAS($rut) {
+        $sql = "
+        select rut,nombres,apellidos,email from (
+            select
+                u.usu_c_rut as rut,
+                u.usu_c_nombre as nombres,
+                concat(u.usu_c_apellido_paterno, ' ', u.usu_c_apellido_materno) as apellidos,
+                u.usu_c_email as email,
+                (
+                    select
+                      count(*)
+                    from
+                      usuarios u2
+                      inner join usuarios_vs_roles uvr on u2.usu_ia_id = uvr.usu_ia_id
+                      inner join roles_vs_permisos rvp on uvr.rol_ia_id = rvp.rol_ia_id
+                      inner join permisos p on rvp.per_ia_id = p.per_ia_id
+                    where
+                      u2.usu_ia_id = u.usu_ia_id and p.per_c_id_modulo = 2
+                ) as habilitado_emergencias
+            from
+              usuarios u
+            where
+              u.usu_c_rut = ?
+        ) t where habilitado_emergencias > 0
+        ";
+
+        $resultados = array();
+
+        $query = $this->db->query($sql, array(
+            $rut,
+        ));
+
+        if ($query->num_rows() > 0) {
+            $resultados = $query->result_array();
+            $resultados = $resultados[0];
+        }
+
+        return $resultados;
+    }
+
     public function autentificar($rut) {
         $sql = "
-            select
+            select * from (
+              select
               u.*,
-              c.*,
+              c.crg_c_nombre,
               r.reg_c_nombre,
               (
                 select
@@ -88,12 +142,25 @@ class Session_Model extends CI_Model
                   inner join usuarios_vs_oficinas uvo on ovc.ofi_ia_id = uvo.ofi_ia_id
                 where
                   uvo.usu_ia_id = u.usu_ia_id
-              ) as comunas
+              ) as comunas,
+              (
+                select
+                  count(*)
+                from
+                  usuarios u2
+                  inner join usuarios_vs_roles uvr on u2.usu_ia_id = uvr.usu_ia_id
+                  inner join roles_vs_permisos rvp on uvr.rol_ia_id = rvp.rol_ia_id
+                  inner join permisos p on rvp.per_ia_id = p.per_ia_id
+                where
+                  u2.usu_ia_id = u.usu_ia_id and p.per_c_id_modulo = 2
+              ) as habilitado_emergencias
             from
               usuarios u
               inner join cargos c on c.crg_ia_id = u.crg_ia_id
               inner join regiones r on r.reg_ia_id = u.reg_ia_id
               where u.usu_c_rut = ?
+            ) t
+            where habilitado_emergencias > 0
         ";
 
         $query = $this->db->query($sql, array(
@@ -128,9 +195,10 @@ class Session_Model extends CI_Model
 
     public function impersonar($userID) {
         $sql = "
-            select
+            select * from (
+              select
               u.*,
-              c.*,
+              c.crg_c_nombre,
               r.reg_c_nombre,
               (
                 select
@@ -165,12 +233,25 @@ class Session_Model extends CI_Model
                   inner join usuarios_vs_oficinas uvo on ovc.ofi_ia_id = uvo.ofi_ia_id
                 where
                   uvo.usu_ia_id = u.usu_ia_id
-              ) as comunas
+              ) as comunas,
+              (
+                select
+                  count(*)
+                from
+                  usuarios u2
+                  inner join usuarios_vs_roles uvr on u2.usu_ia_id = uvr.usu_ia_id
+                  inner join roles_vs_permisos rvp on uvr.rol_ia_id = rvp.rol_ia_id
+                  inner join permisos p on rvp.per_ia_id = p.per_ia_id
+                where
+                  u2.usu_ia_id = u.usu_ia_id and p.per_c_id_modulo = 2
+              ) as habilitado_emergencias
             from
               usuarios u
               inner join cargos c on c.crg_ia_id = u.crg_ia_id
               inner join regiones r on r.reg_ia_id = u.reg_ia_id
               where u.usu_ia_id = ?
+            ) t
+            where habilitado_emergencias > 0
         ";
 
         $query = $this->db->query($sql, array(

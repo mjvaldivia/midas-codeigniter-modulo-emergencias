@@ -172,7 +172,7 @@
                 var seleccionados = $("#" + self.opciones.idSelectDisponibles + " option:selected");
                 if (!seleccionados.length) { return; }
 
-                var valores = [];
+                var valores = $(self.elemento).val() || [];
 
                 $.each(seleccionados, function (i, item) {
                     $("#" + self.opciones.idSelectSeleccionados).append($("<option>", {
