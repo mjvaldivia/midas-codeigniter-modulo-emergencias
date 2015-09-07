@@ -40,36 +40,43 @@ class Alarma extends CI_Controller
         sessionValidation();
 
         $params = $this->input->post();
-        $validaciones = array(
-            array(
-                "field" => "iTiposEmergencias",
-                "label" => "Tipo de emergencia",
-                "rules" => "required|greater_than[0]",
-            ),
-        );
+//        $validaciones = array(
+//            array(
+//                "field" => "iTiposEmergencias",
+//                "label" => "Tipo de emergencia",
+//                "rules" => "required|greater_than[0]",
+//            ),
+//        );
         $data = array();
+//
+//        $this->form_validation->set_rules($validaciones);
+//
+//        $errorFormulario = !$this->form_validation->run();
+//
+//        if ($errorFormulario) {
+//            $data["lastPage"] = "alarma/ingreso";
+//            $this->template->parse("default", "pages/error_form", $data);
+//            return;
+//        }
 
-        $this->form_validation->set_rules($validaciones);
-
-        $errorFormulario = !$this->form_validation->run();
-
-        if ($errorFormulario) {
-            $data["lastPage"] = "alarma/ingreso";
-            $this->template->parse("default", "pages/error_form", $data);
-            return;
-        }
-
-        $this->load->model("tipo_emergencia_model", "TipoEmergencia");
         
-        $tipoAlarma = $this->TipoEmergencia->find($this->input->post("iTiposEmergencias"));
-
+        
+        $this->load->model("alarma_model", "AlarmaModel");
+        $res_guardar = $this->AlarmaModel->guardarAlarma($params);
+        
+        
+        
+        $tipoAlarma = $params['iTiposEmergencias'];
         $data["tipoAlarma"] = $tipoAlarma;
-
-        if ($tipoAlarma["aux_ia_id"] == 15) {
-            $data["formulario"] = $this->parser->parse("pages/alarma/formularios/radiologico", $data, true);
+        switch($tipoAlarma){
+            case 15: // radiologico
+                $data["formulario"] = $this->parser->parse("pages/alarma/formularios/radiologico", $data, true);
+                $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
+            break;
+        default : 
+            break;
         }
-
-        $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
+    
     }
 
     public function listado () {

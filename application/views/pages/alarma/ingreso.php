@@ -7,7 +7,7 @@
 ?>
 
 
-<form  class="form-horizontal" name='frmIngresoAlarma' id='frmIngresoAlarma' >
+<form  class="form-horizontal" action="<?= site_url("alarma/ingresoPaso2") ?>" name='frmIngresoAlarma' method="POST" id='frmIngresoAlarma' >
 
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -82,7 +82,7 @@
 
             <div id="botonera" class="col-md-10">
                 <div class="pull-right">
-                    <button id="btnSiguiente" type="submit" class="btn btn-primary">Siguiente</button>
+                    <button id="btnSiguiente" class="btn btn-primary">Siguiente</button>
                     <button type="button" class="btn btn-default">Cancelar</button>
                 </div>
             </div>

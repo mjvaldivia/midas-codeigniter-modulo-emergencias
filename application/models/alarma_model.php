@@ -7,6 +7,11 @@
  */
 class Alarma_Model extends CI_Model
 {
+    
+    private $activado = 1;
+    private $noactivado = 2;
+    private $revision = 3;
+    
     public function obtenerEstados() {
         $query = $this->db->query("select * from estados_alertas order by est_c_nombre;");
 
@@ -66,6 +71,53 @@ class Alarma_Model extends CI_Model
 
         $query = $this->db->query($sql);
 
+        $resultados = array();
+
+        if ($query->num_rows() > 0)
+            $resultados = $query->result_array();
+
+        return $resultados;
+    }
+    
+    public function guardarAlarma($params) {
+       
+        
+        $this->load->helper('utils');
+        
+        
+        $query = $this->db->query("
+        INSERT INTO alertas (ala_c_nombre_informante, 
+        ala_c_telefono_informante,
+        ala_c_nombre_emergencia,
+        tip_ia_id,
+        ala_c_lugar_emergencia,
+        ala_d_fecha_emergencia,
+        rol_ia_id,
+        ala_d_fecha_recepcion,
+        usu_ia_id,
+        for_ia_id,
+        est_ia_id,
+        ala_c_observacion)
+        VALUES
+        (
+           '".$params['iNombreInformante']."',
+           '".$params['iTelefonoInformante']."',
+           '".$params['iNombreEmergencia']."',
+           '".$params['iNombreInformante']."',
+           '".$params['iTiposEmergencias']."',
+           '".$params['iLugarEmergencia']."',
+           '".spanishDateToISO($params['fechaEmergencia'])."',
+           '".$this->session->userdata('session_cargo')."',
+           '".spanishDateToISO($params['fechaRecepcion'])."',
+           '".$this->session->userdata('session_idUsuario')."',
+           'null',
+           $this->revision,
+           '".$params['iObservacion']."'   
+        )
+        ");
+
+        var_dump($params['iNombreInformante']);die;
+        
         $resultados = array();
 
         if ($query->num_rows() > 0)
