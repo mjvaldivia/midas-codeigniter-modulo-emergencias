@@ -3,63 +3,27 @@
  */
 (function ( $ ) {
 
-    $.fn.picklist = function(opciones) {
-        var element = this;
-        var self = {
-            id: null,
-            opciones: null,
-            elemento: element
-        };
+    $.fn.picklist = function(options) {
+        this.self = {};
 
-        __checkeaId(self);
-
-        opcionesPorDefecto = {
-            "idSelectDisponibles": self.id + "_disponibles",
-            "idSelectSeleccionados": self.id + "_seleccionados",
-
-            "textBtnAgregar": "",
-            "iconBtnAgregar": "ui-icon ui-icon-arrow-1-e",
-            "classBtnAgregar": "btn btn-xs btn-default",
-
-            "textBtnAgregarTodos": "",
-            "iconBtnAgregarTodos": "ui-icon ui-icon-arrowstop-1-e",
-            "classBtnAgregarTodos": "btn btn-xs btn-default",
-
-            "textBtnQuitar": "",
-            "iconBtnQuitar": "ui-icon ui-icon-arrow-1-w",
-            "classBtnQuitar": "btn btn-xs btn-default",
-
-            "textBtnQuitarTodos": "",
-            "iconBtnQuitarTodos": "ui-icon ui-icon-arrowstop-1-w",
-            "classBtnQuitarTodos": "btn btn-xs btn-default",
-
-            "classSelectDisponibles": "form-control",
-            "classSelectSeleccionados": "form-control",
-        }
-        self.opciones = $.extend(opcionesPorDefecto, opciones);
-
-        $(element).css("display", "none");
-        __creaPickList(self);
-        __creaEventos(self);
-
-        function __checkeaId(self) {
-            if ($(element).attr("id")) {
-                self.id = $(element).attr("id");
+        var checkeaId = function() {
+            if ($(this.elemento).attr("id")) {
+                this.id = $(this.elemento).attr("id");
             } else {
                 do {
                     var id = __random(1, 1000);
                 } while (!$("#"+id).length);
-                self.id = id;
+                this.id = id;
             }
-        }
+        };
 
-        function __random(min, max) {
+        var random = function (min, max) {
             return Math.random() * (max - min) + min;
-        }
+        };
 
-        function __creaPickList(self) {
-            var disponibles = $(element).find("option");
-            var elementoPadre = $(element).parent().get(0);
+        var creaPickList = function () {
+            var disponibles = $(this.elemento).find("option");
+            var elementoPadre = $(this.elemento).parent().get(0);
 
             var labelDisponibles = document.createElement("label");
             labelDisponibles.appendChild(document.createTextNode("Disponibles"));
@@ -82,63 +46,63 @@
             contenedorBotonera.appendChild(document.createElement("label"));
 
             var iconBtnAgregar = document.createElement("i");
-            iconBtnAgregar.setAttribute("class", self.opciones.iconBtnAgregar);
+            iconBtnAgregar.setAttribute("class", this.opciones.iconBtnAgregar);
 
             var iconBtnAgregarTodos = document.createElement("i");
-            iconBtnAgregarTodos.setAttribute("class", self.opciones.iconBtnAgregarTodos);
+            iconBtnAgregarTodos.setAttribute("class", this.opciones.iconBtnAgregarTodos);
 
             var iconBtnQuitar = document.createElement("i");
-            iconBtnQuitar.setAttribute("class", self.opciones.iconBtnQuitar);
+            iconBtnQuitar.setAttribute("class", this.opciones.iconBtnQuitar);
 
             var iconBtnQuitarTodos = document.createElement("i");
-            iconBtnQuitarTodos.setAttribute("class", self.opciones.iconBtnQuitarTodos);
+            iconBtnQuitarTodos.setAttribute("class", this.opciones.iconBtnQuitarTodos);
 
             var btnAgregar = document.createElement("a");
-            btnAgregar.setAttribute("id", "picklist-btn-" + self.id + "-a");
+            btnAgregar.setAttribute("id", "picklist-btn-" + this.id + "-a");
             btnAgregar.setAttribute("href", "javascript:void(0)");
             btnAgregar.appendChild(iconBtnAgregar);
 
             var btnQuitar = document.createElement("a");
-            btnQuitar.setAttribute("id", "picklist-btn-" + self.id + "-q");
+            btnQuitar.setAttribute("id", "picklist-btn-" + this.id + "-q");
             btnQuitar.setAttribute("href", "javascript:void(0)");
             btnQuitar.appendChild(iconBtnQuitar);
 
             var btnAgregarTodos = document.createElement("a");
-            btnAgregarTodos.setAttribute("id", "picklist-btn-" + self.id + "-at");
+            btnAgregarTodos.setAttribute("id", "picklist-btn-" + this.id + "-at");
             btnAgregarTodos.setAttribute("href", "javascript:void(0)");
             btnAgregarTodos.appendChild(iconBtnAgregarTodos);
 
             var btnQuitarTodos = document.createElement("a");
-            btnQuitarTodos.setAttribute("id", "picklist-btn-" + self.id + "-qt");
+            btnQuitarTodos.setAttribute("id", "picklist-btn-" + this.id + "-qt");
             btnQuitarTodos.setAttribute("href", "javascript:void(0)");
             btnQuitarTodos.appendChild(iconBtnQuitarTodos);
 
-            btnAgregar.appendChild(document.createTextNode(self.opciones.textBtnAgregar));
+            btnAgregar.appendChild(document.createTextNode(this.opciones.textBtnAgregar));
             btnAgregar.setAttribute("title", "Agregar");
-            btnAgregar.setAttribute("class", self.opciones.classBtnAgregar);
+            btnAgregar.setAttribute("class", this.opciones.classBtnAgregar);
 
-            btnAgregarTodos.appendChild(document.createTextNode(self.opciones.textBtnAgregarTodos));
+            btnAgregarTodos.appendChild(document.createTextNode(this.opciones.textBtnAgregarTodos));
             btnAgregarTodos.setAttribute("title", "Agregar todos");
-            btnAgregarTodos.setAttribute("class", self.opciones.classBtnAgregarTodos);
+            btnAgregarTodos.setAttribute("class", this.opciones.classBtnAgregarTodos);
 
-            btnQuitar.appendChild(document.createTextNode(self.opciones.textBtnQuitar));
+            btnQuitar.appendChild(document.createTextNode(this.opciones.textBtnQuitar));
             btnQuitar.setAttribute("title", "Quitar");
-            btnQuitar.setAttribute("class", self.opciones.classBtnQuitar);
+            btnQuitar.setAttribute("class", this.opciones.classBtnQuitar);
 
-            btnQuitarTodos.appendChild(document.createTextNode(self.opciones.textBtnQuitarTodos));
+            btnQuitarTodos.appendChild(document.createTextNode(this.opciones.textBtnQuitarTodos));
             btnQuitarTodos.setAttribute("title", "Quitar todos");
-            btnQuitarTodos.setAttribute("class", self.opciones.classBtnQuitarTodos);
+            btnQuitarTodos.setAttribute("class", this.opciones.classBtnQuitarTodos);
 
             var selectDisponibles = document.createElement("select");
             var selectSeleccionados = document.createElement("select");
 
             selectDisponibles.setAttribute("multiple", "true");
-            selectDisponibles.setAttribute("id", self.opciones.idSelectDisponibles);
-            selectDisponibles.setAttribute("class", self.opciones.classSelectDisponibles);
+            selectDisponibles.setAttribute("id", this.opciones.idSelectDisponibles);
+            selectDisponibles.setAttribute("class", this.opciones.classSelectDisponibles);
 
             selectSeleccionados.setAttribute("multiple", "true");
-            selectSeleccionados.setAttribute("id", self.opciones.idSelectSeleccionados);
-            selectSeleccionados.setAttribute("class", self.opciones.classSelectSeleccionados);
+            selectSeleccionados.setAttribute("id", this.opciones.idSelectSeleccionados);
+            selectSeleccionados.setAttribute("class", this.opciones.classSelectSeleccionados);
 
             for (var i = 0; i < disponibles.length; i++) {
                 var option = disponibles[i];
@@ -167,15 +131,16 @@
             elementoPadre.appendChild(contenedor);
         }
 
-        function __creaEventos(self) {
-            $("#picklist-btn-" + self.id + "-a").click(function() {
-                var seleccionados = $("#" + self.opciones.idSelectDisponibles + " option:selected");
+        var creaEventos = function () {
+            var _this = this;
+            $("#picklist-btn-" + this.id + "-a").click(function() {
+                var seleccionados = $("#" + _this.opciones.idSelectDisponibles + " option:selected");
                 if (!seleccionados.length) { return; }
 
-                var valores = $(self.elemento).val() || [];
+                var valores = $(_this.elemento).val() || [];
 
                 $.each(seleccionados, function (i, item) {
-                    $("#" + self.opciones.idSelectSeleccionados).append($("<option>", {
+                    $("#" + _this.opciones.idSelectSeleccionados).append($("<option>", {
                         value: item.value,
                         text : item.text
                     }));
@@ -183,18 +148,18 @@
                     $(item).remove();
                 });
 
-                $(self.elemento).val(valores);
+                $(_this.elemento).val(valores);
             });
 
-            $("#picklist-btn-" + self.id + "-q").click(function() {
-                var seleccionados = $("#" + self.opciones.idSelectSeleccionados + " option:selected");
+            $("#picklist-btn-" + this.id + "-q").click(function() {
+                var seleccionados = $("#" + _this.opciones.idSelectSeleccionados + " option:selected");
                 if (!seleccionados.length) { return; }
-                var noSeleccionados = $("#" + self.opciones.idSelectSeleccionados + " option:not(:selected)");
+                var noSeleccionados = $("#" + _this.opciones.idSelectSeleccionados + " option:not(:selected)");
 
                 var valores = [];
 
                 $.each(seleccionados, function (i, item) {
-                    $("#" + self.opciones.idSelectDisponibles).append($("<option>", {
+                    $("#" + _this.opciones.idSelectDisponibles).append($("<option>", {
                         value: item.value,
                         text : item.text
                     }));
@@ -205,41 +170,96 @@
                     valores.push(item.value);
                 });
 
-                $(self.elemento).val(valores);
+                $(_this.elemento).val(valores);
             });
 
-            $("#picklist-btn-" + self.id + "-at").click(function() {
-                var seleccionados = $("#" + self.opciones.idSelectDisponibles + " option");
+            $("#picklist-btn-" + this.id + "-at").click(function() {
+                var seleccionados = $("#" + _this.opciones.idSelectDisponibles + " option");
                 if (!seleccionados.length) { return; }
 
                 var valores = [];
                 $.each(seleccionados, function (i, item) {
-                    $("#" + self.opciones.idSelectSeleccionados).append($("<option>", {
+                    $("#" + _this.opciones.idSelectSeleccionados).append($("<option>", {
                         value: item.value,
                         text : item.text
                     }));
                     valores.push(item.value);
                     $(item).remove();
                 });
-                $(self.elemento).val(valores);
+                $(_this.elemento).val(valores);
             });
 
-            $("#picklist-btn-" + self.id + "-qt").click(function() {
-                var seleccionados = $("#" + self.opciones.idSelectSeleccionados + " option");
+            $("#picklist-btn-" + this.id + "-qt").click(function() {
+                var seleccionados = $("#" + _this.opciones.idSelectSeleccionados + " option");
                 if (!seleccionados.length) { return; }
 
                 var valores = [];
                 $.each(seleccionados, function (i, item) {
-                    $("#" + self.opciones.idSelectDisponibles).append($("<option>", {
+                    $("#" + _this.opciones.idSelectDisponibles).append($("<option>", {
                         value: item.value,
                         text : item.text
                     }));
                     $(item).remove();
                 });
 
-                $(self.elemento).val(valores);
+                $(_this.elemento).val(valores);
             });
+        };
+
+        var methods = {
+            init: function(opciones) {
+                self = {
+                    id: null,
+                    opciones: null,
+                    elemento: this
+                };
+
+                checkeaId.call(self);
+
+                opcionesPorDefecto = {
+                    "idSelectDisponibles": self.id + "_disponibles",
+                    "idSelectSeleccionados": self.id + "_seleccionados",
+
+                    "textBtnAgregar": "",
+                    "iconBtnAgregar": "ui-icon ui-icon-arrow-1-e",
+                    "classBtnAgregar": "btn btn-xs btn-default",
+
+                    "textBtnAgregarTodos": "",
+                    "iconBtnAgregarTodos": "ui-icon ui-icon-arrowstop-1-e",
+                    "classBtnAgregarTodos": "btn btn-xs btn-default",
+
+                    "textBtnQuitar": "",
+                    "iconBtnQuitar": "ui-icon ui-icon-arrow-1-w",
+                    "classBtnQuitar": "btn btn-xs btn-default",
+
+                    "textBtnQuitarTodos": "",
+                    "iconBtnQuitarTodos": "ui-icon ui-icon-arrowstop-1-w",
+                    "classBtnQuitarTodos": "btn btn-xs btn-default",
+
+                    "classSelectDisponibles": "form-control",
+                    "classSelectSeleccionados": "form-control",
+                }
+                self.opciones = $.extend(opcionesPorDefecto, opciones);
+                $(self.elemento).css("display", "none");
+
+                creaPickList.call(self);
+                creaEventos.call(self);
+            },
+
+            destroy: function() {
+                $(this).parent().find("div.picklist").remove();
+                $(this).css("display", "block");
+            },
+
+            reset: function() {
+                $("#picklist-btn-" + self.id + "-qt").click();
+            }
+        };
+
+        if (methods[options]) {
+            return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if ( typeof options === 'object' || ! options ) {
+            return methods.init.apply(this, arguments);
         }
     };
-
 }(jQuery));
