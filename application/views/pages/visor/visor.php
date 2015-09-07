@@ -12,7 +12,7 @@
 <div id="mapa" class="col-md-12 visor-emergencias">
 </div>
 
-<script type="text/javascript" src="<?= base_url("/assets/js/visor.js") ?>"></script>
+<script type="text/javascript" src="<?= base_url("/assets/js/visor.min.js") ?>"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         VisorMapa.init();

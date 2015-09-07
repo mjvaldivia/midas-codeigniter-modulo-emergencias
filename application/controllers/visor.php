@@ -10,7 +10,7 @@ class Visor extends CI_Controller
     public function index() {
         // load basicos
         $this->load->library("template");
-        $this->load->helper("session");
+        $this->load->helper(array("session", "debug"));
 
         sessionValidation();
 

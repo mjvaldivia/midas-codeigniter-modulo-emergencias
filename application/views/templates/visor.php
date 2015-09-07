@@ -8,17 +8,17 @@
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
 
     <?php //jquery ?>
-    <script type="text/javascript" src="<?= base_url("/assets/lib/jquery-2.1.4/jquery.min.js") ?>"></script>
-    <script src="<?= base_url("assets/js/jquery.jcombo.min.js") ?>" type="text/javascript"></script>
+    <?= loadJS("assets/lib/jquery-2.1.4/jquery.js") ?>
+    <?= loadJS("assets/js/jquery.jcombo.js") ?>
 
     <?php // bootstrap ?>
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/bootstrap-3.3.5/css/bootstrap.min.css") ?>"/>
-    <script type="text/javascript" src="<?= base_url("/assets/lib/bootstrap-3.3.5/js/bootstrap.min.js") ?>"></script>
+    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css") ?>
+    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js") ?>
 
     <?php //font-awesome ?>
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/font-awesome-4.4.0/css/font-awesome.min.css") ?>"/>
+    <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css") ?>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/css/emergencias.min.css") ?>"/>
+    <?= loadCSS("assets/css/emergencias.min.css") ?>
 
     <?php //google maps API ?>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
@@ -82,61 +82,37 @@
                             Línea
                         </a>
                     </li>
-                    <li>
-                        <a id="ctrlDrawRectangle" href="#">
-                            <i class="fa fa-caret-right"></i>
-                            Rectángulo
-                        </a>
-                    </li>
-                    <li>
-                        <a id="ctrlDrawCircle" href="#">
-                            <i class="fa fa-caret-right"></i>
-                            Círculo
-                        </a>
-                    </li>
-                    <li>
-                        <a id="ctrlDrawPolygon" href="#">
-                            <i class="fa fa-caret-right"></i>
-                            Polígono
-                        </a>
-                    </li>
-                    <li>
-                        <a id="ctrlDrawMarker" href="#">
-                            <i class="fa fa-caret-right"></i>
-                            Marcador
-                        </a>
-                    </li>
                     <li class="divider"></li>
                     <li>
                         <a class="seccion" href="#" onclick="javascript:void(0)">Otros datos</a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a id="ctrlDrawLine" href="#">
+                        <a id="ctrlOtherDrawLine" href="#">
                             <i class="fa fa-caret-right"></i>
                             Línea
                         </a>
                     </li>
                     <li>
-                        <a id="ctrlDrawRectangle" href="#">
+                        <a id="ctrlOtherDrawRectangle" href="#">
                             <i class="fa fa-caret-right"></i>
                             Rectángulo
                         </a>
                     </li>
                     <li>
-                        <a id="ctrlDrawCircle" href="#">
+                        <a id="ctrlOtherDrawCircle" href="#">
                             <i class="fa fa-caret-right"></i>
                             Círculo
                         </a>
                     </li>
                     <li>
-                        <a id="ctrlDrawPolygon" href="#">
+                        <a id="ctrlOtherDrawPolygon" href="#">
                             <i class="fa fa-caret-right"></i>
                             Polígono
                         </a>
                     </li>
                     <li>
-                        <a id="ctrlDrawMarker" href="#">
+                        <a id="ctrlOtherDrawMarker" href="#">
                             <i class="fa fa-caret-right"></i>
                             Marcador
                         </a>
@@ -180,9 +156,9 @@
             </div>
         </div>
     </div>
-    <link rel="stylesheet" href="<?= base_url("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>" type="text/css"/>
-    <script type="text/javascript" src="<?= base_url("/assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>"></script>
-    <script type="text/javascript" src="<?= base_url("/assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>"></script>
+    <?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
+    <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
+    <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#input-kml").fileinput({

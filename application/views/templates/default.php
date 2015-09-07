@@ -8,17 +8,17 @@
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
 
     <?php //jquery ?>
-    <script type="text/javascript" src="<?= base_url("/assets/lib/jquery-2.1.4/jquery.min.js") ?>"></script>
-    <script src="<?= base_url("assets/js/jquery.jcombo.min.js") ?>" type="text/javascript"></script>
+    <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js") ?>
+    <?= loadJS("assets/js/jquery.jcombo.js") ?>
 
     <?php // bootstrap ?>
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/bootstrap-3.3.5/css/bootstrap.min.css") ?>"/>
-    <script type="text/javascript" src="<?= base_url("/assets/lib/bootstrap-3.3.5/js/bootstrap.min.js") ?>"></script>
+    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css") ?>
+    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js") ?>
 
     <?php //font-awesome ?>
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/lib/font-awesome-4.4.0/css/font-awesome.min.css") ?>"/>
+    <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css") ?>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url("/assets/css/emergencias.min.css") ?>"/>
+    <?= loadCSS("assets/css/emergencias.css") ?>
 
     <script type="text/javascript">
         siteUrl = '<?= site_url("/") ?>';
@@ -167,10 +167,10 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="<?= base_url("assets/lib/select2-4.0.0/css/select2.min.css") ?>" type="text/css"/>
-<script src="<?= base_url("assets/lib/select2-4.0.0/js/select2.min.js") ?>" type="text/javascript"></script>
+<?= loadCSS("assets/lib/select2-4.0.0/css/select2.css") ?>
+<?= loadJS("assets/lib/select2-4.0.0/js/select2.js") ?>
 
-<script type="text/javascript" src="<?= base_url("assets/js/utils.min.js") ?>"></script>
+<?= loadJS("assets/js/utils.js") ?>
 <script type="text/javascript">
     $(document).ready(function() {
         Utils.listenerCambioRapido();

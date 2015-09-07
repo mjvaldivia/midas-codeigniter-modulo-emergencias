@@ -90,18 +90,19 @@
     </div>
 </form>
 
-<link rel="stylesheet" href="<?= base_url("assets/lib/picklist/picklist.css") ?>" type="text/css"/>
-<script src="<?= base_url("assets/lib/picklist/picklist.js") ?>" type="text/javascript"></script>
+<?= loadCSS("assets/lib/picklist/picklist.css") ?>
+<?= loadJS("assets/lib/picklist/picklist.js") ?>
 
-<script src="<?= base_url("assets/js/moment.min.js") ?>" type="text/javascript"></script>
-<link rel="stylesheet" href="<?= base_url("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css") ?>" type="text/css"/>
-<script src="<?= base_url("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>" type="text/javascript"></script>
+<?= loadJS("assets/js/moment.min.js") ?>
+<?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
+<?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
 
-<link rel="stylesheet" href="<?= base_url("assets/lib/jquery-ui-1.11.4/jquery-ui.min.css") ?>"/>
+<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
 
-<script src="<?= base_url("assets/js/bootbox.min.js") ?>" type="text/javascript"></script>
+<?= loadJS("assets/js/bootbox.min.js") ?>
 
-<script src="<?= base_url("assets/js/alarmas.min.js") ?>" type="text/javascript"></script>
+<?= loadJS("assets/js/alarmas.js") ?>
+
 <script type="text/javascript">
     $(document).ready(function() {
         Alarma.inicioIngreso();
