@@ -1,7 +1,7 @@
 .idea
 .nbproject
 .settings
-/nbproject/private/
+nbproject/
 application/config/config.php
 user_guide/
 nbproject/
