@@ -244,6 +244,9 @@
 
                 creaPickList.call(self);
                 creaEventos.call(self);
+                $('#'+self.opciones.idSelectDisponibles).val(self.opciones.value);
+                $("#picklist-btn-" + self.id + "-a").trigger('click');
+                
             },
 
             destroy: function() {

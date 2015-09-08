@@ -34,39 +34,13 @@ class Alarma extends CI_Controller {
             // Whoops, we don"t have a page for that!
             show_404();
         }
-
-        // $this->load->library(array("template", "form_validation", "parser"));
         $this->load->helper(array("session", "debug"));
-
         sessionValidation();
-
         $params = $this->input->post();
-
-//        $validaciones = array(
-//            array(
-//                "field" => "iTiposEmergencias",
-//                "label" => "Tipo de emergencia",
-//                "rules" => "required|greater_than[0]",
-//            ),
-//        );
         $data = array();
-//
-//        $this->form_validation->set_rules($validaciones);
-//
-//        $errorFormulario = !$this->form_validation->run();
-//
-//        if ($errorFormulario) {
         $data["lastPage"] = "alarma/ingreso";
-//            $this->template->parse("default", "pages/error_form", $data);
-//            return;
-//        }
-
-
         $this->load->library(array("template"));
         $this->load->model("alarma_model", "AlarmaModel");
-
-
-
         if ($res_guardar = $this->AlarmaModel->guardarAlarma($params)) {
             $tipoAlarma = $params['iTiposEmergencias'];
             $data["tipoAlarma"] = $tipoAlarma;
@@ -94,7 +68,7 @@ class Alarma extends CI_Controller {
         sessionValidation();
 
 
-        date_default_timezone_set("America/Buenos_Aires");
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
         $data = array(
             "anioActual" => date('Y')
         );

@@ -13,4 +13,17 @@ function spanishDateToISO($sDate)
     }
     return null;
 }
+function ISODateTospanish($sDate)
+{
+    $formatos = array(
+        array("Y#m#d H#i#s", "d-m-Y H:i:s"),
+        array("Y#m#d H#i", "d-m-Y H:i"),
+        array("Y#m#d", "d-m-Y")
+    );
+
+    foreach($formatos as $f) {
+        if ($myDateTime = DateTime::createFromFormat($f[0], $sDate)) return $myDateTime->format($f[1]);
+    }
+    return null;
+}
 
