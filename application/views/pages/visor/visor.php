@@ -11,16 +11,14 @@
 <div id="capture"></div>
 <div id="mapa" class="col-md-12 visor-emergencias">
 </div>
-
-<a class="btn btn-primary" data-toggle="modal" href='#mRadioEmergencia'>Trigger modal</a>
-<div class="modal fade" id="mRadioEmergencia">
+<div class="modal fade" id="mRadioEmergencia" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Radio de emergencia</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" onsubmit="return false;">
+                <form id="frmRadioEmergencia" class="form-horizontal">
                     <div class="row">
                         <div class="form-group">
                             <label class="col-md-6 control-label">Indique metros:</label>

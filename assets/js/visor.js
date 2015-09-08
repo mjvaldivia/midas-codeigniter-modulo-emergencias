@@ -11,15 +11,30 @@ var VisorMapa = {
     var emergencyRadiusReceiver = function() {
         var radio = $("#iRadioEmergencia").val();
 
-        $("#iRadioEmergencia").val("0");
+        if (radio.trim() == "") {
+            $("#iRadioEmergencia").closest("div").addClass("has-error");
+            return false;
+        }
 
+        $("#iRadioEmergencia").val("0");
         $('#mRadioEmergencia').modal('hide');
+
+        if (radio == 0) return true;
 
         this.emergencyRadius = new google.maps.Circle({
             map: this.map,
             radius: parseInt(radio),
             fillColor: "#FF0000",
             center: { lat: this.emergencyMarker.position.G , lng: this.emergencyMarker.position.K }
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+            content: "Radio de la emergencia"
+        });
+
+        this.emergencyRadius.addListener("click", function(event) {
+            infoWindow.setPosition(event.latLng);
+            infoWindow.open(this.map);
         });
 
     };
@@ -46,6 +61,14 @@ var VisorMapa = {
         // this.loadKML.call(this);
         this.makeDrawManager.call(this);
         $("#btnGuardarRadioEmergencia").click(emergencyRadiusReceiver.bind(this));
+        $("#mRadioEmergencia").on("shown.bs.modal", function(event) {
+            $("#iRadioEmergencia").focus();
+            $("#iRadioEmergencia").select();
+        });
+        $("#frmRadioEmergencia").submit(function() {
+            $("#btnGuardarRadioEmergencia").click();
+            return false;
+        });
     };
 
     this.makeDrawManager = function() {
@@ -108,15 +131,20 @@ var VisorMapa = {
                 if (self.emergencyRadius) self.emergencyRadius.setMap(null);
             }
 
+            var infoWindow = new google.maps.InfoWindow({
+                content: "Lugar de la emergencia"
+            });
+
             if(event.type == google.maps.drawing.OverlayType.MARKER) {
                 var marker = event.overlay;
-                // marker["userData"] = {
-                //     emergencyArea: true
-                // };
 
                 self.emergencyMarker = marker;
+                self.emergencyMarker.addListener("click", function(event) {
+                    infoWindow.open(self.map, self.emergencyMarker);
+                });
 
                 $('#mRadioEmergencia').modal('show');
+                $("#iRadioEmergencia").closest("div").removeClass("has-error");
             }
             $("#ctrlDrawOFF").click();
         });
@@ -139,7 +167,7 @@ var VisorMapa = {
     };
 
     this.detectHeight = function() {
-        $(this.telon).css("height", $("html").height() - $("div.header").height()+"px");
+        $(this.canvas).css("height", $("html").height() - $("div.header").height()+"px");
     };
 
     this.makeSearchBox = function() {
@@ -161,13 +189,11 @@ var VisorMapa = {
                 return;
             }
 
-            // Clear out the old markers.
             markers.forEach(function(marker) {
                 marker.setMap(null);
             });
             markers = [];
 
-            // For each place, get the icon, name and location.
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function(place) {
                 var icon = {
@@ -178,7 +204,6 @@ var VisorMapa = {
                     scaledSize: new google.maps.Size(25, 25)
                 };
 
-                // Create a marker for each place.
                 markers.push(new google.maps.Marker({
                     map: self.map,
                     icon: icon,
@@ -187,7 +212,6 @@ var VisorMapa = {
                 }));
 
                 if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
                     bounds.union(place.geometry.viewport);
                 } else {
                     bounds.extend(place.geometry.location);

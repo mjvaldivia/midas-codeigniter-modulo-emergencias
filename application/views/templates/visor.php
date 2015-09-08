@@ -18,7 +18,7 @@
     <?php //font-awesome ?>
     <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css") ?>
 
-    <?= loadCSS("assets/css/emergencias.min.css") ?>
+    <?= loadCSS("assets/css/emergencias.css") ?>
 
     <?php //google maps API ?>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
@@ -26,6 +26,11 @@
     <style type="text/css">
         li a.seccion {
             font-weight: bold;
+        }
+
+        body {
+            position: relative;
+            height: 100%;
         }
     </style>
 
@@ -156,9 +161,11 @@
             </div>
         </div>
     </div>
+
     <?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
     <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
     <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+    
     <script type="text/javascript">
         $(document).ready(function() {
             $("#input-kml").fileinput({
