@@ -146,7 +146,7 @@ var VisorMapa = {
         });
 
         $("#btnCargarIns").click(function () {
-            this.loadKML("http://ssrv.cl/emergencias_test/eleam.php");
+            self.loadKML("http://ssrv.cl/emergencias_test/eleam.php");
             $("#mMaestroInstalaciones").modal("hide");
         });
     };
