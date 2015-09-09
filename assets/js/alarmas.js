@@ -60,8 +60,8 @@ var Alarma = {};
             json.columns[0]["mRender"] = function(data, type, row) {
                 var html = "";
                 html += "<div class=\"col-md-12 shadow\" style=\"padding: 10px;\">";
-                html += "    <div class=\"col-md-1 text-center\"><i class=\"fa fa-bell fa-4x\"></i></div>";
-                html += "    <div class=\"col-md-9\">";
+                html += "    <div class=\"col-md-2 text-center\"><img src=\"" + baseUrl + "assets/img/quimico_ico.png\"/></div>";
+                html += "    <div class=\"col-md-8\">";
                 html += "        <div class=\"form-group col-md-12\">";
                 html += "            <label for=\"\" class=\"col-md-4 control-label\">Fecha de la emergencia:</label>";
                 html += "            <div class=\"col-md-8\">";

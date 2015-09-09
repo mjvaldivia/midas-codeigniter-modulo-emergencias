@@ -1,9 +1,21 @@
+
 /**
  * Created by claudio on 12-05-15.
  */
-var Utils = {};
+var Utils = {}; 
 
 (function() {
+    var hexDigits = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"];
+
+    var hex = function hex(x) {
+        return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+    };
+
+    this.rgb2hex = function (rgb) {
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    };
+
     this.listenerCambioRapido = function () {
         $('#pCambioRapido').on('shown.bs.modal', function () {
             $("#users").jCombo(siteUrl + "session/obtenerJsonUsuariosImpersonables", {
@@ -29,7 +41,7 @@ var Utils = {};
         });
     };
     
-        this.validaForm = function(form_id) {
+    this.validaForm = function(form_id) {
         $(".has-error").removeClass("has-error");
         var bien = true;
         var message = '';

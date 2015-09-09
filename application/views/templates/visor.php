@@ -19,6 +19,7 @@
     <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css") ?>
 
     <?= loadCSS("assets/css/emergencias.css") ?>
+    <?= loadJS("assets/js/utils.js") ?>
 
     <?php //google maps API ?>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
@@ -73,7 +74,7 @@
             </div>
 
             <div class="dropdown pull-right">
-                <a title="Editar mapa" href="#" onclick="javascript:void(0)" class="btn btn-primary dropdown-toggle" type="button" id="ctrlUpload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a title="Editar mapa" href="#" onclick="javascript:void(0)" class="btn btn-primary dropdown-toggle" type="button" id="ctrlDraw" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-pencil-square-o"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="ctrlDraw">
