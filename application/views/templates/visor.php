@@ -51,10 +51,10 @@
                     <label>Código Emergencia:</label>&nbsp;<span>1</span>
                 </div>
                 <div class="row">
-                    <label>Nombre Emergencia:</label>&nbsp;<span>Demo</span>
+                    <label>Nombre Emergencia:</label>&nbsp;<span>Incendio forestal próximo a la zona industrial de Placilla</span>
                 </div>
                 <div class="row">
-                    <label>Tipo Emergencia:</label>&nbsp;<span>Demo loco</span>
+                    <label>Tipo Emergencia:</label>&nbsp;<span>Emergencia Química</span>
                 </div>
             </div>
         </div>
@@ -133,6 +133,17 @@
                 </ul>
             </div>
 
+            <a id="ctrlIns" title="Maestro de instalaciones" class="btn btn-primary pull-right">
+                <i class="fa fa-building"></i>
+            </a>
+
+            <a href="#" title="Muestra información" class="btn btn-primary pull-right">
+                <i class="fa fa-info-circle"></i>
+            </a>
+
+            <a href="#" title="Capas" class="btn btn-primary pull-right">
+                <i class="fa fa-clone"></i>
+            </a>
         </div>
     </div>
     <div class="main col-md-12 col-xs-12">

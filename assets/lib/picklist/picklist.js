@@ -221,19 +221,19 @@
                     "idSelectSeleccionados": self.id + "_seleccionados",
 
                     "textBtnAgregar": "",
-                    "iconBtnAgregar": "ui-icon ui-icon-arrow-1-e",
+                    "iconBtnAgregar": "fa fa-angle-right",
                     "classBtnAgregar": "btn btn-xs btn-default",
 
                     "textBtnAgregarTodos": "",
-                    "iconBtnAgregarTodos": "ui-icon ui-icon-arrowstop-1-e",
+                    "iconBtnAgregarTodos": "fa fa-angle-double-right",
                     "classBtnAgregarTodos": "btn btn-xs btn-default",
 
                     "textBtnQuitar": "",
-                    "iconBtnQuitar": "ui-icon ui-icon-arrow-1-w",
+                    "iconBtnQuitar": "fa fa-angle-left",
                     "classBtnQuitar": "btn btn-xs btn-default",
 
                     "textBtnQuitarTodos": "",
-                    "iconBtnQuitarTodos": "ui-icon ui-icon-arrowstop-1-w",
+                    "iconBtnQuitarTodos": "fa fa-angle-double-left",
                     "classBtnQuitarTodos": "btn btn-xs btn-default",
 
                     "classSelectDisponibles": "form-control",
