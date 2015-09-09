@@ -1,0 +1,1 @@
+<div class="col-md-12"><div class="alert alert-success">La alerta ya fue activada.</div></div>

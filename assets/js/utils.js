@@ -46,6 +46,9 @@ var Utils = {};
         var bien = true;
         var message = '';
         var campos = '';
+        if($('#'+form_id).length==0)
+            return false;
+        
         $.each($('#'+form_id+' .required'), function (i, obj) {
         
                     var tipo = $(obj).get(0).tagName;

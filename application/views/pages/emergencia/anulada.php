@@ -1,0 +1,1 @@
+<div class="col-md-12"><div class="alert alert-danger">La alerta ya ha sido rechazada.</div></div>
