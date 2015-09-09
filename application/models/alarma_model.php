@@ -127,6 +127,6 @@ class Alarma_Model extends CI_Model
                 ");   
             } 
         }
-        return $query;
+        return $ala_ia_id;
     }
 }

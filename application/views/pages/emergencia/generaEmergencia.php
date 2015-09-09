@@ -1,3 +1,11 @@
+<style>
+    .fileinput-remove-button{
+        display: none !important;
+    }
+    .fileinput-remove{
+        display: none !important;
+    }
+</style>
 <form  class="form-horizontal"  name='frmIngresoEmergencia' id='frmIngresoEmergencia'>
     <input name="ala_ia_id" id="ala_ia_id"  value={ala_ia_id} type="hidden" />
     <div class="panel panel-primary">
@@ -120,7 +128,12 @@
                     <textarea name="eme_c_informacion_adicional" id="eme_c_informacion_adicional" class="form-control"></textarea>
                 </div>
             </div>
-            
+            <div class="form-group">
+                <label class="col-md-offset-1 col-md-3 control-label">Antecedentes documentales</label>
+                <div class="col-md-5">
+                    <input id="iDocMaterial" name="iDocMaterial[]" class="form-control" type="file" multiple></input>
+                </div>
+            </div>
             
             
             <div id="botonera" class="col-md-12">
@@ -145,6 +158,10 @@
 <?= loadJS("assets/js/bootbox.min.js") ?>
 
 <?= loadJS("assets/js/emergencia.js") ?>
+
+<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
 <script type="text/javascript">
     $(document).ready(function() {

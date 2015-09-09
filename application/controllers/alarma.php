@@ -29,7 +29,7 @@ class Alarma extends CI_Controller {
         $this->template->parse("default", "pages/alarma/ingreso", $data);
     }
 
-    public function ingresoPaso2() {
+    public function guardaAlarma() {
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso_paso_2.php")) {
             // Whoops, we don"t have a page for that!
             show_404();
@@ -39,20 +39,11 @@ class Alarma extends CI_Controller {
         $params = $this->input->post();
         $data = array();
         $data["lastPage"] = "alarma/ingreso";
-        $this->load->library(array("template"));
+        $this->load->library(array("template",'parser'));
         $this->load->model("alarma_model", "AlarmaModel");
-        if ($res_guardar = $this->AlarmaModel->guardarAlarma($params)) {
-            $tipoAlarma = $params['iTiposEmergencias'];
-            $data["tipoAlarma"] = $tipoAlarma;
-            switch ($tipoAlarma) {
-                case 15: // radiologico
-                    $data["formulario"] = $this->parser->parse("pages/alarma/formularios/radiologico", $data, true);
-                    $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
-                    break;
-                default :break;
-            }
-        }
-        echo ($res_guardar) ? 1 : 0;
+        $ala_ia_id = $this->AlarmaModel->guardarAlarma($params);
+
+        echo ($ala_ia_id) ? $ala_ia_id : 0;
     }
 
     public function listado() {
@@ -118,6 +109,28 @@ class Alarma extends CI_Controller {
         }
 
         echo json_encode($json);
+    }
+    
+        public function paso2() {
+
+        if (!file_exists(APPPATH . "/views/pages/alarma/ingreso_paso_2.php")) {
+            // Whoops, we don"t have a page for that!
+            show_404();
+        }
+        $params = $this->uri->uri_to_assoc();
+        // load basicos
+        $this->load->library(array("template",'parser'));
+        $this->load->helper("session");
+        
+        sessionValidation();
+        $data['ala_ia_id'] = $params['id'];
+        $data['tipoAlarma'] = $params['tip_ia_id'];
+        switch ($params['tip_ia_id']){
+            case 15: $data["formulario"] = $this->parser->parse("pages/alarma/formularios/radiologico", $data, true);
+                break;   
+        }
+        
+        $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
     }
 
 }

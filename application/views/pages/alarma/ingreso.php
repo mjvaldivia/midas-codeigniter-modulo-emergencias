@@ -82,7 +82,7 @@
 
             <div id="botonera" class="col-md-10">
                 <div class="pull-right">
-                    <button type="button" id="btnSiguiente" class="btn btn-primary" onclick="Alarma.guardarForm();">Siguiente</button>
+                    <button type="button" id="btnSiguiente" class="btn btn-primary" onclick="Alarma.guardarForm();">Aceptar</button>
                     <button type="button" class="btn btn-default">Cancelar</button>
                 </div>
             </div>
