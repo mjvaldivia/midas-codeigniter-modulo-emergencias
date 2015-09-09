@@ -87,3 +87,37 @@ html {
 #input-buscador-mapa:focus {
     border-color: #4d90fe;
 }
+
+.bg-color1 {
+    background-color: black;
+}
+
+.bg-color2 {
+    background-color: #F31CA4;
+}
+
+.bg-color3 {
+    background-color: green;
+}
+
+.bg-color4 {
+    background-color: orange;
+}
+
+.bg-color5 {
+    background-color: #0002FF;
+}
+
+.bg-color1, .bg-color2, .bg-color3, .bg-color4, .bg-color5 {
+    color: white;
+    text-align: center;
+    min-width: 40px;
+    min-height: 35px;
+}
+
+.bg-color1:hover, .bg-color2:hover, .bg-color3:hover, .bg-color4:hover, .bg-color5:hover {
+    color: white;
+    text-align: center;
+    min-width: 40px;
+    min-height: 35px;
+}

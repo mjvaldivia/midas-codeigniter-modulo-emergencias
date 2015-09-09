@@ -1,10 +1,14 @@
 var VisorMapa = {
     map: null,
     canvas: null,
+    
     emergencyDrawingManager: null,
     emergencyMarker: null,
     emergencyRadius: null,
+
     otherDrawingManager: null,
+    otherControlColor: null,
+    otherControlSelected: null
 };
 
 (function() {
@@ -36,10 +40,42 @@ var VisorMapa = {
             infoWindow.setPosition(event.latLng);
             infoWindow.open(this.map);
         });
+    };
 
+    var emergencyOtherReceiver = function() {
+        if (!$("#botoneraColorControl a.selected").length) {
+            $("#botoneraColorControl").closest("div").addClass("has-error");
+            return false;
+        };
+
+        if (!$("#iTituloComponente").val()) {
+            $("#iTituloComponente").closest("div").addClass("has-error");
+            return false;
+        }
+
+        $("#ctrlDraw").addClass("btn-success").removeClass("btn-primary");
+
+        this.otherDrawingManager.setDrawingMode(this.otherControlSelected.overlay);
+        this.otherDrawingManager.setMap(this.map);
+        this.otherControlSelected.title = $("#iTituloComponente").val();
+
+        var poligonos = ["polygonOptions", "circleOptions", "rectangleOptions"];
+        for (var i = 0; i < poligonos.length; i++) {
+            this.otherDrawingManager.set(poligonos[i], {
+                fillColor: this.otherControlColor
+            });
+        };
+
+        this.otherDrawingManager.set("polylineOptions", {
+            strokeColor: this.otherControlColor
+        });
+        
+        $("#mOtrosEmergencias").modal("hide");
     };
 
     this.init = function(opciones) {
+        var self = this;
+
         this.canvas = $("#mapa").get(0);
         $(window).resize(this.detectHeight.bind(this));
 
@@ -55,12 +91,13 @@ var VisorMapa = {
         this.map = new google.maps.Map(this.canvas, opcionesFinales);
         this.makeSearchBox.call(this);
 
-        this.map.addListener("click", function (event) {
-            console.log(event);
-        });
         // this.loadKML.call(this);
-        this.makeDrawManager.call(this);
+        this.makeEmergencyDrawManager.call(this);
+        this.makeOthersManager.call(this);
+
         $("#btnGuardarRadioEmergencia").click(emergencyRadiusReceiver.bind(this));
+        $("#btnGuardarOtrosEmergencia").click(emergencyOtherReceiver.bind(this));
+
         $("#mRadioEmergencia").on("shown.bs.modal", function(event) {
             $("#iRadioEmergencia").focus();
             $("#iRadioEmergencia").select();
@@ -69,9 +106,16 @@ var VisorMapa = {
             $("#btnGuardarRadioEmergencia").click();
             return false;
         });
+
+        $("#botoneraColorControl a").click(function() {
+            $("#botoneraColorControl a i").removeClass("fa fa-check-circle-o");
+            $(this).find("i").addClass("fa fa-check-circle-o");
+            $(this).addClass("selected");
+            self.otherControlColor = Utils.rgb2hex($(this).css("background-color"));
+        });
     };
 
-    this.makeDrawManager = function() {
+    this.makeEmergencyDrawManager = function() {
         var self = this;
 
         this.emergencyDrawingManager = new google.maps.drawing.DrawingManager({
@@ -83,18 +127,6 @@ var VisorMapa = {
                     google.maps.drawing.OverlayType.MARKER
                 ]
             },
-            // polygonOptions: {
-            //     fillColor: "#FF0000"
-            // },
-            // circleOptions: {
-            //     fillColor: "#FF0000"
-            // },
-            // polylineOptions: {
-            //     strokeColor: "#FF0000"
-            // },
-            // rectangleOptions: {
-            //     fillColor: "#FF0000"
-            // },
             clickable: false,
             editable: true,
             zIndex: 1
@@ -119,6 +151,7 @@ var VisorMapa = {
 
         $("#ctrlDrawOFF").click(function() {
             self.emergencyDrawingManager.setMap(null);
+            self.otherDrawingManager.setMap(null);
             var button = $(this).parents("div").first().find("a.btn");
             button.removeClass("btn-success");
             button.addClass("btn-primary");
@@ -150,6 +183,72 @@ var VisorMapa = {
         });
     };
 
+    this.makeOthersManager = function() {
+        var self = this;
+
+        this.otherDrawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: google.maps.drawing.OverlayType.MARKER,
+            drawingControl: false,
+            drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: [
+                    google.maps.drawing.OverlayType.MARKER,
+                    google.maps.drawing.OverlayType.CIRCLE,
+                    google.maps.drawing.OverlayType.RECTANGLE,
+                    google.maps.drawing.OverlayType.POLYLINE,
+                    google.maps.drawing.OverlayType.POLYGON,
+                ]
+            },
+            clickable: false,
+            editable: true,
+            zIndex: 1
+        });
+        this.otherDrawingManager.setMap(null);
+
+        var controlsID = [
+            { id: "ctrlOtherDrawLine", "overlay": google.maps.drawing.OverlayType.POLYLINE },
+            { id: "ctrlOtherDrawPolygon", "overlay": google.maps.drawing.OverlayType.POLYGON },
+            { id: "ctrlOtherDrawCircle", "overlay": google.maps.drawing.OverlayType.CIRCLE },
+            { id: "ctrlOtherDrawRectangle", "overlay": google.maps.drawing.OverlayType.RECTANGLE },
+            { id: "ctrlOtherDrawMarker", "overlay": google.maps.drawing.OverlayType.MARKER }
+        ];
+
+        for (var i = 0; i < controlsID.length; i++) {
+            (function (context, origen) {
+                var clickHandler = function() {
+                    $("#mOtrosEmergencias").modal("show");
+                    context.otherControlSelected = origen;
+                }
+                $("#" + origen.id).on("click", clickHandler);
+            })(this, controlsID[i]);
+        };
+
+        google.maps.event.addListener(this.otherDrawingManager, 'overlaycomplete', function(event) {
+            var componente = event.overlay;
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: self.otherControlSelected.title
+            });
+
+            var poligonos = [
+                google.maps.drawing.OverlayType.POLYGON, 
+                google.maps.drawing.OverlayType.CIRCLE,
+                google.maps.drawing.OverlayType.RECTANGLE
+            ];
+
+            console.log(event.type, poligonos);
+
+            if(poligonos.indexOf(event.type) != -1) {
+                componente.addListener("click", function(event) {
+                    infoWindow.setPosition(event.latLng);
+                    infoWindow.open(self.map);
+                });
+            }
+
+            $("#ctrlDrawOFF").click();
+        })
+    };
+
     this.loadKML = function() {
         var kmlLayer = new google.maps.KmlLayer({
             url: 'http://ssrv.cl/sipresa_test/kml.php',
@@ -159,7 +258,6 @@ var VisorMapa = {
         });
 
         kmlLayer.addListener('click', function(event) {
-            console.log(event);
             var content = event.featureData.infoWindowHtml;
             var testimonial = document.getElementById('capture');
             testimonial.innerHTML = content;
