@@ -17,6 +17,17 @@ var Alarma = {};
             format: "DD-MM-YYYY hh:mm"
         });
 
+        $('#iTiposEmergencias').change(function(){
+            if($('#iTiposEmergencias').val()==15){
+                $('#btnSiguiente').html('Siguiente Paso');
+            }
+            else{
+                $('#btnSiguiente').html('Aceptar');
+            }
+            
+        });
+
+
     };
 
 
@@ -122,22 +133,29 @@ var Alarma = {};
         return false ;
         
         var params = $('#frmIngresoAlarma').serialize(); 
-        $.post(siteUrl+"alarma/ingresoPaso2", params, function(data) {
+        $.post(siteUrl+"alarma/guardaAlarma", params, function(data) {
             //console.log(data);
-            if(data == 1){
+            if(data > 0){
             bootbox.dialog({
                 title: "Resultado de la operacion",
                 message: 'Se ha insertado correctamente',
                 buttons: {
                     danger: {
                         label: "Cerrar",
-                        className: "btn-info"
+                        className: "btn-info",
+                        callback: function(){
+                            var tip_ia_id = $('#iTiposEmergencias').val();
+                            if(tip_ia_id==15){  
+                                location.href=siteUrl+'alarma/paso2/id/'+data+'/tip_ia_id/'+tip_ia_id;
+                            }else{
+                                Alarma.limpiar();
+                            }
+                        }
                     }
                 }
             });
-            $('#frmIngresoAlarma')[0].reset(); 
-            $('#iComunas').picklist('destroy');
-            $('#iComunas').picklist();
+            
+            
             }
             else{
               bootbox.dialog({
@@ -155,7 +173,13 @@ var Alarma = {};
     },
     this.generaEmergencia = function(ala_ia_id) {
         window.open(siteUrl+'emergencia/generaEmergencia/id/'+ala_ia_id , '_blank');
-    };
+    },
+    this.limpiar = function(){
+        $('#frmIngresoAlarma')[0].reset(); 
+        $('#iComunas').picklist('destroy');
+        $('#iComunas').picklist();
+    }
+    ;
     
     
 }).apply(Alarma);

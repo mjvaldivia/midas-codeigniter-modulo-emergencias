@@ -2,28 +2,31 @@ var Emergencia = {};
 
 (function() {
     this.inicioIngreso = function() {
+        
+        var ala_ia_id = $("#ala_ia_id").val();
+        
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
         $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
             handlerLoad: function() {
-                        var ala_ia_id = $("#ala_ia_id").val();
+                        
 
-        $.getJSON(siteUrl+'emergencia/getAlarma/id/'+ala_ia_id,function(data){
-            var str_comunas = data.comunas;
+                        $.getJSON(siteUrl+'emergencia/getAlarma/id/'+ala_ia_id,function(data){
+                            var str_comunas = data.comunas;
 
-            var arr_com = str_comunas.split(",");
-            $('#iNombreInformante').val(data.ala_c_nombre_informante);
-            $('#iTelefonoInformante').val(data.ala_c_telefono_informante);
-            $('#iNombreEmergencia').val(data.ala_c_nombre_emergencia);
-            $('#iTiposEmergencias').val(data.tip_ia_id);
-            $('#iLugarEmergencia').val(data.ala_c_lugar_emergencia);
-            $('#fechaEmergencia').val(data.ala_d_fecha_emergencia);
-            $('#usuarioRecepciona').val(data.usuario);
-            $('#fechaRecepcion').val(data.ala_d_fecha_recepcion);
-            $('#iObservacion').val(data.ala_c_observacion);
-            $('#iComunas').picklist({
-                'value': arr_com          
-            });
-        });
+                            var arr_com = str_comunas.split(",");
+                            $('#iNombreInformante').val(data.ala_c_nombre_informante);
+                            $('#iTelefonoInformante').val(data.ala_c_telefono_informante);
+                            $('#iNombreEmergencia').val(data.ala_c_nombre_emergencia);
+                            $('#iTiposEmergencias').val(data.tip_ia_id);
+                            $('#iLugarEmergencia').val(data.ala_c_lugar_emergencia);
+                            $('#fechaEmergencia').val(data.ala_d_fecha_emergencia);
+                            $('#usuarioRecepciona').val(data.usuario);
+                            $('#fechaRecepcion').val(data.ala_d_fecha_recepcion);
+                            $('#iObservacion').val(data.ala_c_observacion);
+                            $('#iComunas').picklist({
+                                'value': arr_com          
+                            });
+                        });
             },
             initial_text: null
         });
@@ -31,7 +34,17 @@ var Emergencia = {};
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
-
+        $("#iDocMaterial").fileinput({
+            language: "es",
+            uploadUrl: siteUrl + "archivo/subir/tipo/5/id/"+ala_ia_id,
+            uploadAsync: true,
+            multiple: true,
+            initialCaption: "Seleccione archivos y luego presione subir",
+            allowedFileExtensions: ["doc", "docx", "xls", "xlsx", "pdf"]
+        });
+        $('#iDocMaterial').on('fileuploaded', function(event, data, previewId, index) {
+            $('.file-caption-name').html('');
+        });
     };
 
 
