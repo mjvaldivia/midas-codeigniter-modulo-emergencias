@@ -80,9 +80,9 @@ var VisorMapa = {
         $(window).resize(this.detectHeight.bind(this));
 
         var opcionesMapa = {
-            center: new google.maps.LatLng(-33.0507081,-71.6110485),
+            center: new google.maps.LatLng(-33.07,-71.6),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            zoom: 8
+            zoom: 12
         }
 
         var opcionesFinales = $.extend(opcionesMapa, opciones);
