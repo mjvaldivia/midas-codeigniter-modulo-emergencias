@@ -13,7 +13,16 @@ var Emergencia = {};
                         $.getJSON(siteUrl+'emergencia/getAlarma/id/'+ala_ia_id,function(data){
                             var str_comunas = data.comunas;
 
-                            var arr_com = str_comunas.split(",");
+                            if(str_comunas!==null)
+                            {       var arr_com = str_comunas.split(",");
+                                    $('#iComunas').picklist({
+                                        'value': arr_com          
+                                    });
+                            }
+                            else{
+                                $('#iComunas').picklist();
+                            }
+                            
                             $('#iNombreInformante').val(data.ala_c_nombre_informante);
                             $('#iTelefonoInformante').val(data.ala_c_telefono_informante);
                             $('#iNombreEmergencia').val(data.ala_c_nombre_emergencia);
@@ -23,9 +32,7 @@ var Emergencia = {};
                             $('#usuarioRecepciona').val(data.usuario);
                             $('#fechaRecepcion').val(data.ala_d_fecha_recepcion);
                             $('#iObservacion').val(data.ala_c_observacion);
-                            $('#iComunas').picklist({
-                                'value': arr_com          
-                            });
+                            
                         });
             },
             initial_text: null

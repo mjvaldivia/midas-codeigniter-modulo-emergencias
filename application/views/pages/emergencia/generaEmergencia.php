@@ -78,7 +78,7 @@
                     </select>
                 </div>
             </div>
-            
+            <div style="display:none;">
             <div class="form-group">
                 <label class="control-label col-md-4">¿Dispone de recursos suficientes para controlar la emergencia?:</label>
                 <div class="col-md-6">
@@ -134,7 +134,7 @@
                     <input id="iDocMaterial" name="iDocMaterial[]" class="form-control" type="file" multiple></input>
                 </div>
             </div>
-            
+            </div>
             
             <div id="botonera" class="col-md-12">
 
