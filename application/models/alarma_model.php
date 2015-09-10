@@ -156,7 +156,7 @@ class Alarma_Model extends CI_Model
 	$mensaje .= "Fecha recepción de la emergencia: ".spanishDateToISO($params['fechaRecepcion'])."<br>"; 
 	$mensaje .= "Nombre del informante: ".$params['iNombreInformante']."<br>";
 	$mensaje .= "Teléfono del informante: ".$params['iTelefonoInformante']."<br><br>";
-	$mensaje .= "{nowrap}<a href='".  site_url('emergencias/index.php/emergencia/generaEmergencia/id/'.$params['ala_ia_id'])."'>URL de la alarma a revisar</a>{/nowrap}<br>";
+	$mensaje .= "{nowrap}<a href='".  site_url('emergencia/generaEmergencia/id/'.$params['ala_ia_id'])."'>URL de la alarma a revisar</a>{/nowrap}<br>";
 	$mensaje .= "<br><img src='".  base_url('assets/img/logoseremi.jpg')  ."' alt='Seremi' title='Seremi'></img><br>";
 	
 	//$to = 'rukmini.tonacca@redsalud.gov.cl';
