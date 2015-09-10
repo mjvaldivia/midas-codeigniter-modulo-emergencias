@@ -13,9 +13,9 @@ class Emergencia extends CI_Controller {
         }
 
         $this->load->library("template");
-        $this->load->helper("session");
+       // $this->load->helper("session");
 
-        sessionValidation();
+       // sessionValidation(); no validar por ahora para ingreso externo
         
         $data['ala_ia_id'] = $params['id'];
         //var_dump($data);die;
