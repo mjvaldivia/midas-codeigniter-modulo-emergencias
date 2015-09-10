@@ -1,5 +1,4 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-
 /**
  * User: claudio
  * Date: 17-08-15
@@ -9,7 +8,7 @@ class Alarma_Model extends CI_Model
 {
     
     private $activado = 1;
-    private $noactivado = 2;
+    private $rechazado = 2;
     private $revision = 3;
     
     public function obtenerEstados() {
@@ -85,7 +84,7 @@ class Alarma_Model extends CI_Model
         $this->load->helper('utils');
         
         
-        $query = $this->db->query("
+        $this->db->query("
         INSERT INTO alertas (ala_c_nombre_informante, 
         ala_c_telefono_informante,
         ala_c_nombre_emergencia,
@@ -105,7 +104,7 @@ class Alarma_Model extends CI_Model
            '".$params['iTiposEmergencias']."',
            '".$params['iLugarEmergencia']."',
            '".spanishDateToISO($params['fechaEmergencia'])."',
-           '".$this->session->userdata('session_cargo')."',
+           '".$this->session->userdata('session_idCargo')."',
            '".spanishDateToISO($params['fechaRecepcion'])."',
            '".$this->session->userdata('session_idUsuario')."',
            $this->revision,
@@ -125,8 +124,50 @@ class Alarma_Model extends CI_Model
                 $v
                 )
                 ");   
-            } 
+            }
+            $comunas_query = $this->db->query("
+            SELECT GROUP_CONCAT(com_c_nombre) from comunas c join alertas_vs_comunas avc
+            on avc.com_ia_id = c.com_ia_id
+            where avc.ala_ia_id = $ala_ia_id"); 
+            $comunas = $comunas_query->result_array();
+            $params['lista_comunas'] = $comunas;
+            $params['ala_ia_id'] = $ala_ia_id;
+            $this->enviaMsjAlarma($params);
         }
+        
+        
+        
+        
+        
         return $ala_ia_id;
+    }
+    
+    
+    public function enviaMsjAlarma($params){
+        
+        $this->load->helper('utils');
+        $mensaje = "<b>SIPRESA: Revisión de Alarma</b><br><br>";
+	$mensaje .= $this->session->userdata('session_nombres').$this->session->userdata('session_idCargo')." ha registrado la alarma código : ".$params['ala_ia_id']."<br><br>";
+	$mensaje .= "Nombre de la emergencia: ".$params['iNombreEmergencia']."<br>";
+	$mensaje .= "Tipo de emergencia: ".$params['iTiposEmergencias']."<br>"; 
+	$mensaje .= "Lugar o dirección de la emergencia: ".$params['iLugarEmergencia']."<br>"; 
+	$mensaje .= "Comunas: ".$params['lista_comunas']."<br>"; 
+	$mensaje .= "Fecha de la emergencia: ".spanishDateToISO($params['fechaEmergencia'])."<br>"; 
+	$mensaje .= "Fecha recepción de la emergencia: ".spanishDateToISO($params['fechaRecepcion'])."<br>"; 
+	$mensaje .= "Nombre del informante: ".$params['iNombreInformante']."<br>";
+	$mensaje .= "Teléfono del informante: ".$params['iTelefonoInformante']."<br><br>";
+	$mensaje .= "<a href='".  site_url('emergencia/generaEmergencia/id/'.$params['ala_ia_id'])."'>URL de la alarma a revisar</a><br>";
+	$mensaje .= "<br><img src='".  base_url('assets/img/logoseremi.jpg')  ."' alt='Seremi' title='Seremi'></img><br>";
+	
+	//$to = 'rukmini.tonacca@redsalud.gov.cl';
+	$to = 'vladimir@cosof.cl';
+	$subject = "SIPRESA: Revisión de Alarma";
+	
+
+        $this->load->model("Sendmail_Model", "SendmailModel");
+	
+        return $this->SendmailModel->emailSend($to,null,null, $subject, $mensaje);
+	
+        
     }
 }

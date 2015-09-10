@@ -13,9 +13,9 @@ class Emergencia extends CI_Controller {
         }
 
         $this->load->library("template");
-        $this->load->helper("session");
+       // $this->load->helper("session");
 
-        sessionValidation();
+       // sessionValidation(); no validar por ahora para ingreso externo
         
         $data['ala_ia_id'] = $params['id'];
         //var_dump($data);die;
@@ -27,7 +27,7 @@ class Emergencia extends CI_Controller {
             case $this->EmergenciaModel->activado: 
                 $this->template->parse("default", "pages/emergencia/activada", $data);
                 break;
-            case $this->EmergenciaModel->noactivado: 
+            case $this->EmergenciaModel->rechazado: 
                 $this->template->parse("default", "pages/emergencia/anulada", $data);
                 break;
             default :$this->template->parse("default", "pages/emergencia/generaEmergencia", $data);
@@ -38,6 +38,18 @@ class Emergencia extends CI_Controller {
         
     }
 
+    public function rechaza() {
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+        $params = $this->input->post();
+        $this->load->library(array("template"));
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        if ($res_guardar = $this->EmergenciaModel->rechazaEmergencia($params)) {
+            
+        }
+        echo ($res_guardar) ? 1 : 0;
+    }
+    
     public function jsonTiposEmergencias() {
         $this->load->model("tipo_emergencia_model", "TipoEmergencia");
         $tiposEmergencia = $this->TipoEmergencia->get();
@@ -134,4 +146,14 @@ class Emergencia extends CI_Controller {
         $this->load->model("emergencia_model", "EmergenciaModel");
         return $this->EmergenciaModel->getEmergencia($params);
     }
+    
+    public function editarEmergencia() { //edicion de una emergencia
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+        $params = $this->input->post();
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        $res = $this->EmergenciaModel->editarEmergencia($params);
+        return ($res)?1:0;
+    }
+            
 }

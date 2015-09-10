@@ -113,4 +113,73 @@ class Archivo_Model extends CI_Model {
             return false;
     }
     
+    
+    function get_docs($id_entidad, $jsoneado = true,$tipo=null) {
+        
+        if($tipo == null){
+            return array();
+        }
+        $this->load->helper('utils');
+        switch ($tipo){
+            case 5 :    $tabla = 'archivo_vs_alarma';
+                        $id='ala_ia_id';
+                        break;
+        }
+        
+        $sql = "select a.*,UPPER(CONCAT(u.usu_c_nombre,' ',u.usu_c_apellido_paterno,' ',u.usu_c_apellido_materno)) as nombre_usuario  from archivo a
+                left join usuarios u on a.usu_ia_id = u.usu_ia_id
+                join $tabla avp on avp.arch_ia_id = a.arch_ia_id
+                where avp.$id =$id_entidad";
+        $result = $this->db->query($sql);
+        //header("Content-type: application/json; charset=utf-8");
+        $jsonData = array('data' => array());
+        $arr_arch = array();
+        foreach ($result->result_array() as $row) {
+            $arr_ruta = explode('/', $row['arch_c_nombre']);
+            $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
+            $link = "";
+            if ($row['arch_c_hash'] != '') {
+                $link = "<a target='_blank' class='btn btn-xs btn-default' href=".  site_url("archivo/download_file/k/" . $row['arch_c_hash']).">VER</a>";
+            }
+            $entry = array(
+                $nombre,
+                $row['nombre_usuario'],
+                ISODateTospanish($row['arch_f_fecha']),
+                $link,
+                $row['arch_ia_id'],
+                round(($row['arch_c_tamano']) / 1024, 1)
+            );
+            $arr_arch[] = $entry;
+            $jsonData['data'][] = $entry;
+        }
+        if ($jsoneado)
+            echo json_encode($jsonData);
+        else
+            return $arr_arch;
+    }
+    
+    function get_file_from_key($k) {
+        $sql = "select * from archivo where arch_c_hash='$k'";
+        $result = $this->db->query($sql);
+        $row = $result->result_array();
+        return $row[0];
+    }
+    
+    function descargar($k = null) {
+        if ($k != null) {
+            $archivo = $this->get_file_from_key($k);
+
+            $arr_ruta = explode('/', $archivo['arch_c_nombre']);
+            $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
+            header("Content-Type: " . $archivo['arch_c_mime'] . "; charset: UTF-8");
+            header("filename=" . $nombre);
+
+            header("Content-Disposition:  ; filename=\"" . $nombre . "\"");
+            ob_end_clean();
+            readfile(FCPATH . $archivo['arch_c_nombre']);
+            exit;
+        } else
+            return false;
+    }
+    
 }

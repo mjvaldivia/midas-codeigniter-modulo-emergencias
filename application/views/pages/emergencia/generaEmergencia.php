@@ -79,67 +79,10 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label class="control-label col-md-4">¿Dispone de recursos suficientes para controlar la emergencia?:</label>
-                <div class="col-md-6">
-                    <textarea name="eme_c_recursos" id="eme_c_recursos" class="form-control"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">Está en riesgo la seguridad de nuestro personal?:</label>
-                <div class="col-md-6">
-                    <textarea name="eme_c_riesgo" id="eme_c_riesgo" class="form-control"></textarea>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="control-label col-md-4">Impacto a las personas. Número de heridos:</label>
-                <div class="col-md-6">
-                    <input name="eme_c_heridos" id="eme_c_heridos" type="text" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">Impacto a las personas. Número de fallecidos:</label>
-                <div class="col-md-6">
-                    <input name="eme_c_fallecidos" id="eme_c_fallecidos" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">¿En qué ha sido superada su capacidad para una respuesta eficiente y efectiva?:</label>
-                <div class="col-md-6">
-                    <textarea name="eme_c_capacidad" id="eme_c_capacidad" class="form-control"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">Descripción del evento:</label>
-                <div class="col-md-6">
-                    <textarea name="eme_c_descripcion" id="eme_c_descripcion" class="form-control"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">Acciones:</label>
-                <div class="col-md-6">
-                    <textarea name="eme_c_acciones" id="eme_c_acciones" class="form-control"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">Información adicional:</label>
-                <div class="col-md-6">
-                    <textarea name="eme_c_informacion_adicional" id="eme_c_informacion_adicional" class="form-control"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-offset-1 col-md-3 control-label">Antecedentes documentales</label>
-                <div class="col-md-5">
-                    <input id="iDocMaterial" name="iDocMaterial[]" class="form-control" type="file" multiple></input>
-                </div>
-            </div>
-            
-            
             <div id="botonera" class="col-md-12">
 
-                    <button type="button" id="btnSiguiente" class="btn btn-primary pull-right" onclick="Emergencia.guardarForm();">Generar Emergencia</button>
-                    <button type="button" class="btn btn-danger pull-left">Anular Emergencia</button>
+                    <button type="button" id="btnSiguiente" class="btn btn-primary pull-right" onclick="Emergencia.guardarForm();">Activar y Generar Emergencia</button>
+                    <button type="button" class="btn btn-danger pull-left" onclick="Emergencia.rechazar();">Rechazar Emergencia</button>
 
             </div>
         </div>

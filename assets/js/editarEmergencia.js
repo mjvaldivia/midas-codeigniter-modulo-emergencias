@@ -4,6 +4,7 @@ var Emergencia = {};
     this.inicio = function() {
         
          var eme_ia_id = $("#eme_ia_id").val();
+         
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
         $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
             handlerLoad: function() {
@@ -11,8 +12,15 @@ var Emergencia = {};
 
                         $.getJSON(siteUrl+'emergencia/getEmergencia/id/'+eme_ia_id,function(data){
                             var str_comunas = data.comunas;
-
-                            var arr_com = str_comunas.split(",");
+                            if(str_comunas!==null)
+                            {       var arr_com = str_comunas.split(",");
+                                    $('#iComunas').picklist({
+                                        'value': arr_com          
+                                    });
+                            }
+                            else{
+                                $('#iComunas').picklist();
+                            }
                             $('#eme_ia_id').val(data.eme_ia_id);
                             $('#ala_ia_id').val(data.ala_ia_id);
                             $('#iNombreInformante').val(data.eme_c_nombre_informante);
@@ -24,9 +32,8 @@ var Emergencia = {};
                             $('#usuarioRecepciona').val(data.usuario);
                             $('#fechaRecepcion').val(data.eme_d_fecha_recepcion);
                             $('#iObservacion').val(data.eme_c_observacion);
-                            $('#iComunas').picklist({
-                                'value': arr_com          
-                            });
+                            Emergencia.dibujaTablaDocs();
+                            Emergencia.iniciarUpload();
                         });
             },
             initial_text: null
@@ -35,17 +42,12 @@ var Emergencia = {};
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
-        $("#iDocMaterial").fileinput({
-            language: "es",
-            uploadUrl: siteUrl + "archivo/subir/tipo/5/id/"+eme_ia_id,
-            uploadAsync: true,
-            multiple: true,
-            initialCaption: "Seleccione archivos y luego presione subir",
-            allowedFileExtensions: ["doc", "docx", "xls", "xlsx", "pdf"]
+        
+        
+        $('#iDocMaterial').on('filebatchuploadcomplete', function() {
+            Emergencia.dibujaTablaDocs();
         });
-        $('#iDocMaterial').on('fileuploaded', function(event, data, previewId, index) {
-            $('.file-caption-name').html('');
-        });
+        
     };
 
 
@@ -139,16 +141,16 @@ var Emergencia = {};
         });
     },
     this.guardarForm = function() {
-        if(!Utils.validaForm('frmIngresoEmergencia'))
+        if(!Utils.validaForm('frmEditarEmergencia'))
         return false ;
         
-        var params = $('#frmIngresoEmergencia').serialize(); 
-        $.post(siteUrl+"emergencia/ingreso", params, function(data) {
-            //console.log(data);
+        var params = $('#frmEditarEmergencia').serialize(); 
+        
+        $.post(siteUrl+"emergencia/editarEmergencia", params, function(data) {
             if(data == 1){
             bootbox.dialog({
                 title: "Resultado de la operacion",
-                message: 'Se ha insertado correctamente',
+                message: 'Se ha editado correctamente',
                
                 buttons: {
                     danger: {
@@ -165,7 +167,7 @@ var Emergencia = {};
             else{
               bootbox.dialog({
                 title: "Resultado de la operacion",
-                message: 'Error al insertar',
+                message: 'Error al editar',
                 buttons: {
                     danger: {
                         label: "Cerrar",
@@ -176,12 +178,44 @@ var Emergencia = {};
             }
         });   
     },
-    this.editarEmergencia = function(eme_ia_id) {
-        window.open(siteUrl+'emergencia/editar/id/'+eme_ia_id , '_blank');
-    };
+    this.limpiar = function(){
+        $('#frmEditarEmergencia')[0].reset(); 
+        $('#iComunas').picklist('destroy');
+        $('#iComunas').picklist();
+    },
+    this.iniciarUpload = function (){
+        var ala_ia_id = $('#ala_ia_id').val();
+        $("#iDocMaterial").fileinput({
+            language: "es",
+            uploadUrl: siteUrl + "archivo/subir/tipo/5/id/"+ala_ia_id,
+            uploadAsync: true,
+            multiple: true,
+            initialCaption: "Seleccione archivos y luego presione subir",
+            allowedFileExtensions: ["doc", "docx", "xls", "xlsx", "pdf"]
+        });
+    },
+    
+    this.dibujaTablaDocs = function (){
+        var ala_ia_id = $('#ala_ia_id').val();
+        $("#tabla_doc").dataTable().fnDestroy();
+        $('#tabla_doc').dataTable({
+        ajax: {
+            url: siteUrl+'archivo/getDocs/id/'+ala_ia_id+'/tipo/5',
+            type: 'POST',
+
+            async: true
+        },
+        language: {
+                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                }
+        });
+        $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>"); }
+    
+    ;
 
     
 
     
     
 }).apply(Emergencia);
+
