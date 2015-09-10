@@ -36,7 +36,6 @@
     </div>
 </div>
 
-<a class="btn btn-primary" data-toggle="modal" href='#mOtrosEmergencias'>Trigger modal</a>
 <div class="modal fade" id="mOtrosEmergencias" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -79,13 +78,55 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button id="btnCancelarOtrosEmergencia" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 <button id="btnGuardarOtrosEmergencia" type="button" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="mMaestroInstalaciones">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cargar instalaciones</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="tblTiposIns" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Ámbito</th>
+                                <th>Tipo de instalación</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th>Ámbito</th>
+                                <th>Tipo de instalación</th>
+                            </tr>
+                        </tfoot>
+                    </table>                
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button id="btnCargarIns" type="button" class="btn btn-primary">Cargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+
 <?= loadJS("assets/js/visor.js") ?>
+
 <script type="text/javascript">
     $(document).ready(function() {
         VisorMapa.init();

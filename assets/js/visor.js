@@ -113,6 +113,42 @@ var VisorMapa = {
             $(this).addClass("selected");
             self.otherControlColor = Utils.rgb2hex($(this).css("background-color"));
         });
+
+        this.constructControlIns.call(this);
+    };
+
+    this.constructControlIns = function() {
+        var self = this;
+
+        var table = $("#tblTiposIns").DataTable({
+            language: {
+                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+            },
+            ajax: {
+                url: siteUrl + "instalacion/obtenerJsonTipos",
+                type: "GET",
+                async: true
+            },
+            columns: [
+                {
+                    mRender: function(data, type, row) {
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" type="checkbox"/>';
+                    }
+                },
+                { data: "amb_c_nombre" },
+                { data: "aux_c_nombre" }
+            ],
+            pagingType: "simple"
+        });
+
+        $("#ctrlIns").click(function () {
+            $("#mMaestroInstalaciones").modal("show");
+        });
+
+        $("#btnCargarIns").click(function () {
+            self.loadKML("http://ssrv.cl/emergencias_test/eleam.php");
+            $("#mMaestroInstalaciones").modal("hide");
+        });
     };
 
     this.makeEmergencyDrawManager = function() {
@@ -249,9 +285,9 @@ var VisorMapa = {
         })
     };
 
-    this.loadKML = function() {
+    this.loadKML = function(url) {
         var kmlLayer = new google.maps.KmlLayer({
-            url: 'http://ssrv.cl/sipresa_test/kml.php',
+            url: url,
             map: this.map,
             suppressInfoWindows: true,
             preserveViewport: false
