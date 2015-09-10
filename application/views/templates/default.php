@@ -103,7 +103,17 @@
                             </ul>
                         </li>
                         <li><a href="#">Coberturas</a></li>
-                        <li><a href="#">Emergencias</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Emergencia <b class="caret"></b></a>
+                            <ul class="dropdown-menu navbar-inverse">
+                                <li>
+                                    <a href="<?= site_url("emergencia/listado") ?>">
+                                        <i class="fa fa-list"></i>
+                                        Listado Emergencias
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li><a href="#">Modelación</a></li>
                         <li><a href="#">Documentación</a></li>
                     </ul>

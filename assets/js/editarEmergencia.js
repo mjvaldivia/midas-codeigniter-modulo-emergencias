@@ -1,28 +1,29 @@
 var Emergencia = {};
 
 (function() {
-    this.inicioIngreso = function() {
+    this.inicio = function() {
         
-        var ala_ia_id = $("#ala_ia_id").val();
-        
+         var eme_ia_id = $("#eme_ia_id").val();
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
         $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
             handlerLoad: function() {
                         
 
-                        $.getJSON(siteUrl+'emergencia/getAlarma/id/'+ala_ia_id,function(data){
+                        $.getJSON(siteUrl+'emergencia/getEmergencia/id/'+eme_ia_id,function(data){
                             var str_comunas = data.comunas;
 
                             var arr_com = str_comunas.split(",");
-                            $('#iNombreInformante').val(data.ala_c_nombre_informante);
-                            $('#iTelefonoInformante').val(data.ala_c_telefono_informante);
-                            $('#iNombreEmergencia').val(data.ala_c_nombre_emergencia);
+                            $('#eme_ia_id').val(data.eme_ia_id);
+                            $('#ala_ia_id').val(data.ala_ia_id);
+                            $('#iNombreInformante').val(data.eme_c_nombre_informante);
+                            $('#iTelefonoInformante').val(data.eme_c_telefono_informante);
+                            $('#iNombreEmergencia').val(data.eme_c_nombre_emergencia);
                             $('#iTiposEmergencias').val(data.tip_ia_id);
-                            $('#iLugarEmergencia').val(data.ala_c_lugar_emergencia);
-                            $('#fechaEmergencia').val(data.ala_d_fecha_emergencia);
+                            $('#iLugarEmergencia').val(data.eme_c_lugar_emergencia);
+                            $('#fechaEmergencia').val(data.eme_d_fecha_recepcion);
                             $('#usuarioRecepciona').val(data.usuario);
-                            $('#fechaRecepcion').val(data.ala_d_fecha_recepcion);
-                            $('#iObservacion').val(data.ala_c_observacion);
+                            $('#fechaRecepcion').val(data.eme_d_fecha_recepcion);
+                            $('#iObservacion').val(data.eme_c_observacion);
                             $('#iComunas').picklist({
                                 'value': arr_com          
                             });
@@ -36,7 +37,7 @@ var Emergencia = {};
         });
         $("#iDocMaterial").fileinput({
             language: "es",
-            uploadUrl: siteUrl + "archivo/subir/tipo/5/id/"+ala_ia_id,
+            uploadUrl: siteUrl + "archivo/subir/tipo/5/id/"+eme_ia_id,
             uploadAsync: true,
             multiple: true,
             initialCaption: "Seleccione archivos y luego presione subir",

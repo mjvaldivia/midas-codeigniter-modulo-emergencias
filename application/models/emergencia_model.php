@@ -124,5 +124,68 @@ class Emergencia_Model extends CI_Model {
         }
         return $resultados;
     }
+    
+    public function filtrarEmergencias($params) {
+        $mapeo = array(
+            "tipoEmergencia" => "e.tip_ia_id",
+            "anio" => "year(e.eme_d_fecha_emergencia)"
+        );
+        
+        $where = "1=1";
+        $queryParams = array();
+        
+        foreach($params as $llave => $valor) {
+            $queryParams[] = $valor;
+            $where .= " and " . $mapeo[$llave] . " = ?";
+        }
+        
+        $sql = "
+            select
+                e.*,
+                te.aux_c_nombre as eme_c_tipo_emergencia
+            from
+              emergencias e
+              inner join auxiliar_emergencias_tipo te on e.tip_ia_id = te.aux_ia_id
+              where
+                $where
+            order by e.eme_d_fecha_emergencia desc
+        ";
+        
+        $query = $this->db->query($sql, $queryParams);
+
+        $resultados = array();
+
+        if ($query->num_rows() > 0)
+            $resultados = $query->result_array();
+
+        return $resultados;
+    }
+    
+    public function getEmergencia($params) {
+
+
+        $sql = "
+            select
+                e.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
+                GROUP_CONCAT(evc.com_ia_id) comunas
+            from
+              emergencias e join usuarios u on e.usu_ia_id = u.usu_ia_id
+              join emergencias_vs_comunas evc on e.eme_ia_id = evc.eme_ia_id
+            where e.eme_ia_id = " . $params['id'] . "";
+
+        $query = $this->db->query($sql);
+
+        $resultados = null;
+        if ($query->num_rows() > 0) {
+            $resultados = $query->result_array();
+
+            $resultados = $resultados[0];
+
+            $resultados['eme_d_fecha_emergencia'] = ISODateTospanish($resultados['eme_d_fecha_emergencia']);
+            $resultados['eme_d_fecha_recepcion'] = ISODateTospanish($resultados['eme_d_fecha_recepcion']);
+        }
+
+        echo json_encode($resultados);
+    }
 
 }

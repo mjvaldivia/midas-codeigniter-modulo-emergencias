@@ -74,5 +74,64 @@ class Emergencia extends CI_Controller {
         return $this->EmergenciaModel->getAlarma($params);
     }
     
+    public function listado() {
+        if (!file_exists(APPPATH . "/views/pages/emergencia/listado.php")) {
+            // Whoops, we don"t have a page for that!
+            show_404();
+        }
 
+        // load basicos
+        $this->load->library("template");
+        $this->load->helper("session");
+
+        sessionValidation();
+
+
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
+        $data = array(
+            "anioActual" => date('Y')
+        );
+
+        $this->template->parse("default", "pages/emergencia/listado", $data);
+    }
+    
+    public function jsonEmergenciasDT() {
+        $this->load->model("emergencia_model", "Emergencia");
+        $params = $this->uri->uri_to_assoc();
+
+        $emergencias = $this->Emergencia->filtrarEmergencias($params);
+        //var_dump($emergencias);die;
+        $json["data"] = $emergencias;
+        $json["columns"] = array(
+            array("sTitle" => "Emergencias"),
+        );
+
+        echo json_encode($json);
+    }
+    
+    public function editar() {
+        if (!file_exists(APPPATH . "/views/pages/emergencia/editarEmergencia.php")) {
+            // Whoops, we don"t have a page for that!
+            show_404();
+        }
+
+        // load basicos
+        $this->load->library("template");
+        $this->load->helper("session");
+
+        sessionValidation();
+
+        $params = $this->uri->uri_to_assoc();
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
+        $data['eme_ia_id'] = $params['id'];
+
+        $this->template->parse("default", "pages/emergencia/editarEmergencia", $data);
+    }
+    
+    public function getEmergencia() {
+        $this->load->helper("utils");
+        $params = $this->uri->uri_to_assoc();
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        return $this->EmergenciaModel->getEmergencia($params);
+    }
 }
