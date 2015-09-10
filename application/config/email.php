@@ -8,3 +8,4 @@ $config['smtp_user'] = "sistemas";
 $config['smtp_pass'] = "siste14S";
 $config['smtp_port'] = 25;
 $config['charset'] = "utf-8";
+$config['mailtype'] = "html";

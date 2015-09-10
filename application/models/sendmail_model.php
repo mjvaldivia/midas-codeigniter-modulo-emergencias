@@ -19,9 +19,7 @@ class Sendmail_Model extends CI_Model {
         $this->email->subject($subject);
         $this->email->message($message);
 
-        $this->email->send();
-
-        echo $this->email->print_debugger();
+        return $this->email->send();
     }
 
 }
