@@ -15,7 +15,7 @@ var VisorMapa = {
     var emergencyRadiusReceiver = function() {
         var radio = $("#iRadioEmergencia").val();
 
-        if (radio.trim() == "") {
+        if (radio.trim() === "") {
             $("#iRadioEmergencia").closest("div").addClass("has-error");
             return false;
         }
@@ -23,7 +23,7 @@ var VisorMapa = {
         $("#iRadioEmergencia").val("0");
         $('#mRadioEmergencia').modal('hide');
 
-        if (radio == 0) return true;
+        if (radio === 0) return true;
 
         this.emergencyRadius = new google.maps.Circle({
             map: this.map,
@@ -46,7 +46,7 @@ var VisorMapa = {
         if (!$("#botoneraColorControl a.selected").length) {
             $("#botoneraColorControl").closest("div").addClass("has-error");
             return false;
-        };
+        }
 
         if (!$("#iTituloComponente").val()) {
             $("#iTituloComponente").closest("div").addClass("has-error");
@@ -64,7 +64,7 @@ var VisorMapa = {
             this.otherDrawingManager.set(poligonos[i], {
                 fillColor: this.otherControlColor
             });
-        };
+        }
 
         this.otherDrawingManager.set("polylineOptions", {
             strokeColor: this.otherControlColor
@@ -83,7 +83,7 @@ var VisorMapa = {
             center: new google.maps.LatLng(-33.07,-71.6),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             zoom: 12
-        }
+        };
 
         var opcionesFinales = $.extend(opcionesMapa, opciones);
         this.detectHeight.call(this);
@@ -115,6 +115,49 @@ var VisorMapa = {
         });
 
         this.constructControlIns.call(this);
+        this.constructControlLayer.call(this);
+    };
+
+
+    this.constructControlLayer = function() {
+        var self = this;
+
+        var table = $("#tblCtrlCapas").DataTable({
+            language: {
+                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+            },
+            columns: [
+                {
+                    mRender: function(data, type, row) {
+                        return '<input id="iCtrlLayers' + data + '" name="iCtrlLayers[]" type="checkbox"/>';
+                    },
+                    sWidth: "30px"
+                },
+                {}
+            ],
+            pagingType: "simple"
+        });
+
+        $("#ctrlLayers").click(function () {
+            $("#mCapas").modal("show");
+        });
+
+        $("#btnCargarCapas").click(function () {
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=quimicas");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=manzanas");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=carabineros");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=hospitales");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=atencion_primaria");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=centros_salud");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=bodegas_quimico");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=cta");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=servicentros");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=jardines");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=establecimientos_educacion");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=instalaciones_quimicas");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=liceos_colegios");
+            $("#mCapas").modal("hide");
+        });
     };
 
     this.constructControlIns = function() {
@@ -146,7 +189,7 @@ var VisorMapa = {
         });
 
         $("#btnCargarIns").click(function () {
-            self.loadKML("http://ssrv.cl/emergencias_test/eleam.php");
+            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=eleam");
             $("#mMaestroInstalaciones").modal("hide");
         });
     };
@@ -254,10 +297,10 @@ var VisorMapa = {
                 var clickHandler = function() {
                     $("#mOtrosEmergencias").modal("show");
                     context.otherControlSelected = origen;
-                }
+                };
                 $("#" + origen.id).on("click", clickHandler);
             })(this, controlsID[i]);
-        };
+        }
 
         google.maps.event.addListener(this.otherDrawingManager, 'overlaycomplete', function(event) {
             var componente = event.overlay;
@@ -272,8 +315,6 @@ var VisorMapa = {
                 google.maps.drawing.OverlayType.RECTANGLE
             ];
 
-            console.log(event.type, poligonos);
-
             if(poligonos.indexOf(event.type) != -1) {
                 componente.addListener("click", function(event) {
                     infoWindow.setPosition(event.latLng);
@@ -282,7 +323,7 @@ var VisorMapa = {
             }
 
             $("#ctrlDrawOFF").click();
-        })
+        });
     };
 
     this.loadKML = function(url) {
@@ -319,7 +360,7 @@ var VisorMapa = {
         searchBox.addListener('places_changed', function() {
             var places = searchBox.getPlaces();
 
-            if (places.length == 0) {
+            if (places.length === 0) {
                 return;
             }
 
