@@ -41,17 +41,6 @@ var Emergencia = {};
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
-        $("#iDocMaterial").fileinput({
-            language: "es",
-            uploadUrl: siteUrl + "archivo/subir/tipo/5/id/"+ala_ia_id,
-            uploadAsync: true,
-            multiple: true,
-            initialCaption: "Seleccione archivos y luego presione subir",
-            allowedFileExtensions: ["doc", "docx", "xls", "xlsx", "pdf"]
-        });
-        $('#iDocMaterial').on('fileuploaded', function(event, data, previewId, index) {
-            $('.file-caption-name').html('');
-        });
     };
 
 
@@ -172,6 +161,41 @@ var Emergencia = {};
               bootbox.dialog({
                 title: "Resultado de la operacion",
                 message: 'Error al insertar',
+                buttons: {
+                    danger: {
+                        label: "Cerrar",
+                        className: "btn-danger"
+                    }
+                }
+            }); 
+            }
+        });   
+    },
+    this.rechazar = function() {
+        
+        var params = 'ala_ia_id='+$('#ala_ia_id').val(); 
+        $.post(siteUrl+"emergencia/rechaza", params, function(data) {
+            if(data == 1){
+            bootbox.dialog({
+                title: "Resultado de la operacion",
+                message: 'Se ha rechazado correctamente',
+               
+                buttons: {
+                    danger: {
+                        label: "Cerrar",
+                        className: "btn-info",
+                        callback: function(){
+                           location.reload(); 
+                        } 
+                    }
+                }
+                
+            });
+            }
+            else{
+              bootbox.dialog({
+                title: "Resultado de la operacion",
+                message: 'Error al rechazar',
                 buttons: {
                     danger: {
                         label: "Cerrar",

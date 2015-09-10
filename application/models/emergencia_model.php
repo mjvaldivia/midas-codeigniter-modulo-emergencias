@@ -5,9 +5,9 @@ if (!defined('BASEPATH'))
 
 class Emergencia_Model extends CI_Model {
 
-    public  $activado = 1;
-    public  $noactivado = 2;
-    public  $revision = 3;
+    public $activado = 1;
+    public $rechazado = 2;
+    public $revision = 3;
 
     public function guardarEmergencia($params) {
 
@@ -43,7 +43,7 @@ class Emergencia_Model extends CI_Model {
            '" . $params['iTiposEmergencias'] . "',
            '" . $params['iLugarEmergencia'] . "',
            '" . spanishDateToISO($params['fechaEmergencia']) . "',
-           '" . $this->session->userdata('session_cargo') . "',
+           '" . $this->session->userdata('session_idCargo') . "',
            '" . spanishDateToISO($params['fechaRecepcion']) . "',
            '" . $this->session->userdata('session_idUsuario') . "',
            '" . $params['ala_ia_id'] . "',
@@ -59,14 +59,14 @@ class Emergencia_Model extends CI_Model {
         )
         ");
 
-        $ala_ia_id = $this->db->insert_id();
-        if ($ala_ia_id && isset($params['iComunas'])) {
+        $eme_ia_id = $this->db->insert_id();
+        if ($eme_ia_id && isset($params['iComunas'])) {
             foreach ($params['iComunas'] as $k => $v) {
 
 
                 $this->db->query("
                 INSERT INTO emergencias_vs_comunas (eme_ia_id, com_ia_id)
-                VALUES ($ala_ia_id,
+                VALUES ($eme_ia_id,
                 $v
                 )
                 ");
@@ -124,21 +124,21 @@ class Emergencia_Model extends CI_Model {
         }
         return $resultados;
     }
-    
+
     public function filtrarEmergencias($params) {
         $mapeo = array(
             "tipoEmergencia" => "e.tip_ia_id",
             "anio" => "year(e.eme_d_fecha_emergencia)"
         );
-        
+
         $where = "1=1";
         $queryParams = array();
-        
-        foreach($params as $llave => $valor) {
+
+        foreach ($params as $llave => $valor) {
             $queryParams[] = $valor;
             $where .= " and " . $mapeo[$llave] . " = ?";
         }
-        
+
         $sql = "
             select
                 e.*,
@@ -150,7 +150,7 @@ class Emergencia_Model extends CI_Model {
                 $where
             order by e.eme_d_fecha_emergencia desc
         ";
-        
+
         $query = $this->db->query($sql, $queryParams);
 
         $resultados = array();
@@ -160,7 +160,7 @@ class Emergencia_Model extends CI_Model {
 
         return $resultados;
     }
-    
+
     public function getEmergencia($params) {
 
 
@@ -188,4 +188,57 @@ class Emergencia_Model extends CI_Model {
         echo json_encode($resultados);
     }
 
+    public function editarEmergencia($params) {
+
+        $this->load->helper('utils');
+
+        $query = $this->db->query("
+        UPDATE emergencias SET 
+        eme_c_nombre_informante = '" . $params['iNombreInformante'] . "',
+        eme_c_telefono_informante ='" . $params['iTelefonoInformante'] . "',
+        eme_c_nombre_emergencia = '" . $params['iNombreEmergencia'] . "',
+        tip_ia_id = '" . $params['iTiposEmergencias'] . "',
+        eme_c_lugar_emergencia = '" . $params['iLugarEmergencia'] . "',
+        eme_d_fecha_emergencia = '" . spanishDateToISO($params['fechaEmergencia']) . "',
+        eme_d_fecha_recepcion = '" . spanishDateToISO($params['fechaRecepcion']) . "',
+        eme_c_recursos = '" . $params['eme_c_recursos'] . "',
+        eme_c_heridos = '" . $params['eme_c_heridos'] . "',
+        eme_c_fallecidos = '" . $params['eme_c_fallecidos'] . "',
+        eme_c_riesgo = '" . $params['eme_c_riesgo'] . "',
+        eme_c_capacidad = '" . $params['eme_c_capacidad'] . "',
+        eme_c_descripcion = '" . $params['eme_c_descripcion'] . "',
+        eme_c_acciones = '" . $params['eme_c_acciones'] . "',
+        eme_c_informacion_adicional = '" . $params['eme_c_informacion_adicional'] . "',
+        eme_c_observacion = '" . $params['iObservacion'] . "'
+        WHERE eme_ia_id =  '" . $params['eme_ia_id'] . "'");
+
+        if ($query) {
+            $this->db->query("DELETE from emergencias_vs_comunas WHERE eme_ia_id = '" . $params['eme_ia_id'] . "'");
+        }
+        if ($query && isset($params['iComunas'])) {
+            foreach ($params['iComunas'] as $k => $v) {
+                $this->db->query("
+                INSERT INTO emergencias_vs_comunas (eme_ia_id, com_ia_id)
+                VALUES ('" . $params['eme_ia_id'] . "',
+                $v
+                )
+                ");
+            }
+        }
+        return $query;
+    }
+    
+  public function  rechazaEmergencia($params){
+      
+
+        $query = $this->db->query("
+        UPDATE alertas SET  est_ia_id = ".$this->rechazado." WHERE ala_ia_id = ".$params['ala_ia_id']."");
+        return $query;
+      
+  }
+
+
+  
+  
+  
 }

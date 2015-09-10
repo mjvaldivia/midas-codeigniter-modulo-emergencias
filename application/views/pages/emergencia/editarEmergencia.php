@@ -132,9 +132,31 @@
             <div class="form-group">
                 <label class="col-md-offset-1 col-md-3 control-label">Antecedentes documentales</label>
                 <div class="col-md-5">
-                    <input id="iDocMaterial" name="iDocMaterial[]" class="form-control" type="file" multiple></input>
+                    <input id="iDocMaterial" name="iDocMaterial[]" class="form-control" type="file" multiple data-show-preview="false"></input>
                 </div>
             </div>
+            <div class="form-group ">
+
+        
+
+                    
+                    <div class="col-md-offset-4 col-md-5"> 
+                        <table id="tabla_doc" class="table table-bordered table-striped dataTable">
+                            <thead>
+                            <tr>
+                                <td>Nombre Archivo</td>
+                                <td>Autor</td>
+                                <td>Fecha</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>   
+                    </div>
+                   
+                </div>
             
             
             <div id="botonera" class="col-md-10">
@@ -161,8 +183,13 @@
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
+<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+
 <script type="text/javascript">
     $(document).ready(function() {
         Emergencia.inicio();
     });
+
 </script>
