@@ -58,8 +58,6 @@ class Alarma extends CI_Controller {
 
         sessionValidation();
 
-
-        date_default_timezone_set("America/Argentina/Buenos_Aires");
         $data = array(
             "anioActual" => date('Y')
         );
