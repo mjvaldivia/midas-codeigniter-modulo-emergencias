@@ -141,7 +141,7 @@
                 <i class="fa fa-info-circle"></i>
             </a>
 
-            <a href="#" title="Capas" class="btn btn-primary pull-right">
+            <a id="ctrlLayers" href="#" title="Capas" class="btn btn-primary pull-right">
                 <i class="fa fa-clone"></i>
             </a>
         </div>
@@ -185,7 +185,7 @@
                 uploadUrl: siteUrl + "visor/subirKML",
                 uploadAsync: true,
                 initialCaption: "Seleccione KML",
-                allowedFileExtensions: ["kml"]
+                allowedFileExtensions: ["kml","kmz"]
             });
         });
     </script>

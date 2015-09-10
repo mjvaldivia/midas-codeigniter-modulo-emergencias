@@ -8,3 +8,4 @@ nbproject/
 *.iml
 *.sublime-workspace
 media/doc/*
+node_modules/

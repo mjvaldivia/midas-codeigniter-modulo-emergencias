@@ -28,6 +28,8 @@ class Visor extends CI_Controller
             show_error("No se han detectado archivos", 500, "Error interno");
         }
 
+        // dump($_FILES);
+
         foreach ($_FILES as $llave => $valor) {
             // no dejamos subir cualquier formato
             if ($valor["type"][0] != "application/vnd.google-earth.kml+xml") continue;

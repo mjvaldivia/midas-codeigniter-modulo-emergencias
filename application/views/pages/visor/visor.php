@@ -123,18 +123,91 @@
 
 <a class="btn btn-primary" data-toggle="modal" href='#mCapas'>Trigger modal</a>
 <div class="modal fade" id="mCapas">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Cargar capas</h4>
             </div>
             <div class="modal-body">
-                
+                <div class="table-responsive">
+                    <table id="tblCtrlCapas" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CapaBomberos</td>
+                                <td>
+                                    Bomberos
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaCarabineros</td>
+                                <td>
+                                    Carabineros
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaPDI</td>
+                                <td>
+                                    PDI
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaAreasProtegidas</td>
+                                <td>
+                                    Áreas Protegidas
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaCuerposAgua</td>
+                                <td>
+                                    Cuerpos de agua
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaMunicipalidades</td>
+                                <td>
+                                    Municipalidades
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaComunas</td>
+                                <td>
+                                    Comunas
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaProvincias</td>
+                                <td>
+                                    Provincias
+                                </td>
+                            </tr>
+                                
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Cargar</button>
+                <button id="btnCargarCapas" type="button" class="btn btn-primary">Cargar</button>
             </div>
         </div>
     </div>
