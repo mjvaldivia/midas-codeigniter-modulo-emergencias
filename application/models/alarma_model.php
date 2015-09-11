@@ -169,8 +169,8 @@ class Alarma_Model extends CI_Model
 	$mensaje .= "<a href='".  site_url('emergencia/generaEmergencia/id/'.$params['ala_ia_id'].'/k/'.$key_id)."'>URL de la alarma a revisar</a><br>";
 	$mensaje .= "<br><img src='".  base_url('assets/img/logoseremi.png')  ."' alt='Seremi' title='Seremi'></img><br>";
 	
-	//$to = 'rukmini.tonacca@redsalud.gov.cl';
-	$to = 'vladimir@cosof.cl';
+	$to = 'rukmini.tonacca@redsalud.gov.cl';
+	//$to = 'vladimir@cosof.cl';
 	$subject = "SIPRESA: Revisión de Alarma";
 	
 
