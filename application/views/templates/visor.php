@@ -139,7 +139,7 @@
                 <i class="fa fa-building"></i>
             </a>
 
-            <a href="#" title="Muestra información" class="btn btn-primary pull-right">
+            <a id="ctrlInfo" href="#" title="Muestra información" class="btn btn-primary pull-right">
                 <i class="fa fa-info-circle"></i>
             </a>
 

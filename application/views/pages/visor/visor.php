@@ -11,6 +11,7 @@
 <div id="capture"></div>
 <div id="mapa" class="col-md-12 visor-emergencias">
 </div>
+
 <div class="modal fade" id="mRadioEmergencia" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -121,7 +122,6 @@
     </div>
 </div>
 
-<a class="btn btn-primary" data-toggle="modal" href='#mCapas'>Trigger modal</a>
 <div class="modal fade" id="mCapas">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -267,6 +267,66 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="mInfo">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Cruce de datos</h4>
+			</div>
+			<div class="modal-body">
+                <label>Población: 1.534 Habitantes</label>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Jardines Infantiles</div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Director</th>
+                            <th>Alumnos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Las tortolitas</td>
+                            <td>Av. Bernardo O'Higgins 1502</td>
+                            <td></td>
+                            <td>60</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Liceos y colegios</div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Director</th>
+                            <th>Alumnos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Colegio San Juan de Dios</td>
+                            <td>B O'Higgins 459</td>
+                            <td>Maria Angelica Mansilla Valdes</td>
+                            <td>156</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
