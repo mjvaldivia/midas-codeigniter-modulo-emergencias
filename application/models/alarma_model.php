@@ -83,7 +83,7 @@ class Alarma_Model extends CI_Model
         //var_dump($params);die;
         $this->load->helper('utils');
         
-        
+        $res = array();
         $this->db->query("
         INSERT INTO alertas (ala_c_nombre_informante, 
         ala_c_telefono_informante,
@@ -126,20 +126,19 @@ class Alarma_Model extends CI_Model
                 ");   
             }
             $comunas_query = $this->db->query("
-            SELECT GROUP_CONCAT(com_c_nombre) from comunas c join alertas_vs_comunas avc
+            SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join alertas_vs_comunas avc
             on avc.com_ia_id = c.com_ia_id
             where avc.ala_ia_id = $ala_ia_id"); 
             $comunas = $comunas_query->result_array();
-            $params['lista_comunas'] = $comunas;
+            
+            $params['lista_comunas'] = $comunas[0]['comunas'];
             $params['ala_ia_id'] = $ala_ia_id;
-            $this->enviaMsjAlarma($params);
+            $res['res_mail'] = ($this->enviaMsjAlarma($params))? 'enviado correctamente': 'error al enviar';
+            
         }
-        
-        
-        
-        
-        
-        return $ala_ia_id;
+         $res['ala_ia_id']= $ala_ia_id;
+         
+         return json_encode($res);
     }
     
     
