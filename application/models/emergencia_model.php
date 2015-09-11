@@ -236,14 +236,14 @@ class Emergencia_Model extends CI_Model {
         $this->load->helper('utils');
         $mensaje = "<b>SIPRESA: Confirmación de una situación de emergencia</b><br><br>";
         $mensaje .= "Se ha activado la emergencia código ".$params['eme_ia_id']."<br><br>";
-        $mensaje .= "Nombre de la emergencia: " . $params['iNombreEmergencia'] . "<br>";
-        $mensaje .= "Tipo de emergencia: " . $params['iTiposEmergencias'] . "<br>";
-        $mensaje .= "Lugar o dirección de la emergencia: " . $params['iLugarEmergencia'] . "<br>";
-        $mensaje .= "Comuna(s): " . $params['lista_comunas'] . "<br>";
-        $mensaje .= "Fecha de la emergencia: " . spanishDateToISO($params['fechaEmergencia']) . "<br>";
-        $mensaje .= "Fecha recepción de la emergencia: " . spanishDateToISO($params['fechaRecepcion']) . "<br>";
-        $mensaje .= "Nombre del informante: " . $params['iNombreInformante'] . "<br>";
-        $mensaje .= "Teléfono del informante: " . $params['iTelefonoInformante'] . "<br><br>";
+        $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['iNombreEmergencia'] . "<br>";
+        $mensaje .= "<b>Tipo de emergencia:</b> " . $params['iTiposEmergencias'] . "<br>";
+        $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['iLugarEmergencia'] . "<br>";
+        $mensaje .= "<b>Comuna(s):</b> " . $params['lista_comunas'] . "<br>";
+        $mensaje .= "<b>Fecha de la emergencia:</b> " . spanishDateToISO($params['fechaEmergencia']) . "<br>";
+        $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fechaRecepcion']) . "<br>";
+        $mensaje .= "<b>Nombre del informante:</b> " . $params['iNombreInformante'] . "<br>";
+        $mensaje .= "<b>Teléfono del informante:</b> " . $params['iTelefonoInformante'] . "<br><br>";
         $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
 
         //$to = 'rukmini.tonacca@redsalud.gov.cl';

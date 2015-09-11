@@ -158,14 +158,14 @@ class Alarma_Model extends CI_Model
         $key_id = $this->UsuarioModel->generaKeyId($this->session->userdata('session_idUsuario'));
         $mensaje = "<b>SIPRESA: Revisión de Alarma</b><br><br>";
 	$mensaje .= $this->session->userdata('session_nombres').$this->session->userdata('session_idCargo')." ha registrado la alarma código : ".$params['ala_ia_id']."<br><br>";
-	$mensaje .= "Nombre de la emergencia: ".$params['iNombreEmergencia']."<br>";
-	$mensaje .= "Tipo de emergencia: ".$params['tipo_emergencia']."<br>"; 
-	$mensaje .= "Lugar o dirección de la emergencia: ".$params['iLugarEmergencia']."<br>"; 
-	$mensaje .= "Comuna(s): ".$params['lista_comunas']."<br>"; 
-	$mensaje .= "Fecha de la emergencia: ".spanishDateToISO($params['fechaEmergencia'])."<br>"; 
-	$mensaje .= "Fecha recepción de la emergencia: ".spanishDateToISO($params['fechaRecepcion'])."<br>"; 
-	$mensaje .= "Nombre del informante: ".$params['iNombreInformante']."<br>";
-	$mensaje .= "Teléfono del informante: ".$params['iTelefonoInformante']."<br><br>";
+	$mensaje .= "<b>Nombre de la emergencia:</b> ".$params['iNombreEmergencia']."<br>";
+	$mensaje .= "<b>Tipo de emergencia:</b> ".$params['tipo_emergencia']."<br>"; 
+	$mensaje .= "<b>Lugar o dirección de la emergencia:</b> ".$params['iLugarEmergencia']."<br>"; 
+	$mensaje .= "<b>Comuna(s):</b> ".$params['lista_comunas']."<br>"; 
+	$mensaje .= "<b>Fecha de la emergencia:</b> ".spanishDateToISO($params['fechaEmergencia'])."<br>"; 
+	$mensaje .= "<b>Fecha recepción de la emergencia:</b> ".spanishDateToISO($params['fechaRecepcion'])."<br>"; 
+	$mensaje .= "<b>Nombre del informante:</b> ".$params['iNombreInformante']."<br>";
+	$mensaje .= "<b>Teléfono del informante:</b> ".$params['iTelefonoInformante']."<br><br>";
 	$mensaje .= "<a href='".  site_url('emergencia/generaEmergencia/id/'.$params['ala_ia_id'].'/k/'.$key_id)."'>URL de la alarma a revisar</a><br>";
 	$mensaje .= "<br><img src='".  base_url('assets/img/logoseremi.png')  ."' alt='Seremi' title='Seremi'></img><br>";
 	
