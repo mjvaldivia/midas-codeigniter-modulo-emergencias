@@ -195,6 +195,62 @@
                                 </td>
                             </tr>
                                 
+                            <tr>
+                                <td>CapaJardines</td>
+                                <td>
+                                    Jardines infantiles
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaColegiosLiceos</td>
+                                <td>
+                                    Colegios y liceos
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaInstalacionesQuimicas</td>
+                                <td>
+                                    Instalaciones químicas
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaBodegasAlmacenamientoQuimico</td>
+                                <td>
+                                    Bodegas de almacenamiento químico
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaCentrosSalud</td>
+                                <td>
+                                    Centros salud
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaCentroAtencioPrimaria</td>
+                                <td>
+                                    Centros de atención primaria
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaHospitales</td>
+                                <td>
+                                    Hospitales
+                                </td>
+                            </tr>
+                                
+                            <tr>
+                                <td>CapaServicentros</td>
+                                <td>
+                                    Servicentros
+                                </td>
+                            </tr>
+                                
                         </tbody>
                         <tfoot>
                             <tr>
@@ -216,6 +272,7 @@
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/extensions/Insensitive/dataTables.insensitive.js") ?>
 
 <?= loadJS("assets/js/visor.js") ?>
 

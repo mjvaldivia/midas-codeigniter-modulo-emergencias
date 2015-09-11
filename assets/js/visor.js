@@ -1,3 +1,6 @@
+/* global siteUrl */
+/* global baseUrl */
+/* global Utils */
 var VisorMapa = {
     map: null,
     canvas: null,
@@ -133,9 +136,12 @@ var VisorMapa = {
                     },
                     sWidth: "30px"
                 },
-                {}
+                {
+                    sType: "string"
+                }
             ],
-            pagingType: "simple"
+            pagingType: "simple",
+            order: [[1, "asc"]]
         });
 
         $("#ctrlLayers").click(function () {
