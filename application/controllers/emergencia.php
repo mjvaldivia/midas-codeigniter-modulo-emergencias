@@ -13,7 +13,24 @@ class Emergencia extends CI_Controller {
         }
 
         $this->load->library("template");
-       // $this->load->helper("session");
+        $this->load->helper("session");
+        
+        if(isset($params['k']) && !$this->session->userdata('session_idUsuario'))
+        {
+            $this->load->model("usuario_model", "UsuarioModel");
+            $val = $this->UsuarioModel->validaKey($params['k']);
+            if ($val['activo']==1){
+                $this->UsuarioModel->nologin($val['usu_c_rut']);
+            }
+            else{
+                 sessionValidation(); 
+            }
+        }
+        else if(!isset($params['k'])){
+            
+            sessionValidation(); 
+        }
+       // 
 
        // sessionValidation(); no validar por ahora para ingreso externo
         

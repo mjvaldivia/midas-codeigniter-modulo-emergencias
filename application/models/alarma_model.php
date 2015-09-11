@@ -133,6 +133,11 @@ class Alarma_Model extends CI_Model
             
             $params['lista_comunas'] = $comunas[0]['comunas'];
             $params['ala_ia_id'] = $ala_ia_id;
+            
+            
+            
+            
+            
             $res['res_mail'] = ($this->enviaMsjAlarma($params))? 'enviado correctamente': 'error al enviar';
             
         }
@@ -145,6 +150,8 @@ class Alarma_Model extends CI_Model
     public function enviaMsjAlarma($params){
         
         $this->load->helper('utils');
+        $this->load->model("usuario_model", "UsuarioModel");
+        $key_id = $this->UsuarioModel->generaKeyId($this->session->userdata('session_idUsuario'));
         $mensaje = "<b>SIPRESA: Revisión de Alarma</b><br><br>";
 	$mensaje .= $this->session->userdata('session_nombres').$this->session->userdata('session_idCargo')." ha registrado la alarma código : ".$params['ala_ia_id']."<br><br>";
 	$mensaje .= "Nombre de la emergencia: ".$params['iNombreEmergencia']."<br>";
@@ -155,7 +162,7 @@ class Alarma_Model extends CI_Model
 	$mensaje .= "Fecha recepción de la emergencia: ".spanishDateToISO($params['fechaRecepcion'])."<br>"; 
 	$mensaje .= "Nombre del informante: ".$params['iNombreInformante']."<br>";
 	$mensaje .= "Teléfono del informante: ".$params['iTelefonoInformante']."<br><br>";
-	$mensaje .= "<a href='".  site_url('emergencia/generaEmergencia/id/'.$params['ala_ia_id'])."'>URL de la alarma a revisar</a><br>";
+	$mensaje .= "<a href='".  site_url('emergencia/generaEmergencia/id/'.$params['ala_ia_id'].'/k/'.$key_id).">URL de la alarma a revisar</a><br>";
 	$mensaje .= "<br><img src='".  base_url('assets/img/logoseremi.png')  ."' alt='Seremi' title='Seremi'></img><br>";
 	
 	//$to = 'rukmini.tonacca@redsalud.gov.cl';
