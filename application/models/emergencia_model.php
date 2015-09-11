@@ -87,7 +87,7 @@ class Emergencia_Model extends CI_Model {
             from
               alertas a join usuarios u on a.usu_ia_id = u.usu_ia_id
               join alertas_vs_comunas avc on a.ala_ia_id = avc.ala_ia_id
-            where a.ala_ia_id = " . $params['id'] . "";
+            where a.ala_ia_id = " . $params['id'];
 
         $query = $this->db->query($sql);
 
@@ -111,7 +111,7 @@ class Emergencia_Model extends CI_Model {
                 a.est_ia_id
             from
               alertas a 
-            where a.ala_ia_id = " . $params['id'] . "";
+            where a.ala_ia_id = " . $params['id'];
 
         $query = $this->db->query($sql);
         $resultados = null;
@@ -159,19 +159,47 @@ class Emergencia_Model extends CI_Model {
         return $resultados;
     }
 
-    public function getEmergencia($params) {
+    public function getEmergencia($id) {
+        $sql = "
+            select
+                e.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
+                te.aux_c_nombre as tipo_emergencia
+            from
+              emergencias e
+              inner join usuarios u on e.usu_ia_id = u.usu_ia_id
+              inner join auxiliar_emergencias_tipo te on e.tip_ia_id = te.aux_ia_id
+            where e.eme_ia_id = ?";
+
+        $query = $this->db->query($sql, $id);
+
+        $resultados = null;
+        if ($query->num_rows() > 0) {
+            $resultados = $query->result_array();
+
+            $resultados = $resultados[0];
+
+            $resultados['eme_d_fecha_emergencia'] = ISODateTospanish($resultados['eme_d_fecha_emergencia']);
+            $resultados['eme_d_fecha_recepcion'] = ISODateTospanish($resultados['eme_d_fecha_recepcion']);
+        }
+
+        return $resultados;
+    }
+
+    public function getJsonEmergencia($params) {
 
 
         $sql = "
             select
                 e.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
-                GROUP_CONCAT(evc.com_ia_id) comunas
+                GROUP_CONCAT(evc.com_ia_id) comunas,
+                te.aux_c_nombre as tipo_emergencia
             from
               emergencias e join usuarios u on e.usu_ia_id = u.usu_ia_id
+              inner join auxiliar_emergencias_tipo te on e.tip_ia_id = te.aux_ia_id
               join emergencias_vs_comunas evc on e.eme_ia_id = evc.eme_ia_id
-            where e.eme_ia_id = " . $params['id'] . "";
+            where e.eme_ia_id = ?";
 
-        $query = $this->db->query($sql);
+        $query = $this->db->query($sql, array($params['id']));
 
         $resultados = null;
         if ($query->num_rows() > 0) {
