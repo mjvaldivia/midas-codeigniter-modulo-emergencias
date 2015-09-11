@@ -20,6 +20,7 @@
 
     <?= loadCSS("assets/css/emergencias.css") ?>
     <?= loadJS("assets/js/utils.js") ?>
+    <?= loadJS("assets/js/loading.js") ?>
 
     <?php //google maps API ?>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
@@ -41,6 +42,7 @@
     </script>
 </head>
 <body>
+    <div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
     <div class="header col-md-12">
         <div class="col-md-6">
             <div class="col-md-2 col-xs-2">

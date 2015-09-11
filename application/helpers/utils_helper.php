@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author Vladimir
+ * @since 14-09-15
+ */
 function spanishDateToISO($sDate)
 {
     $formatos = array(

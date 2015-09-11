@@ -6,6 +6,11 @@
         display: none !important;
     }
 </style>
+<div class="clearfix"></div>
+<ol class="breadcrumb">
+    <li><a href="<?= site_url() ?>">Inicio</a></li>  
+  <li class="active">Editar emergencia</li>
+</ol>
 <form  class="form-horizontal"  name='frmEditarEmergencia' id='frmEditarEmergencia'>
     <input type="hidden" id="ala_ia_id" name="ala_ia_id">
     <input type="hidden" id="eme_ia_id" name="eme_ia_id" value={eme_ia_id}>

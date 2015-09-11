@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author Vladimir
+ * @since 14-09-15
+ */
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 

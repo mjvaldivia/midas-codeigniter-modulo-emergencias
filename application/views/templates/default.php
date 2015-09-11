@@ -26,6 +26,7 @@
     </script>
 </head>
 <body>
+<div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
 <div id="container" class="container-fluid">
     <div id="header" class="row">
         <div class="col-md-12">
@@ -181,6 +182,7 @@
 <?= loadJS("assets/lib/select2-4.0.0/js/select2.js") ?>
 
 <?= loadJS("assets/js/utils.js") ?>
+<?= loadJS("assets/js/loading.js") ?>
 <script type="text/javascript">
     $(document).ready(function() {
         Utils.listenerCambioRapido();

@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author Vladimir
+ * @since 14-09-15
+ */
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
@@ -30,12 +33,7 @@ class Emergencia extends CI_Controller {
             
             sessionValidation(); 
         }
-       // 
-
-       // sessionValidation(); no validar por ahora para ingreso externo
-        
         $data['ala_ia_id'] = $params['id'];
-        //var_dump($data);die;
         date_default_timezone_set("America/Argentina/Buenos_Aires");
         $this->load->model("emergencia_model", "EmergenciaModel");
         $estado_alerta = $this->EmergenciaModel->revisaEstado($params);
