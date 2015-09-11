@@ -156,7 +156,7 @@ class Emergencia extends CI_Controller {
         $this->load->helper("utils");
         $params = $this->uri->uri_to_assoc();
         $this->load->model("emergencia_model", "EmergenciaModel");
-        return $this->EmergenciaModel->getEmergencia($params);
+        return $this->EmergenciaModel->getJsonEmergencia($params);
     }
     
     public function editarEmergencia() { //edicion de una emergencia

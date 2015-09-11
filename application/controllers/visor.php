@@ -10,11 +10,21 @@ class Visor extends CI_Controller
     public function index() {
         // load basicos
         $this->load->library("template");
-        $this->load->helper(array("session", "debug"));
+        $this->load->helper(array("session", "debug", "utils"));
 
         sessionValidation();
+        $params = $this->uri->uri_to_assoc();
 
-        $data = array();
+        if (!array_key_exists("id", $params)) {
+            redirect("emergencias/listado");
+        }
+
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        $emergencia = $this->EmergenciaModel->getEmergencia($params["id"]);
+
+        $data = array(
+            "emergencia" => $emergencia
+        );
         $this->template->parse("visor", "pages/visor/visor", $data);
     }
 
@@ -38,12 +48,5 @@ class Visor extends CI_Controller
         }
 
         echo json_encode(array("uploaded" => true));
-
-        // <?php
-        // header("Content-type: application/vnd.google-earth.kml+xml");
-        // header("Content-Disposition: attachment; filename=\"test.kml\"\n");
-
-        // readfile("test.kml");
-
     }
 }

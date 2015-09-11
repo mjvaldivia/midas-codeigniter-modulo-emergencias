@@ -50,13 +50,13 @@
             </div>
             <div class="col-md-10 col-xs-10">
                 <div class="row">
-                    <label>Código Emergencia:</label>&nbsp;<span>1</span>
+                    <label>Código Emergencia:</label>&nbsp;<span><?= $emergencia["eme_ia_id"] ?></span>
                 </div>
                 <div class="row">
-                    <label>Nombre Emergencia:</label>&nbsp;<span>Incendio forestal próximo a la zona industrial de Placilla</span>
+                    <label>Nombre Emergencia:</label>&nbsp;<span><?= $emergencia["eme_c_nombre_emergencia"] ?></span>
                 </div>
                 <div class="row">
-                    <label>Tipo Emergencia:</label>&nbsp;<span>Emergencia Química</span>
+                    <label>Tipo Emergencia:</label>&nbsp;<span><?= $emergencia["tipo_emergencia"] ?></span>
                 </div>
             </div>
         </div>
