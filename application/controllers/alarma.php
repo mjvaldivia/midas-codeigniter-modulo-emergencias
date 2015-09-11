@@ -11,7 +11,7 @@ if (!defined("BASEPATH"))
 class Alarma extends CI_Controller {
 
     public function ingreso() {
-
+        
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
             // Whoops, we don"t have a page for that!
             show_404();
@@ -41,9 +41,7 @@ class Alarma extends CI_Controller {
         $data["lastPage"] = "alarma/ingreso";
         $this->load->library(array("template",'parser'));
         $this->load->model("alarma_model", "AlarmaModel");
-        $ala_ia_id = $this->AlarmaModel->guardarAlarma($params);
-
-        echo ($ala_ia_id) ? $ala_ia_id : 0;
+        echo $this->AlarmaModel->guardarAlarma($params);
     }
 
     public function listado() {

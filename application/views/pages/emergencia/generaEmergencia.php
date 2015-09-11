@@ -6,6 +6,11 @@
         display: none !important;
     }
 </style>
+<div class="clearfix"></div>
+<ol class="breadcrumb">
+    <li><a href="<?= site_url() ?>">Inicio</a></li>  
+  <li class="active">Gestión de Emergencia</li>
+</ol>
 <form  class="form-horizontal"  name='frmIngresoEmergencia' id='frmIngresoEmergencia'>
     <input name="ala_ia_id" id="ala_ia_id"  value={ala_ia_id} type="hidden" />
     <div class="panel panel-primary">

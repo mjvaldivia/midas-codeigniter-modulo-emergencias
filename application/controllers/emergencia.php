@@ -13,7 +13,24 @@ class Emergencia extends CI_Controller {
         }
 
         $this->load->library("template");
-       // $this->load->helper("session");
+        $this->load->helper("session");
+        
+        if(isset($params['k']) && !$this->session->userdata('session_idUsuario'))
+        {
+            $this->load->model("usuario_model", "UsuarioModel");
+            $val = $this->UsuarioModel->validaKey($params['k']);
+            if ($val['activo']==1){
+                $this->UsuarioModel->nologin($val['usu_c_rut']);
+            }
+            else{
+                 sessionValidation(); 
+            }
+        }
+        else if(!isset($params['k'])){
+            
+            sessionValidation(); 
+        }
+       // 
 
        // sessionValidation(); no validar por ahora para ingreso externo
         
@@ -73,10 +90,7 @@ class Emergencia extends CI_Controller {
         $data["lastPage"] = "alarma/ingreso";
         $this->load->library(array("template"));
         $this->load->model("emergencia_model", "EmergenciaModel");
-        if ($res_guardar = $this->EmergenciaModel->guardarEmergencia($params)) {
-            
-        }
-        echo ($res_guardar) ? 1 : 0;
+        echo $this->EmergenciaModel->guardarEmergencia($params);
     }
     
     public function getAlarma() {

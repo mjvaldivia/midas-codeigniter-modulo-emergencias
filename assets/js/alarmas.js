@@ -134,11 +134,13 @@ var Alarma = {};
         
         var params = $('#frmIngresoAlarma').serialize(); 
         $.post(siteUrl+"alarma/guardaAlarma", params, function(data) {
-            //console.log(data);
-            if(data > 0){
+            var response = jQuery.parseJSON(data);
+            if(response.ala_ia_id > 0){
             bootbox.dialog({
                 title: "Resultado de la operacion",
-                message: 'Se ha insertado correctamente',
+                message: 'Se ha insertado correctamente<br>'+
+                'Estado email: '+response.res_mail
+                    ,
                 buttons: {
                     danger: {
                         label: "Cerrar",

@@ -12,7 +12,7 @@ class Emergencia_Model extends CI_Model {
     public function guardarEmergencia($params) {
 
         $this->load->helper('utils');
-
+        $res = array();
         $query = $this->db->query("
         INSERT INTO emergencias (
         eme_c_nombre_informante, 
@@ -25,14 +25,6 @@ class Emergencia_Model extends CI_Model {
         eme_d_fecha_recepcion,
         usu_ia_id,
         ala_ia_id,
-        eme_c_recursos,
-        eme_c_heridos,
-        eme_c_fallecidos,
-        eme_c_riesgo,
-        eme_c_capacidad,
-        eme_c_descripcion,
-        eme_c_acciones,
-        eme_c_informacion_adicional,
         eme_c_observacion
         )
         VALUES
@@ -47,14 +39,6 @@ class Emergencia_Model extends CI_Model {
            '" . spanishDateToISO($params['fechaRecepcion']) . "',
            '" . $this->session->userdata('session_idUsuario') . "',
            '" . $params['ala_ia_id'] . "',
-           '" . $params['eme_c_recursos'] . "',   
-           '" . $params['eme_c_heridos'] . "',   
-           '" . $params['eme_c_fallecidos'] . "',   
-           '" . $params['eme_c_riesgo'] . "',   
-           '" . $params['eme_c_capacidad'] . "',   
-           '" . $params['eme_c_descripcion'] . "',   
-           '" . $params['eme_c_acciones'] . "',   
-           '" . $params['eme_c_informacion_adicional'] . "',   
            '" . $params['iObservacion'] . "'
         )
         ");
@@ -71,12 +55,23 @@ class Emergencia_Model extends CI_Model {
                 )
                 ");
             }
+            $comunas_query = $this->db->query("
+            SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join emergencias_vs_comunas evc
+            on evc.com_ia_id = c.com_ia_id
+            where evc.eme_ia_id = $eme_ia_id"); 
+            $comunas = $comunas_query->result_array();
+            
+            $params['lista_comunas'] = $comunas[0]['comunas'];
         }
         if ($query) {
             $this->db->query("
                 UPDATE alertas SET est_ia_id = $this->activado WHERE ala_ia_id = '" . $params['ala_ia_id'] . "'");
+            $params['eme_ia_id'] = $eme_ia_id;
+            $res['res_mail'] = ($this->enviaMsjEmergencia($params))? 'enviado correctamente': 'error al enviar';
         }
-        return $query;
+        $res['eme_ia_id']= $eme_ia_id;
+         
+         return json_encode($res);
     }
 
     public function getAlarma($params) {
@@ -227,18 +222,38 @@ class Emergencia_Model extends CI_Model {
         }
         return $query;
     }
-    
-  public function  rechazaEmergencia($params){
-      
+
+    public function rechazaEmergencia($params) {
+
 
         $query = $this->db->query("
-        UPDATE alertas SET  est_ia_id = ".$this->rechazado." WHERE ala_ia_id = ".$params['ala_ia_id']."");
+        UPDATE alertas SET  est_ia_id = " . $this->rechazado . " WHERE ala_ia_id = " . $params['ala_ia_id'] . "");
         return $query;
-      
-  }
+    }
+
+    public function enviaMsjEmergencia($params) {
+
+        $this->load->helper('utils');
+        $mensaje = "<b>SIPRESA: Confirmación de una situación de emergencia</b><br><br>";
+        $mensaje .= "Se ha activado la emergencia código ".$params['eme_ia_id']."<br><br>";
+        $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['iNombreEmergencia'] . "<br>";
+        $mensaje .= "<b>Tipo de emergencia:</b> " . $params['iTiposEmergencias'] . "<br>";
+        $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['iLugarEmergencia'] . "<br>";
+        $mensaje .= "<b>Comuna(s):</b> " . $params['lista_comunas'] . "<br>";
+        $mensaje .= "<b>Fecha de la emergencia:</b> " . spanishDateToISO($params['fechaEmergencia']) . "<br>";
+        $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fechaRecepcion']) . "<br>";
+        $mensaje .= "<b>Nombre del informante:</b> " . $params['iNombreInformante'] . "<br>";
+        $mensaje .= "<b>Teléfono del informante:</b> " . $params['iTelefonoInformante'] . "<br><br>";
+        $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
+
+        //$to = 'rukmini.tonacca@redsalud.gov.cl';
+        $to = 'vladimir@cosof.cl';
+        $subject = "SIPRESA: Confirmación de una situación de emergencia";
 
 
-  
-  
-  
+        $this->load->model("Sendmail_Model", "SendmailModel");
+
+        return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
+    }
+
 }

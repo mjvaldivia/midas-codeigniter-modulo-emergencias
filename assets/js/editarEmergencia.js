@@ -191,7 +191,7 @@ var Emergencia = {};
             uploadAsync: true,
             multiple: true,
             initialCaption: "Seleccione archivos y luego presione subir",
-            allowedFileExtensions: ["doc", "docx", "xls", "xlsx", "pdf"]
+            allowedFileTypes: ['image', 'html', 'text', 'video', 'audio', 'flash', 'object']
         });
     },
     

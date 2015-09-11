@@ -139,12 +139,13 @@ var Emergencia = {};
         
         var params = $('#frmIngresoEmergencia').serialize(); 
         $.post(siteUrl+"emergencia/ingreso", params, function(data) {
-            //console.log(data);
-            if(data == 1){
+            var response = jQuery.parseJSON(data);
+            if(response.eme_ia_id > 0){
             bootbox.dialog({
                 title: "Resultado de la operacion",
-                message: 'Se ha insertado correctamente',
-               
+                message: 'Se ha insertado correctamente<br>'+
+                'Estado email: '+response.res_mail
+                    ,
                 buttons: {
                     danger: {
                         label: "Cerrar",

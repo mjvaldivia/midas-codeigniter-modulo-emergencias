@@ -26,3 +26,4 @@ function isAdmin() {
 
     return (strrpos($rolID, '27') > -1 || $cambioRapido == 1) ? 1 : 0;
 }
+

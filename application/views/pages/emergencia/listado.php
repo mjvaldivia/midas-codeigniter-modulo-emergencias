@@ -27,7 +27,11 @@
         border-radius: 4px;
     }
 </style>
-
+<div class="clearfix"></div>
+<ol class="breadcrumb">
+    <li><a href="<?= site_url() ?>">Inicio</a></li>  
+  <li class="active">Listado de emergencias</li>
+</ol>
 <form class="form-inline">
     <div class="panel panel-primary">
         <div class="panel-heading">
