@@ -129,9 +129,13 @@ class Alarma_Model extends CI_Model
             SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join alertas_vs_comunas avc
             on avc.com_ia_id = c.com_ia_id
             where avc.ala_ia_id = $ala_ia_id"); 
+            $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '".$params['iTiposEmergencias']."'");
+            
+            $tipo_emergencia = $tipo_query->result_array();
             $comunas = $comunas_query->result_array();
             
             $params['lista_comunas'] = $comunas[0]['comunas'];
+            $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
             $params['ala_ia_id'] = $ala_ia_id;
             
             
@@ -155,7 +159,7 @@ class Alarma_Model extends CI_Model
         $mensaje = "<b>SIPRESA: Revisión de Alarma</b><br><br>";
 	$mensaje .= $this->session->userdata('session_nombres').$this->session->userdata('session_idCargo')." ha registrado la alarma código : ".$params['ala_ia_id']."<br><br>";
 	$mensaje .= "Nombre de la emergencia: ".$params['iNombreEmergencia']."<br>";
-	$mensaje .= "Tipo de emergencia: ".$params['iTiposEmergencias']."<br>"; 
+	$mensaje .= "Tipo de emergencia: ".$params['tipo_emergencia']."<br>"; 
 	$mensaje .= "Lugar o dirección de la emergencia: ".$params['iLugarEmergencia']."<br>"; 
 	$mensaje .= "Comuna(s): ".$params['lista_comunas']."<br>"; 
 	$mensaje .= "Fecha de la emergencia: ".spanishDateToISO($params['fechaEmergencia'])."<br>"; 
