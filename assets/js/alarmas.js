@@ -135,7 +135,6 @@ var Alarma = {};
         var params = $('#frmIngresoAlarma').serialize(); 
         $.post(siteUrl+"alarma/guardaAlarma", params, function(data) {
             var response = jQuery.parseJSON(data);
-            console.log(response);
             if(response.ala_ia_id > 0){
             bootbox.dialog({
                 title: "Resultado de la operacion",

@@ -150,7 +150,7 @@ class Alarma_Model extends CI_Model
 	$mensaje .= "Nombre de la emergencia: ".$params['iNombreEmergencia']."<br>";
 	$mensaje .= "Tipo de emergencia: ".$params['iTiposEmergencias']."<br>"; 
 	$mensaje .= "Lugar o dirección de la emergencia: ".$params['iLugarEmergencia']."<br>"; 
-	$mensaje .= "Comunas: ".$params['lista_comunas']."<br>"; 
+	$mensaje .= "Comuna(s): ".$params['lista_comunas']."<br>"; 
 	$mensaje .= "Fecha de la emergencia: ".spanishDateToISO($params['fechaEmergencia'])."<br>"; 
 	$mensaje .= "Fecha recepción de la emergencia: ".spanishDateToISO($params['fechaRecepcion'])."<br>"; 
 	$mensaje .= "Nombre del informante: ".$params['iNombreInformante']."<br>";

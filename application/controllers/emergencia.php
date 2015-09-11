@@ -73,10 +73,7 @@ class Emergencia extends CI_Controller {
         $data["lastPage"] = "alarma/ingreso";
         $this->load->library(array("template"));
         $this->load->model("emergencia_model", "EmergenciaModel");
-        if ($res_guardar = $this->EmergenciaModel->guardarEmergencia($params)) {
-            
-        }
-        echo ($res_guardar) ? 1 : 0;
+        echo $this->EmergenciaModel->guardarEmergencia($params);
     }
     
     public function getAlarma() {
