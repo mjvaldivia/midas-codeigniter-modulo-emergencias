@@ -10,17 +10,17 @@
     }
     
     tr.odd div {
-        background-color: #CAE6C1;
+        background-color: #D0DB97;
     }
     
     tr.even div {
-        background-color: #A5DB93;
+        background-color: #E4E8CF;
     }
     
     .shadow {
-        -moz-box-shadow: 5px 5px 5px 0px #999;
-        -webkit-box-shadow: 5px 5px 5px 0px #999;
-        box-shadow: 5px 5px 5px 0px #999;
+        -moz-box-shadow: 5px 5px 5px 0px #D0DB97;
+        -webkit-box-shadow: 5px 5px 5px 0px #D0DB97;
+        box-shadow: 5px 5px 5px 0px #C0C98F;
         
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;

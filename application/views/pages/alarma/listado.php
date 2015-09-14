@@ -25,9 +25,9 @@
     }
     
     .shadow {
-        -moz-box-shadow: 5px 5px 5px 0px #999;
-        -webkit-box-shadow: 5px 5px 5px 0px #999;
-        box-shadow: 5px 5px 5px 0px #999;
+        -moz-box-shadow: 5px 5px 5px 0px #3B9DFF;
+        -webkit-box-shadow: 5px 5px 5px 0px #3B9DFF;
+        box-shadow: 5px 5px 5px 0px #3B9DFF;
         
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
