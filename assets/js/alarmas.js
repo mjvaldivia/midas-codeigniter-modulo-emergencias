@@ -70,8 +70,40 @@ var Alarma = {};
             
             json.columns[0]["mRender"] = function(data, type, row) {
                 var html = "";
+                var clase = '';
+                console.log(row);
+                switch(parseInt(row.tip_ia_id)){
+                    case 1:
+                    case 2: clase = 'incendio';
+                        break;
+                    case 3: clase ='quimico';
+                        break;
+                    case 4: clase ='meteorologico';
+                        break;
+                    case 5: clase ='sismo';
+                        break;
+                    case 6: clase ='tsunami';
+                        break;
+                    case 7: clase ='volcan';
+                        break;
+                    case 8: clase ='sequias';
+                        break;
+                    case 9: 
+                    case 10:clase ='accidente';
+                        break;
+                    case 11:clase ='terrorista';
+                    case 12:
+                    case 13:
+                    case 15: clase ='salud';
+                        break;
+                    case 14: clase ='otro';
+                        break;
+
+                }
+                
+                var html = "";
                 html += "<div class=\"col-md-12 shadow\" style=\"padding: 10px;\">";
-                html += "    <div class=\"col-md-2 text-center\"><img src=\"" + baseUrl + "assets/img/incendio_ico.png\"/></div>";
+                html += "    <div class=\"col-md-2 text-center\"><div class='"+clase+"'/></div></div>";
                 html += "    <div class=\"col-md-8\">";
                 html += "        <div class=\"form-group col-md-12\">";
                 html += "            <label for=\"\" class=\"col-md-4 control-label\">Fecha de la emergencia:</label>";
