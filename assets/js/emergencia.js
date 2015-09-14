@@ -100,8 +100,9 @@ var Emergencia = {};
                         break;
                     case 11:clase ='terrorista';
                     case 12:
-                    case 13:
-                    case 15: clase ='salud';
+                    case 13:clase ='salud';
+                    break;
+                    case 15: clase ='radiologica';
                         break;
                     case 14: clase ='otro';
                         break;

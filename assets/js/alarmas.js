@@ -73,7 +73,7 @@ var Alarma = {};
                 var clase = '';
                 console.log(row);
                 switch(parseInt(row.tip_ia_id)){
-                    case 1:
+ case 1:
                     case 2: clase = 'incendio';
                         break;
                     case 3: clase ='quimico';
@@ -93,8 +93,9 @@ var Alarma = {};
                         break;
                     case 11:clase ='terrorista';
                     case 12:
-                    case 13:
-                    case 15: clase ='salud';
+                    case 13:clase ='salud';
+                    break;
+                    case 15: clase ='radiologica';
                         break;
                     case 14: clase ='otro';
                         break;

@@ -239,3 +239,11 @@ html {
     height: 115px;
     width: 115px;   
 }
+.radiologica{
+    background-image: url('../img/radiactivo_ico.png');
+    background-size: 115px 115px;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    height: 115px;
+    width: 115px;   
+}

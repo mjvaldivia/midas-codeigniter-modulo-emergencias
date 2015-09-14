@@ -10,11 +10,11 @@
     }
     
     tr.odd div {
-        background-color: #FFD4D4;
+        background-color: #CAE6C1;
     }
     
     tr.even div {
-        background-color: #FFADAD;
+        background-color: #A5DB93;
     }
     
     .shadow {
