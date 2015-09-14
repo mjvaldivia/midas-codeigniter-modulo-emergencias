@@ -232,7 +232,7 @@ html {
     width: 115px;   
 }
 .otro{
-    //background-image: url('../img/salud_ico.png');
+    background-image: url('../img/otros_ico.png');
     background-size: 115px 115px;
     background-repeat: no-repeat;
     border-radius: 5px;
