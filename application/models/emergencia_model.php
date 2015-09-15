@@ -277,10 +277,16 @@ class Emergencia_Model extends CI_Model {
         $mensaje .= "<b>Teléfono del informante:</b> " . $params['iTelefonoInformante'] . "<br><br>";
         $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
 
-        $to = 'rukmini.tonacca@redsalud.gov.cl';
+        //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
         $subject = "SIPRESA: Confirmación de una situación de emergencia";
 
+        $qry = "select group_concat(usu_c_email SEPARATOR ',') lista from usuarios where UPPER(usu_b_email_emergencias) = 'SI' and est_ia_id = 1";
+        
+        $result = $this->db->query($qry);
+        
+        $row = $result->result_array();
+        $to = $row[0]['lista'];
 
         $this->load->model("Sendmail_Model", "SendmailModel");
 
