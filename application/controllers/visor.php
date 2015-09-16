@@ -49,4 +49,15 @@ class Visor extends CI_Controller
 
         echo json_encode(array("uploaded" => true));
     }
+    
+    public function getReporte($id_emergencia = null){
+            ini_set('memory_limit','32M');
+   // $html = $this->load->view('pdf_report', $data, true); // render the view into HTML
+     
+    $this->load->library('pdf');
+    $pdf = $this->pdf->load();
+    $pdf->SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}|'.date()); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
+    $pdf->WriteHTML('blablabal'); // write the HTML into the PDF
+    $pdf->Output('acta.pdf', 'I');
+    }
 }

@@ -170,10 +170,16 @@ class Alarma_Model extends CI_Model
 	$mensaje .= "<br><img src='".  base_url('assets/img/logoseremi.png')  ."' alt='Seremi' title='Seremi'></img><br>";
 	
 	//$to = 'rukmini.tonacca@redsalud.gov.cl';
-	$to = 'vladimir@cosof.cl';
+	//$to = 'vladimir@cosof.cl';
 	$subject = "SIPRESA: Revisión de Alarma";
 	
-
+        $qry = "select group_concat(usu_c_email SEPARATOR ',') lista from usuarios where UPPER(usu_b_email_emergencias) = 'SI' and est_ia_id = 1";
+        
+        $result = $this->db->query($qry);
+        
+        $row = $result->result_array();
+        $to = $row[0]['lista'];
+        
         $this->load->model("Sendmail_Model", "SendmailModel");
 	
         return $this->SendmailModel->emailSend($to,null,null, $subject, $mensaje);
