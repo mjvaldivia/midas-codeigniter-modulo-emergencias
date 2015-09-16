@@ -150,3 +150,7 @@ html {
     display: inline-block;
     z-index: 10000000; 
 }
+
+.dataTables_wrapper div.separator {
+    margin-bottom: 10px;
+}

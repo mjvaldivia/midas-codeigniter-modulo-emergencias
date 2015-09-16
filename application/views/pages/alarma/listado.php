@@ -87,7 +87,7 @@
             </table>
         </div>
     </div>
-</div>
+</form>
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>

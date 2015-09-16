@@ -103,7 +103,23 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="#">Coberturas</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Capas <b class="caret"></b></a>
+                            <ul class="dropdown-menu navbar-inverse">
+                                <li>
+                                    <a href="<?= site_url("capas/ingreso") ?>">
+                                        <i class="fa fa-plus"></i>
+                                        Ingreso Capa
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= site_url("capas") ?>">
+                                        <i class="fa fa-list"></i>
+                                        Listado Capas
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Emergencia <b class="caret"></b></a>
                             <ul class="dropdown-menu navbar-inverse">
@@ -186,6 +202,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         Utils.listenerCambioRapido();
+        Utils.toggleNavbarMethod();
+        $(window).resize(Utils.toggleNavbarMethod);
     });
 </script>
 </body>
