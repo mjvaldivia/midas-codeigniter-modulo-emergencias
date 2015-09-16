@@ -4,7 +4,7 @@ var rename = require("gulp-rename");
 var css = require("gulp-minify-css");
 
 gulp.task("js", function() {
-    gulp.src(["assets/**/*.js", "!assets/**/*.min.js", "!*lib*"])
+    gulp.src(["assets/**/*.js", "!assets/**/*.min.js", "!assets/lib/**/*"])
         .pipe(uglify())
         .pipe(rename({
             extname: ".min.js"
