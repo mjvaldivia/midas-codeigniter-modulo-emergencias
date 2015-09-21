@@ -115,22 +115,31 @@ var VisorMapa = {
         });
     };
 
+    var drawPointsIns = function() {
+
+    };
+
     this.constructControlIns = function() {
         var self = this;
+
+        $('#tblTiposIns tfoot th').each(function () {
+            var title = $('#tblTiposIns thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" class="form-control" placeholder="' + title + '" />');
+        });
 
         var table = $("#tblTiposIns").DataTable({
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
             },
             ajax: {
-                url: siteUrl + "instalacion/obtenerJsonTipos",
+                url: siteUrl + "instalacion/obtenerJsonDtTipos",
                 type: "GET",
                 async: true
             },
             columns: [
                 {
                     mRender: function(data, type, row) {
-                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" type="checkbox"/>';
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox"/>';
                     }
                 },
                 { data: "amb_c_nombre" },
@@ -139,12 +148,35 @@ var VisorMapa = {
             pagingType: "simple"
         });
 
+        $("#tblTiposIns").on("init.dt", function(evt, settings, json) {
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+
         $("#ctrlIns").click(function () {
             $("#mMaestroInstalaciones").modal("show");
         });
 
         $("#btnCargarIns").click(function () {
-            self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=eleam");
+            var params = {};
+            params.idEmergencia = $("#hIdEmergencia").val();
+            params.tiposIns = [];
+
+            var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
+            for (var i = 0; i < checkboxs.length; i++) {
+                params.tiposIns.push(checkboxs[i].value);
+            }
+
+            $.post(siteUrl + "instalacion/obtenerJsonCoordsTipIns", params).done(drawPointsIns.bind(this));
             $("#mMaestroInstalaciones").modal("hide");
         });
     };
@@ -333,7 +365,6 @@ var VisorMapa = {
             var infoWindow = new google.maps.InfoWindow({
                 content: event.featureData.infoWindowHtml
             });
-            console.log(event);
             infoWindow.setPosition(event.latLng);
             infoWindow.open(self.map);
         });
@@ -411,7 +442,7 @@ var VisorMapa = {
             map: this.map,
             radius: parseInt(radio),
             fillColor: "#FF0000",
-            center: { lat: this.emergencyMarker.position.G , lng: this.emergencyMarker.position.K }
+            center: this.emergencyMarker.getPosition()
         });
 
         var infoWindow = new google.maps.InfoWindow({

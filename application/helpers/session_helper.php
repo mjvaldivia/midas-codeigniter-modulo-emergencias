@@ -11,10 +11,15 @@ function sessionValidation()
     $ci =& get_instance();
     $ci->load->helper(array("url", "debug"));
 
+    $url = "http://asdigital.minsal.cl/acceso";
+
     $sessionId = $ci->session->userdata('session_idUsuario');
 
     if(empty($sessionId)) {
-        redirect("http://asdigital.minsal.cl/acceso");
+        if ($ci->input->is_ajax_request())
+            show_error("Su sesión ha expirado", 401, "Error");
+        else
+            redirect($url);
     }
 }
 

@@ -203,6 +203,7 @@
     $(document).ready(function() {
         Utils.listenerCambioRapido();
         Utils.toggleNavbarMethod();
+        Utils.ajaxRequestMonitor();
         $(window).resize(Utils.toggleNavbarMethod);
     });
 </script>

@@ -56,7 +56,7 @@ class Emergencia extends CI_Controller {
     public function rechaza() {
         $this->load->helper(array("session", "debug"));
         sessionValidation();
-        $params = $this->input->post();
+        $params = $this->input->post(null, true);
         $this->load->library(array("template"));
         $this->load->model("emergencia_model", "EmergenciaModel");
         if ($res_guardar = $this->EmergenciaModel->rechazaEmergencia($params)) {
@@ -83,7 +83,7 @@ class Emergencia extends CI_Controller {
     public function ingreso() {
         $this->load->helper(array("session", "debug"));
         sessionValidation();
-        $params = $this->input->post();
+        $params = $this->input->post(null, true);
         $data = array();
         $data["lastPage"] = "alarma/ingreso";
         $this->load->library(array("template"));
@@ -162,7 +162,7 @@ class Emergencia extends CI_Controller {
     public function editarEmergencia() { //edicion de una emergencia
         $this->load->helper(array("session", "debug"));
         sessionValidation();
-        $params = $this->input->post();
+        $params = $this->input->post(null, true);
         $this->load->model("emergencia_model", "EmergenciaModel");
         $res = $this->EmergenciaModel->editarEmergencia($params);
         return ($res)?1:0;

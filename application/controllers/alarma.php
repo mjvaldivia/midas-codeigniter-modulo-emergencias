@@ -36,7 +36,7 @@ class Alarma extends CI_Controller {
         }
         $this->load->helper(array("session", "debug"));
         sessionValidation();
-        $params = $this->input->post();
+        $params = $this->input->post(null, true);
         $data = array();
         $data["lastPage"] = "alarma/ingreso";
         $this->load->library(array("template",'parser'));

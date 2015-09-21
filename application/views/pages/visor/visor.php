@@ -6,6 +6,7 @@
     }
 </style>
 
+<input type="hidden" id="hIdEmergencia" name="hIdEmergencia" value="<?= $emergencia["eme_ia_id"] ?>"/>
 
 <input id="input-buscador-mapa" class="map-controls" type="text" placeholder="Buscador de dirección"/>
 <div id="capture"></div>
@@ -97,21 +98,21 @@
                 <div class="table-responsive">
                     <table id="tblTiposIns" class="table table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th></th>
-                                <th>Ámbito</th>
-                                <th>Tipo de instalación</th>
-                            </tr>
+                        <tr>
+                            <th></th>
+                            <th>Ámbito</th>
+                            <th>Tipo de instalación</th>
+                        </tr>
                         </thead>
                         <tbody></tbody>
                         <tfoot>
-                            <tr>
-                                <th></th>
-                                <th>Ámbito</th>
-                                <th>Tipo de instalación</th>
-                            </tr>
+                        <tr>
+                            <td></td>
+                            <th>Ámbito</th>
+                            <th>Tipo de instalación</th>
+                        </tr>
                         </tfoot>
-                    </table>                
+                    </table>
                 </div>
             </div>
             <div class="modal-footer">

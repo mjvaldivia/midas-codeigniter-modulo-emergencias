@@ -189,6 +189,7 @@
                 initialCaption: "Seleccione KML",
                 allowedFileExtensions: ["kml","kmz"]
             });
+            Utils.ajaxRequestMonitor();
         });
     </script>
 </body>
