@@ -40,51 +40,57 @@ var Utils = {};
                 });
         });
     };
-    
-    this.validaForm = function(form_id) {
+
+    this.validaForm = function (form_id) {
         $(".has-error").removeClass("has-error");
         var bien = true;
         var message = '';
         var campos = '';
-        if($('#'+form_id).length==0)
+        if ($('#' + form_id).length == 0)
             return false;
-        
-        $.each($('#'+form_id+' .required'), function (i, obj) {
-        
-                    var tipo = $(obj).get(0).tagName;
-                    var id = $(obj).attr('id');
-                    
-                    
-                    if(tipo=='SELECT'){
-                        if($('#'+id+' :selected').length<1 || $('#'+id+' :selected').val()==0) {
-                          $('#'+id).closest("div").addClass("has-error");  bien = false;
-                          campos += "<i class='fa fa-caret-right'></i>";
-                          campos += "&nbsp;"+$('#'+id).attr('placeholder')+"<br/>";
-                        }}
-                    if(tipo=='INPUT'){
-                        if($('#'+id).val()=='') {
-                          $('#'+id).closest("div").addClass("has-error"); bien = false; 
-                          campos += "<i class='fa fa-caret-right'></i>";
-                          campos += "&nbsp;"+$('#'+id).attr('placeholder')+"<br/>";
-                        }}
-                    if(tipo=='TEXTAREA'){
-                        if($('#'+id).val()=='') {
-                          $('#'+id).closest("div").addClass("has-error"); bien = false; 
-                          campos += "<i class='fa fa-caret-right'></i>";
-                          campos += "&nbsp;"+$('#'+id).attr('placeholder')+"<br/>";
-                        }}
-                    
-                    
-                });
-                
+
+        $.each($('#' + form_id + ' .required'), function (i, obj) {
+
+            var tipo = $(obj).get(0).tagName;
+            var id = $(obj).attr('id');
+
+
+            if (tipo == 'SELECT') {
+                if ($('#' + id + ' :selected').length < 1 || $('#' + id + ' :selected').val() == 0) {
+                    $('#' + id).closest("div").addClass("has-error");
+                    bien = false;
+                    campos += "<i class='fa fa-caret-right'></i>";
+                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                }
+            }
+            if (tipo == 'INPUT') {
+                if ($('#' + id).val() == '') {
+                    $('#' + id).closest("div").addClass("has-error");
+                    bien = false;
+                    campos += "<i class='fa fa-caret-right'></i>";
+                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                }
+            }
+            if (tipo == 'TEXTAREA') {
+                if ($('#' + id).val() == '') {
+                    $('#' + id).closest("div").addClass("has-error");
+                    bien = false;
+                    campos += "<i class='fa fa-caret-right'></i>";
+                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                }
+            }
+
+
+        });
+
         if (!bien) {
             message += "<span>";
-            
+
             message += "Favor, asegúrese de llenar campos obligatorios.<br/>";
-            message +=campos;
+            message += campos;
             message += "</span>";
 
-           bootbox.dialog({
+            bootbox.dialog({
                 title: "Error",
                 message: message,
                 buttons: {
@@ -96,6 +102,19 @@ var Utils = {};
             });
         }
         return bien;
+    };
+
+    this.toggleNavbarMethod = function () {
+        if ($(window).width() > 768) {
+            $('.navbar .dropdown').on('mouseover', function(){
+                $('.dropdown-toggle', this).trigger('click');
+            }).on('mouseout', function(){
+                $('.dropdown-toggle', this).trigger('click').blur();
+            });
+        }
+        else {
+            $('.navbar .dropdown').off('mouseover').off('mouseout');
+        }
     };
     
 }).apply(Utils);

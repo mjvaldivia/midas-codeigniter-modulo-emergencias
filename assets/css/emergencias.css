@@ -151,6 +151,10 @@ html {
     z-index: 10000000; 
 }
 
+.dataTables_wrapper div.separator {
+    margin-bottom: 10px;
+}
+
 .incendio{
     background-image: url('../img/incendio_ico.png');
     background-size: 115px 115px;
