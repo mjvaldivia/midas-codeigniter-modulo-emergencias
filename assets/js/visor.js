@@ -1,6 +1,3 @@
-/* global siteUrl */
-/* global baseUrl */
-/* global Utils */
 var VisorMapa = {
     map: null,
     canvas: null,
