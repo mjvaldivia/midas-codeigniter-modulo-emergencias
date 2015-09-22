@@ -6,13 +6,42 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Emergencia_Model extends CI_Model {
+class Emergencia_Model extends CI_Model
+{
 
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
 
-    public function guardarEmergencia($params) {
+    public function obtenerLimitesVisor($params) {
+        $resultados = array();
+
+        if (!array_key_exists("id", $params)) return $resultados;
+
+        $sql = "
+          select
+            c.com_c_xmin,
+            c.com_c_ymin,
+            c.com_c_xmax,
+            c.com_c_ymax,
+            c.com_c_geozone
+          from
+            emergencias_vs_comunas ec
+            inner join comunas c on ec.com_ia_id = c.com_ia_id
+          where
+            ec.eme_ia_id = ?
+        ";
+
+        $query = $this->db->query($sql, array($params["id"]));
+
+        if ($query->num_rows() > 0)
+            $resultados = $query->result_array();
+
+        return $resultados;
+    }
+
+    public function guardarEmergencia($params)
+    {
 
         $this->load->helper('utils');
         $res = array();
@@ -61,25 +90,24 @@ class Emergencia_Model extends CI_Model {
             $comunas_query = $this->db->query("
             SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join emergencias_vs_comunas evc
             on evc.com_ia_id = c.com_ia_id
-            where evc.eme_ia_id = $eme_ia_id"); 
+            where evc.eme_ia_id = $eme_ia_id");
             $comunas = $comunas_query->result_array();
-            
+
             $params['lista_comunas'] = $comunas[0]['comunas'];
         }
         if ($query) {
             $this->db->query("
                 UPDATE alertas SET est_ia_id = $this->activado WHERE ala_ia_id = '" . $params['ala_ia_id'] . "'");
             $params['eme_ia_id'] = $eme_ia_id;
-            $res['res_mail'] = ($this->enviaMsjEmergencia($params))? 'enviado correctamente': 'error al enviar';
+            $res['res_mail'] = ($this->enviaMsjEmergencia($params)) ? 'enviado correctamente' : 'error al enviar';
         }
-        $res['eme_ia_id']= $eme_ia_id;
-         
-         return json_encode($res);
+        $res['eme_ia_id'] = $eme_ia_id;
+
+        return json_encode($res);
     }
 
-    public function getAlarma($params) {
-
-
+    public function getAlarma($params)
+    {
         $sql = "
             select
                 a.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
@@ -104,7 +132,8 @@ class Emergencia_Model extends CI_Model {
         echo json_encode($resultados);
     }
 
-    function revisaEstado($params) {
+    function revisaEstado($params)
+    {
 
         $sql = "
             select
@@ -123,7 +152,8 @@ class Emergencia_Model extends CI_Model {
         return $resultados;
     }
 
-    public function filtrarEmergencias($params) {
+    public function filtrarEmergencias($params)
+    {
         $mapeo = array(
             "tipoEmergencia" => "e.tip_ia_id",
             "anio" => "year(e.eme_d_fecha_emergencia)"
@@ -159,7 +189,8 @@ class Emergencia_Model extends CI_Model {
         return $resultados;
     }
 
-    public function getEmergencia($id) {
+    public function getEmergencia($id)
+    {
         $sql = "
             select
                 e.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
@@ -185,7 +216,8 @@ class Emergencia_Model extends CI_Model {
         return $resultados;
     }
 
-    public function getJsonEmergencia($params) {
+    public function getJsonEmergencia($params)
+    {
 
 
         $sql = "
@@ -214,7 +246,8 @@ class Emergencia_Model extends CI_Model {
         echo json_encode($resultados);
     }
 
-    public function editarEmergencia($params) {
+    public function editarEmergencia($params)
+    {
 
         $this->load->helper('utils');
 
@@ -254,7 +287,8 @@ class Emergencia_Model extends CI_Model {
         return $query;
     }
 
-    public function rechazaEmergencia($params) {
+    public function rechazaEmergencia($params)
+    {
 
 
         $query = $this->db->query("
@@ -262,11 +296,12 @@ class Emergencia_Model extends CI_Model {
         return $query;
     }
 
-    public function enviaMsjEmergencia($params) {
+    public function enviaMsjEmergencia($params)
+    {
 
         $this->load->helper('utils');
         $mensaje = "<b>SIPRESA: Confirmación de una situación de emergencia</b><br><br>";
-        $mensaje .= "Se ha activado la emergencia código ".$params['eme_ia_id']."<br><br>";
+        $mensaje .= "Se ha activado la emergencia código " . $params['eme_ia_id'] . "<br><br>";
         $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['iNombreEmergencia'] . "<br>";
         $mensaje .= "<b>Tipo de emergencia:</b> " . $params['iTiposEmergencias'] . "<br>";
         $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['iLugarEmergencia'] . "<br>";
@@ -275,16 +310,16 @@ class Emergencia_Model extends CI_Model {
         $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fechaRecepcion']) . "<br>";
         $mensaje .= "<b>Nombre del informante:</b> " . $params['iNombreInformante'] . "<br>";
         $mensaje .= "<b>Teléfono del informante:</b> " . $params['iTelefonoInformante'] . "<br><br>";
-        $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
+        $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'/><br>";
 
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
         $subject = "SIPRESA: Confirmación de una situación de emergencia";
 
         $qry = "select group_concat(usu_c_email SEPARATOR ',') lista from usuarios where UPPER(usu_b_email_emergencias) = 'SI' and est_ia_id = 1";
-        
+
         $result = $this->db->query($qry);
-        
+
         $row = $result->result_array();
         $to = $row[0]['lista'];
 

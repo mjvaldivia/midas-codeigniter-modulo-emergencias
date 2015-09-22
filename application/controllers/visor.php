@@ -7,7 +7,8 @@
  */
 class Visor extends CI_Controller
 {
-    public function index() {
+    public function index()
+    {
         // load basicos
         $this->load->library("template");
         $this->load->helper(array("session", "debug", "utils"));
@@ -28,13 +29,14 @@ class Visor extends CI_Controller
         $this->template->parse("visor", "pages/visor/visor", $data);
     }
 
-    public function subirKML() {
+    public function subirKML()
+    {
         // load basicos
         $this->load->helper(array("session", "debug"));
 
         sessionValidation();
 
-        if (!array_key_exists("input-kml", $_FILES)){
+        if (!array_key_exists("input-kml", $_FILES)) {
             show_error("No se han detectado archivos", 500, "Error interno");
         }
 
@@ -49,18 +51,19 @@ class Visor extends CI_Controller
 
         echo json_encode(array("uploaded" => true));
     }
-    
-    public function getReporte($id_emergencia = null){
+
+    public function getReporte($id_emergencia = null)
+    {
         $this->load->library("template");
         $this->load->helper("session");
-            ini_set('memory_limit','32M');
-    $data['eme_ia_id'] = 2;        
-    $html = $this->load->view('pages/emergencia/editarEmergencia', $data, true); // render the view into HTML
-     
-    $this->load->library('pdf');
-    $pdf = $this->pdf->load();
-    $pdf->SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}|'.date()); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
-    $pdf->WriteHTML($html); // write the HTML into the PDF
-    $pdf->Output('acta.pdf', 'I');
+        ini_set('memory_limit', '32M');
+        $data['eme_ia_id'] = 2;
+        $html = $this->load->view('pages/emergencia/editarEmergencia', $data, true); // render the view into HTML
+
+        $this->load->library('pdf');
+        $pdf = $this->pdf->load();
+        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date()); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
+        $pdf->WriteHTML($html); // write the HTML into the PDF
+        $pdf->Output('acta.pdf', 'I');
     }
 }

@@ -17,7 +17,7 @@ gulp.task("js", function() {
 });
 
 gulp.task("css", function() {
-    gulp.src(["assets/**/*.css", "!assets/**/*.min.css"])
+    gulp.src(["assets/**/*.css", "!assets/**/*.min.css", "!assets/lib/**/*"])
         .pipe(css())
         .pipe(rename({
             extname: ".min.css"

@@ -335,6 +335,7 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/extensions/Insensitive/dataTables.insensitive.js") ?>
 
+<?= loadJS("assets/js/geo-encoder.js") ?>
 <?= loadJS("assets/js/visor.js") ?>
 
 <script type="text/javascript">
