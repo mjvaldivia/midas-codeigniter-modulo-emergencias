@@ -8,8 +8,20 @@ if (!defined("BASEPATH"))
 
 class Emergencia extends CI_Controller {
 
-    public function generaEmergencia() {
+    public function obtenerJsonLimitesVisor() {
+        $params = $this->uri->uri_to_assoc();
 
+        $this->load->helper("session");
+
+        sessionValidation();
+
+        $this->load->model("emergencia_model", "EmergenciaModel");
+
+        $limites = $this->EmergenciaModel->obtenerLimitesVisor($params);
+        echo json_encode($limites);
+    }
+
+    public function generaEmergencia() {
         $params = $this->uri->uri_to_assoc();
         if (!file_exists(APPPATH . "/views/pages/emergencia/generaEmergencia.php")) {
             show_404();

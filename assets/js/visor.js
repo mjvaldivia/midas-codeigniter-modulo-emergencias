@@ -14,15 +14,37 @@ var VisorMapa = {
         rectangles: [],
         polylines: [],
         polygons: [],
-        markers: []
+        markers: [],
+        facility: []
     },
     otherInfoListener: null,
     iteracionTemporal: 1
 };
 
 (function() {
+    var opciones = null;
+
     this.init = function(opciones) {
-        var self = this;
+        this.opciones = opciones;
+        $.get(siteUrl + "emergencia/obtenerJsonLimitesVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
+    };
+
+    this.makeMap = function(data) {
+        var json = JSON.parse(data);
+        var bounds = new google.maps.LatLngBounds();
+
+        for (var i = 0; i < json.length; i++) {
+            var c = json[i];
+
+            if (!c.com_c_xmin || !c.com_c_ymin || !c.com_c_xmax || !c.com_c_ymax ) continue;
+
+            var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmin), parseFloat(c.com_c_ymin), c.com_c_geozone);
+            bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+
+            latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
+            bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+        }
+
 
         this.canvas = $("#mapa").get(0);
         $(window).resize(this.detectHeight.bind(this));
@@ -37,6 +59,7 @@ var VisorMapa = {
         this.detectHeight.call(this);
 
         this.map = new google.maps.Map(this.canvas, opcionesFinales);
+        this.map.fitBounds(bounds);
 
         this.makeSearchBox.call(this);
         this.makeEmergencyDrawManager.call(this);
@@ -115,8 +138,17 @@ var VisorMapa = {
         });
     };
 
-    var drawPointsIns = function() {
-
+    var drawPointsIns = function(data) {
+        var json = JSON.parse(data);
+        for (var i = 0; i < json.length; i++) {
+            var instalacion = json[i];
+            if (!instalacion.ins_c_latitud || !instalacion.ins_c_longitud) continue;
+            var punto = new google.maps.Marker({
+                position: { lat: parseFloat(instalacion.ins_c_latitud), lng: parseFloat(instalacion.ins_c_longitud) },
+                map: this.map,
+                title: instalacion.ins_c_razon_social + " - " + instalacion.ins_c_nombre_fantasia
+            });
+        }
     };
 
     this.constructControlIns = function() {
@@ -176,7 +208,7 @@ var VisorMapa = {
                 params.tiposIns.push(checkboxs[i].value);
             }
 
-            $.post(siteUrl + "instalacion/obtenerJsonCoordsTipIns", params).done(drawPointsIns.bind(this));
+            $.post(siteUrl + "instalacion/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
             $("#mMaestroInstalaciones").modal("hide");
         });
     };
@@ -486,3 +518,4 @@ var VisorMapa = {
         $("#mOtrosEmergencias").modal("hide");
     };
 }).apply(VisorMapa);
+

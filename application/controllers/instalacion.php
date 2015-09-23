@@ -32,7 +32,7 @@ class Instalacion extends CI_Controller {
         echo json_encode(array("data" => $retorno));
     }
 
-    public function obtenerJsonCoordsTipIns() {
+    public function obtenerJsonInsSegunTipIns() {
         $this->load->helper("session");
 
         sessionValidation();
@@ -40,6 +40,8 @@ class Instalacion extends CI_Controller {
         $this->load->model("instalacion_model", "InstalacionModel");
         $params = $this->input->post(null, true);
 
+        $coords = $this->InstalacionModel->obtenerInsSegunTipIns($params);
 
+        echo json_encode($coords);
     }
 }
