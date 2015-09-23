@@ -185,18 +185,20 @@ class Emergencia_Model extends CI_Model {
         return $resultados;
     }
 
-    public function getJsonEmergencia($params) {
+    public function getJsonEmergencia($params,$json = true) {
 
-
+        $this->load->helper("utils");
         $sql = "
             select
                 e.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
                 GROUP_CONCAT(evc.com_ia_id) comunas,
+                GROUP_CONCAT(c.com_c_nombre) nombre_comunas,
                 te.aux_c_nombre as tipo_emergencia
             from
               emergencias e join usuarios u on e.usu_ia_id = u.usu_ia_id
               inner join auxiliar_emergencias_tipo te on e.tip_ia_id = te.aux_ia_id
               join emergencias_vs_comunas evc on e.eme_ia_id = evc.eme_ia_id
+              join comunas c on c.com_ia_id = evc.com_ia_id
             where e.eme_ia_id = ?";
 
         $query = $this->db->query($sql, array($params['id']));
@@ -206,12 +208,19 @@ class Emergencia_Model extends CI_Model {
             $resultados = $query->result_array();
 
             $resultados = $resultados[0];
-
-            $resultados['eme_d_fecha_emergencia'] = ISODateTospanish($resultados['eme_d_fecha_emergencia']);
+            
+            $resultados['hora_emergencia'] = ISOTimeTospanish($resultados['eme_d_fecha_recepcion']);
+            $resultados['hora_recepcion'] = ISOTimeTospanish($resultados['eme_d_fecha_recepcion']);
+            
+            $resultados['eme_d_fecha_emergencia'] = ISODateTospanish($resultados['eme_d_fecha_emergencia'],false);
             $resultados['eme_d_fecha_recepcion'] = ISODateTospanish($resultados['eme_d_fecha_recepcion']);
+            
         }
 
-        echo json_encode($resultados);
+        if($json)
+            echo json_encode($resultados);
+        else 
+            return $resultados;
     }
 
     public function editarEmergencia($params) {
