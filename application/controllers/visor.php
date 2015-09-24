@@ -66,7 +66,7 @@ class Visor extends CI_Controller
     //print_r($html);die;
     $this->load->library('pdf');
     $pdf = $this->pdf->load();
-    $pdf->SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}|'.date('d-m-Y')); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
+    $pdf->SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}/{nb}|'.date('d-m-Y')); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
     $pdf->WriteHTML($html); // write the HTML into the PDF
     $pdf->Output('acta.pdf', 'I');
 
