@@ -8,7 +8,7 @@ if (!defined("BASEPATH"))
 
 class Emergencia extends CI_Controller {
 
-    public function obtenerJsonLimitesVisor() {
+    public function obtenerJsonEmergenciaVisor() {
         $params = $this->uri->uri_to_assoc();
 
         $this->load->helper("session");
@@ -17,8 +17,11 @@ class Emergencia extends CI_Controller {
 
         $this->load->model("emergencia_model", "EmergenciaModel");
 
-        $limites = $this->EmergenciaModel->obtenerLimitesVisor($params);
-        echo json_encode($limites);
+        $retorno = array();
+
+        $retorno["coordinates"] = $this->EmergenciaModel->obtenerLimitesVisor($params);
+
+        echo json_encode($retorno);
     }
 
     public function generaEmergencia() {
