@@ -146,6 +146,9 @@
             <a id="ctrlLayers" href="#" title="Capas" class="btn btn-primary pull-right">
                 <i class="fa fa-clone"></i>
             </a>
+            <a id="ctrlSave" href="#" title="Guardar" class="btn btn-primary pull-right">
+                <i class="fa fa-floppy-o"></i>
+            </a>
         </div>
     </div>
     <div class="main col-md-12 col-xs-12">

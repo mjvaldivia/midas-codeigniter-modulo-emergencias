@@ -61,6 +61,7 @@ var VisorMapa = {
         this.constructControlIns.call(this);
         this.constructControlLayer.call(this);
         this.constructControlInfo.call(this);
+        this.constructControlSave.call(this);
 
         // definimos el comportamiento de estilo
         this.map.data.setStyle(function(feature){
@@ -94,7 +95,13 @@ var VisorMapa = {
             infoWindow.open(self.map) ;
         });
         
-            
+        var params = 'id='+$("#hIdEmergencia").val();
+        var self = this;
+          $.post(siteUrl + "visor/loadGeoJson", params).done(function(response){
+              if(response!=0)
+                self.map.data.loadGeoJson(baseUrl+''+response);  
+          });  
+         
     };
 
     this.constructControlInfo = function() {
@@ -118,6 +125,21 @@ var VisorMapa = {
                     context.otherInfoListener = listener;
                 })(self, btn, polygon);
             }
+        });
+    };
+    this.constructControlSave = function() {
+        var self = this;
+        $("#ctrlSave").click(function() {
+            self.map.data.toGeoJson(function (data) {
+               var json_string = JSON.stringify(data);
+               var params = "id="+$("#hIdEmergencia").val()+"&geoJson="+json_string;
+               $.post(siteUrl + "visor/saveGeoJson", params).done(
+                       
+                        );
+               
+               
+            });
+            
         });
     };
 
@@ -610,7 +632,7 @@ var VisorMapa = {
         $("#mOtrosEmergencias").modal("hide");
     };
 
-    var CIRCLE_VERTEX_NUM = 1800;
+    var CIRCLE_VERTEX_NUM = 360;
 
     var generateCircleVertex = function(circle) {
         var vertex = [[]];
@@ -623,5 +645,6 @@ var VisorMapa = {
         }
         return vertex;
     }
+    
 }).apply(VisorMapa);
 
