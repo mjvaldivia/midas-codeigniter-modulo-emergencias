@@ -23,7 +23,7 @@
     <?= loadJS("assets/js/loading.js") ?>
 
     <?php //google maps API ?>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
 
     <style type="text/css">
         li a.seccion {

@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label class="col-md-6 control-label">Indique metros:</label>
                             <div class="col-md-2">
-                                <input id="iRadioEmergencia" name="iRadioEmergencia" class="form-control" value="0"></input>
+                                <input id="iRadioEmergencia" name="iRadioEmergencia" class="form-control" value="0"/>
                             </div>
                         </div>
                     </div>

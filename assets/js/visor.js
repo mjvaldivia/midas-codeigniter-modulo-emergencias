@@ -3,22 +3,11 @@ var VisorMapa = {
     canvas: null,
     
     emergencyDrawingManager: null,
-    emergencyMarker: null,
-    emergencyRadius: null,
-
     otherDrawingManager: null,
+
     otherControlColor: null,
     otherControlSelected: null,
-    otherFeatures: {
-        circles: [],
-        rectangles: [],
-        polylines: [],
-        polygons: [],
-        markers: [],
-        facility: []
-    },
-    otherInfoListener: null,
-    iteracionTemporal: 1
+    otherInfoListener: null
 };
 
 (function() {
@@ -67,6 +56,28 @@ var VisorMapa = {
         this.constructControlIns.call(this);
         this.constructControlLayer.call(this);
         this.constructControlInfo.call(this);
+
+        // definimos el comportamiento de estilo
+        this.map.data.setStyle(function(feature){
+            var color = null;
+            var retorno = {};
+
+            if (feature.getProperty("fillColor")) {
+                color = feature.getProperty("color");
+                retorno.fillOpacity = 0.3;
+                retorno.fillColor = feature.getProperty("fillColor");
+            }
+
+            if (feature.getProperty("strokeColor")) {
+                retorno.strokeColor = feature.getProperty("strokeColor");
+            }
+
+            if (feature.getProperty("icon")) {
+                retorno.icon = feature.getProperty("icon");
+            }
+
+            return retorno;
+        });
     };
 
     this.constructControlInfo = function() {
@@ -268,11 +279,16 @@ var VisorMapa = {
 
             if(event.type == google.maps.drawing.OverlayType.MARKER) {
                 var marker = event.overlay;
-
-                self.emergencyMarker = marker;
-                self.emergencyMarker.addListener("click", function(event) {
-                    infoWindow.open(self.map, self.emergencyMarker);
+                var point = new google.maps.Data.Feature({
+                    geometry: new google.maps.Data.Point(marker.getPosition()),
+                    properties: {
+                        type: "LUGAR_EMERGENCIA",
+                        icon: "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi.png",
+                        infoWindow: "Lugar de la emergencia"
+                    }
                 });
+                self.map.data.add(point);
+                marker.setMap(null);
 
                 $('#mRadioEmergencia').modal('show');
                 $("#iRadioEmergencia").closest("div").removeClass("has-error");
@@ -333,37 +349,74 @@ var VisorMapa = {
         }
 
         google.maps.event.addListener(this.otherDrawingManager, 'overlaycomplete', function(event) {
+
+            // capturamos el control dibujado mediante drawing manager y lo borramos para agregar
+            // nuestra propia featuyre con metadata
             var componente = event.overlay;
-
-            var infoWindow = new google.maps.InfoWindow({
-                content: self.otherControlSelected.title
-            });
-
-            var poligonos = [
-                google.maps.drawing.OverlayType.POLYGON,
-                google.maps.drawing.OverlayType.CIRCLE,
-                google.maps.drawing.OverlayType.RECTANGLE
-            ];
-
-            if(poligonos.indexOf(event.type) != -1) {
-                componente.addListener("click", function(event) {
-                    infoWindow.setPosition(event.latLng);
-                    infoWindow.open(self.map);
-                });
-            }
+            componente.setMap(null);
 
             switch(event.type) {
-                case google.maps.drawing.OverlayType.POLYGON:
-                    self.otherFeatures.polygons.push(componente);
-                    break;
-                case google.maps.drawing.OverlayType.CIRCLE:
-                    self.otherFeatures.circles.push(componente);
-                    break;
                 case google.maps.drawing.OverlayType.POLYLINE:
-                    self.otherFeatures.polylines.push(componente);
+                    var vertex = [];
+                    for (var i = 0; i < componente.getPath().getLength(); i++) {
+                        var obj = componente.getPath().getAt(i);
+                        vertex.push(obj);
+                    }
+                    var polygon = new google.maps.Data.Feature({
+                        geometry: new google.maps.Data.LineString(vertex),
+                        properties: {
+                            strokeColor: self.otherControlColor,
+                            type: "POLYLINE"
+                        }
+                    });
+                    self.map.data.add(polygon);
+                    break;
+                case google.maps.drawing.OverlayType.POLYGON:
+                    var vertex = [[]];
+                    for (var i = 0; i < componente.getPath().getLength(); i++) {
+                        var obj = componente.getPath().getAt(i);
+                        vertex[0].push(obj);
+                    }
+                    var polygon = new google.maps.Data.Feature({
+                        geometry: new google.maps.Data.Polygon(vertex),
+                        properties: {
+                            fillColor: self.otherControlColor,
+                            type: "POLYGON"
+                        }
+                    });
+                    self.map.data.add(polygon);
+                    break;
+
+                case google.maps.drawing.OverlayType.CIRCLE:
+                    var vertex = generateCircleVertex(componente);
+                    var polygon = new google.maps.Data.Feature({
+                        geometry: new google.maps.Data.Polygon(vertex),
+                        properties: {
+                            fillColor: self.otherControlColor,
+                            type: "CIRCLE"
+                        }
+                    });
+                    self.map.data.add(polygon);
                     break;
                 case google.maps.drawing.OverlayType.RECTANGLE:
-                    self.otherFeatures.rectangles.push(componente);
+                    var vertex = [];
+                    vertex.push([]);
+
+                    var bounds = componente.getBounds();
+                    vertex[0].push(bounds.getNorthEast());
+                    vertex[0].push({lat: bounds.getSouthWest().lat(), lng: bounds.getNorthEast().lng()});
+                    vertex[0].push(bounds.getSouthWest());
+                    vertex[0].push({lat: bounds.getNorthEast().lat(), lng: bounds.getSouthWest().lng()});
+
+                    var polygon = new google.maps.Data.Feature({
+                        geometry: new google.maps.Data.Polygon(vertex),
+                        properties: {
+                            fillColor: self.otherControlColor,
+                            type: "RECTANGLE"
+                        }
+                    });
+                    self.map.data.add(polygon);
+
                     break;
                 case google.maps.drawing.OverlayType.MARKER:
                     self.otherFeatures.markers.push(componente);
@@ -517,5 +570,19 @@ var VisorMapa = {
 
         $("#mOtrosEmergencias").modal("hide");
     };
+
+    var CIRCLE_VERTEX_NUM = 1800;
+
+    var generateCircleVertex = function(circle) {
+        var vertex = [[]];
+        var degreeStep = 360 / CIRCLE_VERTEX_NUM;
+        var latLng = null;
+
+        for (var i = 0; i < CIRCLE_VERTEX_NUM; i++) {
+            latLng = google.maps.geometry.spherical.computeOffset(circle.getCenter(), circle.getRadius(), degreeStep * i);
+            vertex[0].push(latLng);
+        }
+        return vertex;
+    }
 }).apply(VisorMapa);
 
