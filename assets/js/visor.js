@@ -18,7 +18,7 @@ var VisorMapa = {
 
     this.init = function(opciones) {
         this.opciones = opciones;
-        $.get(siteUrl + "emergencia/obtenerJsonLimitesVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
+        $.get(siteUrl + "emergencia/obtenerJsonEmergenciaVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
     };
 
     this.makeMap = function(data) {
@@ -26,8 +26,8 @@ var VisorMapa = {
         var json = JSON.parse(data);
         var bounds = new google.maps.LatLngBounds();
 
-        for (var i = 0; i < json.length; i++) {
-            var c = json[i];
+        for (var i = 0; i < json.coordinates.length; i++) {
+            var c = json.coordinates[i];
 
             if (!c.com_c_xmin || !c.com_c_ymin || !c.com_c_xmax || !c.com_c_ymax ) continue;
 
