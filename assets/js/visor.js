@@ -84,14 +84,17 @@ var VisorMapa = {
             return retorno;
         });
         this.map.data.addListener("click", function(event) {
+            
+
+            if (!event.feature.getProperty("infoWindow")) return;
             var infoWindow = new google.maps.InfoWindow({
                 content: event.feature.getProperty("infoWindow"),
                 position: event.latLng
             });
-
-            if (!event.feature.getProperty("infoWindow")) return;
             infoWindow.open(self.map) ;
         });
+        
+            
     };
 
     this.constructControlInfo = function() {
