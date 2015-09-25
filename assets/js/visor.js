@@ -22,6 +22,7 @@ var VisorMapa = {
     };
 
     this.makeMap = function(data) {
+        var self = this;
         var json = JSON.parse(data);
         var bounds = new google.maps.LatLngBounds();
 
@@ -80,6 +81,15 @@ var VisorMapa = {
             }
 
             return retorno;
+        });
+        this.map.data.addListener("click", function(event) {
+            var infoWindow = new google.maps.InfoWindow({
+                content: event.feature.getProperty("infoWindow"),
+                position: event.latLng
+            });
+
+            if (!event.feature.getProperty("infoWindow")) return;
+            infoWindow.open(self.map) ;
         });
     };
 
@@ -272,6 +282,11 @@ var VisorMapa = {
 
         google.maps.event.addListener(this.emergencyDrawingManager, 'overlaycomplete', function(event) {
             if(event.type == google.maps.drawing.OverlayType.MARKER) {
+                if (self.emergencyMarker) {
+                    self.map.data.remove(self.emergencyMarker);
+                    if (self.emergencyRadius) self.map.data.remove(self.emergencyRadius);
+                }
+
                 var marker = event.overlay;
                 marker.setMap(null);
 
@@ -363,7 +378,8 @@ var VisorMapa = {
                         geometry: new google.maps.Data.LineString(vertex),
                         properties: {
                             strokeColor: self.otherControlColor,
-                            type: "POLYLINE"
+                            type: "POLYLINE",
+                            infoWindow: self.otherControlSelected.title
                         }
                     });
                     self.map.data.add(polygon);
@@ -378,7 +394,8 @@ var VisorMapa = {
                         geometry: new google.maps.Data.Polygon(vertex),
                         properties: {
                             fillColor: self.otherControlColor,
-                            type: "POLYGON"
+                            type: "POLYGON",
+                            infoWindow: self.otherControlSelected.title
                         }
                     });
                     self.map.data.add(polygon);
@@ -390,7 +407,8 @@ var VisorMapa = {
                         geometry: new google.maps.Data.Polygon(vertex),
                         properties: {
                             fillColor: self.otherControlColor,
-                            type: "CIRCLE"
+                            type: "CIRCLE",
+                            infoWindow: self.otherControlSelected.title
                         }
                     });
                     self.map.data.add(polygon);
@@ -409,7 +427,8 @@ var VisorMapa = {
                         geometry: new google.maps.Data.Polygon(vertex),
                         properties: {
                             fillColor: self.otherControlColor,
-                            type: "RECTANGLE"
+                            type: "RECTANGLE",
+                            infoWindow: self.otherControlSelected.title
                         }
                     });
                     self.map.data.add(polygon);
