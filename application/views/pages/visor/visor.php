@@ -58,19 +58,19 @@
                             <label class="col-md-offset-1 col-md-3 control-label">Color</label>
                             <div class="col-md-6">
                                 <div id="botoneraColorControl" class="btn-group" role="group">
-                                    <a class="btn bg-color1">
+                                    <a class="btn bg-color1" data-color="black">
                                         <i></i>
                                     </a>
-                                    <a class="btn bg-color2">
+                                    <a class="btn bg-color2" data-color="pink">
                                         <i></i>
                                     </a>
-                                    <a class="btn bg-color3">
+                                    <a class="btn bg-color3" data-color="green">
                                         <i></i>
                                     </a>
-                                    <a class="btn bg-color4">
+                                    <a class="btn bg-color4" data-color="yellow">
                                         <i></i>
                                     </a>
-                                    <a class="btn bg-color5">
+                                    <a class="btn bg-color5" data-color="blue">
                                         <i></i>
                                     </a>
                                 </div>
