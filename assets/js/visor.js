@@ -9,6 +9,7 @@ var VisorMapa = {
     otherDrawingManager: null,
 
     otherControlColor: null,
+    otherControlDataColor: null,
     otherControlSelected: null,
     otherInfoListener: null
 };
@@ -435,7 +436,16 @@ var VisorMapa = {
 
                     break;
                 case google.maps.drawing.OverlayType.MARKER:
-                    self.otherFeatures.markers.push(componente);
+                   // console.log(componente.getPosition());
+                    var point = new google.maps.Data.Feature({
+                    geometry: new google.maps.Data.Point(componente.getPosition()),
+                    properties: {
+                        type: "PUNTO",
+                        icon: baseUrl+"assets/img/spotlight-poi-"+self.otherControlDataColor+".png",
+                        infoWindow: self.otherControlSelected.title
+                    }
+                });
+                self.map.data.add(point);
                     break;
             }
 
@@ -449,6 +459,7 @@ var VisorMapa = {
             $(this).find("i").addClass("fa fa-check-circle-o");
             $(this).addClass("selected");
             self.otherControlColor = Utils.rgb2hex($(this).css("background-color"));
+            self.otherControlDataColor = $(this).attr("data-color");
         });
     };
 
