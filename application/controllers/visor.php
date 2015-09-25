@@ -84,13 +84,4 @@ class Visor extends CI_Controller
         
         
     }
-    
-    public function loadGeoJson(){
-        $this->load->library("template");
-        $this->load->helper("session");
-        $this->load->model("archivo_model", "ArchivoModel");
-        $id = $this->input->post('id');
-        $res = $this->ArchivoModel->loadGeoJson($id);
-        echo $res['arch_c_nombre'];
-    }
 }

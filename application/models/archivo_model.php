@@ -3,13 +3,15 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Archivo_Model extends CI_Model {
+class Archivo_Model extends CI_Model
+{
 
     public $TIPO_EMERGENCIA = 5;
     public $TIPO_GEOJSON = 6;
     public $DOC_FOLDER = 'media/doc/';
 
-    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null) {
+    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null)
+    {
 
         // var_dump($tmp_name);die;
         header('Content-type: application/json');
@@ -49,7 +51,8 @@ class Archivo_Model extends CI_Model {
         return json_encode($arr_res);
     }
 
-    public function setURLFile($id_entidad = null, $tipo = null) {
+    public function setURLFile($id_entidad = null, $tipo = null)
+    {
 
         if ($id_entidad == null)
             return false;
@@ -72,12 +75,14 @@ class Archivo_Model extends CI_Model {
             return false;
     }
 
-    public function sanitize_filename($filename = null) {
+    public function sanitize_filename($filename = null)
+    {
         $filename = preg_replace("([^\w\s\d\~,;:\[\]\(\).])", '_', $filename);
         return $filename = preg_replace("([\.]{2,})", '', $filename);
     }
 
-    public function file_to_bd($url = null, $filename = null, $mimetype = null, $tipo = null, $id_entidad = null, $size = null) {
+    public function file_to_bd($url = null, $filename = null, $mimetype = null, $tipo = null, $id_entidad = null, $size = null)
+    {
 
         $this->load->helper("session");
 
@@ -120,7 +125,8 @@ class Archivo_Model extends CI_Model {
             return false;
     }
 
-    function get_docs($id_entidad, $jsoneado = true, $tipo = null) {
+    function get_docs($id_entidad, $jsoneado = true, $tipo = null)
+    {
 
         if ($tipo == null) {
             return array();
@@ -165,14 +171,16 @@ class Archivo_Model extends CI_Model {
             return $arr_arch;
     }
 
-    function get_file_from_key($k) {
+    function get_file_from_key($k)
+    {
         $sql = "select * from archivo where arch_c_hash='$k'";
         $result = $this->db->query($sql);
         $row = $result->result_array();
         return $row[0];
     }
 
-    function descargar($k = null) {
+    function descargar($k = null)
+    {
         if ($k != null) {
             $archivo = $this->get_file_from_key($k);
 
@@ -189,7 +197,8 @@ class Archivo_Model extends CI_Model {
             return false;
     }
 
-    function setTemporaryGeoJson($id, $geoJson) {
+    function setTemporaryGeoJson($id, $geoJson)
+    {
 
         $filename = 'geoJson.json';
         $mimetype = 'application/octect-stream';
@@ -206,25 +215,26 @@ class Archivo_Model extends CI_Model {
             fwrite($fp, $geoJson);
             fclose($fp);
             $arr_res = array('error' => 0,
-            'k' => $existente['arch_c_hash'],
-            'filename' => $existente['arch_c_nombre']
-        );
-        echo json_encode($arr_res);
+                'k' => $existente['arch_c_hash'],
+                'filename' => $existente['arch_c_nombre']
+            );
+            echo json_encode($arr_res);
         }
 
-        
 
-        
     }
 
-    function loadGeoJson($id) {
+    function loadGeoJson($params)
+    {
+        if (!array_key_exists("id", $params)) return 0;
+        $id = $params["id"];
 
         $sql = "select a.* from archivo a join archivo_vs_emevisor ave on ave.arch_ia_id = a.arch_ia_id where ave.eme_ia_id = $id order by a.arch_ia_id desc limit 1";
         $result = $this->db->query($sql);
         if ($row = $result->result_array()) {
             return $row[0];
         } else
-            echo 0;
+            return [];
     }
 
 }

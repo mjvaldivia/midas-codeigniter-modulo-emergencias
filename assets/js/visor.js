@@ -92,16 +92,10 @@ var VisorMapa = {
                 content: event.feature.getProperty("infoWindow"),
                 position: event.latLng
             });
-            infoWindow.open(self.map) ;
+            infoWindow.open(self.map);
         });
-        
-        var params = 'id='+$("#hIdEmergencia").val();
-        var self = this;
-          $.post(siteUrl + "visor/loadGeoJson", params).done(function(response){
-              if(response!=0)
-                self.map.data.loadGeoJson(baseUrl+''+response);  
-          });  
-         
+
+        if (json.geojson) self.map.data.loadGeoJson(json.geojson);
     };
 
     this.constructControlInfo = function() {
@@ -446,8 +440,7 @@ var VisorMapa = {
                     self.map.data.add(polygon);
                     break;
                 case google.maps.drawing.OverlayType.RECTANGLE:
-                    var vertex = [];
-                    vertex.push([]);
+                    var vertex = [[]];
 
                     var bounds = componente.getBounds();
                     vertex[0].push(bounds.getNorthEast());
@@ -467,16 +460,15 @@ var VisorMapa = {
 
                     break;
                 case google.maps.drawing.OverlayType.MARKER:
-                   // console.log(componente.getPosition());
                     var point = new google.maps.Data.Feature({
-                    geometry: new google.maps.Data.Point(componente.getPosition()),
-                    properties: {
-                        type: "PUNTO",
-                        icon: baseUrl+"assets/img/spotlight-poi-"+self.otherControlDataColor+".png",
-                        infoWindow: self.otherControlSelected.title
-                    }
-                });
-                self.map.data.add(point);
+                        geometry: new google.maps.Data.Point(componente.getPosition()),
+                        properties: {
+                            type: "PUNTO",
+                            icon: baseUrl + "assets/img/spotlight-poi-" + self.otherControlDataColor + ".png",
+                            infoWindow: self.otherControlSelected.title
+                        }
+                    });
+                    self.map.data.add(point);
                     break;
             }
 
