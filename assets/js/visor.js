@@ -95,7 +95,7 @@ var VisorMapa = {
             infoWindow.open(self.map);
         });
 
-        if (json.geojson) self.map.data.loadGeoJson(json.geojson);
+        if (json.geojson!=0) self.map.data.loadGeoJson(json.geojson);
     };
 
     this.constructControlInfo = function() {

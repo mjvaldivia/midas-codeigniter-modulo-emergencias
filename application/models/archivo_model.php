@@ -199,10 +199,11 @@ class Archivo_Model extends CI_Model
 
     function setTemporaryGeoJson($id, $geoJson)
     {
-
-        $filename = 'geoJson.json';
+        $params = array();
+        $params['id']= $id;
+        $filename = 'geoJson.geojson';
         $mimetype = 'application/octect-stream';
-        $existente = $this->loadGeoJson($id);
+        $existente = $this->loadGeoJson($params);
         if ($existente == 0) {
             $tmp_name = tempnam(sys_get_temp_dir(), uniqid());
             $fp = fopen($tmp_name, 'w');
@@ -234,7 +235,7 @@ class Archivo_Model extends CI_Model
         if ($row = $result->result_array()) {
             return $row[0];
         } else
-            return [];
+            return 0;
     }
 
 }
