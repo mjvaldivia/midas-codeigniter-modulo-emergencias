@@ -167,11 +167,17 @@ var VisorMapa = {
         for (var i = 0; i < json.length; i++) {
             var instalacion = json[i];
             if (!instalacion.ins_c_latitud || !instalacion.ins_c_longitud) continue;
-            var punto = new google.maps.Marker({
-                position: { lat: parseFloat(instalacion.ins_c_latitud), lng: parseFloat(instalacion.ins_c_longitud) },
-                map: this.map,
-                title: instalacion.ins_c_razon_social + " - " + instalacion.ins_c_nombre_fantasia
+
+            var point = new google.maps.Data.Feature({
+                geometry: new google.maps.Data.Point({ lat: parseFloat(instalacion.ins_c_latitud), lng: parseFloat(instalacion.ins_c_longitud) }),
+                properties: {
+                    type: "INSTALACION",
+                    icon: "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi.png",
+                    infoWindow: instalacion.ins_c_razon_social + " - " + instalacion.ins_c_nombre_fantasia
+                }
             });
+
+            this.map.data.add(point);
         }
     };
 
@@ -302,7 +308,7 @@ var VisorMapa = {
                 self.map.data.add(point);
                 self.emergencyMarker = point;
 
-                $('#mRadioEmergencia').modal('show');
+                $("#mRadioEmergencia").modal("show");
                 $("#iRadioEmergencia").closest("div").removeClass("has-error");
             }
             $("#ctrlDrawOFF").click();
