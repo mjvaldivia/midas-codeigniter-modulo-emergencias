@@ -52,18 +52,23 @@ class Visor extends CI_Controller
         echo json_encode(array("uploaded" => true));
     }
 
-    public function getReporte($id_emergencia = null)
-    {
+    
+    public function getReporte(){
         $this->load->library("template");
         $this->load->helper("session");
-        ini_set('memory_limit', '32M');
-        $data['eme_ia_id'] = 2;
-        $html = $this->load->view('pages/emergencia/editarEmergencia', $data, true); // render the view into HTML
+            ini_set('memory_limit','32M');
+    $this->load->model("emergencia_model", "EmergenciaModel");
+    $params = $this->uri->uri_to_assoc();
+    //var_dump($params);
+    $data =  $this->EmergenciaModel->getJsonEmergencia($params,false);
+    //var_dump($data);die;
+    $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
+    //print_r($html);die;
+    $this->load->library('pdf');
+    $pdf = $this->pdf->load();
+    $pdf->SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}/{nb}|'.date('d-m-Y')); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
+    $pdf->WriteHTML($html); // write the HTML into the PDF
+    $pdf->Output('acta.pdf', 'I');
 
-        $this->load->library('pdf');
-        $pdf = $this->pdf->load();
-        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}|' . date()); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
-        $pdf->WriteHTML($html); // write the HTML into the PDF
-        $pdf->Output('acta.pdf', 'I');
     }
 }
