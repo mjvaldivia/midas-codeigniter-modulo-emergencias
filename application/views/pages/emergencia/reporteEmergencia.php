@@ -9,8 +9,8 @@
         border: 1px solid black;
     }
     td, th{
-       // border: 1px solid black;
-        // background-color: #CFC378;
+       /* border: 1px solid black;*/
+        /* background-color: #CFC378;*/
         font-weight: normal;
         text-align: left;
         padding : 10px;

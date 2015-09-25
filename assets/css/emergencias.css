@@ -130,7 +130,7 @@ html {
    text-align: center;
     z-index: 100000000; 
     background-color: black;
-    //opacity: 0.1;
+  
     color:black;
     font-size: 12px;
     
@@ -172,7 +172,7 @@ html {
     width: 115px;   
 }
 .meteorologico{
-   // background-image: url('../img/quimico_ico.png');
+   /* background-image: url('../img/quimico_ico.png');*/
     background-size: 115px 115px;
     background-repeat: no-repeat;
     border-radius: 5px;
@@ -180,7 +180,7 @@ html {
     width: 115px;   
 }
 .sismo{
-   // background-image: url('../img/quimico_ico.png');
+   /* background-image: url('../img/quimico_ico.png');*/
     background-size: 115px 115px;
     background-repeat: no-repeat;
     border-radius: 5px;
@@ -188,7 +188,7 @@ html {
     width: 115px;   
 }
 .tsunami{
-   // background-image: url('../img/quimico_ico.png');
+   /* background-image: url('../img/quimico_ico.png');*/
     background-size: 115px 115px;
     background-repeat: no-repeat;
     border-radius: 5px;
@@ -196,7 +196,7 @@ html {
     width: 115px;   
 }
 .volcan{
-   // background-image: url('../img/quimico_ico.png');
+   /* background-image: url('../img/quimico_ico.png');*/
     background-size: 115px 115px;
     background-repeat: no-repeat;
     border-radius: 5px;
@@ -204,7 +204,7 @@ html {
     width: 115px;   
 }
 .sequia{
-   // background-image: url('../img/quimico_ico.png');
+   /* background-image: url('../img/quimico_ico.png');*/
     background-size: 115px 115px;
     background-repeat: no-repeat;
     border-radius: 5px;
