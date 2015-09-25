@@ -95,7 +95,7 @@ var VisorMapa = {
             infoWindow.open(self.map);
         });
 
-        if (json.geojson!=0) self.map.data.loadGeoJson(json.geojson);
+        if (json.geojson) self.map.data.loadGeoJson(json.geojson);
     };
 
     this.constructControlInfo = function() {
@@ -121,19 +121,28 @@ var VisorMapa = {
             }
         });
     };
-    this.constructControlSave = function() {
+
+    this.constructControlSave = function () {
         var self = this;
-        $("#ctrlSave").click(function() {
-            self.map.data.toGeoJson(function (data) {
-               var json_string = JSON.stringify(data);
-               var params = "id="+$("#hIdEmergencia").val()+"&geoJson="+json_string;
-               $.post(siteUrl + "visor/saveGeoJson", params).done(
-                       
-                        );
-               
-               
+        $("#ctrlSave").click(function () {
+            // variable para separar
+            var geojson = {
+                type: "FeatureCollection",
+                features: []
+            };
+            self.map.data.toGeoJson(function(json) {
+                for (var i = 0; i < json.features.length; i++) {
+                    var feature = json.features[i];
+                    if (!feature.properties.midas) continue;
+
+                    geojson.features.push(feature);
+                }
+
+                var json_string = JSON.stringify(geojson);
+                var params = "id=" + $("#hIdEmergencia").val() + "&geoJson=" + json_string;
+                $.post(siteUrl + "visor/saveGeoJson", params).done();
             });
-            
+
         });
     };
 
@@ -163,19 +172,13 @@ var VisorMapa = {
             $("#mCapas").modal("show");
         });
 
+        self.iteracionTemporal = 1;
         $("#btnCargarCapas").click(function () {
+
             if (self.iteracionTemporal == 1) {
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=bodegas_quimico");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=quimicas");
-            } else if (self.iteracionTemporal == 2) {
-                //self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=manzanas");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=hospitales");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=atencion_primaria");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=centros_salud");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=servicentros");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=jardines");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=instalaciones_quimicas");
-                self.loadKML("http://ssrv.cl/emergencias_test/kml.php?name=liceos_colegios");
+
+                //self.map.data.loadGeoJson(baseUrl + "kml/manzanas.json");
+                self.map.data.loadGeoJson("https://storage.googleapis.com/maps-devrel/google.json");
             }
             self.iteracionTemporal++;
             $("#mCapas").modal("hide");
@@ -192,8 +195,9 @@ var VisorMapa = {
                 geometry: new google.maps.Data.Point({ lat: parseFloat(instalacion.ins_c_latitud), lng: parseFloat(instalacion.ins_c_longitud) }),
                 properties: {
                     type: "INSTALACION",
-                    icon: "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi.png",
-                    infoWindow: instalacion.ins_c_razon_social + " - " + instalacion.ins_c_nombre_fantasia
+                    icon: baseUrl + "img/spotlight-poi.png",
+                    infoWindow: instalacion.ins_c_razon_social + " - " + instalacion.ins_c_nombre_fantasia,
+                    midas: true
                 }
             });
 
@@ -321,7 +325,8 @@ var VisorMapa = {
                     properties: {
                         type: "LUGAR_EMERGENCIA",
                         icon: "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi.png",
-                        infoWindow: "Lugar de la emergencia"
+                        infoWindow: "Lugar de la emergencia",
+                        midas: true
                     }
                 });
 
@@ -405,7 +410,8 @@ var VisorMapa = {
                         properties: {
                             strokeColor: self.otherControlColor,
                             type: "POLYLINE",
-                            infoWindow: self.otherControlSelected.title
+                            infoWindow: self.otherControlSelected.title,
+                            midas: true
                         }
                     });
                     self.map.data.add(polygon);
@@ -421,7 +427,8 @@ var VisorMapa = {
                         properties: {
                             fillColor: self.otherControlColor,
                             type: "POLYGON",
-                            infoWindow: self.otherControlSelected.title
+                            infoWindow: self.otherControlSelected.title,
+                            midas: true
                         }
                     });
                     self.map.data.add(polygon);
@@ -434,7 +441,8 @@ var VisorMapa = {
                         properties: {
                             fillColor: self.otherControlColor,
                             type: "CIRCLE",
-                            infoWindow: self.otherControlSelected.title
+                            infoWindow: self.otherControlSelected.title,
+                            midas: true
                         }
                     });
                     self.map.data.add(polygon);
@@ -453,7 +461,8 @@ var VisorMapa = {
                         properties: {
                             fillColor: self.otherControlColor,
                             type: "RECTANGLE",
-                            infoWindow: self.otherControlSelected.title
+                            infoWindow: self.otherControlSelected.title,
+                            midas: true
                         }
                     });
                     self.map.data.add(polygon);
@@ -465,7 +474,8 @@ var VisorMapa = {
                         properties: {
                             type: "PUNTO",
                             icon: baseUrl + "assets/img/spotlight-poi-" + self.otherControlDataColor + ".png",
-                            infoWindow: self.otherControlSelected.title
+                            infoWindow: self.otherControlSelected.title,
+                            midas: true
                         }
                     });
                     self.map.data.add(point);
@@ -586,7 +596,8 @@ var VisorMapa = {
             properties: {
                 fillColor: "#FF0000",
                 type: "RADIO_EMERGENCIA",
-                infoWindow: "Radio de la emergencia"
+                infoWindow: "Radio de la emergencia",
+                midas: true
             }
         });
         this.map.data.add(polygon);
