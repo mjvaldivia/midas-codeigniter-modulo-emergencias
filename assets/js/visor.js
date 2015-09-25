@@ -1,6 +1,9 @@
 var VisorMapa = {
     map: null,
     canvas: null,
+
+    emergencyMarker: null,
+    emergencyRadius: null,
     
     emergencyDrawingManager: null,
     otherDrawingManager: null,
@@ -268,17 +271,10 @@ var VisorMapa = {
         });
 
         google.maps.event.addListener(this.emergencyDrawingManager, 'overlaycomplete', function(event) {
-            if (self.emergencyMarker) {
-                self.emergencyMarker.setMap(null);
-                if (self.emergencyRadius) self.emergencyRadius.setMap(null);
-            }
-
-            var infoWindow = new google.maps.InfoWindow({
-                content: "Lugar de la emergencia"
-            });
-
             if(event.type == google.maps.drawing.OverlayType.MARKER) {
                 var marker = event.overlay;
+                marker.setMap(null);
+
                 var point = new google.maps.Data.Feature({
                     geometry: new google.maps.Data.Point(marker.getPosition()),
                     properties: {
@@ -287,8 +283,9 @@ var VisorMapa = {
                         infoWindow: "Lugar de la emergencia"
                     }
                 });
+
                 self.map.data.add(point);
-                marker.setMap(null);
+                self.emergencyMarker = point;
 
                 $('#mRadioEmergencia').modal('show');
                 $("#iRadioEmergencia").closest("div").removeClass("has-error");
@@ -523,21 +520,24 @@ var VisorMapa = {
 
         if (radio === 0) return true;
 
-        this.emergencyRadius = new google.maps.Circle({
-            map: this.map,
+        var tmpCircle = new google.maps.Circle({
+            map: null,
             radius: parseInt(radio),
             fillColor: "#FF0000",
-            center: this.emergencyMarker.getPosition()
+            center: this.emergencyMarker.getGeometry().get()
         });
 
-        var infoWindow = new google.maps.InfoWindow({
-            content: "Radio de la emergencia"
+        var vertex = generateCircleVertex(tmpCircle);
+        var polygon = new google.maps.Data.Feature({
+            geometry: new google.maps.Data.Polygon(vertex),
+            properties: {
+                fillColor: "#FF0000",
+                type: "RADIO_EMERGENCIA",
+                infoWindow: "Radio de la emergencia"
+            }
         });
-
-        this.emergencyRadius.addListener("click", function(event) {
-            infoWindow.setPosition(event.latLng);
-            infoWindow.open(this.map);
-        });
+        this.map.data.add(polygon);
+        this.emergencyRadius = polygon;
     };
 
     var emergencyOtherReceiver = function() {
