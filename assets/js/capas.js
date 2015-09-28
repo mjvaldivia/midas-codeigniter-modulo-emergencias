@@ -16,18 +16,56 @@ var Layer = {};
     this.initSave = function() {
         $("#input-icon").fileinput({
             language: "es",
-            uploadUrl: siteUrl + "capas/subirCapa",
+            multiple: false,
             uploadAsync: true,
-            initialCaption: "Seleccione icono",
-            previewSettings: {
-                image: {
-                    width: "auto", height: "160px"
-                }
-            },
-            showClose: false,
-            previewClass: "small"
+            initialCaption: "Seleccione Icono",
+            allowedFileTypes: ['image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
+            uploadUrl: siteUrl + "archivo/subir/"
         });
+        
 
-        $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas");
+        $("#input-capa").fileinput({
+            language: "es",
+            multiple: true,
+            uploadAsync: true,
+            initialCaption: "Seleccione una o varias capas GeoJson",
+            uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
+        });
+        
+        
+        
+        $('#input-capa').on('filebatchuploadsuccess', function(event, data) {
+           
+           var properties = data.response.properties.data;
+           var filename = data.response.filenames.data;
+            $('#tabla_propiedades').DataTable().destroy();
+            $('#tabla_comunas').DataTable().destroy();
+            
+            $('#tabla_propiedades').DataTable({
+                data: properties,
+                language: {
+                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                },
+                order: [[0, "desc"]],
+                initComplete: function(){$('#div_properties').slideDown('slow');}
+                
+            }); 
+            $('#tabla_comunas').DataTable({
+                data: filename,
+                language: {
+                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                },
+                order: [[0, "desc"]],
+                initComplete: function(){
+                    $(".iComunas").jCombo(siteUrl + "session/obtenerJsonComunas");
+                    
+                    $('#div_comunas').slideDown('slow');
+                }
+                
+            }); 
+        });
     };
+    
+        
+    
 }).apply(Layer);
