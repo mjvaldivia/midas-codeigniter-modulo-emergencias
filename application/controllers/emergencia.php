@@ -185,5 +185,46 @@ class Emergencia extends CI_Controller {
         $res = $this->EmergenciaModel->editarEmergencia($params);
         return ($res)?1:0;
     }
+    
+    public function subir_CapaTemp(){
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+        if (!isset($_FILES)) {
+            show_error("No se han detectado archivos", 500, "Error interno");
+        }
+
+        $this->load->model("archivo_model", "ArchivoModel");
+
+        $properties = array();
+        $arr_filename = array(); 
+        $tmp_prop_array = array();
+        $tmp_name = $_FILES['input-capa']['tmp_name'];
+        
+        foreach ($tmp_name as $tmp_name) {
+            $fp = file_get_contents($tmp_name, 'r');
+            $arr_properties =  json_decode($fp)->features[0]->properties;
+            foreach ($arr_properties as $k => $v)
+            {
+                if(in_array($k,$tmp_prop_array)) // reviso que no se me repitan las propiedades
+                { 
+                    continue;
+                }
+                $properties['data'][] = array($k,
+                                        "<input id='$k' type='checkbox' checked=checked />");
+                $tmp_prop_array[] = $k;
+            } 
+        }
+       
+        $nombres = $_FILES['input-capa']['name'];
+        
+        foreach ($nombres as $nombre) {
+                        $arr_filename['data'][] = array( 
+                        $nombre,
+                        "<select name=iComunas id=iComunas class='form-control iComunas'></select>");
+            
+        }
+        echo json_encode(array("uploaded" => true, 'properties' => $properties, 'filenames' =>$arr_filename));
+        
+    }
             
 }

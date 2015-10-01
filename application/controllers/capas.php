@@ -40,4 +40,6 @@ class Capas extends CI_Controller
 
         $this->template->parse("default", "pages/capa/ingreso", $data);
     }
+    
+    
 }
