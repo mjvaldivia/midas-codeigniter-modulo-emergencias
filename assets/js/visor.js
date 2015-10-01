@@ -199,6 +199,12 @@ var VisorMapa = {
         switch(layer) {
             case "INSTALACION":
                 obj = {
+                    mData: "id_maestro",
+                    sTitle: "ID"
+                };
+                columns.push(obj);
+                
+                obj = {
                     mData: "razon_social",
                     sTitle: "Razón Social"
                 };
@@ -319,18 +325,28 @@ var VisorMapa = {
         self.iteracionTemporal = 1;
         $("#btnCargarCapas").click(function () {
 
-            if (self.iteracionTemporal == 1) {
+            if (self.iteracionTemporal++ == 1) {
 
                 self.map.data.loadGeoJson(baseUrl + "kml/manzanas.json");
                 //self.map.data.loadGeoJson("https://storage.googleapis.com/maps-devrel/google.json");
             }
-            self.iteracionTemporal++;
             $("#mCapas").modal("hide");
+        });
+    };
+
+    var clearIns = function() {
+        var self = this;
+
+        this.map.data.forEach(function (feature) {
+            if (feature.getProperty("type") == "INSTALACION") self.map.data.remove(feature);
         });
     };
 
     var drawPointsIns = function(data) {
         var json = JSON.parse(data);
+
+        clearIns.call(this);
+
         for (var i = 0; i < json.length; i++) {
             var instalacion = json[i];
             if (!instalacion.ins_c_latitud || !instalacion.ins_c_longitud) continue;
@@ -353,6 +369,7 @@ var VisorMapa = {
                     type: "INSTALACION",
                     icon: baseUrl + "assets/img/spotlight-poi.png",
                     infoWindow: html,
+                    id_maestro: instalacion.ins_ia_id,
                     razon_social: instalacion.ins_c_razon_social,
                     nombre_fantasia: instalacion.ins_c_nombre_fantasia,
                     direccion: instalacion.ins_c_nombre_direccion + ", " +
