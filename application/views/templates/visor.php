@@ -8,15 +8,15 @@
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
 
     <?php //jquery ?>
-    <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js") ?>
-    <?= loadJS("assets/js/jquery.jcombo.js") ?>
+    <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
+    <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
 
     <?php // bootstrap ?>
-    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css") ?>
-    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js") ?>
+    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
+    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
 
     <?php //font-awesome ?>
-    <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css") ?>
+    <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
 
     <?= loadCSS("assets/css/emergencias.css") ?>
     <?= loadJS("assets/js/utils.js") ?>

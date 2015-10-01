@@ -5,13 +5,13 @@
  * Time: 11:03 AM
  */
 
-function loadJS($path)
+function loadJS($path, $cacheEnabled = false)
 {
     $ci =& get_instance();
     $ci->config->load("config");
     
     $finallyPath = $path;
-    $cache = !$ci->config->item("assets_cache") ? "?" . microtime() : "";
+    $cache = !$ci->config->item("assets_cache") && !$cacheEnabled ? "?" . microtime() : "";
     
     if (ENVIRONMENT == "production") {
         $pos = strpos($path, ".js");
@@ -25,13 +25,13 @@ function loadJS($path)
     return "<script type='text/javascript' src='$finallyPath'></script>";
 }
 
-function loadCSS($path)
+function loadCSS($path, $cacheEnabled = false)
 {
     $ci =& get_instance();
     $ci->config->load("config");
     
     $finallyPath = $path;
-    $cache = !$ci->config->item("assets_cache") ? "?" . microtime() : "";
+    $cache = !$ci->config->item("assets_cache") && !$cacheEnabled ? "?" . microtime() : "";
     
     if (ENVIRONMENT == "production") {
         $pos = strpos($path, ".css");

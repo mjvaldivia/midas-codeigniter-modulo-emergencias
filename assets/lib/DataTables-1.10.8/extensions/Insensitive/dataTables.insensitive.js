@@ -19,7 +19,7 @@ jQuery.fn.DataTable.ext.type.search.string = function (data) {
 					
 jQuery.fn.DataTable.ext.type.order["html-pre"] = function(data) {
 	if (!data || data === "-") return "";
-	data = data.replace ? data.replace(/<.*?>/g, "").toLowerCase() : a + "";
+	data = data.replace ? data.replace(/<.*?>/g, "").toLowerCase() : "";
 	data = data.replace(/á/gi, "a")
 		.replace(/é/gi, "e")
 		.replace(/í/gi, "i")
