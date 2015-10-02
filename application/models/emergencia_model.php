@@ -13,33 +13,6 @@ class Emergencia_Model extends CI_Model
     public $rechazado = 2;
     public $revision = 3;
 
-    public function obtenerLimitesVisor($params) {
-        $resultados = array();
-
-        if (!array_key_exists("id", $params)) return $resultados;
-
-        $sql = "
-          select
-            c.com_c_xmin,
-            c.com_c_ymin,
-            c.com_c_xmax,
-            c.com_c_ymax,
-            c.com_c_geozone
-          from
-            emergencias_vs_comunas ec
-            inner join comunas c on ec.com_ia_id = c.com_ia_id
-          where
-            ec.eme_ia_id = ?
-        ";
-
-        $query = $this->db->query($sql, array($params["id"]));
-
-        if ($query->num_rows() > 0)
-            $resultados = $query->result_array();
-
-        return $resultados;
-    }
-
     public function guardarEmergencia($params)
     {
 

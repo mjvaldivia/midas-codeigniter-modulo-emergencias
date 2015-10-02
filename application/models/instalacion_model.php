@@ -30,6 +30,8 @@ class Instalacion_Model extends CI_Model
           select distinct * from (
             select
               mi.*,
+              c.com_c_nombre,
+              r.reg_c_nombre,
               (
                 select
                     ti.aux_c_nombre
@@ -44,6 +46,9 @@ class Instalacion_Model extends CI_Model
             from
               maestro_instalaciones mi
               inner join instalaciones i on mi.ins_ia_id = i.mae_ia_id
+              inner join comunas c on mi.com_ia_id = c.com_ia_id
+              inner join provincias p on p.prov_ia_id = c.prov_ia_id
+              inner join regiones r on p.reg_ia_id = r.reg_ia_id
             where
               mi.com_ia_id in (" . $this->db->escape_str($comunas) . ")
           ) t where tipo_instalacion is not null

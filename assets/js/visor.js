@@ -11,7 +11,8 @@ var VisorMapa = {
     otherControlColor: null,
     otherControlDataColor: null,
     otherControlSelected: null,
-    otherInfoListener: null
+
+    otherStatusInfoControl: "off"
 };
 
 (function() {
@@ -19,7 +20,7 @@ var VisorMapa = {
 
     this.init = function(opciones) {
         this.opciones = opciones;
-        $.get(siteUrl + "emergencia/obtenerJsonEmergenciaVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
+        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
     };
 
     this.makeMap = function(data) {
@@ -58,7 +59,7 @@ var VisorMapa = {
         this.makeSearchBox.call(this);
         this.makeEmergencyDrawManager.call(this);
         this.makeOthersManager.call(this);
-        this.constructControlIns.call(this);
+        this.constructControlIns.call(this, json.facilities);
         this.constructControlLayer.call(this);
         this.constructControlInfo.call(this);
         this.constructControlSave.call(this);
@@ -85,8 +86,9 @@ var VisorMapa = {
             return retorno;
         });
         this.map.data.addListener("click", function(event) {
-            
 
+
+            if (self.otherStatusInfoControl == "on") return crossingData.call(self, event);
             if (!event.feature.getProperty("infoWindow")) return;
             var infoWindow = new google.maps.InfoWindow({
                 content: event.feature.getProperty("infoWindow"),
@@ -95,30 +97,159 @@ var VisorMapa = {
             infoWindow.open(self.map);
         });
 
-        if (json.geojson) self.map.data.loadGeoJson(json.geojson);
+        if (json.geojson)
+            this.map.data.loadGeoJson(json.geojson, null, function(features) {
+                for (var i = 0; i < features.length; i++) {
+                    var feature = features[i];
+                    if (feature.getProperty("type") == "LUGAR_EMERGENCIA") self.emergencyMarker = feature;
+                    else if (feature.getProperty("type") == "RADIO_EMERGENCIA") self.emergencyRadius = feature;
+                    //else self.map.data.remove(feature);
+                }
+            });
+    };
+
+    var crossingData = function(event) {
+        if (event.feature.getGeometry().getType() != "Polygon") return null;
+
+        var features = getDataFeatures.call(this);
+        var results = [];
+        var feature, i;
+        // truco para copiar el maps.Data.Polygon a maps.Polygon, para poder usar la librería geometry
+        var target = new google.maps.Polygon({ map: null });
+        target.setPaths(event.feature.getGeometry().getAt(0).getArray());
+
+        for (i = 0; i < features.length; i++) {
+            feature = features[i];
+            if (feature.getGeometry().getType() != "Point" || feature.getProperty("type") == "LUGAR_EMERGENCIA") continue;
+
+            if (google.maps.geometry.poly.containsLocation(feature.getGeometry().get(), target))
+                results.push(feature);
+        }
+
+        // rendering
+        var actual = null;
+        var recorridos = [];
+        var jsonDT, idTablaDT, tituloDT, contador;
+
+        for (i = 0, contador = 1; i < results.length; i++) {
+            if (recorridos.indexOf(actual) != -1) continue;
+
+            jsonDT = {};
+            jsonDT.data = [];
+            
+            actual = results[i].getProperty("type");
+
+            for (var j = i; j < results.length; j++) {
+                feature = results[j];
+                if (actual != feature.getProperty("type")) continue;
+                jsonDT.data.push(getFeatureProperties(feature));
+                jsonDT.columns = getLayerColumns(actual, getFeatureProperties(feature));
+            }
+            recorridos.push(actual);
+
+            tituloDT = "Capa " + actual;
+            idTablaDT = "crossingDT_" + (contador++);
+            
+            var html = $("#moldeCruce").html();
+            html = html.replace(/__titulo__/g, tituloDT);
+            html = html.replace(/__id_tabla__/g, idTablaDT);
+            
+            $("#mInfoContent").html("");
+            $("#mInfoContent").prepend(html);
+
+            //console.log(JSON.stringify(jsonDT));
+
+            $("#" + idTablaDT).DataTable({
+                columns: jsonDT.columns,
+                data: jsonDT.data,
+                language: {
+                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                }
+            });
+
+            $("#mInfo").modal("show");
+            $("#ctrlInfo").click(); // para que se apague
+        }
+
+        return null;
+    };
+
+    var getDataFeatures = function() {
+        var features = [];
+
+        this.map.data.forEach(function (feature) {
+            features.push(feature);
+        });
+        return features;
+    };
+
+    var getFeatureProperties = function(feature) {
+        var properties = {};
+        feature.forEachProperty(function(value, name) {
+            properties[name] = value;
+        });
+        return properties;
+    };
+    
+    var getLayerColumns = function(layer, properties) {
+        var defaultHiddenColumns = ["midas", "icon", "infoWindow", "type"];
+        var columns = [];
+        var obj;
+        
+        switch(layer) {
+            case "INSTALACION":
+                obj = {
+                    mData: "id_maestro",
+                    sTitle: "ID"
+                };
+                columns.push(obj);
+                
+                obj = {
+                    mData: "razon_social",
+                    sTitle: "Razón Social"
+                };
+                columns.push(obj);
+                
+                obj = {
+                    mData: "nombre_fantasia",
+                    sTitle: "Nombre Fantasía"
+                };
+                columns.push(obj);
+                
+                obj = {
+                    mData: "direccion",
+                    sTitle: "Dirección"
+                };
+                columns.push(obj);
+                break;
+            
+            default:
+                for (var name in properties) {
+                    if (properties.hasOwnProperty(name)) {
+                        obj = {};
+                        obj.mData = name;
+                        obj.sTitle = name;
+                        
+                        if (defaultHiddenColumns.indexOf(name) != -1) obj.bVisible = false;
+                        columns.push(obj);
+                    }
+                }
+                break;
+        }
+        return columns;
     };
 
     this.constructControlInfo = function() {
         var self = this;
         $("#ctrlInfo").click(function() {
-            var btn = this;
-            if ($(this).hasClass("btn-success")) return;
+            if ($(this).hasClass("btn-success")) {
+                $(this).removeClass("btn-success").addClass("btn-primary");
+                self.otherStatusInfoControl = "off";
+                return;
+            }
 
             $(this).removeClass("btn-primary").addClass("btn-success");
-
-            // por ahora hardcodeado a los poligonos
-            for (var i = 0; i < self.otherFeatures.polygons.length; i++) {
-                var polygon = self.otherFeatures.polygons[i];
-                (function(context, btn, polygon) {
-                    var clickHandler = function() {
-                        $("#mInfo").modal("show");
-                        google.maps.event.removeListener(context.otherInfoListener);
-                        $(btn).removeClass("btn-success").addClass("btn-primary");
-                    };
-                    var listener = polygon.addListener("click", clickHandler);
-                    context.otherInfoListener = listener;
-                })(self, btn, polygon);
-            }
+            self.otherStatusInfoControl = "on";
         });
     };
 
@@ -149,6 +280,11 @@ var VisorMapa = {
     this.constructControlLayer = function() {
         var self = this;
 
+        $('#tblCtrlCapas tfoot th').each(function () {
+            var title = $('#tblCtrlCapas thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" class="form-control" placeholder="' + title + '" />');
+        });
+
         var table = $("#tblCtrlCapas").DataTable({
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
@@ -168,6 +304,20 @@ var VisorMapa = {
             order: [[1, "asc"]]
         });
 
+        $("#tblCtrlCapas").on("init.dt", function(evt, settings, json) {
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+
         $("#ctrlLayers").click(function () {
             $("#mCapas").modal("show");
         });
@@ -175,28 +325,56 @@ var VisorMapa = {
         self.iteracionTemporal = 1;
         $("#btnCargarCapas").click(function () {
 
-            if (self.iteracionTemporal == 1) {
+            if (self.iteracionTemporal++ == 1) {
 
-                //self.map.data.loadGeoJson(baseUrl + "kml/manzanas.json");
-                self.map.data.loadGeoJson("https://storage.googleapis.com/maps-devrel/google.json");
+                self.map.data.loadGeoJson(baseUrl + "kml/manzanas.json");
+                //self.map.data.loadGeoJson("https://storage.googleapis.com/maps-devrel/google.json");
             }
-            self.iteracionTemporal++;
             $("#mCapas").modal("hide");
+        });
+    };
+
+    var clearIns = function() {
+        var self = this;
+
+        this.map.data.forEach(function (feature) {
+            if (feature.getProperty("type") == "INSTALACION") self.map.data.remove(feature);
         });
     };
 
     var drawPointsIns = function(data) {
         var json = JSON.parse(data);
+
+        clearIns.call(this);
+
         for (var i = 0; i < json.length; i++) {
             var instalacion = json[i];
             if (!instalacion.ins_c_latitud || !instalacion.ins_c_longitud) continue;
+
+            var html = $("#moldeIns").html();
+
+            html = html.replace(/__razon_social__/g, instalacion.ins_c_razon_social);
+            html = html.replace(/__nombre_fantasia__/g, instalacion.ins_c_nombre_fantasia);
+            html = html.replace(/__comuna__/g, instalacion.com_c_nombre);
+            html = html.replace(/__region__/g, instalacion.reg_c_nombre);
+            html = html.replace(/__direccion__/g,
+                instalacion.ins_c_nombre_direccion + ", " +
+                instalacion.ins_c_numero_direccion + " " +
+                instalacion.ins_c_resto_direccion + " "
+            );
 
             var point = new google.maps.Data.Feature({
                 geometry: new google.maps.Data.Point({ lat: parseFloat(instalacion.ins_c_latitud), lng: parseFloat(instalacion.ins_c_longitud) }),
                 properties: {
                     type: "INSTALACION",
-                    icon: baseUrl + "img/spotlight-poi.png",
-                    infoWindow: instalacion.ins_c_razon_social + " - " + instalacion.ins_c_nombre_fantasia,
+                    icon: baseUrl + "assets/img/spotlight-poi.png",
+                    infoWindow: html,
+                    id_maestro: instalacion.ins_ia_id,
+                    razon_social: instalacion.ins_c_razon_social,
+                    nombre_fantasia: instalacion.ins_c_nombre_fantasia,
+                    direccion: instalacion.ins_c_nombre_direccion + ", " +
+                        instalacion.ins_c_numero_direccion + " " +
+                        instalacion.ins_c_resto_direccion,
                     midas: true
                 }
             });
@@ -205,7 +383,7 @@ var VisorMapa = {
         }
     };
 
-    this.constructControlIns = function() {
+    this.constructControlIns = function(facilities) {
         var self = this;
 
         $('#tblTiposIns tfoot th').each(function () {
@@ -225,7 +403,15 @@ var VisorMapa = {
             columns: [
                 {
                     mRender: function(data, type, row) {
-                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox"/>';
+                        var checked = "";
+                        for (var i = 0; i < facilities.length; i++) {
+                            var ti = facilities[i];
+                            if (row.aux_ia_id == ti.id_tipo_ins) {
+                                checked = 'checked="true"';
+                                break;
+                            }
+                        }
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + '/>';
                     }
                 },
                 { data: "amb_c_nombre" },
@@ -262,7 +448,7 @@ var VisorMapa = {
                 params.tiposIns.push(checkboxs[i].value);
             }
 
-            $.post(siteUrl + "instalacion/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
+            $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
             $("#mMaestroInstalaciones").modal("hide");
         });
     };
@@ -324,7 +510,7 @@ var VisorMapa = {
                     geometry: new google.maps.Data.Point(marker.getPosition()),
                     properties: {
                         type: "LUGAR_EMERGENCIA",
-                        icon: "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi.png",
+                        icon: baseUrl + "assets/img/spotlight-poi.png",
                         infoWindow: "Lugar de la emergencia",
                         midas: true
                     }
@@ -397,15 +583,16 @@ var VisorMapa = {
             // nuestra propia featuyre con metadata
             var componente = event.overlay;
             componente.setMap(null);
+            var vertex, i, polygon, obj;
 
             switch(event.type) {
                 case google.maps.drawing.OverlayType.POLYLINE:
-                    var vertex = [];
-                    for (var i = 0; i < componente.getPath().getLength(); i++) {
-                        var obj = componente.getPath().getAt(i);
+                    vertex = [];
+                    for (i = 0; i < componente.getPath().getLength(); i++) {
+                        obj = componente.getPath().getAt(i);
                         vertex.push(obj);
                     }
-                    var polygon = new google.maps.Data.Feature({
+                    polygon = new google.maps.Data.Feature({
                         geometry: new google.maps.Data.LineString(vertex),
                         properties: {
                             strokeColor: self.otherControlColor,
@@ -417,12 +604,12 @@ var VisorMapa = {
                     self.map.data.add(polygon);
                     break;
                 case google.maps.drawing.OverlayType.POLYGON:
-                    var vertex = [[]];
-                    for (var i = 0; i < componente.getPath().getLength(); i++) {
-                        var obj = componente.getPath().getAt(i);
+                    vertex = [[]];
+                    for (i = 0; i < componente.getPath().getLength(); i++) {
+                        obj = componente.getPath().getAt(i);
                         vertex[0].push(obj);
                     }
-                    var polygon = new google.maps.Data.Feature({
+                    polygon = new google.maps.Data.Feature({
                         geometry: new google.maps.Data.Polygon(vertex),
                         properties: {
                             fillColor: self.otherControlColor,
@@ -435,8 +622,8 @@ var VisorMapa = {
                     break;
 
                 case google.maps.drawing.OverlayType.CIRCLE:
-                    var vertex = generateCircleVertex(componente);
-                    var polygon = new google.maps.Data.Feature({
+                    vertex = generateCircleVertex(componente);
+                    polygon = new google.maps.Data.Feature({
                         geometry: new google.maps.Data.Polygon(vertex),
                         properties: {
                             fillColor: self.otherControlColor,
@@ -448,7 +635,7 @@ var VisorMapa = {
                     self.map.data.add(polygon);
                     break;
                 case google.maps.drawing.OverlayType.RECTANGLE:
-                    var vertex = [[]];
+                    vertex = [[]];
 
                     var bounds = componente.getBounds();
                     vertex[0].push(bounds.getNorthEast());
@@ -456,7 +643,7 @@ var VisorMapa = {
                     vertex[0].push(bounds.getSouthWest());
                     vertex[0].push({lat: bounds.getNorthEast().lat(), lng: bounds.getSouthWest().lng()});
 
-                    var polygon = new google.maps.Data.Feature({
+                    polygon = new google.maps.Data.Feature({
                         geometry: new google.maps.Data.Polygon(vertex),
                         properties: {
                             fillColor: self.otherControlColor,
@@ -650,4 +837,3 @@ var VisorMapa = {
     }
     
 }).apply(VisorMapa);
-

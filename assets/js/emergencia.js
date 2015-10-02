@@ -77,7 +77,7 @@ var Emergencia = {};
 
             json.columns[0]["mRender"] = function (data, type, row) {
                 var clase = '';
-                console.log(row);
+                //console.log(row);
                 switch (parseInt(row.tip_ia_id)) {
                     case 1:
                     case 2:

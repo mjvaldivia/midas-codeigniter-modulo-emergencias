@@ -255,7 +255,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th></th>
+                                <td></td>
                                 <th>Nombre</th>
                             </tr>
                         </tfoot>
@@ -277,51 +277,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title">Cruce de datos</h4>
 			</div>
-			<div class="modal-body">
-                <label>Población: 1.534 Habitantes</label>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Jardines Infantiles</div>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Dirección</th>
-                            <th>Director</th>
-                            <th>Alumnos</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Las tortolitas</td>
-                            <td>Av. Bernardo O'Higgins 1502</td>
-                            <td></td>
-                            <td>60</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">Liceos y colegios</div>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Dirección</th>
-                            <th>Director</th>
-                            <th>Alumnos</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Colegio San Juan de Dios</td>
-                            <td>B O'Higgins 459</td>
-                            <td>Maria Angelica Mansilla Valdes</td>
-                            <td>156</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+			<div id="mInfoContent" class="modal-body">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
@@ -330,9 +286,39 @@
 	</div>
 </div>
 
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<div id="moldeCruce" style="display: none">
+    <div class="panel panel-default">
+        <div class="panel-heading">__titulo__</div>
+        <div class="table-responsive">
+            <table id="__id_tabla__" class="table table-bordered table-striped">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="moldeIns" style="display: none">
+    <h4>
+        __nombre_fantasia__<br/>
+        __razon_social__
+    </h4>
+    <div class="well">
+        __direccion__<br/>
+        __comuna__<br/>
+        __region__<br/>
+        Chile<br/>
+        <a href="#" onclick="javascript:void(0)">Ver más</a>
+    </div>
+</div>
+
+<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css", true) ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js", true) ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js", true) ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/extensions/Insensitive/dataTables.insensitive.js") ?>
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
