@@ -6,7 +6,7 @@
  */
 ?>
 <style>
-    .fileinput-upload {
+    .fileinput-upload , .fileinput-remove-button, .fileinput-remove,  .kv-file-upload{
         display: none;
     }
 </style>
@@ -24,19 +24,26 @@
         <h3 class="panel-title">Datos de la capa</h3>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal">
+        <form class="form-horizontal" id="form_capas">
+            
             <div class="form-group">
-                <label class="col-md-3 control-label">Nombre</label>
+                <label class="col-md-3 control-label">Nombre (*)</label>
                 <div class="col-md-7">
-                    <input type="text" class="form-control"/>
+                    <input type="text" id="nombre" name="nombre" class="form-control required" placeholder="Nombre de la(s) Capa(s)" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Zona Geográfica</label>
+                <label class="col-md-3 control-label">Categoría (*)</label>
+                <div class="col-md-7">
+                    <select id="iCategoria" name="iCategoria" class="form-control required" placeholder="Categoría de la(s) Capa(s)"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Zona Geográfica (*)</label>
                 <div class="col-md-7 row">
                     <div class="col-md-2" style="min-width:10%">
                     
-                   <select class="form-control">
+                   <select id="gznumber" name="gznumber" class="form-control">
                         <option value="12">12</option>
                         <option value="13">13</option>
                         <option value="14">14</option>
@@ -49,7 +56,7 @@
                     </select>
                 </div>
                   <div class="col-md-1" style="min-width:15%">  
-                    <select class="form-control">
+                    <select id="gzletter" name="gzletter" class="form-control">
                         <option value="C">C</option>
                         <option value="D">D</option>
                         <option value="E">E</option>
@@ -76,20 +83,41 @@
             </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Icono</label>
-                <div class="col-md-7">
-                    <input id="input-icon" name="input-icon" class="form-control" type="file" data-show-preview="false" />
+                <label class="col-md-3 control-label">Icono (*)</label>
+                <div class="col-md-4">
+                    <input id="input-icon" name="input-icon" class="form-control" placeholder="Icono de la(s) Capa(s)" type="file" data-show-preview="false" />
+                    <input id="icon" value='' name="icon" class="form-control required" placeholder="Icono de la(s) Capa(s)" type="hidden" />
+                    
                 </div>
+                <div class="col-md-2"><img id='img_icon' height="32px" /></div>
             </div>
             
             <div class="form-group">
-                <label class="col-md-3 control-label">Capa(s)</label>
-                <div class="col-md-7">
+                <label class="col-md-3 control-label">Capa(s) (*)</label>
+                <div class="col-md-4">
                     <input id="input-capa" name="input-capa[]" class="form-control" multiple="" type="file" data-show-preview="false" />
                 </div>
                 
             </div>
             
+            
+            <div class="form-group" id="div_comunas" style="display:none;">
+                <label class="col-md-3 control-label">Comuna de la(s) capa(s)</label>
+                <div class="col-md-5">
+                    <table id="tabla_comunas" class="table table-bordered table-striped dataTable required" placeholder="Archivo de capa válido">
+                        <thead>
+                        <tr>
+                            <th>
+                                Archivo
+                            </th>
+                            <th>
+                                Comuna
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
             <div class="form-group" id="div_properties" style="display:none;">
                 <label class="col-md-3 control-label">Propiedades de la(s) capa(s)</label>
                 <div class="col-md-5">
@@ -107,27 +135,9 @@
                     </table>
                 </div>
             </div>
-            <div class="form-group" id="div_comunas" style="display:none;">
-                <label class="col-md-3 control-label">Comuna de la(s) capa(s)</label>
-                <div class="col-md-5">
-                    <table id="tabla_comunas" class="table table-bordered table-striped dataTable">
-                        <thead>
-                        <tr>
-                            <th>
-                                Archivo
-                            </th>
-                            <th>
-                                Comuna
-                            </th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            
 
             <div class="col-md-10">
-                <button type="button" class="pull-right btn btn-primary">Siguiente</button>
+                <button type="button" class="pull-right btn btn-primary" onclick="Layer.guardar()">Guardar</button>
             </div>
         </form>
     </div>
@@ -140,7 +150,7 @@
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
-
+<?= loadJS("assets/js/bootbox.min.js") ?>
 
 
 <?= loadJS("assets/js/capas.js") ?>
@@ -152,4 +162,9 @@
     $('#input-capa').on('fileloaded', function(event, file){
        $(this).fileinput("upload");
     });
+    $('#input-icon').on('fileloaded', function(event, file){
+
+       $(this).fileinput("upload");
+    });
+
 </script>

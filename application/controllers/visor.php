@@ -57,6 +57,7 @@ class Visor extends CI_Controller
     {
         $this->load->library("template");
         $this->load->helper("session");
+        
         ini_set('memory_limit', '32M');
         $this->load->model("emergencia_model", "EmergenciaModel");
         $params = $this->uri->uri_to_assoc();
@@ -77,11 +78,37 @@ class Visor extends CI_Controller
         
         $this->load->library("template");
         $this->load->helper("session");
+        sessionValidation();
         $this->load->model("archivo_model", "ArchivoModel");
         $id = $this->input->post('id');
         $geoJson = $this->input->post('geoJson');
         return $this->ArchivoModel->setTemporaryGeoJson($id,$geoJson);
         
         
+    }
+    
+    public function guardarCapa(){
+        $this->load->helper("session");
+        sessionValidation();
+        $params = $this->input->post();
+        $this->load->helper("session");
+        $this->load->model("capa_model", "CapaModel");
+        echo $this->CapaModel->guardarCapa($params); 
+    }
+    
+    public function obtenerJsonCatCoberturas() {
+        $this->load->model("categoria_cobertura_model", "CategoriaCobertura");
+
+        $CategoriaCobertura = $this->CategoriaCobertura->obtenerTodos();
+
+        $json = array();
+
+        foreach($CategoriaCobertura as $c)
+            $json[] = array(
+                $c["ccb_ia_categoria"],
+                $c["ccb_c_categoria"]
+            );
+
+        echo json_encode($json);
     }
 }

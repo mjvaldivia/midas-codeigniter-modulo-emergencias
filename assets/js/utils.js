@@ -79,6 +79,14 @@ var Utils = {};
                     campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
                 }
             }
+            if (tipo == 'TABLE') {
+                if ($('#' + id + ' tr').length <2) {
+                    //$('#' + id).closest("div").addClass("has-error");
+                    bien = false;
+                    campos += "<i class='fa fa-caret-right'></i>";
+                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                }
+            }
 
 
         });

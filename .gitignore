@@ -7,5 +7,6 @@ user_guide/
 nbproject/
 *.iml
 *.sublime-workspace
-media/doc/*
+media/*
 node_modules/
+application/cache/

@@ -7,11 +7,12 @@ class Archivo_Model extends CI_Model {
 
     public $TIPO_EMERGENCIA = 5;
     public $TIPO_GEOJSON = 6;
+    public $TIPO_CAPA = 7;
+    public $TIPO_ICONO_DE_CAPA = 8;
     public $DOC_FOLDER = 'media/doc/';
 
-    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null) {
+    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null, $cache_id = null) {
 
-        // var_dump($tmp_name);die;
         header('Content-type: application/json');
         $filename = $this->sanitize_filename($filename);
         $error = 0;
@@ -28,6 +29,24 @@ class Archivo_Model extends CI_Model {
                         $full_url .= $last_id . '_' . $filename;
                         if ($tipo == $this->TIPO_GEOJSON) {
                             if (rename($tmp_name, $full_url)) {
+                                $error = 0;
+                            } else {
+                                $error = 'Err 1: No se pudo copiar temporal al destino';
+                            }
+                        } else
+                        if ($tipo == $this->TIPO_CAPA) {
+                            $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+                            $cache_file = $this->cache->get($cache_id);
+
+                            if (file_put_contents($full_url, $cache_file['content'])) {
+                                $error = 0;
+                            } else {
+                                $error = 'Err 1: No se pudo copiar temporal al destino';
+                            }
+                        } else
+                        if ($tipo == $this->TIPO_ICONO_DE_CAPA) {
+                           
+                            if (copy($tmp_name, $full_url)) {
                                 $error = 0;
                             } else {
                                 $error = 'Err 1: No se pudo copiar temporal al destino';
@@ -52,7 +71,8 @@ class Archivo_Model extends CI_Model {
 
         $arr_res = array('error' => $error,
             'k' => md5($url . $last_id . '_' . $filename),
-            'filename' => $filename
+            'filename' => $filename,
+            'id' => $last_id
         );
         return json_encode($arr_res);
     }
@@ -70,6 +90,10 @@ class Archivo_Model extends CI_Model {
             case $this->TIPO_GEOJSON:
                 $folder_entidad = 'emergencia';
                 break;
+            case $this->TIPO_CAPA:
+            case $this->TIPO_ICONO_DE_CAPA:
+                $folder_entidad = 'capa';
+                break;
         }
         $anio = date('Y');
         $url = $this->DOC_FOLDER . $folder_entidad . '/' . $id_entidad . '/' . $anio . '/';
@@ -81,8 +105,25 @@ class Archivo_Model extends CI_Model {
     }
 
     public function sanitize_filename($filename = null) {
-        $filename = preg_replace("([^\w\s\d\~,;:\[\]\(\).])", '_', $filename);
-        return $filename = preg_replace("([\.]{2,})", '', $filename);
+       
+       
+       $filename = str_replace('á', "a", $filename);
+       $filename = str_replace('é', "e", $filename);
+       $filename = str_replace('í', "i", $filename);
+       $filename = str_replace('ó', "o", $filename);
+       $filename = str_replace('ú', "u", $filename);
+       $filename = str_replace('ü', "u", $filename);
+       $filename = str_replace('ñ', "n", $filename);
+       $filename = str_replace('Á', "A", $filename);
+       $filename = str_replace('É', "E", $filename);
+       $filename = str_replace('Í', "I", $filename);
+       $filename = str_replace('Ó', "O", $filename);
+       $filename = str_replace('Ú', "U", $filename);
+       $filename = str_replace('Ü', "U", $filename);
+       $filename = str_replace('Ñ', "N", $filename);
+
+       return preg_replace("[^\w\.]", '_', $filename);
+        
     }
 
     public function file_to_bd($url = null, $filename = null, $mimetype = null, $tipo = null, $id_entidad = null, $size = null) {
@@ -100,7 +141,7 @@ class Archivo_Model extends CI_Model {
 
             if ($last_id) {
 
-                $sql = "    UPDATE archivo set arch_c_nombre = '" . mysql_real_escape_string($filename) . "',arch_c_hash=md5('" . $filename . "') WHERE arch_ia_id = $last_id";
+                $sql = "    UPDATE archivo set arch_c_nombre = '" . $filename . "',arch_c_hash=md5('" . $filename . "') WHERE arch_ia_id = $last_id";
                 if ($this->db->query($sql)) {
                     $res = false;
                     switch ($tipo) {
@@ -113,6 +154,7 @@ class Archivo_Model extends CI_Model {
                             $res = $this->db->query($sql);
                             break;
                         default :
+                            $res = true;
                             break;
                     }
                     if ($res)
@@ -234,9 +276,8 @@ class Archivo_Model extends CI_Model {
         } else
             return 0;
     }
-    
-    function saveCapaTemp(){
-        
+
+    function saveCapaTemp() {
         
     }
 
