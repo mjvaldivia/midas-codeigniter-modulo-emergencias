@@ -29,6 +29,41 @@ class Visor extends CI_Controller
         $this->template->parse("visor", "pages/visor/visor", $data);
     }
 
+    public function obtenerJsonEmergenciaVisor() {
+        $params = $this->uri->uri_to_assoc();
+
+        $this->load->helper("session");
+
+        sessionValidation();
+
+        $this->load->model("archivo_model", "ArchivoModel");
+        $this->load->model("visor_model", "VisorModel");
+
+        $retorno = array();
+
+        $retorno["geojson"] = $this->ArchivoModel->loadGeoJson($params);
+        $retorno["geojson"] = empty($retorno["geojson"]) ? $retorno["geojson"] : base_url($retorno["geojson"]["arch_c_nombre"]);
+        $retorno["coordinates"] = $this->VisorModel->obtenerLimitesVisor($params);
+        $retorno["facilities"] = $this->VisorModel->obtenerTipInsGuardados($params);
+
+        echo json_encode($retorno);
+    }
+
+    public function obtenerJsonInsSegunTipIns() {
+        $this->load->helper("session");
+
+        sessionValidation();
+
+        $this->load->model("instalacion_model", "InstalacionModel");
+        $this->load->model("visor_model", "VisorModel");
+        $params = $this->input->post(null, true);
+
+        $coords = $this->InstalacionModel->obtenerInsSegunTipIns($params);
+        $this->VisorModel->guardarEstadoTipoIns($params);
+
+        echo json_encode($coords);
+    }
+
     public function subirKML()
     {
         // load basicos

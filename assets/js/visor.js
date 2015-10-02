@@ -20,7 +20,7 @@ var VisorMapa = {
 
     this.init = function(opciones) {
         this.opciones = opciones;
-        $.get(siteUrl + "emergencia/obtenerJsonEmergenciaVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
+        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
     };
 
     this.makeMap = function(data) {
@@ -59,7 +59,7 @@ var VisorMapa = {
         this.makeSearchBox.call(this);
         this.makeEmergencyDrawManager.call(this);
         this.makeOthersManager.call(this);
-        this.constructControlIns.call(this);
+        this.constructControlIns.call(this, json.facilities);
         this.constructControlLayer.call(this);
         this.constructControlInfo.call(this);
         this.constructControlSave.call(this);
@@ -103,7 +103,7 @@ var VisorMapa = {
                     var feature = features[i];
                     if (feature.getProperty("type") == "LUGAR_EMERGENCIA") self.emergencyMarker = feature;
                     else if (feature.getProperty("type") == "RADIO_EMERGENCIA") self.emergencyRadius = feature;
-                    // else self.map.data.remove(feature);
+                    //else self.map.data.remove(feature);
                 }
             });
     };
@@ -168,7 +168,7 @@ var VisorMapa = {
             });
 
             $("#mInfo").modal("show");
-            $("#ctrlInfo").click();
+            $("#ctrlInfo").click(); // para que se apague
         }
 
         return null;
@@ -383,7 +383,7 @@ var VisorMapa = {
         }
     };
 
-    this.constructControlIns = function() {
+    this.constructControlIns = function(facilities) {
         var self = this;
 
         $('#tblTiposIns tfoot th').each(function () {
@@ -403,7 +403,15 @@ var VisorMapa = {
             columns: [
                 {
                     mRender: function(data, type, row) {
-                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox"/>';
+                        var checked = "";
+                        for (var i = 0; i < facilities.length; i++) {
+                            var ti = facilities[i];
+                            if (row.aux_ia_id == ti.id_tipo_ins) {
+                                checked = 'checked="true"';
+                                break;
+                            }
+                        }
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + '/>';
                     }
                 },
                 { data: "amb_c_nombre" },
@@ -440,7 +448,7 @@ var VisorMapa = {
                 params.tiposIns.push(checkboxs[i].value);
             }
 
-            $.post(siteUrl + "instalacion/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
+            $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
             $("#mMaestroInstalaciones").modal("hide");
         });
     };
