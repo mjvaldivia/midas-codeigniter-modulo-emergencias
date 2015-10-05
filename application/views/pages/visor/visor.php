@@ -137,130 +137,22 @@
                             <tr>
                                 <th></th>
                                 <th>Nombre</th>
+                                <th>Categoría</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>CapaBomberos</td>
-                                <td>
-                                    Bomberos
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaCarabineros</td>
-                                <td>
-                                    Carabineros
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaPDI</td>
-                                <td>
-                                    PDI
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaAreasProtegidas</td>
-                                <td>
-                                    Áreas Protegidas
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaCuerposAgua</td>
-                                <td>
-                                    Cuerpos de agua
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaMunicipalidades</td>
-                                <td>
-                                    Municipalidades
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaComunas</td>
-                                <td>
-                                    Comunas
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaProvincias</td>
-                                <td>
-                                    Provincias
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaJardines</td>
-                                <td>
-                                    Jardines infantiles
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaColegiosLiceos</td>
-                                <td>
-                                    Colegios y liceos
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaInstalacionesQuimicas</td>
-                                <td>
-                                    Instalaciones químicas
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaBodegasAlmacenamientoQuimico</td>
-                                <td>
-                                    Bodegas de almacenamiento químico
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaCentrosSalud</td>
-                                <td>
-                                    Centros salud
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaCentroAtencioPrimaria</td>
-                                <td>
-                                    Centros de atención primaria
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaHospitales</td>
-                                <td>
-                                    Hospitales
-                                </td>
-                            </tr>
-                                
-                            <tr>
-                                <td>CapaServicentros</td>
-                                <td>
-                                    Servicentros
-                                </td>
-                            </tr>
-                                
+                            
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td></td>
                                 <th>Nombre</th>
+                                <th>Categoría</th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
+                <input id='selected_items' value=''>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -299,6 +191,20 @@
                 </tfoot>
             </table>
         </div>
+    </div>
+</div>
+
+<div id="moldeIns" style="display: none">
+    <h4>
+        __nombre_fantasia__<br/>
+        __razon_social__
+    </h4>
+    <div class="well">
+        __direccion__<br/>
+        __comuna__<br/>
+        __region__<br/>
+        Chile<br/>
+        <a href="#" onclick="javascript:void(0)">Ver más</a>
     </div>
 </div>
 

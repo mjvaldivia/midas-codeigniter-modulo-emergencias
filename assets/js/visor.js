@@ -5,6 +5,7 @@ var VisorMapa = {
     emergencyMarker: null,
     emergencyRadius: null,
     
+    
     emergencyDrawingManager: null,
     otherDrawingManager: null,
 
@@ -60,7 +61,7 @@ var VisorMapa = {
         this.makeEmergencyDrawManager.call(this);
         this.makeOthersManager.call(this);
         this.constructControlIns.call(this, json.facilities);
-        this.constructControlLayer.call(this);
+       // this.constructControlLayer.call(this);
         this.constructControlInfo.call(this);
         this.constructControlSave.call(this);
 
@@ -101,9 +102,9 @@ var VisorMapa = {
             this.map.data.loadGeoJson(json.geojson, null, function(features) {
                 for (var i = 0; i < features.length; i++) {
                     var feature = features[i];
-                    if (feature.getProperty("type") == "LUGAR_EMERGENCIA") self.emergencyMarker = feature;
+                    if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {self.emergencyMarker = feature;}
                     else if (feature.getProperty("type") == "RADIO_EMERGENCIA") self.emergencyRadius = feature;
-                    //else self.map.data.remove(feature);
+                  
                 }
             });
     };
@@ -276,31 +277,24 @@ var VisorMapa = {
 
         });
     };
+$("#ctrlLayers").click(function () {
 
-    this.constructControlLayer = function() {
-        var self = this;
-
+        $("#mCapas").modal("show");
         $('#tblCtrlCapas tfoot th').each(function () {
             var title = $('#tblCtrlCapas thead th').eq($(this).index()).text();
             $(this).html('<input type="text" class="form-control" placeholder="' + title + '" />');
         });
-
+        $("#tblCtrlCapas").DataTable().destroy();
         var table = $("#tblCtrlCapas").DataTable({
+            
+            ajax: {
+                url: siteUrl+'visor/obtenerCapasDT',
+                type: 'POST',
+                async: true
+            },
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
             },
-            columns: [
-                {
-                    mRender: function(data, type, row) {
-                        return '<input id="iCtrlLayers' + data + '" name="iCtrlLayers[]" type="checkbox"/>';
-                    },
-                    sWidth: "30px"
-                },
-                {
-                    sType: "string"
-                }
-            ],
-            pagingType: "simple",
             order: [[1, "asc"]]
         });
 
@@ -318,21 +312,96 @@ var VisorMapa = {
             });
         });
 
-        $("#ctrlLayers").click(function () {
-            $("#mCapas").modal("show");
+        
+            
         });
 
-        self.iteracionTemporal = 1;
-        $("#btnCargarCapas").click(function () {
 
-            if (self.iteracionTemporal++ == 1) {
+        this.selectCapa = function (id) {
+            var selections= $('#selected_items').val();
+            
+            if ($("#chk_" + id).is(":checked")) {
+                if (selections == "")
+                    var coma = "";
+                else var coma = ",";
 
-                self.map.data.loadGeoJson(baseUrl + "kml/manzanas.json");
-                //self.map.data.loadGeoJson("https://storage.googleapis.com/maps-devrel/google.json");
+                $('#selected_items').val(selections + coma + id);
+            } else {
+                var arr_select = selections.split(",");
+                var newSelect = "";
+                for (var i = 0; i < arr_select.length; i++) {
+                    if (arr_select[i] != id) {
+                        if (newSelect == "")
+                            var coma = "";
+                        else var coma = ",";
+                        newSelect += coma + arr_select[i];
+                    }
+                }
+                $('#selected_items').val(newSelect);
             }
+           
+           
+        };
+        var self = this;
+        $("#btnCargarCapas").click(function () {
+            
+
             $("#mCapas").modal("hide");
-        });
-    };
+            if($('#selected_items').val()!==''){
+            var arr_select = $('#selected_items').val().split(",");
+                for (var i = 0; i < arr_select.length; i++) {
+                    
+                        $.get(siteUrl+'visor/get_json_capa/id/'+arr_select[i],function(data){
+                            var json= JSON.parse(data);
+                            
+                            var geojson = JSON.parse(json.json_str);
+                            
+                            
+                            //this.map.data.loadGeoJson(baseUrl + json.capa);
+                            self.map.data.addGeoJson(geojson);
+                            
+                            
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                for (var i = 0; i < geojson.features.length; i++) {
+                    var feature = geojson.features[i];
+                    //console.log(feature);return;
+                    if(feature.geometry.type=="Point")
+                    {
+                        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0]), parseFloat(feature.geometry.coordinates[1]), json.geozone);
+                        
+                        console.log(latLon);
+                        var point = new google.maps.Data.Feature({
+                                    geometry: new google.maps.Data.Point({lat:parseFloat(latLon[0]),lng:parseFloat(latLon[1])}),
+                                    properties: {
+                                        type: "PUNwwTO",
+                                        icon: baseUrl + "assets/img/spotlight-poi.png"
+                                       
+                                    }
+                                });
+                                self.map.data.add(point);
+                               
+                                 
+                    }
+                    }
+                  
+                   
+
+                            
+                          
+                });
+            }
+           
+            
+        }
+    });
+
 
     var clearIns = function() {
         var self = this;
@@ -656,6 +725,7 @@ var VisorMapa = {
 
                     break;
                 case google.maps.drawing.OverlayType.MARKER:
+                    console.log(componente.getPosition());
                     var point = new google.maps.Data.Feature({
                         geometry: new google.maps.Data.Point(componente.getPosition()),
                         properties: {

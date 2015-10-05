@@ -146,4 +146,22 @@ class Visor extends CI_Controller
 
         echo json_encode($json);
     }
+    public function obtenerCapasDT() {
+        $this->load->model("capa_model", "CapaModel");
+
+        $Coberturas= $this->CapaModel->obtenerTodos();
+
+       
+
+        return json_encode($Coberturas);
+    }
+    public function get_json_capa() {
+        $this->load->helper("session");
+        sessionValidation();
+        $this->load->model("capa_model", "CapaModel");
+        $params = $this->uri->uri_to_assoc();
+        return $this->CapaModel->getjson($params['id']);
+    }
+    
+    
 }

@@ -11,7 +11,7 @@ class Archivo_Model extends CI_Model {
     public $TIPO_ICONO_DE_CAPA = 8;
     public $DOC_FOLDER = 'media/doc/';
 
-    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null, $cache_id = null) {
+    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null, $cache_id = null,$nombre_capa = null) {
 
         header('Content-type: application/json');
         $filename = $this->sanitize_filename($filename);
@@ -37,8 +37,12 @@ class Archivo_Model extends CI_Model {
                         if ($tipo == $this->TIPO_CAPA) {
                             $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
                             $cache_file = $this->cache->get($cache_id);
-
-                            if (file_put_contents($full_url, $cache_file['content'])) {
+                            $arr_properties = json_decode($cache_file['content'],true);
+                            foreach ($arr_properties['features'] as $key => $value) {
+                                $arr_properties['features'][$key]['properties']['TYPE'] = $nombre_capa; // le agrego el tipo como feature
+                            }
+                            $string_geojson = json_encode($arr_properties);
+                            if (file_put_contents($full_url, $string_geojson)) {
                                 $error = 0;
                             } else {
                                 $error = 'Err 1: No se pudo copiar temporal al destino';
@@ -275,10 +279,6 @@ class Archivo_Model extends CI_Model {
             return $row[0];
         } else
             return 0;
-    }
-
-    function saveCapaTemp() {
-        
     }
 
 }

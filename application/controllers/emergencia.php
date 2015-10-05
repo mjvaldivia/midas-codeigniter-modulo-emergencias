@@ -187,8 +187,10 @@ class Emergencia extends CI_Controller {
             $error = false;
             $fp = file_get_contents($tmp_name[$i], 'r');
             
-            $obj_properties = json_decode($fp);
-            if (!isset($obj_properties->features[0]->properties)) {
+            $arr_properties = json_decode($fp,true);
+           // var_dump($arr_properties['features'][0]['properties']);die;
+           
+            if (!isset($arr_properties['features'][0]['properties'])) {
                 $error = true;
                 $arr_error_filenames[] = $nombres[$i];
             } else {
@@ -202,7 +204,8 @@ class Emergencia extends CI_Controller {
                     
                 );
                 $this->cache->save($nombre_cache_id, $arr_cache, 28800);
-                foreach ($obj_properties->features[0]->properties as $k => $v) {
+                
+                foreach ($arr_properties['features'][0]['properties'] as $k => $v) {
 
                     if (in_array($k, $tmp_prop_array)) { // reviso que no se me repitan las propiedades
                         continue;
