@@ -152,7 +152,7 @@
                         </tfoot>
                     </table>
                 </div>
-                <input id='selected_items' value=''>
+                <input type='hidden' id='selected_items' value=''>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>

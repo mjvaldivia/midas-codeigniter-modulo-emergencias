@@ -75,13 +75,23 @@ class Capa_Model extends CI_Model {
         echo ($error) ? 0 : 1;
     }
 
-    public function obtenerTodos() {
-
+    public function obtenerTodos($ids = null) {
         $result = $this->db->query(" SELECT c.*, cc.ccb_c_categoria from capas c join categorias_capas_coberturas cc on c.ccb_ia_categoria = cc.ccb_ia_categoria");
-        $jsonData = array();
+        $jsonData = array(); 
+        $arr_ids = array();
+        if($ids==!null){
+                $arr_ids = explode(',', $ids);
+              // print_r(explode(',', $ids));
+            }
         foreach ($result->result_array() as $row) {
+            if(in_array($row['cap_ia_id'], $arr_ids)){
+                $checked='checked';
+            }
+            else{
+                $checked = '';
+            }
             $jsonData['data'][] = array(
-                "<input type=checkbox id='chk_".$row['cap_ia_id']."' name='chk_".$row['cap_ia_id']."' onclick='VisorMapa.selectCapa(".$row['cap_ia_id'].");' />",
+                "<input type=checkbox $checked id='chk_".$row['cap_ia_id']."' name='chk_".$row['cap_ia_id']."' onclick='VisorMapa.selectCapa(".$row['cap_ia_id'].");' />",
                 $row['cap_c_nombre'],
                 $row['ccb_c_categoria'],
                 $row['cap_ia_id']
@@ -92,7 +102,7 @@ class Capa_Model extends CI_Model {
     }
     public function getjson($id) {
         $this->load->helper("url");
-        $result = $this->db->query(" SELECT a.arch_c_nombre capa,a2.arch_c_nombre icono,c.cap_c_propiedades, c.cap_c_geozone_number, c.cap_c_geozone_letter  from capas c join archivo a on c.capa_arch_ia_id = a.arch_ia_id join archivo a2 on c.icon_arch_ia_id = a2.arch_ia_id where cap_ia_id = $id");
+        $result = $this->db->query(" SELECT c.cap_ia_id, a.arch_c_nombre capa,a2.arch_c_nombre icono,c.cap_c_propiedades, c.cap_c_geozone_number, c.cap_c_geozone_letter  from capas c join archivo a on c.capa_arch_ia_id = a.arch_ia_id join archivo a2 on c.icon_arch_ia_id = a2.arch_ia_id where cap_ia_id = $id");
         $row= $result->result_array();
         $str = file_get_contents($row[0]['capa']);
    
@@ -102,7 +112,8 @@ class Capa_Model extends CI_Model {
                 'icono'=> base_url($row[0]['icono']),
                 'propiedades' => $row[0]['cap_c_propiedades'],
                 'geozone' => $row[0]['cap_c_geozone_number'].$row[0]['cap_c_geozone_letter'],
-                'json_str' => $str
+                'json_str' => $str,
+                'id' => $row[0]['cap_ia_id']
                 
             );
           

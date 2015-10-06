@@ -39,7 +39,7 @@ class Archivo_Model extends CI_Model {
                             $cache_file = $this->cache->get($cache_id);
                             $arr_properties = json_decode($cache_file['content'],true);
                             foreach ($arr_properties['features'] as $key => $value) {
-                                $arr_properties['features'][$key]['properties']['TYPE'] = $nombre_capa; // le agrego el tipo como feature
+                                $arr_properties['features'][$key]['properties']['TYPE'] = $id_entidad; // le agrego el tipo como feature
                             }
                             $string_geojson = json_encode($arr_properties);
                             if (file_put_contents($full_url, $string_geojson)) {
