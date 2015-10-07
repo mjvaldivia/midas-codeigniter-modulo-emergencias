@@ -90,13 +90,15 @@ class Capa_Model extends CI_Model {
             else{
                 $checked = '';
             }
-            $jsonData['data'][] = array(
-                "<input type=checkbox $checked id='chk_".$row['cap_ia_id']."' name='chk_".$row['cap_ia_id']."' onclick='VisorMapa.selectCapa(".$row['cap_ia_id'].");' />",
-                $row['cap_c_nombre'],
-                $row['ccb_c_categoria'],
-                $row['cap_ia_id']
+            
+            array_push($jsonData,array(
+                'chkbox' =>"<input type=checkbox $checked id='chk_".$row['cap_ia_id']."' name='chk_".$row['cap_ia_id']."' onclick='VisorMapa.selectCapa(".$row['cap_ia_id'].");' />",
+                'cap_c_nombre' =>$row['cap_c_nombre'],
+                'ccb_c_categoria' =>$row['ccb_c_categoria'],
+                'cap_ia_id' =>$row['cap_ia_id']
                 
-            );
+            ));
+            
         }
         echo json_encode($jsonData);
     }

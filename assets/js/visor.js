@@ -41,6 +41,7 @@ var VisorMapa = {
         this.canvas = $("#mapa").get(0);
         $(window).resize(this.detectHeight.bind(this));
 
+
         var opcionesMapa = {
             center: new google.maps.LatLng(-33.07, -71.6),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -49,6 +50,7 @@ var VisorMapa = {
 
         var opcionesFinales = $.extend(opcionesMapa, opciones);
         this.detectHeight.call(this);
+
 
         this.map = new google.maps.Map(this.canvas, opcionesFinales);
         this.map.fitBounds(bounds);
@@ -107,6 +109,9 @@ var VisorMapa = {
 
                 }
             });
+
+
+
     };
 
     var crossingData = function (event) {
@@ -283,48 +288,35 @@ var VisorMapa = {
 
         });
     };
+
+
+
     $("#ctrlLayers").click(function () {
 
-        $("#mCapas").modal("show");
-        $('#tblCtrlCapas tfoot th').each(function () {
-            var title = $('#tblCtrlCapas thead th').eq($(this).index()).text();
-            $(this).html('<input type="text" class="form-control" placeholder="' + title + '" />');
-        });
-        $("#tblCtrlCapas").DataTable().destroy();
+        $("#wrapper").toggleClass("toggled");
+
         var items = $('#selected_items').val().split(',');
 
-        var table = $("#tblCtrlCapas").DataTable({
-            ajax: {
-                url: siteUrl + 'visor/obtenerCapasDT/id/' + items,
-                type: 'POST',
-                async: true
-            },
-            language: {
-                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
-            },
-            order: [[1, "asc"]]
-
-        });
-
-        $("#tblCtrlCapas").on("init.dt", function (evt, settings, json) {
-            table.columns().every(function () {
-                var that = this;
-
-                $('input', this.footer()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that
-                                .search(this.value)
-                                .draw();
-                    }
-                });
+        $.get(siteUrl + 'visor/obtenerCapasDT/id/' + items, function (data) {
+            var html = '';
+            var json = JSON.parse(data);
+            $.each(json, function (k, v) {
+                html += '<li id=' + v.cap_ia_id + ' class="ui-state-default"><div class=checkbox><label><i class="fa fa-sort"></i>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;' + v.cap_c_nombre + '</label></div></li>';
             });
+            $('#sortable').html(html);
         });
+    });
 
-
-
+    $("#sortable").sortable({
+        change: function (event, ui) {}
+    });
+    $("#sortable").on("sortchange", function (event, ui) {
+        var arr = $("#sortable").sortable("toArray");
+        console.log(arr);
     });
 
 
+    var self = this;
     this.selectCapa = function (id) {
         var selections = $('#selected_items').val();
 
@@ -348,61 +340,102 @@ var VisorMapa = {
                 }
             }
             $('#selected_items').val(newSelect);
+            self.map.data.forEach(function (feature) {
+
+                if (feature.getProperty("TYPE") == id)
+                {
+                    self.map.data.remove(feature);
+                }
+            });
         }
 
-
+        self.cargarCapas();
     };
-    var self = this;
-    $("#btnCargarCapas").click(function () {
+
+    this.cargarCapas = function () {
 
 
-        $("#mCapas").modal("hide");
-        self.map.data.forEach(function (feature) {
-            console.log(feature.getProperty("TYPE"));
-            if ($.isNumeric(feature.getProperty("TYPE")))
-            {
-                self.map.data.remove(feature);
-            }
-        });
+        // $("#mCapas").modal("hide");
+//        self.map.data.forEach(function (feature) {
+//           // console.log(feature.getProperty("TYPE"));
+//            if ($.isNumeric(feature.getProperty("TYPE")))
+//            {
+//                self.map.data.remove(feature);
+//            }
+//        });
         if ($('#selected_items').val() !== '') {
             var arr_select = $('#selected_items').val().split(",");
 
             for (var i = 0; i < arr_select.length; i++) {
+                var cargada = 0;
+                self.map.data.forEach(function (feature) {
+                    // console.log(feature.getProperty("TYPE"));
+                    if (feature.getProperty("TYPE") == arr_select[i])
+                    {
+                        cargada++;
+                    }
 
-
+                });
+                if (cargada > 0) {
+                    continue;
+                }
 
                 $.get(siteUrl + 'visor/get_json_capa/id/' + arr_select[i], function (data) {
                     var json = JSON.parse(data);
                     var geojson = JSON.parse(json.json_str);
-                    var es_punto;
                     for (var i = 0; i < geojson.features.length; i++) {
-                        es_punto = 0;
                         var feature = geojson.features[i];
-                        //console.log(feature);return;
-                        if (feature.geometry.type == "Point")
-                        {
-                            es_punto++;
-                            var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0]), parseFloat(feature.geometry.coordinates[1]), json.geozone);
 
-                            // console.log(latLon);
-                            var point = new google.maps.Data.Feature({
-                                geometry: new google.maps.Data.Point({lat: parseFloat(latLon[0]), lng: parseFloat(latLon[1])}),
-                                properties: {
-                                    TYPE: feature.properties.TYPE,
-                                    icon: baseUrl + "assets/img/spotlight-poi.png"
+                        switch (feature.geometry.type) {
+                            case "Point":
 
+
+                                var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0]), parseFloat(feature.geometry.coordinates[1]), json.geozone);
+
+                                // console.log(latLon);
+                                var point = new google.maps.Data.Feature({
+                                    geometry: new google.maps.Data.Point({lat: parseFloat(latLon[0]), lng: parseFloat(latLon[1])}),
+                                    properties: {
+                                        TYPE: feature.properties.TYPE,
+                                        icon: json.icono
+                                    }
+                                });
+                                self.map.data.add(point);
+                                break;
+                            case 'Polygon':
+                                var arr = [[]];
+                                var LatLng;
+                                for(i=0;i<feature.geometry.coordinates[0].length;i++)
+                                {
+                                    LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0][i][0]), parseFloat(feature.geometry.coordinates[0][i][1]), json.geozone);
+                                    
+                                    arr[0].push({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])});
+                                    
+                                  
                                 }
-                            });
-                            self.map.data.add(point);
+                                //console.log(arr);return;
+                                var polygon = new google.maps.Data.Feature({
+                                    geometry: new google.maps.Data.Polygon(arr),
+                                    properties: {
+                                        fillColor: '#999999',
+                                        type: "POLYGON",
+                                        infoWindow: '',
+                                        TYPE: feature.properties.TYPE
+                                        
+                                    }
+                                });
+                                self.map.data.add(polygon);
+                                break;
+                            default:
+                                self.map.data.addGeoJson(geojson);
                         }
-                        
+
                     }
-                    if(es_punto==0)
-                            self.map.data.addGeoJson(geojson);
+                    
                 });
             }
         }
-    });
+    };
 
 
     var clearIns = function () {
@@ -598,7 +631,6 @@ var VisorMapa = {
             }
             $("#ctrlDrawOFF").click();
         });
-
         $("#btnGuardarRadioEmergencia").click(emergencyRadiusReceiver.bind(this));
 
         $("#mRadioEmergencia").on("shown.bs.modal", function (event) {
@@ -681,6 +713,7 @@ var VisorMapa = {
                     vertex = [[]];
                     for (i = 0; i < componente.getPath().getLength(); i++) {
                         obj = componente.getPath().getAt(i);
+                        //console.log(obj);
                         vertex[0].push(obj);
                     }
                     polygon = new google.maps.Data.Feature({
@@ -779,7 +812,9 @@ var VisorMapa = {
 
     this.detectHeight = function () {
         $(this.canvas).css("height", $("html").height() - $("div.header").height() + "px");
+
     };
+
 
     this.makeSearchBox = function () {
         var input = $("#input-buscador-mapa").get(0);

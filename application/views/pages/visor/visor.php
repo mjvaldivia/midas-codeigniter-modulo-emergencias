@@ -1,11 +1,37 @@
+<?= loadCSS("assets/lib/bootstrap-3.3.5/css/simple-sidebar.css", true) ?>
 <style type="text/css">
     @media (max-width: 480px) {
         #input-buscador-mapa {
             width: 155px
         }
     }
+    ul#sortable{
+        padding-left: 5px;
+    }
+    #sortable li{
+        background-color: #ffffff;
+        list-style: none;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+        width: 90%;
+        margin:4px 0px; 
+    }
+    #sortable li:hover{
+        cursor: move;
+    }
 </style>
-
+<div id="wrapper" class='toggled'>
+        <div id="sidebar-wrapper">
+                <div class="table-responsive">
+                    Cargar Capas<br><br>
+                    <ul id="sortable">
+                    
+                  </ul>
+                    <input type='text' id='selected_items' value=''>
+                </div>
+        </div>
+<div id="page-content-wrapper">
 <input type="hidden" id="hIdEmergencia" name="hIdEmergencia" value="<?= $emergencia["eme_ia_id"] ?>"/>
 
 <input id="input-buscador-mapa" class="map-controls" type="text" placeholder="Buscador de dirección"/>
@@ -131,28 +157,7 @@
                 <h4 class="modal-title">Cargar capas</h4>
             </div>
             <div class="modal-body">
-                <div class="table-responsive">
-                    <table id="tblCtrlCapas" class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Nombre</th>
-                                <th>Categoría</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td></td>
-                                <th>Nombre</th>
-                                <th>Categoría</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <input type='hidden' id='selected_items' value=''>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -221,11 +226,13 @@
         <a href="#" onclick="javascript:void(0)">Ver más</a>
     </div>
 </div>
-
+</div>
+</div>
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css", true) ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js", true) ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js", true) ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/extensions/Insensitive/dataTables.insensitive.js") ?>
+<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
 <?= loadJS("assets/js/visor.js") ?>
@@ -234,4 +241,8 @@
     $(document).ready(function() {
         VisorMapa.init();
     });
+$(function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  });
 </script>
