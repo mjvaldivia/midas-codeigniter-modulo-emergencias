@@ -203,7 +203,8 @@
     </div>
 </div>
 
-<div id="moldeIns" style="display: none">
+
+<div id="moldeIns" class='infoWindow' style="display: none">
     <h4>
         __nombre_fantasia__<br/>
         __razon_social__
@@ -214,28 +215,6 @@
         __region__<br/>
         Chile<br/>
         <a href="#" onclick="javascript:void(0)">Ver más</a>
-    </div>
-</div>
-
-<div id="moldeIns" style="display: none">
-    <h4>
-        __nombre_fantasia__<br/>
-        __razon_social__
-    </h4>
-    <div class="well">
-        __direccion__<br/>
-        __comuna__<br/>
-        __region__<br/>
-        Chile<br/>
-        <a href="#" onclick="javascript:void(0)">Ver más</a>
-    </div>
-</div>
-
-<div id="moldeCapa" style="display: none">
-    <h4>
-        __nombre__<br/>
-    </h4>
-    <div id='div_properties' class="well">
     </div>
 </div>
 

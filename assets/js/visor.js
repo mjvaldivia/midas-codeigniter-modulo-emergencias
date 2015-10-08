@@ -13,12 +13,15 @@ var VisorMapa = {
 
 (function () {
     var opciones = null;
-
+    var gInfowindow;
     this.init = function (opciones) {
         this.opciones = opciones;
         $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
     };
-
+    google.maps.Map.prototype.clearMarkers = function() {
+    if(gInfowindow) {
+      gInfowindow.close();
+    }};
     this.makeMap = function (data) {
         var self = this;
         var json = JSON.parse(data);
@@ -91,11 +94,13 @@ var VisorMapa = {
                 return crossingData.call(self, event);
             if (!event.feature.getProperty("infoWindow"))
                 return;
-            var infoWindow = new google.maps.InfoWindow({
+             if (gInfowindow) gInfowindow.close();
+               gInfowindow = new google.maps.InfoWindow({
                 content: event.feature.getProperty("infoWindow"),
                 position: event.latLng
             });
-            infoWindow.open(self.map);
+            
+            gInfowindow.open(self.map);
         });
 
         if (json.geojson)
@@ -412,7 +417,7 @@ var VisorMapa = {
                         {
                             nombre = json.nombre.toUpperCase();
                         }
-                        html = "<div>";
+                        html = "<div class='infoWindow'>";
                         html += '<h4>' + nombre + '</h4><br>';
                         html += "<div class='well'>";
                         html += "<table>";
