@@ -301,7 +301,7 @@ var VisorMapa = {
             var html = '';
             var json = JSON.parse(data);
             $.each(json, function (k, v) {
-                html += '<li id=' + v.cap_ia_id + ' class="ui-state-default"><div class=checkbox><label><i class="fa fa-sort"></i>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;' + v.cap_c_nombre + '</label></div></li>';
+                html += '<li id=' + v.cap_ia_id + ' class="ui-state-default"><div class=checkbox><i class="fa fa-sort"></i><label>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;<img src="' + baseUrl + v.arch_c_nombre + '" height="24">&nbsp;' + v.cap_c_nombre + '</label></div></li>';
             });
             $('#sortable').html(html);
         });
@@ -312,7 +312,7 @@ var VisorMapa = {
     });
     $("#sortable").on("sortchange", function (event, ui) {
         var arr = $("#sortable").sortable("toArray");
-        console.log(arr);
+        //console.log(arr);
     });
 
 
@@ -383,8 +383,44 @@ var VisorMapa = {
                 $.get(siteUrl + 'visor/get_json_capa/id/' + arr_select[i], function (data) {
                     var json = JSON.parse(data);
                     var geojson = JSON.parse(json.json_str);
+
+                    //console.log(geojson.features.length);
+                    var feature;
+
+
                     for (var i = 0; i < geojson.features.length; i++) {
-                        var feature = geojson.features[i];
+
+                        feature = geojson.features[i];
+                        var otros = '';
+                        var html = '';
+                        var comuna = "";
+                        var nombre = "";
+//                        console.log(feature.properties);return;
+                        $.each(feature.properties, function (key, value) {
+                            if (key.toLowerCase() !== 'type') {
+                                if (key.toLowerCase() == 'comuna') {
+                                    comuna = '<tr><td style="width:40%;">' + key + '</td><td>' + value + '</td><tr>';
+                                }else
+                                if (key.toLowerCase() == 'nombre') {
+                                    nombre = value.toUpperCase();
+                                } else {
+                                    otros += '<tr><td style="width:40%;">' + key + '</td><td>' + value + '</td><tr>';
+                                }
+                            }
+                        });
+                        if (nombre == '')
+                        {
+                            nombre = json.nombre.toUpperCase();
+                        }
+                        html = "<div>";
+                        html += '<h4>' + nombre + '</h4><br>';
+                        html += "<div class='well'>";
+                        html += "<table>";
+                        html += otros;
+                        html += comuna;
+                        html += "</table>";
+                        html += "</div>";
+                        html += "</div>";
 
                         switch (feature.geometry.type) {
                             case "Point":
@@ -397,21 +433,23 @@ var VisorMapa = {
                                     geometry: new google.maps.Data.Point({lat: parseFloat(latLon[0]), lng: parseFloat(latLon[1])}),
                                     properties: {
                                         TYPE: feature.properties.TYPE,
-                                        icon: json.icono
+                                        icon: json.icono,
+                                        infoWindow: html
                                     }
                                 });
                                 self.map.data.add(point);
-                                break;
+
                             case 'Polygon':
                                 var arr = [[]];
                                 var LatLng;
-                                for(i=0;i<feature.geometry.coordinates[0].length;i++)
+
+                                for (var j = 0; j < feature.geometry.coordinates[0].length; j++)
                                 {
-                                    LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0][i][0]), parseFloat(feature.geometry.coordinates[0][i][1]), json.geozone);
-                                    
+                                    LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0][j][0]), parseFloat(feature.geometry.coordinates[0][j][1]), json.geozone);
+
                                     arr[0].push({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])});
-                                    
-                                  
+
+
                                 }
                                 //console.log(arr);return;
                                 var polygon = new google.maps.Data.Feature({
@@ -419,19 +457,19 @@ var VisorMapa = {
                                     properties: {
                                         fillColor: '#999999',
                                         type: "POLYGON",
-                                        infoWindow: '',
+                                        infoWindow: html,
                                         TYPE: feature.properties.TYPE
-                                        
+
                                     }
                                 });
                                 self.map.data.add(polygon);
-                                break;
+
                             default:
                                 self.map.data.addGeoJson(geojson);
                         }
 
                     }
-                    
+
                 });
             }
         }

@@ -12,13 +12,17 @@
         background-color: #ffffff;
         list-style: none;
         border: 1px solid #ccc;
-        padding: 5px;
+        padding: 5px 10px;
         border-radius: 5px;
         width: 90%;
         margin:4px 0px; 
     }
     #sortable li:hover{
         cursor: move;
+    }
+    #sortable li label{
+        font-size: 15px;
+        font-weight: bold;
     }
 </style>
 <div id="wrapper" class='toggled'>
@@ -28,7 +32,7 @@
                     <ul id="sortable">
                     
                   </ul>
-                    <input type='text' id='selected_items' value=''>
+                    <input type='hidden' id='selected_items' value=''>
                 </div>
         </div>
 <div id="page-content-wrapper">
@@ -226,6 +230,15 @@
         <a href="#" onclick="javascript:void(0)">Ver más</a>
     </div>
 </div>
+
+<div id="moldeCapa" style="display: none">
+    <h4>
+        __nombre__<br/>
+    </h4>
+    <div id='div_properties' class="well">
+    </div>
+</div>
+
 </div>
 </div>
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css", true) ?>
