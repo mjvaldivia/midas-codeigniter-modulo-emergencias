@@ -399,12 +399,12 @@ var VisorMapa = {
                         $.each(feature.properties, function (key, value) {
                             if (key.toLowerCase() !== 'type') {
                                 if (key.toLowerCase() == 'comuna') {
-                                    comuna = '<tr><td style="width:40%;">' + key + '</td><td>' + value + '</td><tr>';
+                                    comuna = '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
                                 }else
                                 if (key.toLowerCase() == 'nombre') {
                                     nombre = value.toUpperCase();
                                 } else {
-                                    otros += '<tr><td style="width:40%;">' + key + '</td><td>' + value + '</td><tr>';
+                                    otros += '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
                                 }
                             }
                         });
