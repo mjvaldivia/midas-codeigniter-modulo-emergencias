@@ -243,29 +243,34 @@ class Archivo_Model extends CI_Model {
             return false;
     }
 
-    function setTemporaryGeoJson($id, $geoJson) {
+    function setTemporaryGeoJson($id, $geoJson = null,$lista_capas = null) {
         $params = array();
         $params['id'] = $id;
         $filename = 'geoJson.geojson';
         $mimetype = 'application/octect-stream';
-        $existente = $this->loadGeoJson($params);
-        if ($existente == 0) {
-            $tmp_name = tempnam(sys_get_temp_dir(), uniqid());
-            $fp = fopen($tmp_name, 'w');
-            fwrite($fp, $geoJson);
-            fclose($fp);
-            $size = filesize($tmp_name);
-            echo $this->upload_to_site($filename, $mimetype, $tmp_name, $id, $this->TIPO_GEOJSON, $size);
-        } else {
-            $fp = fopen($existente['arch_c_nombre'], 'w');
-            fwrite($fp, $geoJson);
-            fclose($fp);
-            $arr_res = array('error' => 0,
-                'k' => $existente['arch_c_hash'],
-                'filename' => $existente['arch_c_nombre']
-            );
-            echo json_encode($arr_res);
+        $error = 0;
+        if($geoJson!==null){
+            $existente = $this->loadGeoJson($params);
+            if ($existente == 0) {
+                $tmp_name = tempnam(sys_get_temp_dir(), uniqid());
+                $fp = fopen($tmp_name, 'w');
+                fwrite($fp, $geoJson);
+                fclose($fp);
+                $size = filesize($tmp_name);
+                $this->upload_to_site($filename, $mimetype, $tmp_name, $id, $this->TIPO_GEOJSON, $size);
+            } else {
+                $fp = fopen($existente['arch_c_nombre'], 'w');
+                if(!fwrite($fp, $geoJson))
+                    $error++;    
+                fclose($fp);
+                
+            }
         }
+        if($lista_capas!==null){
+            $sql = "update emergencias set eme_c_capas = '$lista_capas' where eme_ia_id = $id";
+            if(!$this->db->query($sql)){$error++;}
+        }
+        echo $error;
     }
 
     function loadGeoJson($params) {

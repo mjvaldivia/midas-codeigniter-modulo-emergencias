@@ -27,13 +27,13 @@
 </style>
 <div id="wrapper" class='toggled'>
         <div id="sidebar-wrapper">
-                <div class="table-responsive">
+
                     Cargar Capas<br><br>
                     <ul id="sortable">
                     
                   </ul>
                     <input type='hidden' id='selected_items' value=''>
-                </div>
+
         </div>
 <div id="page-content-wrapper">
 <input type="hidden" id="hIdEmergencia" name="hIdEmergencia" value="<?= $emergencia["eme_ia_id"] ?>"/>
@@ -225,7 +225,7 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js", true) ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/extensions/Insensitive/dataTables.insensitive.js") ?>
 <?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
-
+<?= loadJS("assets/js/bootbox.min.js") ?>
 <?= loadJS("assets/js/geo-encoder.js") ?>
 <?= loadJS("assets/js/visor.js") ?>
 

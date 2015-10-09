@@ -38,6 +38,7 @@ class Visor extends CI_Controller
 
         $this->load->model("archivo_model", "ArchivoModel");
         $this->load->model("visor_model", "VisorModel");
+        $this->load->model("emergencia_model", "EmergenciaModel");
 
         $retorno = array();
 
@@ -45,6 +46,8 @@ class Visor extends CI_Controller
         $retorno["geojson"] = empty($retorno["geojson"]) ? $retorno["geojson"] : base_url($retorno["geojson"]["arch_c_nombre"]);
         $retorno["coordinates"] = $this->VisorModel->obtenerLimitesVisor($params);
         $retorno["facilities"] = $this->VisorModel->obtenerTipInsGuardados($params);
+        $retorno["capas"] = $this->EmergenciaModel->obtenerCapas($params);
+        
 
         echo json_encode($retorno);
     }
@@ -117,7 +120,8 @@ class Visor extends CI_Controller
         $this->load->model("archivo_model", "ArchivoModel");
         $id = $this->input->post('id');
         $geoJson = $this->input->post('geoJson');
-        return $this->ArchivoModel->setTemporaryGeoJson($id,$geoJson);
+        $lista_capas = $this->input->post('lista');
+        echo $this->ArchivoModel->setTemporaryGeoJson($id,$geoJson,$lista_capas);
         
         
     }

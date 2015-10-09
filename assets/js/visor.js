@@ -18,10 +18,11 @@ var VisorMapa = {
         this.opciones = opciones;
         $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#hIdEmergencia").val()).done(this.makeMap.bind(this));
     };
-    google.maps.Map.prototype.clearMarkers = function() {
-    if(gInfowindow) {
-      gInfowindow.close();
-    }};
+    google.maps.Map.prototype.clearMarkers = function () {
+        if (gInfowindow) {
+            gInfowindow.close();
+        }
+    };
     this.makeMap = function (data) {
         var self = this;
         var json = JSON.parse(data);
@@ -94,12 +95,13 @@ var VisorMapa = {
                 return crossingData.call(self, event);
             if (!event.feature.getProperty("infoWindow"))
                 return;
-             if (gInfowindow) gInfowindow.close();
-               gInfowindow = new google.maps.InfoWindow({
+            if (gInfowindow)
+                gInfowindow.close();
+            gInfowindow = new google.maps.InfoWindow({
                 content: event.feature.getProperty("infoWindow"),
                 position: event.latLng
             });
-            
+
             gInfowindow.open(self.map);
         });
 
@@ -114,7 +116,11 @@ var VisorMapa = {
 
                 }
             });
-
+        if(json.capas)
+        {
+            $('#selected_items').val(json.capas);
+            this.cargarCapas();
+        }
 
 
     };
@@ -268,17 +274,41 @@ var VisorMapa = {
             self.otherStatusInfoControl = "on";
         });
     };
-
+    var self = this;
     this.constructControlSave = function () {
-        var self = this;
+
         $("#ctrlSave").click(function () {
-            // variable para separar
+
             var geojson = {
                 type: "FeatureCollection",
                 features: []
             };
+
+            //reviso las capas 
+            var arr = [];
+            var lista = '';
+            var params = '';
+            self.map.data.forEach(function (feature) {
+                var existe=0;
+                if (!feature.getProperty("midas"))
+                {
+                    $.each(arr, function (k, v) {
+                        if (parseInt(arr[k]) == parseInt(feature.getProperty("TYPE"))) {
+                            existe++;
+                        }
+                    });
+                    if(existe==0)
+                        arr.push(feature.getProperty("TYPE"));
+                }
+
+            });
+            if(arr.length>0)
+            {   lista = arr.join(',');
+                params = 'lista='+lista;
+            }
             self.map.data.toGeoJson(function (json) {
                 for (var i = 0; i < json.features.length; i++) {
+
                     var feature = json.features[i];
                     if (!feature.properties.midas)
                         continue;
@@ -287,10 +317,41 @@ var VisorMapa = {
                 }
 
                 var json_string = JSON.stringify(geojson);
-                var params = "id=" + $("#hIdEmergencia").val() + "&geoJson=" + json_string;
-                $.post(siteUrl + "visor/saveGeoJson", params).done();
+                if(params!=='')
+                    params+='&';
+                
+                params += "id=" + $("#hIdEmergencia").val() + "&geoJson=" + json_string;
+                
             });
+            $.post(siteUrl + "visor/saveGeoJson", params,function(data){
+               if (data == 0) {
+                bootbox.dialog({
+                    title: "Resultado de la operacion",
+                    message: 'Se ha guardado correctamente',
 
+                    buttons: {
+                        danger: {
+                            label: "Cerrar",
+                            className: "btn-info"
+                            
+                        }
+                    }
+
+                });
+            }
+            else {
+                bootbox.dialog({
+                    title: "Resultado de la operacion",
+                    message: 'Error al guardar',
+                    buttons: {
+                        danger: {
+                            label: "Cerrar",
+                            className: "btn-danger"
+                        }
+                    }
+                });
+            }
+            });
         });
     };
 
@@ -359,15 +420,6 @@ var VisorMapa = {
 
     this.cargarCapas = function () {
 
-
-        // $("#mCapas").modal("hide");
-//        self.map.data.forEach(function (feature) {
-//           // console.log(feature.getProperty("TYPE"));
-//            if ($.isNumeric(feature.getProperty("TYPE")))
-//            {
-//                self.map.data.remove(feature);
-//            }
-//        });
         if ($('#selected_items').val() !== '') {
             var arr_select = $('#selected_items').val().split(",");
 
@@ -389,9 +441,8 @@ var VisorMapa = {
                     var json = JSON.parse(data);
                     var geojson = JSON.parse(json.json_str);
 
-                    //console.log(geojson.features.length);
                     var feature;
-
+                    var arr_prop_on = json.propiedades.split(',');
 
                     for (var i = 0; i < geojson.features.length; i++) {
 
@@ -400,16 +451,25 @@ var VisorMapa = {
                         var html = '';
                         var comuna = "";
                         var nombre = "";
-//                        console.log(feature.properties);return;
+                        var habilitada = 0;
+
                         $.each(feature.properties, function (key, value) {
-                            if (key.toLowerCase() !== 'type') {
-                                if (key.toLowerCase() == 'comuna') {
-                                    comuna = '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
-                                }else
-                                if (key.toLowerCase() == 'nombre') {
-                                    nombre = value.toUpperCase();
-                                } else {
-                                    otros += '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
+                            for (var m = 0; m < arr_prop_on.length; m++)
+                            {
+                                if (key.toLowerCase() == arr_prop_on[m].toLowerCase()) {
+                                    habilitada++; // solo imprimo las propiedades hablilitadas para mostrarse (administrador de capas)
+                                }
+                            }
+                            if (habilitada > 0) {
+                                if (key.toLowerCase() !== 'type') {
+                                    if (key.toLowerCase() == 'comuna') {
+                                        comuna = '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
+                                    } else
+                                    if (key.toLowerCase() == 'nombre') {
+                                        nombre = value.toUpperCase();
+                                    } else {
+                                        otros += '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
+                                    }
                                 }
                             }
                         });
@@ -443,7 +503,7 @@ var VisorMapa = {
                                     }
                                 });
                                 self.map.data.add(point);
-
+                                break;
                             case 'Polygon':
                                 var arr = [[]];
                                 var LatLng;
@@ -461,16 +521,13 @@ var VisorMapa = {
                                     geometry: new google.maps.Data.Polygon(arr),
                                     properties: {
                                         fillColor: '#999999',
-                                        type: "POLYGON",
                                         infoWindow: html,
                                         TYPE: feature.properties.TYPE
 
                                     }
                                 });
                                 self.map.data.add(polygon);
-
-                            default:
-                                self.map.data.addGeoJson(geojson);
+                                break;
                         }
 
                     }

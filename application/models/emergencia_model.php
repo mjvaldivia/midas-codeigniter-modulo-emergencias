@@ -310,5 +310,17 @@ class Emergencia_Model extends CI_Model
 
         return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
     }
+    
+    public function obtenerCapas($params){ //capas que estan cargadas en el visor
+        $id = $params['id'];
+        $qry = "select eme_c_capas from emergencias where eme_ia_id = $id";
+
+        $result = $this->db->query($qry);
+
+        $row = $result->result_array();
+        return $row[0]['eme_c_capas'];
+        
+    }
+    
 
 }
