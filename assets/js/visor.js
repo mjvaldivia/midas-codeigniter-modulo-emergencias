@@ -116,7 +116,7 @@ var VisorMapa = {
 
                 }
             });
-        if(json.capas)
+        if (json.capas)
         {
             $('#selected_items').val(json.capas);
             this.cargarCapas();
@@ -289,7 +289,7 @@ var VisorMapa = {
             var lista = '';
             var params = '';
             self.map.data.forEach(function (feature) {
-                var existe=0;
+                var existe = 0;
                 if (!feature.getProperty("midas"))
                 {
                     $.each(arr, function (k, v) {
@@ -297,14 +297,15 @@ var VisorMapa = {
                             existe++;
                         }
                     });
-                    if(existe==0)
+                    if (existe == 0)
                         arr.push(feature.getProperty("TYPE"));
                 }
 
             });
-            if(arr.length>0)
-            {   lista = arr.join(',');
-                params = 'lista='+lista;
+            if (arr.length > 0)
+            {
+                lista = arr.join(',');
+                params = 'lista=' + lista;
             }
             self.map.data.toGeoJson(function (json) {
                 for (var i = 0; i < json.features.length; i++) {
@@ -317,40 +318,38 @@ var VisorMapa = {
                 }
 
                 var json_string = JSON.stringify(geojson);
-                if(params!=='')
-                    params+='&';
-                
+                if (params !== '')
+                    params += '&';
+
                 params += "id=" + $("#hIdEmergencia").val() + "&geoJson=" + json_string;
-                
+
             });
-            $.post(siteUrl + "visor/saveGeoJson", params,function(data){
-               if (data == 0) {
-                bootbox.dialog({
-                    title: "Resultado de la operacion",
-                    message: 'Se ha guardado correctamente',
+            $.post(siteUrl + "visor/saveGeoJson", params, function (data) {
+                if (data == 0) {
+                    bootbox.dialog({
+                        title: "Resultado de la operacion",
+                        message: 'Se ha guardado correctamente',
+                        buttons: {
+                            danger: {
+                                label: "Cerrar",
+                                className: "btn-info"
 
-                    buttons: {
-                        danger: {
-                            label: "Cerrar",
-                            className: "btn-info"
-                            
+                            }
                         }
-                    }
 
-                });
-            }
-            else {
-                bootbox.dialog({
-                    title: "Resultado de la operacion",
-                    message: 'Error al guardar',
-                    buttons: {
-                        danger: {
-                            label: "Cerrar",
-                            className: "btn-danger"
+                    });
+                } else {
+                    bootbox.dialog({
+                        title: "Resultado de la operacion",
+                        message: 'Error al guardar',
+                        buttons: {
+                            danger: {
+                                label: "Cerrar",
+                                className: "btn-danger"
+                            }
                         }
-                    }
-                });
-            }
+                    });
+                }
             });
         });
     };
@@ -440,7 +439,7 @@ var VisorMapa = {
                 $.get(siteUrl + 'visor/get_json_capa/id/' + arr_select[i], function (data) {
                     var json = JSON.parse(data);
                     var geojson = JSON.parse(json.json_str);
-
+                    //console.log(geojson);
                     var feature;
                     var arr_prop_on = json.propiedades.split(',');
 
@@ -462,10 +461,11 @@ var VisorMapa = {
                             }
                             if (habilitada > 0) {
                                 if (key.toLowerCase() !== 'type') {
-                                    if (key.toLowerCase() == 'comuna') {
+                                    if (key.toLowerCase() == 'comuna' && value !== null) {
                                         comuna = '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
                                     } else
-                                    if (key.toLowerCase() == 'nombre') {
+                                    if ((key.toLowerCase() == 'nombre' || key.toLowerCase() == 'name') && value !== null) {
+
                                         nombre = value.toUpperCase();
                                     } else {
                                         otros += '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
@@ -491,11 +491,11 @@ var VisorMapa = {
                             case "Point":
 
 
-                                var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0]), parseFloat(feature.geometry.coordinates[1]), json.geozone);
+                                var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0]), parseFloat(feature.geometry.coordinates[1]), json.geozone);
 
                                 // console.log(latLon);
                                 var point = new google.maps.Data.Feature({
-                                    geometry: new google.maps.Data.Point({lat: parseFloat(latLon[0]), lng: parseFloat(latLon[1])}),
+                                    geometry: new google.maps.Data.Point({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])}),
                                     properties: {
                                         TYPE: feature.properties.TYPE,
                                         icon: json.icono,
@@ -505,18 +505,18 @@ var VisorMapa = {
                                 self.map.data.add(point);
                                 break;
                             case 'Polygon':
+
                                 var arr = [[]];
                                 var LatLng;
 
                                 for (var j = 0; j < feature.geometry.coordinates[0].length; j++)
                                 {
                                     LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0][j][0]), parseFloat(feature.geometry.coordinates[0][j][1]), json.geozone);
-
-                                    arr[0].push({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])});
+                                    var obj = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
+                                    arr[0].push(obj);
 
 
                                 }
-                                //console.log(arr);return;
                                 var polygon = new google.maps.Data.Feature({
                                     geometry: new google.maps.Data.Polygon(arr),
                                     properties: {
@@ -528,6 +528,64 @@ var VisorMapa = {
                                 });
                                 self.map.data.add(polygon);
                                 break;
+                            case 'MultiPolygon':
+
+                                var LatLng;
+                                for (var m = 0; m < feature.geometry.coordinates.length; m++)
+                                {
+                                    for (var j = 0; j < feature.geometry.coordinates[m].length; j++) {
+                                        for (var j = 0; j < feature.geometry.coordinates[m].length; j++)
+                                        {
+
+                                            var arr = [[]];
+                                            for (var k = 0; k < feature.geometry.coordinates[m][j].length; k++)
+                                            {
+                                                LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[m][j][k][0]), parseFloat(feature.geometry.coordinates[m][j][k][1]), json.geozone);
+                                                var obj = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
+                                                arr[0].push(obj);
+                                            }
+                                            var Polygon = new google.maps.Data.Feature({
+                                                geometry: new google.maps.Data.Polygon(arr),
+                                                properties: {
+                                                    fillColor: '#999999',
+                                                    infoWindow: html,
+                                                    TYPE: feature.properties.TYPE
+
+                                                }
+                                            });
+                                            self.map.data.add(Polygon);
+                                        }
+                                    }
+                                }
+                                break;
+                                case 'LineString':
+
+                                var arr = [];
+                                var LatLng;
+                                //console.log(feature.geometry.coordinates.length);return;
+                                for (var p = 0; p < feature.geometry.coordinates.length; p++)
+                                {
+                                    
+                                    LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[p][0]), parseFloat(feature.geometry.coordinates[p][1]), json.geozone);
+                                    //var obj = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
+                                    arr.push({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])});
+
+
+                                }
+
+                                var LineString = new google.maps.Data.Feature({
+                                    geometry: new google.maps.Data.LineString(arr),
+                                    properties: {
+                                        strokeColor: '#0000FF',
+                                        infoWindow: html,
+                                        TYPE: feature.properties.TYPE
+
+                                    }
+                                });
+                                self.map.data.add(LineString);
+                                break;
+
+
                         }
 
                     }
@@ -813,7 +871,6 @@ var VisorMapa = {
                     vertex = [[]];
                     for (i = 0; i < componente.getPath().getLength(); i++) {
                         obj = componente.getPath().getAt(i);
-                        //console.log(obj);
                         vertex[0].push(obj);
                     }
                     polygon = new google.maps.Data.Feature({
