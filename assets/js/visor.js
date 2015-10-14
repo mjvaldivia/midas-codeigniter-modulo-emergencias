@@ -167,8 +167,8 @@ var VisorMapa = {
                 jsonDT.columns = getLayerColumns(actual, getFeatureProperties(feature));
             }
             recorridos.push(actual);
-
-            tituloDT = "Capa " + actual;
+            if (actual != feature.getProperty("type"))
+            tituloDT = "Cruce Capas";
             idTablaDT = "crossingDT_" + (contador++);
 
             var html = $("#moldeCruce").html();
@@ -213,7 +213,7 @@ var VisorMapa = {
     };
 
     var getLayerColumns = function (layer, properties) {
-        var defaultHiddenColumns = ["midas", "icon", "infoWindow", "type"];
+        var defaultHiddenColumns = ["midas", "icon", "infoWindow", "type","TYPE"];
         var columns = [];
         var obj;
 
@@ -451,7 +451,7 @@ var VisorMapa = {
                         var comuna = "";
                         var nombre = "";
                         var habilitada = 0;
-
+                        var json_props = {};
                         $.each(feature.properties, function (key, value) {
                             for (var m = 0; m < arr_prop_on.length; m++)
                             {
@@ -470,9 +470,16 @@ var VisorMapa = {
                                     } else {
                                         otros += '<tr><td style="width:40%;">' + key + '</td><td><span style="padding-left:10px;">' + value + '</span></td><tr>';
                                     }
+                                    json_props[key] = value;
                                 }
                             }
                         });
+
+
+
+
+
+
                         if (nombre == '')
                         {
                             nombre = json.nombre.toUpperCase();
@@ -487,25 +494,21 @@ var VisorMapa = {
                         html += "</div>";
                         html += "</div>";
 
+                        json_props['TYPE'] = feature.properties.TYPE;
+                        json_props['infoWindow'] = html;
                         switch (feature.geometry.type) {
                             case "Point":
-
+                                json_props['icon'] = json.icono;
 
                                 var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0]), parseFloat(feature.geometry.coordinates[1]), json.geozone);
-
-                                // console.log(latLon);
                                 var point = new google.maps.Data.Feature({
                                     geometry: new google.maps.Data.Point({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])}),
-                                    properties: {
-                                        TYPE: feature.properties.TYPE,
-                                        icon: json.icono,
-                                        infoWindow: html
-                                    }
+                                    properties: json_props
                                 });
                                 self.map.data.add(point);
                                 break;
                             case 'Polygon':
-
+                                json_props['fillColor'] = '#999999';
                                 var arr = [[]];
                                 var LatLng;
 
@@ -514,22 +517,15 @@ var VisorMapa = {
                                     LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[0][j][0]), parseFloat(feature.geometry.coordinates[0][j][1]), json.geozone);
                                     var obj = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
                                     arr[0].push(obj);
-
-
                                 }
                                 var polygon = new google.maps.Data.Feature({
                                     geometry: new google.maps.Data.Polygon(arr),
-                                    properties: {
-                                        fillColor: '#999999',
-                                        infoWindow: html,
-                                        TYPE: feature.properties.TYPE
-
-                                    }
+                                    properties: json_props
                                 });
                                 self.map.data.add(polygon);
                                 break;
                             case 'MultiPolygon':
-
+                                json_props['fillColor'] = '#999999';
                                 var LatLng;
                                 for (var m = 0; m < feature.geometry.coordinates.length; m++)
                                 {
@@ -546,41 +542,28 @@ var VisorMapa = {
                                             }
                                             var Polygon = new google.maps.Data.Feature({
                                                 geometry: new google.maps.Data.Polygon(arr),
-                                                properties: {
-                                                    fillColor: '#999999',
-                                                    infoWindow: html,
-                                                    TYPE: feature.properties.TYPE
-
-                                                }
+                                                properties: json_props
                                             });
                                             self.map.data.add(Polygon);
                                         }
                                     }
                                 }
                                 break;
-                                case 'LineString':
-
+                            case 'LineString':
+                                json_props['strokeColor'] = '#0000FF';
                                 var arr = [];
                                 var LatLng;
                                 //console.log(feature.geometry.coordinates.length);return;
                                 for (var p = 0; p < feature.geometry.coordinates.length; p++)
                                 {
-                                    
                                     LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(feature.geometry.coordinates[p][0]), parseFloat(feature.geometry.coordinates[p][1]), json.geozone);
                                     //var obj = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
                                     arr.push({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])});
-
-
                                 }
 
                                 var LineString = new google.maps.Data.Feature({
                                     geometry: new google.maps.Data.LineString(arr),
-                                    properties: {
-                                        strokeColor: '#0000FF',
-                                        infoWindow: html,
-                                        TYPE: feature.properties.TYPE
-
-                                    }
+                                    properties: json_props
                                 });
                                 self.map.data.add(LineString);
                                 break;

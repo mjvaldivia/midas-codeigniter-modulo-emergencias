@@ -189,9 +189,13 @@
 
 <div id="moldeCruce" style="display: none">
     <div class="panel panel-default">
-        <div class="panel-heading">__titulo__</div>
-        <div class="table-responsive">
-            <table id="__id_tabla__" class="table table-bordered table-striped">
+        <div class="panel-heading"></div>
+        <br>
+        <div class='row'>
+          
+            <div class="col-md-12">
+            
+                <table id="__id_tabla__" class="table table-bordered table-striped">
                 <thead>
                 </thead>
                 <tbody>
@@ -199,7 +203,12 @@
                 <tfoot>
                 </tfoot>
             </table>
+            </div>
+
         </div>
+        
+            
+
     </div>
 </div>
 
