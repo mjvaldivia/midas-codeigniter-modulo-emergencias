@@ -24,6 +24,22 @@
         font-size: 15px;
         font-weight: bold;
     }
+    .contextmenu a{
+        cursor:pointer;
+        text-decoration: none;
+    }
+.contextmenu{
+   visibility: hidden;
+    background: #ffffff;
+    border: 1px solid #8888FF;
+    z-index: 10;
+    position: absolute;
+    min-width: 10px;
+    height: 35px;
+}
+.contextmenu div{
+    padding: 5px
+    }
 </style>
 <div id="wrapper" class='toggled'>
         <div id="sidebar-wrapper">
@@ -172,7 +188,7 @@
 </div>
 
 <div class="modal fade" id="mInfo">
-	<div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="width:80%;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -187,30 +203,7 @@
 	</div>
 </div>
 
-<div id="moldeCruce" style="display: none">
-    <div class="panel panel-default">
-        <div class="panel-heading"></div>
-        <br>
-        <div class='row'>
-          
-            <div class="col-md-12">
-            
-                <table id="__id_tabla__" class="table table-bordered table-striped">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                </tfoot>
-            </table>
-            </div>
 
-        </div>
-        
-            
-
-    </div>
-</div>
 
 
 <div id="moldeIns" class='infoWindow' style="display: none">

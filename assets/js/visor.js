@@ -90,7 +90,6 @@ var VisorMapa = {
         });
         this.map.data.addListener("click", function (event) {
 
-
             if (self.otherStatusInfoControl == "on")
                 return crossingData.call(self, event);
             if (!event.feature.getProperty("infoWindow"))
@@ -104,7 +103,28 @@ var VisorMapa = {
 
             gInfowindow.open(self.map);
         });
+        this.map.addListener("zoom_changed", function (event){
+           $('.contextmenu').remove(); 
+        });
+        this.map.addListener("rightclick", function (event){
+           $('.contextmenu').remove(); 
+        });
+        this.map.addListener("click", function (event){
+           $('.contextmenu').remove(); 
+        });
+        this.map.addListener("dblclick", function (event){
+           $('.contextmenu').remove(); 
+        });
+        this.map.data.addListener("rightclick", function (event) {
 
+            if (event.feature.getProperty('microtime') && event.feature.getProperty("type") !== "LUGAR_EMERGENCIA")
+            {
+               
+                self.showContextMenu(event.latLng, event.feature);
+            }
+
+
+        });
         if (json.geojson)
             this.map.data.loadGeoJson(json.geojson, null, function (features) {
                 for (var i = 0; i < features.length; i++) {
@@ -128,7 +148,7 @@ var VisorMapa = {
     var crossingData = function (event) {
         if (event.feature.getGeometry().getType() != "Polygon")
             return null;
-
+        console.log(event.feature);
         var features = getDataFeatures.call(this);
         var results = [];
         var feature, i;
@@ -138,59 +158,133 @@ var VisorMapa = {
 
         for (i = 0; i < features.length; i++) {
             feature = features[i];
+
             if (feature.getGeometry().getType() != "Point" || feature.getProperty("type") == "LUGAR_EMERGENCIA")
                 continue;
 
             if (google.maps.geometry.poly.containsLocation(feature.getGeometry().get(), target))
+            {
+                //console.log(feature);
                 results.push(feature);
+            }
         }
-
+        if (results.length == 0)
+            return null;
         // rendering
         var actual = null;
-        var recorridos = [];
-        var jsonDT, idTablaDT, tituloDT, contador;
 
-        for (i = 0, contador = 1; i < results.length; i++) {
-            if (recorridos.indexOf(actual) != -1)
-                continue;
+        var jsonDT, idTablaDT, contador;
+        // tabla
+        var capas = {}; //diferentes capas encontradas en el cruce
+        var obj;
+        var existe;
+        var defaultHiddenColumns = ["midas", "icon", "infoWindow", "type", "TYPE", "LAYERNAME",'microtime'];
+        var feature;
+        var type;
+        var active;
+        var div_tablas = $("#mInfoContent");
+        var layername;
+        capas.tipo = [];
+        capas.layername = [];
+        capas.cols = [];
+        var columns;
+        for (i = 0; i < results.length; i++) {
 
+            feature = results[i];
+            existe = 0;
+            var actual = feature;
+
+            $.each(capas.tipo, function (key, value) {
+                if (actual.getProperty("type") == value || actual.getProperty("TYPE") == value)
+                {
+                    existe++;
+                }
+
+            });
+
+
+            if (existe == 0)
+            {
+                columns = [];
+                if (actual.getProperty("TYPE") != null)
+                {
+                    capas.tipo.push(actual.getProperty("TYPE"));
+                    capas.layername.push(actual.getProperty("LAYERNAME"));
+
+                    $.each(getFeatureProperties(actual), function (k) {
+
+                        if (!capas.cols.hasOwnProperty(k)) {
+                            obj = {};
+                            obj.mData = k;
+                            obj.sTitle = k;
+
+                            if (defaultHiddenColumns.indexOf(k) != -1)
+                                obj.bVisible = false;
+                            columns.push(obj);
+                        }
+                    });
+
+                    capas.cols.push(columns);
+                } else
+                if (actual.getProperty("type") != null)
+                {
+                    capas.tipo.push(actual.getProperty("type"));
+                    capas.layername.push(actual.getProperty("type"));
+                    $.each(getFeatureProperties(actual), function (j) {
+                        if (!capas.cols.hasOwnProperty(j)) {
+                            obj = {};
+                            obj.mData = j;
+                            obj.sTitle = j;
+
+                            if (defaultHiddenColumns.indexOf(j) != -1)
+                                obj.bVisible = false;
+                            columns.push(obj);
+                        }
+                    });
+                    capas.cols.push(columns);
+                }
+
+            }
+
+        }
+        console.log(capas);
+        div_tablas.html('');
+        div_tablas.append('<ul id="ul-tabs" class="nav nav-tabs"></ul>');
+        $('#ul-tabs').after('<div id="tab-content" class="tab-content"></div>');
+        $.each(capas.tipo, function (key, value) {
+            type = capas.tipo[key];
+            layername = capas.layername[key];
             jsonDT = {};
             jsonDT.data = [];
+            for (var k = 0; k < results.length; k++) { // por cada feature 
 
-            actual = results[i].getProperty("type");
-
-            for (var j = i; j < results.length; j++) {
-                feature = results[j];
-                if (actual != feature.getProperty("type"))
-                    continue;
-                jsonDT.data.push(getFeatureProperties(feature));
-                jsonDT.columns = getLayerColumns(actual, getFeatureProperties(feature));
+                feature = results[k];
+                if (feature.getProperty("type") == type || feature.getProperty("TYPE") == type) // clasifico segun el tipo actual
+                {
+                    jsonDT.data.push(getFeatureProperties(feature));
+                }
             }
-            recorridos.push(actual);
-            if (actual != feature.getProperty("type"))
-            tituloDT = "Cruce Capas";
-            idTablaDT = "crossingDT_" + (contador++);
 
-            var html = $("#moldeCruce").html();
-            html = html.replace(/__titulo__/g, tituloDT);
-            html = html.replace(/__id_tabla__/g, idTablaDT);
+            active = (key == 0) ? 'active' : '';
 
-            $("#mInfoContent").html("");
-            $("#mInfoContent").prepend(html);
+            $('#ul-tabs').append('<li class=' + active + '><a href="#tab' + key + '" data-toggle="tab">' + layername + '</a></li>');
+            $('#tab-content').append("<div class='tab-pane " + active + "' id='tab" + key + "' style='overflow:hidden;'><div id='div_tab_" + key + "' class='col-xs-12 table-responsive'></div></div>");
+            $('#div_tab_' + key).append('<table id=table_' + key + ' class="table table-bordered table-striped"><thead></thead><tbody></tbody><tfoot></tfoot></table>');
 
-            //console.log(JSON.stringify(jsonDT));
-
-            $("#" + idTablaDT).DataTable({
-                columns: jsonDT.columns,
+            $("#table_" + key).DataTable({
+                columns: capas.cols[key],
                 data: jsonDT.data,
                 language: {
                     url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
                 }
             });
 
-            $("#mInfo").modal("show");
-            $("#ctrlInfo").click(); // para que se apague
-        }
+        });
+
+
+        $("#mInfo").modal("show");
+        $("#ctrlInfo").click(); // para que se apague
+
 
         return null;
     };
@@ -213,7 +307,6 @@ var VisorMapa = {
     };
 
     var getLayerColumns = function (layer, properties) {
-        var defaultHiddenColumns = ["midas", "icon", "infoWindow", "type","TYPE"];
         var columns = [];
         var obj;
 
@@ -245,17 +338,7 @@ var VisorMapa = {
                 break;
 
             default:
-                for (var name in properties) {
-                    if (properties.hasOwnProperty(name)) {
-                        obj = {};
-                        obj.mData = name;
-                        obj.sTitle = name;
 
-                        if (defaultHiddenColumns.indexOf(name) != -1)
-                            obj.bVisible = false;
-                        columns.push(obj);
-                    }
-                }
                 break;
         }
         return columns;
@@ -417,6 +500,74 @@ var VisorMapa = {
         self.cargarCapas();
     };
 
+    this.quitarFeature = function (microtime) {
+        self.map.data.forEach(function (feature) {
+
+            if (feature.getProperty("microtime") == microtime)
+            {
+                self.map.data.remove(feature);
+                $('.contextmenu').remove();
+            }
+        });
+
+    };
+    this.microtime = function () {
+        var now = new Date()
+                .getTime();
+        var s = parseInt(now, 10);
+
+        return (Math.round((now - s) * 1000) / 1000) + s;
+    };
+    this.showContextMenu = function (actualLatLng, feature) {
+        var projection;
+        var contextmenuDir;
+        projection = self.map.getProjection();
+        $('.contextmenu').remove();
+        
+        contextmenuDir = document.createElement("div");
+        contextmenuDir.className = 'contextmenu';
+        contextmenuDir.innerHTML = '<a id="menu1" onclick="VisorMapa.quitarFeature(' + feature.getProperty('microtime') + ')"><div class="context"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Quitar ' + feature.getProperty('nombre') + '</div></a>';
+
+        $(self.map.getDiv()).append(contextmenuDir);
+
+        self.setMenuXY(actualLatLng);
+
+        contextmenuDir.style.visibility = "visible";
+    };
+
+    this.getCanvasXY = function (actualLatLng) {
+        var scale = Math.pow(2, self.map.getZoom());
+        var nw = new google.maps.LatLng(
+                self.map.getBounds().getNorthEast().lat(),
+                self.map.getBounds().getSouthWest().lng()
+                );
+        var worldCoordinateNW = self.map.getProjection().fromLatLngToPoint(nw);
+        var worldCoordinate = self.map.getProjection().fromLatLngToPoint(actualLatLng);
+        var actualLatLngLatLngOffset = new google.maps.Point(
+                Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+                Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+                );
+        return actualLatLngLatLngOffset;
+    };
+
+    this.setMenuXY = function (actualLatLng) {
+        var mapWidth = $('#mapa').width();
+        var mapHeight = $('#mapa').height();
+        var menuWidth = $('.contextmenu').width();
+        var menuHeight = $('.contextmenu').height();
+        var clickedPosition = self.getCanvasXY(actualLatLng);
+        var x = clickedPosition.x - 10;
+        var y = clickedPosition.y - 15;
+
+        if ((mapWidth - x) < menuWidth)//if to close to the map border, decrease x position
+            x = x - menuWidth;
+        if ((mapHeight - y) < menuHeight)//if to close to the map border, decrease y position
+            y = y - menuHeight;
+
+        $('.contextmenu').css('left', x);
+        $('.contextmenu').css('top', y);
+    };
+
     this.cargarCapas = function () {
 
         if ($('#selected_items').val() !== '') {
@@ -496,6 +647,8 @@ var VisorMapa = {
 
                         json_props['TYPE'] = feature.properties.TYPE;
                         json_props['infoWindow'] = html;
+                        json_props['LAYERNAME'] = json.nombre.toUpperCase();
+
                         switch (feature.geometry.type) {
                             case "Point":
                                 json_props['icon'] = json.icono;
@@ -831,7 +984,7 @@ var VisorMapa = {
             var componente = event.overlay;
             componente.setMap(null);
             var vertex, i, polygon, obj;
-
+            var microtime = self.microtime();
             switch (event.type) {
                 case google.maps.drawing.OverlayType.POLYLINE:
                     vertex = [];
@@ -845,6 +998,8 @@ var VisorMapa = {
                             strokeColor: self.otherControlColor,
                             type: "POLYLINE",
                             infoWindow: self.otherControlSelected.title,
+                            nombre: self.otherControlSelected.title,
+                            microtime: microtime,
                             midas: true
                         }
                     });
@@ -862,6 +1017,8 @@ var VisorMapa = {
                             fillColor: self.otherControlColor,
                             type: "POLYGON",
                             infoWindow: self.otherControlSelected.title,
+                            nombre: self.otherControlSelected.title,
+                            microtime: microtime,
                             midas: true
                         }
                     });
@@ -876,6 +1033,8 @@ var VisorMapa = {
                             fillColor: self.otherControlColor,
                             type: "CIRCLE",
                             infoWindow: self.otherControlSelected.title,
+                            nombre: self.otherControlSelected.title,
+                            microtime: microtime,
                             midas: true
                         }
                     });
@@ -896,6 +1055,8 @@ var VisorMapa = {
                             fillColor: self.otherControlColor,
                             type: "RECTANGLE",
                             infoWindow: self.otherControlSelected.title,
+                            nombre: self.otherControlSelected.title,
+                            microtime: microtime,
                             midas: true
                         }
                     });
@@ -910,6 +1071,8 @@ var VisorMapa = {
                             type: "PUNTO",
                             icon: baseUrl + "assets/img/spotlight-poi-" + self.otherControlDataColor + ".png",
                             infoWindow: self.otherControlSelected.title,
+                            nombre: self.otherControlSelected.title,
+                            microtime: microtime,
                             midas: true
                         }
                     });
