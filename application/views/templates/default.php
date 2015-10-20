@@ -67,6 +67,12 @@
                                 </a>
                             </li>
                         <?php endif; ?>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="<?= site_url("session/logout") ?>">
+                                    <i class="fa fa-sign-out"></i>Cerrar Sesión
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>

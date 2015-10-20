@@ -229,7 +229,6 @@
 <?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
 <?= loadJS("assets/js/geo-encoder.js") ?>
-<?= loadJS("assets/js/gmaps.js") ?>
 <?= loadJS("assets/js/visor.js") ?>
 
 <script type="text/javascript">

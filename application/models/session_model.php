@@ -284,4 +284,24 @@ class Session_Model extends CI_Model
         }
         return $resultadoOperacion;
     }
+    
+        public function getMinMaxUser() {
+        $this->load->helper("debug");
+
+        //var_dump($this->session->userdata('session_comunas'));
+        $sql = "select  min(c.com_c_xmin) com_c_xmin,
+                        min(c.com_c_ymin) com_c_ymin,
+                        max(c.com_c_xmax) com_c_xmax,
+                        max(c.com_c_ymax) com_c_ymax,
+                        com_c_geozone from comunas c 
+                        where c.com_ia_id in (" . $this->session->userdata("session_comunas") . ")";
+
+        $query = $this->db->query($sql);
+
+
+        $resultado = $query->result_array();
+
+        return $resultado[0];
+    }
+    
 }

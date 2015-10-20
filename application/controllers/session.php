@@ -22,6 +22,22 @@ class Session extends CI_Controller
 
         echo json_encode($json);
     }
+    public function getMinMaxUsr() {
+        $this->load->model("session_model", "SesionModel");
+
+        $c = $this->SesionModel->getMinMaxUser();
+
+
+            $json = array(
+                'com_c_xmin' => $c["com_c_xmin"],
+                'com_c_ymin' => $c["com_c_ymin"],
+                'com_c_xmax' => $c["com_c_xmax"],
+                'com_c_ymax' => $c["com_c_ymax"],
+                'com_c_geozone' => $c["com_c_geozone"]
+            );
+
+        echo json_encode($json);
+    }
 
     public function obtenerJsonUsuariosImpersonables() {
         $this->load->model("session_model", "Sesion");
@@ -33,7 +49,7 @@ class Session extends CI_Controller
         foreach($usuarios as $u)
             $json[] = array(
                 $u["usu_ia_id"],
-                $u["usu_c_cargo"],
+                $u["usu_c_cargo"]
             );
 
         echo json_encode($json);
@@ -88,5 +104,14 @@ class Session extends CI_Controller
         }
 
         redirect(base_url());
+    }
+    public function logout(){
+         $this->load->helper(array(
+            "debug",
+            "session",
+            "url"
+        ));
+         $this->session->sess_destroy();
+         redirect(base_url());
     }
 }

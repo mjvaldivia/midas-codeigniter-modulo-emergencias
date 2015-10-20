@@ -177,8 +177,8 @@ var GeoEncoder = {
         } //10000000 meter offset for southern hemisphere
 
         // Round them off, it's normally specified as integers and conversion is not terribly exact anyway
-        utmNorthing = Math.round10(utmNorthing, -2);
-        utmEasting = Math.round10(utmEasting, -2);
+        utmNorthing = Math.round(utmNorthing, -2);
+        utmEasting = Math.round(utmEasting, -2);
 
         return [utmEasting, utmNorthing, utmZone];
     },

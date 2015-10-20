@@ -17,16 +17,9 @@ var Alarma = {};
             format: "DD-MM-YYYY hh:mm"
         });
 
-        $('#iTiposEmergencias').change(function () {
-            if ($('#iTiposEmergencias').val() == 15) {
-                $('#btnSiguiente').html('Siguiente Paso');
-            }
-            else {
-                $('#btnSiguiente').html('Aceptar');
-            }
 
-        });
     };
+
 
     this.inicioListado = function () {
         $("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
@@ -152,7 +145,7 @@ var Alarma = {};
                 html += "       </div>";
                 html += "    </div>";
                 html += "</div>";
-  
+
                 return html;
             };
 
@@ -180,7 +173,7 @@ var Alarma = {};
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Se ha insertado correctamente<br>' +
-                    'Estado email: ' + response.res_mail
+                            'Estado email: ' + response.res_mail
                     ,
                     buttons: {
                         danger: {
@@ -225,3 +218,125 @@ var Alarma = {};
     };
 
 }).apply(Alarma);
+
+var map;
+var marcador = {};
+var geozone;
+var marcador = [];
+function initialize() {
+    $.getJSON(siteUrl + 'session/getMinMaxUsr', null, function (data) {
+        var defaultBounds = new google.maps.LatLngBounds();
+        var mapProp = {
+            center: new google.maps.LatLng(-33.07, -71.6),
+            zoom: 12,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map($("#map").get(0), mapProp);
+        geozone = data.com_c_geozone;
+        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(data.com_c_xmin), parseFloat(data.com_c_ymin), geozone);
+        defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+        latLon = GeoEncoder.utmToDecimalDegree(parseFloat(data.com_c_xmax), parseFloat(data.com_c_ymax), geozone);
+        defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+        map.fitBounds(defaultBounds);
+
+
+
+
+        new google.maps.places.Autocomplete(
+                (document.getElementById('iLugarEmergencia')), {
+            componentRestrictions: {country: 'cl'}
+        });
+
+        var input = $("#iLugarEmergencia").get(0);
+        var searchBox = new google.maps.places.SearchBox(input,{bounds: defaultBounds});
+
+        google.maps.event.addListener(map, 'bounds_changed', function() {
+        var bounds = map.getBounds();
+        searchBox.setBounds(bounds);
+        });
+
+        searchBox.addListener('places_changed', function () {
+            var places = searchBox.getPlaces();
+
+            if (places.length === 0) {
+                return;
+            }
+
+            marcador.forEach(function (marker) {
+                marker.setMap(null);
+            });
+            marcador = [];
+
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function (place) {
+
+
+
+                marcador.push(new google.maps.Marker(
+                        {
+                            map: map,
+                            draggable: true,
+                            animation: google.maps.Animation.DROP,
+                            position: place.geometry.location
+                        }));
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+                
+                geocodePosition(place.geometry.location);
+                
+            });
+
+
+            google.maps.event.addListener(marcador[0], 'dragend', function ()
+            {
+                geocodePosition(marcador[0].getPosition());
+
+            });
+            map.fitBounds(bounds);
+        });
+    });
+
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+function geocodePosition(pos)
+{
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode
+            ({
+                latLng: pos
+            },
+                    function (results, status)
+                    {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(results[0].geometry.location.lat()), parseFloat(results[0].geometry.location.lng()));
+                            //console.log(results[0].geometry.location.lat());
+                            $('#ins_c_coordenada_e').val(punto[1]);
+                            $('#ins_c_coordenada_n').val(punto[0]);
+                        } else {
+                            $('#ins_c_coordenada_e').val("");
+                            $('#ins_c_coordenada_n').val("");
+                            bootbox.dialog({
+                                message: "No se ha encontrado sugerencia para la dirección brindada",
+                                title: "Resultado de la operación",
+                                buttons: {
+                                    success: {
+                                        label: "Cerrar",
+                                        className: "btn-danger",
+                                        callback: function () {}
+                                    }
+                                }
+                            });
+                        }
+                        $('#ins_c_coordenada_e').keyup();
+                    }
+            );
+}
+
+

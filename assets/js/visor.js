@@ -36,9 +36,10 @@ var VisorMapa = {
 
             var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmin), parseFloat(c.com_c_ymin), c.com_c_geozone);
             bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-
+            console.log(latLon);
             latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
             bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+            console.log(latLon);
         }
 
 
@@ -247,7 +248,6 @@ var VisorMapa = {
             }
 
         }
-        console.log(capas);
         div_tablas.html('');
         div_tablas.append('<ul id="ul-tabs" class="nav nav-tabs"></ul>');
         $('#ul-tabs').after('<div id="tab-content" class="tab-content"></div>');
@@ -1132,6 +1132,7 @@ var VisorMapa = {
         });
 
         searchBox.addListener('places_changed', function () {
+            console.log(searchBox.getPlaces());
             var places = searchBox.getPlaces();
 
             if (places.length === 0) {
