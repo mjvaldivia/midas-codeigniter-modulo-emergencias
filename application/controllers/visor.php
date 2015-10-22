@@ -47,6 +47,7 @@ class Visor extends CI_Controller
         $retorno["coordinates"] = $this->VisorModel->obtenerLimitesVisor($params);
         $retorno["facilities"] = $this->VisorModel->obtenerTipInsGuardados($params);
         $retorno["capas"] = $this->EmergenciaModel->obtenerCapas($params);
+        $retorno["referencia"] = $this->EmergenciaModel->get_JsonReferencia($params['id']);
         
 
         echo json_encode($retorno);
@@ -164,6 +165,7 @@ class Visor extends CI_Controller
         $params = $this->uri->uri_to_assoc();
         return $this->CapaModel->getjson($params['id']);
     }
+    
     
     
 }

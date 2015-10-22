@@ -14,7 +14,7 @@ var Alarma = {};
         });
 
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
-            format: "DD-MM-YYYY hh:mm"
+            format: "DD-MM-YYYY HH:mm"
         });
 
 
@@ -240,7 +240,7 @@ function initialize() {
         map.fitBounds(defaultBounds);
 
 
-
+        $('#geozone').val(geozone);
 
         new google.maps.places.Autocomplete(
                 (document.getElementById('iLugarEmergencia')), {
@@ -248,11 +248,11 @@ function initialize() {
         });
 
         var input = $("#iLugarEmergencia").get(0);
-        var searchBox = new google.maps.places.SearchBox(input,{bounds: defaultBounds});
+        var searchBox = new google.maps.places.SearchBox(input, {bounds: defaultBounds});
 
-        google.maps.event.addListener(map, 'bounds_changed', function() {
-        var bounds = map.getBounds();
-        searchBox.setBounds(bounds);
+        google.maps.event.addListener(map, 'bounds_changed', function () {
+            var bounds = map.getBounds();
+            searchBox.setBounds(bounds);
         });
 
         searchBox.addListener('places_changed', function () {
@@ -262,81 +262,82 @@ function initialize() {
                 return;
             }
 
-            marcador.forEach(function (marker) {
-                marker.setMap(null);
-            });
-            marcador = [];
+
 
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function (place) {
-
-
-
-                marcador.push(new google.maps.Marker(
-                        {
-                            map: map,
-                            draggable: true,
-                            animation: google.maps.Animation.DROP,
-                            position: place.geometry.location
-                        }));
+                set_marker(place.geometry.location);
                 if (place.geometry.viewport) {
                     bounds.union(place.geometry.viewport);
                 } else {
                     bounds.extend(place.geometry.location);
                 }
-                
-                geocodePosition(place.geometry.location);
-                
-            });
+                setInputs(place.geometry.location);
 
-
-            google.maps.event.addListener(marcador[0], 'dragend', function ()
-            {
-                geocodePosition(marcador[0].getPosition());
 
             });
-            map.fitBounds(bounds);
+            // map.fitBounds(bounds);
+
         });
-    });
 
+    });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
+function set_marker(position) {
+
+    marcador.forEach(function (marker) {
+        marker.setMap(null);
+    });
+    marcador = [];
+    marcador.push(new google.maps.Marker(
+            {
+                map: map,
+                draggable: true,
+                //animation: google.maps.Animation.DROP,
+                position: position,
+                icon: baseUrl+'assets/img/referencia.png'
+            }));
 
 
 
-function geocodePosition(pos)
-{
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode
-            ({
-                latLng: pos
-            },
-                    function (results, status)
-                    {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(results[0].geometry.location.lat()), parseFloat(results[0].geometry.location.lng()));
-                            //console.log(results[0].geometry.location.lat());
-                            $('#ins_c_coordenada_e').val(punto[1]);
-                            $('#ins_c_coordenada_n').val(punto[0]);
-                        } else {
-                            $('#ins_c_coordenada_e').val("");
-                            $('#ins_c_coordenada_n').val("");
-                            bootbox.dialog({
-                                message: "No se ha encontrado sugerencia para la dirección brindada",
-                                title: "Resultado de la operación",
-                                buttons: {
-                                    success: {
-                                        label: "Cerrar",
-                                        className: "btn-danger",
-                                        callback: function () {}
-                                    }
-                                }
-                            });
-                        }
-                        $('#ins_c_coordenada_e').keyup();
-                    }
-            );
+
+
+
+    google.maps.event.addListener(marcador[0], 'dragend', function ()
+    {
+        setInputs(marcador[0].getPosition());
+
+    });
+
+    map.setCenter(marcador[0].getPosition());
+    map.setZoom(15);
+
 }
+
+
+function setInputs(pos)
+{
+
+
+                            var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(pos.lng()), parseFloat(pos.lat()));
+                            //console.log(results[0].geometry.location.lat());
+                            $('#ins_c_coordenada_e').val(punto[0]);
+                            $('#ins_c_coordenada_n').val(punto[1]);
+
+}
+
+function set_marker_by_inputs() {
+    if ($('#ins_c_coordenada_e').val() > 0 && $('#ins_c_coordenada_n').val() > 0) {
+        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat($('#ins_c_coordenada_e').val()), parseFloat($('#ins_c_coordenada_n').val()), geozone);
+        var punto = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
+
+        set_marker(punto);
+
+        //map.fitBounds(bounds);
+
+    }
+}
+;
 
 

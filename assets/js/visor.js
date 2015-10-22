@@ -4,6 +4,7 @@ var VisorMapa = {
     emergencyMarker: null,
     emergencyRadius: null,
     emergencyDrawingManager: null,
+    referenciaMarker: null,
     otherDrawingManager: null,
     otherControlColor: null,
     otherControlDataColor: null,
@@ -36,11 +37,10 @@ var VisorMapa = {
 
             var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmin), parseFloat(c.com_c_ymin), c.com_c_geozone);
             bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-            console.log(latLon);
             latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
             bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-            console.log(latLon);
         }
+
 
 
         this.canvas = $("#mapa").get(0);
@@ -104,52 +104,91 @@ var VisorMapa = {
 
             gInfowindow.open(self.map);
         });
-        this.map.addListener("zoom_changed", function (event){
-           $('.contextmenu').remove(); 
+        this.map.addListener("zoom_changed", function (event) {
+            $('.contextmenu').remove();
         });
-        this.map.addListener("rightclick", function (event){
-           $('.contextmenu').remove(); 
+        this.map.addListener("rightclick", function (event) {
+            $('.contextmenu').remove();
         });
-        this.map.addListener("click", function (event){
-           $('.contextmenu').remove(); 
+        this.map.addListener("click", function (event) {
+            $('.contextmenu').remove();
         });
-        this.map.addListener("dblclick", function (event){
-           $('.contextmenu').remove(); 
+        this.map.addListener("dblclick", function (event) {
+            $('.contextmenu').remove();
         });
         this.map.data.addListener("rightclick", function (event) {
 
-            if (event.feature.getProperty('microtime') && event.feature.getProperty("type") !== "LUGAR_EMERGENCIA")
+            if (event.feature.getProperty('microtime'))
             {
-               
+
                 self.showContextMenu(event.latLng, event.feature);
             }
 
 
         });
+        //dibujo el marcador de referencia que se guarda en la alarma
+        var referencia = JSON.parse(json.referencia);
+
+        if (referencia.ref_lat && referencia.ref_lng && referencia.geozone)
+        {
+            this.drawReferencia(referencia.ref_lat, referencia.ref_lng, referencia.geozone);
+             
+
+        }
         if (json.geojson)
+        {
             this.map.data.loadGeoJson(json.geojson, null, function (features) {
                 for (var i = 0; i < features.length; i++) {
                     var feature = features[i];
                     if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
+                        self.map.data.remove(self.referenciaMarker);
                         self.emergencyMarker = feature;
+                        var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
+                        self.map.setCenter(gooLatLng);
+                        self.map.setZoom(14);
+
                     } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                         self.emergencyRadius = feature;
 
                 }
             });
+
+        }
+
+
+
+
+
         if (json.capas)
         {
             $('#selected_items').val(json.capas);
             this.cargarCapas();
         }
 
+    };
+    var self = this;
+    this.drawReferencia = function (ref_lat, ref_lng, geozone) {
+        var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(ref_lng), parseFloat(ref_lat), geozone);
+
+        var gooLatLng = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
+        var point = new google.maps.Data.Feature({
+            geometry: new google.maps.Data.Point(gooLatLng),
+            properties: {
+                type: "REFERENCIA",
+                icon: baseUrl + "assets/img/referencia.png",
+                infoWindow: 'Lugar de referencia alarma',
+                nombre: 'Lugar de referencia alarma'
+            }
+        });
+        this.map.data.add(point);
+        self.referenciaMarker = point;
+        this.map.setCenter(self.referenciaMarker.getGeometry().get());
 
     };
 
     var crossingData = function (event) {
         if (event.feature.getGeometry().getType() != "Polygon")
             return null;
-        console.log(event.feature);
         var features = getDataFeatures.call(this);
         var results = [];
         var feature, i;
@@ -179,7 +218,7 @@ var VisorMapa = {
         var capas = {}; //diferentes capas encontradas en el cruce
         var obj;
         var existe;
-        var defaultHiddenColumns = ["midas", "icon", "infoWindow", "type", "TYPE", "LAYERNAME",'microtime'];
+        var defaultHiddenColumns = ["midas", "icon", "infoWindow", "type", "TYPE", "LAYERNAME", 'microtime'];
         var feature;
         var type;
         var active;
@@ -505,7 +544,13 @@ var VisorMapa = {
 
             if (feature.getProperty("microtime") == microtime)
             {
-                self.map.data.remove(feature);
+                if (feature.getProperty("type") == 'LUGAR_EMERGENCIA' || feature.getProperty("type") == 'RADIO_EMERGENCIA')
+                {
+                    self.map.data.remove(self.emergencyRadius);
+                    self.map.data.remove(self.emergencyMarker);
+                } else {
+                    self.map.data.remove(feature);
+                }
                 $('.contextmenu').remove();
             }
         });
@@ -523,7 +568,7 @@ var VisorMapa = {
         var contextmenuDir;
         projection = self.map.getProjection();
         $('.contextmenu').remove();
-        
+
         contextmenuDir = document.createElement("div");
         contextmenuDir.className = 'contextmenu';
         contextmenuDir.innerHTML = '<a id="menu1" onclick="VisorMapa.quitarFeature(' + feature.getProperty('microtime') + ')"><div class="context"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Quitar ' + feature.getProperty('nombre') + '</div></a>';
@@ -897,6 +942,7 @@ var VisorMapa = {
         });
 
         google.maps.event.addListener(this.emergencyDrawingManager, 'overlaycomplete', function (event) {
+
             if (event.type == google.maps.drawing.OverlayType.MARKER) {
                 if (self.emergencyMarker) {
                     self.map.data.remove(self.emergencyMarker);
@@ -906,20 +952,22 @@ var VisorMapa = {
 
                 var marker = event.overlay;
                 marker.setMap(null);
-
+                microtime = self.microtime();
                 var point = new google.maps.Data.Feature({
                     geometry: new google.maps.Data.Point(marker.getPosition()),
                     properties: {
                         type: "LUGAR_EMERGENCIA",
-                        icon: baseUrl + "assets/img/spotlight-poi.png",
+                        icon: baseUrl + "assets/img/emergencia.png",
                         infoWindow: "Lugar de la emergencia",
-                        midas: true
+                        midas: true,
+                        microtime: microtime,
+                        nombre: 'Lugar de la Emergencia'
                     }
                 });
 
                 self.map.data.add(point);
                 self.emergencyMarker = point;
-
+                self.map.setCenter(self.emergencyMarker.getGeometry().get());
                 $("#mRadioEmergencia").modal("show");
                 $("#iRadioEmergencia").closest("div").removeClass("has-error");
             }
@@ -1193,17 +1241,24 @@ var VisorMapa = {
         });
 
         var vertex = generateCircleVertex(tmpCircle);
+        var microtime = self.microtime();
         var polygon = new google.maps.Data.Feature({
             geometry: new google.maps.Data.Polygon(vertex),
             properties: {
                 fillColor: "#FF0000",
                 type: "RADIO_EMERGENCIA",
                 infoWindow: "Radio de la emergencia",
-                midas: true
+                midas: true,
+                microtime : microtime,
+                nombre: 'Lugar de la Emergencia'
             }
         });
         this.map.data.add(polygon);
         this.emergencyRadius = polygon;
+        this.map.data.remove(this.referenciaMarker);
+
+
+
     };
 
     var emergencyOtherReceiver = function () {

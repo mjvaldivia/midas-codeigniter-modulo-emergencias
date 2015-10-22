@@ -129,7 +129,7 @@ class Emergencia_Model extends CI_Model
     {
         $mapeo = array(
             "tipoEmergencia" => "e.tip_ia_id",
-            "anio" => "year(e.eme_d_fecha_emergencia)"
+            "anio" => "year(e.eme_d_fecha_recepcion)"
         );
 
         $where = "1=1";
@@ -310,7 +310,7 @@ class Emergencia_Model extends CI_Model
 
         return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
     }
-    
+        
     public function obtenerCapas($params){ //capas que estan cargadas en el visor
         $id = $params['id'];
         $qry = "select eme_c_capas from emergencias where eme_ia_id = $id";
@@ -320,6 +320,21 @@ class Emergencia_Model extends CI_Model
         $row = $result->result_array();
         return $row[0]['eme_c_capas'];
         
+    }
+    
+        public function get_JsonReferencia($id) {
+        $this->load->helper("url");
+        $result = $this->db->query(" SELECT ala_c_utm_lat ref_lat, ala_c_utm_lng ref_lng, ala_c_geozone geozone  from alertas a join emergencias e on e.ala_ia_id = a.ala_ia_id where e.eme_ia_id= $id");
+        $row= $result->result_array();
+          $res =   array(
+                'ref_lat' => $row[0]['ref_lat'],
+                'ref_lng' => $row[0]['ref_lng'],
+                'geozone' => $row[0]['geozone']
+               
+                
+            );
+          
+        return json_encode($res);
     }
     
 

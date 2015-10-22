@@ -5,6 +5,8 @@
  * @since 14-09-15
  */
 function spanishDateToISO($sDate) {
+    if($sDate=='' || $sDate==null || $sDate =='0000-00-00 00:00:00')
+        return null;
     $formatos = array(
         array("d#m#Y H#i#s", "Y-m-d H:i"),
         array("d#m#Y H#i", "Y-m-d H:i"),
@@ -19,6 +21,8 @@ function spanishDateToISO($sDate) {
 }
 
 function ISODateTospanish($sDate, $time = true) {
+    if($sDate=='' || $sDate==null || $sDate =='0000-00-00 00:00:00')
+        return null;
     if ($time) {
         $formatos = array(
             array("Y#m#d H#i#s", "d-m-Y H:i"),
@@ -41,6 +45,8 @@ function ISODateTospanish($sDate, $time = true) {
 }
 
 function ISOTimeTospanish($sDate) {
+    if($sDate=='' || $sDate==null || $sDate =='0000-00-00 00:00:00')
+        return null;
     $formatos = array(
         array("Y#m#d H#i#s", "H:i"),
         array("Y#m#d H#i", "H:i"),

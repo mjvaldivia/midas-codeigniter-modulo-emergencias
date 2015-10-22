@@ -249,4 +249,6 @@ class Emergencia extends CI_Controller {
         echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>$binary_path));
     }
 
+   
+    
 }

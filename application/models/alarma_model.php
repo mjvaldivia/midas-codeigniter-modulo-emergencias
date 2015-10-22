@@ -28,7 +28,7 @@ class Alarma_Model extends CI_Model
         $mapeo = array(
             "estado" => "a.est_ia_id",
             "tipoEmergencia" => "a.tip_ia_id",
-            "anio" => "year(a.ala_d_fecha_emergencia)"
+            "anio" => "year(a.ala_d_fecha_recepcion)"
         );
 
         $where = "1=1";
@@ -45,10 +45,10 @@ class Alarma_Model extends CI_Model
                 te.aux_c_nombre as ala_c_tipo_emergencia
             from
               alertas a
-              inner join auxiliar_emergencias_tipo te on a.tip_ia_id = te.aux_ia_id
+              left join auxiliar_emergencias_tipo te on a.tip_ia_id = te.aux_ia_id
               where
                 $where
-            order by a.ala_d_fecha_emergencia desc
+            order by a.ala_ia_id desc
         ";
 
         $query = $this->db->query($sql, $queryParams);
@@ -99,7 +99,11 @@ class Alarma_Model extends CI_Model
         ala_d_fecha_recepcion,
         usu_ia_id,
         est_ia_id,
-        ala_c_observacion)
+        ala_c_observacion,
+        ala_c_utm_lat,
+        ala_c_utm_lng,
+        ala_c_geozone
+        )
         VALUES
         (
            '" . $params['iNombreInformante'] . "',
@@ -112,7 +116,10 @@ class Alarma_Model extends CI_Model
            '" . spanishDateToISO($params['fechaRecepcion']) . "',
            '" . $this->session->userdata('session_idUsuario') . "',
            $this->revision,
-           '" . $params['iObservacion'] . "'
+           '" . $params['iObservacion'] . "',
+           '" . $params['ins_c_coordenada_n'] . "',
+           '" . $params['ins_c_coordenada_e'] . "',
+           '" . $params['geozone'] . "'
         )
         ");
 

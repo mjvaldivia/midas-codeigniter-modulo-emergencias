@@ -50,7 +50,7 @@ var Utils = {};
             return false;
 
         $.each($('#' + form_id + ' .required'), function (i, obj) {
-
+            
             var tipo = $(obj).get(0).tagName;
             var id = $(obj).attr('id');
 
@@ -60,23 +60,23 @@ var Utils = {};
                     $('#' + id).closest("div").addClass("has-error");
                     bien = false;
                     campos += "<i class='fa fa-caret-right'></i>";
-                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                    campos += "&nbsp;" + $(obj).attr('placeholder') + "<br/>";
                 }
             }
             if (tipo == 'INPUT') {
-                if ($('#' + id).val() == '') {
+                if ($(obj).val() == '') {
                     $('#' + id).closest("div").addClass("has-error");
                     bien = false;
                     campos += "<i class='fa fa-caret-right'></i>";
-                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                    campos += "&nbsp;" + $(obj).attr('placeholder') + "<br/>";
                 }
             }
             if (tipo == 'TEXTAREA') {
-                if ($('#' + id).val() == '') {
+                if ($(obj).val() == '') {
                     $('#' + id).closest("div").addClass("has-error");
                     bien = false;
                     campos += "<i class='fa fa-caret-right'></i>";
-                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                    campos += "&nbsp;" + $(obj).attr('placeholder') + "<br/>";
                 }
             }
             if (tipo == 'TABLE') {
@@ -84,7 +84,7 @@ var Utils = {};
                     //$('#' + id).closest("div").addClass("has-error");
                     bien = false;
                     campos += "<i class='fa fa-caret-right'></i>";
-                    campos += "&nbsp;" + $('#' + id).attr('placeholder') + "<br/>";
+                    campos += "&nbsp;" + $(obj).attr('placeholder') + "<br/>";
                 }
             }
 
