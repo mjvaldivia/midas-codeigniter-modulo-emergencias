@@ -68,7 +68,7 @@ class Alarma_Model extends CI_Model
                 a.*
             from
               alertas a
-            order by a.ala_d_fecha_emergencia desc
+            order by a.ala_ia_id desc
         ";
 
         $query = $this->db->query($sql);
