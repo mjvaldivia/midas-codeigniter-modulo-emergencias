@@ -11,7 +11,7 @@
     }
 </style>
 <ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Inicio</a></li>
+    <li><a href="<?= site_url() ?>">Dashboard</a></li>
     <?php if (!$editar): ?>
         <li class="active">Ingreso Capa</li>
     <?php else: ?>

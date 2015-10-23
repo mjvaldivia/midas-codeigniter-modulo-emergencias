@@ -8,7 +8,7 @@
 </style>
 <div class="clearfix"></div>
 <ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Inicio</a></li>  
+    <li><a href="<?= site_url() ?>">Dashboard</a></li>  
   <li class="active">Gestión de Emergencia</li>
 </ol>
 <form  class="form-horizontal"  name='frmIngresoEmergencia' id='frmIngresoEmergencia'>

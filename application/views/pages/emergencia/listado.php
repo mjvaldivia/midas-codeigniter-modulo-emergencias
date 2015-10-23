@@ -29,7 +29,7 @@
 </style>
 <div class="clearfix"></div>
 <ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Inicio</a></li>  
+    <li><a href="<?= site_url() ?>">Dashboard</a></li>  
   <li class="active">Listado de emergencias</li>
 </ol>
 <form class="form-inline">

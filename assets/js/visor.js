@@ -548,6 +548,7 @@ var VisorMapa = {
                 {
                     self.map.data.remove(self.emergencyRadius);
                     self.map.data.remove(self.emergencyMarker);
+                    self.map.data.add(self.referenciaMarker);
                 } else {
                     self.map.data.remove(feature);
                 }
