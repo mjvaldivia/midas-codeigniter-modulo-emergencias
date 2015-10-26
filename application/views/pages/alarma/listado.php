@@ -1,10 +1,3 @@
-<?php
-/**
- * User: claudio
- * Date: 17-08-15
- * Time: 09:50 AM
- */
-?>
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;
@@ -12,7 +5,7 @@
         
     td,th {
         vertical-align: middle!important;
-        padding-botton: 5px;
+        padding-bottom: 5px;
         border: 0!important;
     }
     
@@ -34,11 +27,7 @@
         border-radius: 4px;
     }
 </style>
-<div class="clearfix"></div>
-<ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Dashboard</a></li>  
-  <li class="active">Listado de alarmas</li>
-</ol>
+<br>
 <form class="form-inline">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -53,8 +42,8 @@
                 <input id="iAnio" name="iAnio" type="text" class="form-control" style="max-width: 100px" value="{anioActual}"/>
             </div>
             <div class="form-group">
-                <label for="iTiposEmergencias" class="control-label">Tipo de emergencia</label>
-                <select name="iTiposEmergencias" id="iTiposEmergencias" class="form-control"></select>
+                <label for="TiposEmergencias" class="control-label">Tipo de emergencia</label>
+                <select name="TiposEmergencias" id="TiposEmergencias" class="form-control"></select>
             </div>
             <div class="form-group">
                 <label for="iEstadoAlarma" class="control-label">Estado</label>

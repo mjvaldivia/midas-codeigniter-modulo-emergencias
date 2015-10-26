@@ -48,7 +48,7 @@ class Alarma_Model extends CI_Model
               left join auxiliar_emergencias_tipo te on a.tip_ia_id = te.aux_ia_id
               where
                 $where
-            order by a.ala_ia_id desc
+            order by a.ala_ia_id desc , est_ia_id desc
         ";
 
         $query = $this->db->query($sql, $queryParams);

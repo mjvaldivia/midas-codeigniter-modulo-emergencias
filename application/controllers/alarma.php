@@ -60,7 +60,7 @@ class Alarma extends CI_Controller {
             "anioActual" => date('Y')
         );
 
-        $this->template->parse("default", "pages/alarma/listado", $data);
+        $this->template->parse('alone',"pages/alarma/listado", $data);
     }
 
     public function jsonAlarmasDT() {

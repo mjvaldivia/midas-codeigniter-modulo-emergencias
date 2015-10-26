@@ -148,7 +148,7 @@
                 <li class="panel panel-info" style="border-radius:5px">
 
 
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href = "<?= site_url("alarma/ingreso") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" >
 
 
                         <div class="row">
@@ -182,7 +182,7 @@
                 <li class="panel panel-success" style="border-radius:5px">
 
 
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href = "<?= site_url("alarma/ingreso") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" >
 
 
                         <div class="row">

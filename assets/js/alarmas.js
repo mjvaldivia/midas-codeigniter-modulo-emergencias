@@ -22,9 +22,10 @@ var Alarma = {};
 
 
     this.inicioListado = function () {
-        $("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
-        $("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas");
+        $("#TiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
+        $("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas",{selected_value:3});
         $("#btnBuscarAlarmas").click(this.eventoBtnBuscar);
+        this.eventoBtnBuscar();
         $(window).resize(function () {
             $("table").css("width", "100%");
         });
@@ -35,7 +36,7 @@ var Alarma = {};
         var url = siteUrl + "alarma/jsonAlarmasDT";
 
         var anio = $("#iAnio").val();
-        var tipoEmergencia = $("#iTiposEmergencias").val();
+        var tipoEmergencia = $("#TiposEmergencias").val();
         var estado = $("#iEstadoAlarma").val();
 
         if (parseInt(anio)) {
