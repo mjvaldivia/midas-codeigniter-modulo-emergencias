@@ -18,7 +18,14 @@
         <li class="active">Editar Capa</li>
     <?php endif; ?>
 </ol>
-
+<ul id="ul-tabs" class="nav nav-tabs">
+    <li class='active'><a href="#tab1" data-toggle="tab">Nueva</a></li>
+    <li><a href="#tab2" data-toggle="tab">Listado</a></li>
+</ul>
+<div id="tab-content" class="tab-content">
+    <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
+        <div id='div_tab_1' class='col-xs-12'>
+            <br>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Datos de la capa</h3>
@@ -142,7 +149,16 @@
         </form>
     </div>
 </div>
+</div>
 
+    </div>
+    <div class='tab-pane' id='tab2' style='overflow:hidden;'>
+        <div id='div_tab_2' class='col-xs-12'>
+
+        </div>
+
+    </div>
+</div> 
 <?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
@@ -158,6 +174,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         Layer.initSave();
+        $('#div_tab_2').load(siteUrl+'capas/listado');
     });
     $('#input-capa').on('fileloaded', function(event, file){
        $(this).fileinput("upload");

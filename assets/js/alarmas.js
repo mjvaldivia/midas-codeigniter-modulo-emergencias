@@ -153,6 +153,7 @@ var Alarma = {};
             $("#tblAlarmas").DataTable({
                 data: json.data,
                 columns: json.columns,
+                
                 language: {
                     url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
                 },
@@ -184,7 +185,8 @@ var Alarma = {};
                                 var tip_ia_id = $('#iTiposEmergencias').val();
                                 if (tip_ia_id == 15) {
                                     location.href = siteUrl + 'alarma/paso2/id/' + data + '/tip_ia_id/' + tip_ia_id;
-                                } else {
+                                } else { 
+                                    Alarma.eventoBtnBuscar();
                                     Alarma.limpiar();
                                 }
                             }

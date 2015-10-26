@@ -7,7 +7,12 @@ var Layer = {};
 
     this.initList = function() {
         $("#tblCapas").DataTable({
-            dom: "B<'separator'><'row'<'col-md-6'l><'col-md-6 text-right'f>>rtip",
+            ajax: {
+                url: siteUrl + 'capas/getCapas',
+                type: 'POST',
+
+                async: true
+            },
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
             }

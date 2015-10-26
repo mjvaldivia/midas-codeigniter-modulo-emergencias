@@ -137,7 +137,7 @@
         </div>
 
     </div>
-    <div class='tab-pane active' id='tab2' style='overflow:hidden;'>
+    <div class='tab-pane' id='tab2' style='overflow:hidden;'>
         <div id='div_tab_2' class='col-xs-12'>
 
         </div>

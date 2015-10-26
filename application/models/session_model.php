@@ -199,7 +199,6 @@ class Session_Model extends CI_Model
               select
               u.*,
               c.crg_c_nombre,
-              c.crg_ia_id,
               r.reg_c_nombre,
               (
                 select
