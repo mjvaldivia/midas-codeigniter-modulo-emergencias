@@ -1,295 +1,215 @@
-<?= loadJS("assets/js/jquery.flip.js",true) ?>
-<script>
-$(document).ready(function(){    
-$(".panel" ).hover(
-	  function() {
-		$(this).find(".card").flip(true);   
-	  }, function() {
-		$(this).find(".card").flip(false);   
-	  }
-	);   
-   
-	$(".card").flip({
-	  trigger: 'manual',
-	  axis: 'y',
-	  reverse: true
-	}); 
-    });      
-</script>
+<style>
+    #contenido li{list-style:none;-webkit-box-shadow:0 1px 3px 0 #000;-moz-box-shadow:0 1px 3px 0 #000;box-shadow:0 1px 3px 0 #000;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;-webkit-transition-duration:.2s;-moz-transition-duration:.2s;-o-transition-duration:.2s;-ms-transition-duration:.2s;transition-duration:.2s;}
+    #contenido li:hover{color:#000;-webkit-box-shadow:0 2px 7px 0 #000;-moz-box-shadow:0 2px 7px 0 #000;box-shadow:0 2px 7px 0 #000;}
+    ul:hover li:not(:hover){opacity:.9;-webkit-box-shadow:0 1px 1px 0 #000;-moz-box-shadow:0 1px 1px 0 #000;box-shadow:0 1px 1px 0 #000;}
+</style>
 <div id="contenido" class="col-xs-12 col-lg-12">
     <legend>Dashboard</legend>
-    <div class="row">
+    <ul class="row">
+
         <div class="col-lg-3 margin-remove">
             <div class="col-xs-12 ">
+                <li class="panel panel-warning" style="border-radius:5px">
 
 
-                <div class="panel panel-warning" style="border-radius:5px">
-
-
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href="<?= site_url("alarma/ingreso") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href = "<?= site_url("alarma/ingreso") ?>"'>
 
 
                         <div class="row">
-                            <div class="col-xs-4" style="height:65px">
-                                <div class="flip" style="perspective: 114px; position: relative; margin: 0px; width: 57px; height: 60px;"><div class="card" style="transform-style: preserve-3d; transition: all 0.5s ease-out; margin: 0px; transform: rotateX(0deg);">
-                                        <i class="fa fa-bell fa-4x icono"></i>
-                                    </div></div>
-                            </div>
+                            <div class="col-xs-12 text-center" style="height:65px">
 
-                            <div class="col-xs-8 text-center">
+                                <i class="fa fa-bell fa-5x icono"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
                                 <h4>Alarmas</h4>
                             </div>
                         </div>
                         <div class="row top-spaced">
-                            <div class="col-xs-12 text-left">
-                                <h6>Ingresar y listar Alarmas</h6>
+                            <div class="col-xs-12 text-center">
+                                <h6>ingresar y listar alarmas</h6>
                                 <input type="text" class="hide" value="">
                             </div>
                         </div>				
                     </div>
-                    <a href="<?= site_url("alarma/ingreso") ?>" data-original-title="" title="" target="_self">
-                        <div class="panel-footer">
-                            <span class="pull-left">
-                                Ir
-
-                            </span>
-                            <span class="pull-right">
-                                <i class="fa fa-arrow-circle-right"></i>
-
-                            </span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>		
+                </li>  
+            </div>
         </div>
+        
+        
+        
         <div class="col-lg-3 margin-remove">
             <div class="col-xs-12 ">
+                <li class="panel panel-danger" style="border-radius:5px">
 
 
-                <div class="panel panel-danger" style="border-radius:5px">
-
-
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href="<?= site_url("emergencia/listado") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href = "<?= site_url("emergencia/listado") ?>"'>
 
 
                         <div class="row">
-                            <div class="col-xs-4" style="height:65px">
-                                <div class="flip" style="perspective: 114px; position: relative; margin: 0px; width: 57px; height: 60px;"><div class="card" style="transform-style: preserve-3d; transition: all 0.5s ease-out; margin: 0px; transform: rotateX(0deg);">
-                                        <i class="fa fa-bullhorn fa-4x icono"></i>
-                                    </div></div>
-                            </div>
+                            <div class="col-xs-12 text-center" style="height:65px">
 
-                            <div class="col-xs-8 text-center">
-                                <h4>Emergencias</h4>
+                                <i class="fa fa-bullhorn fa-5x icono"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <h4>Emergencia</h4>
                             </div>
                         </div>
                         <div class="row top-spaced">
-                            <div class="col-xs-12 text-left">
-                                <h6>listar y editar Emergencias</h6>
+                            <div class="col-xs-12 text-center">
+                                <h6>listar y editar emergencias</h6>
                                 <input type="text" class="hide" value="">
                             </div>
                         </div>				
                     </div>
-                    <a href="<?= site_url("emergencia/listado") ?>" data-original-title="" title="" target="_self">
-                        <div class="panel-footer">
-                            <span class="pull-left">
-                                Ir
-
-                            </span>
-                            <span class="pull-right">
-                                <i class="fa fa-arrow-circle-right"></i>
-
-                            </span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>		
+                </li>  
+            </div>
         </div>
+        
+        
+        
         <div class="col-lg-3 margin-remove">
             <div class="col-xs-12 ">
+                <li class="panel panel-info" style="border-radius:5px">
 
 
-                <div class="panel panel-info" style="border-radius:5px">
-
-
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href="<?= site_url("capas/ingreso") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href = "<?= site_url("capas/ingreso") ?>"'>
 
 
                         <div class="row">
-                            <div class="col-xs-4" style="height:65px">
-                                <div class="flip" style="perspective: 114px; position: relative; margin: 0px; width: 57px; height: 60px;"><div class="card" style="transform-style: preserve-3d; transition: all 0.5s ease-out; margin: 0px; transform: rotateX(0deg);">
-                                        <i class="fa fa-globe fa-4x icono"></i>
-                                    </div></div>
-                            </div>
+                            <div class="col-xs-12 text-center" style="height:65px">
 
-                            <div class="col-xs-8 text-center">
+                                <i class="fa fa-globe fa-5x icono"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
                                 <h4>Administrador de Capas</h4>
                             </div>
                         </div>
                         <div class="row top-spaced">
-                            <div class="col-xs-12 text-left">
+                            <div class="col-xs-12 text-center">
                                 <h6>listar y editar capas</h6>
                                 <input type="text" class="hide" value="">
                             </div>
                         </div>				
                     </div>
-                    <a href="<?= site_url("capas/ingreso") ?>" data-original-title="" title="" target="_self">
-                        <div class="panel-footer">
-                            <span class="pull-left">
-                                Ir
-
-                            </span>
-                            <span class="pull-right">
-                                <i class="fa fa-arrow-circle-right"></i>
-
-                            </span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>		
+                </li>  
+            </div>
         </div>
+        
+        
+        
         <div class="col-lg-3 margin-remove">
             <div class="col-xs-12 ">
+                <li class="panel panel-success" style="border-radius:5px">
 
 
-                <div class="panel panel-success" style="border-radius:5px">
-
-
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href="<?= site_url("#") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" onclick=''>
 
 
                         <div class="row">
-                            <div class="col-xs-4" style="height:65px">
-                                <div class="flip" style="perspective: 114px; position: relative; margin: 0px; width: 57px; height: 60px;"><div class="card" style="transform-style: preserve-3d; transition: all 0.5s ease-out; margin: 0px; transform: rotateX(0deg);">
-                                        <i class="fa fa-flag-checkered fa-4x icono"></i>
-                                    </div></div>
-                            </div>
+                            <div class="col-xs-12 text-center" style="height:65px">
 
-                            <div class="col-xs-8 text-center">
-                                <h4>Simulación</h4>
+                                <i class="fa fa-flag-checkered fa-5x icono"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <h4>Simulación </h4>
                             </div>
                         </div>
                         <div class="row top-spaced">
-                            <div class="col-xs-12 text-left">
-                                <h6>Simular situación de emergencia</h6>
+                            <div class="col-xs-12 text-center">
+                                <h6>simular situación de emergencia</h6>
                                 <input type="text" class="hide" value="">
                             </div>
                         </div>				
                     </div>
-                    <a href="<?= site_url("#") ?>" data-original-title="" title="" target="_self">
-                        <div class="panel-footer">
-                            <span class="pull-left">
-                                Ir
-
-                            </span>
-                            <span class="pull-right">
-                                <i class="fa fa-arrow-circle-right"></i>
-
-                            </span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>		
+                </li>  
+            </div>
         </div>
+        
+        
+        
         <div class="col-lg-3 margin-remove">
             <div class="col-xs-12 ">
+                <li class="panel panel-info" style="border-radius:5px">
 
 
-                <div class="panel panel-info" style="border-radius:5px">
-
-
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href="<?= site_url("#") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href = "<?= site_url("alarma/ingreso") ?>"'>
 
 
                         <div class="row">
-                            <div class="col-xs-4" style="height:65px">
-                                <div class="flip" style="perspective: 114px; position: relative; margin: 0px; width: 57px; height: 60px;"><div class="card" style="transform-style: preserve-3d; transition: all 0.5s ease-out; margin: 0px; transform: rotateX(0deg);">
-                                        <i class="fa fa-book fa-4x icono"></i>
-                                    </div></div>
-                            </div>
+                            <div class="col-xs-12 text-center" style="height:65px">
 
-                            <div class="col-xs-8 text-center">
+                                <i class="fa fa-book fa-5x icono"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
                                 <h4>Documentación</h4>
                             </div>
                         </div>
                         <div class="row top-spaced">
-                            <div class="col-xs-12 text-left">
-                                <h6>&nbsp;</h6>
+                            <div class="col-xs-12 text-center">
+                                <h6>documentos en línea</h6>
                                 <input type="text" class="hide" value="">
                             </div>
                         </div>				
                     </div>
-                    <a href="<?= site_url("#") ?>" data-original-title="" title="" target="_self">
-                        <div class="panel-footer">
-                            <span class="pull-left">
-                                Ir
-
-                            </span>
-                            <span class="pull-right">
-                                <i class="fa fa-arrow-circle-right"></i>
-
-                            </span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>		
+                </li>  
+            </div>
         </div>
+        
+        
+        
         <div class="col-lg-3 margin-remove">
             <div class="col-xs-12 ">
+                <li class="panel panel-success" style="border-radius:5px">
 
 
-                <div class="panel panel-info" style="border-radius:5px">
-
-
-                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href="<?= site_url("#") ?>"'>
+                    <div style="cursor:pointer" class="panel-heading" onclick='window.location.href = "<?= site_url("alarma/ingreso") ?>"'>
 
 
                         <div class="row">
-                            <div class="col-xs-4" style="height:65px">
-                                <div class="flip" style="perspective: 114px; position: relative; margin: 0px; width: 57px; height: 60px;"><div class="card" style="transform-style: preserve-3d; transition: all 0.5s ease-out; margin: 0px; transform: rotateX(0deg);">
-                                        <i class="fa fa-envelope fa-4x icono"></i>
-                                    </div></div>
-                            </div>
+                            <div class="col-xs-12 text-center" style="height:65px">
 
-                            <div class="col-xs-8 text-center">
-                                <h4>Mesa de Ayuda</h4>
+                                <i class="fa fa-question-circle fa-5x icono"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <h4>Mesa de ayuda</h4>
                             </div>
                         </div>
                         <div class="row top-spaced">
-                            <div class="col-xs-12 text-left">
-                                <h6>Soporte al usuario</h6>
+                            <div class="col-xs-12 text-center">
+                                <h6>soporte al usuario</h6>
                                 <input type="text" class="hide" value="">
                             </div>
                         </div>				
                     </div>
-                    <a href="<?= site_url("#") ?>" data-original-title="" title="" target="_self">
-                        <div class="panel-footer">
-                            <span class="pull-left">
-                                Ir
-
-                            </span>
-                            <span class="pull-right">
-                                <i class="fa fa-arrow-circle-right"></i>
-
-                            </span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>		
+                </li>  
+            </div>
         </div>
-
         
-        
-
-
-    </div>
-
+    </ul>
 
 
 </div>
