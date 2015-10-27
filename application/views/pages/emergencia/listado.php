@@ -84,7 +84,7 @@
 
 <?= loadJS("assets/js/jquery.jcombo.js") ?>
 <?= loadJS("assets/js/emergencia.js") ?>
-
+<?= loadJS("assets/js/bootbox.min.js") ?>
 <script type="text/javascript">
     $(document).ready(function () {
         Emergencia.inicioListado();

@@ -249,6 +249,13 @@ class Emergencia extends CI_Controller {
         echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>$binary_path));
     }
 
-   
+       public function eliminarEmergencia() { 
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+        $params = $this->uri->uri_to_assoc();
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        $res = $this->EmergenciaModel->eliminar_Emergencia($params['id']);
+        echo ($res) ? 1 : 0;
+    }
     
 }

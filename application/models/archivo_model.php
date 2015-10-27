@@ -10,8 +10,11 @@ class Archivo_Model extends CI_Model {
     public $TIPO_CAPA = 7;
     public $TIPO_ICONO_DE_CAPA = 8;
     public $DOC_FOLDER = 'media/doc/';
+    public $EMERGENCIA_FOLDER = 'media/doc/emergencia/';
+    public $ALARMA_FOLDER = 'media/doc/alarmas/';
+    public $CAPA_FOLDER = 'media/doc/capa/';
 
-    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null, $cache_id = null,$nombre_capa = null) {
+    public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null, $cache_id = null, $nombre_capa = null) {
 
         header('Content-type: application/json');
         $filename = $this->sanitize_filename($filename);
@@ -37,7 +40,7 @@ class Archivo_Model extends CI_Model {
                         if ($tipo == $this->TIPO_CAPA) {
                             $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
                             $cache_file = $this->cache->get($cache_id);
-                            $arr_properties = json_decode($cache_file['content'],true);
+                            $arr_properties = json_decode($cache_file['content'], true);
                             foreach ($arr_properties['features'] as $key => $value) {
                                 $arr_properties['features'][$key]['properties']['TYPE'] = $id_entidad; // le agrego el tipo como feature
                             }
@@ -49,7 +52,7 @@ class Archivo_Model extends CI_Model {
                             }
                         } else
                         if ($tipo == $this->TIPO_ICONO_DE_CAPA) {
-                           
+
                             if (copy($tmp_name, $full_url)) {
                                 $error = 0;
                             } else {
@@ -109,25 +112,24 @@ class Archivo_Model extends CI_Model {
     }
 
     public function sanitize_filename($filename = null) {
-       
-       
-       $filename = str_replace('á', "a", $filename);
-       $filename = str_replace('é', "e", $filename);
-       $filename = str_replace('í', "i", $filename);
-       $filename = str_replace('ó', "o", $filename);
-       $filename = str_replace('ú', "u", $filename);
-       $filename = str_replace('ü', "u", $filename);
-       $filename = str_replace('ñ', "n", $filename);
-       $filename = str_replace('Á', "A", $filename);
-       $filename = str_replace('É', "E", $filename);
-       $filename = str_replace('Í', "I", $filename);
-       $filename = str_replace('Ó', "O", $filename);
-       $filename = str_replace('Ú', "U", $filename);
-       $filename = str_replace('Ü', "U", $filename);
-       $filename = str_replace('Ñ', "N", $filename);
 
-       return preg_replace("[^\w\.]", '_', $filename);
-        
+
+        $filename = str_replace('á', "a", $filename);
+        $filename = str_replace('é', "e", $filename);
+        $filename = str_replace('í', "i", $filename);
+        $filename = str_replace('ó', "o", $filename);
+        $filename = str_replace('ú', "u", $filename);
+        $filename = str_replace('ü', "u", $filename);
+        $filename = str_replace('ñ', "n", $filename);
+        $filename = str_replace('Á', "A", $filename);
+        $filename = str_replace('É', "E", $filename);
+        $filename = str_replace('Í', "I", $filename);
+        $filename = str_replace('Ó', "O", $filename);
+        $filename = str_replace('Ú', "U", $filename);
+        $filename = str_replace('Ü', "U", $filename);
+        $filename = str_replace('Ñ', "N", $filename);
+
+        return preg_replace("[^\w\.]", '_', $filename);
     }
 
     public function file_to_bd($url = null, $filename = null, $mimetype = null, $tipo = null, $id_entidad = null, $size = null) {
@@ -174,7 +176,7 @@ class Archivo_Model extends CI_Model {
             return false;
     }
 
-    function get_docs($id_entidad, $jsoneado = true, $tipo = null) {
+    public function get_docs($id_entidad, $jsoneado = true, $tipo = null) {
 
         if ($tipo == null) {
             return array();
@@ -219,7 +221,7 @@ class Archivo_Model extends CI_Model {
             return $arr_arch;
     }
 
-    function get_file_from_key($k) {
+    public function get_file_from_key($k) {
         $sql = "select * from archivo where arch_c_hash='$k'";
         $result = $this->db->query($sql);
         $row = $result->result_array();
@@ -243,13 +245,13 @@ class Archivo_Model extends CI_Model {
             return false;
     }
 
-    function setTemporaryGeoJson($id, $geoJson = null,$lista_capas = null) {
+    public function setTemporaryGeoJson($id, $geoJson = null, $lista_capas = null) {
         $params = array();
         $params['id'] = $id;
         $filename = 'geoJson.geojson';
         $mimetype = 'application/octect-stream';
         $error = 0;
-        if($geoJson!==null){
+        if ($geoJson !== null) {
             $existente = $this->loadGeoJson($params);
             if ($existente == 0) {
                 $tmp_name = tempnam(sys_get_temp_dir(), uniqid());
@@ -260,20 +262,21 @@ class Archivo_Model extends CI_Model {
                 $this->upload_to_site($filename, $mimetype, $tmp_name, $id, $this->TIPO_GEOJSON, $size);
             } else {
                 $fp = fopen($existente['arch_c_nombre'], 'w');
-                if(!fwrite($fp, $geoJson))
-                    $error++;    
+                if (!fwrite($fp, $geoJson))
+                    $error++;
                 fclose($fp);
-                
             }
         }
-        if($lista_capas!==null){
+        if ($lista_capas !== null) {
             $sql = "update emergencias set eme_c_capas = '$lista_capas' where eme_ia_id = $id";
-            if(!$this->db->query($sql)){$error++;}
+            if (!$this->db->query($sql)) {
+                $error++;
+            }
         }
         echo $error;
     }
 
-    function loadGeoJson($params) {
+    public function loadGeoJson($params) {
         if (!array_key_exists("id", $params))
             return 0;
         $id = $params["id"];
@@ -284,6 +287,22 @@ class Archivo_Model extends CI_Model {
             return $row[0];
         } else
             return 0;
+    }
+
+    public function delete($path) {
+        if (is_dir($path) === true) {
+            $files = array_diff(scandir($path), array('.', '..'));
+
+            foreach ($files as $file) {
+                $this->delete(realpath($path) . '/' . $file);
+            }
+
+            return rmdir($path);
+        } else if (is_file($path) === true) {
+            return unlink($path);
+        }
+
+        return false;
     }
 
 }

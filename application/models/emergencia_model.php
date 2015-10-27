@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Vladimir
  * @since 14-09-15
@@ -6,15 +7,13 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Emergencia_Model extends CI_Model
-{
+class Emergencia_Model extends CI_Model {
 
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
 
-    public function guardarEmergencia($params)
-    {
+    public function guardarEmergencia($params) {
 
         $this->load->helper('utils');
         $res = array();
@@ -79,8 +78,7 @@ class Emergencia_Model extends CI_Model
         return json_encode($res);
     }
 
-    public function getAlarma($params)
-    {
+    public function getAlarma($params) {
         $sql = "
             select
                 a.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
@@ -105,8 +103,7 @@ class Emergencia_Model extends CI_Model
         echo json_encode($resultados);
     }
 
-    function revisaEstado($params)
-    {
+    function revisaEstado($params) {
 
         $sql = "
             select
@@ -125,8 +122,7 @@ class Emergencia_Model extends CI_Model
         return $resultados;
     }
 
-    public function filtrarEmergencias($params)
-    {
+    public function filtrarEmergencias($params) {
         $mapeo = array(
             "tipoEmergencia" => "e.tip_ia_id",
             "anio" => "year(e.eme_d_fecha_recepcion)"
@@ -162,8 +158,7 @@ class Emergencia_Model extends CI_Model
         return $resultados;
     }
 
-    public function getEmergencia($id)
-    {
+    public function getEmergencia($id) {
         $sql = "
             select
                 e.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
@@ -189,8 +184,7 @@ class Emergencia_Model extends CI_Model
         return $resultados;
     }
 
-
-    public function getJsonEmergencia($params,$json = true) {
+    public function getJsonEmergencia($params, $json = true) {
 
 
         $this->load->helper("utils");
@@ -214,23 +208,21 @@ class Emergencia_Model extends CI_Model
             $resultados = $query->result_array();
 
             $resultados = $resultados[0];
-            
+
             $resultados['hora_emergencia'] = ISOTimeTospanish($resultados['eme_d_fecha_recepcion']);
             $resultados['hora_recepcion'] = ISOTimeTospanish($resultados['eme_d_fecha_recepcion']);
-            
-            $resultados['eme_d_fecha_emergencia'] = ISODateTospanish($resultados['eme_d_fecha_emergencia'],false);
+
+            $resultados['eme_d_fecha_emergencia'] = ISODateTospanish($resultados['eme_d_fecha_emergencia'], false);
             $resultados['eme_d_fecha_recepcion'] = ISODateTospanish($resultados['eme_d_fecha_recepcion']);
-            
         }
 
-        if($json)
+        if ($json)
             echo json_encode($resultados);
-        else 
+        else
             return $resultados;
     }
 
-    public function editarEmergencia($params)
-    {
+    public function editarEmergencia($params) {
 
         $this->load->helper('utils');
 
@@ -270,8 +262,7 @@ class Emergencia_Model extends CI_Model
         return $query;
     }
 
-    public function rechazaEmergencia($params)
-    {
+    public function rechazaEmergencia($params) {
 
 
         $query = $this->db->query("
@@ -279,8 +270,7 @@ class Emergencia_Model extends CI_Model
         return $query;
     }
 
-    public function enviaMsjEmergencia($params)
-    {
+    public function enviaMsjEmergencia($params) {
 
         $this->load->helper('utils');
         $mensaje = "<b>SIPRESA: Confirmación de una situación de emergencia</b><br><br>";
@@ -310,8 +300,8 @@ class Emergencia_Model extends CI_Model
 
         return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
     }
-        
-    public function obtenerCapas($params){ //capas que estan cargadas en el visor
+
+    public function obtenerCapas($params) { //capas que estan cargadas en el visor
         $id = $params['id'];
         $qry = "select eme_c_capas from emergencias where eme_ia_id = $id";
 
@@ -319,23 +309,52 @@ class Emergencia_Model extends CI_Model
 
         $row = $result->result_array();
         return $row[0]['eme_c_capas'];
-        
     }
-    
-        public function get_JsonReferencia($id) {
+
+    public function get_JsonReferencia($id) {
         $this->load->helper("url");
         $result = $this->db->query(" SELECT ala_c_utm_lat ref_lat, ala_c_utm_lng ref_lng, ala_c_geozone geozone  from alertas a join emergencias e on e.ala_ia_id = a.ala_ia_id where e.eme_ia_id= $id");
-        $row= $result->result_array();
-          $res =   array(
-                'ref_lat' => $row[0]['ref_lat'],
-                'ref_lng' => $row[0]['ref_lng'],
-                'geozone' => $row[0]['geozone']
-               
-                
-            );
-          
+        $row = $result->result_array();
+        $res = array(
+            'ref_lat' => $row[0]['ref_lat'],
+            'ref_lng' => $row[0]['ref_lng'],
+            'geozone' => $row[0]['geozone']
+        );
+
         return json_encode($res);
     }
-    
+
+    public function eliminar_Emergencia($id = 0) {
+        
+        $error = false;
+        $this->db->trans_begin();
+        $ala_ia_id = 0;
+        $this->db->query("delete from emergencias_vs_comunas where eme_ia_id=$id");
+        $this->db->query("delete from archivo_vs_emevisor where eme_ia_id=$id");
+        
+        $qry = "select ala_ia_id from emergencias where eme_ia_id = $id";
+
+        $result = $this->db->query($qry);
+        if ($row = $result->result_array()) {
+            $ala_ia_id = $row[0]['ala_ia_id'];
+        }
+        
+        $this->db->query("delete from emergencias where eme_ia_id=$id");
+        
+        if ($this->db->trans_status() === FALSE) {
+            $error = true;
+            $this->db->trans_rollback();
+        } else {
+            
+            $this->db->trans_commit();
+            $this->load->model("Archivo_Model", "ArchivoModel");
+            $path = $this->ArchivoModel->ALARMA_FOLDER . $ala_ia_id;
+            $this->ArchivoModel->delete($path);
+            $path = $this->ArchivoModel->EMERGENCIA_FOLDER . $id;
+            $this->ArchivoModel->delete($path);
+        }
+
+        return $error;
+    }
 
 }

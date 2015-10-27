@@ -18,8 +18,7 @@ var Emergencia = {};
                         $('#iComunas').picklist({
                             'value': arr_com
                         });
-                    }
-                    else {
+                    } else {
                         $('#iComunas').picklist();
                     }
 
@@ -161,7 +160,7 @@ var Emergencia = {};
                 html += "           <a title=\"Editar\" class=\"btn btn-default\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
                 html += "               <i class=\"fa fa-pencil\"></i>";
                 html += "           </a>";
-                html += "           <a title=\"Eliminar\" class=\"btn btn-default\">";
+                html += "           <a title=\"Eliminar\" class=\"btn btn-default\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
                 html += "               <i class=\"fa fa-trash\"></i>";
                 html += "           </a>";
                 html += "       </div>";
@@ -195,7 +194,7 @@ var Emergencia = {};
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Se ha insertado correctamente<br>' +
-                    'Estado email: ' + response.res_mail
+                            'Estado email: ' + response.res_mail
                     ,
                     buttons: {
                         danger: {
@@ -208,8 +207,7 @@ var Emergencia = {};
                     }
 
                 });
-            }
-            else {
+            } else {
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Error al insertar',
@@ -232,7 +230,6 @@ var Emergencia = {};
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Se ha rechazado correctamente',
-
                     buttons: {
                         danger: {
                             label: "Cerrar",
@@ -244,8 +241,7 @@ var Emergencia = {};
                     }
 
                 });
-            }
-            else {
+            } else {
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Error al rechazar',
@@ -262,6 +258,58 @@ var Emergencia = {};
 
     this.editarEmergencia = function (eme_ia_id) {
         window.open(siteUrl + 'emergencia/editar/id/' + eme_ia_id, '_blank');
+    };
+    this.eliminarEmergencia = function (eme_ia_id) {
+        bootbox.dialog({
+            title: "Eliminar elemento",
+            message: '¿Está seguro que desea eliminar esta emergencia?',
+            buttons: {
+                success: {
+                    label: "Aceptar",
+                    className: "btn-primary",
+                    callback: function () {
+                        $.get(siteUrl + 'emergencia/eliminarEmergencia/id/' + eme_ia_id).done(function (retorno) {
+                            if (retorno == 0) { // sin error
+                                bootbox.dialog({
+                                    title: "Resultado de la operacion",
+                                    message: 'Se eliminó correctamente',
+                                    buttons: {
+                                        danger: {
+                                            label: "Cerrar",
+                                            className: "btn-info",
+                                            callback: function () {
+                                                Emergencia.eventoBtnBuscar();
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                bootbox.dialog({
+                                    title: "Resultado de la operacion",
+                                    message: 'Error al eliminar',
+                                    buttons: {
+                                        danger: {
+                                            label: "Cerrar",
+                                            className: "btn-danger"
+                                        }
+                                    }
+                                });
+                            }
+
+
+
+
+                        });
+
+                    }
+                },
+                danger: {
+                    label: "Cancelar",
+                    className: "btn-default"
+                }
+            }
+
+        });
     };
 
 
