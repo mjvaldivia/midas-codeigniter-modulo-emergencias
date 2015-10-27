@@ -92,7 +92,7 @@ var ExportMap = {
                         self.map.data.remove(self.referenciaMarker);
                         self.emergencyMarker = feature;
                         var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
-                        self.map.setCenter(gooLatLng);
+                        //self.map.setCenter(gooLatLng);
                         //self.map.setZoom(14);
 
                     } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
@@ -126,7 +126,7 @@ var ExportMap = {
         });
         self.map.data.add(point);
         self.referenciaMarker = point;
-        self.map.setCenter(self.referenciaMarker.getGeometry().get());
+       // self.map.setCenter(self.referenciaMarker.getGeometry().get());
 
     };
     this.cargarCapas = function (capas) {
