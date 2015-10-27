@@ -95,7 +95,7 @@ var ExportMap = {
                         var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
                         
                         self.centro = gooLatLng;
-
+self.map.setCenter(self.centro);
                     } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                         self.emergencyRadius = feature;
 
@@ -103,8 +103,8 @@ var ExportMap = {
             });
 
         }
+        self.map.setCenter(self.centro);
         
-       // self.map.setCenter(self.centro);
         
         var capas = '';
         if (json.capas)
