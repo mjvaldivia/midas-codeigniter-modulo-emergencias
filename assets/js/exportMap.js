@@ -73,7 +73,7 @@ var ExportMap = {
             bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
         }
 
-       // self.map.fitBounds(bounds);
+       self.map.fitBounds(bounds);
 
         var referencia = JSON.parse(json.referencia);
 
@@ -104,7 +104,7 @@ var ExportMap = {
 
         }
         
-        self.map.setCenter(self.centro);
+       // self.map.setCenter(self.centro);
         
         var capas = '';
         if (json.capas)
