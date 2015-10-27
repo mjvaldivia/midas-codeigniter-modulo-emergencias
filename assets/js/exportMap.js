@@ -14,16 +14,11 @@ var ExportMap = {
     this.LoadMap = function () {
 
         this.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
-
-//        self.map.addListener('bounds_changed', function () { console.log(self.cargado);
-//           if(self.cargado==0){
-//              
+              
            $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
                     self.loadObjects.bind(this)
                     ); 
-//        }
-           
-//        });
+
 
 
     };
@@ -34,13 +29,10 @@ var ExportMap = {
     this.loadObjects = function (data) {
 
         var json = JSON.parse(data);
-        var bounds = new google.maps.LatLngBounds();self.map.addListener('bounds_changed', function () {
-           if(self.cargado==0){
-           $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
-                    self.loadObjects.bind(this)); 
-        }
-            self.cargado++;
-        });
+        var bounds = new google.maps.LatLngBounds();
+
+
+          
         self.map.data.setStyle(function (feature) {
             var color = null;
             var retorno = {};
@@ -73,8 +65,8 @@ var ExportMap = {
             bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
         }
 
-       self.map.fitBounds(bounds);
-
+       //self.map.fitBounds(bounds);
+       
         var referencia = JSON.parse(json.referencia);
 
         if (referencia.ref_lat && referencia.ref_lng && referencia.geozone)
@@ -95,7 +87,7 @@ var ExportMap = {
                         var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
                         
                         self.centro = gooLatLng;
-self.map.setCenter(self.centro);
+
                     } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                         self.emergencyRadius = feature;
 
@@ -103,9 +95,9 @@ self.map.setCenter(self.centro);
             });
 
         }
+        
         self.map.setCenter(self.centro);
-        
-        
+        self.map.setZoom(15);
         var capas = '';
         if (json.capas)
         {
