@@ -2,7 +2,6 @@ var ExportMap = {
     map: null,
     mapOptions: null,
     referenciaMarker: null,
-    cargado : 0
 };
 (function () {
     var self = this;
@@ -19,9 +18,10 @@ var ExportMap = {
 //           if(self.cargado==0){
 //              
            $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
-                    self.loadObjects.bind(this)); 
+                    self.loadObjects.bind(this)
+                    ); 
 //        }
-            self.cargado++;
+           
 //        });
 
 
@@ -72,7 +72,7 @@ var ExportMap = {
             bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
         }
 
-        self.map.fitBounds(bounds);
+       // self.map.fitBounds(bounds);
 
         var referencia = JSON.parse(json.referencia);
 
