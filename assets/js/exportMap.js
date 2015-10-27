@@ -278,8 +278,7 @@ var ExportMap = {
     this.renderImage = function () {
         html2canvas($('#dvMap'), {
             onrendered: function (canvas) {
-                var img = canvas.toDataURL()
-                window.open(img);
+               document.body.appendChild(canvas);
             },
             allowTaint: true,
             logging: true
