@@ -2,11 +2,12 @@ var ExportMap = {
     map: null,
     mapOptions: null,
     referenciaMarker: null,
+    centro : null
 };
 (function () {
     var self = this;
     this.mapOptions = {
-        center: new google.maps.LatLng(-33.07, -71.6),
+       // center: new google.maps.LatLng(-33.07, -71.6),
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -79,7 +80,7 @@ var ExportMap = {
         if (referencia.ref_lat && referencia.ref_lng && referencia.geozone)
         {
             self.drawReferencia(referencia.ref_lat, referencia.ref_lng, referencia.geozone);
-
+            self.centro = self.referenciaMarker.getGeometry().get();
 
         }
 
@@ -92,8 +93,8 @@ var ExportMap = {
                         self.map.data.remove(self.referenciaMarker);
                         self.emergencyMarker = feature;
                         var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
-                        //self.map.setCenter(gooLatLng);
-                        //self.map.setZoom(14);
+                        
+                        self.centro = gooLatLng;
 
                     } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                         self.emergencyRadius = feature;
@@ -102,6 +103,9 @@ var ExportMap = {
             });
 
         }
+        
+        self.map.setCenter(self.centro);
+        
         var capas = '';
         if (json.capas)
         {
@@ -126,7 +130,6 @@ var ExportMap = {
         });
         self.map.data.add(point);
         self.referenciaMarker = point;
-       // self.map.setCenter(self.referenciaMarker.getGeometry().get());
 
     };
     this.cargarCapas = function (capas) {
