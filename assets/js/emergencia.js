@@ -40,6 +40,7 @@ var Emergencia = {};
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
+        
     };
 
 
@@ -50,6 +51,7 @@ var Emergencia = {};
         $(window).resize(function () {
             $("table").css("width", "100%");
         });
+        this.eventoBtnBuscar();
     };
 
     this.eventoBtnBuscar = function () {
