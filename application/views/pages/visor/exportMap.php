@@ -1,5 +1,11 @@
 <html>
+
     <head>
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
         <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
         <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>

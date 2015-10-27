@@ -278,12 +278,9 @@ var ExportMap = {
     this.renderImage = function () {
         html2canvas($('#dvMap'), {
             useCORS: true,
-            onrendered: function (canvas) {
-                var dataUrl= canvas.toDataURL("image/png");
 
-            // DO SOMETHING WITH THE DATAURL
-            // Eg. write it to the page
-            document.write('<img src="' + dataUrl + '"/>');
+            onrendered: function (canvas) {
+               document.body.appendChild(canvas);
             }
             
         });
