@@ -1,7 +1,8 @@
 var ExportMap = {
     map: null,
     mapOptions: null,
-    referenciaMarker: null
+    referenciaMarker: null,
+    cargado : 0
 };
 (function () {
     var self = this;
@@ -12,16 +13,33 @@ var ExportMap = {
     };
     this.LoadMap = function () {
 
-        self.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
-        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
-                this.loadObjects.bind(this));
+        this.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
+
+//        self.map.addListener('bounds_changed', function () { console.log(self.cargado);
+//           if(self.cargado==0){
+//              
+           $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
+                    self.loadObjects.bind(this)); 
+//        }
+            self.cargado++;
+//        });
+
+
     };
 
 
+
+            
     this.loadObjects = function (data) {
 
         var json = JSON.parse(data);
-        var bounds = new google.maps.LatLngBounds();
+        var bounds = new google.maps.LatLngBounds();self.map.addListener('bounds_changed', function () {
+           if(self.cargado==0){
+           $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
+                    self.loadObjects.bind(this)); 
+        }
+            self.cargado++;
+        });
         self.map.data.setStyle(function (feature) {
             var color = null;
             var retorno = {};
@@ -88,7 +106,7 @@ var ExportMap = {
         if (json.capas)
         {
             capas = json.capas;
-            this.cargarCapas(capas);
+            self.cargarCapas(capas);
         }
 
 
@@ -278,11 +296,14 @@ var ExportMap = {
     this.renderImage = function () {
         html2canvas($('#dvMap'), {
             useCORS: true,
+            onrendered: function(canvas) {
+            var dataUrl= canvas.toDataURL("image/png");
 
-            onrendered: function (canvas) {
-               document.body.appendChild(canvas);
-            }
-            
+            // DO SOMETHING WITH THE DATAURL
+            // Eg. write it to the page
+            document.write('<img src="' + dataUrl + '"/>');
+        }
+
         });
 
     };
