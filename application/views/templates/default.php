@@ -68,7 +68,6 @@
 
         <?php // bootstrap ?>
         <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
-        <?= loadCSS("assets/lib/bootstrap-3.3.5/css/dbootstrap.yeti.css", true) ?>
         <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
 
         <?php //font-awesome ?>

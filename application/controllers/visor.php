@@ -1,10 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * User: claudio
- * Date: 26-08-15
- * Time: 14:04 PM
- */
 class Visor extends CI_Controller
 {
     public function index()
@@ -166,6 +161,11 @@ class Visor extends CI_Controller
         return $this->CapaModel->getjson($params['id']);
     }
     
-    
+    public function loadExportMap(){
+        $this->load->library("template");
+        $params = $this->uri->uri_to_assoc();
+        $data = array('id'=>$params['id']);
+        $this->template->parse("alone", "pages/visor/exportMap", $data);
+    }
     
 }
