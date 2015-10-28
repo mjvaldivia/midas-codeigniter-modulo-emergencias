@@ -102,10 +102,10 @@ class Visor extends CI_Controller {
         $data['imagename'] = $archivo['arch_c_nombre'];
         //var_dump($data);die;
         $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
-
+echo  ($html);die;
         $this->load->library('pdf');
         $pdf = $this->pdf->load();
-        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y')); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
+        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y')); 
         $pdf->WriteHTML($html); // write the HTML into the PDF
         $pdf->Output('acta.pdf', 'I');
     }
@@ -175,10 +175,30 @@ class Visor extends CI_Controller {
         $params = $this->input->post();
         $name = 'img_report_' . $params['eme_ia_id'] . uniqid();
         $tmp_name = 'media/tmp/' . $name . '.png';
-        $data = $params['data'];
-        $bin = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data),true);
+        $data = $params['str'];
+        $bin = base64_decode($data);
+        
+       // var_dump($data === base64_encode(base64_decode($data)));
+        
+        fopen($tmp_name, 'w');
         //var_dump($bin);
-        file_put_contents($tmp_name, $bin);
+        
+       
+
+$img = imagecreatefromstring($bin);
+
+if($img) {
+    imagepng($img, $tmp_name, 0);
+    imagedestroy($img);
+}
+
+        
+        
+        
+        
+        
+        
+      //  file_put_contents($tmp_name, $bin);
 
 
         $this->load->model("archivo_model", "ArchivoModel");

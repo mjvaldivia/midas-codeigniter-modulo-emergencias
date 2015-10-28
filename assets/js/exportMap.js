@@ -286,18 +286,22 @@ var ExportMap = {
     this.renderImage = function () {
         html2canvas($('#dvMap'), {
             useCORS: true,
+           
+                   
             onrendered: function(canvas) {
             var dataUrl= canvas.toDataURL("image/png");
-            
-            var d = 'data='+dataUrl+'&eme_ia_id='+$('#eme_ia_id').val()+'&m='+self.microtime();
+            dataUrl = dataUrl.substr(22, dataUrl.length);
+            var d = 'str='+dataUrl+'&eme_ia_id='+$('#eme_ia_id').val()+'&m='+self.microtime();
             
             //console.log(data[1].length);
             
-            
+
+                        
             
             
             
         $.post(siteUrl+'visor/getMapImage',d, function (retorno) {
+            
             //console.log(retorno.k);
             //var response = $.parseJSON(retorno);
 
