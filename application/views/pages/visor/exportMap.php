@@ -20,7 +20,7 @@
         <?= loadJS("assets/js/exportMap.js") ?>
     </head>
     <body>
-        <input id='eme_ia_id' name='eme_ia_id' value='{id}'>
+        <input id='eme_ia_id' type="hidden" name='eme_ia_id' value='{id}'>
         <table border="0" cellpadding="0" cellspacing="0">
             <tr>
                 <td>
@@ -36,7 +36,5 @@
                 </td>
             </tr>
         </table>
-
-        <button type="button" onclick="ExportMap.renderImage();">exportar</button> 
     </body>
 </html>

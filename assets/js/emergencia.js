@@ -153,7 +153,7 @@ var Emergencia = {};
                 html += "    </div>";
                 html += "    <div class=\"col-md-2 text-center\">";
                 html += "       <div class=\"btn-group\">";
-                html += "           <a title=\"Reporte\" class=\"btn btn-default\" href='" + baseUrl + "visor/loadExportMap/id/" + row.eme_ia_id + "' target='_blank'>";
+                html += "           <a title=\"Reporte\" class=\"btn btn-default\" onclick=Emergencia.openIframe(" + row.eme_ia_id + "); >";
                 html += "               <i class=\"fa fa-file-text-o\"></i>";
                 html += "           </a>";
                 html += "           <a title=\"Visor\" class=\"btn btn-default\" href='" + siteUrl + "visor/index/id/" + row.eme_ia_id + "' target='_blank'>";
@@ -184,7 +184,23 @@ var Emergencia = {};
             $("#pResultados").slideDown("slow");
         });
     };
+    this.openIframe = function(id){
 
+    var i = document.createElement('iframe');
+    i.style.display = 'block';
+    i.id= id;
+    i.width = 10;
+    i.heigth = 10;
+    //i.onload = function() { i.parentNode.removeChild(i); };
+    i.src = siteUrl+'visor/loadExportMap/id/'+id;
+    document.body.appendChild(i);
+
+    };
+     this.closeIframe = function(id) {
+        var iframe = document.getElementById(id);
+        iframe.parentNode.removeChild(iframe);
+    };
+    this.cargando = function(){$('.cargando').fadeToggle('slow');};
     this.guardarForm = function () {
         if (!Utils.validaForm('frmIngresoEmergencia'))
             return false;

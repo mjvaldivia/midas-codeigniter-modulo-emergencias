@@ -92,7 +92,7 @@ class Visor extends CI_Controller {
         $this->load->library("template");
         $this->load->helper("session");
         $this->load->model("archivo_model", "ArchivoModel");
-        ini_set('memory_limit', '32M');
+        ini_set('memory_limit', '64M');
         $this->load->model("emergencia_model", "EmergenciaModel");
         $params = $this->uri->uri_to_assoc();
         //var_dump($params);
@@ -102,7 +102,6 @@ class Visor extends CI_Controller {
         $data['imagename'] = $archivo['arch_c_nombre'];
         //var_dump($data);die;
         $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
-echo  ($html);die;
         $this->load->library('pdf');
         $pdf = $this->pdf->load();
         $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y')); 
@@ -177,28 +176,17 @@ echo  ($html);die;
         $tmp_name = 'media/tmp/' . $name . '.png';
         $data = $params['str'];
         $bin = base64_decode($data);
-        
-       // var_dump($data === base64_encode(base64_decode($data)));
-        
+        $img = imagecreatefromstring($bin);
+
         fopen($tmp_name, 'w');
-        //var_dump($bin);
-        
-       
-
-$img = imagecreatefromstring($bin);
-
-if($img) {
-    imagepng($img, $tmp_name, 0);
+    imagepng($img, $tmp_name, 9);
     imagedestroy($img);
-}
-
         
         
         
         
         
         
-      //  file_put_contents($tmp_name, $bin);
 
 
         $this->load->model("archivo_model", "ArchivoModel");

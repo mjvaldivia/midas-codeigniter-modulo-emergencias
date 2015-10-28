@@ -16,12 +16,21 @@ var ExportMap = {
         mapTypeControl: false
     };
     this.LoadMap = function () {
-
+        window.parent.Emergencia.cargando();
         this.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
+
+
 
         $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
                 self.loadObjects.bind(this)
                 );
+        google.maps.event.addListenerOnce(self.map, 'tilesloaded', function () {
+
+            setTimeout(function () {
+                self.renderImage();
+            }, 500);
+
+        });
 
     };
 
@@ -67,16 +76,37 @@ var ExportMap = {
 
         if (json.geojson)
         {
-            self.loadJson(json.geojson); 
+            self.loadJson(json.geojson);
         }
-        
+
         if (json.capas)
         {
-            self.cargarCapas(json.capas); 
+            self.cargarCapas(json.capas);
         }
+
+        if ((json.geojson == 0 || !json.geojson) && !json.capas)
+        {
+
+            var bounds = new google.maps.LatLngBounds();
+
+            for (var i = 0; i < json.coordinates.length; i++) {
+                var c = json.coordinates[i];
+
+                if (!c.com_c_xmin || !c.com_c_ymin || !c.com_c_xmax || !c.com_c_ymax)
+                    continue;
+
+                var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmin), parseFloat(c.com_c_ymin), c.com_c_geozone);
+                bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+                latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
+                bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+            }
+            //console.log(latLon[0], latLon[1]);
+            self.map.fitBounds(bounds);
+        } else {
             self.map.setCenter(self.centro);
-                self.map.setZoom(15);
-        setTimeout(function(){ self.renderImage(); }, 1500);
+        }
+        self.map.setZoom(12);
+
     };
 
     this.loadJson = function (geojson) {
@@ -117,12 +147,12 @@ var ExportMap = {
 
         if (capas !== '') {
             var arr_select = capas.split(",");
+            for (var m = 0; m < arr_select.length; m++) {
 
-            for (var i = 0; i < arr_select.length; i++) {
                 var cargada = 0;
                 self.map.data.forEach(function (feature) {
                     // console.log(feature.getProperty("TYPE"));
-                    if (feature.getProperty("TYPE") == arr_select[i])
+                    if (feature.getProperty("TYPE") == arr_select[m])
                     {
                         cargada++;
                     }
@@ -132,7 +162,7 @@ var ExportMap = {
                     continue;
                 }
 
-                $.get(siteUrl + 'visor/get_json_capa/id/' + arr_select[i], function (data) {
+                $.get(siteUrl + 'visor/get_json_capa/id/' + arr_select[m], function (data) {
                     var json = JSON.parse(data);
                     var geojson = JSON.parse(json.json_str);
                     //console.log(geojson);
@@ -270,13 +300,15 @@ var ExportMap = {
                         }
 
                     }
+
                 });
+
             }
         }
 
     };
 
-        this.microtime = function () {
+    this.microtime = function () {
         var now = new Date()
                 .getTime();
         var s = parseInt(now, 10);
@@ -286,29 +318,28 @@ var ExportMap = {
     this.renderImage = function () {
         html2canvas($('#dvMap'), {
             useCORS: true,
-           
-                   
-            onrendered: function(canvas) {
-            var dataUrl= canvas.toDataURL("image/png");
-            dataUrl = dataUrl.substr(22, dataUrl.length);
-            var d = 'str='+dataUrl+'&eme_ia_id='+$('#eme_ia_id').val()+'&m='+self.microtime();
-            
-            //console.log(data[1].length);
-            
+            onrendered: function (canvas) {
+                var dataUrl = canvas.toDataURL("image/jpg");
+                dataUrl = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
 
-                        
-            
-            
-            
-        $.post(siteUrl+'visor/getMapImage',d, function (retorno) {
-            
-            //console.log(retorno.k);
-            //var response = $.parseJSON(retorno);
+                var d = {str: dataUrl, eme_ia_id: $('#eme_ia_id').val(), m: self.microtime()};
 
-               window.location = siteUrl+'visor/getReporte/id/'+$('#eme_ia_id').val()+'/k/'+retorno.k;
-            
-        });
-            
+
+                $.ajax({
+                    url: siteUrl + 'visor/getMapImage',
+                    dataType: 'json',
+                    data: d,
+                    type: 'POST',
+                    success: function (data) {
+                        if (data.k !== 0)
+                        {
+                            window.parent.Emergencia.cargando();
+                             window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
+                             window.parent.Emergencia.closeIframe($('#eme_ia_id').val());
+                        }
+                    }
+                });
+
             }
 
         });
