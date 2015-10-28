@@ -2,37 +2,39 @@ var ExportMap = {
     map: null,
     mapOptions: null,
     referenciaMarker: null,
-    centro : null
+    centro: null,
+    funciones: []
 };
 (function () {
     var self = this;
     this.mapOptions = {
-       // center: new google.maps.LatLng(-33.07, -71.6),
+        // center: new google.maps.LatLng(-33.07, -71.6),
         zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoomControl: false,
+        streetViewControl: false,
+        mapTypeControl: false
     };
     this.LoadMap = function () {
 
         this.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
-              
-           $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
-                    self.loadObjects.bind(this)
-                    ); 
 
-
+        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
+                self.loadObjects.bind(this)
+                );
 
     };
 
 
 
-            
+
     this.loadObjects = function (data) {
 
         var json = JSON.parse(data);
-        var bounds = new google.maps.LatLngBounds();
+        //var bounds = new google.maps.LatLngBounds();
 
 
-          
+
         self.map.data.setStyle(function (feature) {
             var color = null;
             var retorno = {};
@@ -53,20 +55,7 @@ var ExportMap = {
 
             return retorno;
         });
-        for (var i = 0; i < json.coordinates.length; i++) {
-            var c = json.coordinates[i];
 
-            if (!c.com_c_xmin || !c.com_c_ymin || !c.com_c_xmax || !c.com_c_ymax)
-                continue;
-
-            var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmin), parseFloat(c.com_c_ymin), c.com_c_geozone);
-            bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-            latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
-            bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-        }
-
-       //self.map.fitBounds(bounds);
-       
         var referencia = JSON.parse(json.referencia);
 
         if (referencia.ref_lat && referencia.ref_lng && referencia.geozone)
@@ -78,34 +67,34 @@ var ExportMap = {
 
         if (json.geojson)
         {
-            self.map.data.loadGeoJson(json.geojson, null, function (features) {
-                for (var i = 0; i < features.length; i++) {
-                    var feature = features[i];
-                    if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
-                        self.map.data.remove(self.referenciaMarker);
-                        self.emergencyMarker = feature;
-                        var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
-                        
-                        self.centro = gooLatLng;
-
-                    } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
-                        self.emergencyRadius = feature;
-
-                }
-            });
-
+            self.loadJson(json.geojson); 
         }
         
-        self.map.setCenter(self.centro);
-        self.map.setZoom(15);
-        var capas = '';
         if (json.capas)
         {
-            capas = json.capas;
-            self.cargarCapas(capas);
+            self.cargarCapas(json.capas); 
         }
+            self.map.setCenter(self.centro);
+                self.map.setZoom(15);
+        setTimeout(function(){ self.renderImage(); }, 1500);
+    };
 
+    this.loadJson = function (geojson) {
+        self.map.data.loadGeoJson(geojson, null, function (features) {
+            for (var i = 0; i < features.length; i++) {
+                var feature = features[i];
+                if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
+                    self.map.data.remove(self.referenciaMarker);
+                    self.emergencyMarker = feature;
+                    var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
 
+                    self.centro = gooLatLng;
+
+                } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
+                    self.emergencyRadius = feature;
+
+            }
+        });
     };
     this.drawReferencia = function (ref_lat, ref_lng, geozone) {
         var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(ref_lng), parseFloat(ref_lat), geozone);
@@ -281,23 +270,42 @@ var ExportMap = {
                         }
 
                     }
-
                 });
             }
         }
+
     };
 
+        this.microtime = function () {
+        var now = new Date()
+                .getTime();
+        var s = parseInt(now, 10);
 
+        return (Math.round((now - s) * 1000) / 1000) + s;
+    };
     this.renderImage = function () {
         html2canvas($('#dvMap'), {
             useCORS: true,
             onrendered: function(canvas) {
             var dataUrl= canvas.toDataURL("image/png");
+            
+            var d = 'data='+dataUrl+'&eme_ia_id='+$('#eme_ia_id').val()+'&m='+self.microtime();
+            
+            //console.log(data[1].length);
+            
+            
+            
+            
+            
+        $.post(siteUrl+'visor/getMapImage',d, function (retorno) {
+            //console.log(retorno.k);
+            //var response = $.parseJSON(retorno);
 
-            // DO SOMETHING WITH THE DATAURL
-            // Eg. write it to the page
-            document.write('<img src="' + dataUrl + '"/>');
-        }
+               window.location = siteUrl+'visor/getReporte/id/'+$('#eme_ia_id').val()+'/k/'+retorno.k;
+            
+        });
+            
+            }
 
         });
 

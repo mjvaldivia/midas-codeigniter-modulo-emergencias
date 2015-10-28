@@ -1,9 +1,11 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-class Visor extends CI_Controller
-{
-    public function index()
-    {
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Visor extends CI_Controller {
+
+    public function index() {
         // load basicos
         $this->load->library("template");
         $this->load->helper(array("session", "debug", "utils"));
@@ -43,7 +45,7 @@ class Visor extends CI_Controller
         $retorno["facilities"] = $this->VisorModel->obtenerTipInsGuardados($params);
         $retorno["capas"] = $this->EmergenciaModel->obtenerCapas($params);
         $retorno["referencia"] = $this->EmergenciaModel->get_JsonReferencia($params['id']);
-        
+
 
         echo json_encode($retorno);
     }
@@ -63,8 +65,7 @@ class Visor extends CI_Controller
         echo json_encode($coords);
     }
 
-    public function subirKML()
-    {
+    public function subirKML() {
         // load basicos
         $this->load->helper(array("session", "debug"));
 
@@ -78,7 +79,8 @@ class Visor extends CI_Controller
 
         foreach ($_FILES as $llave => $valor) {
             // no dejamos subir cualquier formato
-            if ($valor["type"][0] != "application/vnd.google-earth.kml+xml") continue;
+            if ($valor["type"][0] != "application/vnd.google-earth.kml+xml")
+                continue;
 
             move_uploaded_file($valor["tmp_name"][0], APPPATH . "../KML/test.kml");
         }
@@ -86,30 +88,30 @@ class Visor extends CI_Controller
         echo json_encode(array("uploaded" => true));
     }
 
-
-    public function getReporte()
-    {
+    public function getReporte() {
         $this->load->library("template");
         $this->load->helper("session");
-        
+        $this->load->model("archivo_model", "ArchivoModel");
         ini_set('memory_limit', '32M');
         $this->load->model("emergencia_model", "EmergenciaModel");
         $params = $this->uri->uri_to_assoc();
         //var_dump($params);
         $data = $this->EmergenciaModel->getJsonEmergencia($params, false);
+
+        $archivo = $this->ArchivoModel->get_file_from_key($params['k']);
+        $data['imagename'] = $archivo['arch_c_nombre'];
         //var_dump($data);die;
         $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
-        //print_r($html);die;
+
         $this->load->library('pdf');
         $pdf = $this->pdf->load();
         $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y')); // Add a footer for good measure <img class="emoji" draggable="false" alt="😉" src="https://s.w.org/images/core/emoji/72x72/1f609.png">
         $pdf->WriteHTML($html); // write the HTML into the PDF
         $pdf->Output('acta.pdf', 'I');
-
     }
-    
-    public function saveGeoJson(){
-        
+
+    public function saveGeoJson() {
+
         $this->load->library("template");
         $this->load->helper("session");
         sessionValidation();
@@ -117,20 +119,18 @@ class Visor extends CI_Controller
         $id = $this->input->post('id');
         $geoJson = $this->input->post('geoJson');
         $lista_capas = $this->input->post('lista');
-        echo $this->ArchivoModel->setTemporaryGeoJson($id,$geoJson,$lista_capas);
-        
-        
+        echo $this->ArchivoModel->setTemporaryGeoJson($id, $geoJson, $lista_capas);
     }
-    
-    public function guardarCapa(){
+
+    public function guardarCapa() {
         $this->load->helper("session");
         sessionValidation();
         $params = $this->input->post();
         $this->load->helper("session");
         $this->load->model("capa_model", "CapaModel");
-        echo $this->CapaModel->guardarCapa($params); 
+        echo $this->CapaModel->guardarCapa($params);
     }
-    
+
     public function obtenerJsonCatCoberturas() {
         $this->load->model("categoria_cobertura_model", "CategoriaCobertura");
 
@@ -138,7 +138,7 @@ class Visor extends CI_Controller
 
         $json = array();
 
-        foreach($CategoriaCobertura as $c)
+        foreach ($CategoriaCobertura as $c)
             $json[] = array(
                 $c["ccb_ia_categoria"],
                 $c["ccb_c_categoria"]
@@ -146,13 +146,15 @@ class Visor extends CI_Controller
 
         echo json_encode($json);
     }
+
     public function obtenerCapasDT() {
         $this->load->model("capa_model", "CapaModel");
         $params = $this->uri->uri_to_assoc();
         //var_dump($params);die;
-        $Coberturas= $this->CapaModel->obtenerTodos($params['id']);
+        $Coberturas = $this->CapaModel->obtenerTodos($params['id']);
         return json_encode($Coberturas);
     }
+
     public function get_json_capa() {
         $this->load->helper("session");
         sessionValidation();
@@ -160,12 +162,32 @@ class Visor extends CI_Controller
         $params = $this->uri->uri_to_assoc();
         return $this->CapaModel->getjson($params['id']);
     }
-    
-    public function loadExportMap(){
+
+    public function loadExportMap() {
         $this->load->library("template");
         $params = $this->uri->uri_to_assoc();
-        $data = array('id'=>$params['id']);
+        $data = array('id' => $params['id']);
+
         $this->template->parse("alone", "pages/visor/exportMap", $data);
     }
-    
+
+    public function getMapImage() {
+        $params = $this->input->post();
+        $name = 'img_report_' . $params['eme_ia_id'] . uniqid();
+        $tmp_name = 'media/tmp/' . $name . '.png';
+        $data = $params['data'];
+        $bin = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data),true);
+        //var_dump($bin);
+        file_put_contents($tmp_name, $bin);
+
+
+        $this->load->model("archivo_model", "ArchivoModel");
+        $resp = $this->ArchivoModel->upload_to_site($name, 'image/png', $tmp_name, $params['eme_ia_id'], $this->ArchivoModel->TIPO_MAPA_REPORTE, filesize($tmp_name));
+        if (json_decode($resp)->error == 0) {
+            echo json_encode(array('k' => json_decode($resp)->k));
+        } else {
+            echo json_encode(array('k' => 0));
+        }
+    }
+
 }

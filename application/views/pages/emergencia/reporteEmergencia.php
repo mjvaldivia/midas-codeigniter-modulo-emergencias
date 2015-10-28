@@ -120,6 +120,6 @@
         <td colspan="2">Mapa del lugar de la emergencia</td>
     </tr>
     <tr>
-        <td colspan="2"><img src="<?php echo base_url("/media/map.jpg") ?>" /></td>
+        <td colspan="2"><img src="<?php echo base_url($imagename) ?>" /></td>
     </tr>  
     </table>

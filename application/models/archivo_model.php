@@ -9,6 +9,7 @@ class Archivo_Model extends CI_Model {
     public $TIPO_GEOJSON = 6;
     public $TIPO_CAPA = 7;
     public $TIPO_ICONO_DE_CAPA = 8;
+    public $TIPO_MAPA_REPORTE = 9;
     public $DOC_FOLDER = 'media/doc/';
     public $EMERGENCIA_FOLDER = 'media/doc/emergencia/';
     public $ALARMA_FOLDER = 'media/doc/alarmas/';
@@ -51,7 +52,7 @@ class Archivo_Model extends CI_Model {
                                 $error = 'Err 1: No se pudo copiar temporal al destino';
                             }
                         } else
-                        if ($tipo == $this->TIPO_ICONO_DE_CAPA) {
+                        if ($tipo == $this->TIPO_ICONO_DE_CAPA || $tipo == $this->TIPO_MAPA_REPORTE) {
 
                             if (copy($tmp_name, $full_url)) {
                                 $error = 0;
@@ -95,6 +96,7 @@ class Archivo_Model extends CI_Model {
                 $folder_entidad = 'alarmas';
                 break;
             case $this->TIPO_GEOJSON:
+            case $this->TIPO_MAPA_REPORTE:
                 $folder_entidad = 'emergencia';
                 break;
             case $this->TIPO_CAPA:

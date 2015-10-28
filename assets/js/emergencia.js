@@ -153,7 +153,7 @@ var Emergencia = {};
                 html += "    </div>";
                 html += "    <div class=\"col-md-2 text-center\">";
                 html += "       <div class=\"btn-group\">";
-                html += "           <a title=\"Reporte\" class=\"btn btn-default\" href='" + baseUrl + "visor/getReporte/id/" + row.eme_ia_id + "' target='_blank'>";
+                html += "           <a title=\"Reporte\" class=\"btn btn-default\" href='" + baseUrl + "visor/loadExportMap/id/" + row.eme_ia_id + "' target='_blank'>";
                 html += "               <i class=\"fa fa-file-text-o\"></i>";
                 html += "           </a>";
                 html += "           <a title=\"Visor\" class=\"btn btn-default\" href='" + siteUrl + "visor/index/id/" + row.eme_ia_id + "' target='_blank'>";
