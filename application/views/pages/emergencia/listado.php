@@ -2,29 +2,48 @@
     .form-inline .form-group {
         margin-right: 20px;
     }
-        
+
     td,th {
         vertical-align: middle!important;
-        padding-botton: 5px;
+        padding-bottom: 5px;
         border: 0!important;
     }
-    
+
     tr.odd div {
-        background-color: #D0DB97;
+        background-color: whitesmoke;
     }
-    
+
     tr.even div {
-        background-color: #E4E8CF;
+        background-color: rgb(208,228,247);
     }
-    
+
     .shadow {
-        -moz-box-shadow: 5px 5px 5px 0px #D0DB97;
-        -webkit-box-shadow: 5px 5px 5px 0px #D0DB97;
-        box-shadow: 5px 5px 5px 0px #C0C98F;
-        
+
+
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
         border-radius: 4px;
+        border : 1px solid silver;
+    }
+    .icono{
+    font-size: 42px;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-top: 7px;
+    height: 60px;
+    width: 60px;
+background: rgb(208,228,247); /* Old browsers */
+background: -moz-linear-gradient(top, rgb(208,228,247) 0%, rgb(115,177,231) 24%, rgb(10,119,213) 50%, rgb(83,159,225) 79%, rgb(135,188,234) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(208,228,247)), color-stop(24%,rgb(115,177,231)), color-stop(50%,rgb(10,119,213)), color-stop(79%,rgb(83,159,225)), color-stop(100%,rgb(135,188,234))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rgb(10,119,213) 50%,rgb(83,159,225) 79%,rgb(135,188,234) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rgb(10,119,213) 50%,rgb(83,159,225) 79%,rgb(135,188,234) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rgb(10,119,213) 50%,rgb(83,159,225) 79%,rgb(135,188,234) 100%); /* IE10+ */
+background: linear-gradient(to bottom, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rgb(10,119,213) 50%,rgb(83,159,225) 79%,rgb(135,188,234) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=0 );
+    }
+    .btn-default{
+             font-size: 17px;
     }
 </style>
 <div class="clearfix"></div>

@@ -164,7 +164,7 @@ var VisorMapa = {
             $('#selected_items').val(json.capas);
             this.cargarCapas();
         }
-
+        self.map.setZoom(17);
     };
     var self = this;
     this.drawReferencia = function (ref_lat, ref_lng, geozone) {
@@ -183,7 +183,7 @@ var VisorMapa = {
         this.map.data.add(point);
         self.referenciaMarker = point;
         this.map.setCenter(self.referenciaMarker.getGeometry().get());
-
+        
     };
 
     var crossingData = function (event) {

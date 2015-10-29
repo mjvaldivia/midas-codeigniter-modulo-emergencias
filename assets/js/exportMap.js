@@ -105,7 +105,7 @@ var ExportMap = {
         } else {
             self.map.setCenter(self.centro);
         }
-        self.map.setZoom(12);
+        self.map.setZoom(16);
 
     };
 

@@ -273,7 +273,7 @@ class Emergencia_Model extends CI_Model {
     public function enviaMsjEmergencia($params) {
 
         $this->load->helper('utils');
-        $mensaje = "<b>SIPRESA: Confirmación de una situación de emergencia</b><br><br>";
+        $mensaje = "<b>Confirmación de una situación de emergencia</b><br><br>";
         $mensaje .= "Se ha activado la emergencia código " . $params['eme_ia_id'] . "<br><br>";
         $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['iNombreEmergencia'] . "<br>";
         $mensaje .= "<b>Tipo de emergencia:</b> " . $params['iTiposEmergencias'] . "<br>";
@@ -287,7 +287,7 @@ class Emergencia_Model extends CI_Model {
 
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
-        $subject = "SIPRESA: Confirmación de una situación de emergencia";
+        $subject = "Confirmación de una situación de emergencia";
 
         $qry = "select group_concat(usu_c_email SEPARATOR ',') lista from usuarios where UPPER(usu_b_email_emergencias) = 'SI' and est_ia_id = 1";
 

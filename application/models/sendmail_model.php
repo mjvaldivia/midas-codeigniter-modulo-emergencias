@@ -12,7 +12,7 @@ class Sendmail_Model extends CI_Model {
         
         $this->load->library('email');
 
-        $this->email->from('noresponder@minsal.cl', 'No Responder - MINSAL');
+        $this->email->from('noresponder@minsal.cl', 'MIDAS - MINSAL');
         $this->email->to($to);
         $this->email->cc($cc);
         if($bcc!=null)

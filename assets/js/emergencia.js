@@ -77,93 +77,92 @@ var Emergencia = {};
             var json = JSON.parse(retorno);
 
             json.columns[0]["mRender"] = function (data, type, row) {
-                var clase = '';
+                var icon = '';
                 //console.log(row);
                 switch (parseInt(row.tip_ia_id)) {
                     case 1:
                     case 2:
-                        clase = 'incendio';
+                        icon = '<i class=\"glyphicon glyphicon-fire icono\"></i>';
                         break;
                     case 3:
-                        clase = 'quimico';
+                        icon = '<i class=\"fa fa-4x fa-flask icono\"></i>';
                         break;
                     case 4:
-                        clase = 'meteorologico';
+                        icon = '<i class=\"fa fa-4x fa-cloud icono\"></i>';
                         break;
                     case 5:
-                        clase = 'sismo';
+                        icon = '<i class=\"fa fa-4x fa-bullseye icono\"></i>';
                         break;
                     case 6:
-                        clase = 'tsunami';
+                        icon = '<i class=\"fa fa-4x fa-life-ring icono\"></i>';
                         break;
                     case 7:
-                        clase = 'volcan';
+                        icon = '<i class=\"fa fa-4x fa-globe icono\"></i>';
                         break;
                     case 8:
-                        clase = 'sequias';
+                        icon = '<i class=\"glyphicon glyphicon-tint icono\"></i>';
                         break;
                     case 9:
                     case 10:
-                        clase = 'accidente';
+                        icon = '<i class=\"fa fa-4x fa-medkit icono\"></i>';
                         break;
                     case 11:
-                        clase = 'terrorista';
+                        icon = '<i class=\"fa fa-4x fa-bomb icono\"></i>';
                         break;
                     case 12:
                     case 13:
-                        clase = 'salud';
+                        icon = '<i class=\"fa fa-4x fa-user-md icono\"></i>';
                         break;
                     case 15:
-                        clase = 'radiologica';
+                        icon = '<i class=\"fa fa-4x fa-bolt icono\"></i>';
                         break;
                     case 14:
-                        clase = 'otro';
+                        icon = '<i class=\"fa fa-4x fa-bullhorn icono\"></i>';
                         break;
-
                 }
 
                 var html = "";
                 html += "<div class=\"col-md-12 shadow\" style=\"padding: 10px;\">";
-                html += "    <div class=\"col-md-2 text-center\"><div class='" + clase + "'/></div></div>";
+                html += "    <div class=\"col-md-2 text-center\">" + icon + "</div>";
                 html += "    <div class=\"col-md-8\">";
                 html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label for=\"\" class=\"col-md-4 control-label\">Fecha de la emergencia:</label>";
+                html += "           <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Fecha:</label>";
                 html += "            <div class=\"col-md-8\">";
-                html += "                <p>" + row.eme_d_fecha_emergencia + "</p>";
+                html += "                " + row.eme_d_fecha_emergencia + "";
                 html += "            </div>";
                 html += "        </div>";
                 html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label for=\"\" class=\"col-md-4 control-label\">Nombre de la emergencia:</label>";
+                html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Nombre:</label>";
                 html += "            <div class=\"col-md-8\">";
-                html += "                <p>" + row.eme_c_nombre_emergencia + "</p>";
+                html += "                " + row.eme_c_nombre_emergencia + "";
                 html += "            </div>";
                 html += "        </div>";
                 html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label for=\"\" class=\"col-md-4 control-label\">Tipo de la emergencia:</label>";
+                html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Tipo:</label>";
                 html += "            <div class=\"col-md-8\">";
-                html += "                <p>" + row.eme_c_tipo_emergencia + "</p>";
+                html += "                " + row.eme_c_tipo_emergencia + "";
                 html += "            </div>";
                 html += "        </div>";
                 html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label for=\"\" class=\"col-md-4 control-label\">Lugar de la emergencia:</label>";
+                html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Lugar:</label>";
                 html += "            <div class=\"col-md-8\">";
-                html += "                <p>" + row.eme_c_lugar_emergencia + "</p>";
+                html += "                " + row.eme_c_lugar_emergencia + "";
                 html += "            </div>";
                 html += "        </div>";
                 html += "    </div>";
                 html += "    <div class=\"col-md-2 text-center\">";
                 html += "       <div class=\"btn-group\">";
                 html += "           <a title=\"Reporte\" class=\"btn btn-default\" onclick=Emergencia.openIframe(" + row.eme_ia_id + "); >";
-                html += "               <i class=\"fa fa-file-text-o\"></i>";
+                html += "               <i class=\"fa fa-fa2x fa-file-text-o\"></i>";
                 html += "           </a>";
                 html += "           <a title=\"Visor\" class=\"btn btn-default\" href='" + siteUrl + "visor/index/id/" + row.eme_ia_id + "' target='_blank'>";
-                html += "               <i class=\"fa fa-globe\"></i>";
+                html += "               <i class=\"fa fa-fa2x fa-globe\"></i>";
                 html += "           </a>";
                 html += "           <a title=\"Editar\" class=\"btn btn-default\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
-                html += "               <i class=\"fa fa-pencil\"></i>";
+                html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
                 html += "           </a>";
                 html += "           <a title=\"Eliminar\" class=\"btn btn-default\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
-                html += "               <i class=\"fa fa-trash\"></i>";
+                html += "               <i class=\"fa fa-fa2x fa-trash\"></i>";
                 html += "           </a>";
                 html += "       </div>";
                 html += "    </div>";
@@ -189,9 +188,8 @@ var Emergencia = {};
     var i = document.createElement('iframe');
     i.style.display = 'block';
     i.id= id;
-    i.width = 10;
-    i.heigth = 10;
-    //i.onload = function() { i.parentNode.removeChild(i); };
+    i.width = 0;
+    i.heigth = 0;
     i.src = siteUrl+'visor/loadExportMap/id/'+id;
     document.body.appendChild(i);
 
