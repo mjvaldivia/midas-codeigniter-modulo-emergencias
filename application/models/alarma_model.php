@@ -193,4 +193,21 @@ class Alarma_Model extends CI_Model
 
 
     }
+    
+    public function eliminarAlarma($id = 0) {
+        $error = false;
+        $this->db->trans_begin();
+        
+        $this->db->query("delete from alertas where ala_ia_id=$id");
+        $this->db->query("delete from alertas_vs_comunas where ala_ia_id=$id");
+
+        if ($this->db->trans_status() === FALSE) {
+            $error = true;
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        return $error;
+    }
 }

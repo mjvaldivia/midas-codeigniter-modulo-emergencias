@@ -4,6 +4,7 @@
 var Alarma = {};
 
 (function () {
+    
     this.inicioIngreso = function () {
         $("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
         $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
@@ -19,7 +20,6 @@ var Alarma = {};
 
 
     };
-
 
     this.inicioListado = function () {
         $("#TiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
@@ -58,117 +58,125 @@ var Alarma = {};
         tabla.destroy();
         $('#tblAlarmas').empty();
 
-        $.get(url).done(function (retorno) {
-            var json = JSON.parse(retorno);
+
+        $.ajax({
+            format: "json",
+            cache: false,
+            url: url,
+            data: '',
+            success: function(retorno){
+                var json = JSON.parse(retorno);
             
-            json.columns[0]["mRender"] = function (data, type, row) {
-                var html = "";
-                var icon = '';
-                var disabled = '';
-                switch (parseInt(row.tip_ia_id)) {
-                    case 1:
-                    case 2:
-                        icon = '<i class=\"glyphicon glyphicon-fire icono\"></i>';
-                        break;
-                    case 3:
-                        icon = '<i class=\"fa fa-4x fa-flask icono\"></i>';
-                        break;
-                    case 4:
-                        icon = '<i class=\"fa fa-4x fa-cloud icono\"></i>';
-                        break;
-                    case 5:
-                        icon = '<i class=\"fa fa-4x fa-bullseye icono\"></i>';
-                        break;
-                    case 6:
-                        icon = '<i class=\"fa fa-4x fa-life-ring icono\"></i>';
-                        break;
-                    case 7:
-                        icon = '<i class=\"fa fa-4x fa-globe icono\"></i>';
-                        break;
-                    case 8:
-                        icon = '<i class=\"glyphicon glyphicon-tint icono\"></i>';
-                        break;
-                    case 9:
-                    case 10:
-                        icon = '<i class=\"fa fa-4x fa-medkit icono\"></i>';
-                        break;
-                    case 11:
-                        icon = '<i class=\"fa fa-4x fa-bomb icono\"></i>';
-                        break;
-                    case 12:
-                    case 13:
-                        icon = '<i class=\"fa fa-4x fa-user-md icono\"></i>';
-                        break;
-                    case 15:
-                        icon = '<i class=\"fa fa-4x fa-bolt icono\"></i>';
-                        break;
-                    case 14:
-                        icon = '<i class=\"fa fa-4x fa-bullhorn icono\"></i>';
-                        break;
-                }
-                
-                if(row.est_ia_id==1 || row.est_ia_id==2)
-                    disabled = 'disabled';
+                json.columns[0]["mRender"] = function (data, type, row) {
+                    var html = "";
+                    var icon = '';
+                    var disabled = '';
+                    switch (parseInt(row.tip_ia_id)) {
+                        case 1:
+                        case 2:
+                            icon = '<i class=\"glyphicon glyphicon-fire icono\"></i>';
+                            break;
+                        case 3:
+                            icon = '<i class=\"fa fa-4x fa-flask icono\"></i>';
+                            break;
+                        case 4:
+                            icon = '<i class=\"fa fa-4x fa-cloud icono\"></i>';
+                            break;
+                        case 5:
+                            icon = '<i class=\"fa fa-4x fa-bullseye icono\"></i>';
+                            break;
+                        case 6:
+                            icon = '<i class=\"fa fa-4x fa-life-ring icono\"></i>';
+                            break;
+                        case 7:
+                            icon = '<i class=\"fa fa-4x fa-globe icono\"></i>';
+                            break;
+                        case 8:
+                            icon = '<i class=\"glyphicon glyphicon-tint icono\"></i>';
+                            break;
+                        case 9:
+                        case 10:
+                            icon = '<i class=\"fa fa-4x fa-medkit icono\"></i>';
+                            break;
+                        case 11:
+                            icon = '<i class=\"fa fa-4x fa-bomb icono\"></i>';
+                            break;
+                        case 12:
+                        case 13:
+                            icon = '<i class=\"fa fa-4x fa-user-md icono\"></i>';
+                            break;
+                        case 15:
+                            icon = '<i class=\"fa fa-4x fa-bolt icono\"></i>';
+                            break;
+                        case 14:
+                            icon = '<i class=\"fa fa-4x fa-bullhorn icono\"></i>';
+                            break;
+                    }
 
-                var html = "";
-                html += "<div class=\"col-md-12 shadow\" style=\"padding: 10px;\">";
-                html += "    <div class=\"col-md-2 text-center\">"+ icon +"</div>";
-                html += "    <div class=\"col-md-8\">";
-                html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Fecha:</label>";
-                html += "            <div class=\"col-md-8\">";
-                html += "                "+ row.ala_d_fecha_emergencia + "";
-                html += "            </div>";
-                html += "        </div>";
-                html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Nombre:</label>";
-                html += "            <div class=\"col-md-8\">";
-                html += "                " + row.ala_c_nombre_emergencia + "";
-                html += "            </div>";
-                html += "        </div>";
-                html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Tipo:</label>";
-                html += "            <div class=\"col-md-8\">";
-                html += "               " + row.ala_c_tipo_emergencia + "";
-                html += "            </div>";
-                html += "        </div>";
-                html += "        <div class=\"form-group col-md-12\">";
-                html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Lugar:</label>";
-                html += "            <div class=\"col-md-8\">";
-                html += "                " + row.ala_c_lugar_emergencia + "";
-                html += "            </div>";
-                html += "        </div>";
-                html += "    </div>";
-                html += "    <div class=\"col-md-2 text-center\">";
-                html += "       <div class=\"btn-group\">";
-                html += "           <a title=\"Generar emergencia\" class=\"btn btn-default "+disabled+"\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
-                html += "               <i class=\"fa fa-bullhorn\"></i>";
-                html += "            </a>";
-                html += "           <a title=\"Editar\" class=\"btn btn-default\">";
-                html += "               <i class=\"fa fa-pencil\"></i>";
-                html += "           </a>";
-                html += "           <a title=\"Eliminar\" class=\"btn btn-default\">";
-                html += "               <i class=\"fa fa-trash\"></i>";
-                html += "           </a>";
-                html += "       </div>";
-                html += "    </div>";
-                html += "</div>";
+                    if(row.est_ia_id==1 || row.est_ia_id==2)
+                        disabled = 'disabled';
 
-                return html;
-            };
+                    var html = "";
+                    html += "<div class=\"col-md-12 shadow\" style=\"padding: 10px;\">";
+                    html += "    <div class=\"col-md-2 text-center\">"+ icon +"</div>";
+                    html += "    <div class=\"col-md-8\">";
+                    html += "        <div class=\"form-group col-md-12\">";
+                    html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Fecha:</label>";
+                    html += "            <div class=\"col-md-8\">";
+                    html += "                "+ row.ala_d_fecha_emergencia + "";
+                    html += "            </div>";
+                    html += "        </div>";
+                    html += "        <div class=\"form-group col-md-12\">";
+                    html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Nombre:</label>";
+                    html += "            <div class=\"col-md-8\">";
+                    html += "                " + row.ala_c_nombre_emergencia + "";
+                    html += "            </div>";
+                    html += "        </div>";
+                    html += "        <div class=\"form-group col-md-12\">";
+                    html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Tipo:</label>";
+                    html += "            <div class=\"col-md-8\">";
+                    html += "               " + row.ala_c_tipo_emergencia + "";
+                    html += "            </div>";
+                    html += "        </div>";
+                    html += "        <div class=\"form-group col-md-12\">";
+                    html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Lugar:</label>";
+                    html += "            <div class=\"col-md-8\">";
+                    html += "                " + row.ala_c_lugar_emergencia + "";
+                    html += "            </div>";
+                    html += "        </div>";
+                    html += "    </div>";
+                    html += "    <div class=\"col-md-2 text-center\">";
+                    html += "       <div class=\"btn-group\">";
+                    html += "           <a title=\"Generar emergencia\" class=\"btn btn-default "+disabled+"\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
+                    html += "               <i class=\"fa fa-bullhorn\"></i>";
+                    html += "            </a>";
+                    html += "           <a title=\"Editar\" class=\"btn btn-default\">";
+                    html += "               <i class=\"fa fa-pencil\"></i>";
+                    html += "           </a>";
+                    html += "           <a title=\"Eliminar\" class=\"btn btn-default\" onclick=Alarma.eliminarAlarma(" + row.ala_ia_id + ")>";
+                    html += "               <i class=\"fa fa-trash\"></i>";
+                    html += "           </a>";
+                    html += "       </div>";
+                    html += "    </div>";
+                    html += "</div>";
 
-            $("#tblAlarmas").DataTable({
-                data: json.data,
-                columns: json.columns,
-                
-                language: {
-                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
-                },
-                order: [[0, "desc"]]
-            });
-            $("#pResultados").css("visibility", "visible");
-            $("#pResultados").slideDown("slow");
+                    return html;
+                };
+
+                $("#tblAlarmas").DataTable({
+                    data: json.data,
+                    columns: json.columns,
+
+                    language: {
+                        url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                    },
+                    order: [[0, "desc"]]
+                });
+                $("#pResultados").css("visibility", "visible");
+                $("#pResultados").slideDown("slow");
+            }
         });
+
     };
 
     this.guardarForm = function () {
@@ -217,6 +225,59 @@ var Alarma = {};
         });
     };
 
+    this.eliminarAlarma = function (id) {
+        bootbox.dialog({
+            title: "Eliminar elemento",
+            message: '¿Está seguro que desea eliminar esta alarma?',
+            buttons: {
+                success: {
+                    label: "Aceptar",
+                    className: "btn-primary",
+                    callback: function () {
+                        $.get(siteUrl + 'alarma/eliminarAlarma/id/' + id).done(function (retorno) {
+                            if (retorno == 0) { // sin error
+                                bootbox.dialog({
+                                    title: "Resultado de la operacion",
+                                    message: 'Se eliminó correctamente',
+                                    buttons: {
+                                        danger: {
+                                            label: "Cerrar",
+                                            className: "btn-info",
+                                            callback: function () {
+                                                Alarma.eventoBtnBuscar();
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                bootbox.dialog({
+                                    title: "Resultado de la operacion",
+                                    message: 'Error al eliminar',
+                                    buttons: {
+                                        danger: {
+                                            label: "Cerrar",
+                                            className: "btn-danger"
+                                        }
+                                    }
+                                });
+                            }
+
+
+
+
+                        });
+
+                    }
+                },
+                danger: {
+                    label: "Cancelar",
+                    className: "btn-default"
+                }
+            }
+
+        });
+    };
+    
     this.generaEmergencia = function (ala_ia_id) {
         window.open(siteUrl + 'emergencia/generaEmergencia/id/' + ala_ia_id, '_blank');
     };

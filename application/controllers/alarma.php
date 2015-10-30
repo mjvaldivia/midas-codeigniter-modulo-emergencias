@@ -10,6 +10,23 @@ if (!defined("BASEPATH"))
  */
 class Alarma extends CI_Controller {
 
+    /**
+     *
+     * @var Alarma_Model
+     */
+    public $AlarmaModel;
+    
+    /**
+     * 
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("alarma_model", "AlarmaModel");
+    }
+    
+    /**
+     * Formulario de ingreso de alarma
+     */
     public function ingreso() {
         
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
@@ -29,6 +46,9 @@ class Alarma extends CI_Controller {
         $this->template->parse("default", "pages/alarma/ingreso", $data);
     }
 
+    /**
+     * Guarda formulario de alarma
+     */
     public function guardaAlarma() {
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso_paso_2.php")) {
             // Whoops, we don"t have a page for that!
@@ -40,8 +60,18 @@ class Alarma extends CI_Controller {
         $data = array();
         $data["lastPage"] = "alarma/ingreso";
         $this->load->library(array("template",'parser'));
-        $this->load->model("alarma_model", "AlarmaModel");
         echo $this->AlarmaModel->guardarAlarma($params);
+    }
+    
+    /**
+     * Elimina la alarma
+     */
+    public function eliminarAlarma() { 
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+        $params = $this->uri->uri_to_assoc();
+        $res = $this->AlarmaModel->eliminarAlarma($params['id']);
+        echo ($res) ? 1 : 0;
     }
 
     public function listado() {
@@ -64,10 +94,8 @@ class Alarma extends CI_Controller {
     }
 
     public function jsonAlarmasDT() {
-        $this->load->model("alarma_model", "Alarma");
         $params = $this->uri->uri_to_assoc();
-
-        $alarmas = $this->Alarma->filtrarAlarmas($params);
+        $alarmas = $this->AlarmaModel->filtrarAlarmas($params);
 
         $json["data"] = $alarmas;
         $json["columns"] = array(
@@ -107,7 +135,7 @@ class Alarma extends CI_Controller {
         echo json_encode($json);
     }
     
-        public function paso2() {
+    public function paso2() {
 
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso_paso_2.php")) {
             // Whoops, we don"t have a page for that!

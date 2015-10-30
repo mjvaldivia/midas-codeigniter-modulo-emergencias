@@ -149,12 +149,12 @@ class Emergencia_Model extends CI_Model {
         ";
 
         $query = $this->db->query($sql, $queryParams);
-
+        fb($sql);
         $resultados = array();
 
         if ($query->num_rows() > 0)
             $resultados = $query->result_array();
-
+        
         return $resultados;
     }
 
