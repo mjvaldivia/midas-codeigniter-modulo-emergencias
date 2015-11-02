@@ -389,7 +389,7 @@ function set_marker(position) {
     });
 
     map.setCenter(marcador[0].getPosition());
-    map.setZoom(17);
+    map.setZoom(15);
 
 }
 
