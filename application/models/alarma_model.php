@@ -42,8 +42,17 @@ class Alarma_Model extends CI_Model
         return $this->_query;
     }
     
+    /**
+     * Retorna la alarma por el identificador
+     * @param int $id
+     * @return row
+     */
     public function getById($id){
         return $this->_query->getById("ala_ia_id", $id);
+    }
+    
+    public function cantidadAlarmas(){
+        
     }
     
     public function obtenerEstados()

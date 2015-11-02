@@ -93,7 +93,7 @@ class Query{
     }
     
     /**
-     * 
+     * Helper model para ingresar datos en relaciones de uno a muchos
      * @param string $primary
      * @param string $secondary
      * @param int $id_primary

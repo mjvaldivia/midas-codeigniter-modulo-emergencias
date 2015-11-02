@@ -7,6 +7,17 @@
             </h1>
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+                <li class="pull-right">
+                    <div class="col-sm-12">
+                    <div id="rango-fechas" class="reportrange btn btn-success date-picker">
+                        <i class="fa fa-calendar"></i>
+                        <span class="date-range">Seleccionar fechas</span>
+                        <i class="fa fa-caret-down"></i>
+                    </div>
+                    <input type="hidden" name="fecha_desde" id="fecha_desde" value="" class="element-search"/>
+                    <input type="hidden" name="fecha_hasta" id="fecha_hasta" value="" class="element-search"/>
+                    </div>
+                </li>
             </ol>
         </div>
     </div>
@@ -18,135 +29,194 @@
 
 <!-- begin DASHBOARD CIRCLE TILES -->
 <div class="row">
-    <div class="col-lg-2 col-sm-6">
-        <div class="circle-tile">
-            <a href="#">
-                <div class="circle-tile-heading orange">
-                    <i class="fa fa-bell fa-fw fa-3x"></i>
+    <div class="col-lg-4 col-sm-6">
+        <div class="row">
+            <div class="col-lg-6 col-sm-6">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading orange">
+                            <i class="fa fa-bell fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content orange">
+                        <div class="circle-tile-description text-faded">
+                            Alarmas
+                        </div>
+                        <div class="circle-tile-number text-faded">
+                            9
+                        </div>
+                        <a href="<?= site_url("alarma/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
                 </div>
-            </a>
-            <div class="circle-tile-content orange">
-                <div class="circle-tile-description text-faded">
-                    Alarmas
+            </div>
+
+            <div class="col-lg-6 col-sm-6">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading red">
+                            <i class="fa fa-bullhorn fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content red">
+                        <div class="circle-tile-description text-faded">
+                            Emergencias
+                        </div>
+                        <div class="circle-tile-number text-faded">
+                            24
+                            <span id="sparklineC"></span>
+                        </div>
+                        <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
                 </div>
-                <div class="circle-tile-number text-faded">
-                    9
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tile tile-img tile-time" style="height: 200px">
+                    <p class="time-widget">
+                        <span class="time-widget-heading">Hoy es</span>
+                        <br>
+                        <strong>
+                            <span id="datetime"></span>
+                        </strong>
+                    </p>
                 </div>
-                <a href="<?= site_url("alarma/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
             </div>
         </div>
     </div>
-    <div class="col-lg-2 col-sm-6">
-        <div class="circle-tile">
-            <a href="#">
-                <div class="circle-tile-heading red">
-                    <i class="fa fa-bullhorn fa-fw fa-3x"></i>
+    <div class="col-lg-8"><br><br>
+        <div class="portlet portlet-default">
+            <div class="portlet-heading">
+                <div class="portlet-title">
+                    <h4>Emergencias</h4>
                 </div>
-            </a>
-            <div class="circle-tile-content red">
-                <div class="circle-tile-description text-faded">
-                    Emergencias
+                <div class="clearfix"></div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre emergencia</th>
+                                <th>Tipo emergencia</th>
+                                <th>Comunas afectadas</th>
+                                <th>Fecha emergencia</th>
+                                <th>Lugar</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button class="btn btn-xs btn-blue">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button class="btn btn-xs btn-blue">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button class="btn btn-xs btn-blue">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="circle-tile-number text-faded">
-                    24
-                    <span id="sparklineC"></span>
-                </div>
-                <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
             </div>
         </div>
-    </div>
-    <div class="col-lg-2 col-sm-6">
-        <div class="circle-tile">
-            <a href="#">
-                <div class="circle-tile-heading dark-blue">
-                    <i class="fa fa-users fa-fw fa-3x"></i>
+        <div class="portlet portlet-default">
+            <div class="portlet-heading">
+                <div class="portlet-title">
+                    <h4>Alarmas</h4>
                 </div>
-            </a>
-            <div class="circle-tile-content dark-blue">
-                <div class="circle-tile-description text-faded">
-                    Users
-                </div>
-                <div class="circle-tile-number text-faded">
-                    265
-                    <span id="sparklineA"></span>
-                </div>
-                <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                <div class="clearfix"></div>
             </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-sm-6">
-        <div class="circle-tile">
-            <a href="#">
-                <div class="circle-tile-heading green">
-                    <i class="fa fa-money fa-fw fa-3x"></i>
+            <div class="portlet-body">
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre emergencia</th>
+                                <th>Tipo emergencia</th>
+                                <th>Comunas afectadas</th>
+                                <th>Fecha emergencia</th>
+                                <th>Lugar</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button class="btn btn-xs btn-blue">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button class="btn btn-xs btn-blue">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button class="btn btn-xs btn-blue">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </a>
-            <div class="circle-tile-content green">
-                <div class="circle-tile-description text-faded">
-                    Revenue
-                </div>
-                <div class="circle-tile-number text-faded">
-                    $32,384
-                </div>
-                <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-sm-6">
-        <div class="circle-tile">
-            <a href="#">
-                <div class="circle-tile-heading blue">
-                    <i class="fa fa-tasks fa-fw fa-3x"></i>
-                </div>
-            </a>
-            <div class="circle-tile-content blue">
-                <div class="circle-tile-description text-faded">
-                    Tasks
-                </div>
-                <div class="circle-tile-number text-faded">
-                    10
-                    <span id="sparklineB"></span>
-                </div>
-                <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-sm-6">
-        <div class="circle-tile">
-            <a href="#">
-                <div class="circle-tile-heading purple">
-                    <i class="fa fa-comments fa-fw fa-3x"></i>
-                </div>
-            </a>
-            <div class="circle-tile-content purple">
-                <div class="circle-tile-description text-faded">
-                    Mentions
-                </div>
-                <div class="circle-tile-number text-faded">
-                    96
-                    <span id="sparklineD"></span>
-                </div>
-                <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
             </div>
         </div>
     </div>
 </div>
 <!-- end DASHBOARD CIRCLE TILES -->
 
-<div class="row">
-    <div class="col-lg-3">
-        <div class="tile tile-img tile-time" style="height: 200px">
-            <p class="time-widget">
-                <span class="time-widget-heading">It Is Currently</span>
-                <br>
-                <strong>
-                    <span id="datetime"></span>
-                </strong>
-            </p>
-        </div>
-    </div>
-</div>
-
-
+<?= loadCSS("assets/lib/daterangepicker/daterangepicker.css", true) ?>
+<?= loadJS("assets/lib/daterangepicker/moment.js", true) ?>
+<?= loadJS("assets/lib/daterangepicker/daterangepicker.js", true) ?>
 <?= loadJS("assets/lib/moment/moment.min.js", true) ?>
 <?= loadJS("assets/js/Modulo/dashboard.js", true) ?>

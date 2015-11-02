@@ -28,5 +28,42 @@ $(document).ready(function() {
         $('div.tile-img').addClass('morning');
     else if (hournow >= 0) // if it is after midnight
         $('div.tile-img').addClass('midnight');
+    
+    
+    
+    
+    
+  
+        var fc_desde = $("#rango-fechas").next("input").attr("id");
+        var fc_hasta = $("#rango-fechas").next("input").next().attr("id");
+        var fecha = $("#rango-fechas");
+        
+        $("#rango-fechas").daterangepicker({ 
+            format: 'DD/MM/YYYY',
+            showDropdowns: true,
+            showWeekNumbers: true,
+            locale: {
+                applyLabel: 'Seleccionar',
+                cancelLabel: 'Cancelar',
+                fromLabel: 'Desde',
+                toLabel: 'Hasta',
+                customRangeLabel: 'Cambiar fechas',
+                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mie', 'Jue', 'Vi', 'Sa'],
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                firstDay: 1
+            }
+        },
+        function(start, end, label) {
+            $(fecha).find("span").html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+            $("#" + fc_desde).val(start.format('DD/MM/YYYY'));
+            $("#" + fc_hasta).val(end.format('DD/MM/YYYY'));
+            $(fecha).addClass("btn-success");
+        });
+        
+        $("#rango-fechas").on('cancel.daterangepicker', function(ev, picker) {
+            $("#" + fc_desde).val("");
+            $("#" + fc_hasta).val("");
+        });
+   
 });
 

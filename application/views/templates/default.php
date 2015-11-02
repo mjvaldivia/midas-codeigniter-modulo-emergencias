@@ -16,7 +16,7 @@
 
     <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
     <!-- GLOBAL STYLES - Include these on every page. -->
-    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
+    <?= loadCSS("assets/lib/bootstrap-3.3.2-dist/css/bootstrap.css", true) ?>
 
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
@@ -303,170 +303,12 @@
                     <!-- /.dropdown -->
                     <!-- end ALERTS DROPDOWN -->
 
-                    <!-- begin TASKS DROPDOWN -->
-                    <li class="dropdown">
-                        <a href="#" class="tasks-link dropdown-toggle" data-toggle=dropdown>
-                            <i class="fa fa-tasks"></i> 
-                            <span class=number>10</span><i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-scroll dropdown-tasks">
-
-                            <!-- Tasks Dropdown Header -->
-                            <li class="dropdown-header">
-                                <i class="fa fa-tasks"></i> 10 Pending Tasks
-                            </li>
-
-                            <!-- Tasks Dropdown Body - This is contained within a SlimScroll fixed height box. You can change the height using the SlimScroll jQuery features. -->
-                            <li id="taskScroll">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                Software Update 2.1
-                                                <span class="pull-right">
-                                                    <strong>60%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                Server #2 Hardware Upgrade
-                                                <span class="pull-right">
-                                                    <strong>90%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress progress-striped">
-                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                Call Ticket #2032
-                                                <span class="pull-right">
-                                                    <strong>72%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress progress-striped active">
-                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                Emergency Maintenance
-                                                <span class="pull-right">
-                                                    <strong>36%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress progress-striped">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="36" aria-valuemin="0" aria-valuemax="100" style="width: 36%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                Purchase Order #439
-                                                <span class="pull-right">
-                                                    <strong>52%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress progress-striped">
-                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100" style="width: 52%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                March Content Update
-                                                <span class="pull-right">
-                                                    <strong>14%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100" style="width: 14%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                Client #42 Data Scrubbing
-                                                <span class="pull-right">
-                                                    <strong>68%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress progress-striped">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                PHP Upgrade Server #6
-                                                <span class="pull-right">
-                                                    <strong>85%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                Malware Scan
-                                                <span class="pull-right">
-                                                    <strong>66%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress progress-striped active">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100" style="width: 66%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <p>
-                                                New Employee Intake
-                                                <span class="pull-right">
-                                                    <strong>98%</strong>
-                                                </span>
-                                            </p>
-                                            <div class="progress progress-striped active">
-                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100" style="width: 98%;"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <!-- Tasks Dropdown Footer -->
-                            <li class="dropdown-footer">
-                                <a href="#">View All Tasks</a>
-                            </li>
-
-                        </ul>
-                        <!-- /.dropdown-menu -->
-                    </li>
-                    <!-- /.dropdown -->
-                    <!-- end TASKS DROPDOWN -->
+                    
 
                     <!-- begin USER ACTIONS DROPDOWN -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i>  <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-user"></i> {session_usuario} <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li>
@@ -657,18 +499,10 @@
 
     <!-- GLOBAL SCRIPTS -->
     
-    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
+    <?= loadJS("assets/lib/bootstrap-3.3.2-dist/js/bootstrap.js", true) ?>
     <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
-    <?= loadJS("assets/js/utils.js") ?>
-    <?= loadJS("assets/js/loading.js") ?>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            Utils.listenerCambioRapido();
-            Utils.toggleNavbarMethod();
-            Utils.ajaxRequestMonitor();
-            $(window).resize(Utils.toggleNavbarMethod);
-        });
-    </script>
+    <?= loadJS("assets/js/base.js") ?>
+    
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">

@@ -12,3 +12,7 @@ function formElementSelectEmergenciaTipo($input_nombre, $id_region, $input_valor
     $select->setNombre($input_nombre);
     return $select->render($input_valor);
 }
+
+function grillaEmergenciaDias(){
+    
+}
