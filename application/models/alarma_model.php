@@ -42,6 +42,10 @@ class Alarma_Model extends CI_Model
         return $this->_query;
     }
     
+    public function getById($id){
+        return $this->_query->getById("ala_ia_id", $id);
+    }
+    
     public function obtenerEstados()
     {
         $query = $this->db->query("select * from estados_alertas order by est_c_nombre;");
@@ -112,14 +116,14 @@ class Alarma_Model extends CI_Model
         return $resultados;
     }
 
-    public function guardarAlarma($parametros)
+    public function guardarAlarma($params)
     {
         $res = array();
 
         $comunas_query = $this->db->query("
         SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join alertas_vs_comunas avc
         on avc.com_ia_id = c.com_ia_id
-        where avc.ala_ia_id = $ala_ia_id");
+        where avc.ala_ia_id = " . $params["ala_ia_id"]);
         $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['iTiposEmergencias'] . "'");
 
         $tipo_emergencia = $tipo_query->result_array();
@@ -127,15 +131,8 @@ class Alarma_Model extends CI_Model
 
         $params['lista_comunas'] = $comunas[0]['comunas'];
         $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
-        $params['ala_ia_id'] = $ala_ia_id;
 
-
-        $res['res_mail'] = ($this->enviaMsjAlarma($params)) ? 'enviado correctamente' : 'error al enviar';
-
-        
-        $res['ala_ia_id'] = $ala_ia_id;
-
-        return json_encode($res);
+        return ($this->enviaMsjAlarma($params)) ? 'enviado correctamente' : 'error al enviar';
     }
 
     public function enviaMsjAlarma($params)

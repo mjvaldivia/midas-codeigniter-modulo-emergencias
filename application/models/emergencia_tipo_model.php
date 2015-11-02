@@ -5,7 +5,7 @@
  * Date: 17-08-15
  * Time: 10:09 AM
  */
-class Comuna_Model extends CI_Model
+class Emergencia_Tipo_Model extends CI_Model
 {    
     
     /**
@@ -18,7 +18,7 @@ class Comuna_Model extends CI_Model
      *
      * @var string 
      */
-    protected $_tabla = "comunas";
+    protected $_tabla = "auxiliar_emergencias_tipo";
     
     
     /**
@@ -39,11 +39,14 @@ class Comuna_Model extends CI_Model
         return $this->_query;
     }
     
-    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
     public function getById($id){
-        return $this->_query->getById("com_ia_id", $id);
+        return $this->_query->getById("aux_ia_id", $id);
     }
     
     
 }
-

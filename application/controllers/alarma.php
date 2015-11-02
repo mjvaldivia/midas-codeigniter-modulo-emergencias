@@ -128,15 +128,18 @@ class Alarma extends CI_Controller {
         if(!is_null($alerta)){
             $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
             $id = $alerta->ala_ia_id;
+            $respuesta_email = "";
         } else {
             $id = $this->AlarmaModel->query()->insert($data);
+            $params["ala_ia_id"] = $id;
+            $respuesta_email = $this->AlarmaModel->guardarAlarma($params);
         }
         
         $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['iComunas']);
 
         
         $respuesta = array("ala_ia_id" => $id,
-                           "res_mail"  => "");
+                           "res_mail"  => $respuesta_email);
         echo json_encode($respuesta);
     }
     
