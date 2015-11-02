@@ -34,6 +34,8 @@
     $(document).ready(function () {
         Alarma.inicioIngreso();
         /*initialize();
+         
         $("#ins_c_coordenada_n").trigger("change");*/
+        
     });
 </script>

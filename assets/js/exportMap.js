@@ -80,7 +80,7 @@ var ExportMap = {
 
         if (json.geojson)
         {
-            emergencia=true;
+            emergencia = true;
             self.loadJson(json.geojson);
         }
 
@@ -107,12 +107,9 @@ var ExportMap = {
                 self.map.fitBounds(bounds);
             }
             //console.log(latLon[0], latLon[1]);
-            
-            
+
+
         } 
-        if(!emergencia){
-            //self.map.setCenter(self.centro);self.map.setZoom(14);
-        }
         
 
     };
@@ -128,12 +125,13 @@ var ExportMap = {
                     var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
                     
                     self.centro = gooLatLng;
-                    self.map.setCenter(self.centro);
+                   
                     
                 } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                     self.emergencyRadius = feature;
 
             }
+            self.map.setCenter(self.centro);
         });
     };
     this.drawReferencia = function (ref_lat, ref_lng, geozone) {

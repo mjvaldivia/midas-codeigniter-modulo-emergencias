@@ -309,11 +309,17 @@ function initialize() {
         defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
         latLon = GeoEncoder.utmToDecimalDegree(parseFloat(data.com_c_xmax), parseFloat(data.com_c_ymax), geozone);
         defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-        map.fitBounds(defaultBounds);
+        
 
 
         $('#geozone').val(geozone);
-
+        
+        set_marker_by_inputs();
+        
+        
+        if(marcador.length==0)
+            map.fitBounds(defaultBounds);
+        
         new google.maps.places.Autocomplete(
                 (document.getElementById('iLugarEmergencia')), {
             componentRestrictions: {country: 'cl'}
@@ -383,7 +389,7 @@ function set_marker(position) {
     });
 
     map.setCenter(marcador[0].getPosition());
-    map.setZoom(15);
+    map.setZoom(17);
 
 }
 
