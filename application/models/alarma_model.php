@@ -7,8 +7,8 @@
  */
 class Alarma_Model extends CI_Model
 {
-    private $activado = 1;
-    private $rechazado = 2;
+    public $activado = 1;
+    public $rechazado = 2;
     
     const REVISION = 3;
     
