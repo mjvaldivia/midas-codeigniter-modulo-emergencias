@@ -244,7 +244,18 @@
 
                 creaPickList.call(self);
                 creaEventos.call(self);
-                $('#'+self.opciones.idSelectDisponibles).val(self.opciones.value);
+                
+                
+                if(self.opciones.value){
+                    $('#'+self.opciones.idSelectDisponibles).val(self.opciones.value);
+                } else {
+                    var seleccionado = [];
+                    $.each( $("#" + self.id).find(":selected"), function(i,val){
+                        seleccionado.push($(val).attr("value"));
+                    });
+                    $('#'+self.opciones.idSelectDisponibles).val(seleccionado);
+                }
+                
                 $("#picklist-btn-" + self.id + "-a").trigger('click');
                 
             },

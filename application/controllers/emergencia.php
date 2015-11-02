@@ -97,7 +97,7 @@ class Emergencia extends CI_Controller {
             // Whoops, we don"t have a page for that!
             show_404();
         }
-
+        
         // load basicos
         $this->load->library("template");
         $this->load->helper("session");
@@ -116,14 +116,15 @@ class Emergencia extends CI_Controller {
     public function jsonEmergenciasDT() {
         $this->load->model("emergencia_model", "Emergencia");
         $params = $this->uri->uri_to_assoc();
-
+      
         $emergencias = $this->Emergencia->filtrarEmergencias($params);
+        
         //var_dump($emergencias);die;
         $json["data"] = $emergencias;
         $json["columns"] = array(
             array("sTitle" => "Emergencias"),
         );
-
+   
         echo json_encode($json);
     }
 
@@ -158,8 +159,10 @@ class Emergencia extends CI_Controller {
         sessionValidation();
         $params = $this->input->post(null, true);
         $this->load->model("emergencia_model", "EmergenciaModel");
+
         $res = $this->EmergenciaModel->editarEmergencia($params);
-        return ($res) ? 1 : 0;
+
+        echo ($res) ? 1 : 0;
     }
 
     public function subir_CapaTemp() {
@@ -249,7 +252,7 @@ class Emergencia extends CI_Controller {
         echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>$binary_path));
     }
 
-       public function eliminarEmergencia() { 
+    public function eliminarEmergencia() { 
         $this->load->helper(array("session", "debug"));
         sessionValidation();
         $params = $this->uri->uri_to_assoc();

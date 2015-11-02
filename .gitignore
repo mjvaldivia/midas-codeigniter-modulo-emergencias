@@ -3,6 +3,8 @@
 .settings
 nbproject/
 application/config/*
+application/config/config.php
+application/config/database.php
 user_guide/
 nbproject/
 *.iml

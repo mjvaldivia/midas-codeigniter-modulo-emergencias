@@ -17,7 +17,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'development');
+define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -32,7 +32,7 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
-			error_reporting(E_ALL);
+			error_reporting(E_ALL^E_NOTICE^E_WARNING);
 		break;
 
 		case 'testing':
@@ -198,6 +198,7 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
+require_once APPPATH.'third_party/FirePHPCore/fb.php';
 require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */

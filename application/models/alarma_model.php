@@ -9,8 +9,43 @@ class Alarma_Model extends CI_Model
 {
     private $activado = 1;
     private $rechazado = 2;
-    private $revision = 3;
-
+    
+    const REVISION = 3;
+    
+    /**
+     *
+     * @var Query 
+     */
+    protected $_query;
+    
+    /**
+     *
+     * @var string 
+     */
+    protected $_tabla = "alertas";
+    
+    /**
+     * 
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library('Query');
+        $this->_query = New Query($this->db);
+        $this->_query->setTable($this->_tabla);
+    }
+    
+    /**
+     * Retorna HELPER para consultas generales
+     * @return Query
+     */
+    public function query(){
+        return $this->_query;
+    }
+    
+    public function getById($id){
+        return $this->_query->getById("ala_ia_id", $id);
+    }
+    
     public function obtenerEstados()
     {
         $query = $this->db->query("select * from estados_alertas order by est_c_nombre;");
@@ -83,79 +118,23 @@ class Alarma_Model extends CI_Model
 
     public function guardarAlarma($params)
     {
-
-        //var_dump($params);die;
-        $this->load->helper('utils');
-
         $res = array();
-        $this->db->query("
-        INSERT INTO alertas (ala_c_nombre_informante, 
-        ala_c_telefono_informante,
-        ala_c_nombre_emergencia,
-        tip_ia_id,
-        ala_c_lugar_emergencia,
-        ala_d_fecha_emergencia,
-        rol_ia_id,
-        ala_d_fecha_recepcion,
-        usu_ia_id,
-        est_ia_id,
-        ala_c_observacion,
-        ala_c_utm_lat,
-        ala_c_utm_lng,
-        ala_c_geozone
-        )
-        VALUES
-        (
-           '" . $params['iNombreInformante'] . "',
-           '" . $params['iTelefonoInformante'] . "',
-           '" . $params['iNombreEmergencia'] . "',
-           '" . $params['iTiposEmergencias'] . "',
-           '" . $params['iLugarEmergencia'] . "',
-           '" . spanishDateToISO($params['fechaEmergencia']) . "',
-           '" . $this->session->userdata('session_idCargo') . "',
-           '" . spanishDateToISO($params['fechaRecepcion']) . "',
-           '" . $this->session->userdata('session_idUsuario') . "',
-           $this->revision,
-           '" . $params['iObservacion'] . "',
-           '" . $params['ins_c_coordenada_n'] . "',
-           '" . $params['ins_c_coordenada_e'] . "',
-           '" . $params['geozone'] . "'
-        )
-        ");
 
-        $ala_ia_id = $this->db->insert_id();
-        if ($ala_ia_id && isset($params['iComunas'])) {
-            foreach ($params['iComunas'] as $k => $v) {
+        $comunas_query = $this->db->query("
+        SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join alertas_vs_comunas avc
+        on avc.com_ia_id = c.com_ia_id
+        where avc.ala_ia_id = " . $params["ala_ia_id"]);
+        $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['iTiposEmergencias'] . "'");
 
 
-                $this->db->query("
-                INSERT INTO alertas_vs_comunas (ala_ia_id, com_ia_id)
-                VALUES ($ala_ia_id,
-                $v
-                )
-                ");
-            }
-            $comunas_query = $this->db->query("
-            SELECT GROUP_CONCAT(com_c_nombre) comunas, GROUP_CONCAT(c.com_ia_id) id_comunas from comunas c join alertas_vs_comunas avc
-            on avc.com_ia_id = c.com_ia_id
-            where avc.ala_ia_id = $ala_ia_id");
-            $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['iTiposEmergencias'] . "'");
-
-            $tipo_emergencia = $tipo_query->result_array();
-            $comunas = $comunas_query->result_array();
-
-            $params['lista_comunas'] = $comunas[0]['comunas'];
-            $params['lista_id_comunas'] = $comunas[0]['id_comunas'];
-            $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
-            $params['ala_ia_id'] = $ala_ia_id;
+        $tipo_emergencia = $tipo_query->result_array();
+        $comunas = $comunas_query->result_array();
 
 
-            $res['res_mail'] = ($this->enviaMsjAlarma($params)) ? 'enviado correctamente' : 'error al enviar';
+        $params['lista_comunas'] = $comunas[0]['comunas'];
+        $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
 
-        }
-        $res['ala_ia_id'] = $ala_ia_id;
-
-        return json_encode($res);
+        return ($this->enviaMsjAlarma($params)) ? 'enviado correctamente' : 'error al enviar';
     }
 
     public function enviaMsjAlarma($params)
@@ -192,5 +171,22 @@ class Alarma_Model extends CI_Model
         return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
 
 
+    }
+    
+    public function eliminarAlarma($id = 0) {
+        $error = false;
+        $this->db->trans_begin();
+        
+        $this->db->query("delete from alertas where ala_ia_id=$id");
+        $this->db->query("delete from alertas_vs_comunas where ala_ia_id=$id");
+
+        if ($this->db->trans_status() === FALSE) {
+            $error = true;
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        return $error;
     }
 }

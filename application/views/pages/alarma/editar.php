@@ -6,20 +6,13 @@
 </ol>
 
 <ul id="ul-tabs" class="nav nav-tabs">
-    <li class='active'><a href="#tab1" data-toggle="tab">Nueva</a></li>
-    <li><a href="#tab2" data-toggle="tab">Listado</a></li>
+    <li class='active'><a href="#tab1" data-toggle="tab">Editar</a></li>
 </ul>
 <div id="tab-content" class="tab-content">
     <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
         <div id='div_tab_1' class='col-xs-12'>
             <br>
              <?= $formulario ?>
-        </div>
-
-    </div>
-    <div class='tab-pane' id='tab2' style='overflow:hidden;'>
-        <div id='div_tab_2' class='col-xs-12'>
-
         </div>
 
     </div>
@@ -40,8 +33,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioIngreso();
-        
-        $('#div_tab_2').load(siteUrl+'alarma/listado');
-        
+        /*initialize();
+        $("#ins_c_coordenada_n").trigger("change");*/
     });
 </script>
