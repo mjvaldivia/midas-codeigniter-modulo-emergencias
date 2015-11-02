@@ -1,264 +1,694 @@
 <!DOCTYPE html>
 <html lang="en">
-    <style>
-        .panel-danger>.panel-heading {
-            color: #ffffff !important;
-            background-color: #f04124 !important;
-            border-color: #ea2f10 !important;
-        }
-        .panel-info>.panel-heading {
-            color: #ffffff !important;
-            background-color: #5bc0de !important;
-            border-color: #3db5d8 !important;
-        }
-        .panel-success>.panel-heading {
-            color: #ffffff !important;
-            background-color: #43ac6a !important;
-            border-color: #3c9a5f !important;
-        }
-        .panel-warning>.panel-heading {
-            color: #ffffff !important;
-            background-color: #e99002 !important;
-            border-color: #d08002 !important;
-        }
-        .navbar-default {
-            background-color: #333333 !important;
-            border-color: #222222 !important;
-            color: #ffffff !important;
-        }
-        .navbar-brand{
-            color: #ffffff !important;
-        }
-        .navbar-brand:hover{
-            background-color: black !important;
-        }
-        .navbar-default .navbar-nav > li > a {
-            color: #ffffff !important;
-        }
-        .navbar-default .navbar-nav > li > a:hover {
-            color: #ffffff !important;
-            background-color:black !important;
-        }
-        .dropdown-menu> li > a:hover {
-            color: #ffffff !important;
-            background-color:black !important;
-        }
-        .dropdown-menu  > li > a {
-            color: #ffffff !important;
-        }
-        .nav .open > a, .open > a:hover, .nav .open > a:focus {
-            background-color: black !important;
-        }
-        .dropdown-menu>li>a:hover, .dropdown-menu>li>a:hover {
-            text-decoration: none !important;
-            color: #ffffff !important;
-            background-color: black !important;
-        }
-    </style>    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>Emergencias</title>
-        <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
+<head>
 
-        <?php //jquery ?>
-        <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
-        <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <?php // bootstrap ?>
-        <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
-        <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
+    <title>Flex Admin - Responsive Admin Theme</title>
 
-        <?php //font-awesome ?>
-        <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
+    <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
+    <?= loadCSS("assets/lib/pace/pace.css", true) ?>
+    <?= loadJS("assets/lib/pace/pace.js", true) ?>
 
-        <?= loadCSS("assets/css/emergencias.css") ?>
+    <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
+    <!-- GLOBAL STYLES - Include these on every page. -->
+    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
 
-        <script type="text/javascript">
-            siteUrl = '<?= site_url("/") ?>';
-            baseUrl = '<?= base_url("/") ?>';
-        </script>
-    </head>
-    <body>
-        <div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
-        <div id="container" class="container-fluid">
-            <div id="header" class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                    <div class="col-md-2">
-                        <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" width="140px"/>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="page-header">
-                            <h1>Emergencias</h1>
-                        </div>
-                    </div>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
+    <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
 
-                    <div class='col-md-2'>
-                        <ul class="nav navbar-nav pull-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle navbar-inverse" data-toggle="dropdown"><i class="fa fa-user"></i>{session_usuario} <b class="caret"></b></a>
-                                <ul class="dropdown-menu navbar-inverse pull-right" style="text-transform: capitalize">
+
+    <!-- THEME STYLES - Include these on every page. -->
+    <?= loadCSS("assets/css/style.css", true) ?>
+    
+    <script type="text/javascript">
+        siteUrl = '<?= site_url("/") ?>';
+        baseUrl = '<?= base_url("/") ?>';
+    </script>
+
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- begin TOP NAVIGATION -->
+        <nav class="navbar-top" role="navigation">
+
+            <!-- begin BRAND HEADING -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <i class="fa fa-bars"></i> Menu
+                </button>
+                <div class="navbar-brand">
+                    <a href="index.html">
+                       <!-- <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" data-1x="img/flex-admin-logo@1x.png" data-2x="img/flex-admin-logo@2x.png" class="hisrc img-responsive" alt="">-->
+                    </a>
+                </div>
+            </div>
+            <!-- end BRAND HEADING -->
+
+            <div class="nav-top">
+
+                <!-- begin LEFT SIDE WIDGETS -->
+                <ul class="nav navbar-left">
+                    <li class="tooltip-sidebar-toggle">
+                        <a href="#" id="sidebar-toggle" data-toggle="tooltip" data-placement="right" title="Sidebar Toggle">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                    </li>
+                    <!-- You may add more widgets here using <li> -->
+                </ul>
+                <!-- end LEFT SIDE WIDGETS -->
+
+                <!-- begin MESSAGES/ALERTS/TASKS/USER ACTIONS DROPDOWNS -->
+                <ul class="nav navbar-right">
+
+                    <!-- begin MESSAGES DROPDOWN -->
+                    <li class="dropdown">
+                        <a href="#" class="messages-link dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope"></i>
+                            <span class="number">4</span> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-scroll dropdown-messages">
+
+                            <!-- Messages Dropdown Heading -->
+                            <li class="dropdown-header">
+                                <i class="fa fa-envelope"></i> 4 New Messages
+                            </li>
+
+                            <!-- Messages Dropdown Body - This is contained within a SlimScroll fixed height box. You can change the height using the SlimScroll jQuery features. -->
+                            <li id="messageScroll">
+                                <ul class="list-unstyled">
                                     <li>
                                         <a href="#">
-                                            <i class="fa fa-cog"></i>{session_cargo}
+                                            <div class="row">
+                                                <div class="col-xs-2">
+                                                    <img class="img-circle" src="img/user-profile-1.jpg" alt="">
+                                                </div>
+                                                <div class="col-xs-10">
+                                                    <p>
+                                                        <strong>Jane Smith</strong>: Hi again! I wanted to let you know that the order...
+                                                    </p>
+                                                    <p class="small">
+                                                        <i class="fa fa-clock-o"></i> 12 minutes ago
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#">
-                                            <i class="fa fa-globe"></i>{session_region}
+                                            <div class="row">
+                                                <div class="col-xs-2">
+                                                    <img class="img-circle" src="img/user-profile-2.jpg" alt="">
+                                                </div>
+                                                <div class="col-xs-10">
+                                                    <p>
+                                                        <strong>Roddy Austin</strong>: Thanks for the info, if you need anything from...
+                                                    </p>
+                                                    <p class="small">
+                                                        <i class="fa fa-clock-o"></i> 3:39 PM
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </a>
                                     </li>
-                                    <?php if (isAdmin()): ?>
-                                        <li>
-                                            <a href="#pCambioRapido" data-toggle="modal" data-target="#pCambioRapido">
-                                                <i class="fa fa-exchange"></i>Cambiar de usuario
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
                                     <li>
-                                        <a href="<?= site_url("session/logout") ?>">
-                                            <i class="fa fa-sign-out"></i>Cerrar Sesión
+                                        <a href="#">
+                                            <div class="row">
+                                                <div class="col-xs-2">
+                                                    <img class="img-circle" src="img/user-profile-3.jpg" alt="">
+                                                </div>
+                                                <div class="col-xs-10">
+                                                    <p>
+                                                        <strong>Stacy Gibson</strong>: Hey, what was the purchase order number for the...
+                                                    </p>
+                                                    <p class="small">
+                                                        <i class="fa fa-clock-o"></i> Yesterday at 10:23 AM
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="row">
+                                                <div class="col-xs-2">
+                                                    <img class="img-circle" src="img/user-profile-4.jpg" alt="">
+                                                </div>
+                                                <div class="col-xs-10">
+                                                    <p>
+                                                        <strong>Jeffrey Cortez</strong>: Check out this video I found the other day, it's...
+                                                    </p>
+                                                    <p class="small">
+                                                        <i class="fa fa-clock-o"></i> Tuesday at 12:23 PM
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                        </ul></div>
 
+                            <!-- Messages Dropdown Footer -->
+                            <li class="dropdown-footer">
+                                <a href="mailbox.html">Read All Messages</a>
+                            </li>
 
-                </div>
-                </div>
-                <div class="col-md-12" style="margin-top: 20px">
-                    <nav id="mainNavBar" class="navbar navbar-default" role="navigation">
-                        <div class="navbar-header">
+                        </ul>
+                        <!-- /.dropdown-menu -->
+                    </li>
+                    <!-- /.dropdown -->
+                    <!-- end MESSAGES DROPDOWN -->
 
-                            <a class="navbar-brand navbar-inverse" href="<?= base_url("/") ?>">Dashboard</a>
-                        </div>
+                    <!-- begin ALERTS DROPDOWN -->
+                    <li class="dropdown">
+                        <a href="#" class="alerts-link dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i> 
+                            <span class="number">9</span><i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-scroll dropdown-alerts">
 
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse navbar-ex1-collapse">
-                            <ul class="nav navbar-nav navbar-inverse">
-                                <li class="dropdown hidden" >
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Alarma <b class="caret"></b></a>
-                                    <ul class="dropdown-menu navbar-inverse">
-                                        <li>
-                                            <a href="<?= site_url("alarma/ingreso") ?>">
-                                                <i class="fa fa-exclamation-triangle"></i>
-                                                Ingreso alarma
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= site_url("alarma/listado") ?>">
-                                                <i class="fa fa-list"></i>
-                                                Listado alarmas
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown hidden">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Capas <b class="caret"></b></a>
-                                    <ul class="dropdown-menu navbar-inverse">
-                                        <li>
-                                            <a href="<?= site_url("capas/ingreso") ?>">
-                                                <i class="fa fa-plus"></i>
-                                                Ingreso Capa
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= site_url("capas") ?>">
-                                                <i class="fa fa-list"></i>
-                                                Listado Capas
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown hidden">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Emergencia <b class="caret"></b></a>
-                                    <ul class="dropdown-menu navbar-inverse">
-                                        <li>
-                                            <a href="<?= site_url("emergencia/listado") ?>">
-                                                <i class="fa fa-list"></i>
-                                                Listado Emergencias
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="hidden"><a href="#">Modelación</a></li>
-                                <li class="hidden"><a href="#">Documentación</a></li>
-                            </ul>
+                            <!-- Alerts Dropdown Heading -->
+                            <li class="dropdown-header">
+                                <i class="fa fa-bell"></i> 9 New Alerts
+                            </li>
 
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle navbar-inverse" data-toggle="dropdown">Mesa de ayuda <b class="caret"></b></a>
-                                    <ul class="dropdown-menu navbar-inverse">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-envelope"></i>
-                                                Mensajes
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
+                            <!-- Alerts Dropdown Body - This is contained within a SlimScroll fixed height box. You can change the height using the SlimScroll jQuery features. -->
+                            <li id="alertScroll">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon green pull-left">
+                                                <i class="fa fa-money"></i>
+                                            </div>
+                                            Order #2931 Received
+                                            <span class="small pull-right">
+                                                <strong>
+                                                    <em>3 minutes ago</em>
+                                                </strong>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon blue pull-left">
+                                                <i class="fa fa-comment"></i>
+                                            </div>
+                                            New Comments
+                                            <span class="badge blue pull-right">15</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon orange pull-left">
+                                                <i class="fa fa-wrench"></i>
+                                            </div>
+                                            Crawl Errors Detected
+                                            <span class="badge orange pull-right">3</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon yellow pull-left">
                                                 <i class="fa fa-question-circle"></i>
-                                                Soportes pendientes
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-check"></i>
-                                                Soportes finalizados
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div><!-- /.navbar-collapse -->
-                    </nav>
-                </div>
+                                            </div>
+                                            Server #2 Not Responding
+                                            <span class="small pull-right">
+                                                <strong>
+                                                    <em>5:25 PM</em>
+                                                </strong>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon red pull-left">
+                                                <i class="fa fa-bolt"></i>
+                                            </div>
+                                            Server #4 Crashed
+                                            <span class="small pull-right">
+                                                <strong>
+                                                    <em>3:34 PM</em>
+                                                </strong>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon green pull-left">
+                                                <i class="fa fa-plus-circle"></i>
+                                            </div>
+                                            New Users
+                                            <span class="badge green pull-right">5</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon orange pull-left">
+                                                <i class="fa fa-download"></i>
+                                            </div>
+                                            Downloads
+                                            <span class="badge orange pull-right">16</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon purple pull-left">
+                                                <i class="fa fa-cloud-upload"></i>
+                                            </div>
+                                            Server #8 Rebooted
+                                            <span class="small pull-right">
+                                                <strong>
+                                                    <em>12 hours ago</em>
+                                                </strong>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="alert-icon red pull-left">
+                                                <i class="fa fa-bolt"></i>
+                                            </div>
+                                            Server #8 Crashed
+                                            <span class="small pull-right">
+                                                <strong>
+                                                    <em>12 hours ago</em>
+                                                </strong>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- Alerts Dropdown Footer -->
+                            <li class="dropdown-footer">
+                                <a href="#">View All Alerts</a>
+                            </li>
+
+                        </ul>
+                        <!-- /.dropdown-menu -->
+                    </li>
+                    <!-- /.dropdown -->
+                    <!-- end ALERTS DROPDOWN -->
+
+                    <!-- begin TASKS DROPDOWN -->
+                    <li class="dropdown">
+                        <a href="#" class="tasks-link dropdown-toggle" data-toggle=dropdown>
+                            <i class="fa fa-tasks"></i> 
+                            <span class=number>10</span><i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-scroll dropdown-tasks">
+
+                            <!-- Tasks Dropdown Header -->
+                            <li class="dropdown-header">
+                                <i class="fa fa-tasks"></i> 10 Pending Tasks
+                            </li>
+
+                            <!-- Tasks Dropdown Body - This is contained within a SlimScroll fixed height box. You can change the height using the SlimScroll jQuery features. -->
+                            <li id="taskScroll">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                Software Update 2.1
+                                                <span class="pull-right">
+                                                    <strong>60%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                Server #2 Hardware Upgrade
+                                                <span class="pull-right">
+                                                    <strong>90%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress progress-striped">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                Call Ticket #2032
+                                                <span class="pull-right">
+                                                    <strong>72%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                Emergency Maintenance
+                                                <span class="pull-right">
+                                                    <strong>36%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress progress-striped">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="36" aria-valuemin="0" aria-valuemax="100" style="width: 36%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                Purchase Order #439
+                                                <span class="pull-right">
+                                                    <strong>52%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress progress-striped">
+                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100" style="width: 52%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                March Content Update
+                                                <span class="pull-right">
+                                                    <strong>14%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100" style="width: 14%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                Client #42 Data Scrubbing
+                                                <span class="pull-right">
+                                                    <strong>68%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress progress-striped">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                PHP Upgrade Server #6
+                                                <span class="pull-right">
+                                                    <strong>85%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                Malware Scan
+                                                <span class="pull-right">
+                                                    <strong>66%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100" style="width: 66%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <p>
+                                                New Employee Intake
+                                                <span class="pull-right">
+                                                    <strong>98%</strong>
+                                                </span>
+                                            </p>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100" style="width: 98%;"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- Tasks Dropdown Footer -->
+                            <li class="dropdown-footer">
+                                <a href="#">View All Tasks</a>
+                            </li>
+
+                        </ul>
+                        <!-- /.dropdown-menu -->
+                    </li>
+                    <!-- /.dropdown -->
+                    <!-- end TASKS DROPDOWN -->
+
+                    <!-- begin USER ACTIONS DROPDOWN -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="profile.html">
+                                    <i class="fa fa-user"></i> My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailbox.html">
+                                    <i class="fa fa-envelope"></i> My Messages
+                                    <span class="badge green pull-right">4</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-bell"></i> My Alerts
+                                    <span class="badge orange pull-right">9</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-tasks"></i> My Tasks
+                                    <span class="badge blue pull-right">10</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="calendar.html">
+                                    <i class="fa fa-calendar"></i> My Calendar
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-gear"></i> Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a class="logout_open" href="#logout">
+                                    <i class="fa fa-sign-out"></i> Logout
+                                    <strong>John Smith</strong>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-menu -->
+                    </li>
+                    <!-- /.dropdown -->
+                    <!-- end USER ACTIONS DROPDOWN -->
+
+                </ul>
+                <!-- /.nav -->
+                <!-- end MESSAGES/ALERTS/TASKS/USER ACTIONS DROPDOWNS -->
+
             </div>
-            <div id="main" class="row">
-                <div class="col-md-12">
-                    {body}
-                </div>
-                <div class="modal fade" id="pCambioRapido" role="dialog" aria-labelledby="pCambioRapidoTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 id="pCambioRapidoTitle" class="modal-title">Seleccione un usuario para el cambio rápido</h4>
-                            </div>
-                            <div class="modal-body">
-                                <label>Seleccione usuario:</label>
-                                <select id="users" name="users" class="form-control  select2"></select>
-                            </div>
-                            <div class="modal-footer">
-                                <button id="btnCambioRapido" type="button" class="btn btn-success">Aceptar</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- /.nav-top -->
+        </nav>
+        <!-- /.navbar-top -->
+        <!-- end TOP NAVIGATION -->
+
+        <!-- begin SIDE NAVIGATION -->
+        <nav class="navbar-side" role="navigation">
+            <div class="navbar-collapse sidebar-collapse collapse">
+                <ul id="side" class="nav navbar-nav side-nav">
+                    
+                    <!-- begin DASHBOARD LINK -->
+                    <li>
+                        <a class="active" href="<?= base_url("/") ?>">
+                            <i class="fa fa-dashboard"></i> Dashboard
+                        </a>
+                    </li>
+                    <!-- end DASHBOARD LINK -->
+                    <!-- begin Alarmas DROPDOWN -->
+                    <li class="panel">
+                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#alarmas">
+                            <i class="fa fa-bell"></i> Alarmas <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="collapse nav" id="alarmas">
+                            <li>
+                                <a href="<?= site_url("alarma/listado") ?>">
+                                    <i class="fa fa-angle-double-right"></i> Listado
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url("alarma/ingreso") ?>">
+                                    <i class="fa fa-angle-double-right"></i> Ingresar
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- end Alarmas DROPDOWN -->
+                    <!-- begin Emergencias DROPDOWN -->
+                    <li class="panel">
+                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#emergencias">
+                            <i class="fa fa-bullhorn"></i> Emergencias <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="collapse nav" id="emergencias">
+                            <li>
+                                <a href="<?= site_url("emergencia/listado") ?>">
+                                    <i class="fa fa-angle-double-right"></i> Listado
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url("emergencia/ingreso") ?>">
+                                    <i class="fa fa-angle-double-right"></i> Ingresar
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- end Emergencias DROPDOWN -->
+                    <!-- begin Emergencias DROPDOWN -->
+                    <li class="panel">
+                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#capas">
+                            <i class="fa fa-globe"></i> Administrador de capas <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="collapse nav" id="capas">
+                            <li>
+                                <a href="<?= site_url("emergencia/listado") ?>">
+                                    <i class="fa fa-angle-double-right"></i> Listado
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url("capas/ingreso") ?>">
+                                    <i class="fa fa-angle-double-right"></i> Ingresar
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- end Emergencias DROPDOWN -->
+                    <!-- begin Simulacion LINK -->
+                    <li>
+                        <a href="<?= base_url("/") ?>">
+                            <i class="fa fa-flag-checkered"></i> Simulación
+                        </a>
+                    </li>
+                    <!-- end Simulacion LINK -->
+                    <!-- begin Documentacion LINK -->
+                    <li>
+                        <a href="<?= base_url("/") ?>">
+                            <i class="fa fa-book"></i> Documentación
+                        </a>
+                    </li>
+                    <!-- end Documentacion LINK -->
+                    <!-- begin Emergencias DROPDOWN -->
+                    <li class="panel">
+                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ayuda">
+                            <i class="fa fa-question-circle "></i> Mesa de ayuda <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="collapse nav" id="ayuda">
+                            <li>
+                                <a href="<?= site_url() ?>">
+                                    <i class="fa fa-angle-double-right"></i> Mensajes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url() ?>">
+                                    <i class="fa fa-angle-double-right"></i> Soportes pendientes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= site_url() ?>">
+                                    <i class="fa fa-angle-double-right"></i> Soportes finalizados
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- end Emergencias DROPDOWN -->
+                </ul>
+                <!-- /.side-nav -->
             </div>
-            <div id="footer">
-                <div class="footer">
-                    <p>SEREMI de Salud Región Valparaíso - Dirección: Melgarejo 669, Piso 6, Valparaíso, Chile - Teléfono: (56-32) 2571417 - 2571419</p>
-                </div>
-            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- /.navbar-side -->
+        <!-- end SIDE NAVIGATION -->
+
+        <!-- begin MAIN PAGE CONTENT -->
+        <div id="page-wrapper">
+
+            <div class="page-content">
+                {body}
+            </div>   
+            <!-- /.page-content -->
+
         </div>
+        <!-- /#page-wrapper -->
+        <!-- end MAIN PAGE CONTENT -->
 
-        <?= loadCSS("assets/lib/select2-4.0.0/css/select2.css", true) ?>
-        <?= loadJS("assets/lib/select2-4.0.0/js/select2.js", true) ?>
+    </div>
+    <!-- /#wrapper -->
 
-        <?= loadJS("assets/js/utils.js") ?>
-        <?= loadJS("assets/js/loading.js") ?>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                Utils.listenerCambioRapido();
-                Utils.toggleNavbarMethod();
-                Utils.ajaxRequestMonitor();
-                $(window).resize(Utils.toggleNavbarMethod);
-            });
-        </script>
-    </body>
+    <!-- GLOBAL SCRIPTS -->
+    
+    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
+    <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
+    <?= loadJS("assets/js/utils.js") ?>
+    <?= loadJS("assets/js/loading.js") ?>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Utils.listenerCambioRapido();
+            Utils.toggleNavbarMethod();
+            Utils.ajaxRequestMonitor();
+            $(window).resize(Utils.toggleNavbarMethod);
+        });
+    </script>
+    <!-- Logout Notification Box -->
+    <div id="logout">
+        <div class="logout-message">
+            <img class="img-circle img-logout" src="img/profile-pic.jpg" alt="">
+            <h3>
+                <i class="fa fa-sign-out text-green"></i> Ready to go?
+            </h3>
+            <p>Select "Logout" below if you are ready<br> to end your current session.</p>
+            <ul class="list-inline">
+                <li>
+                    <a href="login.html" class="btn btn-green">
+                        <strong>Logout</strong>
+                    </a>
+                </li>
+                <li>
+                    <button class="logout_close btn btn-green">Cancel</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
 </html>
