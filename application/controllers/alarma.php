@@ -124,6 +124,7 @@ class Alarma extends CI_Controller {
                        );
 
         $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
+        
         if(!is_null($alerta)){
             $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
             $id = $alerta->ala_ia_id;

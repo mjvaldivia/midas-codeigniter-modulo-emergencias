@@ -6,19 +6,12 @@ var Alarma = {};
 (function () {
     
     this.inicioIngreso = function () {
-        //$("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
+
         $("#iComunas").picklist();
-        /*$("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
-            handlerLoad: function () {
-                $("#iComunas").picklist();
-            },
-            initial_text: null
-        });*/
 
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY HH:mm"
         });
-
 
     };
 
@@ -392,12 +385,10 @@ function set_marker(position) {
 
 function setInputs(pos)
 {
-
-
-                            var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(pos.lng()), parseFloat(pos.lat()));
-                            //console.log(results[0].geometry.location.lat());
-                            $('#ins_c_coordenada_e').val(punto[0]);
-                            $('#ins_c_coordenada_n').val(punto[1]);
+    var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(pos.lng()), parseFloat(pos.lat()));
+    //console.log(results[0].geometry.location.lat());
+    $('#ins_c_coordenada_e').val(punto[0]);
+    $('#ins_c_coordenada_n').val(punto[1]);
 
 }
 
@@ -407,9 +398,6 @@ function set_marker_by_inputs() {
         var punto = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
 
         set_marker(punto);
-
-        //map.fitBounds(bounds);
-
     }
 }
 ;
