@@ -136,7 +136,7 @@ class Alarma_Model extends CI_Model
                 ");
             }
             $comunas_query = $this->db->query("
-            SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join alertas_vs_comunas avc
+            SELECT GROUP_CONCAT(com_c_nombre) comunas, GROUP_CONCAT(c.com_ia_id) id_comunas from comunas c join alertas_vs_comunas avc
             on avc.com_ia_id = c.com_ia_id
             where avc.ala_ia_id = $ala_ia_id");
             $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['iTiposEmergencias'] . "'");
@@ -145,6 +145,7 @@ class Alarma_Model extends CI_Model
             $comunas = $comunas_query->result_array();
 
             $params['lista_comunas'] = $comunas[0]['comunas'];
+            $params['lista_id_comunas'] = $comunas[0]['id_comunas'];
             $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
             $params['ala_ia_id'] = $ala_ia_id;
 
@@ -179,15 +180,14 @@ class Alarma_Model extends CI_Model
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
         $subject = "SIPRESA: Revisión de Alarma";
-
-        $qry = "select group_concat(usu_c_email SEPARATOR ',') lista from usuarios where UPPER(usu_b_email_emergencias) = 'SI' and est_ia_id = 1";
-
-        $result = $this->db->query($qry);
-
-        $row = $result->result_array();
-        $to = $row[0]['lista'];
-
+        
+        
         $this->load->model("Sendmail_Model", "SendmailModel");
+        
+        
+        $to = $this->SendmailModel->get_destinatariosAlarmas($params['iTiposEmergencias'], $params['lista_id_comunas']);
+
+        var_dump($to);die;
 
         return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
 

@@ -2,7 +2,7 @@
 .nbproject
 .settings
 nbproject/
-application/config/config.php
+application/config/*
 user_guide/
 nbproject/
 *.iml
