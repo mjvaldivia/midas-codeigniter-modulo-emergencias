@@ -39,22 +39,6 @@ class Comuna_Model extends CI_Model
         return $this->_query;
     }
     
-    /**
-     * Lista de comunas por alerta
-     * @param int $id_alerta
-     * @return string
-     */
-    public function listaComunasPorAlerta($id_alerta){
-        $query = $this->db->query("SELECT GROUP_CONCAT(com_c_nombre) comunas "
-                                 ."FROM comunas c "
-                                 ."JOIN alertas_vs_comunas avc ON avc.com_ia_id = c.com_ia_id"
-                                 . "WHERE avc.ala_ia_id = ?", array($id_alerta));
-        
-        if ($query->num_rows() > 0){
-           $row = $query->row(); 
-
-           return $row->comunas;
-        }
-    }
+    
 }
 

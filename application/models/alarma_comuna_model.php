@@ -38,4 +38,19 @@ class Alarma_Comuna_Model extends CI_Model
     public function query(){
         return $this->_query;
     }
+    
+    /**
+     * Lista de comunas por alerta
+     * @param int $id_alerta
+     * @return string
+     */
+    public function listaComunasPorAlerta($id_alerta){
+        $query = $this->db->query("SELECT * "
+                                 ."FROM alertas_vs_comunas avc "
+                                 ."WHERE avc.ala_ia_id = ?", array($id_alerta));
+        
+        if ($query->num_rows() > 0){
+           return $query->result_array(); 
+        }
+    }
 }

@@ -83,7 +83,7 @@ class Query{
      * @return mixed
      */
     public function getById($primary, $id){
-        $query = $this->db->query("SELECT * FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id));
+        $query = $this->_db->query("SELECT * FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id));
         
         if ($query->num_rows() > 0){
            return $query->row(); 
@@ -92,15 +92,38 @@ class Query{
         }
     }
     
+    /**
+     * 
+     * @param string $primary
+     * @param string $secondary
+     * @param int $id_primary
+     * @param array $array_id_secondary
+     */
     public function insertOneToMany($primary, $secondary, $id_primary, $array_id_secondary){
-        $query = $this->db->query("SELECT * FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id_primary));
+        $query = $this->_db->query("SELECT * FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id_primary));
         
-        $arr = array();
+        $guardados = array();
         
-        $lista = $query->result_array();
-        foreach ($lista as $row){
-           $arr[] = $row[$secondary];
+        if ($query->num_rows() > 0){
+            $lista = $query->result_array();
+            foreach ($lista as $row){
+                if(!in_array($row[$secondary], $array_id_secondary)){
+                    $query = $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ? AND ". $secondary . " = ?", array($id_primary, $row[$secondary]));
+                } else {
+                    $guardados[] = $row[$secondary];
+                }
+            }
         }
+        
+        foreach($array_id_secondary as $key => $id_secondary){
+            if(!in_array($id_secondary, $guardados)){
+                $insert = array($primary => $id_primary,
+                                $secondary => $id_secondary);
+                $this->insert($insert);
+            }
+        }
+        
+        
     }
 }
 

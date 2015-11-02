@@ -6,13 +6,14 @@ var Alarma = {};
 (function () {
     
     this.inicioIngreso = function () {
-        $("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
-        $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
+        //$("#iTiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
+        $("#iComunas").picklist();
+        /*$("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
             handlerLoad: function () {
                 $("#iComunas").picklist();
             },
             initial_text: null
-        });
+        });*/
 
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY HH:mm"
@@ -150,7 +151,7 @@ var Alarma = {};
                     html += "           <a title=\"Generar emergencia\" class=\"btn btn-default "+disabled+"\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
                     html += "               <i class=\"fa fa-bullhorn\"></i>";
                     html += "            </a>";
-                    html += "           <a title=\"Editar\" class=\"btn btn-default\">";
+                    html += "           <a title=\"Editar\" class=\"btn btn-default\" onclick=Alarma.editarAlarma(" + row.ala_ia_id + ")>";
                     html += "               <i class=\"fa fa-pencil\"></i>";
                     html += "           </a>";
                     html += "           <a title=\"Eliminar\" class=\"btn btn-default\" onclick=Alarma.eliminarAlarma(" + row.ala_ia_id + ")>";
@@ -277,7 +278,9 @@ var Alarma = {};
 
         });
     };
-    
+    this.editarAlarma = function (ala_ia_id) {
+        window.open(siteUrl + 'alarma/editar/id/' + ala_ia_id, '_blank');
+    };
     this.generaEmergencia = function (ala_ia_id) {
         window.open(siteUrl + 'emergencia/generaEmergencia/id/' + ala_ia_id, '_blank');
     };

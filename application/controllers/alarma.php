@@ -44,11 +44,56 @@ class Alarma extends CI_Controller {
      * Formulario de ingreso de alarma
      */
     public function ingreso() {
+        $this->load->helper("Modulo/Direccion/comuna");
+        $this->load->helper("Modulo/Emergencia/emergencia");
+        
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
             show_404();
         }
 
-        $this->template->parse("default", "pages/alarma/ingreso", array());
+        $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", array(), true);
+        $this->template->parse("default", "pages/alarma/ingreso", $data);
+    }
+    
+    /**
+     * Formulario para editar una alarma
+     */
+    public function editar(){
+        $this->load->helper("Modulo/Direccion/comuna");
+        $this->load->helper("Modulo/Emergencia/emergencia");
+        
+        $params = $params = $this->uri->uri_to_assoc();
+
+        $alarma = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
+        if(!is_null($alarma)){
+            $formulario = array(
+                                "id" => $alarma->ala_ia_id,
+                                "lon" => $alarma->ala_c_utm_lng,
+                                "lat" => $alarma->ala_c_utm_lat,
+                                "nombre_informante" => $alarma->ala_c_nombre_informante,
+                                "telefono" => $alarma->ala_c_telefono_informante,
+                                "nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
+                                "id_tipo_emergencia" => $alarma->tip_ia_id,
+                                "lugar" => $alarma->ala_c_lugar_emergencia,
+                                "observacion" => $alarma->ala_c_observacion,
+                                "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
+                                "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion)
+                                );
+
+            $comunas = array();
+            $lista_comunas = $this->AlarmaComunaModel->listaComunasPorAlerta($alarma->ala_ia_id);
+            foreach($lista_comunas as $key => $row){
+                $comunas[] = $row["com_ia_id"];
+            }
+            $formulario["lista_comunas"] = $comunas;
+            
+            
+            
+            $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $formulario, true);
+            $this->template->parse("default", "pages/alarma/editar", $data);
+        } else {
+            show_404();
+        }
     }
 
     /**
@@ -86,10 +131,8 @@ class Alarma extends CI_Controller {
             $id = $this->AlarmaModel->query()->insert($data);
         }
         
-        foreach ($params['iComunas'] as $indice => $valor) {
-            $this->AlarmaComunaModel->query()->insert(array("ala_ia_id" => $id,
-                                                            "com_ia_id" => $valor));    
-        }
+        $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['iComunas']);
+
         
         $respuesta = array("ala_ia_id" => $id,
                            "res_mail"  => "");

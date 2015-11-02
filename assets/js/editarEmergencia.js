@@ -14,6 +14,7 @@ var Emergencia = {};
                     var str_comunas = data.comunas;
                     if (str_comunas !== null) {
                         var arr_com = str_comunas.split(",");
+                        
                         $('#iComunas').picklist({
                             'value': arr_com
                         });
