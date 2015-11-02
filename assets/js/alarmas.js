@@ -195,8 +195,12 @@ var Alarma = {};
                                 if (tip_ia_id == 15) {
                                     location.href = siteUrl + 'alarma/paso2/id/' + data + '/tip_ia_id/' + tip_ia_id;
                                 } else { 
-                                    Alarma.eventoBtnBuscar();
-                                    Alarma.limpiar();
+                                    if($("#pResultados").length){
+                                        Alarma.eventoBtnBuscar();
+                                        Alarma.limpiar();
+                                    } else {
+                                        window.close();
+                                    }
                                 }
                             }
                         }

@@ -43,6 +43,10 @@ Class Emergencia_Element_SelectTipo{
         $this->tipo_emergiencia_model = New Tipo_Emergencia_Model();
     }
     
+    /**
+     * 
+     * @return Cosof_Form_Select
+     */
     public function getElement(){
         return $this->_element;
     }
