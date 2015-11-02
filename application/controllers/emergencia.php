@@ -159,8 +159,10 @@ class Emergencia extends CI_Controller {
         sessionValidation();
         $params = $this->input->post(null, true);
         $this->load->model("emergencia_model", "EmergenciaModel");
+
         $res = $this->EmergenciaModel->editarEmergencia($params);
-        return ($res) ? 1 : 0;
+
+        echo ($res) ? 1 : 0;
     }
 
     public function subir_CapaTemp() {

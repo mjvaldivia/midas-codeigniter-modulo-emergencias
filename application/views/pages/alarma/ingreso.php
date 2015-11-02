@@ -40,6 +40,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioIngreso();
+        
         $('#div_tab_2').load(siteUrl+'alarma/listado');
+        
     });
 </script>

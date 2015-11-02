@@ -13,6 +13,7 @@ var Alarma = {};
             format: "DD-MM-YYYY HH:mm"
         });
 
+        
     };
 
     this.inicioListado = function () {
