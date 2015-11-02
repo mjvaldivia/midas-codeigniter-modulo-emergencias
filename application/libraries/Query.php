@@ -58,6 +58,25 @@ class Query{
     }
     
     /**
+     * Actualiza datos de la tabla
+     * @param array $parametros
+     * @param int $primaria
+     * @param int $id
+     * @return boolean
+     */
+    public function update($parametros = array(), $primaria, $id ){
+        $sql = "UPDATE " . $this->_table. " SET ";
+        $set = "";
+        $coma = "";
+        foreach($parametros as $campo => $valor){
+            $set .= $coma. $campo . " = ?";
+            $coma = ",";
+        }
+        $where = " WHERE " . $primaria . " = ?";
+        return $this->_db->query($sql . $set . $where, array_merge(array_values($parametros), array($id)));
+    }
+    
+    /**
      * Retorna un registro de acuerdo al campo $primary
      * @param string $primary
      * @param string $id
@@ -70,6 +89,17 @@ class Query{
            return $query->row(); 
         } else {
            return NULL;
+        }
+    }
+    
+    public function insertOneToMany($primary, $secondary, $id_primary, $array_id_secondary){
+        $query = $this->db->query("SELECT * FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id_primary));
+        
+        $arr = array();
+        
+        $lista = $query->result_array();
+        foreach ($lista as $row){
+           $arr[] = $row[$secondary];
         }
     }
 }

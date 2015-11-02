@@ -78,7 +78,13 @@ class Alarma extends CI_Controller {
                         "ala_c_geozone" => $params['geozone']
                        );
 
-        $id = $this->AlarmaModel->query()->insert($data);
+        $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
+        if(!is_null($alerta)){
+            $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
+            $id = $alerta->ala_ia_id;
+        } else {
+            $id = $this->AlarmaModel->query()->insert($data);
+        }
         
         foreach ($params['iComunas'] as $indice => $valor) {
             $this->AlarmaComunaModel->query()->insert(array("ala_ia_id" => $id,
