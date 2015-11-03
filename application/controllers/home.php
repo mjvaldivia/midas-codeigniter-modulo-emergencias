@@ -5,27 +5,60 @@
  * Date: 12-08-15
  * Time: 04:24 PM
  */
-class Home extends CI_Controller
-{
-    public function index () {
-        $this->load->helper("session");
+class Home extends CI_Controller{
+    
+    /**
+     *
+     * @var Alarma_Model
+     */
+    public $AlarmaModel;
 
+    /**
+     *
+     * @var template
+     */
+    public $template;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("alarma_model", "AlarmaModel");
+        $this->load->helper(array("session","utils"));
+        $this->load->library(array("template"));
         sessionValidation();
-
-        if ( ! file_exists(APPPATH.'/views/pages/home.php'))
-        {
-            // Whoops, we don't have a page for that!
+    }
+    
+    
+    public function index () {
+        if ( ! file_exists(APPPATH.'/views/pages/home.php')){
             show_404();
         }
-
-        // load basicos
-        $this->load->library('template');
-        $this->load->library('form_validation');
-
-        $data = array(
-        );
-
-        $this->template->parse("default", "pages/home", $data);
-//        $this->load->view('pages/home', $data);
+        
+        $fecha_hasta = New DateTime("Now");
+        $fecha_desde = New DateTime("Now");
+        $fecha_desde->sub(new DateInterval('P30D'));
+        
+        $this->template->parse("default", "pages/home", array("fecha_desde" => $fecha_desde->format("d/m/Y"),
+                                                              "fecha_hasta" => $fecha_hasta->format("d/m/Y")));
+    }
+    
+    /**
+     * Cantidad de alarmas entre fechas
+     */
+    public function json_cantidad_alarmas(){
+        $params = $this->input->post(null, true);
+        $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
+        $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
+        $cantidad = $this->AlarmaModel->cantidadAlarmas($fecha_desde, $fecha_hasta);
+        
+        $respuesta = array("correcto" => true,
+                           "cantidad"  => $cantidad);
+        echo json_encode($respuesta);
+    }
+    
+    public function json_cantidad_emergencia(){
+        
     }
 }

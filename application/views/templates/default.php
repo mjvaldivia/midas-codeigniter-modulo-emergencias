@@ -502,7 +502,16 @@
     <?= loadJS("assets/lib/bootstrap-3.3.2-dist/js/bootstrap.js", true) ?>
     <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
     <?= loadJS("assets/js/base.js") ?>
-    
+    <?= loadJS("assets/js/utils.js") ?>
+    <?= loadJS("assets/js/loading.js") ?>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Utils.listenerCambioRapido();
+                Utils.toggleNavbarMethod();
+                Utils.ajaxRequestMonitor();
+                $(window).resize(Utils.toggleNavbarMethod);
+            });
+        </script>
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">

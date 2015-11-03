@@ -12,6 +12,46 @@ class Emergencia_Model extends CI_Model {
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
+    
+    /**
+     *
+     * @var Query 
+     */
+    protected $_query;
+    
+    /**
+     *
+     * @var string 
+     */
+    protected $_tabla = "alertas";
+    
+    /**
+     * 
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library('Query');
+        $this->_query = New Query($this->db);
+        $this->_query->setTable($this->_tabla);
+    }
+    
+     /**
+     * Retorna cantidad de alarmas entre fechas dadas
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return int
+     */
+    public function cantidadAlarmas($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("COUNT(*) as cantidad")
+                               ->from()
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        }
+    }
+    
 
     public function guardarEmergencia($params) {
 

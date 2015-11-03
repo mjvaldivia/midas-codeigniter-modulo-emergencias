@@ -51,8 +51,21 @@ class Alarma_Model extends CI_Model
         return $this->_query->getById("ala_ia_id", $id);
     }
     
-    public function cantidadAlarmas(){
-        
+    /**
+     * Retorna cantidad de alarmas entre fechas dadas
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return int
+     */
+    public function cantidadAlarmas($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("COUNT(*) as cantidad")
+                               ->from()
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        }
     }
     
     public function obtenerEstados()

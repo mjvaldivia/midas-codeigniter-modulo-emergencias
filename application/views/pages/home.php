@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <div class="page-title">
             <h1>Dashboard
-                <small>Resumen</small>
+                <small><i class="fa fa-arrow-right"></i> Resumen</small>
             </h1>
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
@@ -14,8 +14,8 @@
                         <span class="date-range">Seleccionar fechas</span>
                         <i class="fa fa-caret-down"></i>
                     </div>
-                    <input type="hidden" name="fecha_desde" id="fecha_desde" value="" class="element-search"/>
-                    <input type="hidden" name="fecha_hasta" id="fecha_hasta" value="" class="element-search"/>
+                    <input type="hidden" name="fecha_desde" id="fecha_desde" value="<?= $fecha_desde ?>" class="element-search"/>
+                    <input type="hidden" name="fecha_hasta" id="fecha_hasta" value="<?= $fecha_hasta ?>" class="element-search"/>
                     </div>
                 </li>
             </ol>
@@ -42,8 +42,8 @@
                         <div class="circle-tile-description text-faded">
                             Alarmas
                         </div>
-                        <div class="circle-tile-number text-faded">
-                            9
+                        <div id="alarmas-cantidad" class="circle-tile-number text-faded">
+
                         </div>
                         <a href="<?= site_url("alarma/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -61,9 +61,9 @@
                         <div class="circle-tile-description text-faded">
                             Emergencias
                         </div>
-                        <div class="circle-tile-number text-faded">
-                            24
-                            <span id="sparklineC"></span>
+                        <div id="emergencias-cantidad" class="circle-tile-number text-faded">
+                            
+                           
                         </div>
                         <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -213,10 +213,32 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="portlet portlet-blue">
+            <div class="portlet-heading">
+                <div class="portlet-title">
+                    <h4>Calendario</h4>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- end DASHBOARD CIRCLE TILES -->
 
 <?= loadCSS("assets/lib/daterangepicker/daterangepicker.css", true) ?>
+<?= loadCSS("assets/lib/fullcalendar/fullcalendar.css", true) ?>
+
 <?= loadJS("assets/lib/daterangepicker/moment.js", true) ?>
 <?= loadJS("assets/lib/daterangepicker/daterangepicker.js", true) ?>
 <?= loadJS("assets/lib/moment/moment.min.js", true) ?>
+<?= loadJS("assets/lib/fullcalendar/fullcalendar.min.js", true) ?>
+<?= loadJS("assets/lib/fullcalendar/lang-all.js", true) ?>
 <?= loadJS("assets/js/Modulo/dashboard.js", true) ?>
