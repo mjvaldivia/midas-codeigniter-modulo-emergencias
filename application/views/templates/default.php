@@ -312,16 +312,19 @@
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li>
-                                <a href="profile.html">
-                                    <i class="fa fa-user"></i> My Profile
+                                <a href="#">
+                                    <i class="fa fa-user"></i> {session_region}
                                 </a>
                             </li>
-                            <li>
-                                <a href="mailbox.html">
-                                    <i class="fa fa-envelope"></i> Cambio rapido
-                                    <span class="badge green pull-right">4</span>
-                                </a>
-                            </li>
+                            
+                            <?php if (isAdmin()): ?>
+                                <li>
+                                    <a href="#pCambioRapido" data-toggle="modal" data-target="#pCambioRapido">
+                                        <i class="fa fa-exchange"></i> Cambiar de usuario
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                                
                             <li>
                                 <a href="#">
                                     <i class="fa fa-bell"></i> My Alerts
