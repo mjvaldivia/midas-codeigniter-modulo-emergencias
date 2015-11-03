@@ -52,6 +52,25 @@ class Alarma_Model extends CI_Model
     }
     
     /**
+     * 
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return array
+     */
+    public function listarAlarmasEntreFechas($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Retorna cantidad de alarmas entre fechas dadas
      * @param DateTime $fecha_desde
      * @param DateTime $fecha_hasta

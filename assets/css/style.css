@@ -2066,3 +2066,6 @@ input[type="checkbox"]:checked::after,
         margin-left: 0;
     }
 }
+
+.top-spaced{margin-top:20px;}
+.top-spaced-doble{margin-top:40px;}

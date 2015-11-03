@@ -58,19 +58,13 @@ function setRangoFechas(){
         $("#" + fc_desde).val(start.format('DD/MM/YYYY'));
         $("#" + fc_hasta).val(end.format('DD/MM/YYYY'));
         $(fecha).addClass("btn-success");
-    });
-
-    $("#rango-fechas").on('cancel.daterangepicker', function(ev, picker) {
-        $("#" + fc_desde).val("");
-        $("#" + fc_hasta).val("");
+        reload();
     });
    
-    
     var fecha_desde = moment($("#fecha_desde").val(), "DD/MM/YYYY"); 
     var fecha_hasta = moment($("#fecha_hasta").val(), "DD/MM/YYYY");  
     $(fecha).find("span").html(fecha_desde.format('MMM D, YYYY') + ' - ' + fecha_hasta.format('MMM D, YYYY'));
 }
-
 
 function reload(){
     reloadCantidadAlertas();
@@ -89,7 +83,7 @@ function reloadCantidadAlertas(){
         type: "post",
         url: siteUrl + "home/json_cantidad_alarmas", 
         error: function(xhr, textStatus, errorThrown){
-            errorAjax();
+            
         },
         success:function(data){
             if(data.correcto){
@@ -111,7 +105,7 @@ function reloadCantidadEmergencias(){
         type: "post",
         url: siteUrl + "home/json_cantidad_emergencia", 
         error: function(xhr, textStatus, errorThrown){
-            errorAjax();
+            
         },
         success:function(data){
             if(data.correcto){
@@ -138,70 +132,28 @@ function setCalendario(){
             right: 'month,agendaWeek,agendaDay'
         },
         lang: "es",
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar !!!
-        drop: function(date, allDay) { // this function is called when something is dropped
-
-            // retrieve the dropped element's stored Event Object
-            var originalEventObject = $(this).data('eventObject');
-
-            // we need to copy it, so that multiple events don't have a reference to the same object
-            var copiedEventObject = $.extend({}, originalEventObject);
-
-            // assign it the date that was reported
-            copiedEventObject.start = date;
-            copiedEventObject.allDay = allDay;
-
-            // render the event on the calendar
-            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-            // is the "remove after drop" checkbox checked?
-            if ($('#drop-remove').is(':checked')) {
-                // if so, remove the element from the "Draggable Events" list
-                $(this).remove();
+        editable: false,
+        droppable: false, 
+        eventSources: [
+            {
+                url: siteUrl + 'home/json_eventos_calendario_alertas',
+                type: 'POST',
+                error: function() {
+                    alert('there was an error while fetching events!');
+                },
+                color: 'orange',   // a non-ajax option
+                textColor: 'black' // a non-ajax option
+            },
+            {
+                url: siteUrl + 'home/json_eventos_calendario_emergencias',
+                type: 'POST',
+                error: function() {
+                    alert('there was an error while fetching events!');
+                },
+                color: 'red',   // a non-ajax option
+                textColor: 'white' // a non-ajax option
             }
-        },
-
-        events: [{
-            title: 'All Day Event',
-            start: new Date(y, m, 1),
-            className: 'fc-green'
-        }, {
-            title: 'Long Event',
-            start: new Date(y, m, d - 5),
-            end: new Date(y, m, d - 2),
-            className: 'fc-orange'
-        }, {
-            id: 999,
-            title: 'Repeating Event',
-            start: new Date(y, m, d - 3, 16, 0),
-            allDay: false,
-            className: 'fc-blue'
-        }, {
-            id: 999,
-            title: 'Repeating Event',
-            start: new Date(y, m, d + 4, 16, 0),
-            allDay: false,
-            className: 'fc-red'
-        }, {
-            title: 'Meeting',
-            start: new Date(y, m, d, 10, 30),
-            allDay: false,
-            className: 'fc-purple'
-        }, {
-            title: 'Lunch',
-            start: new Date(y, m, d, 12, 0),
-            end: new Date(y, m, d, 14, 0),
-            allDay: false,
-            className: 'fc-default'
-        }, {
-            title: 'Birthday Party',
-            start: new Date(y, m, d + 1, 19, 0),
-            end: new Date(y, m, d + 1, 22, 30),
-            allDay: false,
-            className: 'fc-white'
-        }]
+        ]
     });
 
 }

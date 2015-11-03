@@ -348,7 +348,7 @@
                             <li>
                                 <a class="logout_open" href="#logout">
                                     <i class="fa fa-sign-out"></i> Logout
-                                    <strong>John Smith</strong>
+                                    <strong>{session_usuario}</strong>
                                 </a>
                             </li>
                         </ul>
@@ -500,6 +500,9 @@
     <!-- GLOBAL SCRIPTS -->
     
     <?= loadJS("assets/lib/bootstrap-3.3.2-dist/js/bootstrap.js", true) ?>
+    <?= loadJS("assets/lib/popupoverlay/jquery.popupoverlay.js", true) ?>
+    <?= loadJS("assets/lib/popupoverlay/defaults.js", true) ?>
+    <?= loadJS("assets/lib/popupoverlay/logout.js", true) ?>
     <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
     <?= loadJS("assets/js/base.js") ?>
     <?= loadJS("assets/js/utils.js") ?>
@@ -515,15 +518,15 @@
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">
-            <img class="img-circle img-logout" src="img/profile-pic.jpg" alt="">
+            
             <h3>
-                <i class="fa fa-sign-out text-green"></i> Ready to go?
+                <i class="fa fa-sign-out text-green"></i> ¿Realmente desea salir?
             </h3>
-            <p>Select "Logout" below if you are ready<br> to end your current session.</p>
+            <p>Seleccione "Salir" si <br> desea cerrar la sesión actual.</p>
             <ul class="list-inline">
                 <li>
                     <a href="login.html" class="btn btn-green">
-                        <strong>Logout</strong>
+                        <strong>Salir</strong>
                     </a>
                 </li>
                 <li>

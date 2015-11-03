@@ -10,7 +10,6 @@ $(".portlet-widgets .fa-chevron-down, .portlet-widgets .fa-chevron-up").click(fu
     $(this).toggleClass("fa-chevron-down fa-chevron-up");
 });
 
-
 $(function() {
     $('.page-content').addClass('page-content-ease-in');
 });

@@ -29,7 +29,7 @@
 
 <!-- begin DASHBOARD CIRCLE TILES -->
 <div class="row">
-    <div class="col-lg-4 col-sm-6">
+    <div class="col-lg-4 col-sm-12">
         <div class="row">
             <div class="col-lg-6 col-sm-6">
                 <div class="circle-tile">
@@ -84,132 +84,139 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-8"><br><br>
-        <div class="portlet portlet-default">
-            <div class="portlet-heading">
-                <div class="portlet-title">
-                    <h4>Emergencias</h4>
+    <div class="col-lg-8 col-sm-12">
+        <div class="row top-spaced-doble">
+            <div class="col-lg-12">
+            <div class="portlet portlet-default">
+                <div class="portlet-heading">
+                    <div class="portlet-title">
+                        <h4>Emergencias</h4>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="portlet-body">
+                <div class="portlet-body">
 
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nombre emergencia</th>
-                                <th>Tipo emergencia</th>
-                                <th>Comunas afectadas</th>
-                                <th>Fecha emergencia</th>
-                                <th>Lugar</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button class="btn btn-xs btn-blue">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button class="btn btn-xs btn-blue">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button class="btn btn-xs btn-blue">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre emergencia</th>
+                                    <th>Tipo emergencia</th>
+                                    <th>Comunas afectadas</th>
+                                    <th>Fecha emergencia</th>
+                                    <th>Lugar</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                    <td>
+                                        <button class="btn btn-xs btn-blue">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>@mdo</td>
+                                    <td>
+                                        <button class="btn btn-xs btn-blue">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                    <td>@mdo</td>
+                                    <td>
+                                        <button class="btn btn-xs btn-blue">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
             </div>
         </div>
-        <div class="portlet portlet-default">
-            <div class="portlet-heading">
-                <div class="portlet-title">
-                    <h4>Alarmas</h4>
+        <div class="row">
+            <div class="col-lg-12">
+            <div class="portlet portlet-default">
+                <div class="portlet-heading">
+                    <div class="portlet-title">
+                        <h4>Alarmas</h4>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="portlet-body">
+                <div class="portlet-body">
 
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nombre emergencia</th>
-                                <th>Tipo emergencia</th>
-                                <th>Comunas afectadas</th>
-                                <th>Fecha emergencia</th>
-                                <th>Lugar</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button class="btn btn-xs btn-blue">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button class="btn btn-xs btn-blue">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button class="btn btn-xs btn-blue">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre emergencia</th>
+                                    <th>Tipo emergencia</th>
+                                    <th>Comunas afectadas</th>
+                                    <th>Fecha emergencia</th>
+                                    <th>Lugar</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                    <td>
+                                        <button class="btn btn-xs btn-blue">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>@mdo</td>
+                                    <td>
+                                        <button class="btn btn-xs btn-blue">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                    <td>@mdo</td>
+                                    <td>
+                                        <button class="btn btn-xs btn-blue">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </div></div>
         </div>
     </div>
 </div>

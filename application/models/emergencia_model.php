@@ -23,7 +23,7 @@ class Emergencia_Model extends CI_Model {
      *
      * @var string 
      */
-    protected $_tabla = "alertas";
+    protected $_tabla = "emergencias";
     
     /**
      * 
@@ -35,17 +35,36 @@ class Emergencia_Model extends CI_Model {
         $this->_query->setTable($this->_tabla);
     }
     
+    /**
+     * 
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return array
+     */
+    public function listarEmergenciasEntreFechas($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
      /**
-     * Retorna cantidad de alarmas entre fechas dadas
+     * Retorna cantidad de emergencias entre fechas dadas
      * @param DateTime $fecha_desde
      * @param DateTime $fecha_hasta
      * @return int
      */
-    public function cantidadAlarmas($fecha_desde, $fecha_hasta){
+    public function cantidadEmergencias($fecha_desde, $fecha_hasta){
         $result = $this->_query->select("COUNT(*) as cantidad")
                                ->from()
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
                                ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
