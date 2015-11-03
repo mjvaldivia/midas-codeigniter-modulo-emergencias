@@ -318,7 +318,7 @@
                             </li>
                             <li>
                                 <a href="mailbox.html">
-                                    <i class="fa fa-envelope"></i> My Messages
+                                    <i class="fa fa-envelope"></i> Cambio rapido
                                     <span class="badge green pull-right">4</span>
                                 </a>
                             </li>
@@ -533,6 +533,25 @@
                     <button class="logout_close btn btn-green">Cancel</button>
                 </li>
             </ul>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="pCambioRapido" role="dialog" aria-labelledby="pCambioRapidoTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 id="pCambioRapidoTitle" class="modal-title">Seleccione un usuario para el cambio rápido</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Seleccione usuario:</label>
+                    <select id="users" name="users" class="form-control  select2"></select>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnCambioRapido" type="button" class="btn btn-success">Aceptar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
