@@ -60,12 +60,13 @@ class Emergencia_Model extends CI_Model {
                 ");
             }
             $comunas_query = $this->db->query("
-            SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join emergencias_vs_comunas evc
+            SELECT GROUP_CONCAT(c.com_c_nombre) comunas, GROUP_CONCAT(c.com_ia_id) id_comunas from comunas c join emergencias_vs_comunas evc
             on evc.com_ia_id = c.com_ia_id
             where evc.eme_ia_id = $eme_ia_id");
             $comunas = $comunas_query->result_array();
 
             $params['lista_comunas'] = $comunas[0]['comunas'];
+            $params['lista_id_comunas'] = $comunas[0]['id_comunas'];
         }
         if ($query) {
             $this->db->query("
@@ -288,17 +289,12 @@ class Emergencia_Model extends CI_Model {
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
         $subject = "Confirmación de una situación de emergencia";
-
-        $qry = "select group_concat(usu_c_email SEPARATOR ',') lista from usuarios where UPPER(usu_b_email_emergencias) = 'SI' and est_ia_id = 1";
-
-        $result = $this->db->query($qry);
-
-        $row = $result->result_array();
-        $to = $row[0]['lista'];
-
         $this->load->model("Sendmail_Model", "SendmailModel");
+        $to = $this->SendmailModel->get_destinatariosCorreo($params['iTiposEmergencias'], $params['lista_id_comunas'], null);
 
-        return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
+        
+
+        return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje,false);
     }
 
     public function obtenerCapas($params) { //capas que estan cargadas en el visor

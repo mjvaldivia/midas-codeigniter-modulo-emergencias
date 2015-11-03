@@ -149,8 +149,9 @@ class Visor extends CI_Controller {
     public function obtenerCapasDT() {
         $this->load->model("capa_model", "CapaModel");
         $params = $this->uri->uri_to_assoc();
-        //var_dump($params);die;
-        $Coberturas = $this->CapaModel->obtenerTodos($params['id']);
+
+        
+        $Coberturas = $this->CapaModel->obtenerTodos($params['eme_ia_id'],$params['id']);
         return json_encode($Coberturas);
     }
 

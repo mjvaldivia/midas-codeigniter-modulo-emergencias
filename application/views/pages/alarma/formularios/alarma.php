@@ -83,7 +83,7 @@
                         <label class="control-label col-md-3">Fecha/Hora de recepción (*):</label>
                         <div class="col-md-3">
                             <div class="input-group" id="fechaRecepcion" type="datetime">
-                                <input type="text" class="form-control required" placeholder="Fecha / Hora Recepcion" value="<?= $fecha_recepcion ?>" id="fechaRecepcion" name="fechaRecepcion" value="<?= date('d-m-Y H:i') ?>">
+                                <input type="text" class="form-control required" placeholder="Fecha / Hora Recepcion" value="<?= ($id!==null)?$fecha_recepcion:date('d-m-Y H:i') ?>" id="fechaRecepcion" name="fechaRecepcion" >
                                 <div  class="input-group-addon" style="cursor: pointer">
                                     <i class="fa fa-calendar"></i>
                                 </div>
@@ -93,13 +93,17 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">Comuna(s) afectada(s) (*):</label>
                         <div class="col-md-6">
-                            <?= formElementSelectComunaUsuario("iComunas[]", NULL, $lista_comunas) ?>
+                            <?= formElementSelectComunaUsuario("iComunas[]", NULL, $lista_comunas, array("class" => "form-control required", "multiple" => "true" ,'placeholder'=>'Comunas')) ?>
                         </div>
                     </div>
 
                     <div id="botonera" class="col-md-10">
                         <div class="pull-right">
-                            <button type="button" id="btnSiguiente" class="btn btn-primary" onclick="Alarma.guardarForm();">Aceptar</button>
+                            <?php if($es_CRE==1 && $id==null) { ?> 
+                                <button type="button" id="btnSiguiente" class="btn btn-danger" onclick="Alarma.guardarForm(1);">Aceptar y continuar con la activación</button>
+                            <?php } ?>
+                            <button type="button" id="btnSiguiente" class="btn btn-primary" onclick="Alarma.guardarForm(0);">Aceptar</button>
+                           
                             <button type="button" class="btn btn-default">Cancelar</button>
                         </div>
                     </div>

@@ -47,7 +47,11 @@ Class Direccion_Element_SelectComuna{
         $this->ci->load->model("session_model");
         $this->sesion = New Session_Model();
     }
+        
     
+    public function getElement(){
+        return $this->_element;
+    }
     /**
      * 
      * @param string $nombre
@@ -62,7 +66,7 @@ Class Direccion_Element_SelectComuna{
      * @return string html
      */
     public function render($default = array()){
-        $this->_element->addAtributos(array("multiple" => "true"));
+        //$this->_element->addAtributos(array("multiple" => "true"));
         $this->_element->setNombre($this->_nombre);
         $this->_element->populate($this->_listar());
         $this->_element->setOptionId("com_ia_id");

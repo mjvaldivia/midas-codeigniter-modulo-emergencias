@@ -44,14 +44,19 @@ class Alarma extends CI_Controller {
      * Formulario de ingreso de alarma
      */
     public function ingreso() {
+        $this->load->helper('session');
+        //var_dump($this->session->all_userdata());
         $this->load->helper("Modulo/Direccion/comuna");
         $this->load->helper("Modulo/Emergencia/emergencia");
         
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
             show_404();
         }
-
-        $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", array(), true);
+        $datos['es_CRE'] = 0;
+        if((int)$this->session->userdata('session_idCargo')==4)
+            $datos['es_CRE'] = 1;
+        $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
+       
         $this->template->parse("default", "pages/alarma/ingreso", $data);
     }
     
@@ -126,16 +131,18 @@ class Alarma extends CI_Controller {
         $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
         
         if(!is_null($alerta)){
+            $id= $alerta->ala_ia_id;
             $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
-            $id = $alerta->ala_ia_id;
+            $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['iComunas']);
             $respuesta_email = "";
         } else {
             $id = $this->AlarmaModel->query()->insert($data);
+            $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['iComunas']);
             $params["ala_ia_id"] = $id;
             $respuesta_email = $this->AlarmaModel->guardarAlarma($params);
         }
         
-        $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['iComunas']);
+        
 
         
         $respuesta = array("ala_ia_id" => $id,

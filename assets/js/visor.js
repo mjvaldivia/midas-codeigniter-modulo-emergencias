@@ -126,19 +126,23 @@ var VisorMapa = {
 
                 self.showContextMenu(event.latLng, event.feature);
             }
+
+
+        });
+        //dibujo el marcador de referencia que se guarda en la alarma
         var referencia = JSON.parse(json.referencia);
 
         if (referencia.ref_lat && referencia.ref_lng && referencia.geozone)
         {
             ref = true;
             self.drawReferencia(referencia.ref_lat, referencia.ref_lng, referencia.geozone);
-            self.centro = self.referenciaMarker.getGeometry().get();
+            this.centro = self.referenciaMarker.getGeometry().get();
 
         }
 
         if (json.geojson)
         {
-            emergencia=true;
+            emergencia = true;
             self.loadJson(json.geojson);
         }
 
@@ -162,15 +166,12 @@ var VisorMapa = {
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
                 latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-                self.map.fitBounds(bounds);
+                this.map.fitBounds(bounds);
             }
             //console.log(latLon[0], latLon[1]);
-            
-            
+
+
         } 
-
-        });
-
     };
     var self = this;
     this.loadJson = function (geojson) {
@@ -184,13 +185,14 @@ var VisorMapa = {
                     var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
                     
                     self.centro = gooLatLng;
-                    
+                   
                     
                 } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                     self.emergencyRadius = feature;
 
             }
             self.map.setCenter(self.centro);
+            self.map.setZoom(15);
         });
     };
     this.drawReferencia = function (ref_lat, ref_lng, geozone) {
@@ -207,9 +209,8 @@ var VisorMapa = {
             }
         });
         this.map.data.add(point);
-        self.referenciaMarker = point;
-        this.map.setCenter(self.referenciaMarker.getGeometry().get());
-        
+        this.referenciaMarker = point;
+
     };
 
     var crossingData = function (event) {
@@ -507,10 +508,10 @@ var VisorMapa = {
     $("#ctrlLayers").click(function () {
 
         $("#wrapper").toggleClass("toggled");
-
+        
         var items = $('#selected_items').val().split(',');
-
-        $.get(siteUrl + 'visor/obtenerCapasDT/id/' + items, function (data) {
+        
+        $.get(siteUrl + 'visor/obtenerCapasDT/eme_ia_id/'+ $('#hIdEmergencia').val()+'/id/' + items, function (data) {
             var html = '';
             var json = JSON.parse(data);
             $.each(json, function (k, v) {

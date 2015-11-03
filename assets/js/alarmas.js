@@ -174,7 +174,7 @@ var Alarma = {};
 
     };
 
-    this.guardarForm = function () {
+    this.guardarForm = function (modo) {
         if (!Utils.validaForm('frmIngresoAlarma'))
             return false;
 
@@ -193,13 +193,18 @@ var Alarma = {};
                             className: "btn-info",
                             callback: function () {
                                 var tip_ia_id = $('#iTiposEmergencias').val();
-                                if (tip_ia_id == 15) {
-                                    location.href = siteUrl + 'alarma/paso2/id/' + data + '/tip_ia_id/' + tip_ia_id;
+                                if (tip_ia_id == 15 && false) { // por ahora no aplica el paso 2
+                                    location.href = siteUrl + 'alarma/paso2/id/' + response.ala_ia_id + '/tip_ia_id/' + tip_ia_id;
                                 } else { 
                                     if($("#pResultados").length){
-                                        Alarma.eventoBtnBuscar();
-                                        Alarma.limpiar();
-                                    } else {
+                                        if(modo==1)
+                                            location.href = siteUrl + 'emergencia/generaEmergencia/id/' + response.ala_ia_id;
+                                        else
+                                        {
+                                            Alarma.eventoBtnBuscar();
+                                            Alarma.limpiar();
+                                        }
+                                    } else { // es edicion
                                         window.close();
                                     }
                                 }
@@ -212,7 +217,7 @@ var Alarma = {};
             } else {
                 bootbox.dialog({
                     title: "Resultado de la operacion",
-                    message: 'Error al insertar',
+                    message: 'Error al insertar/editar',
                     buttons: {
                         danger: {
                             label: "Cerrar",
@@ -295,7 +300,9 @@ var map;
 var marcador = {};
 var geozone;
 var marcador = [];
+var ac;
 function initialize() {
+
     $.getJSON(siteUrl + 'session/getMinMaxUsr', null, function (data) {
         var defaultBounds = new google.maps.LatLngBounds();
         var mapProp = {
@@ -309,7 +316,6 @@ function initialize() {
         defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
         latLon = GeoEncoder.utmToDecimalDegree(parseFloat(data.com_c_xmax), parseFloat(data.com_c_ymax), geozone);
         defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-        
 
 
         $('#geozone').val(geozone);
@@ -319,48 +325,28 @@ function initialize() {
         
         if(marcador.length==0)
             map.fitBounds(defaultBounds);
+            
         
-        new google.maps.places.Autocomplete(
+        ac = new google.maps.places.Autocomplete(
                 (document.getElementById('iLugarEmergencia')), {
             componentRestrictions: {country: 'cl'}
         });
 
-        var input = $("#iLugarEmergencia").get(0);
-        var searchBox = new google.maps.places.SearchBox(input, {bounds: defaultBounds});
+//        var input = $("#iLugarEmergencia").get(0);
+//        var searchBox = new google.maps.places.SearchBox(input, {bounds: defaultBounds});
 
-        google.maps.event.addListener(map, 'bounds_changed', function () {
-            var bounds = map.getBounds();
-            searchBox.setBounds(bounds);
-        });
 
-        searchBox.addListener('places_changed', function () {
-            var places = searchBox.getPlaces();
-
-            if (places.length === 0) {
+        ac.addListener('place_changed', function () {
+            var place = ac.getPlace();
+            if (place.length === 0) {
                 return;
             }
-
-
-
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function (place) {
-                set_marker(place.geometry.location);
-                if (place.geometry.viewport) {
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-                setInputs(place.geometry.location);
-
-
-            });
-            // map.fitBounds(bounds);
-
+            set_marker(place.geometry.location);
         });
 
     });
 }
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
 
 function set_marker(position) {
 
