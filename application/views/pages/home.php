@@ -83,6 +83,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
     <div class="col-lg-8 col-sm-12">
         <div class="row top-spaced-doble">
@@ -220,6 +221,28 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="portlet portlet-green">
+            <div class="portlet-heading">
+                <div class="portlet-title">
+                    <h4>Gráfico de meses Alerta/Emergencia</h4>
+                </div>
+                <div class="portlet-widgets">
+                    <a href="javascript:;"><i class="fa fa-refresh"></i></a>
+                    <span class="divider"></span>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#lineChart"><i class="fa fa-chevron-down"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="lineChart" class="panel-collapse collapse in">
+                <div class="portlet-body">
+                    <div id="morris-chart-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-lg-12">
@@ -242,10 +265,16 @@
 
 <?= loadCSS("assets/lib/daterangepicker/daterangepicker.css", true) ?>
 <?= loadCSS("assets/lib/fullcalendar/fullcalendar.css", true) ?>
+<?= loadCSS("assets/lib/morris/morris.css", true) ?>
 
 <?= loadJS("assets/lib/daterangepicker/moment.js", true) ?>
 <?= loadJS("assets/lib/daterangepicker/daterangepicker.js", true) ?>
 <?= loadJS("assets/lib/moment/moment.min.js", true) ?>
 <?= loadJS("assets/lib/fullcalendar/fullcalendar.min.js", true) ?>
 <?= loadJS("assets/lib/fullcalendar/lang-all.js", true) ?>
+
+<?= loadJS("assets/lib/morris/raphael-2.1.0.min.js", true) ?>
+<?= loadJS("assets/lib/morris/morris.js", true) ?>
+
+
 <?= loadJS("assets/js/Modulo/dashboard.js", true) ?>

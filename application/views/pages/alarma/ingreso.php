@@ -9,7 +9,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Dashboard </a></li>
-                <li class="active"><i class="fa fa-bell"></i> Gestión de alarmas </li>
+                <li class="active"><i class="fa fa-bell"></i> Alarmas </li>
             </ol>
         </div>
     </div>

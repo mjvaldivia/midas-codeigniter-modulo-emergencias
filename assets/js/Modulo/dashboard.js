@@ -29,8 +29,44 @@ $(document).ready(function() {
 
     setRangoFechas();
     setCalendario();
+    setGrafico();
     reload();
 });
+
+function setGrafico(){
+    
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    
+    //Morris Line Chart
+    Morris.Line({
+    // ID of the element in which to draw the chart.
+    element: 'morris-chart-line',
+    // Chart data records -- each entry in this array corresponds to a point on
+    // the chart.
+    data: [
+          { m: '01', a: 0, b: 270 },
+          { m: '02', a: 54, b: 256 },
+          { m: '03', a: 243, b: 334 },
+          { m: '04', a: 206, b: 282 },
+          { m: '05', a: 161, b: 58 },
+          { m: '06', a: 187, b: 0 },
+          { m: '07', a: 210, b: 0 },
+          { m: '08', a: 204, b: 0 },
+          { m: '09', a: 224, b: 0 },
+          { m: '10', a: 301, b: 0 },
+          { m: '11', a: 262, b: 0 },
+          { m: '12', a: 199, b: 0 },
+        ],
+  xkey: 'm',
+  ykeys: ['a', 'b'],
+  labels: ['2014', '2015'],
+  xLabelFormat: function (x) { return months[x.getMonth()]; },
+    // Disables line smoothing
+    smooth: false,
+    resize: true
+    });
+}
 
 
 function setRangoFechas(){

@@ -514,7 +514,7 @@
                     </a>
                 </li>
                 <li>
-                    <button class="logout_close btn btn-green">Cancel</button>
+                    <button class="logout_close btn btn-green">Cerrar</button>
                 </li>
             </ul>
         </div>
