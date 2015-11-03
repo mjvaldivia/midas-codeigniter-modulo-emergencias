@@ -303,7 +303,6 @@
                     <!-- /.dropdown -->
                     <!-- end ALERTS DROPDOWN -->
 
-                    
 
                     <!-- begin USER ACTIONS DROPDOWN -->
                     <li class="dropdown">
@@ -313,7 +312,12 @@
                         <ul class="dropdown-menu dropdown-user">
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-user"></i> {session_region}
+                                    <i class="fa fa-cog"></i> {session_cargo}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-globe"></i> {session_region}
                                 </a>
                             </li>
                             
@@ -325,33 +329,10 @@
                                 </li>
                             <?php endif; ?>
                                 
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-bell"></i> My Alerts
-                                    <span class="badge orange pull-right">9</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-tasks"></i> My Tasks
-                                    <span class="badge blue pull-right">10</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="calendar.html">
-                                    <i class="fa fa-calendar"></i> My Calendar
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-gear"></i> Settings
-                                </a>
-                            </li>
+                            
                             <li>
                                 <a class="logout_open" href="#logout">
-                                    <i class="fa fa-sign-out"></i> Logout
-                                    <strong>{session_usuario}</strong>
+                                    <i class="fa fa-sign-out"></i> Cerrar Sesión
                                 </a>
                             </li>
                         </ul>
@@ -528,7 +509,7 @@
             <p>Seleccione "Salir" si <br> desea cerrar la sesión actual.</p>
             <ul class="list-inline">
                 <li>
-                    <a href="login.html" class="btn btn-green">
+                    <a href="<?= site_url("session/logout") ?>" class="btn btn-green">
                         <strong>Salir</strong>
                     </a>
                 </li>
