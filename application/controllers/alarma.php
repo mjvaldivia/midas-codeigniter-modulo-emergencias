@@ -46,8 +46,8 @@ class Alarma extends CI_Controller {
     public function ingreso() {
         $this->load->helper('session');
         //var_dump($this->session->all_userdata());
-        $this->load->helper("Modulo/Direccion/comuna");
-        $this->load->helper("Modulo/Emergencia/emergencia");
+        $this->load->helper("modulo/direccion/comuna");
+        $this->load->helper("modulo/emergencia/emergencia");
         
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
             show_404();
