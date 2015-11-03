@@ -94,7 +94,7 @@
                                         <a href="#">
                                             <div class="row">
                                                 <div class="col-xs-2">
-                                                    <img class="img-circle" src="img/user-profile-1.jpg" alt="">
+                                                    
                                                 </div>
                                                 <div class="col-xs-10">
                                                     <p>
@@ -111,7 +111,7 @@
                                         <a href="#">
                                             <div class="row">
                                                 <div class="col-xs-2">
-                                                    <img class="img-circle" src="img/user-profile-2.jpg" alt="">
+                                                    
                                                 </div>
                                                 <div class="col-xs-10">
                                                     <p>
@@ -128,7 +128,7 @@
                                         <a href="#">
                                             <div class="row">
                                                 <div class="col-xs-2">
-                                                    <img class="img-circle" src="img/user-profile-3.jpg" alt="">
+                                                    
                                                 </div>
                                                 <div class="col-xs-10">
                                                     <p>
@@ -145,7 +145,7 @@
                                         <a href="#">
                                             <div class="row">
                                                 <div class="col-xs-2">
-                                                    <img class="img-circle" src="img/user-profile-4.jpg" alt="">
+                                                    
                                                 </div>
                                                 <div class="col-xs-10">
                                                     <p>
