@@ -234,7 +234,7 @@ class Emergencia_Model extends CI_Model {
         eme_c_nombre_informante = '" . $params['iNombreInformante'] . "',
         eme_c_telefono_informante ='" . $params['iTelefonoInformante'] . "',
         eme_c_nombre_emergencia = '" . $params['iNombreEmergencia'] . "',
-        tip_ia_id = '" . $params['tipo_emergencia'] . "',
+        tip_ia_id = '" . $params['iTiposEmergencias'] . "',
         eme_c_lugar_emergencia = '" . $params['iLugarEmergencia'] . "',
         eme_d_fecha_emergencia = '" . spanishDateToISO($params['fechaEmergencia']) . "',
         eme_d_fecha_recepcion = '" . spanishDateToISO($params['fechaRecepcion']) . "',
