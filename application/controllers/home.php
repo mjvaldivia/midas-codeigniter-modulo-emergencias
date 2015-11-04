@@ -82,7 +82,7 @@ class Home extends CI_Controller{
     }
     
     /**
-     * 
+     * Carga las alertas al calendario
      */
     public function json_eventos_calendario_alertas(){
         $params = $this->input->post(null, true);
@@ -107,7 +107,7 @@ class Home extends CI_Controller{
     }
     
     /**
-     * 
+     * Carga las emergencias al calendario
      */
     public function json_eventos_calendario_emergencias(){
         $params = $this->input->post(null, true);
@@ -132,7 +132,8 @@ class Home extends CI_Controller{
     }
     
     /**
-     * 
+     * Devuelve datos para grafico de emergencias
+     * de mes por año
      */
     public function json_cantidad_emergencia_mes(){
         $lista_years = $this->EmergenciaModel->listarYearsConEmergencias();
@@ -172,6 +173,11 @@ class Home extends CI_Controller{
         echo json_encode($respuesta);
     }
     
+    /**
+     * Formato para el mes
+     * @param int $mes
+     * @return string
+     */
     protected function _corrigeNumeroMes($mes){
         if($mes < 10){
             return "0" . (string) $mes;
