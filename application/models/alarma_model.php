@@ -228,7 +228,7 @@ class Alarma_Model extends CI_Model {
             $resultados['hora_emergencia'] = ISOTimeTospanish($resultados['ala_d_fecha_emergencia']);
             $resultados['hora_recepcion'] = ISOTimeTospanish($resultados['ala_d_fecha_recepcion']);
 
-            $resultados['ala_d_fecha_emergencia'] = ISODateTospanish($resultados['ala_d_fecha_emergencia'], false);
+            $resultados['ala_d_fecha_emergencia'] = ISODateTospanish($resultados['ala_d_fecha_emergencia']);
             $resultados['ala_d_fecha_recepcion'] = ISODateTospanish($resultados['ala_d_fecha_recepcion']);
         }
 

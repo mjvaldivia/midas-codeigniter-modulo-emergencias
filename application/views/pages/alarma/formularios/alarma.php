@@ -71,7 +71,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">Fecha/Hora de la emergencia:</label>
                         <div class="col-md-3">
-                            <div class="input-group" id="fechaEmergencia" type="datetime">
+                            <div class="input-group" id="divfechaEmergencia" type="datetime">
                                 <input type="text" class="form-control" placeholder="Fecha / Hora" value="<?= $fecha_emergencia ?>" id="fechaEmergencia" name="fechaEmergencia">
                                 <div class="input-group-addon" style="cursor: pointer">
                                     <i class="fa fa-calendar"></i>
@@ -82,7 +82,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">Fecha/Hora de recepción (*):</label>
                         <div class="col-md-3">
-                            <div class="input-group" id="fechaRecepcion" type="datetime">
+                            <div class="input-group" id="divfechaRecepcion" type="datetime">
                                 <input type="text" class="form-control required" placeholder="Fecha / Hora Recepcion" value="<?= ($id!==null)?$fecha_recepcion:date('d-m-Y H:i') ?>" id="fechaRecepcion" name="fechaRecepcion" >
                                 <div  class="input-group-addon" style="cursor: pointer">
                                     <i class="fa fa-calendar"></i>
