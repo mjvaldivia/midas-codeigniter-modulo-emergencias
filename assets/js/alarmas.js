@@ -231,7 +231,7 @@ var Alarma = {};
             var response = jQuery.parseJSON(data);
             var msg;
 
-            if (!$('#ala_ia_id').length) //insertar
+            if ($('#ala_ia_id').val()=='') //insertar
                 msg = 'Se ha insertado correctamente<br>' +
                         'Estado email: ' + response.res_mail;
             else
