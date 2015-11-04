@@ -108,7 +108,8 @@ var ExportMap = {
             }
             self.map.fitBounds(bounds);
 
-        } 
+        }
+	else{ self.map.setCenter(self.centro);} 
         
 
     };
@@ -130,7 +131,7 @@ var ExportMap = {
                     self.emergencyRadius = feature;
 
             }
-            self.map.setCenter(self.centro);
+           
         });
     };
     this.drawReferencia = function (ref_lat, ref_lng, geozone) {
