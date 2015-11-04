@@ -60,46 +60,69 @@ class Alarma extends CI_Controller {
         $this->template->parse("default", "pages/alarma/ingreso", $data);
     }
     
+    
+    
+        public function editar() {
+
+        // load basicos
+        $this->load->library("template");
+        $this->load->helper("session");
+
+        sessionValidation();
+
+        $params = $this->uri->uri_to_assoc();
+        $datos['ala_ia_id'] = $params['id'];
+
+                    $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
+            $this->template->parse("default", "pages/alarma/editar", $data);
+    }
+    
+        public function getAlarma() {
+        $this->load->helper("utils");
+        $params = $this->uri->uri_to_assoc();
+        $this->load->model("alarma_model", "AlarmaModel");
+        return $this->AlarmaModel->getJsonAlarma($params);
+    }
     /**
      * Formulario para editar una alarma
      */
-    public function editar(){
-        $this->load->helper("Modulo/Direccion/comuna");
-        $this->load->helper("Modulo/Emergencia/emergencia");
-        
-        $params = $params = $this->uri->uri_to_assoc();
-
-        $alarma = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
-        if(!is_null($alarma)){
-            $formulario = array(
-                                "id" => $alarma->ala_ia_id,
-                                "lon" => $alarma->ala_c_utm_lng,
-                                "lat" => $alarma->ala_c_utm_lat,
-                                "nombre_informante" => $alarma->ala_c_nombre_informante,
-                                "telefono" => $alarma->ala_c_telefono_informante,
-                                "nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
-                                "id_tipo_emergencia" => $alarma->tip_ia_id,
-                                "lugar" => $alarma->ala_c_lugar_emergencia,
-                                "observacion" => $alarma->ala_c_observacion,
-                                "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
-                                "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion)
-                                );
-
-            $comunas = array();
-            $lista_comunas = $this->AlarmaComunaModel->listaComunasPorAlerta($alarma->ala_ia_id);
-            foreach($lista_comunas as $key => $row){
-                $comunas[] = $row["com_ia_id"];
-            }
-            $formulario["lista_comunas"] = $comunas;
-            
-            
-            
-            $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $formulario, true);
-            $this->template->parse("default", "pages/alarma/editar", $data);
-        } else {
-            show_404();
-        }
-    }
+//    public function editar(){
+//        $this->load->helper("Modulo/Direccion/comuna");
+//        $this->load->helper("Modulo/Emergencia/emergencia");
+//        
+//        $params = $params = $this->uri->uri_to_assoc();
+//
+//        $alarma = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
+//        if(!is_null($alarma)){
+//            $formulario = array(
+//                                "id" => $alarma->ala_ia_id,
+//                                "lon" => $alarma->ala_c_utm_lng,
+//                                "lat" => $alarma->ala_c_utm_lat,
+//                                "nombre_informante" => $alarma->ala_c_nombre_informante,
+//                                "telefono" => $alarma->ala_c_telefono_informante,
+//                                "nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
+//                                "id_tipo_emergencia" => $alarma->tip_ia_id,
+//                                "lugar" => $alarma->ala_c_lugar_emergencia,
+//                                "observacion" => $alarma->ala_c_observacion,
+//                                "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
+//                                "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion)
+//                                );
+//
+//            $comunas = array();
+//            $lista_comunas = $this->AlarmaComunaModel->listaComunasPorAlerta($alarma->ala_ia_id);
+//            foreach($lista_comunas as $key => $row){
+//                $comunas[] = $row["com_ia_id"];
+//            }
+//            $formulario["lista_comunas"] = $comunas;
+//            
+//            
+//            
+//            $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $formulario, true);
+//            $this->template->parse("default", "pages/alarma/editar", $data);
+//        } else {
+//            show_404();
+//        }
+//    }
 
     /**
      * Guarda formulario de alarma
@@ -128,7 +151,7 @@ class Alarma extends CI_Controller {
                         "ala_c_geozone" => $params['geozone']
                        );
 
-        $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
+        $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["ala_ia_id"]);
         
         if(!is_null($alerta)){
             $id= $alerta->ala_ia_id;

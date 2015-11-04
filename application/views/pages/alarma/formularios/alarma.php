@@ -1,5 +1,5 @@
 <form  class="form-horizontal"  name='frmIngresoAlarma' id='frmIngresoAlarma' >
-    <input type="hidden" name="id" value="<?= $id ?>" />
+    <input type="hidden" name="ala_ia_id" id="ala_ia_id" value="<?= $ala_ia_id ?>" />
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Datos de la alarma</h3>
@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label for="iTiposEmergencias" class="control-label col-md-3">Tipo de la emergencia (*):</label>
                         <div class="col-md-6">
-                            <?= formElementSelectEmergenciaTipo("iTiposEmergencias", NULL, $id_tipo_emergencia, array("class" => "form-control required", "placeholder" => "Tipo de la emergencia")) ?>
+                            <select id="iTiposEmergencias" name='iTiposEmergencias' class="form-control required" placeholder='Tipo de la emergencia'></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -92,8 +92,9 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Comuna(s) afectada(s) (*):</label>
-                        <div class="col-md-6">
-                            <?= formElementSelectComunaUsuario("iComunas[]", NULL, $lista_comunas, array("class" => "form-control required", "multiple" => "true" ,'placeholder'=>'Comunas')) ?>
+                        <div class="col-md-6">       
+                            <select name="iComunas[]" id="iComunas" class="form-control required" multiple placeholder='Comunas'>
+                            </select>
                         </div>
                     </div>
 

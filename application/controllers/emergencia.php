@@ -141,7 +141,6 @@ class Emergencia extends CI_Controller {
         sessionValidation();
 
         $params = $this->uri->uri_to_assoc();
-        date_default_timezone_set("America/Argentina/Buenos_Aires");
         $data['eme_ia_id'] = $params['id'];
 
         $this->template->parse("default", "pages/emergencia/editarEmergencia", $data);

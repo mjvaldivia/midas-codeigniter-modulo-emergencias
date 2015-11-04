@@ -181,6 +181,8 @@ class Alarma_Model extends CI_Model {
         return ($error==0)?true:false;
     }
 
+    
+    
     public function eliminarAlarma($id = 0) {
         $error = false;
         $this->db->trans_begin();
@@ -198,4 +200,41 @@ class Alarma_Model extends CI_Model {
         return $error;
     }
 
+    public function getJsonAlarma($params, $json = true) {
+
+
+        $this->load->helper("utils");
+        $sql = "
+            select
+                a.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
+                GROUP_CONCAT(avc.com_ia_id) comunas,
+                GROUP_CONCAT(c.com_c_nombre) nombre_comunas,
+                te.aux_c_nombre as tipo_emergencia
+            from
+              alertas a join usuarios u on a.usu_ia_id = u.usu_ia_id
+              inner join auxiliar_emergencias_tipo te on a.tip_ia_id = te.aux_ia_id
+              join alertas_vs_comunas avc on a.ala_ia_id = avc.ala_ia_id
+              join comunas c on c.com_ia_id = avc.com_ia_id
+            where a.ala_ia_id = ?";
+
+        $query = $this->db->query($sql, array($params['id']));
+
+        $resultados = null;
+        if ($query->num_rows() > 0) {
+            $resultados = $query->result_array();
+
+            $resultados = $resultados[0];
+
+            $resultados['hora_emergencia'] = ISOTimeTospanish($resultados['ala_d_fecha_recepcion']);
+            $resultados['hora_recepcion'] = ISOTimeTospanish($resultados['ala_d_fecha_recepcion']);
+
+            $resultados['ala_d_fecha_emergencia'] = ISODateTospanish($resultados['ala_d_fecha_emergencia'], false);
+            $resultados['ala_d_fecha_recepcion'] = ISODateTospanish($resultados['ala_d_fecha_recepcion']);
+        }
+
+        if ($json)
+            echo json_encode($resultados);
+        else
+            return $resultados;
+    }
 }

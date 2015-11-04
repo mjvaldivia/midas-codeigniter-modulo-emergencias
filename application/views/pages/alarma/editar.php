@@ -32,10 +32,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        Alarma.inicioIngreso();
-        /*initialize();
+        Alarma.inicioEdicion();
+        
          
-        $("#ins_c_coordenada_n").trigger("change");*/
+       / $("#ins_c_coordenada_n").trigger("change");*/
         
     });
 </script>

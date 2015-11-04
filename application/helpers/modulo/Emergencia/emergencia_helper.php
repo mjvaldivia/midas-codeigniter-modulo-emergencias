@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/Element/SelectTipo.php");
+require_once(__DIR__ . "/element/SelectTipo.php");
 
 /**
  * Retorna elemento de formulario Select
