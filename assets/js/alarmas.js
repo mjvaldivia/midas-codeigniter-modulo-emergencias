@@ -32,7 +32,7 @@ var Alarma = {};
                     $('#iNombreEmergencia').val(data.ala_c_nombre_emergencia);
                     $('#iTiposEmergencias').val(data.tip_ia_id);
                     $('#iLugarEmergencia').val(data.ala_c_lugar_emergencia);
-                    $('#fechaEmergencia').val(data.ala_d_fecha_recepcion);
+                    $('#fechaEmergencia').val(data.ala_d_fecha_emergencia);
                     $('#usuarioRecepciona').val(data.usuario);
                     $('#fechaRecepcion').val(data.ala_d_fecha_recepcion);
                     $('#iObservacion').val(data.ala_c_observacion);

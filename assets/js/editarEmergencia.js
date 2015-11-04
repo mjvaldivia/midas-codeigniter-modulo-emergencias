@@ -29,7 +29,7 @@ var Emergencia = {};
                     $('#iNombreEmergencia').val(data.eme_c_nombre_emergencia);
                     $('#iTiposEmergencias').val(data.tip_ia_id);
                     $('#iLugarEmergencia').val(data.eme_c_lugar_emergencia);
-                    $('#fechaEmergencia').val(data.eme_d_fecha_recepcion);
+                    $('#fechaEmergencia').val(data.eme_d_fecha_emergencia);
                     $('#usuarioRecepciona').val(data.usuario);
                     $('#fechaRecepcion').val(data.eme_d_fecha_recepcion);
                     $('#iObservacion').val(data.eme_c_observacion);
