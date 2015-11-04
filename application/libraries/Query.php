@@ -246,7 +246,7 @@ class Query{
         $query = $this->getQuery();
 
         $result = $this->_db->query($query, $this->valores);
-        
+        $this->_clear();
         if ($result->num_rows() > 0){
            return $result->row(); 
         } else {
@@ -262,6 +262,7 @@ class Query{
         $query = $this->getQuery();
 
         $result = $this->_db->query($query, $this->valores);
+        $this->_clear();
         if ($result->num_rows() > 0){
             return $result->result_array();
         } else {
@@ -422,6 +423,17 @@ class Query{
                 break;
         }
         return $sql;
+    }
+    
+    protected function _clear(){
+        $this->select = "";
+        $this->from   = "";
+        $this->groupBy = "";
+        $this->where = "";
+        $this->join = "";
+        $this->limit = "";
+        $this->valores = array();
+        $this->orderBy = "";
     }
 }
 

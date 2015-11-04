@@ -29,7 +29,7 @@
 
 <!-- begin DASHBOARD CIRCLE TILES -->
 <div class="row">
-    <div class="col-lg-4 col-sm-12">
+    <div class="col-lg-5 col-sm-12">
         <div class="row">
             <div class="col-lg-6 col-sm-6">
                 <div class="circle-tile">
@@ -83,9 +83,26 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="portlet portlet-green">
+                    <div class="portlet-heading">
+                        <div class="portlet-title">
+                            <h4>Gráfico de emergencia por mes</h4>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="lineChart" class="panel-collapse collapse in">
+                        <div class="portlet-body">
+                            <div id="morris-chart-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
     </div>
-    <div class="col-lg-8 col-sm-12">
+    <div class="col-lg-7 col-sm-12">
         <div class="row top-spaced-doble">
             <div class="col-lg-12">
             <div class="portlet portlet-default">
@@ -218,28 +235,6 @@
                     </div>
                 </div>
             </div></div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="portlet portlet-green">
-            <div class="portlet-heading">
-                <div class="portlet-title">
-                    <h4>Gráfico de meses Alerta/Emergencia</h4>
-                </div>
-                <div class="portlet-widgets">
-                    <a href="javascript:;"><i class="fa fa-refresh"></i></a>
-                    <span class="divider"></span>
-                    <a data-toggle="collapse" data-parent="#accordion" href="#lineChart"><i class="fa fa-chevron-down"></i></a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div id="lineChart" class="panel-collapse collapse in">
-                <div class="portlet-body">
-                    <div id="morris-chart-line"></div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

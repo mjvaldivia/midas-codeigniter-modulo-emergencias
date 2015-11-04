@@ -650,6 +650,7 @@
         options = {};
       }
       this.options = $.extend({}, Morris.Hover.defaults, options);
+      
       this.el = $("<div class='" + this.options["class"] + "'></div>");
       this.el.hide();
       this.options.parent.append(this.el);
@@ -662,7 +663,8 @@
     };
 
     Hover.prototype.html = function(content) {
-      return this.el.html(content);
+      
+      return this.el.html($(content).not(".morris-hover-row-label"));
     };
 
     Hover.prototype.moveTo = function(x, y) {

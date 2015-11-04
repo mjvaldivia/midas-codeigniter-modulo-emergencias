@@ -36,6 +36,40 @@ class Emergencia_Model extends CI_Model {
     }
     
     /**
+     * Lista años con emergencias efectuadas
+     * @return array
+     */
+    public function listarYearsConEmergencias(){
+        $result = $this->_query->select("YEAR(eme_d_fecha_emergencia) as ano")
+                               ->from()
+                               ->groupBy("YEAR(eme_d_fecha_emergencia)")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $mes
+     * @return int
+     */
+    public function cantidadEmergenciasMes($mes, $ano){
+        $result = $this->_query->select("COUNT(*) as cantidad")
+                               ->from()
+                               ->whereAND("MONTH(eme_d_fecha_emergencia)", $mes, "=")
+                               ->whereAND("YEAR(eme_d_fecha_emergencia)", $ano, "=")
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
      * 
      * @param DateTime $fecha_desde
      * @param DateTime $fecha_hasta
@@ -68,6 +102,8 @@ class Emergencia_Model extends CI_Model {
                                ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
+        } else {
+            return 0;
         }
     }
     

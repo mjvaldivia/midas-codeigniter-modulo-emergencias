@@ -161,7 +161,6 @@ var Alarma = {};
                 $("#tblAlarmas").DataTable({
                     data: json.data,
                     columns: json.columns,
-
                     language: {
                         url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
                     },

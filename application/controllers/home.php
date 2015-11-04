@@ -37,9 +37,11 @@ class Home extends CI_Controller{
         sessionValidation();
     }
     
-    
+    /**
+     * Index-
+     */
     public function index () {
-        if ( ! file_exists(APPPATH.'/views/pages/home.php')){
+        if ( ! file_exists(APPPATH.'/views/pages/home/index.php')){
             show_404();
         }
         
@@ -47,8 +49,8 @@ class Home extends CI_Controller{
         $fecha_desde = New DateTime("Now");
         $fecha_desde->sub(new DateInterval('P30D'));
         
-        $this->template->parse("default", "pages/home", array("fecha_desde" => $fecha_desde->format("d/m/Y"),
-                                                              "fecha_hasta" => $fecha_hasta->format("d/m/Y")));
+        $this->template->parse("default", "pages/home/index", array("fecha_desde" => $fecha_desde->format("d/m/Y"),
+                                                                    "fecha_hasta" => $fecha_hasta->format("d/m/Y")));
     }
     
     /**
@@ -79,6 +81,9 @@ class Home extends CI_Controller{
         echo json_encode($respuesta);
     }
     
+    /**
+     * 
+     */
     public function json_eventos_calendario_alertas(){
         $params = $this->input->post(null, true);
         $fecha_desde = DateTime::createFromFormat("Y-m-d", $params["start"]);
@@ -101,6 +106,9 @@ class Home extends CI_Controller{
         echo json_encode($respuesta);
     }
     
+    /**
+     * 
+     */
     public function json_eventos_calendario_emergencias(){
         $params = $this->input->post(null, true);
         $fecha_desde = DateTime::createFromFormat("Y-m-d", $params["start"]);
@@ -121,5 +129,54 @@ class Home extends CI_Controller{
             }
         }
         echo json_encode($respuesta);
+    }
+    
+    /**
+     * 
+     */
+    public function json_cantidad_emergencia_mes(){
+        $lista_years = $this->EmergenciaModel->listarYearsConEmergencias();
+        $data = array();
+        $label_ano = array();
+        $xkeys = array();
+        
+        for($i=0; $i<12; $i++){
+            
+            $data_year = array();
+            $indice = 0;
+            foreach($lista_years as $year){
+                if($year["ano"]!=0){
+                    
+                    if(array_search($year["ano"], $label_ano) === false){
+                        $label_ano[] = $year["ano"];
+                    }
+                    
+                    if(array_search($indice, $xkeys) === false){
+                        $xkeys[] = $indice;
+                    }
+                    
+                    $data_year[$indice] = $this->EmergenciaModel->cantidadEmergenciasMes($i, $year["ano"]);
+                    $indice++;
+                }
+            }
+
+            $data[] = array_merge(array("m" => "2015-" . $this->_corrigeNumeroMes($i+1)), $data_year );
+    
+        }
+        
+
+        $respuesta = array("correcto" => true,
+                           "ykeys" => $xkeys,
+                           "labels" => $label_ano,
+                           "data" => $data);
+        echo json_encode($respuesta);
+    }
+    
+    protected function _corrigeNumeroMes($mes){
+        if($mes < 10){
+            return "0" . (string) $mes;
+        } else {
+            return (string) $mes;
+        }
     }
 }
