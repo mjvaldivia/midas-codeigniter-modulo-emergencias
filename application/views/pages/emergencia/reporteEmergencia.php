@@ -37,7 +37,7 @@
                 <h2><b>Reporte de Emergencias <?= $eme_ia_id ?></b></h2></div>
                 <span style="text-transform: uppercase;"><?= $eme_c_nombre_emergencia ?></span><br>
                 Fecha: <?= $eme_d_fecha_emergencia ?><br>
-                Elaborado por: <br>
+                Elaborado por: <?= $emisor ?><br>
                 Fecha de emisión: <?= date('d-m-Y H:i') ?><br>
                
         </th>

@@ -104,10 +104,9 @@ var ExportMap = {
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
                 latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-                self.map.fitBounds(bounds);
+                
             }
-            //console.log(latLon[0], latLon[1]);
-
+            self.map.fitBounds(bounds);
 
         } 
         
