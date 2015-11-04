@@ -52,7 +52,7 @@
                 </button>
                 <div class="navbar-brand">
                     <a href="index.html" style="color: #FFF">
-                        Emergencia
+                       <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencia
                        <!-- <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" data-1x="img/flex-admin-logo@1x.png" data-2x="img/flex-admin-logo@2x.png" class="hisrc img-responsive" alt="">-->
                     </a>
                 </div>

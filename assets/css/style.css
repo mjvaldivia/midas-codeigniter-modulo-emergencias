@@ -2069,3 +2069,7 @@ input[type="checkbox"]:checked::after,
 
 .top-spaced{margin-top:20px;}
 .top-spaced-doble{margin-top:40px;}
+
+.navbar-brand{
+    padding: 10px;
+}
