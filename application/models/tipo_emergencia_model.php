@@ -7,6 +7,48 @@
  */
 class Tipo_Emergencia_Model extends CI_Model
 {
+    
+    /**
+     *
+     * @var Query 
+     */
+    protected $_query;
+    
+    /**
+     *
+     * @var string 
+     */
+    protected $_tabla = "auxiliar_emergencias_tipo";
+    
+    
+    /**
+     * 
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library('Query');
+        $this->_query = New Query($this->db);
+        $this->_query->setTable($this->_tabla);
+    }
+    
+    /**
+     * Retorna HELPER para consultas generales
+     * @return Query
+     */
+    public function query(){
+        return $this->_query;
+    }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function getById($id){
+        return $this->_query->getById("aux_ia_id", $id);
+    }
+    
+    
     public function find($id) {
         $query = $this->db->query(
             "select aux_ia_id, aux_c_nombre from auxiliar_emergencias_tipo where aux_ia_id = ?",

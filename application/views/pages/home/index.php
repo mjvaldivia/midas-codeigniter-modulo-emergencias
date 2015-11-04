@@ -61,7 +61,7 @@
                         <div class="circle-tile-description text-faded">
                             Emergencias
                         </div>
-                        <div id="emergencias-cantidad" class="circle-tile-number text-faded">
+                        <div id="emergencias-cantidad" data-row="5" class="circle-tile-number text-faded">
                             
                            
                         </div>
@@ -113,58 +113,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="portlet-body">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nombre emergencia</th>
-                                    <th>Tipo emergencia</th>
-                                    <th>Comunas afectadas</th>
-                                    <th>Fecha emergencia</th>
-                                    <th>Lugar</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@mdo</td>
-                                    <td>
-                                        <button class="btn btn-xs btn-blue">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>@mdo</td>
-                                    <td>
-                                        <button class="btn btn-xs btn-blue">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td>@mdo</td>
-                                    <td>
-                                        <button class="btn btn-xs btn-blue">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="contendor-grilla-emergencia" class="table-responsive">
                     </div>
                 </div>
             </div>
@@ -180,58 +129,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="portlet-body">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nombre emergencia</th>
-                                    <th>Tipo emergencia</th>
-                                    <th>Comunas afectadas</th>
-                                    <th>Fecha emergencia</th>
-                                    <th>Lugar</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@mdo</td>
-                                    <td>
-                                        <button class="btn btn-xs btn-blue">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>@mdo</td>
-                                    <td>
-                                        <button class="btn btn-xs btn-blue">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td>@mdo</td>
-                                    <td>
-                                        <button class="btn btn-xs btn-blue">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="contendor-grilla-alarma" class="table-responsive">
                     </div>
                 </div>
             </div></div>
@@ -257,6 +155,11 @@
     </div>
 </div>
 <!-- end DASHBOARD CIRCLE TILES -->
+<?= loadJS("assets/lib/livequery/jquery.livequery.min.js", true) ?>
+
+<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
 <?= loadCSS("assets/lib/daterangepicker/daterangepicker.css", true) ?>
 <?= loadCSS("assets/lib/fullcalendar/fullcalendar.css", true) ?>

@@ -80,6 +80,7 @@ class Emergencia_Model extends CI_Model {
                                ->from()
                                ->whereAND("eme_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
                                ->whereAND("eme_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->orderBy("eme_d_fecha_emergencia", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;

@@ -51,7 +51,8 @@
                     <i class="fa fa-bars"></i> Menu
                 </button>
                 <div class="navbar-brand">
-                    <a href="index.html">
+                    <a href="index.html" style="color: #FFF">
+                        Emergencia
                        <!-- <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" data-1x="img/flex-admin-logo@1x.png" data-2x="img/flex-admin-logo@2x.png" class="hisrc img-responsive" alt="">-->
                     </a>
                 </div>
@@ -355,109 +356,7 @@
         <nav class="navbar-side" role="navigation">
             <div class="navbar-collapse sidebar-collapse collapse">
                 <ul id="side" class="nav navbar-nav side-nav">
-                    
-                    <!-- begin DASHBOARD LINK -->
-                    <li>
-                        <a class="active" href="<?= base_url("/") ?>">
-                            <i class="fa fa-dashboard"></i> Dashboard
-                        </a>
-                    </li>
-                    <!-- end DASHBOARD LINK -->
-                    <!-- begin Alarmas DROPDOWN -->
-                    <li class="panel">
-                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#alarmas">
-                            <i class="fa fa-bell"></i> Alarmas <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="collapse nav" id="alarmas">
-                            <li>
-                                <a href="<?= site_url("alarma/listado") ?>">
-                                    <i class="fa fa-angle-double-right"></i> Listado
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url("alarma/ingreso") ?>">
-                                    <i class="fa fa-angle-double-right"></i> Ingresar
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- end Alarmas DROPDOWN -->
-                    <!-- begin Emergencias DROPDOWN -->
-                    <li class="panel">
-                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#emergencias">
-                            <i class="fa fa-bullhorn"></i> Emergencias <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="collapse nav" id="emergencias">
-                            <li>
-                                <a href="<?= site_url("emergencia/listado") ?>">
-                                    <i class="fa fa-angle-double-right"></i> Listado
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url("emergencia/ingreso") ?>">
-                                    <i class="fa fa-angle-double-right"></i> Ingresar
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- end Emergencias DROPDOWN -->
-                    <!-- begin Emergencias DROPDOWN -->
-                    <li class="panel">
-                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#capas">
-                            <i class="fa fa-globe"></i> Administrador de capas <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="collapse nav" id="capas">
-                            <li>
-                                <a href="<?= site_url("emergencia/listado") ?>">
-                                    <i class="fa fa-angle-double-right"></i> Listado
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url("capas/ingreso") ?>">
-                                    <i class="fa fa-angle-double-right"></i> Ingresar
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- end Emergencias DROPDOWN -->
-                    <!-- begin Simulacion LINK -->
-                    <li>
-                        <a href="<?= base_url("/") ?>">
-                            <i class="fa fa-flag-checkered"></i> Simulación
-                        </a>
-                    </li>
-                    <!-- end Simulacion LINK -->
-                    <!-- begin Documentacion LINK -->
-                    <li>
-                        <a href="<?= base_url("/") ?>">
-                            <i class="fa fa-book"></i> Documentación
-                        </a>
-                    </li>
-                    <!-- end Documentacion LINK -->
-                    <!-- begin Emergencias DROPDOWN -->
-                    <li class="panel">
-                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ayuda">
-                            <i class="fa fa-question-circle "></i> Mesa de ayuda <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="collapse nav" id="ayuda">
-                            <li>
-                                <a href="<?= site_url() ?>">
-                                    <i class="fa fa-angle-double-right"></i> Mensajes
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url() ?>">
-                                    <i class="fa fa-angle-double-right"></i> Soportes pendientes
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= site_url() ?>">
-                                    <i class="fa fa-angle-double-right"></i> Soportes finalizados
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- end Emergencias DROPDOWN -->
+                    <?= menuRender() ?>
                 </ul>
                 <!-- /.side-nav -->
             </div>

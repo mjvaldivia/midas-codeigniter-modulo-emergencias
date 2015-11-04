@@ -7,6 +7,10 @@ var update = function() {
     datetime.html(date.format('dddd<br>MMMM Do, YYYY<br>h:mm:ss A'));
 };
 
+$.fn.hasAttr = function(name) {  
+   return this.attr(name) !== undefined;
+};
+
 $(document).ready(function() {
     
     datetime = $('#datetime')
@@ -31,12 +35,53 @@ $(document).ready(function() {
     setCalendario();
     setGrafico();
     reload();
+    
+    
+    $(".datatable.paginada").livequery(function(){
+  
+        if($(this).parent().hasAttr('data-row')) {
+            var filas = parseInt($(this).parent().attr("data-row"));
+        } else {
+            var filas = 10;
+        }
+        
+        var id = $(this).attr("id");
+        $(this).dataTable({
+            "pageLength": filas,
+            "aaSorting": [],
+            "language": {
+                            "sProcessing":     "Procesando...",
+                            "sLengthMenu":     "Mostrar _MENU_ registros",
+                            "sZeroRecords":    "No se encontraron resultados",
+                            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix":    "",
+                            "sSearch":         "Buscar:",
+                            "sUrl":            "",
+                            "sInfoThousands":  ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst":    "Primero",
+                                "sLast":     "Último",
+                                "sNext":     "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            }
+                        },
+            "fnDrawCallback": function( oSettings ) {
+                $("#" + id).removeClass("hidden");
+             }
+        });
+        
+    });
 });
 
 function setGrafico(){
-    
-    
-    
     $.ajax({         
         dataType: "json",
         cache: false,
@@ -102,9 +147,13 @@ function setRangoFechas(){
     $(fecha).find("span").html(fecha_desde.format('MMM D, YYYY') + ' - ' + fecha_hasta.format('MMM D, YYYY'));
 }
 
+
+
 function reload(){
     reloadCantidadAlertas();
     reloadCantidadEmergencias();
+    reloadGrillaEmergencias();
+    reloadGrillaAlarmas();
 }
 
 function reloadCantidadAlertas(){
@@ -147,6 +196,46 @@ function reloadCantidadEmergencias(){
             if(data.correcto){
                 $("#emergencias-cantidad").html(data.cantidad);
             }
+        }
+    });
+}
+
+function reloadGrillaAlarmas(){
+    var params = {"desde" : $("#fecha_desde").val(),
+                  "hasta" : $("#fecha_hasta").val()};
+    
+    $.ajax({         
+        dataType: "html",
+        cache: false,
+        async: true,
+        data: params,
+        type: "post",
+        url: siteUrl + "home/ajax_grilla_alarmas", 
+        error: function(xhr, textStatus, errorThrown){
+            
+        },
+        success:function(html){
+            $("#contendor-grilla-alarma").html(html);
+        }
+    });
+}
+
+function reloadGrillaEmergencias(){
+    var params = {"desde" : $("#fecha_desde").val(),
+                  "hasta" : $("#fecha_hasta").val()};
+    
+    $.ajax({         
+        dataType: "html",
+        cache: false,
+        async: true,
+        data: params,
+        type: "post",
+        url: siteUrl + "home/ajax_grilla_emergencias", 
+        error: function(xhr, textStatus, errorThrown){
+            
+        },
+        success:function(html){
+            $("#contendor-grilla-emergencia").html(html);
         }
     });
 }

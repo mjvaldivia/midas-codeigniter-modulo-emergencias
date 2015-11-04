@@ -13,3 +13,4 @@ $(".portlet-widgets .fa-chevron-down, .portlet-widgets .fa-chevron-up").click(fu
 $(function() {
     $('.page-content').addClass('page-content-ease-in');
 });
+

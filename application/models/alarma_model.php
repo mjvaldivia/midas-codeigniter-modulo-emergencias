@@ -62,6 +62,7 @@ class Alarma_Model extends CI_Model
                                ->from()
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
                                ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->orderBy("ala_d_fecha_emergencia", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;

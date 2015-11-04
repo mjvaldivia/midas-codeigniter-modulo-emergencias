@@ -6,7 +6,7 @@ var Alarma = {};
 (function () {
     
     this.inicioIngreso = function () {
-
+        //$("#sidebar-toggle").trigger("click");
         $("#iComunas").picklist();
 
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({

@@ -41,16 +41,61 @@ class Home extends CI_Controller{
      * Index-
      */
     public function index () {
+        
+        
         if ( ! file_exists(APPPATH.'/views/pages/home/index.php')){
             show_404();
         }
-        
         $fecha_hasta = New DateTime("Now");
         $fecha_desde = New DateTime("Now");
         $fecha_desde->sub(new DateInterval('P30D'));
         
-        $this->template->parse("default", "pages/home/index", array("fecha_desde" => $fecha_desde->format("d/m/Y"),
+        $this->template->parse("default", "pages/home/index", array("grilla_emergencia" => "",
+                                                                    "fecha_desde" => $fecha_desde->format("d/m/Y"),
                                                                     "fecha_hasta" => $fecha_hasta->format("d/m/Y")));
+    }
+    
+    /**
+     * 
+     */
+    public function ajax_grilla_alarmas(){
+        $params = $this->input->post(null, true);
+        $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
+        $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
+        echo $this->_html_grilla_alarmas($fecha_desde, $fecha_hasta);
+    }
+    
+    /**
+     * 
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     */
+    protected function _html_grilla_alarmas($fecha_desde, $fecha_hasta){
+        $this->load->helper(array("Modulo/Emergencia/emergencia"));
+        $this->load->helper(array("Modulo/Alarma/alarma"));
+        $lista = $this->AlarmaModel->listarAlarmasEntreFechas($fecha_desde, $fecha_hasta);
+        return $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista), true);
+    }
+    
+    /**
+     * 
+     */
+    public function ajax_grilla_emergencias(){
+        $params = $this->input->post(null, true);
+        $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
+        $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
+        echo $this->_html_grilla_emergencias($fecha_desde, $fecha_hasta);
+    }
+    
+    /**
+     * 
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     */
+    protected function _html_grilla_emergencias($fecha_desde, $fecha_hasta){
+        $this->load->helper(array("Modulo/Emergencia/emergencia"));
+        $lista = $this->EmergenciaModel->listarEmergenciasEntreFechas($fecha_desde, $fecha_hasta);
+        return $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista), true);
     }
     
     /**
@@ -89,7 +134,6 @@ class Home extends CI_Controller{
         $fecha_desde = DateTime::createFromFormat("Y-m-d", $params["start"]);
         $fecha_hasta = DateTime::createFromFormat("Y-m-d", $params["end"]);
         
-        
         $respuesta = array();
         
         $lista_alertas = $this->AlarmaModel->listarAlarmasEntreFechas($fecha_desde, $fecha_hasta);
@@ -113,7 +157,6 @@ class Home extends CI_Controller{
         $params = $this->input->post(null, true);
         $fecha_desde = DateTime::createFromFormat("Y-m-d", $params["start"]);
         $fecha_hasta = DateTime::createFromFormat("Y-m-d", $params["end"]);
-        
         
         $respuesta = array();
         
@@ -156,7 +199,7 @@ class Home extends CI_Controller{
                         $xkeys[] = $indice;
                     }
                     
-                    $data_year[$indice] = $this->EmergenciaModel->cantidadEmergenciasMes($i, $year["ano"]);
+                    $data_year[$indice] = $this->EmergenciaModel->cantidadEmergenciasMes($i+1, $year["ano"]);
                     $indice++;
                 }
             }
@@ -165,7 +208,6 @@ class Home extends CI_Controller{
     
         }
         
-
         $respuesta = array("correcto" => true,
                            "ykeys" => $xkeys,
                            "labels" => $label_ano,

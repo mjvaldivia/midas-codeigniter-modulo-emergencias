@@ -1,6 +1,9 @@
 <?php
+/**
+ * View helpers para modulode de direccion
+ */
 
-require_once(__DIR__ . "/Element/SelectComuna.php");
+require_once(APPPATH . "helpers/Modulo/Direccion/Element/SelectComuna.php");
 
 /**
  * Retorna elemento de formulario Select
