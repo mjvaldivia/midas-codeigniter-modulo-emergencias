@@ -27,6 +27,7 @@
 
     <!-- THEME STYLES - Include these on every page. -->
     <?= loadCSS("assets/css/style.css", true) ?>
+    <?= loadJS("assets/js/Modal_Sipresa.js") ?>
     
     <script type="text/javascript">
         
