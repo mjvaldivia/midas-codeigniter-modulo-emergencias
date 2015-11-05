@@ -5,11 +5,12 @@
     <div class="col-lg-12">
         <div class="page-title">
             <h1>Alarmas
-                <small>Gestión de alarmas</small>
+                <small><i class="fa fa-arrow-right"></i> Gestión de alarmas</small>
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Dashboard </a></li>
-                <li class="active"><i class="fa fa-bell"></i> Alarmas </li>
+                <li><i class="fa fa-bell"></i> Alarmas </li>
+                <li class="active"><i class="fa fa-bell"></i> Ingreso </li>
             </ol>
         </div>
     </div>
@@ -24,14 +25,14 @@
 </ul>
 <div id="tab-content" class="tab-content">
     <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
-        <div id='div_tab_1' class='col-xs-12'>
+        <div id='div_tab_1'>
             <br>
              <?= $formulario ?>
         </div>
 
     </div>
     <div class='tab-pane' id='tab2' style='overflow:hidden;'>
-        <div id='div_tab_2' class='col-xs-12'>
+        <div id='div_tab_2'>
 
         </div>
 

@@ -1,5 +1,5 @@
 <li class="panel">
-    <a href="<?= site_url($this->url) ?>">
+    <a href="<?= base_url($url) ?>">
         <i class="fa <?= $icon_class ?>"></i> <?= $name ?>
     </a>
 </li>

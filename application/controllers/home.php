@@ -104,7 +104,7 @@ class Home extends CI_Controller{
         $params = $this->input->post(null, true);
         $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
         $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
-        $cantidad = $this->AlarmaModel->cantidadAlarmasNoActivas($fecha_desde, $fecha_hasta);
+        $cantidad = $this->AlarmaModel->cantidadAlarmas($fecha_desde, $fecha_hasta);
         
         $respuesta = array("correcto" => true,
                            "cantidad"  => $cantidad);
