@@ -38,6 +38,10 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
         $this->_valores = $array;
     }
     
+    /**
+     * Nombre de input
+     * @param string $nombre
+     */
     public function setNombre($nombre){
         $this->_nombre = $nombre;
     }
@@ -51,7 +55,7 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
     }
     
      /**
-     * Nombre del metodo para sacarl el nombre del option
+     * Nombre del metodo para sacarl el value del option
      * @param string $string
      */
     public function setOptionId($string){
@@ -101,6 +105,11 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
         return $html;
     }
     
+    /**
+     * Limpia el id del input para multiselect
+     * @param string $string
+     * @return string
+     */
     protected function _limpiaId($string){
        return str_replace("]", "", str_replace("[", "", $string));
     }

@@ -46,11 +46,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
              font-size: 17px;
     }
 </style>
-<div class="clearfix"></div>
-<ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Dashboard</a></li>  
-  <li class="active">Listado de emergencias</li>
-</ol>
+
+<!-- begin PAGE TITLE AREA -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-title">
+            <h1>Emergencias
+                <small>Listado de emergencias</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-dashboard"></i> Dashboard</li>
+                <li> Emergencias</li>
+                <li class="active" > Listado</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- end PAGE TITLE AREA -->
+
+
 <form class="form-inline">
     <div class="panel panel-primary">
         <div class="panel-heading">

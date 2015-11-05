@@ -12,6 +12,102 @@ class Emergencia_Model extends CI_Model {
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
+    
+    /**
+     *
+     * @var Query 
+     */
+    protected $_query;
+    
+    /**
+     *
+     * @var string 
+     */
+    protected $_tabla = "emergencias";
+    
+    /**
+     * 
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library('Query');
+        $this->_query = New Query($this->db);
+        $this->_query->setTable($this->_tabla);
+    }
+    
+    /**
+     * Lista años con emergencias efectuadas
+     * @return array
+     */
+    public function listarYearsConEmergencias(){
+        $result = $this->_query->select("YEAR(eme_d_fecha_emergencia) as ano")
+                               ->from()
+                               ->groupBy("YEAR(eme_d_fecha_emergencia)")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $mes
+     * @return int
+     */
+    public function cantidadEmergenciasMes($mes, $ano){
+        $result = $this->_query->select("COUNT(*) as cantidad")
+                               ->from()
+                               ->whereAND("MONTH(eme_d_fecha_emergencia)", $mes, "=")
+                               ->whereAND("YEAR(eme_d_fecha_emergencia)", $ano, "=")
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     * 
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return array
+     */
+    public function listarEmergenciasEntreFechas($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->orderBy("eme_d_fecha_emergencia", "DESC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+     /**
+     * Retorna cantidad de emergencias entre fechas dadas
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return int
+     */
+    public function cantidadEmergencias($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("COUNT(*) as cantidad")
+                               ->from()
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("eme_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        } else {
+            return 0;
+        }
+    }
+    
 
     public function guardarEmergencia($params) {
 
