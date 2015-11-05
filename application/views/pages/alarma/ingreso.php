@@ -5,7 +5,7 @@
     <div class="col-lg-12">
         <div class="page-title">
             <h1>Alarmas
-                <small>Gestión de alarmas</small>
+                <small><i class="fa fa-arrow-right"></i> Gestión de alarmas</small>
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Dashboard </a></li>

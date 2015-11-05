@@ -52,7 +52,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
     <div class="col-lg-12">
         <div class="page-title">
             <h1>Emergencias
-                <small>Listado de emergencias</small>
+                <small><i class="fa fa-arrow-right"></i> Listado de emergencias</small>
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i> Dashboard</li>
