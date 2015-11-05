@@ -435,5 +435,12 @@ class Query{
         $this->valores = array();
         $this->orderBy = "";
     }
+
+
+    public function delete($id){
+
+        return $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id));
+        
+    }
 }
 

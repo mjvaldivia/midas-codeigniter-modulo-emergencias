@@ -1,6 +1,8 @@
 create table soportes(
     soporte_id int unsigned not null auto_increment primary key,
     soporte_usuario_fk int(11) NOT NULL,
+    soporte_region tinyint not null,
+    soporte_codigo int not null,
     soporte_fecha_ingreso datetime not null,
     soporte_asunto varchar(1000) not null,
     soporte_estado tinyint(1) unsigned not null default 1,     /* 1: ingresado; 2: en desarrollo; 3: cerrado */

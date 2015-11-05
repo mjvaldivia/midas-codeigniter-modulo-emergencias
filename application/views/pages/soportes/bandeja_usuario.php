@@ -1,13 +1,24 @@
+
+
 <div class="row">
     
     <div class="col-xs-12">
+        <div class="page-title">
+            <h1>Mesa de Ayuda
+                <small><i class="fa fa-arrow-right"></i> Tickets de Soporte</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><i class="fa fa-question-circle"></i> Mesa de ayuda</li>
+                <li>Soportes</li>
+            </ol>
+        </div>
         <h3 class="page-header">
-            Mensajes de Soporte
-            <button class="btn btn-primary pull-right" type="button" onclick="Soportes.nuevoSoporte();">Ingresar nuevo ticket</button>
+            Bandeja Soportes
+            <a data-toggle="modal" class='btn btn-primary pull-right modal-sipresa' href="<?php echo site_url('soportes/nuevoSoporte')?>" data-title="Información de la actividad" data-success='' data-target="#modal_nuevo_soporte">Ingresar nuevo soporte</a>
         </h3>
     </div>
 
-    <div class="table-responsive col-xs-12">
+    <div class="table-responsive col-xs-12 small" id="contenedor-tabla-soportes">
         <table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
             <thead>
                 <tr>
@@ -22,12 +33,15 @@
             <tbody>
                 <?php foreach($soportes as $item):?>
                 <tr>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
-                    <td class="text-center"></td>
+                    <td class="text-center"><?php echo $item->soporte_codigo?></td>
+                    <td class="text-center"><?php echo $item->soporte_fecha_ingreso?></td>
+                    <td class="text-center"><?php echo $item->soporte_asunto?></td>
+                    <td class="text-center"><?php echo mb_strtoupper($item->nombre_usuario)?></td>
+                    <td class="text-center"><?php echo $item->estado?></td>
+                    <td class="text-center">
+                        <?php $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);?>
+                        <a data-toggle="modal" class='btn btn-primary btn-xs modal-sipresa' href="<?php echo $url?>" data-title="Información de la actividad" data-success='' data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                    </td>
                 </tr>
                 <?php endforeach;?>
             </tbody>    
@@ -37,42 +51,7 @@
 </div>
 
 
-<div class="modal fade" id="modal_nuevo_soporte" style="display:none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Nuevo Ticket Soporte</div>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label class="col-xs-12">Asunto</label>
-                        <div class="col-xs-12">
-                            <input type="text" class="form-control" name="asunto_soporte" id="asunto_soporte" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-12">Mensaje</label>
-                        <div class="col-xs-12">
-                            <textarea class="form-control" rows="5" name="texto_soporte" id="texto_soporte"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-12">Agregar adjuntos <button type="button" class="btn btn-primary btn-sm" onclick="Soportes.agregarAdjunto();"><i class="fa fa-plus"></i></button></label>
-                        <div class="col-xs-12" id="listado_adjuntos">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="text-right">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Soportes.enviarSoporte(this.form,this);">Enviar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- <div class="modal fade" id="modal_nuevo_soporte" role="dialog" aria-hidden="true"></div> -->
 
 
 
@@ -80,8 +59,10 @@
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadJS("assets/js/bootbox.min.js") ?>
 
 <?= loadJS("assets/js/soportes.js") ?>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
