@@ -13,6 +13,7 @@ class Alarma_Model extends CI_Model {
     public $activado = 1;
     public $rechazado = 2;
 
+    const ACTIVADO = 1;
     const REVISION = 3;
 
     /**
@@ -67,6 +68,7 @@ class Alarma_Model extends CI_Model {
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
                                ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
                                ->orderBy("ala_d_fecha_emergencia", "DESC")
+                               ->whereAND("est_ia_id", Alarma_Model::ACTIVADO, "<>")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -81,11 +83,12 @@ class Alarma_Model extends CI_Model {
      * @param DateTime $fecha_hasta
      * @return int
      */
-    public function cantidadAlarmasNoActivas($fecha_desde, $fecha_hasta){
+    public function cantidadAlarmas($fecha_desde, $fecha_hasta){
         $result = $this->_query->select("COUNT(*) as cantidad")
                                ->from()
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
                                ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->whereAND("est_ia_id", Alarma_Model::ACTIVADO, "<>")
                                ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
