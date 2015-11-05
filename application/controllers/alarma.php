@@ -44,41 +44,31 @@ class Alarma extends CI_Controller {
      * Formulario de ingreso de alarma
      */
     public function ingreso() {
-        $this->load->helper('session');
-        //var_dump($this->session->all_userdata());
         $this->load->helper("modulo/direccion/comuna");
         $this->load->helper("modulo/emergencia/emergencia");
         
         if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
             show_404();
         }
+        
         $datos['es_CRE'] = 0;
-        if((int)$this->session->userdata('session_idCargo')==4)
+        if((int)$this->session->userdata('session_idCargo')==4){
             $datos['es_CRE'] = 1;
+        }
+        
         $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
-       
         $this->template->parse("default", "pages/alarma/ingreso", $data);
     }
-    
-    
-    
-        public function editar() {
 
-        // load basicos
-        $this->load->library("template");
-        $this->load->helper("session");
-
-        sessionValidation();
-
+    public function editar() {
         $params = $this->uri->uri_to_assoc();
         $datos['ala_ia_id'] = $params['id'];
 
-                    $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
-            $this->template->parse("default", "pages/alarma/editar", $data);
+        $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
+        $this->template->parse("default", "pages/alarma/editar", $data);
     }
     
-        public function getAlarma() {
-        $this->load->helper("utils");
+    public function getAlarma() {
         $params = $this->uri->uri_to_assoc();
         $this->load->model("alarma_model", "AlarmaModel");
         return $this->AlarmaModel->getJsonAlarma($params);
@@ -234,7 +224,6 @@ class Alarma extends CI_Controller {
      * Retorna estados de la alarma
      */
     public function jsonEstadosAlarmas() {
-        $this->load->model("alarma_model", "AlarmaModel");
         $estados = $this->AlarmaModel->obtenerEstados();
 
         $json = array();

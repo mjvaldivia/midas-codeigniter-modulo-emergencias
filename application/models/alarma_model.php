@@ -1,36 +1,47 @@
 <?php
-
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')){
     exit('No direct script access allowed');
+}
 
 /**
- * User: claudio
- * Date: 17-08-15
- * Time: 10:09 AM
+ * Alarma Model
  */
 class Alarma_Model extends CI_Model {
 
-    public $activado = 1;
-    public $rechazado = 2;
-
+    /**
+     * Alarma rechazada
+     * @see tip_ia_id en tabla alertas 
+     */
+    const RECHAZADO = 2;
+    
+    /**
+     * La alarma se convierte en 
+     * emergencia
+     * @see tip_ia_id en tabla alertas 
+     */
+    const ACTIVADO = 1;
+    
+    /**
+     * La alarma esta ingresada
+     * @see tip_ia_id en tabla alertas 
+     */
     const REVISION = 3;
 
     /**
-     *
+     * QueryBuilder
      * @var Query 
      */
     protected $_query;
 
     /**
-     *
+     * Nombre de tabla
      * @var string 
      */
     protected $_tabla = "alertas";
 
     /**
-     * 
+     * Constructor
      */
-
     public function __construct() {
         parent::__construct();
         $this->load->library('Query');
@@ -39,7 +50,7 @@ class Alarma_Model extends CI_Model {
     }
     
     /**
-     * Retorna HELPER para consultas generales
+     * Retorna QueryBuilder para consultas generales
      * @return Query
      */
     public function query(){
@@ -48,15 +59,15 @@ class Alarma_Model extends CI_Model {
     
     /**
      * Retorna la alarma por el identificador
-     * @param int $id
-     * @return row
+     * @param int $id clave primaria
+     * @return object
      */
     public function getById($id){
         return $this->_query->getById("ala_ia_id", $id);
     }
     
     /**
-     * 
+     * Lista alarmas entre fechas dadas
      * @param DateTime $fecha_desde
      * @param DateTime $fecha_hasta
      * @return array
@@ -66,6 +77,7 @@ class Alarma_Model extends CI_Model {
                                ->from()
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
                                ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->whereAND("est_ia_id", Alarma_Model::ACTIVADO, "<>")
                                ->orderBy("ala_d_fecha_emergencia", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
@@ -81,11 +93,12 @@ class Alarma_Model extends CI_Model {
      * @param DateTime $fecha_hasta
      * @return int
      */
-    public function cantidadAlarmasNoActivas($fecha_desde, $fecha_hasta){
+    public function cantidadAlarmas($fecha_desde, $fecha_hasta){
         $result = $this->_query->select("COUNT(*) as cantidad")
                                ->from()
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
                                ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->whereAND("est_ia_id", Alarma_Model::ACTIVADO, "<>")
                                ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
