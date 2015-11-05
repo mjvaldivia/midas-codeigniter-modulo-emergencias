@@ -142,10 +142,18 @@ Class Layout_Menu_Render{
                     }
                     $controller = $datos['controller'];
                 }
+                
+                
+                if(isset($datos["wildcard"])){
+                    $action = $datos["wildcard"];
+                } else {
+                    $action = $datos['action'];
+                }
+                
                 $html .= $this->ci->load->view("pages/layout/menu-item", 
                                                array("name" => $name,
                                                      "class" => $class,
-                                                     "url" => "/" . $controller . "/" . $datos['action']), true);
+                                                     "url" => "/" . $controller . "/" . $action), true);
 
             }
         }

@@ -3,8 +3,8 @@ var datetime = null,
     date = null;
 
 var update = function() {
-    date = moment(new Date())
-    datetime.html(date.format('dddd<br>MMMM Do, YYYY<br>h:mm:ss A'));
+    date = moment(new Date());
+    datetime.html(date.lang("es").format('dddd<br>MMMM D, YYYY<br>h:mm:ss A'));
 };
 
 $.fn.hasAttr = function(name) {  
