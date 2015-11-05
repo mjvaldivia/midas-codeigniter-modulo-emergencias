@@ -175,4 +175,4 @@
 <?= loadJS("assets/lib/morris/morris.js", true) ?>
 
 
-<?= loadJS("assets/js/Modulo/dashboard.js", true) ?>
+<?= loadJS("assets/js/modulo/dashboard.js", true) ?>
