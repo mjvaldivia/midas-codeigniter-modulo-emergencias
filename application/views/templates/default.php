@@ -9,8 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Flex Admin - Responsive Admin Theme</title>
-
+    <title>Emergencias</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
     <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
     <?= loadCSS("assets/lib/pace/pace.css", true) ?>
     <?= loadJS("assets/lib/pace/pace.js", true) ?>
@@ -18,7 +18,8 @@
     <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
     <!-- GLOBAL STYLES - Include these on every page. -->
     <?= loadCSS("assets/lib/bootstrap-3.3.2-dist/css/bootstrap.css", true) ?>
-
+    <?= loadCSS("assets/lib/qtip/jquery.qtip.min.css", true) ?>
+    
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
     <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
@@ -74,7 +75,7 @@
                 </button>
                 <div class="navbar-brand">
                     <a href="index.html" style="color: #FFF">
-                       <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencia
+                       <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencias
                        <!-- <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" data-1x="img/flex-admin-logo@1x.png" data-2x="img/flex-admin-logo@2x.png" class="hisrc img-responsive" alt="">-->
                     </a>
                 </div>
@@ -86,7 +87,7 @@
                 <!-- begin LEFT SIDE WIDGETS -->
                 <ul class="nav navbar-left">
                     <li class="tooltip-sidebar-toggle">
-                        <a href="#" id="sidebar-toggle" data-toggle="tooltip" data-placement="right" title="Sidebar Toggle">
+                        <a href="#" id="sidebar-toggle" data-toogle-param="abajo" data-toggle="tooltip" data-placement="right" title="Ocultar menu">
                             <i class="fa fa-bars"></i>
                         </a>
                     </li>
@@ -107,11 +108,11 @@
 
                             <!-- Messages Dropdown Heading -->
                             <li class="dropdown-header">
-                                <i class="fa fa-envelope"></i> 4 New Messages
+                                <i class="fa fa-envelope"></i> No hay mensajes nuevos
                             </li>
 
                             <!-- Messages Dropdown Body - This is contained within a SlimScroll fixed height box. You can change the height using the SlimScroll jQuery features. -->
-                            <li id="messageScroll">
+                           <!-- <li id="messageScroll">
                                 <ul class="list-unstyled">
                                     <li>
                                         <a href="#">
@@ -183,13 +184,13 @@
                                     </li>
                                 </ul>
                             </li>
+                            
 
-
-                            <!-- Messages Dropdown Footer -->
+                            
                             <li class="dropdown-footer">
                                 <a href="mailbox.html">Read All Messages</a>
                             </li>
-
+                            -->
 
                         </ul>
                         <!-- /.dropdown-menu -->
@@ -275,9 +276,11 @@
     
     <?= loadJS("assets/lib/bootstrap-3.3.2-dist/js/bootstrap.js", true) ?>
     <?= loadJS("assets/lib/popupoverlay/jquery.popupoverlay.js", true) ?>
+    <?= loadJS("assets/lib/livequery/jquery.livequery.min.js", true) ?>
     <?= loadJS("assets/lib/popupoverlay/defaults.js", true) ?>
     <?= loadJS("assets/lib/popupoverlay/logout.js", true) ?>
     <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
+    <?= loadJS("assets/lib/qtip/jquery.qtip.min.js", true) ?>
     <?= loadJS("assets/js/base.js") ?>
     <?= loadJS("assets/js/utils.js") ?>
     <?= loadJS("assets/js/loading.js") ?>
