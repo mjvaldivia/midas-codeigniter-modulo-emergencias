@@ -34,6 +34,9 @@ var Soportes = {};
 
         if(error != ""){
             
+        }else{
+            var formulario = $(form).serialize();
+            
         }
     }
 
