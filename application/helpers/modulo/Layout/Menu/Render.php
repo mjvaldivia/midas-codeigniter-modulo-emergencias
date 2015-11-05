@@ -39,7 +39,7 @@ Class Layout_Menu_Render{
                                                           "child" => array("Listado" => array("controller" => "emergencia",
                                                                                               "action"     => "listado"),
                                                                            "Ingreso" => array("controller" => "emergencia",
-                                                                                              "action" => "ingreso"))),       
+                                                                                              "action" => "listado"))),       
                                    "Administrador de capas" => array("icon_class" => "fa-globe",
                                                                      "child" => array("Listado" => array("controller" => "capas",
                                                                                                          "action"     => "listado"),
