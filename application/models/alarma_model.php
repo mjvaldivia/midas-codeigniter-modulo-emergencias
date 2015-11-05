@@ -81,7 +81,7 @@ class Alarma_Model extends CI_Model {
      * @param DateTime $fecha_hasta
      * @return int
      */
-    public function cantidadAlarmas($fecha_desde, $fecha_hasta){
+    public function cantidadAlarmasNoActivas($fecha_desde, $fecha_hasta){
         $result = $this->_query->select("COUNT(*) as cantidad")
                                ->from()
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
