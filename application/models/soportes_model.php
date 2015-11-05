@@ -26,4 +26,17 @@ class Soportes_Model extends CI_Model {
         $this->_query->setTable($this->_tabla);
     }
 
+
+    public function obtSoportesUsuario($id_usuario) {
+        $query = "select * from ".$this->_tabla." order by soporte_fecha_ingreso DESC";
+        $query = $this->db->query($query);
+
+        $resultados = array();
+
+        if ($query->num_rows() > 0)
+            $resultados = $query->result_array();
+
+        return $resultados;
+    }
+
 }    

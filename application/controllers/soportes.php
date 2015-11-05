@@ -15,9 +15,14 @@ class Soportes extends CI_Controller {
 
         $this->load->model("soportes_model", "SoportesModel");
 
-
+    }
+    
     public function bandeja_usuario(){
-
+        $id_usuario = $this->session->userdata['session_idUsuario'];
+        $soportes = $this->SoportesModel->obtSoportesUsuario($id_usuario);
+        $data = array(
+            'soportes' => $soportes
+            );
         $this->template->parse("default", "pages/soportes/bandeja_usuario", $data);
     }    
 }
