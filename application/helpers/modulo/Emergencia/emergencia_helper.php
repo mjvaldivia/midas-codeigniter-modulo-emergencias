@@ -3,9 +3,9 @@
  * View helpers para modulo emergencias
  */
 
-require_once(APPPATH . "helpers/Modulo/Emergencia/Element/SelectTipo.php");
-require_once(APPPATH . "helpers/Modulo/Emergencia/Nombre/Tipo.php");
-require_once(APPPATH . "helpers/Modulo/Emergencia/Nombre/Comunas.php");
+require_once(APPPATH . "helpers/modulo/emergencia/element/SelectTipo.php");
+require_once(APPPATH . "helpers/modulo/emergencia/nombre/Tipo.php");
+require_once(APPPATH . "helpers/modulo/emergencia/nombre/Comunas.php");
 /**
  * Retorna elemento de formulario Select
  * @param int $id_region identificador de region

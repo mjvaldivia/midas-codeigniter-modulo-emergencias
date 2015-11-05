@@ -3,7 +3,7 @@
  * View helpers para modulode de direccion
  */
 
-require_once(APPPATH . "helpers/Modulo/Direccion/Element/SelectComuna.php");
+require_once(APPPATH . "helpers/modulo/direccion/element/SelectComuna.php");
 
 /**
  * Retorna elemento de formulario Select

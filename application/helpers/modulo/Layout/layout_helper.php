@@ -1,6 +1,6 @@
 <?php
 
-require_once(APPPATH . "helpers/Modulo/Layout/Menu/Render.php");
+require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 
 /**
  * Despliega el menu

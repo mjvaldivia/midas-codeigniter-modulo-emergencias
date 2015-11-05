@@ -1,6 +1,6 @@
 <?php
 
-require_once(APPPATH . "helpers/Modulo/Alarma/Nombre/Comunas.php");
+require_once(APPPATH . "helpers/modulo/alarma/nombre/Comunas.php");
 
 /**
  * Retorna comunas separadas por coma
