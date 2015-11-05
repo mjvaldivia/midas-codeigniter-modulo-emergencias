@@ -42,7 +42,6 @@ class Home extends CI_Controller{
      */
     public function index () {
         
-        
         if ( ! file_exists(APPPATH.'/views/pages/home/index.php')){
             show_404();
         }
@@ -71,8 +70,8 @@ class Home extends CI_Controller{
      * @param DateTime $fecha_hasta
      */
     protected function _html_grilla_alarmas($fecha_desde, $fecha_hasta){
-        $this->load->helper(array("Modulo/Emergencia/emergencia"));
-        $this->load->helper(array("Modulo/Alarma/alarma"));
+        $this->load->helper(array("modulo/emergencia/emergencia"));
+        $this->load->helper(array("modulo/alarma/alarma"));
         $lista = $this->AlarmaModel->listarAlarmasEntreFechas($fecha_desde, $fecha_hasta);
         return $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista), true);
     }
@@ -93,7 +92,7 @@ class Home extends CI_Controller{
      * @param DateTime $fecha_hasta
      */
     protected function _html_grilla_emergencias($fecha_desde, $fecha_hasta){
-        $this->load->helper(array("Modulo/Emergencia/emergencia"));
+        $this->load->helper(array("modulo/emergencia/emergencia"));
         $lista = $this->EmergenciaModel->listarEmergenciasEntreFechas($fecha_desde, $fecha_hasta);
         return $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista), true);
     }
@@ -105,7 +104,7 @@ class Home extends CI_Controller{
         $params = $this->input->post(null, true);
         $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
         $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
-        $cantidad = $this->AlarmaModel->cantidadAlarmas($fecha_desde, $fecha_hasta);
+        $cantidad = $this->AlarmaModel->cantidadAlarmasNoActivas($fecha_desde, $fecha_hasta);
         
         $respuesta = array("correcto" => true,
                            "cantidad"  => $cantidad);
