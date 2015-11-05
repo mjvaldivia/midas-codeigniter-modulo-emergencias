@@ -4,21 +4,69 @@
 var Alarma = {};
 
 (function () {
-    
-    this.inicioIngreso = function () {
-        //$("#sidebar-toggle").trigger("click");
-        $("#iComunas").picklist();
+    this.inicioEdicion = function () {
+        var ala_ia_id = $('#ala_ia_id').val();
+        $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
+        $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
+            format: "DD-MM-YYYY HH:mm"
+        });
+        $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
+            handlerLoad: function () {
 
+
+                $.getJSON(siteUrl + 'alarma/getAlarma/id/' + ala_ia_id, function (data) {
+                    var str_comunas = data.comunas;
+                    if (str_comunas !== null) {
+                        var arr_com = str_comunas.split(",");
+
+                        $('#iComunas').picklist({
+                            'value': arr_com
+                        });
+                    } else {
+                        $('#iComunas').picklist();
+                    }
+                    $('#eme_ia_id').val(data.eme_ia_id);
+                    $('#ala_ia_id').val(data.ala_ia_id);
+                    $('#iNombreInformante').val(data.ala_c_nombre_informante);
+                    $('#iTelefonoInformante').val(data.ala_c_telefono_informante);
+                    $('#iNombreEmergencia').val(data.ala_c_nombre_emergencia);
+                    $('#iTiposEmergencias').val(data.tip_ia_id);
+                    $('#iLugarEmergencia').val(data.ala_c_lugar_emergencia);
+                    $('#fechaEmergencia').val(data.ala_d_fecha_emergencia);
+                    $('#usuarioRecepciona').val(data.usuario);
+                    $('#fechaRecepcion').val(data.ala_d_fecha_recepcion);
+                    $('#iObservacion').val(data.ala_c_observacion);
+                    $('#ins_c_coordenada_n').val(data.ala_c_utm_lat);
+                    $('#ins_c_coordenada_e').val(data.ala_c_utm_lng);
+                    initialize();
+                });
+            },
+            initial_text: null
+        });
+
+    }
+    this.inicioIngreso = function () {
+
+
+
+
+        $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
+        $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
+            handlerLoad: function () {
+                $("#iComunas").picklist();
+            },
+            initial_text: null
+        });
         $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
             format: "DD-MM-YYYY HH:mm"
         });
 
-        
+
     };
 
     this.inicioListado = function () {
         $("#TiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
-        $("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas",{selected_value:3});
+        $("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas", {selected_value: 3});
         $("#btnBuscarAlarmas").click(this.eventoBtnBuscar);
         this.eventoBtnBuscar();
         $(window).resize(function () {
@@ -44,10 +92,11 @@ var Alarma = {};
 
         if (parseInt(estado)) {
             url += "/estado/" + estado;
+        } else if (parseInt(estado) !== 0)
+        {
+            url += "/estado/3";
         }
-        else if(parseInt(estado)!==0)
-        { url += "/estado/3";}
-        
+
 
         var tabla = $('#tblAlarmas').DataTable();
         tabla.destroy();
@@ -59,9 +108,9 @@ var Alarma = {};
             cache: false,
             url: url,
             data: '',
-            success: function(retorno){
+            success: function (retorno) {
                 var json = JSON.parse(retorno);
-            
+
                 json.columns[0]["mRender"] = function (data, type, row) {
                     var html = "";
                     var icon = '';
@@ -108,17 +157,17 @@ var Alarma = {};
                             break;
                     }
 
-                    if(row.est_ia_id==1 || row.est_ia_id==2)
+                    if (row.est_ia_id == 1 || row.est_ia_id == 2)
                         disabled = 'disabled';
 
                     var html = "";
                     html += "<div class=\"col-md-12 shadow\" style=\"padding: 10px;\">";
-                    html += "    <div class=\"col-md-2 text-center\">"+ icon +"</div>";
+                    html += "    <div class=\"col-md-2 text-center\">" + icon + "</div>";
                     html += "    <div class=\"col-md-8\">";
                     html += "        <div class=\"form-group col-md-12\">";
                     html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Fecha:</label>";
                     html += "            <div class=\"col-md-8\">";
-                    html += "                "+ row.ala_d_fecha_emergencia + "";
+                    html += "                " + row.ala_d_fecha_emergencia + "";
                     html += "            </div>";
                     html += "        </div>";
                     html += "        <div class=\"form-group col-md-12\">";
@@ -142,10 +191,10 @@ var Alarma = {};
                     html += "    </div>";
                     html += "    <div class=\"col-md-2 text-center\">";
                     html += "       <div class=\"btn-group\">";
-                    html += "           <a title=\"Generar emergencia\" class=\"btn btn-default "+disabled+"\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
+                    html += "           <a title=\"Generar emergencia\" class=\"btn btn-default " + disabled + "\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
                     html += "               <i class=\"fa fa-bullhorn\"></i>";
                     html += "            </a>";
-                    html += "           <a title=\"Editar\" class=\"btn btn-default\" onclick=Alarma.editarAlarma(" + row.ala_ia_id + ")>";
+                    html += "           <a title=\"Editar\" class=\"btn btn-default " + disabled + "\" onclick=Alarma.editarAlarma(" + row.ala_ia_id + ")>";
                     html += "               <i class=\"fa fa-pencil\"></i>";
                     html += "           </a>";
                     html += "           <a title=\"Eliminar\" class=\"btn btn-default\" onclick=Alarma.eliminarAlarma(" + row.ala_ia_id + ")>";
@@ -173,18 +222,24 @@ var Alarma = {};
 
     };
 
-    this.guardarForm = function () {
+    this.guardarForm = function (modo) {
         if (!Utils.validaForm('frmIngresoAlarma'))
             return false;
 
         var params = $('#frmIngresoAlarma').serialize();
         $.post(siteUrl + "alarma/guardaAlarma", params, function (data) {
             var response = jQuery.parseJSON(data);
+            var msg;
+
+            if ($('#ala_ia_id').val()=='') //insertar
+                msg = 'Se ha insertado correctamente<br>' +
+                        'Estado email: ' + response.res_mail;
+            else
+                msg = 'Se ha editado correctamente<br>';
             if (response.ala_ia_id > 0) {
                 bootbox.dialog({
                     title: "Resultado de la operacion",
-                    message: 'Se ha insertado correctamente<br>' +
-                            'Estado email: ' + response.res_mail
+                    message: msg
                     ,
                     buttons: {
                         danger: {
@@ -192,13 +247,18 @@ var Alarma = {};
                             className: "btn-info",
                             callback: function () {
                                 var tip_ia_id = $('#iTiposEmergencias').val();
-                                if (tip_ia_id == 15) {
-                                    location.href = siteUrl + 'alarma/paso2/id/' + data + '/tip_ia_id/' + tip_ia_id;
-                                } else { 
-                                    if($("#pResultados").length){
-                                        Alarma.eventoBtnBuscar();
-                                        Alarma.limpiar();
-                                    } else {
+                                if (tip_ia_id == 15 && false) { // por ahora no aplica el paso 2
+                                    location.href = siteUrl + 'alarma/paso2/id/' + response.ala_ia_id + '/tip_ia_id/' + tip_ia_id;
+                                } else {
+                                    if ($("#pResultados").length) {
+                                        if (modo == 1)
+                                            location.href = siteUrl + 'emergencia/generaEmergencia/id/' + response.ala_ia_id;
+                                        else
+                                        {
+                                            Alarma.eventoBtnBuscar();
+                                            Alarma.limpiar();
+                                        }
+                                    } else { // es edicion
                                         window.close();
                                     }
                                 }
@@ -211,7 +271,7 @@ var Alarma = {};
             } else {
                 bootbox.dialog({
                     title: "Resultado de la operacion",
-                    message: 'Error al insertar',
+                    message: 'Error al insertar/editar',
                     buttons: {
                         danger: {
                             label: "Cerrar",
@@ -294,6 +354,7 @@ var map;
 var marcador = {};
 var geozone;
 var marcador = [];
+var ac;
 function initialize() {
     $.getJSON(siteUrl + 'session/getMinMaxUsr', null, function (data) {
         var defaultBounds = new google.maps.LatLngBounds();
@@ -308,52 +369,38 @@ function initialize() {
         defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
         latLon = GeoEncoder.utmToDecimalDegree(parseFloat(data.com_c_xmax), parseFloat(data.com_c_ymax), geozone);
         defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-        map.fitBounds(defaultBounds);
 
 
         $('#geozone').val(geozone);
 
-        new google.maps.places.Autocomplete(
+        set_marker_by_inputs();
+
+
+        if (marcador.length == 0)
+            map.fitBounds(defaultBounds);
+
+
+        ac = new google.maps.places.Autocomplete(
                 (document.getElementById('iLugarEmergencia')), {
             componentRestrictions: {country: 'cl'}
         });
 
-        var input = $("#iLugarEmergencia").get(0);
-        var searchBox = new google.maps.places.SearchBox(input, {bounds: defaultBounds});
+//        var input = $("#iLugarEmergencia").get(0);
+//        var searchBox = new google.maps.places.SearchBox(input, {bounds: defaultBounds});
 
-        google.maps.event.addListener(map, 'bounds_changed', function () {
-            var bounds = map.getBounds();
-            searchBox.setBounds(bounds);
-        });
 
-        searchBox.addListener('places_changed', function () {
-            var places = searchBox.getPlaces();
-
-            if (places.length === 0) {
+        ac.addListener('place_changed', function () {
+            var place = ac.getPlace();
+            if (place.length === 0) {
                 return;
             }
-
-
-
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function (place) {
-                set_marker(place.geometry.location);
-                if (place.geometry.viewport) {
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-                setInputs(place.geometry.location);
-
-
-            });
-            // map.fitBounds(bounds);
-
+            set_marker(place.geometry.location);
+            setInputs(place.geometry.location);
         });
 
     });
 }
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
 
 function set_marker(position) {
 
@@ -367,7 +414,7 @@ function set_marker(position) {
                 draggable: true,
                 //animation: google.maps.Animation.DROP,
                 position: position,
-                icon: baseUrl+'assets/img/referencia.png'
+                icon: baseUrl + 'assets/img/referencia.png'
             }));
 
 

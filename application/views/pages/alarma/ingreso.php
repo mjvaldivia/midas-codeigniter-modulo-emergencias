@@ -53,7 +53,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioIngreso();
-        
+        initialize();
         $('#div_tab_2').load(siteUrl+'alarma/listado');
         
     });

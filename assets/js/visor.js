@@ -9,7 +9,8 @@ var VisorMapa = {
     otherControlColor: null,
     otherControlDataColor: null,
     otherControlSelected: null,
-    otherStatusInfoControl: "off"
+    otherStatusInfoControl: "off",
+    centro : null
 };
 
 (function () {
@@ -25,6 +26,8 @@ var VisorMapa = {
         }
     };
     this.makeMap = function (data) {
+        var emergencia= false; 
+        var ref= false;
         var self = this;
         var json = JSON.parse(data);
         var bounds = new google.maps.LatLngBounds();
@@ -131,42 +134,67 @@ var VisorMapa = {
 
         if (referencia.ref_lat && referencia.ref_lng && referencia.geozone)
         {
-            this.drawReferencia(referencia.ref_lat, referencia.ref_lng, referencia.geozone);
-             
+            ref = true;
+            self.drawReferencia(referencia.ref_lat, referencia.ref_lng, referencia.geozone);
+            this.centro = self.referenciaMarker.getGeometry().get();
 
         }
+
         if (json.geojson)
         {
-            this.map.data.loadGeoJson(json.geojson, null, function (features) {
-                for (var i = 0; i < features.length; i++) {
-                    var feature = features[i];
-                    if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
-                        self.map.data.remove(self.referenciaMarker);
-                        self.emergencyMarker = feature;
-                        var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
-                        self.map.setCenter(gooLatLng);
-                        self.map.setZoom(14);
-
-                    } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
-                        self.emergencyRadius = feature;
-
-                }
-            });
-
+            emergencia = true;
+            self.loadJson(json.geojson);
         }
-
-
-
-
 
         if (json.capas)
         {
-            $('#selected_items').val(json.capas);
-            this.cargarCapas();
+            self.cargarCapas(json.capas);
         }
-        self.map.setZoom(17);
+
+        if (!emergencia && !ref)
+        {
+
+            var bounds = new google.maps.LatLngBounds();
+
+            for (var i = 0; i < json.coordinates.length; i++) {
+                var c = json.coordinates[i];
+
+                if (!c.com_c_xmin || !c.com_c_ymin || !c.com_c_xmax || !c.com_c_ymax)
+                    continue;
+
+                var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmin), parseFloat(c.com_c_ymin), c.com_c_geozone);
+                bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+                latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
+                bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
+                this.map.fitBounds(bounds);
+            }
+            //console.log(latLon[0], latLon[1]);
+
+
+        } 
     };
     var self = this;
+    this.loadJson = function (geojson) {
+        self.map.data.loadGeoJson(geojson, null, function (features) {
+            for (var i = 0; i < features.length; i++) {
+                
+                var feature = features[i];
+                if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
+                    self.map.data.remove(self.referenciaMarker);
+                    self.emergencyMarker = feature;
+                    var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
+                    
+                    self.centro = gooLatLng;
+                   
+                    
+                } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
+                    self.emergencyRadius = feature;
+
+            }
+            self.map.setCenter(self.centro);
+            self.map.setZoom(15);
+        });
+    };
     this.drawReferencia = function (ref_lat, ref_lng, geozone) {
         var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(ref_lng), parseFloat(ref_lat), geozone);
 
@@ -181,9 +209,8 @@ var VisorMapa = {
             }
         });
         this.map.data.add(point);
-        self.referenciaMarker = point;
-        this.map.setCenter(self.referenciaMarker.getGeometry().get());
-        
+        this.referenciaMarker = point;
+
     };
 
     var crossingData = function (event) {
@@ -481,10 +508,10 @@ var VisorMapa = {
     $("#ctrlLayers").click(function () {
 
         $("#wrapper").toggleClass("toggled");
-
+        
         var items = $('#selected_items').val().split(',');
-
-        $.get(siteUrl + 'visor/obtenerCapasDT/id/' + items, function (data) {
+        
+        $.get(siteUrl + 'visor/obtenerCapasDT/eme_ia_id/'+ $('#hIdEmergencia').val()+'/id/' + items, function (data) {
             var html = '';
             var json = JSON.parse(data);
             $.each(json, function (k, v) {

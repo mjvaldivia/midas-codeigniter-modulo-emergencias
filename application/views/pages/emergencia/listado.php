@@ -42,7 +42,7 @@ background: -ms-linear-gradient(top, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rg
 background: linear-gradient(to bottom, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rgb(10,119,213) 50%,rgb(83,159,225) 79%,rgb(135,188,234) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=0 );
     }
-    .btn-default{
+    .btn-group .btn-default{
              font-size: 17px;
     }
 </style>
@@ -112,7 +112,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
         </div>
     </div>
 </div>
-
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>

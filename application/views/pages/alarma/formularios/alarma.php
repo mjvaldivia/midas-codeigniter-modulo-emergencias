@@ -1,5 +1,5 @@
 <form  class="form-horizontal"  name='frmIngresoAlarma' id='frmIngresoAlarma' >
-    <input type="hidden" name="id" value="<?= $id ?>" />
+    <input type="hidden" name="ala_ia_id" id="ala_ia_id" value="<?= $ala_ia_id ?>" />
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Datos de la alarma</h3>
@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label for="iTiposEmergencias" class="control-label col-md-3">Tipo de la emergencia (*):</label>
                         <div class="col-md-6">
-                            <?= formElementSelectEmergenciaTipo("iTiposEmergencias", NULL, $id_tipo_emergencia, array("class" => "form-control required", "placeholder" => "Tipo de la emergencia")) ?>
+                            <select id="iTiposEmergencias" name='iTiposEmergencias' class="form-control required" placeholder='Tipo de la emergencia'></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -71,7 +71,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">Fecha/Hora de la emergencia:</label>
                         <div class="col-md-3">
-                            <div class="input-group" id="fechaEmergencia" type="datetime">
+                            <div class="input-group" id="divfechaEmergencia" type="datetime">
                                 <input type="text" class="form-control" placeholder="Fecha / Hora" value="<?= $fecha_emergencia ?>" id="fechaEmergencia" name="fechaEmergencia">
                                 <div class="input-group-addon" style="cursor: pointer">
                                     <i class="fa fa-calendar"></i>
@@ -82,8 +82,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">Fecha/Hora de recepción (*):</label>
                         <div class="col-md-3">
-                            <div class="input-group" id="fechaRecepcion" type="datetime">
-                                <input type="text" class="form-control required" placeholder="Fecha / Hora Recepcion" value="<?= $fecha_recepcion ?>" id="fechaRecepcion" name="fechaRecepcion" value="<?= date('d-m-Y H:i') ?>">
+                            <div class="input-group" id="divfechaRecepcion" type="datetime">
+                                <input type="text" class="form-control required" placeholder="Fecha / Hora Recepcion" value="<?= ($id!==null)?$fecha_recepcion:date('d-m-Y H:i') ?>" id="fechaRecepcion" name="fechaRecepcion" >
                                 <div  class="input-group-addon" style="cursor: pointer">
                                     <i class="fa fa-calendar"></i>
                                 </div>
@@ -92,14 +92,19 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Comuna(s) afectada(s) (*):</label>
-                        <div class="col-md-6">
-                            <?= formElementSelectComunaUsuario("iComunas[]", NULL, $lista_comunas) ?>
+                        <div class="col-md-6">       
+                            <select name="iComunas[]" id="iComunas" class="form-control required" multiple placeholder='Comunas'>
+                            </select>
                         </div>
                     </div>
 
                     <div id="botonera" class="col-md-10">
                         <div class="pull-right">
-                            <button type="button" id="btnSiguiente" class="btn btn-primary" onclick="Alarma.guardarForm();">Aceptar</button>
+                            <?php if($es_CRE==1 && $id==null) { ?> 
+                                <button type="button" id="btnSiguiente" class="btn btn-danger" onclick="Alarma.guardarForm(1);">Aceptar y continuar con la activación</button>
+                            <?php } ?>
+                            <button type="button" id="btnSiguiente" class="btn btn-primary" onclick="Alarma.guardarForm(0);">Aceptar</button>
+                           
                             <button type="button" class="btn btn-default">Cancelar</button>
                         </div>
                     </div>

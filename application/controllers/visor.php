@@ -91,24 +91,30 @@ class Visor extends CI_Controller {
     public function getReporte() {
         $this->load->library("template");
         $this->load->helper("session");
+        sessionValidation();
         $this->load->model("archivo_model", "ArchivoModel");
         ini_set('memory_limit', '64M');
         $this->load->model("emergencia_model", "EmergenciaModel");
         $params = $this->uri->uri_to_assoc();
         //var_dump($params);
         $data = $this->EmergenciaModel->getJsonEmergencia($params, false);
-
+        
+        $data['emisor'] = $this->session->userdata('session_nombres');
+        
         $archivo = $this->ArchivoModel->get_file_from_key($params['k']);
         $data['imagename'] = $archivo['arch_c_nombre'];
         //var_dump($data);die;
         $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
         $this->load->library('pdf');
         $pdf = $this->pdf->load();
-        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y')); 
+        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
         $pdf->WriteHTML($html); // write the HTML into the PDF
         $pdf->Output('acta.pdf', 'I');
     }
 
+    
+    
+    
     public function saveGeoJson() {
 
         $this->load->library("template");
@@ -137,11 +143,12 @@ class Visor extends CI_Controller {
 
         $json = array();
 
-        foreach ($CategoriaCobertura as $c)
+        foreach ($CategoriaCobertura as $c) {
             $json[] = array(
                 $c["ccb_ia_categoria"],
                 $c["ccb_c_categoria"]
             );
+        }
 
         echo json_encode($json);
     }
@@ -149,8 +156,9 @@ class Visor extends CI_Controller {
     public function obtenerCapasDT() {
         $this->load->model("capa_model", "CapaModel");
         $params = $this->uri->uri_to_assoc();
-        //var_dump($params);die;
-        $Coberturas = $this->CapaModel->obtenerTodos($params['id']);
+
+
+        $Coberturas = $this->CapaModel->obtenerTodos($params['eme_ia_id'], $params['id']);
         return json_encode($Coberturas);
     }
 
@@ -169,6 +177,13 @@ class Visor extends CI_Controller {
 
         $this->template->parse("alone", "pages/visor/exportMap", $data);
     }
+    public function reporte() {
+        $this->load->library("template");
+        $params = $this->uri->uri_to_assoc();
+        $data = array('id' => $params['id']);
+
+        $this->template->parse("alone", "pages/visor/modal_reporte", $data);
+    }
 
     public function getMapImage() {
         $params = $this->input->post();
@@ -179,15 +194,8 @@ class Visor extends CI_Controller {
         $img = imagecreatefromstring($bin);
 
         fopen($tmp_name, 'w');
-    imagepng($img, $tmp_name, 9);
-    imagedestroy($img);
-        
-        
-        
-        
-        
-        
-
+        imagepng($img, $tmp_name, 9);
+        imagedestroy($img);
 
         $this->load->model("archivo_model", "ArchivoModel");
         $resp = $this->ArchivoModel->upload_to_site($name, 'image/png', $tmp_name, $params['eme_ia_id'], $this->ArchivoModel->TIPO_MAPA_REPORTE, filesize($tmp_name));

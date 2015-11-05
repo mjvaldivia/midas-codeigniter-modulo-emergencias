@@ -156,13 +156,16 @@ class Emergencia_Model extends CI_Model {
                 ");
             }
             $comunas_query = $this->db->query("
-            SELECT GROUP_CONCAT(com_c_nombre) comunas from comunas c join emergencias_vs_comunas evc
+            SELECT GROUP_CONCAT(c.com_c_nombre) comunas, GROUP_CONCAT(c.com_ia_id) id_comunas from comunas c join emergencias_vs_comunas evc
             on evc.com_ia_id = c.com_ia_id
             where evc.eme_ia_id = $eme_ia_id");
             $comunas = $comunas_query->result_array();
-
+            $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['iTiposEmergencias'] . "'");
+            $tipo_emergencia = $tipo_query->result_array();
             $params['lista_comunas'] = $comunas[0]['comunas'];
-        }
+            $params['lista_id_comunas'] = $comunas[0]['id_comunas'];
+            $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
+        }   
         if ($query) {
             $this->db->query("
                 UPDATE alertas SET est_ia_id = $this->activado WHERE ala_ia_id = '" . $params['ala_ia_id'] . "'");
@@ -250,7 +253,7 @@ class Emergencia_Model extends CI_Model {
 
         if ($query->num_rows() > 0)
             $resultados = $query->result_array();
-        
+
         return $resultados;
     }
 
@@ -305,7 +308,7 @@ class Emergencia_Model extends CI_Model {
 
             $resultados = $resultados[0];
 
-            $resultados['hora_emergencia'] = ISOTimeTospanish($resultados['eme_d_fecha_recepcion']);
+            $resultados['hora_emergencia'] = ISOTimeTospanish($resultados['eme_d_fecha_emergencia']);
             $resultados['hora_recepcion'] = ISOTimeTospanish($resultados['eme_d_fecha_recepcion']);
 
             $resultados['eme_d_fecha_emergencia'] = ISODateTospanish($resultados['eme_d_fecha_emergencia'], false);
@@ -384,17 +387,12 @@ class Emergencia_Model extends CI_Model {
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
         $subject = "Confirmación de una situación de emergencia";
-
-        $qry = "select group_concat(usu_c_email SEPARATOR ',') lista from usuarios where UPPER(usu_b_email_emergencias) = 'SI' and est_ia_id = 1";
-
-        $result = $this->db->query($qry);
-
-        $row = $result->result_array();
-        $to = $row[0]['lista'];
-
         $this->load->model("Sendmail_Model", "SendmailModel");
+        $to = $this->SendmailModel->get_destinatariosCorreo($params['iTiposEmergencias'], $params['lista_id_comunas'], null);
 
-        return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje);
+
+
+        return $this->SendmailModel->emailSend($to, null, null, $subject, $mensaje, false);
     }
 
     public function obtenerCapas($params) { //capas que estan cargadas en el visor
@@ -421,27 +419,27 @@ class Emergencia_Model extends CI_Model {
     }
 
     public function eliminar_Emergencia($id = 0) {
-        
+
         $error = false;
         $this->db->trans_begin();
         $ala_ia_id = 0;
         $this->db->query("delete from emergencias_vs_comunas where eme_ia_id=$id");
         $this->db->query("delete from archivo_vs_emevisor where eme_ia_id=$id");
-        
+
         $qry = "select ala_ia_id from emergencias where eme_ia_id = $id";
 
         $result = $this->db->query($qry);
         if ($row = $result->result_array()) {
             $ala_ia_id = $row[0]['ala_ia_id'];
         }
-        
+
         $this->db->query("delete from emergencias where eme_ia_id=$id");
-        
+
         if ($this->db->trans_status() === FALSE) {
             $error = true;
             $this->db->trans_rollback();
         } else {
-            
+
             $this->db->trans_commit();
             $this->load->model("Archivo_Model", "ArchivoModel");
             $path = $this->ArchivoModel->ALARMA_FOLDER . $ala_ia_id;

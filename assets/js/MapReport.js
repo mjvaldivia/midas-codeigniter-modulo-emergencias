@@ -1,4 +1,5 @@
-var ExportMap = {
+
+var MapReport = {
     map: null,
     mapOptions: null,
     referenciaMarker: null,
@@ -13,12 +14,12 @@ var ExportMap = {
         // center: new google.maps.LatLng(-33.07, -71.6),
         zoom: 16,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        zoomControl: false,
-        streetViewControl: false,
-        mapTypeControl: false
+        //zoomControl: false,
+        streetViewControl: false
+        //mapTypeControl: false
     };
     this.LoadMap = function () {
-       try{ window.parent.Emergencia.cargando();}catch(e){}
+      
         this.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
 
 
@@ -26,13 +27,7 @@ var ExportMap = {
         $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
                 self.loadObjects.bind(this)
                 );
-        google.maps.event.addListenerOnce(self.map, 'tilesloaded', function () {
 
-            setTimeout(function () {
-                self.renderImage();
-            }, 1000);
-
-        });
 
     };
 
@@ -341,7 +336,7 @@ var ExportMap = {
                     success: function (data) {
                         if (data.k !== 0)
                         {
-                            try{ window.parent.Emergencia.cargando();}catch(e){}
+                           
                              window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
                              window.parent.Emergencia.closeIframe($('#eme_ia_id').val());
                         }
@@ -354,4 +349,4 @@ var ExportMap = {
 
     };
 
-}).apply(ExportMap);
+}).apply(MapReport);

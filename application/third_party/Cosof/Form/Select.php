@@ -74,10 +74,12 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
         $atributos = "";
         foreach($this->_atributos as $nombre => $valor){
             $atributos .= " " . $nombre . "=\"".$valor."\"";
+            
         }
-
-        $html = "<select name=\"" . $this->_nombre . "\" id=\"" . $this->_limpiaId($id) . "\" ".$atributos." class=\"" . $this->_class . "\">";
-        $html.= "<option value=\"\">Seleccione un valor</option>";
+        //var_dump($this->_atributos);
+        $html = "<select name=\"" . $this->_nombre . "\" id=\"" . $this->_limpiaId($id) . "\" ".$atributos.">";
+        if(!isset($this->_atributos['multiple']))
+            $html.= "<option value=\"\">-- Seleccione un valor --</option>";
         foreach($this->_valores as $row){
             $selected = "";
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
 
     <meta charset="utf-8">
@@ -27,8 +28,29 @@
     <?= loadCSS("assets/css/style.css", true) ?>
     
     <script type="text/javascript">
+        
         siteUrl = '<?= site_url("/") ?>';
         baseUrl = '<?= base_url("/") ?>';
+        $(document).ready(function(){
+            $('body').on('click', '.modal-sipresa', function (event) {
+                event.preventDefault();
+
+
+                // $($(this).attr('data-target')).removeData('bs.modal').modal({remote: $(this).attr('href') });
+
+                var a = $(this);
+                var id = a.attr('data-target').replace('#', '');
+                //$('#'+id).remove();
+                // $('.dynamic-modal .modal-content').empty();
+                var style = (a.attr('data-style') != '') ? a.attr('data-style') : 'width:70%;';
+
+                $("body").append("<div class='modal fade dynamic-modal' data-backdrop='static' data-keyboard='false' id=" + id + " tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                        "<div class='modal-dialog modal-lg' style='" + style + "'>" +
+                        "</div>" +
+                        "</div>");
+                ModalSipresa.addSuccess(id, a, $(this).attr('data-href'));
+            });
+            });
     </script>
 
     <!--[if lt IE 9]>
@@ -162,17 +184,18 @@
                                 </ul>
                             </li>
 
+
                             <!-- Messages Dropdown Footer -->
                             <li class="dropdown-footer">
                                 <a href="mailbox.html">Read All Messages</a>
                             </li>
+
 
                         </ul>
                         <!-- /.dropdown-menu -->
                     </li>
                     <!-- /.dropdown -->
                     <!-- end MESSAGES DROPDOWN -->
-
                     <!-- begin USER ACTIONS DROPDOWN -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -180,10 +180,12 @@ class Session_Model extends CI_Model
                 $this->session->set_userdata("session_usuario", $r["usu_c_login"]);
                 $this->session->set_userdata("session_region", $r["reg_c_nombre"]);
                 $this->session->set_userdata("session_cargo", $r["crg_c_nombre"]);
+                $this->session->set_userdata("session_idCargo", $r["crg_ia_id"]);
                 $this->session->set_userdata("session_ambitos", $r["ambitos"]);
                 $this->session->set_userdata("session_oficinas", $r["oficinas"]);
                 $this->session->set_userdata("session_comunas", $r["comunas"]);
                 $this->session->set_userdata("session_roles", $r["roles"]);
+                $this->session->set_userdata("session_cre_activo", $r["usu_b_cre_activo"]); // es CRE y está activo
 
                 $resultadoOperacion = true;
                 break;
@@ -274,6 +276,7 @@ class Session_Model extends CI_Model
                 $this->session->set_userdata("session_oficinas", $r["oficinas"]);
                 $this->session->set_userdata("session_comunas", $r["comunas"]);
                 $this->session->set_userdata("session_roles", $r["roles"]);
+                $this->session->set_userdata("session_cre_activo", $r["usu_b_cre_activo"]); // es CRE y está activo
                 $this->session->set_userdata("session_cambioRapido", 1);
 
                 $resultadoOperacion = true;
