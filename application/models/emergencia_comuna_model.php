@@ -5,7 +5,7 @@
  * Date: 17-08-15
  * Time: 10:09 AM
  */
-class Emergencia_Tipo_Model extends CI_Model
+class Emergencia_Comuna_Model extends CI_Model
 {    
     
     /**
@@ -18,7 +18,7 @@ class Emergencia_Tipo_Model extends CI_Model
      *
      * @var string 
      */
-    protected $_tabla = "auxiliar_emergencias_tipo";
+    protected $_tabla = "emergencias_vs_comunas";
     
     
     /**
@@ -40,13 +40,19 @@ class Emergencia_Tipo_Model extends CI_Model
     }
     
     /**
-     * 
-     * @param type $id
-     * @return type
+     * Lista de comunas por emergencia
+     * @param int $id_emergencia
+     * @return string
      */
-    public function getById($id){
-        return $this->_query->getById("aux_ia_id", $id);
+    public function listaComunasPorEmergencia($id_emergencia){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("eme_ia_id", $id_emergencia)
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
     }
-    
-    
 }
