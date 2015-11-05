@@ -14,7 +14,7 @@ class Template
         $this->ci =& get_instance();
         $this->ci->load->helper(array(
             'url',
-            'Modulo/Layout/layout',    
+            'Modulo/layout/layout',    
             'session'
         ));
     }
