@@ -25,14 +25,14 @@
 </ul>
 <div id="tab-content" class="tab-content">
     <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
-        <div id='div_tab_1' class='col-xs-12'>
+        <div id='div_tab_1'>
             <br>
              <?= $formulario ?>
         </div>
 
     </div>
     <div class='tab-pane' id='tab2' style='overflow:hidden;'>
-        <div id='div_tab_2' class='col-xs-12'>
+        <div id='div_tab_2'>
 
         </div>
 
