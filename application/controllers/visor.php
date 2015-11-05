@@ -91,6 +91,7 @@ class Visor extends CI_Controller {
     public function getReporte() {
         $this->load->library("template");
         $this->load->helper("session");
+        sessionValidation();
         $this->load->model("archivo_model", "ArchivoModel");
         ini_set('memory_limit', '64M');
         $this->load->model("emergencia_model", "EmergenciaModel");
@@ -111,6 +112,9 @@ class Visor extends CI_Controller {
         $pdf->Output('acta.pdf', 'I');
     }
 
+    
+    
+    
     public function saveGeoJson() {
 
         $this->load->library("template");
@@ -172,6 +176,13 @@ class Visor extends CI_Controller {
         $data = array('id' => $params['id']);
 
         $this->template->parse("alone", "pages/visor/exportMap", $data);
+    }
+    public function reporte() {
+        $this->load->library("template");
+        $params = $this->uri->uri_to_assoc();
+        $data = array('id' => $params['id']);
+
+        $this->template->parse("alone", "pages/visor/modal_reporte", $data);
     }
 
     public function getMapImage() {

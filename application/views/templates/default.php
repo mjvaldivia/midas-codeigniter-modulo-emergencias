@@ -65,6 +65,7 @@
         <?php //jquery ?>
         <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
         <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
+        <?= loadJS("assets/js/Modal_Sipresa.js") ?>
 
         <?php // bootstrap ?>
         <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
@@ -78,7 +79,34 @@
         <script type="text/javascript">
             siteUrl = '<?= site_url("/") ?>';
             baseUrl = '<?= base_url("/") ?>';
+            /**
+             * Vladimir 
+             * Construye los modales de bootstrap 
+             */
+            //ModalSipresa.buildModals();
+
+            $(document).ready(function(){
+            $('body').on('click', '.modal-sipresa', function (event) {
+                event.preventDefault();
+
+
+                // $($(this).attr('data-target')).removeData('bs.modal').modal({remote: $(this).attr('href') });
+
+                var a = $(this);
+                var id = a.attr('data-target').replace('#', '');
+                //$('#'+id).remove();
+                // $('.dynamic-modal .modal-content').empty();
+                var style = (a.attr('data-style') != '') ? a.attr('data-style') : 'width:70%;';
+
+                $("body").append("<div class='modal fade dynamic-modal' data-backdrop='static' data-keyboard='false' id=" + id + " tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                        "<div class='modal-dialog modal-lg' style='" + style + "'>" +
+                        "</div>" +
+                        "</div>");
+                ModalSipresa.addSuccess(id, a, $(this).attr('data-href'));
+            });
+            });
         </script>
+
     </head>
     <body>
         <div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
@@ -86,48 +114,48 @@
             <div id="header" class="row">
                 <div class="col-md-12">
                     <div class="row">
-                    <div class="col-md-2">
-                        <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" width="140px"/>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="page-header">
-                            <h1>Emergencias</h1>
+                        <div class="col-md-2">
+                            <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" width="140px"/>
                         </div>
-                    </div>
+                        <div class="col-md-8">
+                            <div class="page-header">
+                                <h1>Emergencias</h1>
+                            </div>
+                        </div>
 
-                    <div class='col-md-2'>
-                        <ul class="nav navbar-nav pull-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle navbar-inverse" data-toggle="dropdown"><i class="fa fa-user"></i>{session_usuario} <b class="caret"></b></a>
-                                <ul class="dropdown-menu navbar-inverse pull-right" style="text-transform: capitalize">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-cog"></i>{session_cargo}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-globe"></i>{session_region}
-                                        </a>
-                                    </li>
-                                    <?php if (isAdmin()): ?>
+                        <div class='col-md-2'>
+                            <ul class="nav navbar-nav pull-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle navbar-inverse" data-toggle="dropdown"><i class="fa fa-user"></i>{session_usuario} <b class="caret"></b></a>
+                                    <ul class="dropdown-menu navbar-inverse pull-right" style="text-transform: capitalize">
                                         <li>
-                                            <a href="#pCambioRapido" data-toggle="modal" data-target="#pCambioRapido">
-                                                <i class="fa fa-exchange"></i>Cambiar de usuario
+                                            <a href="#">
+                                                <i class="fa fa-cog"></i>{session_cargo}
                                             </a>
                                         </li>
-                                    <?php endif; ?>
-                                    <li>
-                                        <a href="<?= site_url("session/logout") ?>">
-                                            <i class="fa fa-sign-out"></i>Cerrar Sesión
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul></div>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-globe"></i>{session_region}
+                                            </a>
+                                        </li>
+                                        <?php if (isAdmin()): ?>
+                                            <li>
+                                                <a href="#pCambioRapido" data-toggle="modal" data-target="#pCambioRapido">
+                                                    <i class="fa fa-exchange"></i>Cambiar de usuario
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                        <li>
+                                            <a href="<?= site_url("session/logout") ?>">
+                                                <i class="fa fa-sign-out"></i>Cerrar Sesión
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul></div>
 
 
-                </div>
+                    </div>
                 </div>
                 <div class="col-md-12" style="margin-top: 20px">
                     <nav id="mainNavBar" class="navbar navbar-default" role="navigation">
