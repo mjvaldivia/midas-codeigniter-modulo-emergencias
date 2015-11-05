@@ -1,7 +1,10 @@
 <div class="row">
     
     <div class="col-xs-12">
-        <h3 class="page-header">Mensajes de Soporte</h3>
+        <h3 class="page-header">
+            Mensajes de Soporte
+            <button class="btn btn-primary pull-right" type="button" onclick="Soportes.nuevoSoporte();">Ingresar nuevo ticket</button>
+        </h3>
     </div>
 
     <div class="table-responsive col-xs-12">
@@ -31,6 +34,44 @@
         </table>
     </div>
 
+</div>
+
+
+<div class="modal fade" id="modal_nuevo_soporte" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Nuevo Ticket Soporte</div>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-xs-12">Asunto</label>
+                        <div class="col-xs-12">
+                            <input type="text" class="form-control" name="asunto_soporte" id="asunto_soporte" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12">Mensaje</label>
+                        <div class="col-xs-12">
+                            <textarea class="form-control" rows="5" name="texto_soporte" id="texto_soporte"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12">Agregar adjuntos <button type="button" class="btn btn-primary btn-sm" onclick="Soportes.agregarAdjunto();"><i class="fa fa-plus"></i></button></label>
+                        <div class="col-xs-12" id="listado_adjuntos">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="Soportes.enviarSoporte(this.form,this);">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
