@@ -30,11 +30,71 @@ class Alarma_Model extends CI_Model {
     /**
      * 
      */
-    public function getById($id) {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->library('Query');
+        $this->_query = New Query($this->db);
+        $this->_query->setTable($this->_tabla);
+    }
+    
+    /**
+     * Retorna HELPER para consultas generales
+     * @return Query
+     */
+    public function query(){
+        return $this->_query;
+    }
+    
+    /**
+     * Retorna la alarma por el identificador
+     * @param int $id
+     * @return row
+     */
+    public function getById($id){
         return $this->_query->getById("ala_ia_id", $id);
     }
+    
+    /**
+     * 
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return array
+     */
+    public function listarAlarmasEntreFechas($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->orderBy("ala_d_fecha_emergencia", "DESC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Retorna cantidad de alarmas entre fechas dadas
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return int
+     */
+    public function cantidadAlarmasNoActivas($fecha_desde, $fecha_hasta){
+        $result = $this->_query->select("COUNT(*) as cantidad")
+                               ->from()
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        }
+    }
+    
+    public function obtenerEstados()
+    {
 
-    public function obtenerEstados() {
         $query = $this->db->query("select * from estados_alertas order by est_c_nombre;");
 
         $resultados = array();

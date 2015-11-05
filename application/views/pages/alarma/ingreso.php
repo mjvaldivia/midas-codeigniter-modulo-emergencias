@@ -1,9 +1,22 @@
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
-<div class="clearfix"></div>
-<ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Dashboard</a></li>  
-    <li class="active">Gestión de alarmas</li>
-</ol>
+
+<!-- begin PAGE TITLE AREA -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-title">
+            <h1>Alarmas
+                <small>Gestión de alarmas</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Dashboard </a></li>
+                <li class="active"><i class="fa fa-bell"></i> Alarmas </li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- end PAGE TITLE AREA -->
 
 <ul id="ul-tabs" class="nav nav-tabs">
     <li class='active'><a href="#tab1" data-toggle="tab">Nueva</a></li>

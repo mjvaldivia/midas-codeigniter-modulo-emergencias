@@ -42,15 +42,31 @@ background: -ms-linear-gradient(top, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rg
 background: linear-gradient(to bottom, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rgb(10,119,213) 50%,rgb(83,159,225) 79%,rgb(135,188,234) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=0 );
     }
-    .btn-default{
+    .btn-group .btn-default{
              font-size: 17px;
     }
 </style>
-<div class="clearfix"></div>
-<ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Dashboard</a></li>  
-  <li class="active">Listado de emergencias</li>
-</ol>
+
+<!-- begin PAGE TITLE AREA -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-title">
+            <h1>Emergencias
+                <small>Listado de emergencias</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-dashboard"></i> Dashboard</li>
+                <li> Emergencias</li>
+                <li class="active" > Listado</li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- end PAGE TITLE AREA -->
+
+
 <form class="form-inline">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -96,7 +112,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
         </div>
     </div>
 </div>
-
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
