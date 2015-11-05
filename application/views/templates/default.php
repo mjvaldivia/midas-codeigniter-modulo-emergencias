@@ -193,15 +193,15 @@
                                     <a href="#" class="dropdown-toggle navbar-inverse" data-toggle="dropdown">Mesa de ayuda <b class="caret"></b></a>
                                     <ul class="dropdown-menu navbar-inverse">
                                         <li>
-                                            <a href="#">
+                                            <a href="<?= site_url("soportes/bandeja_usuario")?>">
                                                 <i class="fa fa-envelope"></i>
                                                 Mensajes
                                             </a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="#">
                                                 <i class="fa fa-question-circle"></i>
-                                                Soportes pendientes
+                                                
                                             </a>
                                         </li>
                                         <li>
@@ -209,7 +209,7 @@
                                                 <i class="fa fa-check"></i>
                                                 Soportes finalizados
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </li>
                             </ul>
