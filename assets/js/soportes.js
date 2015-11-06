@@ -129,6 +129,39 @@ var Soportes = {};
                 $(btn).attr('disabled',false).html(btnText);
             });
         }
+    },
+
+
+    this.cerrarTicket = function(ticket,codigo){
+        bootbox.confirm('Desea cerrar el ticket '+codigo,function(result){
+            if(result == true){
+                $.post(siteUrl + 'soportes/cerrarSoporte',{soporte:ticket},function(response){
+                    if(response.estado == true){
+                        bootbox.dialog({
+                            title:'Ticket Cerrado',
+                            message: response.mensaje,
+                            buttons: {
+                                ok : {
+                                    callback : function(){
+                                        ModalSipresa.close_modal("modal_ver_soporte");
+                                        $.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:'soporte'},function(response){
+                                            $("#contenedor-tabla-soportes").html(response);
+                                            Soportes.init();
+                                        },'html').fail(function(){
+                                            bootbox.alert({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }else{
+                        bootbox.alert({title:"Error", message:response.mensaje});
+                    }
+                },'json').fail(function(){
+                    bootbox.dialog({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
+                });
+            }
+        });
     }
 
 }).apply(Soportes);

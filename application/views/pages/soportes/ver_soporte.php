@@ -25,10 +25,13 @@
         </div>
         <div class="text-center">
             <a class="btn btn-default" href="javascript:void(0);" onclick="ModalSipresa.close_modal('modal_ver_soporte')">Cerrar Ventana</a>
+            <?php if($soporte->soporte_estado != 3):?>
             <?php $url = site_url('soportes/nuevoMensaje/id/'.$soporte->soporte_id);?>
             <a data-toggle="modal" class='btn btn-success modal-sipresa' href="<?php echo $url?>" data-title="" data-success='' data-target="#modal_nuevo_mensaje">Nuevo Mensaje</a>
+
             <?php if($cerrar_ticket):?>
-            <a class="btn btn-primary" type="button" onclick="" href="javascript:void(0);">Cerrar Ticket</a>
+            <a class="btn btn-primary" type="button" href="javascript:void(0);" onclick="Soportes.cerrarTicket(<?php echo $soporte->soporte_id?>,'<?php echo $soporte->soporte_codigo?>');">Cerrar Ticket</a>
+            <?php endif;?>
             <?php endif;?>
         </div>
     </div>

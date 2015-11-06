@@ -126,6 +126,37 @@ class Soportes extends CI_Controller {
             $html .= '</tbody>    
                     </table>';
 
+        }elseif($grilla == "soporte"){
+            $region = $this->session->userdata['session_region_codigo'];
+            $soportes = $this->SoportesModel->obtSoportes($region);
+            $html = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
+            <thead>
+                <tr>
+                    <th># Ticket</th>
+                    <th>Fecha</th>
+                    <th>Asunto</th>
+                    <th>Enviado por</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>';
+            foreach($soportes as $item):
+                $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);
+                $html .='<tr>
+                    <td class="text-center">'.$item->soporte_codigo.'</td>
+                    <td class="text-center">'.$item->soporte_fecha_ingreso.'</td>
+                    <td class="text-center">'.$item->soporte_asunto.'</td>
+                    <td class="text-center">'.mb_strtoupper($item->nombre_usuario).'</td>
+                    <td class="text-center">'.$item->estado.'</td>
+                    <td class="text-center">
+                        <a data-toggle="modal" class="btn btn-primary btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                    </td>
+                </tr>';
+            endforeach;
+            $html .= '</tbody>    
+                    </table>';
+
         }
 
         echo $html;
@@ -226,6 +257,24 @@ class Soportes extends CI_Controller {
             );
         $this->template->parse("default", "pages/soportes/bandeja_soportes", $data);
     } 
+
+
+    public function cerrarSoporte(){
+        $id_soporte = $_POST['soporte'];    
+
+        $data = array('soporte_estado' => 3, 'soporte_fecha_cierre' => date('Y-m-d H:i:s'));
+        $update = $this->SoportesModel->updSoporte($data,$id_soporte);
+
+        if($update){
+            $json['estado'] = true;
+            $json['mensaje'] = "El ticket ha sido cerrado";
+        }else{
+            $json['estado'] = false;
+            $json['estado'] = "Hubo un problema al cerrar el ticket. Intente nuevamente";
+        }
+
+        echo json_encode($json);
+    }
 
 
 }
