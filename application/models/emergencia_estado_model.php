@@ -5,9 +5,19 @@
  * Date: 17-08-15
  * Time: 10:09 AM
  */
-class Alarma_Comuna_Model extends CI_Model
+class Emergencia_Estado_Model extends CI_Model
 {    
+    /**
+     * Emergencia terminada
+     * @see est_ia_id en tabla estado_emergencia
+     */
+    const CERRADA = 2;
     
+    /**
+     * @see tip_ia_id en tabla alertas 
+     */
+    const EN_CURSO = 1;
+        
     /**
      *
      * @var Query 
@@ -18,7 +28,7 @@ class Alarma_Comuna_Model extends CI_Model
      *
      * @var string 
      */
-    protected $_tabla = "alertas_vs_comunas";
+    protected $_tabla = "estados_emergencias";
     
     /**
      * Constructor
@@ -31,14 +41,13 @@ class Alarma_Comuna_Model extends CI_Model
     }
     
     /**
-     * Lista de comunas por emergencia
-     * @param int $id_emergencia
-     * @return string
+     * Lista todos los estados
+     * @return array
      */
-    public function listaComunasPorAlarma($id_alarma){
-        $result = $this->_query->select("*")
+    public function listarTodos(){
+         $result = $this->_query->select("*")
                                ->from()
-                               ->whereAND("ala_ia_id", $id_alarma)
+                               ->orderBy("est_c_nombre", "ASC")
                                ->getAllResult();
         if (!is_null($result)){
            return $result; 
@@ -46,5 +55,5 @@ class Alarma_Comuna_Model extends CI_Model
             return NULL;
         }
     }
-
+    
 }
