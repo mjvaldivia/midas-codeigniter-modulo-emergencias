@@ -10,18 +10,38 @@
         display: none;
     }
 </style>
-<ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Dashboard</a></li>
-    <?php if (!$editar): ?>
-        <li class="active">Ingreso Capa</li>
-    <?php else: ?>
-        <li class="active">Editar Capa</li>
-    <?php endif; ?>
-</ol>
+
+<!-- begin PAGE TITLE AREA -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-title">
+            <h1>Alarmas
+                <small><i class="fa fa-arrow-right"></i> Administrador de capas</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Dashboard </a></li>
+                <li><i class="fa fa-bell"></i> Administrador de capas </li>
+                <?php if (!$editar): ?>
+                    <li class="active"><i class="fa fa-bell"></i> Ingreso Capa</li>
+                <?php else: ?>
+                    <li class="active"><i class="fa fa-bell"></i> Editar Capa</li>
+                <?php endif; ?>
+            </ol>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- end PAGE TITLE AREA -->
+
+
 <ul id="ul-tabs" class="nav nav-tabs">
     <li class='active'><a href="#tab1" data-toggle="tab">Nueva</a></li>
     <li><a href="#tab2" data-toggle="tab">Listado</a></li>
 </ul>
+
+
+
 <div id="tab-content" class="tab-content">
     <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
         <div id='div_tab_1' class='col-xs-12'>

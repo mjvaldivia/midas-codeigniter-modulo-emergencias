@@ -29,22 +29,18 @@ Class Layout_Menu_Render{
                                                         "action" => "index",
                                                         "child" => array()),   
 
-           
                                    "Alarmas" => array("icon_class" => "fa-bell",
-                                                      "child" => array("Listado" => array("controller" => "alarma",
-                                                                                          "action"     => "listado"),
-                                                                       "Ingreso" => array("controller" => "alarma",
-                                                                                          "action"     => "ingreso"))),                      
+                                                      "controller" => "alarma",
+                                                      "action" => "ingreso",
+                                                      "child" => array()),   
                                    "Emergencias" => array("icon_class" => "fa-bullhorn",
-                                                          "child" => array("Listado" => array("controller" => "emergencia",
-                                                                                              "action"     => "listado"),
-                                                                           "Ingreso" => array("controller" => "emergencia",
-                                                                                              "action" => "listado"))),       
+                                                      "controller" => "emergencia",
+                                                      "action" => "listado",
+                                                      "child" => array()), 
                                    "Administrador de capas" => array("icon_class" => "fa-globe",
-                                                                     "child" => array("Listado" => array("controller" => "capas",
-                                                                                                         "action"     => "listado"),
-                                                                                      "Ingreso" => array("controller" => "capas",
-                                                                                                         "action" => "ingreso"))),  
+                                                      "controller" => "capas",
+                                                      "action" => "ingreso",
+                                                      "child" => array()),  
                                    "Simulación" => array("icon_class" => "fa-flag-checkered",
                                                          "controller" => "",
                                                          "action" => "",
@@ -144,10 +140,18 @@ Class Layout_Menu_Render{
                     }
                     $controller = $datos['controller'];
                 }
+                
+                
+                if(isset($datos["wildcard"])){
+                    $action = $datos["wildcard"];
+                } else {
+                    $action = $datos['action'];
+                }
+                
                 $html .= $this->ci->load->view("pages/layout/menu-item", 
                                                array("name" => $name,
                                                      "class" => $class,
-                                                     "url" => "/" . $controller . "/" . $datos['action']), true);
+                                                     "url" => "/" . $controller . "/" . $action), true);
 
             }
         }
