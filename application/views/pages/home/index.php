@@ -31,6 +31,7 @@
 <div class="row">
     <div class="col-lg-5 col-sm-12">
         <div class="row">
+            
             <div class="col-lg-6 col-sm-6">
                 <div class="circle-tile">
                     <a href="#">
@@ -40,7 +41,7 @@
                     </a>
                     <div class="circle-tile-content orange">
                         <div class="circle-tile-description text-faded">
-                            Alarmas
+                            Alarmas en revisión
                         </div>
                         <div id="alarmas-cantidad" class="circle-tile-number text-faded">
 
@@ -49,7 +50,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6 col-sm-6">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading gray">
+                            <i class="fa fa-bell-slash fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content gray">
+                        <div class="circle-tile-description text-faded">
+                            Alarmas rechazadas
+                        </div>
+                        <div class="circle-tile-number text-faded">
 
+                        </div>
+                        <a href="<?= site_url("alarma/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="row">
+            
             <div class="col-lg-6 col-sm-6">
                 <div class="circle-tile">
                     <a href="#">
@@ -62,6 +83,29 @@
                             Emergencias
                         </div>
                         <div id="emergencias-cantidad" data-row="5" class="circle-tile-number text-faded">
+                            
+                           
+                        </div>
+                        <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 col-sm-6">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading gray">
+                            <span class="fa-stack fa-fw fa-3x" style="width:73px">
+                                <i class="fa fa-bullhorn fa-stack-1x"></i>
+                                <i class="fa fa-ban fa-stack-2x" style="line-height: 75px"></i>
+                            </span>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content gray">
+                        <div class="circle-tile-description text-faded">
+                            Emergencias rechazadas
+                        </div>
+                        <div data-row="5" class="circle-tile-number text-faded">
                             
                            
                         </div>
