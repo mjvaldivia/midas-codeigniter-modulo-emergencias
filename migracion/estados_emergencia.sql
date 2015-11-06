@@ -7,5 +7,6 @@ INSERT INTO `sipresa_dev`.`estados_emergencias` (`est_ia_id`, `est_c_nombre`) VA
 INSERT INTO `sipresa_dev`.`estados_emergencias` (`est_ia_id`, `est_c_nombre`) VALUES ('2', 'Cerrada');
 
 ALTER TABLE `sipresa_dev`.`emergencias` ADD COLUMN `est_ia_id` INT NULL  AFTER `for_ia_id` ;
+ALTER TABLE `sipresa_dev`.`emergencias` CHANGE COLUMN `est_ia_id` `est_ia_id` INT(11) NULL DEFAULT 1  ;
 UPDATE sipresa_dev.emergencias SET est_ia_id=1;
 

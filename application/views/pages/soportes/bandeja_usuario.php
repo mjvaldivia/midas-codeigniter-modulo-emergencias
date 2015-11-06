@@ -1,59 +1,70 @@
-
-
+ 
 <div class="row">
+<div class="col-xs-12">
+    <div class="page-title">
+        <h1>Mesa de Ayuda
+            <small><i class="fa fa-arrow-right"></i> Tickets de Soporte</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><i class="fa fa-question-circle"></i> Mesa de ayuda</li>
+            <li>Soportes</li>
+        </ol>
+    </div>
     
-    <div class="col-xs-12">
-        <div class="page-title">
-            <h1>Mesa de Ayuda
-                <small><i class="fa fa-arrow-right"></i> Tickets de Soporte</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li class="active"><i class="fa fa-question-circle"></i> Mesa de ayuda</li>
-                <li>Soportes</li>
-            </ol>
-        </div>
-        <h3 class="page-header">
-            Bandeja Soportes
-            <a data-toggle="modal" class='btn btn-primary pull-right modal-sipresa' href="<?php echo site_url('soportes/nuevoSoporte')?>" data-title="Información de la actividad" data-success='' data-target="#modal_nuevo_soporte">Ingresar nuevo soporte</a>
-        </h3>
-    </div>
-
-    <div class="table-responsive col-xs-12 small" id="contenedor-tabla-soportes">
-        <table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
-            <thead>
-                <tr>
-                    <th># Ticket</th>
-                    <th>Fecha</th>
-                    <th>Asunto</th>
-                    <!-- <th>Enviado por</th> -->
-                    <th>Estado</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($soportes as $item):?>
-                <tr>
-                    <td class="text-center"><?php echo $item->soporte_codigo?></td>
-                    <td class="text-center"><?php echo $item->soporte_fecha_ingreso?></td>
-                    <td class="text-center"><?php echo $item->soporte_asunto?></td>
-                    <!-- <td class="text-center"><?php echo mb_strtoupper($item->nombre_usuario)?></td> -->
-                    <td class="text-center"><?php echo $item->estado?>
-                        <?php if($item->no_leidos > 0):?>
-                        <label class="label label-info">Nuevo mensaje</label>    
-                        <?php endif;?>
-                    </td>
-                    <td class="text-center">
-                        <?php $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);?>
-                        <a data-toggle="modal" class='btn btn-primary btn-xs modal-sipresa' href="<?php echo $url?>" data-title="Información de la actividad" data-success='' data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
-                    </td>
-                </tr>
-                <?php endforeach;?>
-            </tbody>    
-        </table>
-    </div>
-
+</div>
 </div>
 
+<div class="row">
+    <div class="col-lg-12">
+        <div class="portlet portlet-default">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="page-header">
+                            Bandeja Soportes
+                            <a data-toggle="modal" class='btn btn-primary pull-right modal-sipresa' href="<?php echo site_url('soportes/nuevoSoporte')?>" data-title="Información de la actividad" data-success='' data-target="#modal_nuevo_soporte">Ingresar nuevo soporte</a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive col-xs-12 small" id="contenedor-tabla-soportes">
+                            <table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
+                                <thead>
+                                    <tr>
+                                        <th># Ticket</th>
+                                        <th>Fecha</th>
+                                        <th>Asunto</th>
+                                        <!-- <th>Enviado por</th> -->
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($soportes as $item):?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $item->soporte_codigo?></td>
+                                        <td class="text-center"><?php echo $item->soporte_fecha_ingreso?></td>
+                                        <td class="text-center"><?php echo $item->soporte_asunto?></td>
+                                        <!-- <td class="text-center"><?php echo mb_strtoupper($item->nombre_usuario)?></td> -->
+                                        <td class="text-center"><?php echo $item->estado?>
+                                            <?php if($item->no_leidos > 0):?>
+                                            <label class="label label-info">Nuevo mensaje</label>    
+                                            <?php endif;?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);?>
+                                            <a data-toggle="modal" class='btn btn-primary btn-xs modal-sipresa' href="<?php echo $url?>" data-title="Información de la actividad" data-success='' data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                </tbody>    
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div></div></div>
 
 <!-- <div class="modal fade" id="modal_nuevo_soporte" role="dialog" aria-hidden="true"></div> -->
 

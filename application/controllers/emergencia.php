@@ -9,6 +9,24 @@ if (!defined("BASEPATH"))
 
 class Emergencia extends CI_Controller {
 
+     /**
+     *
+     * @var template
+     */
+    public $template;
+    
+    /**
+     * 
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library("template");
+        $this->load->helper("session");
+
+        sessionValidation();
+    }
+    
+    
     public function generaEmergencia() {
         $params = $this->uri->uri_to_assoc();
         if (!file_exists(APPPATH . "/views/pages/emergencia/generaEmergencia.php")) {
@@ -94,19 +112,28 @@ class Emergencia extends CI_Controller {
 
     public function listado() {
         if (!file_exists(APPPATH . "/views/pages/emergencia/listado.php")) {
-            // Whoops, we don"t have a page for that!
             show_404();
         }
         
-        // load basicos
-        $this->load->library("template");
-        $this->load->helper("session");
+        $params = $this->uri->uri_to_assoc();
+        
+        $id_estado = "";
+        if(isset($params["estado"])){
+            switch ($params["estado"]) {
+                case "en_curso":
+                    $id_estado = Emergencia_Estado_Model::EN_CURSO;
+                    break;
+                case "cerrada":
+                    $id_estado = Emergencia_Estado_Model::CERRADA;
+                    break;
+                default:
+                    $id_estado = "";
+                    break;
+            }
+        }
 
-        sessionValidation();
-
-
-        date_default_timezone_set("America/Argentina/Buenos_Aires");
         $data = array(
+            "select_estado_id_default" => $id_estado,
             "anioActual" => date('Y')
         );
 

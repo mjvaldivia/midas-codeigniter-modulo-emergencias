@@ -84,6 +84,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
                 <label for="iTiposEmergencias" class="control-label">Tipo de emergencia</label>
                 <select name="iTiposEmergencias" id="iTiposEmergencias" class="form-control"></select>
             </div>
+            <div class="form-group">
+                <label for="iEstadoEmergencias" class="control-label">Estado</label>
+                <?= formElementSelectEmergenciaEstados("iEstadoEmergencias", $select_estado_id_default, array("class" => "form-control")); ?>
+            </div>
             <button id="btnBuscar" type="button" class="btn btn-primary">
                 <i class="fa fa-search"></i>
                 Buscar

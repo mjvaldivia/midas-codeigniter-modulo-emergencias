@@ -90,7 +90,7 @@ class Alarma_Model extends CI_Model {
     public function listar(){
         $result = $this->_query->select("*")
                                ->from()
-                               ->orderBy("ala_d_fecha_emergencia", "DESC")
+                               ->orderBy("ala_d_fecha_recepcion", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -128,7 +128,7 @@ class Alarma_Model extends CI_Model {
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
                                ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
                                ->whereAND("est_ia_id", Alarma_Model::ACTIVADO, "<>")
-                               ->orderBy("ala_d_fecha_emergencia", "DESC")
+                               ->orderBy("ala_d_fecha_recepcion", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;

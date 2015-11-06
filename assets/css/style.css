@@ -2073,3 +2073,16 @@ input[type="checkbox"]:checked::after,
 .navbar-brand{
     padding: 10px;
 }
+
+
+.text-complete{
+    display:none;
+}
+
+.text-more{
+    background:lightblue;
+    color:navy;
+    font-size:13px;
+    padding:3px;
+    cursor:pointer;
+}

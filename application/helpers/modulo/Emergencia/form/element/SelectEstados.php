@@ -5,7 +5,7 @@ require_once(APPPATH . 'third_party/Cosof/Form/Select.php');
 /**
  * Elemento select para comuna
  */
-Class Emergencia_Element_SelectTipo{
+Class Emergencia_Form_Element_SelectEstados{
     
     /**
      *
@@ -27,9 +27,9 @@ Class Emergencia_Element_SelectTipo{
     
     /**
      *
-     * @var Tipo_Emergencia_Model
+     * @var Emergencia_Estado_Model
      */
-    public $tipo_emergiencia_model;
+    public $emergencia_estado_model;
     
     /**
      * 
@@ -39,8 +39,8 @@ Class Emergencia_Element_SelectTipo{
         $this->ci =& get_instance();
         $this->_element = New Cosof_Form_Select();
         
-        $this->ci->load->model("tipo_emergencia_model");
-        $this->tipo_emergiencia_model = New Tipo_Emergencia_Model();
+        $this->ci->load->model("emergencia_estado_model");
+        $this->emergencia_estado_model = New Emergencia_Estado_Model();
     }
     
     /**
@@ -67,8 +67,8 @@ Class Emergencia_Element_SelectTipo{
     public function render($default = ""){
         $this->_element->setNombre($this->_nombre);
         $this->_element->populate($this->_listar());
-        $this->_element->setOptionId("aux_ia_id");
-        $this->_element->setOptionName("aux_c_nombre");
+        $this->_element->setOptionId("est_ia_id");
+        $this->_element->setOptionName("est_c_nombre");
         return $this->_element->render($this->_nombre, $default);
     }
     
@@ -77,6 +77,7 @@ Class Emergencia_Element_SelectTipo{
      * @return array
      */
     protected function _listar(){
-        return $this->tipo_emergiencia_model->get();
+        return $this->emergencia_estado_model->listarTodos();
     }
 }
+
