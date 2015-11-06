@@ -67,6 +67,56 @@ class Alarma_Model extends CI_Model {
     }
     
     /**
+     * 
+     * @param int $id_estado id del estado
+     * @return int
+     */
+    public function cantidadAlarmasPorEstado($id_estado){
+        $result = $this->_query->select("COUNT(*) as cantidad")
+                               ->from()
+                               ->whereAND("est_ia_id", $id_estado, "=")
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        }else{
+            return 0;
+        }
+    }
+    
+    /**
+     * Lista todas las alarmas
+     * @return array
+     */
+    public function listar(){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->orderBy("ala_d_fecha_emergencia", "DESC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_estado id del estado
+     * @return array
+     */
+    public function listarAlarmasPorEstado($id_estado){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("est_ia_id", $id_estado, "=")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista alarmas entre fechas dadas
      * @param DateTime $fecha_desde
      * @param DateTime $fecha_hasta
@@ -93,7 +143,7 @@ class Alarma_Model extends CI_Model {
      * @param DateTime $fecha_hasta
      * @return int
      */
-    public function cantidadAlarmas($fecha_desde, $fecha_hasta){
+    public function cantidadAlarmasEntreFechas($fecha_desde, $fecha_hasta){
         $result = $this->_query->select("COUNT(*) as cantidad")
                                ->from()
                                ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
@@ -102,6 +152,8 @@ class Alarma_Model extends CI_Model {
                                ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
+        }else{
+            return 0;
         }
     }
     

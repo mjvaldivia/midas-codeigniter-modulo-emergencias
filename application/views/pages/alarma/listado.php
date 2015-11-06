@@ -42,13 +42,8 @@ background: -ms-linear-gradient(top, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rg
 background: linear-gradient(to bottom, rgb(208,228,247) 0%,rgb(115,177,231) 24%,rgb(10,119,213) 50%,rgb(83,159,225) 79%,rgb(135,188,234) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=0 );
     }
-
-   
-
-
-
 </style>
-<br>
+
 <form class="form-inline">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -60,7 +55,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
         <div class="panel-body">
             <div class="form-group">
                 <label for="" class="control-label">Año</label>
-                <input id="iAnio" name="iAnio" type="text" class="form-control" style="max-width: 100px" value="{anioActual}"/>
+                <input id="iAnio" name="iAnio" type="text" class="form-control" style="max-width: 100px" value="<?= $anioActual ?>"/>
             </div>
             <div class="form-group">
                 <label for="TiposEmergencias" class="control-label">Tipo de emergencia</label>
@@ -68,7 +63,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
             </div>
             <div class="form-group">
                 <label for="iEstadoAlarma" class="control-label">Estado</label>
-                <select name="iEstadoAlarma" id="iEstadoAlarma" class="form-control"></select>
+                <?= formElementSelectAlarmaEstados("iEstadoAlarma", $select_estado_id_default, array("class" => "form-control")) ?>
             </div>
             <button id="btnBuscarAlarmas" type="button" class="btn btn-primary">
                 <i class="fa fa-search"></i>

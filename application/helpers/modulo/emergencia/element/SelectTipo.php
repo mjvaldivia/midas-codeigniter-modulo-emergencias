@@ -5,13 +5,7 @@ require_once(APPPATH . 'third_party/Cosof/Form/Select.php');
 /**
  * Elemento select para comuna
  */
-Class Direccion_Element_SelectComuna{
-    
-    /**
-     *
-     * @var int 
-     */
-    protected $_id_region;
+Class Emergencia_Element_SelectTipo{
     
     /**
      *
@@ -21,7 +15,7 @@ Class Direccion_Element_SelectComuna{
     
     /**
      *
-     * @var type 
+     * @var CI_Controller
      */
     protected $ci;
     
@@ -33,19 +27,28 @@ Class Direccion_Element_SelectComuna{
     
     /**
      *
-     * @var Session_Model 
+     * @var Tipo_Emergencia_Model
      */
-    public $sesion;
+    public $tipo_emergiencia_model;
     
     /**
      * 
      * @param type $ci
      */
-    public function __construct($ci) {
-        $this->ci = $ci;
+    public function __construct() {
+        $this->ci =& get_instance();
         $this->_element = New Cosof_Form_Select();
-        $this->ci->load->model("session_model");
-        $this->sesion = New Session_Model();
+        
+        $this->ci->load->model("tipo_emergencia_model");
+        $this->tipo_emergiencia_model = New Tipo_Emergencia_Model();
+    }
+    
+    /**
+     * 
+     * @return Cosof_Form_Select
+     */
+    public function getElement(){
+        return $this->_element;
     }
     
     /**
@@ -61,12 +64,11 @@ Class Direccion_Element_SelectComuna{
      * @param array $default valores por defecto
      * @return string html
      */
-    public function render($default = array()){
-        $this->_element->addAtributos(array("multiple" => "true"));
+    public function render($default = ""){
         $this->_element->setNombre($this->_nombre);
         $this->_element->populate($this->_listar());
-        $this->_element->setOptionId("com_ia_id");
-        $this->_element->setOptionName("com_c_nombre");
+        $this->_element->setOptionId("aux_ia_id");
+        $this->_element->setOptionName("aux_c_nombre");
         return $this->_element->render($this->_nombre, $default);
     }
     
@@ -75,7 +77,6 @@ Class Direccion_Element_SelectComuna{
      * @return array
      */
     protected function _listar(){
-        return $this->sesion->obtenerComunas();
+        return $this->tipo_emergiencia_model->get();
     }
 }
-

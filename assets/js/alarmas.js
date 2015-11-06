@@ -66,7 +66,7 @@ var Alarma = {};
 
     this.inicioListado = function () {
         $("#TiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
-        $("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas", {selected_value: 3});
+        //$("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas", {selected_value: 3});
         $("#btnBuscarAlarmas").click(this.eventoBtnBuscar);
         this.eventoBtnBuscar();
         $(window).resize(function () {

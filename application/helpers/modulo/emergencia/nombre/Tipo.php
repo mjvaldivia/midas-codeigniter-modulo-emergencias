@@ -7,7 +7,7 @@ Class Emergencia_Nombre_Tipo{
     
     /**
      *
-     * @var type 
+     * @var CI_Controller
      */
     protected $ci;
     
@@ -27,8 +27,8 @@ Class Emergencia_Nombre_Tipo{
      * 
      * @param type $ci
      */
-    public function __construct($ci) {
-        $this->ci = $ci;
+    public function __construct() {
+        $this->ci =& get_instance();
         $this->ci->load->model("tipo_emergencia_model");
         $this->tipo_emergencia_model = New Tipo_Emergencia_Model();
     }

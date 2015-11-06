@@ -20,22 +20,26 @@
 <!-- end PAGE TITLE AREA -->
 
 <ul id="ul-tabs" class="nav nav-tabs">
-    <li class='active'><a href="#tab1" data-toggle="tab">Nueva</a></li>
-    <li><a href="#tab2" data-toggle="tab">Listado</a></li>
+    <li class='<?= tabActive("nuevo", $tab_activo, "header") ?>'>
+        <a href="#tab1" data-toggle="tab">Nueva</a>
+    </li>
+    <li class='<?= tabActive("listado", $tab_activo, "header") ?>'>
+        <a href="#tab2" data-toggle="tab">Listado</a>
+    </li>
 </ul>
+
 <div id="tab-content" class="tab-content">
-    <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
+    
+    <div class='tab-pane <?= tabActive("nuevo", $tab_activo, "content") ?>' id='tab1' style='overflow:hidden;'>
         <div id='div_tab_1'>
-            <br>
              <?= $formulario ?>
         </div>
-
     </div>
-    <div class='tab-pane' id='tab2' style='overflow:hidden;'>
+    
+    <div class='tab-pane <?= tabActive("listado", $tab_activo, "content") ?>' id='tab2' style='overflow:hidden;'>
         <div id='div_tab_2'>
-
+            <?= $html_listado ?>
         </div>
-
     </div>
 </div> 
 
@@ -55,7 +59,6 @@
     $(document).ready(function () {
         Alarma.inicioIngreso();
         initialize();
-        $('#div_tab_2').load(siteUrl+'alarma/listado');
-        
+        //$('#div_tab_2').load(siteUrl+'alarma/listado');
     });
 </script>
