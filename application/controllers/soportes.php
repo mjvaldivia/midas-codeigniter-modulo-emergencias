@@ -24,8 +24,19 @@ class Soportes extends CI_Controller {
         $id_usuario = $this->session->userdata['session_idUsuario'];
         $soportes = $this->SoportesModel->obtSoportesUsuario($id_usuario);
 
+        $soportes_ingresados = array();
+        $soportes_cerrados = array();
+
+        foreach($soportes as $item){
+            if($item->soporte_estado == 3){
+                $soportes_cerrados[] = $item;
+            }else{
+                $soportes_ingresados[] = $item;
+            }
+        }
         $data = array(
-            'soportes' => $soportes
+            'soportes_ingresados' => $soportes_ingresados,
+            'soportes_cerrados' => $soportes_cerrados
             );
         $this->template->parse("default", "pages/soportes/bandeja_usuario", $data);
     } 
@@ -272,8 +283,16 @@ class Soportes extends CI_Controller {
         $id_soporte = $params['id'];
 
         $soporte = $this->SoportesModel->obtSoporteId($id_soporte);
+
+        if($this->session->userdata['session_idUsuario'] == $soporte[0]->soporte_usuario_fk){
+            $grilla = 'usuario';
+        }else{
+            $grilla = 'soporte';
+        }
+
         $data = array(
-            'soporte'=>$soporte[0]
+            'soporte'=>$soporte[0],
+            'grilla' => $grilla
             );
         $this->load->view("pages/soportes/nuevo_mensaje.php",$data);
     }
@@ -432,10 +451,10 @@ class Soportes extends CI_Controller {
 
     public function cargarGrillaAdjuntos(){
         $adjuntos = array();
-        $html = count($_SESSION['adjuntos_soporte']);
+        $html = '';
         if(isset($_SESSION['adjuntos_soporte']) and count($_SESSION['adjuntos_soporte']) > 0){
             $adjuntos = $_SESSION['adjuntos_soporte'];
-            $html = '<table class="table table-condensed table-bordered table-hover small">';
+            $html = '<table class="table table-condensed table-bordered table-hover small table-green table-middle">';
             $html .= '<thead>
                         <tr>
                             <th>Nombre Adjunto</th>
@@ -447,8 +466,8 @@ class Soportes extends CI_Controller {
                 $html .= '<tr>
                             <td class="text-center">'.$item['name'].'</td>
                             <td class="text-center">
-                                <a href="'.site_url('soportes/verAdjunto/adjunto/'.$i).'" target="_blank" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-xs btn-primary" onclick="Soportes.sacarAdjunto('.$i.')"><i class="fa fa-trash"></i></a>
+                                <a href="'.site_url('soportes/verAdjunto/adjunto/'.$i).'" target="_blank" class="btn btn-xs btn-blue btn-square"><i class="fa fa-eye"></i></a>
+                                <a href="javascript:void(0);" class="btn btn-xs btn-red btn-square" onclick="Soportes.sacarAdjunto('.$i.')"><i class="fa fa-trash"></i></a>
                             </td>';
                 $i++;
             }

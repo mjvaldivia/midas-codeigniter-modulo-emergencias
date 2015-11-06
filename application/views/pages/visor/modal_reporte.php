@@ -18,11 +18,31 @@
     </div>
     <div class="panel-body">
         <div class="col-md-12">
-            <div id='dvMap' style="height: 350px; overflow-y: auto; background-color: gray;" class="col-md-4">
+            <div id='dvMap' style="height: 350px;" class="col-md-5">
 
             </div>
-            
+                            
             <input type="hidden" id='eme_ia_id' name="eme_ia_id" value='{id}'>
+            <div class="col-md-7">
+                <ul id="ul-tabs" class="nav nav-tabs">
+                    <li class='active'><a href="#tab1" data-toggle="tab">Generación de reporte</a></li>
+                   
+                </ul>
+                <div id="tab-content" class="tab-content">
+                    <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
+                        <div id='div_tab_1' class='col-xs-12'>
+                            
+                            <br>
+                            <button onclick="MapReport.cloneMap();" class="btn btn-xs btn-warning" ><i class="fa fa-download"></i>Descargar Reporte</button>
+                            Seleccione destinatarios de email
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+
+
         </div>
         <div class="col-md-12">
             <div class="col-md-4 text-center text-danger">Ajuste esta vista previa del mapa que aparecerá en el reporte</div>
@@ -30,4 +50,6 @@
 
     </div>
 </div>
+<div style="width: 0px; height: 0px; position: absolute; margin-top: 100px;"><div id='clon' style="width: 1024px; height: 768px;"></div></div>
+
 

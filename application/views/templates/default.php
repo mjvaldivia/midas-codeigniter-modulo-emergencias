@@ -9,7 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Emergencias</title>
+
+    <title>Emergencias::MIDAS</title>
+
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
     <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
     <?= loadCSS("assets/lib/pace/pace.css", true) ?>
@@ -24,6 +26,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
     -->
     <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
+
 
 
     <!-- THEME STYLES - Include these on every page. -->
