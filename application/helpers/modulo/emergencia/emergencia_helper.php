@@ -12,7 +12,7 @@ require_once(APPPATH . "helpers/modulo/emergencia/nombre/Comunas.php");
  * @param int $id_region identificador de region
  */
 function formElementSelectEmergenciaTipo($input_nombre, $id_region, $input_valor = "", $atributos){
-    $select = New Emergencia_Element_SelectTipo(get_instance());
+    $select = New Emergencia_Element_SelectTipo();
     $select->getElement()->addAtributos($atributos);
     $select->setNombre($input_nombre);
     return $select->render($input_valor);
@@ -24,7 +24,7 @@ function formElementSelectEmergenciaTipo($input_nombre, $id_region, $input_valor
  * @return string
  */
 function nombreEmergenciaTipo($id_tipo_emergencia){
-    $nombre = New Emergencia_Nombre_Tipo(get_instance());
+    $nombre = New Emergencia_Nombre_Tipo();
     $nombre->setId($id_tipo_emergencia);
     return $nombre->getString();
 }
@@ -35,7 +35,7 @@ function nombreEmergenciaTipo($id_tipo_emergencia){
  * @return string
  */
 function comunasEmergenciaConComa($id_emergencia){
-    $comunas = New Emergencia_Nombre_Comunas(get_instance());
+    $comunas = New Emergencia_Nombre_Comunas();
     $comunas->setIdEmergencia($id_emergencia);
     return $comunas->getString();
 }

@@ -8,7 +8,7 @@ require_once(APPPATH . "helpers/modulo/alarma/nombre/Comunas.php");
  * @return string
  */
 function comunasAlarmaConComa($id_alarma){
-    $comunas = New Alarma_Nombre_Comunas(get_instance());
+    $comunas = New Alarma_Nombre_Comunas();
     $comunas->setIdAlarma($id_alarma);
     return $comunas->getString();
 }
