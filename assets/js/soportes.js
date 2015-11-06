@@ -162,6 +162,28 @@ var Soportes = {};
                 });
             }
         });
+    },
+
+
+    this.cargarGrillaAdjuntos = function() {
+        $.post(siteUrl + 'soportes/cargarGrillaAdjuntos',function(response){
+            $("#contenedor-adjuntos").html(response);
+        },'html').fail(function(){
+            bootbox.dialog({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
+        })
+    },
+
+
+    this.sacarAdjunto = function(adjunto){
+        $.post(siteUrl + 'soportes/sacarAdjunto',{adjunto:adjunto},function(response){
+            if(response.estado == true){
+                Soportes.cargarGrillaAdjuntos();
+            }else{
+                bootbox.alert({title:'Error',message:'No se ha podido eliminar el adjunto. Intente nuevamente'});
+            }
+        },'json').fail(function(){
+            bootbox.dialog({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
+        });
     }
 
 }).apply(Soportes);

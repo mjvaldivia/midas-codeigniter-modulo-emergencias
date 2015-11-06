@@ -16,13 +16,17 @@
         </div>
     </div>
     <div class="form-group">
+        <?php $url = site_url('soportes/agregarAdjunto');?>
+        <label class="col-xs-12">Agregar adjunto <a class="btn btn-primary btn-xs modal-sipresa" href="<?php echo $url?>" data-toggle="modal" data-target="#modal_agregar_adjunto"><i class="fa fa-plus"></i></a>
+        <div class="small" id="contenedor-adjuntos"></div>
+    </div>
+    <div class="form-group">
         <div class="checkbox col-xs-12">
             <label>
                 <input type="checkbox" value="1" name="email_soporte" id="email_soporte"/> Aviso de respuesta a mi correo
             </label>
         </div>
     </div>
-    <div class="alert alert-danger" style="display:none"></div>
     <div class="text-right">
         <button type="button" class="btn btn-default" onclick="ModalSipresa.close_modal('modal_nuevo_soporte')">Cerrar</button>
         <button type="button" class="btn btn-success" onclick="Soportes.enviarSoporte(this.form,this);">Enviar</button>

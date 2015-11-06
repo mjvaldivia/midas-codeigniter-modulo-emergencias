@@ -7,6 +7,14 @@
             <div class="panel-heading">
                 <p><?php echo $soporte->soporte_asunto?></p>
                 <p class="small"><?php echo $soporte_mensaje->soportemensaje_texto?></p>
+                <?php if(count($adjuntos_principal) > 0):?>
+                <ul class="small" style="list-style: none">
+                    <?php foreach($adjuntos_principal as $item):?>
+                    <?php $url = site_url('soportes/verAdjunto/token/'.$item['sha']);?>
+                    <li><a href="<?php echo $url?>" target="_blank" style="color:#eee"><i class="fa fa-file"></i>  <?php echo $item['nombre']?></a></li>
+                    <?php endforeach;?>
+                </ul>
+                <?php endif;?>
                 <div class="small text-right">Enviado por <?php echo $soporte->nombre_usuario?>, el <?php echo $soporte->soporte_fecha_ingreso?></div>
             </div>
         </div>
@@ -19,6 +27,14 @@
             <?php endif;?>
             <div class="list-group-item <?php echo $textAlign;?>" style="overflow: hidden">    
                 <p class="list-group-item-text small"><?php echo $mensaje->soportemensaje_texto?></p>
+                <?php if(isset($adjuntos_mensajes[$mensaje->soportemensaje_id]) and count($adjuntos_mensajes[$mensaje->soportemensaje_id]) > 0):?>
+                <ul class="small" style="list-style: none">
+                    <?php foreach($adjuntos_mensajes[$mensaje->soportemensaje_id] as $item):?>
+                    <?php $url = site_url('soportes/verAdjunto/token/'.$item['sha']);?>
+                    <li><a href="<?php echo $url?>" target="_blank" ><i class="fa fa-file"></i>  <?php echo $item['nombre']?></a></li>
+                    <?php endforeach;?>
+                </ul>
+                <?php endif;?>
                 <span class="small" style="font-size:10px; font-style:italic;border-top:1px solid #ccc;display:block;margin-top:5px;">Enviado por <?php echo mb_strtoupper($mensaje->nombre_usuario)?>, el <?php echo $mensaje->soportemensaje_fecha?></span>
             </div>
             <?php endforeach;?>

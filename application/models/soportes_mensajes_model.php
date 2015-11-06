@@ -72,7 +72,7 @@ class Soportes_Mensajes_Model extends CI_Model {
     }
 
 
-    public function obtMensajeSoporte($id_soporte) {
+    public function obtMensajesSoporte($id_soporte) {
         $query = "select 
                     soportemensaje_id,
                     soportemensaje_soporte_fk,
