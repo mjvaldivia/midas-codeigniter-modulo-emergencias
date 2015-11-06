@@ -107,12 +107,12 @@ var Soportes = {};
                                     $(btn).attr('disabled',false).html(btnText);
                                     ModalSipresa.close_modal("modal_nuevo_mensaje");
                                     ModalSipresa.close_modal("modal_ver_soporte");
-                                    /*$.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:'usuario'},function(response){
+                                    $.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:form.grilla.value},function(response){
                                         $("#contenedor-tabla-soportes").html(response);
                                         Soportes.init();
                                     },'html').fail(function(){
                                         bootbox.alert({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
-                                    });*/
+                                    });
                                 }
                             }
                         }

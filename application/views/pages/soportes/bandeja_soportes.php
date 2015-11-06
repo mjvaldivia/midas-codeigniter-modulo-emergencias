@@ -14,7 +14,7 @@
         </div>
         <h3 class="page-header">
             Bandeja Soportes
-            <a data-toggle="modal" class='btn btn-primary pull-right modal-sipresa' href="<?php echo site_url('soportes/nuevoSoporte')?>" data-title="Información de la actividad" data-success='' data-target="#modal_nuevo_soporte">Ingresar nuevo soporte</a>
+            
         </h3>
     </div>
 

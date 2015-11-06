@@ -272,8 +272,16 @@ class Soportes extends CI_Controller {
         $id_soporte = $params['id'];
 
         $soporte = $this->SoportesModel->obtSoporteId($id_soporte);
+
+        if($this->session->userdata['session_idUsuario'] == $soporte[0]->soporte_usuario_fk){
+            $grilla = 'usuario';
+        }else{
+            $grilla = 'soporte';
+        }
+
         $data = array(
-            'soporte'=>$soporte[0]
+            'soporte'=>$soporte[0],
+            'grilla' => $grilla
             );
         $this->load->view("pages/soportes/nuevo_mensaje.php",$data);
     }
