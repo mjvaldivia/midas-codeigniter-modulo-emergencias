@@ -27,7 +27,7 @@
                     <li class="active">
                         <a href="#tickets_ingresados" data-toggle="tab">
                             Tickets Ingresados  
-                            <button type="button" data-toggle="modal" class='btn btn-primary pull-right modal-sipresa btn-xs btn-square' t href="<?php echo site_url('soportes/nuevoSoporte')?>" data-title="" data-success='' data-target="#modal_nuevo_soporte" style="margin-left:5px;"><i class="fa fa-send-o"></i> Nuevo Ticket</button>
+                            <button type="button" data-toggle="modal" class='btn btn-primary pull-right modal-sipresa btn-xs btn-square' href="<?php echo site_url('soportes/nuevoSoporte')?>" data-title="Nuevo Ticket" data-success='' data-target="#modal_nuevo_soporte" style="margin-left:5px;"><i class="fa fa-send-o"></i> Nuevo Ticket</button>
                         </a> 
                     </li>
                     <li class=""><a href="#tickets_cerrados" data-toggle="tab">Tickets Cerrados</a></li>

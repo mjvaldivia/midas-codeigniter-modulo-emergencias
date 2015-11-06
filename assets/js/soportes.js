@@ -193,6 +193,14 @@ var Soportes = {};
         },'json').fail(function(){
             bootbox.dialog({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
         });
+    },
+
+
+    this.mostrarNombreAdjunto = function(nombre){
+        nombre = nombre.split('\\');
+        nombre = nombre[nombre.length - 1];
+        $("#nombre_adjunto").val(nombre);
+        console.log(nombre);
     }
 
 }).apply(Soportes);
