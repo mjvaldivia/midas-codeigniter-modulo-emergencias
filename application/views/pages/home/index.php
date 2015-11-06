@@ -7,17 +7,6 @@
             </h1>
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
-                <li class="pull-right">
-                    <div class="col-sm-12">
-                    <div id="rango-fechas" class="reportrange btn btn-success date-picker">
-                        <i class="fa fa-calendar"></i>
-                        <span class="date-range">Seleccionar fechas</span>
-                        <i class="fa fa-caret-down"></i>
-                    </div>
-                    <input type="hidden" name="fecha_desde" id="fecha_desde" value="<?= $fecha_desde ?>" class="element-search"/>
-                    <input type="hidden" name="fecha_hasta" id="fecha_hasta" value="<?= $fecha_hasta ?>" class="element-search"/>
-                    </div>
-                </li>
             </ol>
         </div>
     </div>
@@ -31,6 +20,7 @@
 <div class="row">
     <div class="col-lg-5 col-sm-12">
         <div class="row">
+            
             <div class="col-lg-6 col-sm-6">
                 <div class="circle-tile">
                     <a href="#">
@@ -40,16 +30,36 @@
                     </a>
                     <div class="circle-tile-content orange">
                         <div class="circle-tile-description text-faded">
-                            Alarmas
+                            Alarmas en revisión
                         </div>
-                        <div id="alarmas-cantidad" class="circle-tile-number text-faded">
-
+                        <div id="alarmas-revision-cantidad" class="circle-tile-number text-faded">
+                            <?= $cantidad_alarmas_en_revision ?>
                         </div>
-                        <a href="<?= site_url("alarma/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("alarma/ingreso/tab/listado/estado/en_revision") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-
+            <div class="col-lg-6 col-sm-6">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading gray">
+                            <i class="fa fa-bell-slash fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content gray">
+                        <div class="circle-tile-description text-faded">
+                            Alarmas rechazadas
+                        </div>
+                        <div class="circle-tile-number text-faded">
+                            <?= $cantidad_alarmas_rechazada ?>
+                        </div>
+                        <a href="<?= site_url("alarma/ingreso/tab/listado/estado/rechazado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="row">
+            
             <div class="col-lg-6 col-sm-6">
                 <div class="circle-tile">
                     <a href="#">
@@ -59,11 +69,29 @@
                     </a>
                     <div class="circle-tile-content red">
                         <div class="circle-tile-description text-faded">
-                            Emergencias
+                            Emergencias en curso
                         </div>
-                        <div id="emergencias-cantidad" data-row="5" class="circle-tile-number text-faded">
-                            
-                           
+                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
+                           <?= $cantidad_emergencias_en_curso ?>
+                        </div>
+                        <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 col-sm-6">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading green">
+                            <i class="fa fa-check fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content green">
+                        <div class="circle-tile-description text-faded">
+                            Emergencias cerradas
+                        </div>
+                        <div data-row="5" class="circle-tile-number text-faded">
+                            <?= $cantidad_emergencias_cerradas ?>
                         </div>
                         <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -108,7 +136,7 @@
             <div class="portlet portlet-default">
                 <div class="portlet-heading">
                     <div class="portlet-title">
-                        <h4>Emergencias</h4>
+                        <h4><i class="fa fa-list-ul"></i> Ultimas emergencias</h4>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -124,7 +152,7 @@
             <div class="portlet portlet-default">
                 <div class="portlet-heading">
                     <div class="portlet-title">
-                        <h4>Alarmas</h4>
+                        <h4><i class="fa fa-list-ul"></i> Ultimas alarmas</h4>
                     </div>
                     <div class="clearfix"></div>
                 </div>

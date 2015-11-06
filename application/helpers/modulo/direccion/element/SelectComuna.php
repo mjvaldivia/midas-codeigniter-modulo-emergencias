@@ -39,10 +39,9 @@ Class Direccion_Element_SelectComuna{
     
     /**
      * 
-     * @param type $ci
      */
-    public function __construct($ci) {
-        $this->ci = $ci;
+    public function __construct() {
+        $this->ci =& get_instance();
         $this->_element = New Cosof_Form_Select();
         $this->ci->load->model("session_model");
         $this->sesion = New Session_Model();

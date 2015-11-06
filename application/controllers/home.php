@@ -18,6 +18,18 @@ class Home extends CI_Controller{
      * @var Emergencia_Model 
      */
     public $EmergenciaModel;
+    
+    /**
+     *
+     * @var Alarma_Estado_Model
+     */
+    public $AlarmaEstadoModel;
+    
+    /**
+     *
+     * @var Emergencia_Estado_Model
+     */
+    public $EmergenciaEstadoModel;
 
     /**
      *
@@ -31,7 +43,11 @@ class Home extends CI_Controller{
     public function __construct() {
         parent::__construct();
         $this->load->model("alarma_model", "AlarmaModel");
+        $this->load->model("alarma_estado_model", "AlarmaEstadoModel");
+        
         $this->load->model("emergencia_model", "EmergenciaModel");
+        $this->load->model("emergencia_estado_model", "EmergenciaEstadoModel");
+        
         $this->load->helper(array("session","utils"));
         $this->load->library(array("template"));
         sessionValidation();
@@ -45,34 +61,31 @@ class Home extends CI_Controller{
         if ( ! file_exists(APPPATH.'/views/pages/home/index.php')){
             show_404();
         }
-        $fecha_hasta = New DateTime("Now");
-        $fecha_desde = New DateTime("Now");
-        $fecha_desde->sub(new DateInterval('P30D'));
+
         
-        $this->template->parse("default", "pages/home/index", array("grilla_emergencia" => "",
-                                                                    "fecha_desde" => $fecha_desde->format("d/m/Y"),
-                                                                    "fecha_hasta" => $fecha_hasta->format("d/m/Y")));
+        $this->template->parse("default", 
+                               "pages/home/index", 
+                                array("cantidad_alarmas_en_revision" => $this->AlarmaModel->cantidadAlarmasPorEstado(Alarma_Estado_Model::REVISION),
+                                      "cantidad_alarmas_rechazada" => $this->AlarmaModel->cantidadAlarmasPorEstado(Alarma_Estado_Model::RECHAZADO),
+                                      "cantidad_emergencias_en_curso" => $this->EmergenciaModel->cantidadEmergenciasPorEstado(Emergencia_Estado_Model::EN_CURSO),
+                                      "cantidad_emergencias_cerradas" => $this->EmergenciaModel->cantidadEmergenciasPorEstado(Emergencia_Estado_Model::CERRADA)));
     }
+
     
     /**
      * 
      */
     public function ajax_grilla_alarmas(){
-        $params = $this->input->post(null, true);
-        $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
-        $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
-        echo $this->_html_grilla_alarmas($fecha_desde, $fecha_hasta);
+        echo $this->_html_grilla_alarmas();
     }
     
     /**
      * 
-     * @param DateTime $fecha_desde
-     * @param DateTime $fecha_hasta
      */
-    protected function _html_grilla_alarmas($fecha_desde, $fecha_hasta){
+    protected function _html_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
         $this->load->helper(array("modulo/alarma/alarma"));
-        $lista = $this->AlarmaModel->listarAlarmasEntreFechas($fecha_desde, $fecha_hasta);
+        $lista = $this->AlarmaModel->listar();
         return $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista), true);
     }
     
@@ -80,49 +93,16 @@ class Home extends CI_Controller{
      * 
      */
     public function ajax_grilla_emergencias(){
-        $params = $this->input->post(null, true);
-        $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
-        $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
-        echo $this->_html_grilla_emergencias($fecha_desde, $fecha_hasta);
+        echo $this->_html_grilla_emergencias();
     }
     
     /**
      * 
-     * @param DateTime $fecha_desde
-     * @param DateTime $fecha_hasta
      */
-    protected function _html_grilla_emergencias($fecha_desde, $fecha_hasta){
+    protected function _html_grilla_emergencias(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
-        $lista = $this->EmergenciaModel->listarEmergenciasEntreFechas($fecha_desde, $fecha_hasta);
+        $lista = $this->EmergenciaModel->listar();
         return $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista), true);
-    }
-    
-    /**
-     * Cantidad de alarmas entre fechas
-     */
-    public function json_cantidad_alarmas(){
-        $params = $this->input->post(null, true);
-        $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
-        $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
-        $cantidad = $this->AlarmaModel->cantidadAlarmas($fecha_desde, $fecha_hasta);
-        
-        $respuesta = array("correcto" => true,
-                           "cantidad"  => $cantidad);
-        echo json_encode($respuesta);
-    }
-    
-    /**
-     * Cantidad de emergencias entre fechas
-     */
-    public function json_cantidad_emergencia(){
-        $params = $this->input->post(null, true);
-        $fecha_desde = DateTime::createFromFormat("d/m/Y", $params["desde"]);
-        $fecha_hasta = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
-        $cantidad = $this->EmergenciaModel->cantidadEmergencias($fecha_desde, $fecha_hasta);
-        
-        $respuesta = array("correcto" => true,
-                           "cantidad"  => $cantidad);
-        echo json_encode($respuesta);
     }
     
     /**

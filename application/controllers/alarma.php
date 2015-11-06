@@ -24,6 +24,12 @@ class Alarma extends CI_Controller {
     
     /**
      *
+     * @var Alarma_Estado_Model
+     */
+    public $AlarmaEstadoModel;
+    
+    /**
+     *
      * @var template
      */
     public $template;
@@ -37,6 +43,7 @@ class Alarma extends CI_Controller {
         $this->load->library(array("template"));
         $this->load->model("alarma_model", "AlarmaModel");
         $this->load->model("alarma_comuna_model", "AlarmaComunaModel");
+        $this->load->model("alarma_estado_model", "AlarmaEstadoModel");
         sessionValidation();
     }
     
@@ -44,6 +51,8 @@ class Alarma extends CI_Controller {
      * Formulario de ingreso de alarma
      */
     public function ingreso() {
+        
+        
         $this->load->helper("modulo/direccion/comuna");
         $this->load->helper("modulo/emergencia/emergencia");
         
@@ -56,10 +65,15 @@ class Alarma extends CI_Controller {
             $datos['es_CRE'] = 1;
         }
         
+        $datos["html_listado"] = $this->html_listado();
+        
         $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
         $this->template->parse("default", "pages/alarma/ingreso", $data);
     }
-
+    
+    /**
+     * Formulario de edicion
+     */
     public function editar() {
         $params = $this->uri->uri_to_assoc();
         $datos['ala_ia_id'] = $params['id'];
@@ -73,46 +87,6 @@ class Alarma extends CI_Controller {
         $this->load->model("alarma_model", "AlarmaModel");
         return $this->AlarmaModel->getJsonAlarma($params);
     }
-    /**
-     * Formulario para editar una alarma
-     */
-//    public function editar(){
-//        $this->load->helper("Modulo/Direccion/comuna");
-//        $this->load->helper("Modulo/Emergencia/emergencia");
-//        
-//        $params = $params = $this->uri->uri_to_assoc();
-//
-//        $alarma = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
-//        if(!is_null($alarma)){
-//            $formulario = array(
-//                                "id" => $alarma->ala_ia_id,
-//                                "lon" => $alarma->ala_c_utm_lng,
-//                                "lat" => $alarma->ala_c_utm_lat,
-//                                "nombre_informante" => $alarma->ala_c_nombre_informante,
-//                                "telefono" => $alarma->ala_c_telefono_informante,
-//                                "nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
-//                                "id_tipo_emergencia" => $alarma->tip_ia_id,
-//                                "lugar" => $alarma->ala_c_lugar_emergencia,
-//                                "observacion" => $alarma->ala_c_observacion,
-//                                "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
-//                                "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion)
-//                                );
-//
-//            $comunas = array();
-//            $lista_comunas = $this->AlarmaComunaModel->listaComunasPorAlerta($alarma->ala_ia_id);
-//            foreach($lista_comunas as $key => $row){
-//                $comunas[] = $row["com_ia_id"];
-//            }
-//            $formulario["lista_comunas"] = $comunas;
-//            
-//            
-//            
-//            $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $formulario, true);
-//            $this->template->parse("default", "pages/alarma/editar", $data);
-//        } else {
-//            show_404();
-//        }
-//    }
 
     /**
      * Guarda formulario de alarma
@@ -143,21 +117,20 @@ class Alarma extends CI_Controller {
 
         $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["ala_ia_id"]);
         
+        //la alarma ya existia
         if(!is_null($alerta)){
             $id= $alerta->ala_ia_id;
             $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
             $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['iComunas']);
             $respuesta_email = "";
+        //la alarma no existia
         } else {
             $id = $this->AlarmaModel->query()->insert($data);
             $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['iComunas']);
             $params["ala_ia_id"] = $id;
             $respuesta_email = $this->AlarmaModel->guardarAlarma($params);
         }
-        
-        
 
-        
         $respuesta = array("ala_ia_id" => $id,
                            "res_mail"  => $respuesta_email);
         echo json_encode($respuesta);
@@ -175,16 +148,38 @@ class Alarma extends CI_Controller {
     /**
      * retorna lista
      */
-    public function listado() {
-        if (!file_exists(APPPATH . "/views/pages/alarma/listado.php")) {
-            show_404();
+    public function html_listado() {
+        $params = $this->uri->uri_to_assoc();
+        $this->load->helper(array("modulo/alarma/alarma_form"));
+        
+        if(isset($params["tab"])){
+            $tab = $params["tab"];
+        } else {
+            $tab = "nuevo";
         }
-
+        
+        $id_estado = Alarma_Estado_Model::REVISION;
+        if(isset($params["estado"])){
+            switch ($params["estado"]) {
+                case "activo":
+                    $id_estado = Alarma_Estado_Model::ACTIVADO;
+                    break;
+                case "rechazado":
+                    $id_estado = Alarma_Estado_Model::RECHAZADO;
+                    break;
+                default:
+                    $id_estado = Alarma_Estado_Model::REVISION;
+                    break;
+            }
+        }
+        
         $data = array(
+            "tab_activo" => $tab,
+            "select_estado_id_default" => $id_estado,
             "anioActual" => date('Y')
         );
-
-        $this->template->parse('alone',"pages/alarma/listado", $data);
+        
+        return $this->load->view("pages/alarma/listado", $data, true);
     }
 
     /**
