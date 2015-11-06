@@ -2070,6 +2070,33 @@ input[type="checkbox"]:checked::after,
 .top-spaced{margin-top:20px;}
 .top-spaced-doble{margin-top:40px;}
 
+.bottom-spaced{margin-bottom:20px;}
+.bottom-spaced-doble{margin-bottom:40px;}
+
 .navbar-brand{
     padding: 10px;
 }
+
+
+
+.text-complete{
+    display:none;
+}
+
+.text-more{
+    background:lightblue;
+    color:navy;
+    font-size:13px;
+    padding:3px;
+    cursor:pointer;
+}
+
+.nav-tabs{margin-bottom:0;}
+.nav-tabs>li>a{background-color:#ecf0f1;border-bottom:1px solid #ddd;}
+.portlet-heading, .portlet-body{overflow:hidden;}
+
+
+.tab-content{border-left:1px solid #ddd;overflow:hidden;border-bottom:1px solid #ddd;border-right:1px solid #ddd;}
+
+.table-middle > tbody > td{vertical-align: middle;}
+

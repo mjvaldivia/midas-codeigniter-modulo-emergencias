@@ -79,7 +79,7 @@
                     <i class="fa fa-bars"></i> Menu
                 </button>
                 <div class="navbar-brand">
-                    <a href="index.html" style="color: #FFF">
+                    <a href="<?php echo base_url("/") ?>" style="color: #FFF">
                        <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencias
                        <!-- <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" data-1x="img/flex-admin-logo@1x.png" data-2x="img/flex-admin-logo@2x.png" class="hisrc img-responsive" alt="">-->
                     </a>
@@ -92,7 +92,7 @@
                 <!-- begin LEFT SIDE WIDGETS -->
                 <ul class="nav navbar-left">
                     <li class="tooltip-sidebar-toggle">
-                        <a href="#" id="sidebar-toggle" data-toogle-param="abajo" data-toggle="tooltip" data-placement="right" title="Ocultar menu">
+                        <a href="#" id="sidebar-toggle" data-toogle-param="abajo" data-toggle="tooltip" data-placement="right" title="Mostrar menu">
                             <i class="fa fa-bars"></i>
                         </a>
                     </li>
@@ -250,7 +250,7 @@
         <!-- end TOP NAVIGATION -->
 
         <!-- begin SIDE NAVIGATION -->
-        <nav class="navbar-side" role="navigation">
+        <nav class="navbar-side collapsed" role="navigation">
             <div class="navbar-collapse sidebar-collapse collapse">
                 <ul id="side" class="nav navbar-nav side-nav">
                     <?= menuRender() ?>
@@ -263,7 +263,7 @@
         <!-- end SIDE NAVIGATION -->
 
         <!-- begin MAIN PAGE CONTENT -->
-        <div id="page-wrapper">
+        <div id="page-wrapper" class="collapsed">
 
             <div class="page-content">
                 {body}

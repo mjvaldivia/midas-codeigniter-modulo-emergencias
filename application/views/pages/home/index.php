@@ -18,120 +18,125 @@
 
 <!-- begin DASHBOARD CIRCLE TILES -->
 <div class="row">
-    <div class="col-lg-5 col-sm-12">
+    <div class="col-lg-12 col-sm-12">
         <div class="row">
             
-            <div class="col-lg-6 col-sm-6">
+            <div class="col-lg-2 col-sm-6">
                 <div class="circle-tile">
-                    <a href="#">
+                    <a href="<?= site_url("alarma/ingreso/tab/listado/estado/en_revision") ?>">
                         <div class="circle-tile-heading orange">
                             <i class="fa fa-bell fa-fw fa-3x"></i>
                         </div>
                     </a>
                     <div class="circle-tile-content orange">
                         <div class="circle-tile-description text-faded">
-                            Alarmas en revisión
+                            Alarmas
                         </div>
                         <div id="alarmas-revision-cantidad" class="circle-tile-number text-faded">
-                            <?= $cantidad_alarmas_en_revision ?>
+
                         </div>
                         <a href="<?= site_url("alarma/ingreso/tab/listado/estado/en_revision") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-sm-6">
+           
+            <div class="col-lg-2 col-sm-6">
                 <div class="circle-tile">
-                    <a href="#">
-                        <div class="circle-tile-heading gray">
-                            <i class="fa fa-bell-slash fa-fw fa-3x"></i>
-                        </div>
-                    </a>
-                    <div class="circle-tile-content gray">
-                        <div class="circle-tile-description text-faded">
-                            Alarmas rechazadas
-                        </div>
-                        <div class="circle-tile-number text-faded">
-                            <?= $cantidad_alarmas_rechazada ?>
-                        </div>
-                        <a href="<?= site_url("alarma/ingreso/tab/listado/estado/rechazado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>    
-        <div class="row">
-            
-            <div class="col-lg-6 col-sm-6">
-                <div class="circle-tile">
-                    <a href="#">
+                    <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>">
                         <div class="circle-tile-heading red">
                             <i class="fa fa-bullhorn fa-fw fa-3x"></i>
                         </div>
                     </a>
                     <div class="circle-tile-content red">
                         <div class="circle-tile-description text-faded">
-                            Emergencias en curso
+                            Emergencias
                         </div>
                         <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           <?= $cantidad_emergencias_en_curso ?>
+                           
                         </div>
-                        <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
             
-            <div class="col-lg-6 col-sm-6">
+            <div class="col-lg-2 col-sm-6">
+                <div class="circle-tile">
+                    <a href="<?= site_url("capas/ingreso") ?>">
+                        <div class="circle-tile-heading blue">
+                            <i class="fa fa-globe fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content blue">
+                        <div class="circle-tile-description text-faded">
+                            Capas
+                        </div>
+                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
+                           
+                        </div>
+                        <a href="<?= site_url("capas/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6">
                 <div class="circle-tile">
                     <a href="#">
                         <div class="circle-tile-heading green">
-                            <i class="fa fa-check fa-fw fa-3x"></i>
+                            <i class="fa fa-flag-checkered fa-fw fa-3x"></i>
                         </div>
                     </a>
                     <div class="circle-tile-content green">
                         <div class="circle-tile-description text-faded">
-                            Emergencias cerradas
+                            Simulación
                         </div>
-                        <div data-row="5" class="circle-tile-number text-faded">
-                            <?= $cantidad_emergencias_cerradas ?>
+                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
+                           
                         </div>
-                        <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading dark-blue">
+                            <i class="fa fa-book fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content dark-blue">
+                        <div class="circle-tile-description text-faded">
+                            Documentación
+                        </div>
+                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
+                           
+                        </div>
+                        <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6">
+                <div class="circle-tile">
+                    <a href="<?= site_url("soportes/bandeja_usuario") ?>">
+                        <div class="circle-tile-heading dark-gray">
+                            <i class="fa fa-question-circle fa-fw fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content dark-gray">
+                        <div class="circle-tile-description text-faded">
+                            Mesa de ayuda
+                        </div>
+                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
+                           
+                        </div>
+                        <a href="<?= site_url("soportes/bandeja_usuario") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="tile tile-img tile-time" style="height: 200px">
-                    <p class="time-widget">
-                        <span class="time-widget-heading">Hoy es</span>
-                        <br>
-                        <strong>
-                            <span id="datetime"></span>
-                        </strong>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="portlet portlet-green">
-                    <div class="portlet-heading">
-                        <div class="portlet-title">
-                            <h4>Gráfico de emergencia por mes</h4>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div id="lineChart" class="panel-collapse collapse in">
-                        <div class="portlet-body">
-                            <div id="morris-chart-line"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
     </div>
-    <div class="col-lg-7 col-sm-12">
-        <div class="row top-spaced-doble">
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="row">
             <div class="col-lg-12">
             <div class="portlet portlet-default">
                 <div class="portlet-heading">
@@ -164,13 +169,29 @@
         </div>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-lg-12">
+        <div class="portlet portlet-green">
+            <div class="portlet-heading">
+                <div class="portlet-title">
+                    <h4><i class="fa fa-line-chart"></i> Gráfico de emergencia por mes</h4>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="lineChart" class="panel-collapse collapse in">
+                <div class="portlet-body">
+                    <div id="morris-chart-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-12">
         <div class="portlet portlet-blue">
             <div class="portlet-heading">
                 <div class="portlet-title">
-                    <h4>Calendario</h4>
+                    <h4><i class="fa fa-calendar"></i> Calendario</h4>
                 </div>
                 <div class="clearfix"></div>
             </div>

@@ -5,7 +5,7 @@ require_once(APPPATH . 'third_party/Cosof/Form/Select.php');
 /**
  * Elemento select para comuna
  */
-Class Direccion_Element_SelectComuna{
+Class Direccion_Form_Element_SelectComuna{
     
     /**
      *

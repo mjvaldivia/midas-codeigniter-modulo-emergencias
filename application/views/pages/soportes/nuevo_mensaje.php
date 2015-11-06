@@ -3,6 +3,7 @@
 <div class="well">
 <h3 class="">Nuevo Mensaje para ticket <?php echo $soporte->soporte_codigo?></h3>
 <form class="form-horizontal" role="form" id="form_soporte">
+    <input type="hidden" name="grilla" id="grilla" value="<?php echo $grilla?>" />
     <input type="hidden" name="id_soporte" id="id_soporte" value="<?php echo $soporte->soporte_id?>" />
     <input type="hidden" name="usuario_soporte" id="usuario_soporte" value="<?php echo $soporte->soporte_usuario_fk?>" />
     <div class="form-group">

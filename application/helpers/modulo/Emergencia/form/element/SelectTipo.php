@@ -5,7 +5,7 @@ require_once(APPPATH . 'third_party/Cosof/Form/Select.php');
 /**
  * Elemento select para comuna
  */
-Class Emergencia_Element_SelectTipo{
+Class Emergencia_Form_Element_SelectTipo{
     
     /**
      *

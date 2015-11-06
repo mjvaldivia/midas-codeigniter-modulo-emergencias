@@ -15,7 +15,11 @@
             <tr>
                 <td><?php echo $row["eme_c_nombre_informante"]; ?></td>
                 <td><?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> </td>
-                <td><?php echo comunasEmergenciaConComa($row["eme_ia_id"]); ?></td>
+                <td>
+                   
+                    <?php echo textMoreLess(comunasEmergenciaConComa($row["eme_ia_id"])); ?>
+                   
+                </td>
                 <td><?php echo ISODateTospanish($row["eme_d_fecha_emergencia"]); ?></td>
                 <td><?php echo $row["eme_c_lugar_emergencia"]; ?></td>
                 <td>
