@@ -4,9 +4,7 @@
     }
     table{
         width: 100%;
-        border-spacing: 0;
-        border-collapse: collapse;
-        border: 1px solid black;
+
     }
     td, th{
        /* border: 1px solid black;*/
@@ -22,12 +20,16 @@
     #texto_cabecera{
         font-size: 19px;
     }
-
+    .tabla_border{
+                border-spacing: 0;
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
 </style>
 
 
 
-<table class="tabla_cabecera">
+<table class="tabla_cabecera tabla_border">
     <tr>
         <th  style="padding:10px; width: 0px;">
             <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" width="140px"/>
@@ -44,7 +46,7 @@
     </tr>
 </table>
 <br>
-<table class="tabla_detalle">
+<table class="tabla_detalle tabla_border">
     <tr>
         <th colspan="2">
            INFORMACIÓN DE LA ALARMA 
@@ -115,11 +117,11 @@
 
 <br>
 <pagebreak></pagebreak>
-<table>
+<table border="0">
     <tr>
-        <td colspan="2">Mapa del lugar de la emergencia</td>
+        <td>Mapa del lugar de la emergencia</td>
     </tr>
     <tr>
-        <td colspan="2"><img src="<?php echo base_url($imagename) ?>" /></td>
+        <td><img src="<?php echo base_url($imagename) ?>"/></td>
     </tr>  
     </table>

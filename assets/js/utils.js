@@ -133,6 +133,9 @@ var Utils = {};
                 case 401:
                     location.href = "http://asdigital.minsal.cl/acceso";
                     break;
+                case 404:
+                    alert('archivo no encontrado');
+                    break;
                 case 500:
                     alert("Ha ocurrido un error interno, contacte un administrador");
                     break;

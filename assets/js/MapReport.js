@@ -1,12 +1,14 @@
 
 var MapReport = {
-    map: null,
+    A: null,
+    B: null,
     mapOptions: null,
     referenciaMarker: null,
     emergencyMarker: null,
     centro: null,
-    funciones: []
-    
+    funciones: [],
+    data: null
+
 };
 (function () {
     var self = this;
@@ -16,33 +18,53 @@ var MapReport = {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         //zoomControl: false,
         streetViewControl: false
-        //mapTypeControl: false
+                //mapTypeControl: false
     };
     this.LoadMap = function () {
-      
-        this.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
+
+        self.A = new google.maps.Map(document.getElementById('dvMap'), self.mapOptions);
 
 
 
-        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(
-                self.loadObjects.bind(this)
-                );
+
+        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(function (data) {
+            self.data = data;
+            self.loadObjects(self.A);
+        }
+
+        );
 
 
     };
 
 
+    this.LoadMapCloned = function () {
+        self.B = new google.maps.Map(document.getElementById('clon'),
+                {
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoomControl: false,
+                    streetViewControl: false,
+                    mapTypeControl: false
+                });
+        self.loadObjects(self.B);
+        google.maps.event.addListenerOnce(self.B, 'tilesloaded', function(){
+setTimeout(function(){self.renderImage();},2000);
+});
+        
 
+    };
 
-    this.loadObjects = function (data) {
-        var emergencia= false; 
-        var ref= false;
+    this.loadObjects = function (mapa) {
+
+        var emergencia = false;
+        var data = self.data;
+        var ref = false;
         var json = JSON.parse(data);
         //var bounds = new google.maps.LatLngBounds();
 
 
 
-        self.map.data.setStyle(function (feature) {
+        mapa.data.setStyle(function (feature) {
             var color = null;
             var retorno = {};
 
@@ -68,7 +90,7 @@ var MapReport = {
         if (referencia.ref_lat && referencia.ref_lng && referencia.geozone)
         {
             ref = true;
-            self.drawReferencia(referencia.ref_lat, referencia.ref_lng, referencia.geozone);
+            self.drawReferencia(referencia.ref_lat, referencia.ref_lng, referencia.geozone, mapa);
             self.centro = self.referenciaMarker.getGeometry().get();
 
         }
@@ -76,12 +98,12 @@ var MapReport = {
         if (json.geojson)
         {
             emergencia = true;
-            self.loadJson(json.geojson);
+            self.loadJson(json.geojson, mapa);
         }
 
         if (json.capas)
         {
-            self.cargarCapas(json.capas);
+            self.cargarCapas(json.capas, mapa);
         }
 
         if (!emergencia && !ref)
@@ -99,37 +121,54 @@ var MapReport = {
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
                 latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-                
-            }
-            self.map.fitBounds(bounds);
 
+            }
+            if (mapa == self.A)
+                mapa.fitBounds(bounds);
+            else
+            { //ajusto segun el mapa A
+                mapa.fitBounds(self.A.getBounds());
+                mapa.setZoom(self.A.getZoom()+1);
+
+            }
+
+
+
+        } else {
+            if (mapa == self.A)
+                mapa.setCenter(self.centro);
+            else {
+                //ajusto segun el mapa A
+                mapa.fitBounds(self.A.getBounds());
+                mapa.setZoom(self.A.getZoom()+1);
+
+            }
         }
-	else{ self.map.setCenter(self.centro);} 
-        
+
 
     };
 
-    this.loadJson = function (geojson) {
-        self.map.data.loadGeoJson(geojson, null, function (features) {
+    this.loadJson = function (geojson, mapa) {
+        mapa.data.loadGeoJson(geojson, null, function (features) {
             for (var i = 0; i < features.length; i++) {
-                
+
                 var feature = features[i];
                 if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
-                    self.map.data.remove(self.referenciaMarker);
+                    mapa.data.remove(self.referenciaMarker);
                     self.emergencyMarker = feature;
                     var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
-                    
+
                     self.centro = gooLatLng;
-                   
-                    
+
+
                 } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                     self.emergencyRadius = feature;
 
             }
-           
+
         });
     };
-    this.drawReferencia = function (ref_lat, ref_lng, geozone) {
+    this.drawReferencia = function (ref_lat, ref_lng, geozone, mapa) {
         var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(ref_lng), parseFloat(ref_lat), geozone);
 
         var gooLatLng = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
@@ -142,18 +181,18 @@ var MapReport = {
                 nombre: 'Lugar de referencia alarma'
             }
         });
-        self.map.data.add(point);
+        mapa.data.add(point);
         self.referenciaMarker = point;
 
     };
-    this.cargarCapas = function (capas) {
+    this.cargarCapas = function (capas, mapa) {
 
         if (capas !== '') {
             var arr_select = capas.split(",");
             for (var m = 0; m < arr_select.length; m++) {
 
                 var cargada = 0;
-                self.map.data.forEach(function (feature) {
+                mapa.data.forEach(function (feature) {
                     // console.log(feature.getProperty("TYPE"));
                     if (feature.getProperty("TYPE") == arr_select[m])
                     {
@@ -236,7 +275,7 @@ var MapReport = {
                                     geometry: new google.maps.Data.Point({lat: parseFloat(LatLng[0]), lng: parseFloat(LatLng[1])}),
                                     properties: json_props
                                 });
-                                self.map.data.add(point);
+                                mapa.data.add(point);
                                 break;
                             case 'Polygon':
                                 json_props['fillColor'] = '#999999';
@@ -253,7 +292,7 @@ var MapReport = {
                                     geometry: new google.maps.Data.Polygon(arr),
                                     properties: json_props
                                 });
-                                self.map.data.add(polygon);
+                                mapa.data.add(polygon);
                                 break;
                             case 'MultiPolygon':
                                 json_props['fillColor'] = '#999999';
@@ -275,7 +314,7 @@ var MapReport = {
                                                 geometry: new google.maps.Data.Polygon(arr),
                                                 properties: json_props
                                             });
-                                            self.map.data.add(Polygon);
+                                            mapa.data.add(Polygon);
                                         }
                                     }
                                 }
@@ -296,7 +335,7 @@ var MapReport = {
                                     geometry: new google.maps.Data.LineString(arr),
                                     properties: json_props
                                 });
-                                self.map.data.add(LineString);
+                                mapa.data.add(LineString);
                                 break;
 
 
@@ -319,7 +358,8 @@ var MapReport = {
         return (Math.round((now - s) * 1000) / 1000) + s;
     };
     this.renderImage = function () {
-        html2canvas($('#dvMap'), {
+
+        html2canvas($('#clon'), {
             useCORS: true,
             onrendered: function (canvas) {
                 var dataUrl = canvas.toDataURL("image/jpg");
@@ -336,9 +376,9 @@ var MapReport = {
                     success: function (data) {
                         if (data.k !== 0)
                         {
-                           
-                             window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
-                             window.parent.Emergencia.closeIframe($('#eme_ia_id').val());
+
+                            window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
+
                         }
                     }
                 });
@@ -348,5 +388,8 @@ var MapReport = {
         });
 
     };
+    this.cloneMap = function () {
 
+        self.LoadMapCloned();
+    };
 }).apply(MapReport);

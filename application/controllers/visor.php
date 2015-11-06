@@ -194,7 +194,7 @@ class Visor extends CI_Controller {
         $img = imagecreatefromstring($bin);
 
         fopen($tmp_name, 'w');
-        imagepng($img, $tmp_name, 9);
+        imagepng($img, $tmp_name, 0);
         imagedestroy($img);
 
         $this->load->model("archivo_model", "ArchivoModel");
