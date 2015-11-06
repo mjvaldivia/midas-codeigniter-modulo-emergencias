@@ -49,8 +49,7 @@ class Home extends CI_Controller{
         $fecha_desde = New DateTime("Now");
         $fecha_desde->sub(new DateInterval('P30D'));
         
-        $this->template->parse("default", "pages/home/index", array("grilla_emergencia" => "",
-                                                                    "fecha_desde" => $fecha_desde->format("d/m/Y"),
+        $this->template->parse("default", "pages/home/index", array("fecha_desde" => $fecha_desde->format("d/m/Y"),
                                                                     "fecha_hasta" => $fecha_hasta->format("d/m/Y")));
     }
     

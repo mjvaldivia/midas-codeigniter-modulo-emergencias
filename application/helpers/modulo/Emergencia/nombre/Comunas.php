@@ -7,7 +7,7 @@ Class Emergencia_Nombre_Comunas{
     
     /**
      *
-     * @var type 
+     * @var CI_Controller
      */
     protected $ci;
     
@@ -33,8 +33,8 @@ Class Emergencia_Nombre_Comunas{
      * 
      * @param type $ci
      */
-    public function __construct($ci) {
-        $this->ci = $ci;
+    public function __construct() {
+        $this->ci =& get_instance();
         $this->ci->load->model("comuna_model");
         $this->ci->load->model("emergencia_comuna_model");
         

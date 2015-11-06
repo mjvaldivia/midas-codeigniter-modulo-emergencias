@@ -15,7 +15,7 @@ Class Emergencia_Element_SelectTipo{
     
     /**
      *
-     * @var type 
+     * @var CI_Controller
      */
     protected $ci;
     
@@ -35,8 +35,8 @@ Class Emergencia_Element_SelectTipo{
      * 
      * @param type $ci
      */
-    public function __construct($ci) {
-        $this->ci = $ci;
+    public function __construct() {
+        $this->ci =& get_instance();
         $this->_element = New Cosof_Form_Select();
         
         $this->ci->load->model("tipo_emergencia_model");

@@ -45,7 +45,7 @@
                         <div id="alarmas-cantidad" class="circle-tile-number text-faded">
 
                         </div>
-                        <a href="<?= site_url("alarma/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("alarma/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>

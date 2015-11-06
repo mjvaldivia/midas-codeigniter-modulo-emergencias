@@ -6,6 +6,10 @@
  */
 Class Layout_Menu_Render{
     
+    /**
+     *
+     * @var CI_Controller 
+     */
     protected $ci;
         
     /**
@@ -65,12 +69,11 @@ Class Layout_Menu_Render{
     
     /**
      * 
-     * @param  $ci
      */
-    public function __construct($ci) {
-        $this->ci = $ci;
-        $this->_controller = $ci->router->fetch_class();
-        $this->_action = $ci->router->fetch_method();
+    public function __construct() {
+        $this->ci =& get_instance();
+        $this->_controller = $this->ci->router->fetch_class();
+        $this->_action = $this->ci->router->fetch_method();
     }
        
        

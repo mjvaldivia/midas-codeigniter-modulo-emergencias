@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nombre del tipo de emergencia
+ * Helper para comunas de alertas
  */
 Class Alarma_Nombre_Comunas{
     
     /**
      *
-     * @var type 
+     * @var CI_Controller
      */
     protected $ci;
     
@@ -33,8 +33,8 @@ Class Alarma_Nombre_Comunas{
      * 
      * @param type $ci
      */
-    public function __construct($ci) {
-        $this->ci = $ci;
+    public function __construct() {
+        $this->ci =& get_instance();
         $this->ci->load->model("comuna_model");
         $this->ci->load->model("alarma_comuna_model");
         
@@ -43,7 +43,7 @@ Class Alarma_Nombre_Comunas{
     }
     
     /**
-     * 
+     * Setea la alarma
      * @param int $id_emergencia
      */
     public function setIdAlarma($id_alarma){
@@ -51,7 +51,8 @@ Class Alarma_Nombre_Comunas{
     }
     
     /**
-     * 
+     * Retorna nombres de comunas asociadas a la alerta
+     * separadas por coma
      * @return string
      */
     public function getString(){
