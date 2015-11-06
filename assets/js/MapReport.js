@@ -1,12 +1,14 @@
 
 var MapReport = {
     map: null,
+    mapCloned: null,
     mapOptions: null,
     referenciaMarker: null,
     emergencyMarker: null,
     centro: null,
-    funciones: []
-    
+    funciones: [],
+    clonedBounds: null
+
 };
 (function () {
     var self = this;
@@ -16,11 +18,11 @@ var MapReport = {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         //zoomControl: false,
         streetViewControl: false
-        //mapTypeControl: false
+                //mapTypeControl: false
     };
     this.LoadMap = function () {
-      
-        this.map = new google.maps.Map(document.getElementById("dvMap"), this.mapOptions);
+
+        this.map = new google.maps.Map(document.getElementById('dvMap'), this.mapOptions);
 
 
 
@@ -32,11 +34,23 @@ var MapReport = {
     };
 
 
+    this.LoadMapCloned = function () {
+        this.mapCloned = new google.maps.Map(document.getElementById('clon'), this.mapOptions);
+         self.mapCloned.fitBounds(self.map.getBounds());
+         self.mapCloned.setZoom(self.map.getZoom());
+         if(self.referenciaMarker!==null)
+              self.mapCloned.data.add(self.referenciaMarker);
+         if(self.emergencyMarker!==null)
+              self.mapCloned.data.add(self.emergencyMarker);
+             
+         
 
+
+    };
 
     this.loadObjects = function (data) {
-        var emergencia= false; 
-        var ref= false;
+        var emergencia = false;
+        var ref = false;
         var json = JSON.parse(data);
         //var bounds = new google.maps.LatLngBounds();
 
@@ -99,34 +113,38 @@ var MapReport = {
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
                 latLon = GeoEncoder.utmToDecimalDegree(parseFloat(c.com_c_xmax), parseFloat(c.com_c_ymax), c.com_c_geozone);
                 bounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
-                
+
             }
+
             self.map.fitBounds(bounds);
 
-        }
-	else{ self.map.setCenter(self.centro);} 
-        
+
+
+        } else
+            self.map.setCenter(self.centro);
+
+
 
     };
 
     this.loadJson = function (geojson) {
         self.map.data.loadGeoJson(geojson, null, function (features) {
             for (var i = 0; i < features.length; i++) {
-                
+
                 var feature = features[i];
                 if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
                     self.map.data.remove(self.referenciaMarker);
                     self.emergencyMarker = feature;
                     var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
-                    
+
                     self.centro = gooLatLng;
-                   
-                    
+
+
                 } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
                     self.emergencyRadius = feature;
 
             }
-           
+
         });
     };
     this.drawReferencia = function (ref_lat, ref_lng, geozone) {
@@ -319,6 +337,8 @@ var MapReport = {
         return (Math.round((now - s) * 1000) / 1000) + s;
     };
     this.renderImage = function () {
+        self.cloneMap();
+        return;
         html2canvas($('#dvMap'), {
             useCORS: true,
             onrendered: function (canvas) {
@@ -336,9 +356,9 @@ var MapReport = {
                     success: function (data) {
                         if (data.k !== 0)
                         {
-                           
-                             window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
-                             window.parent.Emergencia.closeIframe($('#eme_ia_id').val());
+
+                            window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
+
                         }
                     }
                 });
@@ -348,5 +368,9 @@ var MapReport = {
         });
 
     };
-
+    this.cloneMap = function () {
+var mapNode = self.map.getDiv();
+$('#clon').append(mapNode);
+       // self.LoadMapCloned();
+    };
 }).apply(MapReport);

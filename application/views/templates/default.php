@@ -9,8 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Flex Admin - Responsive Admin Theme</title>
-
+    <title>Emergencias::MIDAS</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
     <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
     <?= loadCSS("assets/lib/pace/pace.css", true) ?>
     <?= loadJS("assets/lib/pace/pace.js", true) ?>
