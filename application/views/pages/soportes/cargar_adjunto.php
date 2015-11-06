@@ -8,18 +8,17 @@
 <body style="background-color: #fff">
 <div class="col-xs-12">
     <form class="form-inline" role="form" enctype="multipart/form-data" name="form_adjunto" id="form_adjunto" action="<?php echo site_url('soportes/cargarAdjunto');?>" method="post">
-        <div class="">
-            <div class="input-group">
-                <input type="text" name="nombre_adjunto" id="nombre_adjunto" class="form-control" readonly  onclick='$("#adjunto").click();'>
+        
+            <div class="input-group" style="width:80%">
+                <input type="text" name="nombre_adjunto" id="nombre_adjunto" class="form-control" readonly  onclick='$("#adjunto").click();' >
                 <span class="input-group-addon" onclick='$("#adjunto").click();'><i class="fa fa-file"></i></span>
                     
             </div>
             <input type="file" name="adjunto" id="adjunto" class="form-control" style="display:none" onchange='Soportes.mostrarNombreAdjunto(this.value);' />
-
-            <button type="button" class="btn btn-green btn-square" onclick="this.form.submit();">Agregar</button>
-            <button type="button" class="btn btn-default btn-square" onclick="parent.Soportes.cargarGrillaAdjuntos();parent.ModalSipresa.close_modal('modal_agregar_adjunto');">Cerrar</button>
             
-        </div>
+            <button type="button" class="btn btn-green btn-square " onclick="this.form.submit();">Agregar</button>
+            <button type="button" class="btn btn-default btn-square" onclick="parent.Soportes.cargarGrillaAdjuntos();parent.ModalSipresa.close_modal('modal_agregar_adjunto');">Cerrar</button>
+  
         
         </div>
     </form>

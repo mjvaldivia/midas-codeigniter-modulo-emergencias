@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <?php $url = site_url('soportes/agregarAdjunto');?>
                         <label class="col-xs-12">Agregar adjunto <a class="btn btn-blue btn-xs modal-sipresa btn-square" href="<?php echo $url?>" data-toggle="modal" data-target="#modal_agregar_adjunto"><i class="fa fa-plus"></i></a></label>
-                        <div class="small" id="contenedor-adjuntos"></div>
+                        <div class="small col-xs-12" id="contenedor-adjuntos"></div>
                     </div>
                     <div class="text-right">
                         <div class="checkbox pull-left">
