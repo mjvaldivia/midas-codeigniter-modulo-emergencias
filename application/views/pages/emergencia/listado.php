@@ -1,3 +1,17 @@
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
+<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+
+<?= loadJS("assets/js/jquery.jcombo.js") ?>
+<?= loadJS("assets/js/emergencia.js") ?>
+<?= loadJS("assets/js/bootbox.min.js") ?>
+
+<link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
+<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
+
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;
@@ -111,17 +125,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
             </table>
         </div>
     </div>
-</div>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+</form>
 
-<?= loadJS("assets/js/jquery.jcombo.js") ?>
-<?= loadJS("assets/js/emergencia.js") ?>
-<?= loadJS("assets/js/bootbox.min.js") ?>
 <script type="text/javascript">
     $(document).ready(function () {
+        
+        
+        
         Emergencia.inicioListado();
     });
 </script>

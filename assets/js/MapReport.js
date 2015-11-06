@@ -1,4 +1,3 @@
-
 var MapReport = {
     A: null,
     B: null,
@@ -47,10 +46,12 @@ var MapReport = {
                     mapTypeControl: false
                 });
         self.loadObjects(self.B);
-        google.maps.event.addListenerOnce(self.B, 'tilesloaded', function(){
-setTimeout(function(){self.renderImage();},2000);
-});
-        
+        google.maps.event.addListenerOnce(self.B, 'tilesloaded', function () {
+            setTimeout(function () {
+                self.renderImage();
+            }, 2000);
+        });
+
 
     };
 
@@ -128,7 +129,7 @@ setTimeout(function(){self.renderImage();},2000);
             else
             { //ajusto segun el mapa A
                 mapa.fitBounds(self.A.getBounds());
-                mapa.setZoom(self.A.getZoom()+1);
+                mapa.setZoom(self.A.getZoom() + 1);
 
             }
 
@@ -140,7 +141,7 @@ setTimeout(function(){self.renderImage();},2000);
             else {
                 //ajusto segun el mapa A
                 mapa.fitBounds(self.A.getBounds());
-                mapa.setZoom(self.A.getZoom()+1);
+                mapa.setZoom(self.A.getZoom() + 1);
 
             }
         }
@@ -393,3 +394,60 @@ setTimeout(function(){self.renderImage();},2000);
         self.LoadMapCloned();
     };
 }).apply(MapReport);
+
+
+$.get(siteUrl+'visor/getmails/').done(function (data) {
+    var array = $.parseJSON(data);
+    
+
+$('#tokenfield')
+
+        .on('tokenfield:createtoken', function (e) {
+            var data = e.attrs.value.split('|')
+            e.attrs.value = data[1] || data[0]
+            e.attrs.label = data[1] ? data[0] + ' (' + data[1] + ')' : data[0];
+
+            var existingTokens = $(this).tokenfield('getTokens');
+            $.each(existingTokens, function (index, token) {
+                if (token.value === e.attrs.value)
+                {
+                    //e.preventDefault();
+                   // alert('Ya está agregado');
+                }
+
+            });
+        })
+
+        .on('tokenfield:createdtoken', function (e) {
+            // Über-simplistic e-mail validation
+
+            var re = /\S+@\S+\.\S+/
+            var valid = re.test(e.attrs.value)
+            if (!valid) {
+                $(e.relatedTarget).addClass('invalid')
+            }
+
+        })
+
+        .on('tokenfield:edittoken', function (e) {
+            if (e.attrs.label !== e.attrs.value) {
+                var label = e.attrs.label.split(' (')
+                e.attrs.value = label[0] + '|' + e.attrs.value
+            }
+        })
+
+        .on('tokenfield:removedtoken', function (e) {
+            // alert('Token removed! Token value was: ' + e.attrs.value)
+        })
+
+        .tokenfield({
+            autocomplete: {
+                source: array,
+                delay: 100
+            },
+            showAutocompleteOnFocus: true,
+            delimiter: [',', ' ', '-', '_']
+        });
+    });
+
+

@@ -108,7 +108,7 @@ class Session_Model extends CI_Model
               select
               u.*,
               c.crg_c_nombre,
-              r.reg_c_nombre,
+              r.*,
               (
                 select
                   group_concat(uvo.ofi_ia_id)
@@ -202,7 +202,8 @@ class Session_Model extends CI_Model
               select
               u.*,
               c.crg_c_nombre,
-              r.reg_c_nombre,
+              r.*,
+              
               (
                 select
                   group_concat(uvo.ofi_ia_id)
@@ -271,6 +272,7 @@ class Session_Model extends CI_Model
                 $this->session->set_userdata("session_nombres", $r["usu_c_nombre"] . " " . $r["usu_c_apellido_paterno"] . " " . $r["usu_c_apellido_materno"]);
                 $this->session->set_userdata("session_usuario", $r["usu_c_login"]);
                 $this->session->set_userdata("session_region", $r["reg_c_nombre"]);
+                $this->session->set_userdata("session_region_codigo", $r["reg_ia_id"]);
                 $this->session->set_userdata("session_cargo", $r["crg_c_nombre"]);
                 $this->session->set_userdata("session_idCargo", $r["crg_ia_id"]);
                 $this->session->set_userdata("session_ambitos", $r["ambitos"]);

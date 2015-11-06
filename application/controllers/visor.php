@@ -205,5 +205,12 @@ class Visor extends CI_Controller {
             echo json_encode(array('k' => 0));
         }
     }
+    
+        public function getmails() {
+        $this->load->helper("session");
+        sessionValidation();
+        $this->load->model("usuario_model", "UsuarioModel");
+        echo $this->UsuarioModel->get_mails($this->session->userdata('session_region_codigo'));
+    }
 
 }
