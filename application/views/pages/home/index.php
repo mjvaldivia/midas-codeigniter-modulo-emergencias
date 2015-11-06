@@ -74,7 +74,7 @@
                         <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
                            <?= $cantidad_emergencias_en_curso ?>
                         </div>
-                        <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                         <div data-row="5" class="circle-tile-number text-faded">
                             <?= $cantidad_emergencias_cerradas ?>
                         </div>
-                        <a href="<?= site_url("emergencia/listado") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("emergencia/listado/estado/cerrada") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
