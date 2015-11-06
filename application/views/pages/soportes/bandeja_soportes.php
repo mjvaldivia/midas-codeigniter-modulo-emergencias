@@ -4,12 +4,12 @@
     
     <div class="col-xs-12">
         <div class="page-title">
-            <h1>Mesa de Ayuda
+            <h1>Soportes
                 <small><i class="fa fa-arrow-right"></i> Tickets de Soporte</small>
             </h1>
             <ol class="breadcrumb">
-                <li class="active"><i class="fa fa-question-circle"></i> Mesa de ayuda</li>
-                <li>Soportes</li>
+                <li class="active"><i class="fa fa-question-circle"></i> Soportes</li>
+                <li>Tickets usuarios</li>
             </ol>
         </div>
         <h3 class="page-header">
@@ -25,7 +25,7 @@
                     <th># Ticket</th>
                     <th>Fecha</th>
                     <th>Asunto</th>
-                    <!-- <th>Enviado por</th> -->
+                    <th>Enviado por</th>
                     <th>Estado</th>
                     <th></th>
                 </tr>
@@ -36,7 +36,7 @@
                     <td class="text-center"><?php echo $item->soporte_codigo?></td>
                     <td class="text-center"><?php echo $item->soporte_fecha_ingreso?></td>
                     <td class="text-center"><?php echo $item->soporte_asunto?></td>
-                    <!-- <td class="text-center"><?php echo mb_strtoupper($item->nombre_usuario)?></td> -->
+                    <td class="text-center"><?php echo mb_strtoupper($item->nombre_usuario)?></td>
                     <td class="text-center"><?php echo $item->estado?>
                         <?php if($item->no_leidos > 0):?>
                         <label class="label label-info">Nuevo mensaje</label>    

@@ -98,6 +98,7 @@ class Soportes extends CI_Controller {
         $grilla = $_POST['grilla'];
 
         if($grilla == "usuario"){
+            $id_usuario = $this->session->userdata['session_idUsuario'];
             $soportes = $this->SoportesModel->obtSoportesUsuario($id_usuario);
             $html = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
             <thead>
@@ -105,7 +106,6 @@ class Soportes extends CI_Controller {
                     <th># Ticket</th>
                     <th>Fecha</th>
                     <th>Asunto</th>
-                    <th>Enviado por</th>
                     <th>Estado</th>
                     <th></th>
                 </tr>
@@ -117,7 +117,6 @@ class Soportes extends CI_Controller {
                     <td class="text-center">'.$item->soporte_codigo.'</td>
                     <td class="text-center">'.$item->soporte_fecha_ingreso.'</td>
                     <td class="text-center">'.$item->soporte_asunto.'</td>
-                    <td class="text-center">'.mb_strtoupper($item->nombre_usuario).'</td>
                     <td class="text-center">'.$item->estado.'</td>
                     <td class="text-center">
                         <a data-toggle="modal" class="btn btn-primary btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
@@ -142,6 +141,14 @@ class Soportes extends CI_Controller {
         $mensajes = $this->SoportesMensajesModel->obtMensajeSoporte($id_soporte);
 
         $cerrarTicket = ($this->session->userdata['session_idUsuario'] != $soporte[0]->soporte_usuario_fk);
+
+        if($this->session->userdata['session_idUsuario'] == $soporte[0]->soporte_usuario_fk){
+            $data = array('soportemensaje_visto_usuario' => 1);
+            $updateMensajes = $this->SoportesMensajesModel->updSoporteMensaje($data,$id_soporte,'soportemensaje_soporte_fk');
+        }else{
+            $data = array('soportemensaje_visto_soporte' => 1);
+            $updateMensajes = $this->SoportesMensajesModel->updSoporteMensaje($data,$id_soporte,'soportemensaje_soporte_fk');
+        }
         
         $data = array(
             'soporte'=>$soporte[0],
@@ -171,12 +178,14 @@ class Soportes extends CI_Controller {
         parse_str($_POST['data'],$data);
         $fecha = date('Y-m-d H:i:s');
         $usuario = $this->session->userdata['session_idUsuario'];
+        $cambiarEstado = false;
         if($usuario == $data['usuario_soporte']){
             $visto_usuario = 1;
             $visto_soporte = 0;
         }else{
             $visto_usuario = 0;
             $visto_soporte = 1;
+            $cambiarEstado = true;
         }
         $datos = array(
             'soportemensaje_soporte_fk' => $data['id_soporte'],
@@ -190,6 +199,11 @@ class Soportes extends CI_Controller {
 
         $soporte_mensaje = $this->SoportesMensajesModel->insNuevoMensajeSoporte($datos);
         if($soporte_mensaje){
+            if($cambiarEstado){
+                $datos = array('soporte_estado' => 2);
+                $update = $this->SoportesModel->updSoporte($datos,$data['id_soporte']);
+            }
+            
             $json['estado'] = true;
             $json['mensaje'] = "Mensaje enviado correctamente";    
         }else{
@@ -200,6 +214,18 @@ class Soportes extends CI_Controller {
 
         echo json_encode($json);
     }
+
+
+    public function bandeja_soportes(){
+        
+        $id_region = $this->session->userdata['session_region_codigo'];
+        $soportes = $this->SoportesModel->obtSoportes($id_region);
+
+        $data = array(
+            'soportes' => $soportes
+            );
+        $this->template->parse("default", "pages/soportes/bandeja_soportes", $data);
+    } 
 
 
 }

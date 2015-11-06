@@ -50,6 +50,10 @@ Class Layout_Menu_Render{
                                                             "controller" => "",
                                                             "action" => "",
                                                             "child" => array()), 
+                                   "Soportes" => array("icon_class" => "fa-question-circle",
+                                                            "controller" => "soportes",
+                                                            "action" => "bandeja_soportes",
+                                                            "child" => array()),
            
                                    "Mesa de ayuda" => array("icon_class" => "fa-question-circle",
                                                             "child" => array("Mensajes" => array(

@@ -40,6 +40,7 @@ class Soportes_Model extends CI_Model {
                     soporte_email,
                     soporte_fecha_cierre,
                     concat(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno) as nombre_usuario,
+                    (select count(*) as no_leidos from soportes_mensajes where soportemensaje_soporte_fk = soporte_id and soportemensaje_visto_usuario = 0 ) as no_leidos,
                     case soporte_estado
                         when 1 then 'INGRESADO'
                         when 2 then 'EN DESARROLLO'
@@ -47,8 +48,43 @@ class Soportes_Model extends CI_Model {
                     end as estado
                     from ".$this->_tabla." 
                     left join usuarios on usu_ia_id = soporte_usuario_fk
+                    where soporte_usuario_fk = ?
                     order by soporte_fecha_ingreso DESC";
-        $query = $this->db->query($query);
+        $query = $this->db->query($query,array($id_usuario));
+
+        $resultados = array();
+
+        if ($query->num_rows() > 0)
+            $resultados = $query->result_object();
+
+        return $resultados;
+    }
+
+
+
+    public function obtSoportes($id_region) {
+        $query = "select 
+                    soporte_id,
+                    soporte_usuario_fk,
+                    soporte_region,
+                    soporte_codigo,
+                    soporte_fecha_ingreso,
+                    soporte_asunto,
+                    soporte_estado,
+                    soporte_email,
+                    soporte_fecha_cierre,
+                    concat(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno) as nombre_usuario,
+                    (select count(*) as no_leidos from soportes_mensajes where soportemensaje_soporte_fk = soporte_id and soportemensaje_visto_soporte = 0 ) as no_leidos,
+                    case soporte_estado
+                        when 1 then 'INGRESADO'
+                        when 2 then 'EN DESARROLLO'
+                        else 'CERRADO'
+                    end as estado
+                    from ".$this->_tabla." 
+                    left join usuarios on usu_ia_id = soporte_usuario_fk
+                    where soporte_region = ?
+                    order by soporte_fecha_ingreso DESC";
+        $query = $this->db->query($query,array($id_region));
 
         $resultados = array();
 
@@ -120,4 +156,8 @@ class Soportes_Model extends CI_Model {
         return $resultados;
     }
 
+
+    public function updSoporte($data,$id){
+        return $this->_query->update($data,$this->primary,$id);
+    }
 }    

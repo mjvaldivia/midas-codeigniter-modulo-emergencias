@@ -96,4 +96,13 @@ class Soportes_Mensajes_Model extends CI_Model {
         return $resultados;
     }
 
+
+    public function updSoporteMensaje($data,$id,$campo=null){
+        if($campo){
+            return $this->_query->update($data,$campo,$id);    
+        }else{
+            return $this->_query->update($data,$this->primary,$id);
+        }
+    }
+
 }    
