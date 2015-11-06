@@ -10,6 +10,15 @@ var Soportes = {};
             },
             order: [[0, "desc"]]
         });
+
+        var tablaSoportes = $("#tabla_soportes_cerrados").DataTable({
+            destroy : true,
+            language: {
+                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+            },
+            order: [[0, "desc"]]
+        });
+
     },
 
 

@@ -24,8 +24,19 @@ class Soportes extends CI_Controller {
         $id_usuario = $this->session->userdata['session_idUsuario'];
         $soportes = $this->SoportesModel->obtSoportesUsuario($id_usuario);
 
+        $soportes_ingresados = array();
+        $soportes_cerrados = array();
+
+        foreach($soportes as $item){
+            if($item->soporte_estado == 3){
+                $soportes_cerrados[] = $item;
+            }else{
+                $soportes_ingresados[] = $item;
+            }
+        }
         $data = array(
-            'soportes' => $soportes
+            'soportes_ingresados' => $soportes_ingresados,
+            'soportes_cerrados' => $soportes_cerrados
             );
         $this->template->parse("default", "pages/soportes/bandeja_usuario", $data);
     } 
@@ -440,7 +451,7 @@ class Soportes extends CI_Controller {
 
     public function cargarGrillaAdjuntos(){
         $adjuntos = array();
-        $html = count($_SESSION['adjuntos_soporte']);
+        $html = '';
         if(isset($_SESSION['adjuntos_soporte']) and count($_SESSION['adjuntos_soporte']) > 0){
             $adjuntos = $_SESSION['adjuntos_soporte'];
             $html = '<table class="table table-condensed table-bordered table-hover small">';
