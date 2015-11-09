@@ -41,3 +41,23 @@ create table soportes_adjuntos(
     index(soporteadjunto_mensaje_fk),
     foreign key (soporteadjunto_mensaje_fk) references soportes_mensajes(soportemensaje_id)
 ) engine=InnoDB default charset=utf8 auto_increment=1;
+
+-- Adminer 3.6.2 MySQL dump
+
+SET NAMES utf8;
+SET foreign_key_checks = 0;
+SET time_zone = '-03:00';
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+DROP TABLE IF EXISTS `estados_emergencias`;
+CREATE TABLE `estados_emergencias` (
+  `est_ia_id` int(11) NOT NULL AUTO_INCREMENT,
+  `est_c_nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`est_ia_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `estados_emergencias` (`est_ia_id`, `est_c_nombre`) VALUES
+(1,	'En curso'),
+(2,	'Cerrada');
+
+-- 2015-11-09 13:23:13
