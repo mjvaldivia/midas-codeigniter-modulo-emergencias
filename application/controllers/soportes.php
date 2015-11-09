@@ -155,7 +155,20 @@ class Soportes extends CI_Controller {
         if($grilla == "usuario"){
             $id_usuario = $this->session->userdata['session_idUsuario'];
             $soportes = $this->SoportesModel->obtSoportesUsuario($id_usuario);
-            $html = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
+
+            $soportes_ingresados = array();
+            $soportes_cerrados = array();
+
+            foreach($soportes as $item){
+                if($item->soporte_estado == 3){
+                    $soportes_cerrados[] = $item;
+                }else{
+                    $soportes_ingresados[] = $item;
+                }
+            }
+            
+            /* soportes ingresados y en desarrollo */
+            $ingresados = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
             <thead>
                 <tr>
                     <th># Ticket</th>
@@ -166,9 +179,9 @@ class Soportes extends CI_Controller {
                 </tr>
             </thead>
             <tbody>';
-            foreach($soportes as $item):
+            foreach($soportes_ingresados as $item):
                 $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);
-                $html .='<tr>
+                $ingresados .='<tr>
                     <td class="text-center">'.$item->soporte_codigo.'</td>
                     <td class="text-center">'.$item->soporte_fecha_ingreso.'</td>
                     <td class="text-center">'.$item->soporte_asunto.'</td>
@@ -178,8 +191,42 @@ class Soportes extends CI_Controller {
                     </td>
                 </tr>';
             endforeach;
-            $html .= '</tbody>    
+            $ingresados .= '</tbody>    
                     </table>';
+
+            /* soportes cerrados */
+            $cerrados = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes_cerrados">
+            <thead>
+                <tr>
+                    <th># Ticket</th>
+                    <th>Fecha</th>
+                    <th>Asunto</th>
+                    <th>Estado</th>
+                    <th>Fecha Cierre</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>';
+            foreach($soportes_cerrados as $item):
+                $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);
+                $cerrados .='<tr>
+                    <td class="text-center">'.$item->soporte_codigo.'</td>
+                    <td class="text-center">'.$item->soporte_fecha_ingreso.'</td>
+                    <td class="text-center">'.$item->soporte_asunto.'</td>
+                    <td class="text-center">'.$item->estado.'</td>
+                    <td class="text-center">'.$item->soporte_fecha_cierre.'</td>
+                    <td class="text-center">
+                        <a data-toggle="modal" class="btn btn-primary btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                    </td>
+                </tr>';
+            endforeach;
+            $cerrados .= '</tbody>    
+                    </table>';
+
+            $json = array(
+                'ingresados' => $ingresados,
+                'cerrados' => $cerrados
+                );
 
         }elseif($grilla == "soporte"){
             $region = $this->session->userdata['session_region_codigo'];
@@ -214,7 +261,7 @@ class Soportes extends CI_Controller {
 
         }
 
-        echo $html;
+        echo json_encode($json);
     }
 
 
