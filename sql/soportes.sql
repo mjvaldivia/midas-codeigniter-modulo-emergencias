@@ -8,6 +8,7 @@ create table soportes(
     soporte_estado tinyint(1) unsigned not null default 1,     /* 1: ingresado; 2: en desarrollo; 3: cerrado */
     soporte_email tinyint(1) unsigned not null default 0,   /* si el usuario desea ser avisado al correo cuando se generar una nueva respuesta */
     soporte_fecha_cierre datetime,
+    soporte_derivado boolean default 0,
     index(soporte_usuario_fk),
     foreign key (soporte_usuario_fk) references usuarios(usu_ia_id)
 ) engine=InnoDB default charset=utf8 auto_increment=1;

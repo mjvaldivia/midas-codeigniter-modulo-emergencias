@@ -3,12 +3,12 @@
     
     <div class="col-xs-12">
         <div class="page-title">
-            <h1>Mesa Soportes Regional
+            <h1>Mesa Soportes Central
                 <small><i class="fa fa-arrow-right"></i> Tickets de Soporte</small>
             </h1>
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-question-circle"></i> Soportes</li>
-                <li>Mesa Regional</li>
+                <li>Mesa Central</li>
             </ol>
         </div>
     </div>
@@ -41,6 +41,7 @@
                                         <th>Fecha</th>
                                         <th>Asunto</th>
                                         <th>Enviado por</th>
+                                        <th>Región</th>
                                         <th>Estado</th>
                                         <th></th>
                                     </tr>
@@ -52,6 +53,7 @@
                                         <td class="text-center"><?php echo $item->soporte_fecha_ingreso?></td>
                                         <td class="text-center"><?php echo $item->soporte_asunto?></td>
                                         <td class="text-center"><?php echo mb_strtoupper($item->nombre_usuario)?></td>
+                                        <td class="text-center"><?php echo $item->nombre_region?>
                                         <td class="text-center"><?php echo $item->estado?>
                                             <?php if($item->no_leidos > 0):?>
                                             <label class="label label-info">Nuevo mensaje</label>    
@@ -78,6 +80,7 @@
                                         <th>Fecha</th>
                                         <th>Asunto</th>
                                         <th>Enviado por</th>
+                                        <th>Región</th>
                                         <th>Estado</th>
                                         <th>Fecha Cierre</th>
                                         <th></th>
@@ -90,6 +93,7 @@
                                         <td class="text-center"><?php echo $item->soporte_fecha_ingreso?></td>
                                         <td class="text-center"><?php echo $item->soporte_asunto?></td>
                                         <td class="text-center"><?php echo mb_strtoupper($item->nombre_usuario)?></td>
+                                        <td class="text-center"><?php echo $item->nombre_region?></td>
                                         <td class="text-center"><?php echo $item->estado?></td>
                                         <td class="text-center"><?php echo $item->soporte_fecha_cierre?></td>
                                         <td class="text-center">

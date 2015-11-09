@@ -154,7 +154,7 @@ var Soportes = {};
                                 ok : {
                                     callback : function(){
                                         ModalSipresa.close_modal("modal_ver_soporte");
-                                        $.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:'soporte'},function(response){
+                                        $.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:response.grilla},function(response){
                                             $("#contenedor-tabla-soportes").html(response.ingresados);
                                             $("#contenedor-tabla-soportes-cerrados").html(response.cerrados);
                                             Soportes.init();
@@ -203,6 +203,40 @@ var Soportes = {};
         nombre = nombre[nombre.length - 1];
         $("#nombre_adjunto").val(nombre);
         
+    },
+
+
+    this.derivarTicket = function(ticket,codigo){
+        bootbox.confirm('Desea derivar a Mesa Central el ticket '+codigo,function(result){
+            if(result == true){
+                $.post(siteUrl + 'soportes/derivarSoporte',{soporte:ticket},function(response){
+                    if(response.estado == true){
+                        bootbox.dialog({
+                            title:'Ticket Cerrado',
+                            message: response.mensaje,
+                            buttons: {
+                                ok : {
+                                    callback : function(){
+                                        ModalSipresa.close_modal("modal_ver_soporte");
+                                        $.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:'soporte'},function(response){
+                                            $("#contenedor-tabla-soportes").html(response.ingresados);
+                                            $("#contenedor-tabla-soportes-cerrados").html(response.cerrados);
+                                            Soportes.init();
+                                        },'json').fail(function(){
+                                            bootbox.alert({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }else{
+                        bootbox.alert({title:"Error", message:response.mensaje});
+                    }
+                },'json').fail(function(){
+                    bootbox.dialog({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
+                });
+            }
+        });
     }
 
 }).apply(Soportes);

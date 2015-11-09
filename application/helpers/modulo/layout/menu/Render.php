@@ -55,9 +55,15 @@ Class Layout_Menu_Render{
                                                             "action" => "",
                                                             "child" => array()), 
                                    "Soportes" => array("icon_class" => "fa-question-circle",
-                                                            "controller" => "soportes",
-                                                            "action" => "bandeja_soportes",
-                                                            "child" => array()),
+                                                            "controller" => "",
+                                                            "action" => "",
+                                                            "child" => array("Mesa Regional" => array(
+                                                                                            "controller" => "soportes",
+                                                                                            "action"     => "bandeja_soportes"),
+                                                                            "Mesa Central" => array(
+                                                                                            "controller" => "soportes",
+                                                                                            "action"     => "bandeja_soportes_central")
+                                                                             )),
            
                                    "Mesa de ayuda" => array("icon_class" => "fa-question-circle",
                                                             "child" => array("Mensajes" => array(
