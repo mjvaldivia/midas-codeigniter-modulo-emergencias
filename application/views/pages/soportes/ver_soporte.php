@@ -4,7 +4,8 @@
     <div class="portlet portlet-green">
         <div class="portlet-heading">
             <div class="portlet-title">
-                <h4>Ticket #<?php echo $soporte->soporte_codigo?></h4>
+                <?php $url = site_url('soportes/historialSoporte/id/'.$soporte->soporte_id);?>
+                <h4><a href="<?php echo $url?>" class="btn btn-orange btn-square btn-xs modal-sipresa"  data-target="#modal_historial_soporte" data-toggle="modal" title="Ver historial" ><i class="fa fa-history"></i></a> Ticket #<?php echo $soporte->soporte_codigo?> </h4>
             </div>
         </div>
         <div class="portlet-body">

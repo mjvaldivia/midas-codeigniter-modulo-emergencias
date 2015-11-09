@@ -62,3 +62,17 @@ INSERT INTO `estados_emergencias` (`est_ia_id`, `est_c_nombre`) VALUES
 (2,	'Cerrada');
 
 -- 2015-11-09 13:23:13
+
+
+/* tabla soportes_historial */
+create table soportes_historial(
+    soportehistorial_id int unsigned not null auto_increment primary key,
+    soportehistorial_soporte_fk int unsigned not null,
+    soportehistorial_fecha datetime not null,
+    soportehistorial_usuario_fk int(11) NOT NULL,
+    soportehistorial_evento varchar(100),
+    index(soportehistorial_soporte_fk),
+    foreign key (soportehistorial_soporte_fk) references soportes(soporte_id),
+    index(soportehistorial_usuario_fk),
+    foreign key (soportehistorial_usuario_fk) references usuarios(usu_ia_id)
+) engine=InnoDB default charset=utf8 auto_increment=1;

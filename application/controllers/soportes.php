@@ -5,6 +5,10 @@ if (!defined("BASEPATH")) exit("No direct script access allowed");
 
 class Soportes extends CI_Controller {
 
+    const NUEVO_TICKET = 'Ticket creado';
+    const NUEVO_MENSAJE = 'Nuevo mensaje en ticket';
+    const TICKET_DERIVADO = 'Ticket es derivado a Mesa Central';
+    const TICKET_CERRADO = 'Ticket es cerrado';
 
     function __construct(){
         parent::__construct();
@@ -16,6 +20,7 @@ class Soportes extends CI_Controller {
         $this->load->model("soportes_model", "SoportesModel");
         $this->load->model("soportes_mensajes_model", "SoportesMensajesModel");
         $this->load->model("soportes_adjuntos_model", "SoportesAdjuntosModel");
+        $this->load->model("soportes_historial_model", "SoportesHistorialModel");
 
     }
     
@@ -131,6 +136,13 @@ class Soportes extends CI_Controller {
                     }
                 }
 
+                $dataLog = array(
+                    'soportehistorial_soporte_fk' => $soporte,
+                    'soportehistorial_usuario_fk' => $usuario,
+                    'soportehistorial_fecha' => $fecha,
+                    'soportehistorial_evento' => $this::NUEVO_TICKET
+                    );
+                $insertLog = $this->SoportesHistorialModel->insNuevoHistorialSoporte($dataLog);
                 $json['estado'] = true;
                    
             }else{
@@ -525,7 +537,15 @@ class Soportes extends CI_Controller {
             }
             
             $json['estado'] = true;
-            $json['mensaje'] = "Mensaje enviado correctamente";    
+            $json['mensaje'] = "Mensaje enviado correctamente";   
+            $dataLog = array(
+                'soportehistorial_soporte_fk' => $id_soporte,
+                'soportehistorial_usuario_fk' => $usuario,
+                'soportehistorial_fecha' => $fecha,
+                'soportehistorial_evento' => $this::NUEVO_MENSAJE
+                );
+            $insertLog = $this->SoportesHistorialModel->insNuevoHistorialSoporte($dataLog);
+
             if(isset($_SESSION['adjuntos_soporte']) and count($_SESSION['adjuntos_soporte']) > 0){
                 $dir = 'media/soportes/'.$id_soporte;
                 if(!is_dir($dir)){
@@ -599,8 +619,8 @@ class Soportes extends CI_Controller {
 
     public function cerrarSoporte(){
         $id_soporte = $_POST['soporte'];    
-
-        $data = array('soporte_estado' => 3, 'soporte_fecha_cierre' => date('Y-m-d H:i:s'));
+        $fecha = date('Y-m-d H:i:s');
+        $data = array('soporte_estado' => 3, 'soporte_fecha_cierre' => $fecha);
         $update = $this->SoportesModel->updSoporte($data,$id_soporte);
 
         if($update){
@@ -620,6 +640,13 @@ class Soportes extends CI_Controller {
                 $json['grilla'] = 'central';
             }
 
+            $dataLog = array(
+                'soportehistorial_soporte_fk' => $id_soporte,
+                'soportehistorial_usuario_fk' => $this->session->userdata['session_idUsuario'],
+                'soportehistorial_fecha' => $fecha,
+                'soportehistorial_evento' => $this::TICKET_CERRADO
+                );
+            $insertLog = $this->SoportesHistorialModel->insNuevoHistorialSoporte($dataLog);
         }else{
             $json['estado'] = false;
             $json['estado'] = "Hubo un problema al cerrar el ticket. Intente nuevamente";
@@ -778,6 +805,14 @@ class Soportes extends CI_Controller {
             $message = 'Ticket #'.$soporte_data[0]->soporte_codigo.' ha sido derivado a Mesa Central';
             $email = $this->sendMail->emailSend($to, $cc = null, $bcc = null, $subject, $message, $dry_run = false);
 
+            $dataLog = array(
+                'soportehistorial_soporte_fk' => $id_soporte,
+                'soportehistorial_usuario_fk' => $this->session->userdata['session_idUsuario'],
+                'soportehistorial_fecha' => date('Y-m-d H:i:s'),
+                'soportehistorial_evento' => $this::TICKET_DERIVADO
+                );
+            $insertLog = $this->SoportesHistorialModel->insNuevoHistorialSoporte($dataLog);
+
         }else{
             $json['estado'] = false;
             $json['estado'] = "Hubo un problema al derivar el ticket. Intente nuevamente";
@@ -809,6 +844,24 @@ class Soportes extends CI_Controller {
 
         $this->template->parse("default", "pages/soportes/bandeja_soportes_central", $data);
     } 
+
+
+    public function historialSoporte(){
+        $params = $this->uri->uri_to_assoc();
+        $id_soporte = $params['id'];
+
+        $soporte = $this->SoportesModel->obtSoporteId($id_soporte);
+
+        $historial = $this->SoportesHistorialModel->obtHistorialSoporte($id_soporte);
+
+        $data = array(
+            'soporte' => $soporte[0],
+            'historial' => $historial
+            );
+
+        $this->load->view("pages/soportes/soporte_historial.php",$data);  
+
+    }
 
 
 }
