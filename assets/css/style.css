@@ -2098,5 +2098,5 @@ input[type="checkbox"]:checked::after,
 
 .tab-content{border-left:1px solid #ddd;overflow:hidden;border-bottom:1px solid #ddd;border-right:1px solid #ddd;}
 
-.table-middle > tbody > td{vertical-align: middle;}
+.table-middle > tbody > tr > td{vertical-align: middle;}
 
