@@ -18,8 +18,14 @@
 */
 date_default_timezone_set("America/Argentina/Buenos_Aires");
 
+/* obtener directorio ejecucion sistema */
+$url = $_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+$url = explode('/',$url);
+$tmp = array_pop($url);
+$url = implode("/",$url);
 
-$config['base_url'] = 'http://localhost/emergencias';
+/*$config['base_url'] = 'http://localhost/emergencias'*/;
+$config['base_url'] = 'http://'.$url;
 
 
 
