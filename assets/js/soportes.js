@@ -155,7 +155,8 @@ var Soportes = {};
                                     callback : function(){
                                         ModalSipresa.close_modal("modal_ver_soporte");
                                         $.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:'soporte'},function(response){
-                                            $("#contenedor-tabla-soportes").html(response);
+                                            $("#contenedor-tabla-soportes").html(response.ingresados);
+                                            $("#contenedor-tabla-soportes-cerrados").html(response.cerrados);
                                             Soportes.init();
                                         },'html').fail(function(){
                                             bootbox.alert({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
@@ -201,7 +202,7 @@ var Soportes = {};
         nombre = nombre.split('\\');
         nombre = nombre[nombre.length - 1];
         $("#nombre_adjunto").val(nombre);
-        console.log(nombre);
+        
     }
 
 }).apply(Soportes);

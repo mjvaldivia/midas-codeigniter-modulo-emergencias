@@ -187,7 +187,7 @@ class Soportes extends CI_Controller {
                     <td class="text-center">'.$item->soporte_asunto.'</td>
                     <td class="text-center">'.$item->estado.'</td>
                     <td class="text-center">
-                        <a data-toggle="modal" class="btn btn-primary btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                        <a data-toggle="modal" class="btn btn-primary btn-square btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
                     </td>
                 </tr>';
             endforeach;
@@ -216,7 +216,7 @@ class Soportes extends CI_Controller {
                     <td class="text-center">'.$item->estado.'</td>
                     <td class="text-center">'.$item->soporte_fecha_cierre.'</td>
                     <td class="text-center">
-                        <a data-toggle="modal" class="btn btn-primary btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                        <a data-toggle="modal" class="btn btn-primary btn-square btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
                     </td>
                 </tr>';
             endforeach;
@@ -231,7 +231,19 @@ class Soportes extends CI_Controller {
         }elseif($grilla == "soporte"){
             $region = $this->session->userdata['session_region_codigo'];
             $soportes = $this->SoportesModel->obtSoportes($region);
-            $html = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
+
+            $soportes_ingresados = array();
+            $soportes_cerrados = array();
+
+            foreach($soportes as $item){
+                if($item->soporte_estado == 3){
+                    $soportes_cerrados[] = $item;
+                }else{
+                    $soportes_ingresados[] = $item;
+                }
+            }
+            
+            $ingresados = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes">
             <thead>
                 <tr>
                     <th># Ticket</th>
@@ -245,19 +257,55 @@ class Soportes extends CI_Controller {
             <tbody>';
             foreach($soportes as $item):
                 $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);
-                $html .='<tr>
+                $ingresados .='<tr>
                     <td class="text-center">'.$item->soporte_codigo.'</td>
                     <td class="text-center">'.$item->soporte_fecha_ingreso.'</td>
                     <td class="text-center">'.$item->soporte_asunto.'</td>
                     <td class="text-center">'.mb_strtoupper($item->nombre_usuario).'</td>
                     <td class="text-center">'.$item->estado.'</td>
                     <td class="text-center">
-                        <a data-toggle="modal" class="btn btn-primary btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                        <a data-toggle="modal" class="btn btn-primary btn-square btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
                     </td>
                 </tr>';
             endforeach;
-            $html .= '</tbody>    
+            $ingresados .= '</tbody>    
                     </table>';
+
+            /* soportes cerrados */
+            $cerrados = '<table class="table table-hover table-condensed table-bordered " id="tabla_soportes_cerrados">
+            <thead>
+                <tr>
+                    <th># Ticket</th>
+                    <th>Fecha</th>
+                    <th>Asunto</th>
+                    <th>Enviado por</th>
+                    <th>Estado</th>
+                    <th>Fecha Cierre</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>';
+            foreach($soportes as $item):
+                $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);
+                $cerrados .='<tr>
+                    <td class="text-center">'.$item->soporte_codigo.'</td>
+                    <td class="text-center">'.$item->soporte_fecha_ingreso.'</td>
+                    <td class="text-center">'.$item->soporte_asunto.'</td>
+                    <td class="text-center">'.mb_strtoupper($item->nombre_usuario).'</td>
+                    <td class="text-center">'.$item->estado.'</td>
+                    <td class="text-center">'.$item->soporte_fecha_cierre.'</td>
+                    <td class="text-center">
+                        <a data-toggle="modal" class="btn btn-primary btn-square btn-xs modal-sipresa" href="'.$url.'" data-title="Información de la actividad" data-success="" data-target="#modal_ver_soporte"><i class="fa fa-search-plus"></i></a>
+                    </td>
+                </tr>';
+            endforeach;
+            $cerrados .= '</tbody>    
+                    </table>';
+
+            $json = array(
+                'ingresados' => $ingresados,
+                'cerrados' => $cerrados
+                );
 
         }
 
@@ -376,6 +424,15 @@ class Soportes extends CI_Controller {
             if($cambiarEstado){
                 $datos = array('soporte_estado' => 2);
                 $update = $this->SoportesModel->updSoporte($datos,$data['id_soporte']);
+
+                $soporte_data = $this->SoportesModel->obtSoporteId($id_soporte);
+                if($soporte_data[0]->soporte_email == 1){
+                    $this->load->model("sendmail_model", "sendMail");
+                    $to = $soporte_data[0]->email_usuario;
+                    $subject = '[MIDAS::EMERGENCIA] Ticket '.$soporte_data[0]->soporte_codigo.' - Nuevo mensaje';
+                    $message = 'Se ha generado un nuevo mensaje en respuesta al Ticket #'.$soporte_data[0]->soporte_codigo.'';
+                    $email = $this->sendMail->emailSend($to, $cc = null, $bcc = null, $subject, $message, $dry_run = false);
+                }
             }
             
             $json['estado'] = true;
@@ -432,9 +489,21 @@ class Soportes extends CI_Controller {
         $id_region = $this->session->userdata['session_region_codigo'];
         $soportes = $this->SoportesModel->obtSoportes($id_region);
 
+        $soportes_ingresados = array();
+        $soportes_cerrados = array();
+
+        foreach($soportes as $item){
+            if($item->soporte_estado == 3){
+                $soportes_cerrados[] = $item;
+            }else{
+                $soportes_ingresados[] = $item;
+            }
+        }
         $data = array(
-            'soportes' => $soportes
+            'soportes_ingresados' => $soportes_ingresados,
+            'soportes_cerrados' => $soportes_cerrados
             );
+
         $this->template->parse("default", "pages/soportes/bandeja_soportes", $data);
     } 
 
@@ -448,6 +517,14 @@ class Soportes extends CI_Controller {
         if($update){
             $json['estado'] = true;
             $json['mensaje'] = "El ticket ha sido cerrado";
+
+            $this->load->model("sendmail_model", "sendMail");
+            $soporte_data = $this->SoportesModel->obtSoporteId($id_soporte);
+            $to = $soporte_data[0]->email_usuario;
+            $subject = '[MIDAS::EMERGENCIA] Ticket '.$soporte_data[0]->soporte_codigo.' - Cerrado';
+            $message = 'Ticket #'.$soporte_data[0]->soporte_codigo.' ha sido cerrado para su conocimiento.';
+            $email = $this->sendMail->emailSend($to, $cc = null, $bcc = null, $subject, $message, $dry_run = false);
+
         }else{
             $json['estado'] = false;
             $json['estado'] = "Hubo un problema al cerrar el ticket. Intente nuevamente";

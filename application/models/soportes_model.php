@@ -138,6 +138,7 @@ class Soportes_Model extends CI_Model {
                     soporte_email,
                     soporte_fecha_cierre,
                     concat(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno) as nombre_usuario,
+                    usu_c_email as email_usuario,
                     case soporte_estado
                         when 1 then 'INGRESADO'
                         when 2 then 'EN DESARROLLO'
