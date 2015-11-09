@@ -255,7 +255,7 @@ class Soportes extends CI_Controller {
                 </tr>
             </thead>
             <tbody>';
-            foreach($soportes as $item):
+            foreach($soportes_ingresados as $item):
                 $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);
                 $ingresados .='<tr>
                     <td class="text-center">'.$item->soporte_codigo.'</td>
@@ -285,7 +285,7 @@ class Soportes extends CI_Controller {
                 </tr>
             </thead>
             <tbody>';
-            foreach($soportes as $item):
+            foreach($soportes_cerrados as $item):
                 $url = site_url('soportes/verSoporte/id/'.$item->soporte_id);
                 $cerrados .='<tr>
                     <td class="text-center">'.$item->soporte_codigo.'</td>

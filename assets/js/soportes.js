@@ -158,7 +158,7 @@ var Soportes = {};
                                             $("#contenedor-tabla-soportes").html(response.ingresados);
                                             $("#contenedor-tabla-soportes-cerrados").html(response.cerrados);
                                             Soportes.init();
-                                        },'html').fail(function(){
+                                        },'json').fail(function(){
                                             bootbox.alert({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
                                         });
                                     }
