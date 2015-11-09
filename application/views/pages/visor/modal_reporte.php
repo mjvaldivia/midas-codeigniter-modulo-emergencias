@@ -1,17 +1,18 @@
 
 <?= loadJS("assets/js/MapReport.js") ?>
 <script type="text/javascript">
-          $(document).ready(function () {
-        
+    $(document).ready(function () {
+
         MapReport.LoadMap();
+        MapReport.dibujaTablaDocs();
     });
-     
+
 </script>
 
 <style>
     .ui-autocomplete {
-    z-index: 5000;
-}
+        z-index: 5000;
+    }
 </style>
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -22,30 +23,118 @@
     </div>
     <div class="panel-body">
         <div class="col-md-12">
-            <div id='dvMap' style="height: 350px;" class="col-md-5">
-
-            </div>
+            
 
             <input type="hidden" id='eme_ia_id' name="eme_ia_id" value='{id}'>
-            <div class="col-md-7">
+            <input type="hidden" id='ala_ia_id' name="ala_ia_id" value='{ala_ia_id}'>
+
                 <ul id="ul-tabs" class="nav nav-tabs">
                     <li class='active'><a href="#tab1" data-toggle="tab">Envío de reporte por e-mail</a></li>
 
                 </ul>
                 <div id="tab-content" class="tab-content">
                     <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
+                        <br>
+                        <div class="col-xs-12">
+                        <div class="col-xs-6">
+                            <div id='dvMap' style="height: 350px;" class="col-md-12"></div>
+                        </div>
+                        <div class="col-xs-6">
                         <div class="col-xs-12">
                             <form class="form-horizontal">
                                 <div  class='form-group'>
                                     <label class="col-xs-12">Seleccione destinatarios</label>
                                     <div class="col-xs-12">
-                                        <textarea  class="form-control" id="tokenfield"  placeholder="escriba aquí su destinatario...">test1@cosof.cl,test2@cosof.cl</textarea>
+                                        <textarea  class="form-control" id="tokenfield"  placeholder="ingrese destinatario(s)...">test1@cosof.cl,test2@cosof.cl</textarea>
                                     </div>
 
                                 </div>
                             </form>
                         </div >
-                        <div class="col-xs-12"><button onclick="MapReport.cloneMap();" class="btn btn-xs btn-warning" ><i class="fa fa-download"></i>Descargar Reporte</button></div>
+
+                        <div class="col-xs-12">
+                            <form class="form-horizontal">
+                                <div  class='form-group'>
+                                    <label class="col-xs-12">Asunto</label>
+                                    <div class="col-xs-12">
+                                        <input type="text"  class="form-control" id="asunto"  placeholder="ingrese asunto..." />
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div >
+                        <div class="col-xs-12">
+                            <form class="form-horizontal">
+                                <div  class='form-group'>
+                                    <label class="col-xs-12">Mensaje</label>
+                                    <div class="col-xs-12">
+                                        <textarea rows="5" style="resize: none;"  class="form-control" id="mensaje"  placeholder="ingrese mensaje..." ></textarea>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div >
+                        <div class="col-xs-12">
+                            <form class="form-horizontal">
+                                <div  class='form-group'>
+
+                                    <div class="col-xs-3 checkbox">
+                                        <label >
+                                            <input type="checkbox"  class="" id="con_copia" checked="true"/>&nbsp;Enviarme una copia
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-3 checkbox">
+                                        <label >
+                                            <input type="checkbox"  class="" id="adj_reporte" checked="true"/>&nbsp;Adjuntar reporte 
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        
+                                     <a onclick="MapReport.cloneMap();" class="btn btn-lg btn-warning" ><i class="fa fa-file-pdf-o"></i> Ver Reporte</a>
+                                  
+                                    </div>
+                                </div>
+                            </form>
+                        </div >
+                        <div class="col-xs-12">
+                            <form class="form-horizontal">
+                                <div  class='form-group'>
+
+
+
+                                </div>
+                            </form>
+                        </div >
+
+                        </div >
+                        </div >
+
+                        <br>
+                        <hr>
+
+                        <div class="col-xs-12">
+
+                            <div  class='form-group'>
+                                <label class="col-xs-12">Adjuntos de la emergencia</label>
+                                <div class="col-md-12"> 
+                                    <table id="tabla_doc" class="table table-bordered table-striped dataTable">
+                                        <thead>
+                                            <tr>
+                                                <td>Nombre Archivo</td>
+                                                <td>Autor</td>
+                                                <td>Fecha</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>   
+                                </div>
+                            </div>
+                        </div >
+                        <div class="col-xs-12"></div>
+                        <br>
                     </div>
 
                 </div>
@@ -53,12 +142,10 @@
 
 
         </div>
-        <div class="col-md-12">
-            <div class="col-md-4 text-center text-danger">Ajuste esta vista previa del mapa que aparecerá en el reporte</div>
-        </div>
+        
 
     </div>
-</div>
+
 
 <div style="width: 0px; height: 0px; position: absolute; margin-top: 100px;">
     <div id='clon' style="width: 700px; height:600px;">

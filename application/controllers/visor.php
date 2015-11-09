@@ -180,7 +180,7 @@ class Visor extends CI_Controller {
     public function reporte() {
         $this->load->library("template");
         $params = $this->uri->uri_to_assoc();
-        $data = array('id' => $params['id']);
+        $data = array('id' => $params['id'], 'ala_ia_id' => $params['ala_ia_id']);
 
         $this->template->parse("alone", "pages/visor/modal_reporte", $data);
     }
