@@ -118,7 +118,7 @@ var Soportes = {};
                                     ModalSipresa.close_modal("modal_nuevo_mensaje");
                                     ModalSipresa.close_modal("modal_ver_soporte");
                                     $.post(siteUrl + 'soportes/cargarGrillaSoportes',{grilla:form.grilla.value},function(response){
-                                        $("#contenedor-tabla-soportes").html(response);
+                                        $("#contenedor-tabla-soportes").html(response.ingresados);
                                         Soportes.init();
                                     },'html').fail(function(){
                                         bootbox.alert({title:"Error", message:"Hubo un error en el sistema. Intente nuevamente o comuníquese con Administrador"});
