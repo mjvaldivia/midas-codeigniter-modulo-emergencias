@@ -397,6 +397,24 @@ var MapReport = {
 
         self.LoadMapCloned();
     };
+        this.dibujaTablaDocs = function () {
+        var ala_ia_id = $('#ala_ia_id').val();
+        $("#tabla_doc").dataTable().fnDestroy();
+        $('#tabla_doc').dataTable({
+            ajax: {
+                url: siteUrl + 'archivo/getDocs/id/' + ala_ia_id + '/tipo/5',
+                type: 'POST',
+
+                async: true
+            },
+            bPaginate : false,
+            bFilter : false,
+            language: {
+                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+            }
+        });
+        $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>");
+    };
 }).apply(MapReport);
 
 

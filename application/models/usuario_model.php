@@ -43,7 +43,7 @@ class Usuario_Model extends CI_Model {
     }
 
     public function get_mails($id_region = null) {
-        $result = $this->db->query("select u.usu_c_email from usuarios u
+        $result = $this->db->query("select CONCAT(TRIM(u.usu_c_nombre),' ',TRIM(u.usu_c_apellido_paterno)) nombre, u.usu_c_email from usuarios u
                    where u.reg_ia_id = $id_region
                     AND u.est_ia_id = 1                
 
@@ -52,7 +52,7 @@ class Usuario_Model extends CI_Model {
         $res = array();
 
         foreach ($result->result_array() as $row) {
-            $res[] = $row['usu_c_email'];
+            $res[] = '('.$row['nombre'].') '.$row['usu_c_email'];
            
         }
 

@@ -13,6 +13,7 @@ var Layer = {};
 
                 async: true
             },
+            
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
             }
@@ -84,6 +85,7 @@ var Layer = {};
                 language: {
                     url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
                 },
+                bPaginate : false,
                 order: [[0, "desc"]],
                 initComplete: function(){$('#div_properties').slideDown('slow');}
                 
