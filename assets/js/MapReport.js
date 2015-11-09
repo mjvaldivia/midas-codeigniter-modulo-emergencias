@@ -21,7 +21,7 @@ var MapReport = {
     };
     this.LoadMap = function () {
 
-        self.A = new google.maps.Map(document.getElementById('dvMap'), self.mapOptions);
+
 
 
 
@@ -56,7 +56,8 @@ var MapReport = {
     };
 
     this.loadObjects = function (mapa) {
-
+        if(mapa===self.A)
+            mapa = self.A = new google.maps.Map(document.getElementById('dvMap'), self.mapOptions);
         var emergencia = false;
         var data = self.data;
         var ref = false;
@@ -98,8 +99,11 @@ var MapReport = {
 
         if (json.geojson)
         {
-            emergencia = true;
-            self.loadJson(json.geojson, mapa);
+            var error = 0;
+            try{self.loadJson(json.geojson, mapa);}catch(e){console.log(e.message);error++;}
+            if(error==0){
+                emergencia = true;
+            }
         }
 
         if (json.capas)
@@ -129,7 +133,7 @@ var MapReport = {
             else
             { //ajusto segun el mapa A
                 mapa.fitBounds(self.A.getBounds());
-                mapa.setZoom(self.A.getZoom() + 1);
+                mapa.setZoom(self.A.getZoom() );
 
             }
 
@@ -150,7 +154,7 @@ var MapReport = {
     };
 
     this.loadJson = function (geojson, mapa) {
-        mapa.data.loadGeoJson(geojson, null, function (features) {
+        try{mapa.data.loadGeoJson(geojson, null, function (features) {
             for (var i = 0; i < features.length; i++) {
 
                 var feature = features[i];
@@ -167,7 +171,7 @@ var MapReport = {
 
             }
 
-        });
+        });}catch(e){}
     };
     this.drawReferencia = function (ref_lat, ref_lng, geozone, mapa) {
         var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(ref_lng), parseFloat(ref_lat), geozone);
@@ -448,6 +452,6 @@ $('#tokenfield')
             showAutocompleteOnFocus: true,
             delimiter: [',', ' ', '-', '_']
         });
-    });
+    }); 
 
 

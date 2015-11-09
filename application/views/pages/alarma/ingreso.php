@@ -21,7 +21,7 @@
 
 <ul id="ul-tabs" class="nav nav-tabs">
     <li class='<?= tabActive("nuevo", $tab_activo, "header") ?>'>
-        <a href="#tab1" data-toggle="tab">Nueva</a>
+        <a href="#tab1" onclick ="if(Alarma.map==null)initialize();"  data-toggle="tab">Nueva</a>
     </li>
     <li class='<?= tabActive("listado", $tab_activo, "header") ?>'>
         <a href="#tab2" data-toggle="tab">Listado</a>

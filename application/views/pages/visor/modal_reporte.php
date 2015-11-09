@@ -1,7 +1,4 @@
 
-<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
-
-<?= loadJS("assets/js/geo-encoder.js") ?>
 <?= loadJS("assets/js/MapReport.js") ?>
 <script type="text/javascript">
           $(document).ready(function () {
@@ -64,7 +61,7 @@
 </div>
 
 <div style="width: 0px; height: 0px; position: absolute; margin-top: 100px;">
-    <div id='clon' style="width: 1024px; height: 768px;">
+    <div id='clon' style="width: 700px; height:600px;">
 
     </div>
 

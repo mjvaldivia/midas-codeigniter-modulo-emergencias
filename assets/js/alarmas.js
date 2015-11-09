@@ -350,12 +350,13 @@ var Alarma = {};
 
 }).apply(Alarma);
 
-var map;
+var map = null;
 var marcador = {};
 var geozone;
 var marcador = [];
 var ac;
 function initialize() {
+
     $.getJSON(siteUrl + 'session/getMinMaxUsr', null, function (data) {
         var defaultBounds = new google.maps.LatLngBounds();
         var mapProp = {
@@ -370,7 +371,9 @@ function initialize() {
         latLon = GeoEncoder.utmToDecimalDegree(parseFloat(data.com_c_xmax), parseFloat(data.com_c_ymax), geozone);
         defaultBounds.extend(new google.maps.LatLng(latLon[0], latLon[1]));
 
-
+        
+        console.log(defaultBounds);
+        
         $('#geozone').val(geozone);
 
         set_marker_by_inputs();

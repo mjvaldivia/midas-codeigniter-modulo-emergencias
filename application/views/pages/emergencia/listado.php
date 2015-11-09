@@ -6,12 +6,15 @@
 <?= loadJS("assets/js/jquery.jcombo.js") ?>
 <?= loadJS("assets/js/emergencia.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
+<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
+<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
 
-<link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
 <?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
 
+<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
+
+<?= loadJS("assets/js/geo-encoder.js") ?>
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;
@@ -100,12 +103,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
             </div>
             <div class="form-group">
                 <label for="iEstadoEmergencias" class="control-label">Estado</label>
-                <select id="iEstadoEmergencias" class="form-control">
-                    <option value="">-- Seleccione --</option>
-                    <option value="1">En curso</option>
-                    <option value="2">Finalizada</option>
-                </select>
-
+                <?= formElementSelectEmergenciaEstados("iEstadoEmergencias", $select_estado_id_default, array("class" => "form-control")); ?>
             </div>
             <button id="btnBuscar" type="button" class="btn btn-primary">
                 <i class="fa fa-search"></i>
