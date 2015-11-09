@@ -21,7 +21,7 @@ var MapReport = {
     };
     this.LoadMap = function () {
 
-        self.A = new google.maps.Map(document.getElementById('dvMap'), self.mapOptions);
+
 
 
 
@@ -56,7 +56,8 @@ var MapReport = {
     };
 
     this.loadObjects = function (mapa) {
-
+        if(mapa===self.A)
+            mapa = self.A = new google.maps.Map(document.getElementById('dvMap'), self.mapOptions);
         var emergencia = false;
         var data = self.data;
         var ref = false;
