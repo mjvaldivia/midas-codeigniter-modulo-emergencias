@@ -452,6 +452,6 @@ $('#tokenfield')
             showAutocompleteOnFocus: true,
             delimiter: [',', ' ', '-', '_']
         });
-    });
+    }); 
 
 
