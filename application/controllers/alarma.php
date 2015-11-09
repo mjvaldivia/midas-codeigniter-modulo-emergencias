@@ -172,13 +172,13 @@ class Alarma extends CI_Controller {
                     break;
             }
         }
-        
+      
         $data = array(
             "tab_activo" => $tab,
             "select_estado_id_default" => $id_estado,
             "anioActual" => date('Y')
         );
-        
+         // var_dump($data);die;
         return $this->load->view("pages/alarma/listado", $data, true);
     }
 

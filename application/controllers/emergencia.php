@@ -107,6 +107,7 @@ class Emergencia extends CI_Controller {
         $this->load->helper("utils");
         $params = $this->uri->uri_to_assoc();
         $this->load->model("emergencia_model", "EmergenciaModel");
+
         return $this->EmergenciaModel->getAlarma($params);
     }
 
@@ -116,7 +117,8 @@ class Emergencia extends CI_Controller {
         }
         
         $params = $this->uri->uri_to_assoc();
-        
+        $this->load->model("emergencia_estado_model", "Emergencia_Estado_Model");
+        $this->load->helper(array("modulo/emergencia/emergencia_form"));
         $id_estado = "";
         if(isset($params["estado"])){
             switch ($params["estado"]) {

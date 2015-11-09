@@ -1,3 +1,4 @@
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;
@@ -104,6 +105,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioListado();
-        
+        //initialize();
     });
 </script>

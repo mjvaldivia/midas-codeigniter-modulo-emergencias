@@ -1,10 +1,3 @@
-<?php
-/**
- * User: claudio
- * Date: 15-09-15
- * Time: 03:24 PM
- */
-?>
 <style>
     .fileinput-upload , .fileinput-remove-button, .fileinput-remove,  .kv-file-upload{
         display: none;

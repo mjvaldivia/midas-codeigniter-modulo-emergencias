@@ -129,7 +129,7 @@ var MapReport = {
             else
             { //ajusto segun el mapa A
                 mapa.fitBounds(self.A.getBounds());
-                mapa.setZoom(self.A.getZoom() + 1);
+                mapa.setZoom(self.A.getZoom() );
 
             }
 

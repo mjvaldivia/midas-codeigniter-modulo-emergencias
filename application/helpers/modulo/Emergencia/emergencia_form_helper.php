@@ -1,7 +1,7 @@
 <?php
 
 require_once(APPPATH . "helpers/modulo/emergencia/form/element/SelectTipo.php");
-require_once(APPPATH . "helpers/modulo/alarma/form/element/SelectEstados.php");
+require_once(APPPATH . "helpers/modulo/emergencia/form/element/SelectEstados.php");
 
 /**
  * Genera elemento select de estados de emergencia

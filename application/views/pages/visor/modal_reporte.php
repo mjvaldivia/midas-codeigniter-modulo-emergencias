@@ -64,7 +64,7 @@
 </div>
 
 <div style="width: 0px; height: 0px; position: absolute; margin-top: 100px;">
-    <div id='clon' style="width: 1024px; height: 768px;">
+    <div id='clon' style="width: 700px; height:600px;">
 
     </div>
 
