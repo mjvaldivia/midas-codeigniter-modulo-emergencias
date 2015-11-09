@@ -6,12 +6,15 @@
 <?= loadJS("assets/js/jquery.jcombo.js") ?>
 <?= loadJS("assets/js/emergencia.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
+<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
+<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
 
-<link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
 <?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
 
+<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
+
+<?= loadJS("assets/js/geo-encoder.js") ?>
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;

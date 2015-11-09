@@ -1,7 +1,4 @@
 
-<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
-
-<?= loadJS("assets/js/geo-encoder.js") ?>
 <?= loadJS("assets/js/MapReport.js") ?>
 <script type="text/javascript">
           $(document).ready(function () {
