@@ -51,8 +51,6 @@ class Alarma extends CI_Controller {
      * Formulario de ingreso de alarma
      */
     public function ingreso() {
-        
-        
         $this->load->helper("modulo/direccion/comuna");
         $this->load->helper("modulo/emergencia/emergencia");
         

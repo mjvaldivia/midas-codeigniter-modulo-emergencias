@@ -7,6 +7,24 @@
  */
 class Tipo_Emergencia_Model extends CI_Model
 {
+    /**
+     * Tipos
+     */
+    const INCENDIOS_URBANOS = 1;
+    const INCENDIOS_FORESTALES = 2;
+    const INCENDIOS_QUIMICOS = 3;
+    const FENOMENOS_METEOROLOGICOS = 4;
+    const SISMOS = 5;
+    const TSUNAMI = 6;
+    const ERUPCION_VOLCANICA = 7;
+    const SEQUIAS = 8;
+    const ACCIDENTE_MULTIPLES_VICTIMAS = 9;
+    const ACCIDENTE_MEGA_EVENTOS = 10;
+    const ACTO_TERRORISTA = 11;
+    const EMERGENCIA_EPIDEMIOLOGICA = 12;
+    const EMERGENCIA_SANEAMIENTO = 13;
+    const OTROS = 14;
+    const EMERGENCIA_RADIOLOGICA = 15;
     
     /**
      *
