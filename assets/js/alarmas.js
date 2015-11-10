@@ -400,7 +400,7 @@ var Alarma = {};
                 $("#tab-nueva").parent().removeClass('disabled').show();
                 $("#div_tab_1").show().html(content_1);
                 $("#div_tab_2").html(content_2);
-                
+                Emergencia.inicioListado();
             });
         });
     };

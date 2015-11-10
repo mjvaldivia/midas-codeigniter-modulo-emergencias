@@ -204,7 +204,7 @@ class Archivo_Model extends CI_Model {
             $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
             $link = "";
             if ($row['arch_c_hash'] != '') {
-                $link = "<a target='_blank' class='btn btn-xs btn-default' href=" . site_url("archivo/download_file/k/" . $row['arch_c_hash']) . ">VER</a>";
+                $link = "<a target='_blank' class='btn btn-xs btn-default btn-square' href=" . site_url("archivo/download_file/k/" . $row['arch_c_hash']) . ">VER</a>";
             }
             $entry = array(
                 $nombre,
@@ -217,8 +217,9 @@ class Archivo_Model extends CI_Model {
             $arr_arch[] = $entry;
             $jsonData['data'][] = $entry;
         }
+
         if ($jsoneado)
-            echo json_encode($jsonData);
+            return json_encode($jsonData);
         else
             return $arr_arch;
     }

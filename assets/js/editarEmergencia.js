@@ -1,16 +1,17 @@
-var Emergencia = {};
+var EmergenciaEditar = {};
 
 (function () {
     this.inicio = function () {
 
         var eme_ia_id = $("#eme_ia_id").val();
-
+        console.log(eme_ia_id);
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
         $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
             handlerLoad: function () {
 
 
                 $.getJSON(siteUrl + 'emergencia/getEmergencia/id/' + eme_ia_id, function (data) {
+
                     var str_comunas = data.comunas;
                     if (str_comunas !== null) {
                         var arr_com = str_comunas.split(",");
@@ -33,8 +34,8 @@ var Emergencia = {};
                     $('#usuarioRecepciona').val(data.usuario);
                     $('#fechaRecepcion').val(data.eme_d_fecha_recepcion);
                     $('#iObservacion').val(data.eme_c_observacion);
-                    Emergencia.dibujaTablaDocs();
-                    Emergencia.iniciarUpload();
+                    EmergenciaEditar.dibujaTablaDocs();
+                    EmergenciaEditar.iniciarUpload();
                 });
             },
             initial_text: null
@@ -46,7 +47,7 @@ var Emergencia = {};
 
 
         $('#iDocMaterial').on('filebatchuploadcomplete', function () {
-            Emergencia.dibujaTablaDocs();
+            EmergenciaEditar.dibujaTablaDocs();
         });
 
     };
@@ -114,7 +115,7 @@ var Emergencia = {};
                 html += "    </div>";
                 html += "    <div class=\"col-md-2 text-center\">";
                 html += "       <div class=\"btn-group\">";
-                html += "           <a title=\"Editar\" class=\"btn btn-default\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
+                html += "           <a title=\"Editar\" class=\"btn btn-default\" onclick=EmergenciaEditar.editarEmergencia(" + row.eme_ia_id + ");>";
                 html += "               <i class=\"fa fa-pencil\"></i>";
                 html += "           </a>";
                 html += "           <a title=\"Eliminar\" class=\"btn btn-default\">";
@@ -140,7 +141,9 @@ var Emergencia = {};
         });
     };
 
-    this.guardarForm = function () {
+    this.guardarForm = function (btn) {
+        var btnText = $(btn).html();
+        $(btn).attr('disabled',true).html('Guardando... <i class="fa fa-spin fa-spinner"></i>');
         if (!Utils.validaForm('frmEditarEmergencia'))
             return false;
 
@@ -157,6 +160,7 @@ var Emergencia = {};
                             label: "Cerrar",
                             className: "btn-info",
                             callback: function () {
+                                $(btn).attr('disabled',false).html(btnText);
                                 location.reload();
                             }
                         }
@@ -171,7 +175,10 @@ var Emergencia = {};
                     buttons: {
                         danger: {
                             label: "Cerrar",
-                            className: "btn-danger"
+                            className: "btn-danger",
+                            callback : function(){
+                                $(btn).attr('disabled',false).html(btnText);
+                            }
                         }
                     }
                 });
@@ -204,7 +211,6 @@ var Emergencia = {};
             ajax: {
                 url: siteUrl + 'archivo/getDocs/id/' + ala_ia_id + '/tipo/5',
                 type: 'POST',
-
                 async: true
             },
             language: {
@@ -213,5 +219,8 @@ var Emergencia = {};
         });
         $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>");
     };
-}).apply(Emergencia);
+
+    
+
+}).apply(EmergenciaEditar);
 

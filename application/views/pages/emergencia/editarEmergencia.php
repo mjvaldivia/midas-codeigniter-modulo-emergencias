@@ -6,19 +6,18 @@
         display: none !important;
     }
 </style>
-<div class="clearfix"></div>
-<ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Dashboard</a></li>  
-  <li class="active">Editar emergencia</li>
-</ol>
+
+
 <form  class="form-horizontal"  name='frmEditarEmergencia' id='frmEditarEmergencia'>
     <input type="hidden" id="ala_ia_id" name="ala_ia_id">
-    <input type="hidden" id="eme_ia_id" name="eme_ia_id" value={eme_ia_id}>
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Datos de la emergencia</h3>
+    <input type="hidden" id="eme_ia_id" name="eme_ia_id" value="<?php echo $eme_ia_id?>">
+    <div class="portlet portlet-green">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h4>Datos de la emergencia</h4>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="portlet-body">
             <div class="form-group">
                 <label class="control-label col-md-4">Nombre del informante (*):</label>
                 <div class="col-md-6">
@@ -145,14 +144,14 @@
         
 
                     
-                    <div class="col-md-offset-4 col-md-5"> 
-                        <table id="tabla_doc" class="table table-bordered table-striped dataTable">
+                    <div class="col-md-offset-4 col-md-8 small"> 
+                        <table id="tabla_doc" class="table table-bordered table-striped dataTable table-hover table-condensed">
                             <thead>
                             <tr>
-                                <td>Nombre Archivo</td>
-                                <td>Autor</td>
-                                <td>Fecha</td>
-                                <td></td>
+                                <th>Nombre Archivo</th>
+                                <th>Autor</th>
+                                <th>Fecha</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -164,8 +163,9 @@
                 </div>
             
             
-            <div id="botonera" class="col-md-10">
-                    <button type="button" id="btnSiguiente" class="btn btn-primary pull-right" onclick="Emergencia.guardarForm();">Guardar</button>
+            <div id="botonera" class="col-md-10 text-right">
+                    <button type="button" id="btnSiguiente" class="btn btn-green btn-square" onclick="EmergenciaEditar.guardarForm(this);">Guardar</button>
+                    <button type="button" id="btnCancelar" class="btn btn-default btn-square" onclick="Emergencia.cancelarEdicion();">Cancelar</button>
             </div>
         </div>
     </div>
@@ -194,7 +194,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        Emergencia.inicio();
+        EmergenciaEditar.inicio();
     });
 
 </script>

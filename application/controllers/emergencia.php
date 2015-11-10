@@ -171,8 +171,9 @@ class Emergencia extends CI_Controller {
 
         $params = $this->uri->uri_to_assoc();
         $data['eme_ia_id'] = $params['id'];
-
-        $this->template->parse("default", "pages/emergencia/editarEmergencia", $data);
+        echo $data['eme_ia_id'] ;
+        /*$this->template->parse("default", "pages/emergencia/editarEmergencia", $data);*/
+        $this->load->view("pages/emergencia/editarEmergencia", $data);
     }
 
     public function getEmergencia() {
