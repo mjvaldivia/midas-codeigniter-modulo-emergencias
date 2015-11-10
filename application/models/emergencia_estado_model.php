@@ -35,8 +35,8 @@ class Emergencia_Estado_Model extends CI_Model
      */
     public function __construct() {
         parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
+        $this->load->library('model/QueryBuilder');
+        $this->_query = New QueryBuilder($this->db);
         $this->_query->setTable($this->_tabla);
     }
     

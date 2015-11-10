@@ -66,6 +66,7 @@ var Emergencia = {};
 
         var anio = $("#iAnio").val();
         var tipoEmergencia = $("#iTiposEmergencias").val();
+        var estadoEmergencia = $("#iEstadoEmergencias").val();
 
         if (parseInt(anio)) {
             url += "/anio/" + anio;
@@ -73,6 +74,10 @@ var Emergencia = {};
 
         if (parseInt(tipoEmergencia)) {
             url += "/tipoEmergencia/" + tipoEmergencia;
+        }
+        
+        if(parseInt(estadoEmergencia)){
+            url += "/estado_emergencia/" + estadoEmergencia;
         }
 
         var tabla = $('#tblEmergencias').DataTable();

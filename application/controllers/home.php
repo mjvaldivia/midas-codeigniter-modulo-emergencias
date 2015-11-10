@@ -69,13 +69,9 @@ class Home extends CI_Controller{
             show_404();
         }
 
-        
         $this->template->parse("default", 
                                "pages/home/index", 
-                                array("cantidad_alarmas_en_revision" => $this->AlarmaModel->cantidadAlarmasPorEstado(Alarma_Estado_Model::REVISION),
-                                      "cantidad_alarmas_rechazada" => $this->AlarmaModel->cantidadAlarmasPorEstado(Alarma_Estado_Model::RECHAZADO),
-                                      "cantidad_emergencias_en_curso" => $this->EmergenciaModel->cantidadEmergenciasPorEstado(Emergencia_Estado_Model::EN_CURSO),
-                                      "cantidad_emergencias_cerradas" => $this->EmergenciaModel->cantidadEmergenciasPorEstado(Emergencia_Estado_Model::CERRADA)));
+                                array());
     }
 
     
@@ -83,35 +79,21 @@ class Home extends CI_Controller{
      * 
      */
     public function ajax_grilla_alarmas(){
-        echo $this->_html_grilla_alarmas();
-    }
-    
-    /**
-     * 
-     */
-    protected function _html_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
         $this->load->helper(array("modulo/alarma/alarma"));
         $lista = $this->AlarmaModel->listar();
-        return $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista), true);
+        $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista));
     }
-    
+        
     /**
      * 
      */
     public function ajax_grilla_emergencias(){
-        echo $this->_html_grilla_emergencias();
-    }
-    
-    /**
-     * 
-     */
-    protected function _html_grilla_emergencias(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
         $lista = $this->EmergenciaModel->listar();
-        return $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista), true);
+        $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista));
     }
-    
+        
     /**
      * Carga las alertas al calendario
      */

@@ -15,7 +15,7 @@ class Emergencia_Model extends CI_Model {
     
     /**
      *
-     * @var Query 
+     * @var QueryBuilder
      */
     protected $_query;
     
@@ -30,8 +30,8 @@ class Emergencia_Model extends CI_Model {
      */
     public function __construct() {
         parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
+        $this->load->library('model/QueryBuilder');
+        $this->_query = New QueryBuilder($this->db);
         $this->_query->setTable($this->_tabla);
     }
     
@@ -253,41 +253,36 @@ class Emergencia_Model extends CI_Model {
         }
         return $resultados;
     }
-
+    
+    /**
+     * 
+     * @param array $params filtros array("tipoEmergencia", "anio", "estado_emergencia)
+     * @return array
+     */
     public function filtrarEmergencias($params) {
-        $mapeo = array(
-            "tipoEmergencia" => "e.tip_ia_id",
-            "anio" => "year(e.eme_d_fecha_recepcion)"
-        );
-
-        $where = "1=1";
-        $queryParams = array();
-
-        foreach ($params as $llave => $valor) {
-            $queryParams[] = $valor;
-            $where .= " and " . $mapeo[$llave] . " = ?";
+        $query = $this->_query->select("e.*, "
+                                     . "te.aux_c_nombre as eme_c_tipo_emergencia")
+                              ->from($this->_tabla . " e")
+                              ->join("auxiliar_emergencias_tipo te", "e.tip_ia_id = te.aux_ia_id", "INNER");
+        
+        if(!empty($params["tipoEmergencia"])){
+            $query->whereAND("e.tip_ia_id", $params["tipoEmergencia"]);
         }
-
-        $sql = "
-            select
-                e.*,
-                te.aux_c_nombre as eme_c_tipo_emergencia
-            from
-              emergencias e
-              inner join auxiliar_emergencias_tipo te on e.tip_ia_id = te.aux_ia_id
-              where
-                $where
-            order by e.eme_d_fecha_emergencia desc
-        ";
-
-        $query = $this->db->query($sql, $queryParams);
-        fb($sql);
-        $resultados = array();
-
-        if ($query->num_rows() > 0)
-            $resultados = $query->result_array();
-
-        return $resultados;
+        
+        if(!empty($params["anio"])){
+            $query->whereAND("year(e.eme_d_fecha_recepcion)", $params["anio"]);
+        }
+        
+        if(!empty($params["estado_emergencia"])){
+            $query->whereAND("e.est_ia_id", $params["estado_emergencia"]);
+        }
+                                
+        $resultado = $query->getAllResult();
+        if(!is_null($resultado)){
+            return $resultado;
+        } else {
+            return array();
+        }
     }
 
     public function getEmergencia($id) {

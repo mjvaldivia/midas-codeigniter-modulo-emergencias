@@ -46,7 +46,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 </style>
 
 <div class="col-xs-12">
-<form class="form-inline">
+<form class="form-inline form-busqueda">
     <div class="portlet portlet-green">
         <div class="portlet-heading">
             <div class="portlet-title">
@@ -68,7 +68,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
                 <label for="iEstadoAlarma" class="control-label">Estado</label>
                 <?= formElementSelectAlarmaEstados("iEstadoAlarma", $select_estado_id_default, array("class" => "form-control")) ?>
             </div>
-            <button id="btnBuscarAlarmas" type="button" class="btn btn-green btn-square">
+            <button id="btnBuscarAlarmas" type="button" class="btn btn-green btn-square btn-buscar">
                 <i class="fa fa-search"></i>
                 Buscar
             </button>

@@ -85,7 +85,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 
 
 <div id="contenedor-emergencia">
-<form class="form-inline">
+<form class="form-inline form-busqueda">
     <div class="portlet portlet-green">
         <div class="portlet-heading">
             <div class="portlet-title">
@@ -108,7 +108,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
                 <label for="iEstadoEmergencias" class="control-label">Estado</label>
                 <?= formElementSelectEmergenciaEstados("iEstadoEmergencias", $select_estado_id_default, array("class" => "form-control")); ?>
             </div>
-            <button id="btnBuscar" type="button" class="btn btn-primary btn-square" onclick="Emergencia.eventoBtnBuscar();">
+            <button id="btnBuscar" type="button" class="btn btn-primary btn-square btn-buscar" onclick="Emergencia.eventoBtnBuscar();">
                 <i class="fa fa-search"></i>
                 Buscar
             </button>

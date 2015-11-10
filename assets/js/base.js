@@ -8,6 +8,23 @@ $(function() {
 
 $(document).ready(function() {
     
+    $(".form-busqueda").livequery(function(){
+        
+       var button = $(this).find(".btn-buscar"); 
+        
+       $(this).find("input").keypress(function (evt) {
+            var charCode = evt.charCode || evt.keyCode;
+            if (charCode  == 13) {
+                $(button).trigger("click");
+                return false;
+            }
+       });
+       
+       /*$(this).find("select").change(function(){
+           $(button).trigger("click");
+       });*/
+    });
+    
     $(".text-more").livequery(function(){
         $(this).click(function(){
             if($(this).html() == "[Ocultar]"){
