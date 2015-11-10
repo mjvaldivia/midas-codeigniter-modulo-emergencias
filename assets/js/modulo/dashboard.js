@@ -9,6 +9,7 @@ $(document).ready(function() {
     
     setCalendario();
     setGrafico();
+    setGraficoEmergenciasTipo();
     reload();
     
     
@@ -33,6 +34,52 @@ $(document).ready(function() {
         });
     });
 });
+
+function setGraficoEmergenciasTipo(){
+    
+    $.ajax({         
+        dataType: "json",
+        cache: false,
+        async: true,
+        data: "",
+        type: "post",
+        url: siteUrl + "home/json_cantidad_emergencia_por_tipo", 
+        error: function(xhr, textStatus, errorThrown){
+            
+        },
+        success:function(retorno){
+            if(retorno.correcto){
+                var data = retorno.data;
+	
+                var plotObj = $.plot($("#flot-chart-pie"), data, {
+                        series: {
+                                pie: {
+                                        show: true
+                                }
+                        },
+                        grid: {
+                                hoverable: true 
+                        },
+                        tooltip: true,
+                        tooltipOpts: {
+                                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                                shifts: {
+                                        x: 20,
+                                        y: 0
+                                },
+                                defaultTheme: false
+                        }
+                });  
+                
+                
+            }
+        }
+    });
+    
+    
+    
+}
+
 
 function setGrafico(){
     $.ajax({         

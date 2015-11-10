@@ -66,6 +66,23 @@ class Tipo_Emergencia_Model extends CI_Model
         return $this->_query->getById("aux_ia_id", $id);
     }
     
+    /**
+     * Cantidad de tipos de emergencia
+     * @return array
+     */
+    public function listCantidadPorTipo(){
+        $result = $this->_query->select("t.aux_c_nombre, COUNT(e.eme_ia_id) as cantidad")
+                               ->from("emergencias e")
+                               ->join($this->_tabla . " t", "t.aux_ia_id = e.tip_ia_id", "INNER")
+                               ->groupBy("t.aux_c_nombre")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
     
     public function find($id) {
         $query = $this->db->query(

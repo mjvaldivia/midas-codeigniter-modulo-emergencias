@@ -33,6 +33,12 @@ class Home extends CI_Controller{
 
     /**
      *
+     * @var Tipo_Emergencia_Model
+     */
+    public $EmergenciaTipoModel;
+    
+    /**
+     *
      * @var template
      */
     public $template;
@@ -47,6 +53,7 @@ class Home extends CI_Controller{
         
         $this->load->model("emergencia_model", "EmergenciaModel");
         $this->load->model("emergencia_estado_model", "EmergenciaEstadoModel");
+        $this->load->model("tipo_emergencia_model", "EmergenciaTipoModel");
         
         $this->load->helper(array("session","utils"));
         $this->load->library(array("template"));
@@ -150,6 +157,27 @@ class Home extends CI_Controller{
                                      "allDay" => false);
             }
         }
+        echo json_encode($respuesta);
+    }
+    
+    
+    /**
+     * Devuelve datos para grafico de cantidad tipos de emergencia
+     */
+    public function json_cantidad_emergencia_por_tipo(){
+        
+        $data = array();
+        
+        $lista = $this->EmergenciaTipoModel->listCantidadPorTipo();
+        if(!is_null($lista)){
+            foreach($lista as $key => $row){
+                $data[] = array("label" => $row["aux_c_nombre"],
+                                "data"  => $row["cantidad"]);
+            }
+        }
+        
+        $respuesta = array("correcto" => true,
+                           "data" => $data);
         echo json_encode($respuesta);
     }
     
