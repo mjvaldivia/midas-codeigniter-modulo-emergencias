@@ -26,11 +26,11 @@
                 </td>
                 <td><?php echo ISODateTospanish($row["eme_d_fecha_emergencia"]); ?></td>
                 <td><?php echo $row["eme_c_lugar_emergencia"]; ?></td>
-                <td>
-                    <button onclick="window.open(siteUrl + 'emergencia/editar/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-square btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
+                <td width="80px">
+                    <button onclick="window.open(siteUrl + 'emergencia/editar/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button onclick="window.open(siteUrl + 'visor/index/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-square btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Abrir el visor">
+                    <button onclick="window.open(siteUrl + 'visor/index/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Abrir el visor">
                         <i class="fa fa-globe"></i>
                     </button>
                     <!--<button onclick="window.open(siteUrl + 'visor/reporte/id/<?php echo $row["eme_ia_id"]; ?>/ala_ia_id/<?php echo $row["ala_ia_id"] ?>', '_blank');" class="btn btn-square btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Ver reporte">

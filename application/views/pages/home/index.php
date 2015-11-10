@@ -145,7 +145,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="portlet-body" style="min-height: 555px">
+                    <div class="portlet-body" style="min-height: 500px">
                         <div id="contendor-grilla-emergencia" class="table-responsive">
                             <i class="fa fa-4x fa-spin fa-spinner"></i>
                         </div>
@@ -160,9 +160,9 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div id="donutChart" class="portlet-body" style="height: 555px; padding-top: 80px">
+                    <div id="donutChart" class="portlet-body" style="height: 500px; padding-top: 100px">
                         <div class="flot-chart">
-                            <div class="flot-chart-content" id="flot-chart-pie" style="height: 300px"></div>
+                            <div class="flot-chart-content" id="flot-chart-pie" style="height: 200px"></div>
                         </div>
                     </div>
                 </div>

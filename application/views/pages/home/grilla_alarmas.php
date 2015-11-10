@@ -22,11 +22,11 @@
                 </td>
                 <td><?php echo ISODateTospanish($row["ala_d_fecha_emergencia"]); ?></td>
                 <td><?php echo $row["ala_c_lugar_emergencia"]; ?></td>
-                <td width="10%" class="text-center">
-                    <button onclick="window.open(siteUrl + 'alarma/editar/id<?php echo $row["ala_ia_id"]; ?>', '_blank');" class="btn btn-square btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la alarma">
+                <td width="80px" class="text-center">
+                    <button onclick="window.open(siteUrl + 'alarma/editar/id<?php echo $row["ala_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la alarma">
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button onclick="window.open(siteUrl + 'emergencia/generaEmergencia/id/<?php echo $row["ala_ia_id"]; ?>', '_blank');" class="btn btn-square btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Generar emergencia">
+                    <button onclick="window.open(siteUrl + 'emergencia/generaEmergencia/id/<?php echo $row["ala_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Generar emergencia">
                         <i class="fa fa-bullhorn"></i>
                     </button>
                 </td>
