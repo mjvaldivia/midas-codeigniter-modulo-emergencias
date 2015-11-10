@@ -2,6 +2,7 @@
     <table id="grilla-emergencia" class="table table-striped datatable paginada hidden">
         <thead>
             <tr>
+                <th></th>
                 <th>Nombre emergencia</th>
                 <th>Tipo emergencia</th>
                 <th>Comunas afectadas</th>
@@ -13,6 +14,9 @@
         <tbody>
             <?php foreach($lista as $row){ ?>
             <tr>
+                <td width="5%" class="text-center">
+                    <?php echo htmlIconoEmergenciaTipo($row["tip_ia_id"]); ?>
+                </td>
                 <td><?php echo $row["eme_c_nombre_informante"]; ?></td>
                 <td><?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> </td>
                 <td>

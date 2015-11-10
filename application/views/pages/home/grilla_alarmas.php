@@ -2,6 +2,7 @@
     <table id="grilla-alarmas" class="table table-striped datatable paginada hidden">
         <thead>
             <tr>
+                <th></th>
                 <th>Nombre alarma</th>
                 <th>Tipo alarma</th>
                 <th>Comunas afectadas</th>
@@ -13,12 +14,11 @@
         <tbody>
             <?php foreach($lista as $row){ ?>
             <tr>
+                <td width="5%" class="text-center"><?php echo htmlIconoEmergenciaTipo($row["tip_ia_id"]); ?></td>
                 <td><?php echo $row["ala_c_nombre_emergencia"]; ?></td>
                 <td><?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> </td>
                 <td> 
-                   
                     <?php echo textMoreLess(comunasAlarmaConComa($row["ala_ia_id"])); ?>
-                 
                 </td>
                 <td><?php echo ISODateTospanish($row["ala_d_fecha_emergencia"]); ?></td>
                 <td><?php echo $row["ala_c_lugar_emergencia"]; ?></td>
