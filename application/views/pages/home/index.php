@@ -137,19 +137,35 @@
 <div class="row">
     <div class="col-lg-12 col-sm-12">
         <div class="row">
-            <div class="col-lg-12">
-            <div class="portlet portlet-default">
-                <div class="portlet-heading">
-                    <div class="portlet-title">
-                        <h4><i class="fa fa-list-ul"></i> Ultimas emergencias</h4>
+            <div class="col-lg-8">
+                <div class="portlet portlet-default">
+                    <div class="portlet-heading">
+                        <div class="portlet-title">
+                            <h4><i class="fa fa-list-ul"></i> Ultimas emergencias</h4>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="portlet-body">
-                    <div id="contendor-grilla-emergencia" class="table-responsive">
+                    <div class="portlet-body">
+                        <div id="contendor-grilla-emergencia" class="table-responsive">
+                            <i class="fa fa-4x fa-spin fa-spinner"></i>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4">
+                <div class="portlet portlet-default">
+                    <div class="portlet-heading">
+                        <div class="portlet-title">
+                            <h4><i class="fa fa-pie-chart"></i> Gráfico emergencias/tipo</h4>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="donutChart" class="portlet-body" style="height: 555px; padding-top: 80px">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-chart-pie" style="height: 300px"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -223,5 +239,9 @@
 <?= loadJS("assets/lib/morris/raphael-2.1.0.min.js", true) ?>
 <?= loadJS("assets/lib/morris/morris.js", true) ?>
 
+<?= loadJS("assets/lib/flot/jquery.flot.min.js", true) ?>
+<?= loadJS("assets/lib/flot/jquery.flot.resize.min.js", true) ?>
+<?= loadJS("assets/lib/flot/jquery.flot.pie.min.js", true) ?>
+<?= loadJS("assets/lib/flot/jquery.flot.tooltip.min.js", true) ?>
 
 <?= loadJS("assets/js/modulo/dashboard.js", true) ?>
