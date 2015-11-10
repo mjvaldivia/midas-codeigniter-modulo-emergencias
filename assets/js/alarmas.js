@@ -1,6 +1,8 @@
 /**
  * Created by claudio on 14-08-15.
  */
+var content_1;
+var content_2;
 var Alarma = {};
 
 (function () {
@@ -75,7 +77,8 @@ var Alarma = {};
     };
 
     this.eventoBtnBuscar = function () {
-
+        var btnText = $("#btnBuscarAlarmas").html();
+        $("#btnBuscarAlarmas").attr('disabled',true).html('Buscando... <i class="fa fa-spin fa-spinner"></i>');
         var url = siteUrl + "alarma/jsonAlarmasDT";
 
         var anio = $("#iAnio").val();
@@ -98,7 +101,9 @@ var Alarma = {};
         }
 
 
-        var tabla = $('#tblAlarmas').DataTable();
+        var tabla = $('#tblAlarmas').DataTable({
+            destroy: true
+        });
         tabla.destroy();
         $('#tblAlarmas').empty();
 
@@ -191,13 +196,13 @@ var Alarma = {};
                     html += "    </div>";
                     html += "    <div class=\"col-md-2 text-center\">";
                     html += "       <div class=\"btn-group\">";
-                    html += "           <a title=\"Generar emergencia\" class=\"btn btn-default " + disabled + "\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
+                    html += "           <a title=\"Generar emergencia\" class=\"btn btn-default btn-square " + disabled + "\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
                     html += "               <i class=\"fa fa-bullhorn\"></i>";
                     html += "            </a>";
-                    html += "           <a title=\"Editar\" class=\"btn btn-default " + disabled + "\" onclick=Alarma.editarAlarma(" + row.ala_ia_id + ")>";
+                    html += "           <a title=\"Editar\" class=\"btn btn-default btn-square" + disabled + "\" onclick=Alarma.editarAlarma(" + row.ala_ia_id + ")>";
                     html += "               <i class=\"fa fa-pencil\"></i>";
                     html += "           </a>";
-                    html += "           <a title=\"Eliminar\" class=\"btn btn-default\" onclick=Alarma.eliminarAlarma(" + row.ala_ia_id + ")>";
+                    html += "           <a title=\"Eliminar\" class=\"btn btn-default btn-square \" onclick=Alarma.eliminarAlarma(" + row.ala_ia_id + ")>";
                     html += "               <i class=\"fa fa-trash\"></i>";
                     html += "           </a>";
                     html += "       </div>";
@@ -208,6 +213,7 @@ var Alarma = {};
                 };
 
                 $("#tblAlarmas").DataTable({
+                    destroy: true,
                     data: json.data,
                     columns: json.columns,
                     language: {
@@ -217,6 +223,7 @@ var Alarma = {};
                 });
                 $("#pResultados").css("visibility", "visible");
                 $("#pResultados").slideDown("slow");
+                $("#btnBuscarAlarmas").attr('disabled',false).html(btnText);
             }
         });
 
@@ -230,12 +237,15 @@ var Alarma = {};
         $.post(siteUrl + "alarma/guardaAlarma", params, function (data) {
             var response = jQuery.parseJSON(data);
             var msg;
+            var editar = false;
 
-            if ($('#ala_ia_id').val()=='') //insertar
+            if ($('#ala_ia_id').val()==''){ //insertar
                 msg = 'Se ha insertado correctamente<br>' +
                         'Estado email: ' + response.res_mail;
-            else
+            }else{
                 msg = 'Se ha editado correctamente<br>';
+                editar = true;
+            }
             if (response.ala_ia_id > 0) {
                 bootbox.dialog({
                     title: "Resultado de la operacion",
@@ -259,7 +269,17 @@ var Alarma = {};
                                             Alarma.limpiar();
                                         }
                                     } else { // es edicion
-                                        window.close();
+                                        //window.close();
+                                        $("#div_tab_2").fadeOut(function(){
+                                            $("#div_tab_2").html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                                                
+                                                $("#tab-nueva").parent().removeClass('disabled').show();
+                                                $("#div_tab_1").show().html(content_1);
+                                                $("#div_tab_2").html(content_2);
+                                                
+                                            });
+                                        });
+                                        
                                     }
                                 }
                             }
@@ -335,8 +355,33 @@ var Alarma = {};
 
         });
     };
+    
     this.editarAlarma = function (ala_ia_id) {
-        window.open(siteUrl + 'alarma/editar/id/' + ala_ia_id, '_blank');
+        /*$("#tab-nueva").unbind('onclick').addClass('disabled');*/
+        $("#tab-nueva").parent().addClass('disabled').hide();
+        var tabla = $('#tblAlarmas').DataTable({
+            destroy: true
+        });
+        tabla.destroy();
+        
+        content_1 = $("#div_tab_1").html();
+        content_2 = $("#div_tab_2").html();
+
+        
+        $("#div_tab_1").html('');
+        /*window.open(siteUrl + 'alarma/editar/id/' + ala_ia_id, '_blank');*/
+        $("#div_tab_2").fadeOut(function(){
+            $("#tblAlarmas").remove();
+            $("#tab-listado").html('Edición Alarma');
+            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                $(this).load(siteUrl + 'alarma/editar/id/' + ala_ia_id,function(){
+                    $("#btnCancelarEdicion").show();    
+                });    
+                
+            });
+        });
+
+        
     };
     this.generaEmergencia = function (ala_ia_id) {
         window.open(siteUrl + 'emergencia/generaEmergencia/id/' + ala_ia_id, '_blank');
@@ -346,6 +391,18 @@ var Alarma = {};
         $('#frmIngresoAlarma')[0].reset();
         $('#iComunas').picklist('destroy');
         $('#iComunas').picklist();
+    };
+
+    this.cancelarEdicion = function(){
+        $("#div_tab_2").fadeOut(function(){
+            $("#div_tab_2").html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                $("#tab-listado").html('Listado');
+                $("#tab-nueva").parent().removeClass('disabled').show();
+                $("#div_tab_1").show().html(content_1);
+                $("#div_tab_2").html(content_2);
+                Emergencia.inicioListado();
+            });
+        });
     };
 
 }).apply(Alarma);

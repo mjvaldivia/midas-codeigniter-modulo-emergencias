@@ -1,3 +1,5 @@
+var content;
+
 var Emergencia = {};
 
 (function () {
@@ -46,9 +48,11 @@ var Emergencia = {};
 
 
     this.inicioListado = function () {
+
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
 
-        $("#btnBuscar").click(this.eventoBtnBuscar);
+        /*$("#btnBuscar").click(this.eventoBtnBuscar);*/
+        /*this.eventoBtnBuscar();*/
         $(window).resize(function () {
             $("table").css("width", "100%");
         });
@@ -56,7 +60,8 @@ var Emergencia = {};
     };
 
     this.eventoBtnBuscar = function () {
-
+        var btnText = $("#btnBuscar").html();
+        $("#btnBuscar").attr('disabled',true).html('Buscando... <i class="fa fa-spin fa-spinner"></i>');
         var url = siteUrl + "emergencia/jsonEmergenciasDT";
 
         var anio = $("#iAnio").val();
@@ -183,6 +188,7 @@ var Emergencia = {};
             });
             $("#pResultados").css("visibility", "visible");
             $("#pResultados").slideDown("slow");
+            $("#btnBuscar").attr('disabled',false).html(btnText);
         });
     };
     this.openIframe = function(id){
@@ -275,7 +281,20 @@ var Emergencia = {};
     };
 
     this.editarEmergencia = function (eme_ia_id) {
-        window.open(siteUrl + 'emergencia/editar/id/' + eme_ia_id, '_blank');
+        var tabla = $('#tblEmergencias').DataTable({
+            destroy: true
+        });
+        tabla.destroy();
+        content = $("#contenedor-emergencia").html();
+        $("#contenedor-emergencia").fadeOut(function(){
+            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                $(this).load(siteUrl + 'emergencia/editar/id/' + eme_ia_id);
+            });
+        });
+
+        /*window.open(siteUrl + 'emergencia/editar/id/' + eme_ia_id, '_blank');*/
+
+
     };
     this.eliminarEmergencia = function (eme_ia_id) {
         bootbox.dialog({
@@ -329,6 +348,16 @@ var Emergencia = {};
 
         });
     };
+
+    this.cancelarEdicion = function(){
+        $("#contenedor-emergencia").fadeOut(function(){
+            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                $(this).html(content);
+                Emergencia.inicioListado();
+            });
+        });
+    };
+    
 
 
 }).apply(Emergencia);

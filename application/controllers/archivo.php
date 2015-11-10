@@ -37,7 +37,7 @@ class Archivo extends CI_Controller {
         sessionValidation();
         $params = $this->uri->uri_to_assoc();
         $this->load->model("archivo_model", "ArchivoModel");
-
+        
         echo $this->ArchivoModel->get_docs($params['id'], true, $params['tipo']);
     }
 

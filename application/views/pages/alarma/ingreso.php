@@ -21,22 +21,22 @@
 
 <ul id="ul-tabs" class="nav nav-tabs">
     <li class='<?= tabActive("nuevo", $tab_activo, "header") ?>'>
-        <a href="#tab1" onclick ="if(Alarma.map==null)initialize();"  data-toggle="tab">Nueva</a>
+        <a href="#tab1" onclick ="if(Alarma.map==null)initialize();"  data-toggle="tab" id="tab-nueva">Nueva</a>
     </li>
     <li class='<?= tabActive("listado", $tab_activo, "header") ?>'>
-        <a href="#tab2" data-toggle="tab">Listado</a>
+        <a href="#tab2" data-toggle="tab" id="tab-listado">Listado</a>
     </li>
 </ul>
 
 <div id="tab-content" class="tab-content">
     
-    <div class='tab-pane <?= tabActive("nuevo", $tab_activo, "content") ?>' id='tab1' style='overflow:hidden;'>
+    <div class='tab-pane top-spaced <?= tabActive("nuevo", $tab_activo, "content") ?>' id='tab1' style='overflow:hidden;'>
         <div id='div_tab_1'>
              <?= $formulario ?>
         </div>
     </div>
     
-    <div class='tab-pane <?= tabActive("listado", $tab_activo, "content") ?>' id='tab2' style='overflow:hidden;'>
+    <div class='tab-pane top-spaced <?= tabActive("listado", $tab_activo, "content") ?>' id='tab2' style='overflow:hidden;'>
         <div id='div_tab_2'>
             <?= $html_listado ?>
         </div>
@@ -58,7 +58,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioIngreso();
-        initialize();
+        initialize('map');
         //$('#div_tab_2').load(siteUrl+'alarma/listado');
     });
 </script>
