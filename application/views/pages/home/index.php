@@ -147,7 +147,9 @@
                     </div>
                     <div class="portlet-body" style="min-height: 500px">
                         <div id="contendor-grilla-emergencia" class="table-responsive">
-                            <i class="fa fa-4x fa-spin fa-spinner"></i>
+                            <div class="col-lg-12 text-center">
+                                <i class="fa fa-4x fa-spin fa-spinner"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -179,6 +181,9 @@
                     </div>
                     <div class="portlet-body" style="min-height: 555px">
                         <div id="contendor-grilla-alarma" class="table-responsive">
+                            <div class="col-lg-12 text-center">
+                                <i class="fa fa-4x fa-spin fa-spinner"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
