@@ -5,7 +5,7 @@
  * Date: 17-08-15
  * Time: 10:09 AM
  */
-class Alarma_Estado_Model extends CI_Model
+class Alarma_Estado_Model extends MY_Model
 {    
     /**
      * Alarma rechazada
@@ -25,29 +25,13 @@ class Alarma_Estado_Model extends CI_Model
      * @see tip_ia_id en tabla alertas 
      */
     const REVISION = 3;
-    
-    /**
-     *
-     * @var Query 
-     */
-    protected $_query;
-    
+        
     /**
      *
      * @var string 
      */
     protected $_tabla = "estados_alertas";
-    
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-    
+        
     /**
      * Lista todos los estados
      * @return array

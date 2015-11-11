@@ -944,7 +944,7 @@ a:focus {
 }
 
 .circle-tile-heading .fa {
-    line-height: 80px;
+    line-height: 73px;
 }
 
 .circle-tile-content {
@@ -2077,16 +2077,13 @@ input[type="checkbox"]:checked::after,
     padding: 10px;
 }
 
-
-
 .text-complete{
     display:none;
 }
 
 .text-more{
-    background:lightblue;
     color:navy;
-    font-size:13px;
+    font-size:10px;
     padding:3px;
     cursor:pointer;
 }
@@ -2099,6 +2096,7 @@ input[type="checkbox"]:checked::after,
 .tab-content{border-left:1px solid #ddd;overflow:hidden;border-bottom:1px solid #ddd;border-right:1px solid #ddd;}
 
 .table-middle > tbody > tr > td{vertical-align: middle;}
+
 
 
 
@@ -2136,3 +2134,15 @@ input[type="checkbox"]:checked::after,
 .modal-backdrop{
     height: 2048px !important;
 }
+
+.icono {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgb(208, 228, 247) 0%, rgb(115, 177, 231) 24%, rgb(10, 119, 213) 50%, rgb(83, 159, 225) 79%, rgb(135, 188, 234) 100%) repeat scroll 0 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    height: 30px;
+    padding-top: 4px;
+    width: 30px;
+}
+

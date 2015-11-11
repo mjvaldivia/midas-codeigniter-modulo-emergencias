@@ -84,15 +84,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 <!-- end PAGE TITLE AREA -->
 
 
-<form class="form-inline">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">
+<div id="contenedor-emergencia">
+<form class="form-inline form-busqueda">
+    <div class="portlet portlet-green">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h4>
                 <i class="fa fa-filter"></i>
                 Filtros
-            </h3>
+                </h4>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="portlet-body">
             <div class="form-group">
                 <label for="" class="control-label">Año</label>
                 <input id="iAnio" name="iAnio" type="text" class="form-control" style="max-width: 100px" value="{anioActual}"/>
@@ -105,7 +108,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
                 <label for="iEstadoEmergencias" class="control-label">Estado</label>
                 <?= formElementSelectEmergenciaEstados("iEstadoEmergencias", $select_estado_id_default, array("class" => "form-control")); ?>
             </div>
-            <button id="btnBuscar" type="button" class="btn btn-primary">
+            <button id="btnBuscar" type="button" class="btn btn-primary btn-square btn-buscar" onclick="Emergencia.eventoBtnBuscar();">
                 <i class="fa fa-search"></i>
                 Buscar
             </button>
@@ -115,14 +118,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 
 <form class="form-horizontal" onsubmit="return false;">
 
-    <div id="pResultados" class="panel panel-primary" width="100%" style="visibility: hidden">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <i class="fa fa-th-list"></i>
-                Resultados
-            </h3>
+    <div id="pResultados" class="portlet portlet-default" width="100%" style="visibility: hidden">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h4><i class="fa fa-th-list"></i>
+                Resultados</h4>
+            </div>
         </div>
-        <div class="panel-body table-responsive">
+        <div class="portlet-body table-responsive">
             <table id="tblEmergencias" class="table">
                 <thead>
                     <tr><th></th></tr>
@@ -134,11 +137,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
     </div>
 </form>
 
+</div>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        
-        
-        
         Emergencia.inicioListado();
     });
 </script>

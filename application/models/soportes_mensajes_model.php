@@ -1,13 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Soportes_Mensajes_Model extends CI_Model {
-
-    /**
-     *
-     * @var Query 
-     */
-    protected $_query;
+class Soportes_Mensajes_Model extends MY_Model {
     
     /**
      *
@@ -15,23 +9,11 @@ class Soportes_Mensajes_Model extends CI_Model {
      */
     protected $_tabla = "soportes_mensajes";
 
-
-    protected $primary = 'soportemensaje_id';
-    
-    
     /**
-     * 
+     *
+     * @var string 
      */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-
-
-
-    
+    protected $primary = 'soportemensaje_id';
 
     public function insNuevoMensajeSoporte($datos){
         $id_mensaje = $this->_query->insert($datos);

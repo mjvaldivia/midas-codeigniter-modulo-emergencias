@@ -33,6 +33,12 @@ class Home extends CI_Controller{
 
     /**
      *
+     * @var Tipo_Emergencia_Model
+     */
+    public $EmergenciaTipoModel;
+    
+    /**
+     *
      * @var template
      */
     public $template;
@@ -47,6 +53,7 @@ class Home extends CI_Controller{
         
         $this->load->model("emergencia_model", "EmergenciaModel");
         $this->load->model("emergencia_estado_model", "EmergenciaEstadoModel");
+        $this->load->model("tipo_emergencia_model", "EmergenciaTipoModel");
         
         $this->load->helper(array("session","utils"));
         $this->load->library(array("template"));
@@ -62,13 +69,9 @@ class Home extends CI_Controller{
             show_404();
         }
 
-        
         $this->template->parse("default", 
                                "pages/home/index", 
-                                array("cantidad_alarmas_en_revision" => $this->AlarmaModel->cantidadAlarmasPorEstado(Alarma_Estado_Model::REVISION),
-                                      "cantidad_alarmas_rechazada" => $this->AlarmaModel->cantidadAlarmasPorEstado(Alarma_Estado_Model::RECHAZADO),
-                                      "cantidad_emergencias_en_curso" => $this->EmergenciaModel->cantidadEmergenciasPorEstado(Emergencia_Estado_Model::EN_CURSO),
-                                      "cantidad_emergencias_cerradas" => $this->EmergenciaModel->cantidadEmergenciasPorEstado(Emergencia_Estado_Model::CERRADA)));
+                                array());
     }
 
     
@@ -76,35 +79,21 @@ class Home extends CI_Controller{
      * 
      */
     public function ajax_grilla_alarmas(){
-        echo $this->_html_grilla_alarmas();
-    }
-    
-    /**
-     * 
-     */
-    protected function _html_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
         $this->load->helper(array("modulo/alarma/alarma"));
-        $lista = $this->AlarmaModel->listar();
-        return $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista), true);
+        $lista = $this->AlarmaModel->listarAlarmasPorEstado(Alarma_Estado_Model::REVISION);
+        $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista));
     }
-    
+        
     /**
      * 
      */
     public function ajax_grilla_emergencias(){
-        echo $this->_html_grilla_emergencias();
-    }
-    
-    /**
-     * 
-     */
-    protected function _html_grilla_emergencias(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
-        $lista = $this->EmergenciaModel->listar();
-        return $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista), true);
+        $lista = $this->EmergenciaModel->listarEmergenciasPorEstado(Emergencia_Estado_Model::EN_CURSO);
+        $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista));
     }
-    
+        
     /**
      * Carga las alertas al calendario
      */
@@ -150,6 +139,27 @@ class Home extends CI_Controller{
                                      "allDay" => false);
             }
         }
+        echo json_encode($respuesta);
+    }
+    
+    
+    /**
+     * Devuelve datos para grafico de cantidad tipos de emergencia
+     */
+    public function json_cantidad_emergencia_por_tipo(){
+        
+        $data = array();
+        
+        $lista = $this->EmergenciaTipoModel->listCantidadPorTipo();
+        if(!is_null($lista)){
+            foreach($lista as $key => $row){
+                $data[] = array("label" => $row["aux_c_nombre"],
+                                "data"  => $row["cantidad"]);
+            }
+        }
+        
+        $respuesta = array("correcto" => true,
+                           "data" => $data);
         echo json_encode($respuesta);
     }
     

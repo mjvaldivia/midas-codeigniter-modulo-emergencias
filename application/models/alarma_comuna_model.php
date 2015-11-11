@@ -5,31 +5,15 @@
  * Date: 17-08-15
  * Time: 10:09 AM
  */
-class Alarma_Comuna_Model extends CI_Model
+class Alarma_Comuna_Model extends MY_Model
 {    
-    
-    /**
-     *
-     * @var Query 
-     */
-    protected $_query;
     
     /**
      *
      * @var string 
      */
     protected $_tabla = "alertas_vs_comunas";
-    
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-    
+        
     /**
      * Lista de comunas por emergencia
      * @param int $id_emergencia

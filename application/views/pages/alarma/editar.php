@@ -1,5 +1,5 @@
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
-<div class="clearfix"></div>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script> -->
+<!-- <div class="clearfix"></div>
 <ol class="breadcrumb">
     <li><a href="<?= site_url() ?>">Dashboard</a></li>  
     <li class="active">Gestión de alarmas</li>
@@ -16,7 +16,11 @@
         </div>
 
     </div>
-</div> 
+</div>  -->
+
+<div id="form-editar">
+<?= $formulario ?>
+</div>
 
 
 <?= loadCSS("assets/lib/picklist/picklist.css") ?>

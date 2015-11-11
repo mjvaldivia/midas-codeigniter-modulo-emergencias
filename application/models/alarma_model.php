@@ -6,7 +6,7 @@ if (!defined('BASEPATH')){
 /**
  * Alarma Model
  */
-class Alarma_Model extends CI_Model {
+class Alarma_Model extends MY_Model {
 
     /**
      * Alarma rechazada
@@ -28,35 +28,11 @@ class Alarma_Model extends CI_Model {
     const REVISION = 3;
 
     /**
-     * QueryBuilder
-     * @var Query 
-     */
-    protected $_query;
-
-    /**
      * Nombre de tabla
      * @var string 
      */
     protected $_tabla = "alertas";
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-    
-    /**
-     * Retorna QueryBuilder para consultas generales
-     * @return Query
-     */
-    public function query(){
-        return $this->_query;
-    }
-    
+        
     /**
      * Retorna la alarma por el identificador
      * @param int $id clave primaria
@@ -108,6 +84,7 @@ class Alarma_Model extends CI_Model {
         $result = $this->_query->select("*")
                                ->from()
                                ->whereAND("est_ia_id", $id_estado, "=")
+                               ->orderBy("ala_d_fecha_recepcion", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;

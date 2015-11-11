@@ -35,10 +35,6 @@ class CI_Model {
      * @access public
      */
     function __construct() {
-       
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
         log_message('debug', "Model Class Initialized");
     }
 

@@ -15,6 +15,7 @@
 <!-- /.row -->
 <!-- end PAGE TITLE AREA -->
 
+<div id="contenedor-home">
 
 <!-- begin DASHBOARD CIRCLE TILES -->
 <div class="row">
@@ -23,7 +24,7 @@
             
             <div class="col-lg-2 col-sm-6">
                 <div class="circle-tile">
-                    <a href="<?= site_url("alarma/ingreso/tab/listado/estado/en_revision") ?>">
+                    <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>">
                         <div class="circle-tile-heading orange">
                             <i class="fa fa-bell fa-fw fa-3x"></i>
                         </div>
@@ -35,7 +36,7 @@
                         <div id="alarmas-revision-cantidad" class="circle-tile-number text-faded">
 
                         </div>
-                        <a href="<?= site_url("alarma/ingreso/tab/listado/estado/en_revision") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -137,55 +138,76 @@
 <div class="row">
     <div class="col-lg-12 col-sm-12">
         <div class="row">
-            <div class="col-lg-12">
-            <div class="portlet portlet-default">
-                <div class="portlet-heading">
-                    <div class="portlet-title">
-                        <h4><i class="fa fa-list-ul"></i> Ultimas emergencias</h4>
+            <div class="col-lg-8">
+                <div class="portlet portlet-default">
+                    <div class="portlet-heading">
+                        <div class="portlet-title">
+                            <h4><i class="fa fa-list-ul"></i> Ultimas emergencias</h4>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="portlet-body">
-                    <div id="contendor-grilla-emergencia" class="table-responsive">
+                    <div class="portlet-body">
+                        <div id="contendor-grilla-emergencia" class="table-responsive">
+                            <div class="col-lg-12 text-center">
+                                <i class="fa fa-4x fa-spin fa-spinner"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4">
+                <div class="portlet portlet-default">
+                    <div class="portlet-heading">
+                        <div class="portlet-title">
+                            <h4><i class="fa fa-pie-chart"></i> Gráfico emergencias/tipo</h4>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="donutChart" class="portlet-body" style="height: 500px; padding-top: 100px">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-chart-pie" style="height: 200px"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
-            <div class="portlet portlet-default">
-                <div class="portlet-heading">
-                    <div class="portlet-title">
-                        <h4><i class="fa fa-list-ul"></i> Ultimas alarmas</h4>
+            <div class="col-lg-8">
+                <div class="portlet portlet-default">
+                    <div class="portlet-heading">
+                        <div class="portlet-title">
+                            <h4><i class="fa fa-list-ul"></i> Ultimas alarmas</h4>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="portlet-body">
-                    <div id="contendor-grilla-alarma" class="table-responsive">
+                    <div class="portlet-body" >
+                        <div id="contendor-grilla-alarma" class="table-responsive">
+                            <div class="col-lg-12 text-center">
+                                <i class="fa fa-4x fa-spin fa-spinner"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div></div>
+            </div>
+            <div class="col-lg-4">
+                <div class="portlet portlet-default">
+                    <div class="portlet-heading">
+                        <div class="portlet-title">
+                            <h4><i class="fa fa-line-chart"></i> Gráfico de emergencia por mes</h4>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="lineChart" class="panel-collapse collapse in">
+                        <div class="portlet-body" style="height: 555px;padding-top: 100px">
+                            <div id="morris-chart-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="portlet portlet-green">
-            <div class="portlet-heading">
-                <div class="portlet-title">
-                    <h4><i class="fa fa-line-chart"></i> Gráfico de emergencia por mes</h4>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div id="lineChart" class="panel-collapse collapse in">
-                <div class="portlet-body">
-                    <div id="morris-chart-line"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="portlet portlet-blue">
@@ -204,6 +226,14 @@
     </div>
 </div>
 <!-- end DASHBOARD CIRCLE TILES -->
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
+<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
+<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
+
+<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
+<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
+<?= loadJS("assets/js/geo-encoder.js") ?>
 
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
@@ -223,5 +253,11 @@
 <?= loadJS("assets/lib/morris/raphael-2.1.0.min.js", true) ?>
 <?= loadJS("assets/lib/morris/morris.js", true) ?>
 
+<?= loadJS("assets/lib/flot/jquery.flot.min.js", true) ?>
+<?= loadJS("assets/lib/flot/jquery.flot.resize.min.js", true) ?>
+<?= loadJS("assets/lib/flot/jquery.flot.pie.min.js", true) ?>
+<?= loadJS("assets/lib/flot/jquery.flot.tooltip.min.js", true) ?>
+
+<?= loadJS("assets/js/bootbox.min.js", true) ?>
 
 <?= loadJS("assets/js/modulo/dashboard.js", true) ?>

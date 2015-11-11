@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Soportes_Model extends CI_Model {
+class Soportes_Model extends MY_Model {
 
     /**
      *
@@ -15,19 +15,12 @@ class Soportes_Model extends CI_Model {
      */
     protected $_tabla = "soportes";
     
+    /**
+     *
+     * @var string 
+     */
     protected $primary = 'soporte_id';
     
-    /**
-     * 
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-
-
     public function obtSoportesUsuario($id_usuario) {
         $query = "select 
                     soporte_id,

@@ -51,8 +51,6 @@ class Alarma extends CI_Controller {
      * Formulario de ingreso de alarma
      */
     public function ingreso() {
-        
-        
         $this->load->helper("modulo/direccion/comuna");
         $this->load->helper("modulo/emergencia/emergencia");
         
@@ -79,7 +77,8 @@ class Alarma extends CI_Controller {
         $datos['ala_ia_id'] = $params['id'];
 
         $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
-        $this->template->parse("default", "pages/alarma/editar", $data);
+        /*$this->template->parse("default", "pages/alarma/editar", $data);*/
+        $this->load->view("pages/alarma/editar", $data);
     }
     
     public function getAlarma() {

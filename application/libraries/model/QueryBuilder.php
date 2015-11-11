@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Query{
+class QueryBuilder{
     
     /**
      * Nombre de tabla
@@ -33,12 +33,28 @@ class Query{
      */
     protected $where = "";
     
+    /**
+     *
+     * @var string 
+     */
     protected $orderBy = "";
     
+    /**
+     *
+     * @var string 
+     */
     protected $groupBy = "";
     
+    /**
+     *
+     * @var string 
+     */
     protected $join = "";
     
+    /**
+     *
+     * @var string 
+     */
     protected $limit = "";
     
     /**

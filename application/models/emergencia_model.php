@@ -7,34 +7,18 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Emergencia_Model extends CI_Model {
+class Emergencia_Model extends MY_Model {
 
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
-    
-    /**
-     *
-     * @var Query 
-     */
-    protected $_query;
-    
+        
     /**
      *
      * @var string 
      */
     protected $_tabla = "emergencias";
-    
-    /**
-     * 
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-    
+        
     /**
      * Lista todas las alarmas
      * @return array
@@ -52,15 +36,30 @@ class Emergencia_Model extends CI_Model {
     }
     
     /**
+     * Lista emergencias por estado
+     * @param int $id_estado
+     * @return array
+     */
+    public function listarEmergenciasPorEstado($id_estado){
+        $result = $this->_queryEmergenciasPorEstado($id_estado)
+                       ->orderBy("eme_d_fecha_recepcion", "DESC")
+                       ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param int $id_estado id del estado
      * @return int
      */
     public function cantidadEmergenciasPorEstado($id_estado){
-        $result = $this->_query->select("COUNT(*) as cantidad")
-                               ->from()
-                               ->whereAND("est_ia_id", $id_estado, "=")
-                               ->getOneResult();
+        $result = $this->_queryEmergenciasPorEstado($id_estado)
+                       ->select("COUNT(*) as cantidad", false)
+                       ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
         }else{
@@ -253,41 +252,36 @@ class Emergencia_Model extends CI_Model {
         }
         return $resultados;
     }
-
+    
+    /**
+     * 
+     * @param array $params filtros array("tipoEmergencia", "anio", "estado_emergencia)
+     * @return array
+     */
     public function filtrarEmergencias($params) {
-        $mapeo = array(
-            "tipoEmergencia" => "e.tip_ia_id",
-            "anio" => "year(e.eme_d_fecha_recepcion)"
-        );
-
-        $where = "1=1";
-        $queryParams = array();
-
-        foreach ($params as $llave => $valor) {
-            $queryParams[] = $valor;
-            $where .= " and " . $mapeo[$llave] . " = ?";
+        $query = $this->_query->select("e.*, "
+                                     . "te.aux_c_nombre as eme_c_tipo_emergencia")
+                              ->from($this->_tabla . " e")
+                              ->join("auxiliar_emergencias_tipo te", "e.tip_ia_id = te.aux_ia_id", "INNER");
+        
+        if(!empty($params["tipoEmergencia"])){
+            $query->whereAND("e.tip_ia_id", $params["tipoEmergencia"]);
         }
-
-        $sql = "
-            select
-                e.*,
-                te.aux_c_nombre as eme_c_tipo_emergencia
-            from
-              emergencias e
-              inner join auxiliar_emergencias_tipo te on e.tip_ia_id = te.aux_ia_id
-              where
-                $where
-            order by e.eme_d_fecha_emergencia desc
-        ";
-
-        $query = $this->db->query($sql, $queryParams);
-        fb($sql);
-        $resultados = array();
-
-        if ($query->num_rows() > 0)
-            $resultados = $query->result_array();
-
-        return $resultados;
+        
+        if(!empty($params["anio"])){
+            $query->whereAND("year(e.eme_d_fecha_recepcion)", $params["anio"]);
+        }
+        
+        if(!empty($params["estado_emergencia"])){
+            $query->whereAND("e.est_ia_id", $params["estado_emergencia"]);
+        }
+                                
+        $resultado = $query->getAllResult();
+        if(!is_null($resultado)){
+            return $resultado;
+        } else {
+            return array();
+        }
     }
 
     public function getEmergencia($id) {
@@ -482,6 +476,17 @@ class Emergencia_Model extends CI_Model {
         }
 
         return $error;
+    }
+    
+    /**
+     * Consulta para emergencia por estado
+     * @return QueryBuilder
+     */
+    protected function _queryEmergenciasPorEstado($id_estado){
+        $query = $this->_query->select("*")
+                              ->from()
+                              ->whereAND("est_ia_id", $id_estado, "=");
+        return $query;
     }
 
 }

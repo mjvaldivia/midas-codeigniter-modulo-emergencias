@@ -5,7 +5,7 @@
  * Date: 17-08-15
  * Time: 10:09 AM
  */
-class Emergencia_Estado_Model extends CI_Model
+class Emergencia_Estado_Model extends MY_Model
 {    
     /**
      * Emergencia terminada
@@ -17,28 +17,12 @@ class Emergencia_Estado_Model extends CI_Model
      * @see tip_ia_id en tabla alertas 
      */
     const EN_CURSO = 1;
-        
-    /**
-     *
-     * @var Query 
-     */
-    protected $_query;
-    
+            
     /**
      *
      * @var string 
      */
     protected $_tabla = "estados_emergencias";
-    
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
     
     /**
      * Lista todos los estados

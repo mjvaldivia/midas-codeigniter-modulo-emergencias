@@ -1,3 +1,14 @@
+var content;
+
+$(document).ready(function() {
+    $("#btnCancelar").livequery(function(){
+       $(this).click(function(){
+           Emergencia.cancelarEdicion();
+       });
+    });
+});
+
+
 var Emergencia = {};
 
 (function () {
@@ -46,9 +57,11 @@ var Emergencia = {};
 
 
     this.inicioListado = function () {
+
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
 
-        $("#btnBuscar").click(this.eventoBtnBuscar);
+        /*$("#btnBuscar").click(this.eventoBtnBuscar);*/
+        /*this.eventoBtnBuscar();*/
         $(window).resize(function () {
             $("table").css("width", "100%");
         });
@@ -56,11 +69,13 @@ var Emergencia = {};
     };
 
     this.eventoBtnBuscar = function () {
-
+        var btnText = $("#btnBuscar").html();
+        $("#btnBuscar").attr('disabled',true).html('Buscando... <i class="fa fa-spin fa-spinner"></i>');
         var url = siteUrl + "emergencia/jsonEmergenciasDT";
 
         var anio = $("#iAnio").val();
         var tipoEmergencia = $("#iTiposEmergencias").val();
+        var estadoEmergencia = $("#iEstadoEmergencias").val();
 
         if (parseInt(anio)) {
             url += "/anio/" + anio;
@@ -68,6 +83,10 @@ var Emergencia = {};
 
         if (parseInt(tipoEmergencia)) {
             url += "/tipoEmergencia/" + tipoEmergencia;
+        }
+        
+        if(parseInt(estadoEmergencia)){
+            url += "/estado_emergencia/" + estadoEmergencia;
         }
 
         var tabla = $('#tblEmergencias').DataTable();
@@ -125,7 +144,7 @@ var Emergencia = {};
                 var html = "";
                 html += "<div class=\"col-md-12 shadow\" style=\"padding: 10px;\">";
                 html += "    <div class=\"col-md-2 text-center\">" + icon + "</div>";
-                html += "    <div class=\"col-md-8\">";
+                html += "    <div class=\"col-md-7\">";
                 html += "        <div class=\"form-group col-md-12\">";
                 html += "           <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Fecha:</label>";
                 html += "            <div class=\"col-md-8\">";
@@ -151,19 +170,22 @@ var Emergencia = {};
                 html += "            </div>";
                 html += "        </div>";
                 html += "    </div>";
-                html += "    <div class=\"col-md-2 text-center\">";
+                html += "    <div class=\"col-md-3 text-center\">";
                 html += "       <div class=\"btn-group\">";
-                html += "     <a data-toggle='modal' class='btn btn-default modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"' data-title='Administracion del Reporte' data-success='exportarMapa("+row.eme_ia_id+");' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
+                html += "     <a data-toggle='modal' class='btn btn-primary modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"' data-title='Administracion del Reporte' data-success='exportarMapa("+row.eme_ia_id+");' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
 //                html += "           <a title=\"Reporte\" class=\"btn btn-default\" onclick=Emergencia.openIframe(" + row.eme_ia_id + "); >";
                // html += "               <i class=\"fa fa-fa2x fa-file-text-o\"></i>";
                // html += "           </a>";
-                html += "           <a title=\"Visor\" class=\"btn btn-default\" href='" + siteUrl + "visor/index/id/" + row.eme_ia_id + "' target='_blank'>";
+                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Visor\" class=\"btn btn-primary\" href='" + siteUrl + "visor/index/id/" + row.eme_ia_id + "' target='_blank'>";
                 html += "               <i class=\"fa fa-fa2x fa-globe\"></i>";
                 html += "           </a>";
-                html += "           <a title=\"Editar\" class=\"btn btn-default\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
+                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Cerrar emergencia\" class=\"btn btn-primary\" onclick=Emergencia.cerrar(" + row.eme_ia_id + ");>";
+                html += "               <i class=\"fa fa-fa2x fa-check\"></i>";
+                html += "           </a>";
+                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Editar\" class=\"btn btn-primary\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
                 html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
                 html += "           </a>";
-                html += "           <a title=\"Eliminar\" class=\"btn btn-default\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
+                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Eliminar\" class=\"btn btn-primary\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
                 html += "               <i class=\"fa fa-fa2x fa-trash\"></i>";
                 html += "           </a>";
                 html += "       </div>";
@@ -183,6 +205,7 @@ var Emergencia = {};
             });
             $("#pResultados").css("visibility", "visible");
             $("#pResultados").slideDown("slow");
+            $("#btnBuscar").attr('disabled',false).html(btnText);
         });
     };
     this.openIframe = function(id){
@@ -275,7 +298,20 @@ var Emergencia = {};
     };
 
     this.editarEmergencia = function (eme_ia_id) {
-        window.open(siteUrl + 'emergencia/editar/id/' + eme_ia_id, '_blank');
+        var tabla = $('#tblEmergencias').DataTable({
+            destroy: true
+        });
+        tabla.destroy();
+        content = $("#contenedor-emergencia").html();
+        $("#contenedor-emergencia").fadeOut(function(){
+            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                $(this).load(siteUrl + 'emergencia/editar/id/' + eme_ia_id);
+            });
+        });
+
+        /*window.open(siteUrl + 'emergencia/editar/id/' + eme_ia_id, '_blank');*/
+
+
     };
     this.eliminarEmergencia = function (eme_ia_id) {
         bootbox.dialog({
@@ -329,6 +365,16 @@ var Emergencia = {};
 
         });
     };
+
+    this.cancelarEdicion = function(){
+        $("#contenedor-emergencia").fadeOut(function(){
+            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                $(this).html(content);
+                Emergencia.inicioListado();
+            });
+        });
+    };
+    
 
 
 }).apply(Emergencia);
