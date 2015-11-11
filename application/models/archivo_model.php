@@ -205,7 +205,7 @@ class Archivo_Model extends CI_Model {
             $link = "";
             if ($row['arch_c_hash'] != '') {
 
-                $link = "<a target='_blank' class='btn btn-xs btn-default btn-square' href=" . site_url("archivo/download_file/k/" . $row['arch_c_hash']) . ">VER</a>";
+                $link = $this->frame_from_mime($row['arch_c_mime'], $row['arch_c_nombre'], $row['arch_c_hash']);
 
             }
             $entry = array(
