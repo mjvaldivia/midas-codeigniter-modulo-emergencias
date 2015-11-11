@@ -204,15 +204,19 @@ class Archivo_Model extends CI_Model {
             $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
             $link = "";
             if ($row['arch_c_hash'] != '') {
-                $link = "<a target='_blank' class='btn btn-xs btn-default' href=" . site_url("archivo/download_file/k/" . $row['arch_c_hash']) . ">VER</a>";
+
+                //$link = "<a target='_blank' class='btn btn-xs btn-default' href=" . site_url("archivo/download_file/k/" . $row['arch_c_hash']) . ">VER</a>";
+                $link = $this->frame_from_mime($row['arch_c_mime'], $row['arch_c_nombre'], $row['arch_c_hash']);
             }
             $entry = array(
                 $nombre,
                 $row['nombre_usuario'],
                 ISODateTospanish($row['arch_f_fecha']),
                 $link,
+                "<input type='checkbox' id=chk_".$row['arch_ia_id']." name=chk_".$row['arch_ia_id']." checked=true>",
                 $row['arch_ia_id'],
                 round(($row['arch_c_tamano']) / 1024, 1)
+               
             );
             $arr_arch[] = $entry;
             $jsonData['data'][] = $entry;
@@ -229,6 +233,12 @@ class Archivo_Model extends CI_Model {
         $row = $result->result_array();
         return $row[0];
     }
+    public function get_file_from_id($id) {
+        $sql = "select * from archivo where arch_ia_id='$id'";
+        $result = $this->db->query($sql);
+        $row = $result->result_array();
+        return $row[0];
+    }
 
     function descargar($k = null) {
         if ($k != null) {
@@ -236,13 +246,17 @@ class Archivo_Model extends CI_Model {
 
             $arr_ruta = explode('/', $archivo['arch_c_nombre']);
             $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
-            header("Content-Type: " . $archivo['arch_c_mime'] . "; charset: UTF-8");
-            header("filename=" . $nombre);
 
-            header("Content-Disposition:  ; filename=\"" . $nombre . "\"");
-            ob_end_clean();
-            readfile(FCPATH . $archivo['arch_c_nombre']);
-            exit;
+            if (is_file($archivo['arch_c_nombre'])) {
+                header("Content-Type: " . $archivo['arch_c_mime'] . "; charset: UTF-8");
+                header("filename=" . $nombre);
+
+                header("Content-Disposition:  ; filename=\"" . $nombre . "\"");
+                ob_end_clean();
+                readfile(FCPATH . $archivo['arch_c_nombre']);
+            } else {
+                show_404();
+            }
         } else
             return false;
     }
@@ -305,6 +319,68 @@ class Archivo_Model extends CI_Model {
         }
 
         return false;
+    }
+
+    public function frame_from_mime($mime_type = null, $ruta = null, $hash = null) {
+        if ($mime_type == null || $ruta == null || $hash == null)
+            return '';
+
+        $frame = '';
+        $arr = explode('/', $mime_type);
+        $ext = explode('.', $ruta);
+        if (sizeof($ext > 1)) {
+            $ext = $ext[sizeof($ext) - 1];
+        }
+
+
+
+        switch (strtolower($arr[0])) {
+
+            case 'application':
+                switch (strtolower($arr[1])) {
+                    case 'pdf':
+                        $frame = "<embed src='" . base_url($ruta) . "' width='170px' height='170px;' alt='pdf' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>";
+                        break;
+                    case 'vnd.openxmlformats-officedocument.wordprocessingml.document':
+                    case 'msword':
+                        $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url('assets/img/word.png') . "' /></a>";
+                        break;
+                    case 'vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                    case 'vnd.ms-excel':
+                        $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url('assets/img/excel.png') . "' /></a>";
+                        break;
+                    case 'octet-stream':
+                        switch ($ext) {
+                            case 'zip' :
+                            case 'gz' :
+                            case 'rar' :
+                                $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url('assets/img/zip.png') . "' /></a>";
+                                break;
+                            case 'text':
+                            case 'sql':
+                            case 'json':
+                                $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url('assets/img/text.png') . "' /></a>";
+                                break;
+                            default:
+                                $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url('assets/img/none.png') . "' /></a>";
+                                break;
+                        }
+
+                        break;
+                    default:
+                        $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url('assets/img/none.png') . "' /></a>";
+                        break;
+                }
+                break;
+            case 'image':
+                $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url($ruta) . "' /></a>";
+                break;
+            default:
+                $frame = "<a target='_blank' href=" . site_url("archivo/download_file/k/" . $hash) . "><img height=64 src='" . base_url('assets/img/none.png') . "' /></a>";
+                break;
+        }
+        $frame.= "<div class='col-lg-12'><a target='_blank' class='btn btn-xs btn-default'  href=" . site_url("archivo/download_file/k/" . $hash) . ">Ver / Descargar</a></div>";
+        return $frame;
     }
 
 }
