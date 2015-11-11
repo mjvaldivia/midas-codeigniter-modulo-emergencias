@@ -1,5 +1,14 @@
 var content;
 
+$(document).ready(function() {
+    $("#btnCancelar").livequery(function(){
+       $(this).click(function(){
+           Emergencia.cancelarEdicion();
+       });
+    });
+});
+
+
 var Emergencia = {};
 
 (function () {

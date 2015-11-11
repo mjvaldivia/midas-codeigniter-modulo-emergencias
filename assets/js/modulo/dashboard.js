@@ -1,42 +1,48 @@
-$.fn.hasAttr = function(name) {  
-   return this.attr(name) !== undefined;
-};
+var content;
 
 $(document).ready(function() {
-    
 
+    load();
 
-    
-    setCalendario();
-    setGrafico();
-    setGraficoEmergenciasTipo();
-    reload();
-    
-    
-    $(".datatable.paginada").livequery(function(){
-        if($(this).parent().hasAttr('data-row')) {
-            var filas = parseInt($(this).parent().attr("data-row"));
-        } else {
-            var filas = 10;
-        }
-        
-        var id = $(this).attr("id");
-        $(this).dataTable({
-            "lengthMenu": [[5,10, 25, 50], [5,10, 25, 50]],
-            "pageLength": filas,
-            "aaSorting": [],
-            language: {
-                        url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
-                    },
-            "fnDrawCallback": function( oSettings ) {
-                $("#" + id).removeClass("hidden");
-             }
+    $("#btnCancelar").livequery(function(){
+        $(this).click(function(){
+            $("#contenedor-home").fadeOut(function(){
+                $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+                    $(this).html(content);
+                    load();
+                });
+            });
         });
     });
 });
 
-function setGraficoEmergenciasTipo(){
+function formEditarAlarma(ala_ia_id){  
+    limpiaVista();
     
+    content = $("#contenedor-home").html();
+    $("#contenedor-home").fadeOut(function(){
+            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+            $(this).load(siteUrl + 'alarma/editar/id/' + ala_ia_id);
+        });
+    });
+}
+
+function formEditarEmergencia(eme_ia_id){  
+    limpiaVista();
+    
+    content = $("#contenedor-home").html();
+    $("#contenedor-home").fadeOut(function(){
+            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
+            $(this).load(siteUrl + 'emergencia/editar/id/' + eme_ia_id);
+        });
+    });
+}
+
+/**
+ * Carga datos y grafico de emergencias por tipo
+ * @returns void
+ */
+function setGraficoEmergenciasTipo(){
     $.ajax({         
         dataType: "json",
         cache: false,
@@ -52,36 +58,36 @@ function setGraficoEmergenciasTipo(){
                 var data = retorno.data;
 	
                 var plotObj = $.plot($("#flot-chart-pie"), data, {
-                        series: {
-                                pie: {
-                                        show: true
-                                }
-                        },
-                        grid: {
-                                hoverable: true 
-                        },
-                        tooltip: true,
-                        tooltipOpts: {
-                                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-                                shifts: {
-                                        x: 20,
-                                        y: 0
-                                },
-                                defaultTheme: false
+                    series: {
+                        pie: {
+                                show: true
                         }
+                    },
+                    grid: {
+                        hoverable: true 
+                    },
+                    tooltip: true,
+                    tooltipOpts: {
+                        content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                        shifts: {
+                            x: 20,
+                            y: 0
+                        },
+                        defaultTheme: false
+                    }
                 });  
                 
                 
             }
         }
-    });
-    
-    
-    
+    }); 
 }
 
-
-function setGrafico(){
+/**
+ * Carga datos y grafico para emergencias por mes
+ * @returns void
+ */
+function setGraficoEmergenciasMes(){
     $.ajax({         
         dataType: "json",
         cache: false,
@@ -106,20 +112,33 @@ function setGrafico(){
                         return months[x.getMonth()]; 
                     },
                     smooth: false,
-                    resize: true
+                    resize: false
                 });
             }
         }
     });
 }
 
+function load(){
+    setCalendario();
+    setGraficoEmergenciasMes();
+    setGraficoEmergenciasTipo();
+    reloadGrillas();
+}
 
-function reload(){
+/**
+ * Recarga las grillas de emergencias y alertas
+ * @returns void
+ */
+function reloadGrillas(){
     reloadGrillaEmergencias();
     reloadGrillaAlarmas();
 }
 
-
+/**
+ * Carga grilla de alarmas
+ * @returns void
+ */
 function reloadGrillaAlarmas(){
     var params = {"desde" : $("#fecha_desde").val(),
                   "hasta" : $("#fecha_hasta").val()};
@@ -140,6 +159,10 @@ function reloadGrillaAlarmas(){
     });
 }
 
+/**
+ * Carga grilla de emergencias
+ * @returns void
+ */
 function reloadGrillaEmergencias(){
     var params = {"desde" : $("#fecha_desde").val(),
                   "hasta" : $("#fecha_hasta").val()};
@@ -160,15 +183,16 @@ function reloadGrillaEmergencias(){
     });
 }
 
+/**
+ * Carga datos y genera el calendario
+ * @returns void
+ */
 function setCalendario(){
     
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-
-    /* initialize the calendar
-        -----------------------------------------------------------------*/
 
     $('#calendar').fullCalendar({
         header: {
@@ -184,21 +208,28 @@ function setCalendario(){
                 url: siteUrl + 'home/json_eventos_calendario_alertas',
                 type: 'POST',
                 error: function() {
-                    alert('there was an error while fetching events!');
+                    alert('Ha ocurrido un error al cargar las alarmas al calendario!');
                 },
-                color: 'orange',   // a non-ajax option
-                textColor: 'black' // a non-ajax option
+                color: 'orange',  
+                textColor: 'black'
             },
             {
                 url: siteUrl + 'home/json_eventos_calendario_emergencias',
                 type: 'POST',
                 error: function() {
-                    alert('there was an error while fetching events!');
+                    alert('Ha ocurrido un error al cargar las emergencias al calendario!');
                 },
-                color: 'red',   // a non-ajax option
-                textColor: 'white' // a non-ajax option
+                color: 'red',   
+                textColor: 'white' 
             }
         ]
     });
 
+}
+
+function limpiaVista(){
+    $("#calendar").html("");
+    $("#morris-chart-line").html("");
+    $("#contendor-grilla-alarma").html("");
+    $("#contendor-grilla-emergencia").html(""); 
 }

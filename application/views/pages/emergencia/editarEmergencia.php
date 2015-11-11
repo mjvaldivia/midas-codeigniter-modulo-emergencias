@@ -165,7 +165,7 @@
             
             <div id="botonera" class="col-md-10 text-right">
                     <button type="button" id="btnSiguiente" class="btn btn-green btn-square" onclick="EmergenciaEditar.guardarForm(this);">Guardar</button>
-                    <button type="button" id="btnCancelar" class="btn btn-default btn-square" onclick="Emergencia.cancelarEdicion();">Cancelar</button>
+                    <button type="button" id="btnCancelar" class="btn btn-default btn-square">Cancelar</button>
             </div>
         </div>
     </div>

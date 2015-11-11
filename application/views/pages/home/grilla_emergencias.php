@@ -27,7 +27,7 @@
                 <td><?php echo ISODateTospanish($row["eme_d_fecha_emergencia"]); ?></td>
                 <td><?php echo $row["eme_c_lugar_emergencia"]; ?></td>
                 <td width="80px">
-                    <button onclick="window.open(siteUrl + 'emergencia/editar/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
+                    <button onclick="javascript:formEditarEmergencia(<?php echo $row["eme_ia_id"]; ?>)" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
                         <i class="fa fa-edit"></i>
                     </button>
                     <button onclick="window.open(siteUrl + 'visor/index/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Abrir el visor">

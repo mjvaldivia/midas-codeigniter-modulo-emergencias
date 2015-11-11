@@ -15,6 +15,7 @@
 <!-- /.row -->
 <!-- end PAGE TITLE AREA -->
 
+<div id="contenedor-home">
 
 <!-- begin DASHBOARD CIRCLE TILES -->
 <div class="row">
@@ -145,7 +146,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="portlet-body" style="min-height: 500px">
+                    <div class="portlet-body">
                         <div id="contendor-grilla-emergencia" class="table-responsive">
                             <div class="col-lg-12 text-center">
                                 <i class="fa fa-4x fa-spin fa-spinner"></i>
@@ -179,7 +180,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="portlet-body" style="min-height: 555px">
+                    <div class="portlet-body" >
                         <div id="contendor-grilla-alarma" class="table-responsive">
                             <div class="col-lg-12 text-center">
                                 <i class="fa fa-4x fa-spin fa-spinner"></i>
@@ -225,7 +226,7 @@
     </div>
 </div>
 <!-- end DASHBOARD CIRCLE TILES -->
-
+</div>
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
@@ -248,5 +249,7 @@
 <?= loadJS("assets/lib/flot/jquery.flot.resize.min.js", true) ?>
 <?= loadJS("assets/lib/flot/jquery.flot.pie.min.js", true) ?>
 <?= loadJS("assets/lib/flot/jquery.flot.tooltip.min.js", true) ?>
+
+<?= loadJS("assets/js/bootbox.min.js", true) ?>
 
 <?= loadJS("assets/js/modulo/dashboard.js", true) ?>

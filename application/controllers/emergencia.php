@@ -159,21 +159,14 @@ class Emergencia extends CI_Controller {
 
     public function editar() {
         if (!file_exists(APPPATH . "/views/pages/emergencia/editarEmergencia.php")) {
-            // Whoops, we don"t have a page for that!
             show_404();
         }
 
-        // load basicos
-        $this->load->library("template");
-        $this->load->helper("session");
-
-        sessionValidation();
-
         $params = $this->uri->uri_to_assoc();
         $data['eme_ia_id'] = $params['id'];
-        
-        /*$this->template->parse("default", "pages/emergencia/editarEmergencia", $data);*/
+
         $this->load->view("pages/emergencia/editarEmergencia", $data);
+        
     }
 
     public function getEmergencia() {
