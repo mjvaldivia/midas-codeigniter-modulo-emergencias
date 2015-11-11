@@ -296,7 +296,12 @@ var Emergencia = {};
             }
         });
     };
-
+    
+    this.cerrar = function(id){
+        var formulario = new FormEmergenciasCerrar(id);	
+        formulario.mostrarFormulario();
+    };
+    
     this.editarEmergencia = function (eme_ia_id) {
         var tabla = $('#tblEmergencias').DataTable({
             destroy: true

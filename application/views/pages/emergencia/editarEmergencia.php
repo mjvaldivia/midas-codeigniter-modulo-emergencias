@@ -174,9 +174,7 @@
 <?= loadCSS("assets/lib/picklist/picklist.css") ?>
 <?= loadJS("assets/lib/picklist/picklist.js") ?>
 
-<?= loadJS("assets/js/moment.min.js") ?>
-<?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
-<?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
+
 
 <?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
 
