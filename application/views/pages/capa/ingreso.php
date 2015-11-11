@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1>Alarmas
+            <h1>Capas
                 <small><i class="fa fa-arrow-right"></i> Administrador de capas</small>
             </h1>
             <ol class="breadcrumb">

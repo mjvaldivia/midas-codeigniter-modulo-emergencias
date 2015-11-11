@@ -168,12 +168,42 @@ class Capa_Model extends CI_Model {
                 "<img src='" . base_url($row['icono']) . "' height='24' />",
                 $row['cap_c_propiedades'],
                 $link,
-                "<a class='btn btn-xs btn-default' >Editar</a>"
+                "<a class='btn btn-xs btn-default btn-square' ><i class='fa fa-edit'></i></a> <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(".$row['cap_ia_id'].")'><i class='fa fa-trash'></i></a>"
             );
             $arr_arch[] = $entry;
             $jsonData['data'][] = $entry;
         }
         echo json_encode($jsonData);
+    }
+
+    function getCapa($id_capa) {
+
+        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
+                join archivo a on c.capa_arch_ia_id = a.arch_ia_id
+                join archivo b on c.icon_arch_ia_id = b.arch_ia_id
+                join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
+                where c.cap_ia_id = ?";
+        $result = $this->db->query($sql,array($id_capa));
+        
+    }
+
+
+    public function validarCapaEmergencia($id_capa){
+        $query = "select count(*) as total from emergencias 
+                where eme_c_capas like $id_capa  
+                or eme_c_capas like '$id_capa,%' 
+                or eme_c_capas like '%,$id_capa' 
+                or eme_c_capas like '%,$id_capa,%'";
+        $result = $this->db->query($query);
+        $validate = $result->result_object();
+        
+        return $validate[0]->total;
+    }
+
+
+    public function eliminarCapa($id_capa){
+        $query = "delete from capas where cap_ia_id = ?";
+        return $this->db->query($query,array($id_capa));
     }
 
 }

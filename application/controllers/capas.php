@@ -67,5 +67,44 @@ class Capas extends CI_Controller
 
         echo $this->CapaModel->get_capas();
     }
+
+
+    public function validarCapaEmergencia(){
+        $this->load->helper(array("session", "debug"));
+        $id_capa = $this->input->post('capa');
+
+        sessionValidation();
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->validarCapaEmergencia($id_capa) > 0){
+            $json['estado'] = true;
+        }else{
+            $json['estado'] = false;
+        }
+
+        echo json_encode($json);
+    }
+
+
+    public function eliminarCapa(){
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+
+        $id_capa = $this->input->post('capa');
+
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->eliminarCapa($id_capa)){
+            $json['estado'] = true;
+            $json['mensaje'] = 'La capa ha sido eliminada';
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Hubo un problema al eliminar la capa. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+    }
     
 }
