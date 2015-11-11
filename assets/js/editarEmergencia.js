@@ -215,7 +215,13 @@ var EmergenciaEditar = {};
             },
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
-            }
+            },
+             "aoColumns": [
+                null,
+                null,
+                null,
+                {"sClass": "text-center"}
+            ]
         });
         $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>");
     };

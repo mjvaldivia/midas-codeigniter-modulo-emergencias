@@ -22,21 +22,21 @@
         margin-right: 20px;
     }
 
-    td,th {
+    #tblAlarmas td,th {
         vertical-align: middle!important;
         padding-bottom: 5px;
         border: 0!important;
     }
 
-    tr.odd div {
+    #tblAlarmas tr.odd div {
         background-color: whitesmoke;
     }
 
-    tr.even div {
+    #tblAlarmas tr.even div {
         background-color: rgb(208,228,247);
     }
 
-    .shadow {
+    #tblAlarmas .shadow {
 
 
         -webkit-border-radius: 4px;

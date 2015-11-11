@@ -68,7 +68,7 @@
 </head>
 
 <body>
-
+    
     <div id="wrapper">
 
         <!-- begin TOP NAVIGATION -->
@@ -76,6 +76,7 @@
 
             <!-- begin BRAND HEADING -->
             <div class="navbar-header">
+                <div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
                 <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".sidebar-collapse">
                     <i class="fa fa-bars"></i> Menu
                 </button>

@@ -111,9 +111,90 @@ class Visor extends CI_Controller {
         $pdf->WriteHTML($html); // write the HTML into the PDF
         $pdf->Output('acta.pdf', 'I');
     }
+    
+    
+    public function ReporteAdisco() {
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        $this->load->model("archivo_model", "ArchivoModel");
+        ini_set('memory_limit', '64M');
+        $ruta = false;
+        $params_get = $this->uri->uri_to_assoc();
+        $data = $this->EmergenciaModel->getJsonEmergencia($params_get, false);
+        $data['emisor'] = $this->session->userdata('session_nombres');
+        $archivo = $this->ArchivoModel->get_file_from_key($params_get['k']);
+        $data['imagename'] = $archivo['arch_c_nombre'];
+        $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
+        $this->load->library('pdf');
+        $pdf = $this->pdf->load();
+        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
 
-    
-    
+        $pdf->WriteHTML($html); // write the HTML into the PDF
+        $filename = 'reporte_'.uniqid().'.pdf';
+        
+        $pdf->Output('media/tmp/'.$filename, 'F');
+        if(!is_file('media/tmp/'.$filename)){
+                   $ruta = false;      
+        }
+        else{
+            $ruta = 'media/tmp/'.$filename;
+        }
+        return $ruta;
+    }
+
+    //manda mail desde el listado de emergencias , puede adjuntar reporte
+    public function enviarMail(){
+        $error = 0;
+        $this->load->model("archivo_model", "ArchivoModel");
+        $this->load->model("Sendmail_Model", "SendmailModel");
+        $cc = null;
+        $attach = array();
+        $this->load->library("template");
+        $this->load->helper("session");
+        sessionValidation();
+        $params_post = $this->input->post();
+        if(isset($params_post['adj_reporte']))
+        {
+            if($ruta = $this->ReporteAdisco()){
+            array_push($attach,$ruta);}
+            else{
+                $error++;
+            }
+        }
+       
+        foreach ($params_post as $key=>$val){ //reviso los que han sido chequeados para enviarse como adjuntos
+
+            if(strpos($key,'chk_')!==false){
+                
+                $id = explode('_', $key);
+                $id = $id[1];
+                
+                $arch = $this->ArchivoModel->get_file_from_id($id);
+                if($arch!==null)
+                {
+                    array_push($attach,$arch['arch_c_nombre']);
+                }
+            }
+        }
+        
+        
+        $to = $params_post['destino'];
+        $subject = $params_post['asunto'];
+        $message = $params_post['mensaje'];
+        
+        
+        
+        if(isset($params_post['con_copia']))
+        {
+           $cc = $this->session->userdata('session_email');  
+        }
+        //var_dump($cc);die;
+       if (!$this->SendmailModel->emailSend($to, $cc, null, $subject, $message, false, $attach)) {
+           $error++;
+       }
+       echo $error;
+    }
+
+
     
     public function saveGeoJson() {
 
