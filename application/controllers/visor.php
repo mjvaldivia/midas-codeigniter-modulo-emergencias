@@ -143,6 +143,7 @@ class Visor extends CI_Controller {
 
     //manda mail desde el listado de emergencias , puede adjuntar reporte
     public function enviarMail(){
+        $error = 0;
         $this->load->model("archivo_model", "ArchivoModel");
         $this->load->model("Sendmail_Model", "SendmailModel");
         $cc = null;
@@ -153,8 +154,11 @@ class Visor extends CI_Controller {
         $params_post = $this->input->post();
         if(isset($params_post['adj_reporte']))
         {
-            if($ruta = $this->ReporteAdisco())
-            array_push($attach,$ruta);
+            if($ruta = $this->ReporteAdisco()){
+            array_push($attach,$ruta);}
+            else{
+                $error++;
+            }
         }
        
         foreach ($params_post as $key=>$val){ //reviso los que han sido chequeados para enviarse como adjuntos
@@ -165,7 +169,6 @@ class Visor extends CI_Controller {
                 $id = $id[1];
                 
                 $arch = $this->ArchivoModel->get_file_from_id($id);
-                var_dump($id);
                 if($arch!==null)
                 {
                     array_push($attach,$arch['arch_c_nombre']);
@@ -185,9 +188,10 @@ class Visor extends CI_Controller {
            $cc = $this->session->userdata('session_email');  
         }
         //var_dump($cc);die;
-       if (!$this->SendmailModel->emailSend($to, $cc, null, $subject, $message, true, $attach)) {
-           
+       if (!$this->SendmailModel->emailSend($to, $cc, null, $subject, $message, false, $attach)) {
+           $error++;
        }
+       echo $error;
     }
 
 

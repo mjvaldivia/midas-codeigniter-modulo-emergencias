@@ -27,11 +27,11 @@ var MapReport = {
 
 
         $.ajax(
-                {url : siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val(),
-                method: 'GET',
-                cache:false
+                {url: siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val(),
+                    method: 'GET',
+                    cache: false
                 }
-        
+
         ).done(function (data) {
             self.data = data;
             self.loadObjects(self.A);
@@ -405,26 +405,55 @@ var MapReport = {
                             } else // es enviar mail
                             {
                                 var formulario = $('#form_reporte').serialize();
-                                
+
                                 var tf = $('#tokenfield').val();
                                 var tf_values = tf.split(',');
                                 var destino = '';
-                                $.each(tf_values, function (key,value){
-                             
-                                  if(destino!=='') destino+=',';
-                                    destino+=value.replace(/\((.*?)\)/,'').trim();
+                                $.each(tf_values, function (key, value) {
+
+                                    if (destino !== '')
+                                        destino += ',';
+                                    destino += value.replace(/\((.*?)\)/, '').trim();
                                 });
-                                
-                                formulario+='&destino='+destino;
-                                
-                                
+
+                                formulario += '&destino=' + destino;
+
+
                                 $.ajax({
                                     url: siteUrl + 'visor/enviarMail/id/' + $('#eme_ia_id').val() + '/k/' + data.k,
                                     dataType: 'json',
                                     data: formulario,
                                     type: 'POST',
                                     success: function (data) {
-                                        
+                                        if (data == 0) {
+
+                                            bootbox.dialog({
+                                                title: "Envío de correo",
+                                                message: 'Enviado correctamente',
+                                                buttons: {
+                                                    success: {
+                                                        label: "Aceptar",
+                                                        className: "btn-primary"
+
+                                                    }
+                                                }
+
+                                            });
+
+                                        } else
+                                        {
+                                            bootbox.dialog({
+                                                title: "Envío de correo",
+                                                message: 'Error al enviar email',
+                                                buttons: {
+                                                    success: {
+                                                        label: "Aceptar",
+                                                        className: "btn-primary"
+                                                    }
+                                                }
+
+                                            });
+                                        }
                                     }
                                 });
 
@@ -512,7 +541,7 @@ $.get(siteUrl + 'visor/getmails/').done(function (data) {
 
             .on('tokenfield:createtoken', function (e) {
                 var data = e.attrs.value.split('|')
-                
+
                 e.attrs.value = data[1] || data[0]
                 e.attrs.label = data[1] ? data[0] + ' (' + data[1] + ')' : data[0];
 
@@ -521,7 +550,7 @@ $.get(siteUrl + 'visor/getmails/').done(function (data) {
                     if (token.value === e.attrs.value)
                     {
                         e.preventDefault();
-                         alert('Ya está agregado');
+                        alert('Ya está agregado');
                     }
 
                 });
@@ -555,7 +584,7 @@ $.get(siteUrl + 'visor/getmails/').done(function (data) {
                     delay: 100
                 },
                 showAutocompleteOnFocus: true,
-                delimiter: [',', ';',' ']
+                delimiter: [',', ';', ' ']
             });
 });
 
