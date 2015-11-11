@@ -27,6 +27,11 @@
                 <td><?php echo ISODateTospanish($row["eme_d_fecha_emergencia"]); ?></td>
                 <td><?php echo $row["eme_c_lugar_emergencia"]; ?></td>
                 <td width="80px">
+                    
+                    <button data-style='width:80%;' class="btn btn-xs btn-blue modal-sipresa" data-href="<?= site_url("visor/reporte/id/" .  $row["eme_ia_id"] . "/ala_ia_id/" . $row["ala_ia_id"]); ?>" data-title='Administracion del Reporte' data-success='exportarMapa(<?php echo $row["ala_ia_id"] ?>);' data-target='#modal_<?php echo $row["ala_ia_id"] ?>'>
+                        <i class="fa fa-fa2x fa-file-text-o"></i>
+                    </button>
+                    
                     <button onclick="javascript:formEditarEmergencia(<?php echo $row["eme_ia_id"]; ?>)" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
                         <i class="fa fa-edit"></i>
                     </button>

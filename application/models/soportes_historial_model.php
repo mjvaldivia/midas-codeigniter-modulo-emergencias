@@ -1,13 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Soportes_Historial_Model extends CI_Model {
-
-    /**
-     *
-     * @var Query 
-     */
-    protected $_query;
+class Soportes_Historial_Model extends MY_Model {
     
     /**
      *
@@ -17,21 +11,6 @@ class Soportes_Historial_Model extends CI_Model {
 
 
     protected $primary = 'soportehistorial_id';
-    
-    
-    /**
-     * 
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('Query');
-        $this->_query = New Query($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-
-
-
-    
 
     public function insNuevoHistorialSoporte($datos){
         $id_log = $this->_query->insert($datos);

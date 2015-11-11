@@ -118,7 +118,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 
 <form class="form-horizontal" onsubmit="return false;">
 
-    <div id="pResultados" class="portlet portlet-green" width="100%" style="visibility: hidden">
+    <div id="pResultados" class="portlet portlet-default" width="100%" style="visibility: hidden">
         <div class="portlet-heading">
             <div class="portlet-title">
                 <h4><i class="fa fa-th-list"></i>
