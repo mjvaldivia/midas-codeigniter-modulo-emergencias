@@ -26,7 +26,13 @@ var MapReport = {
 
 
 
-        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(function (data) {
+        $.ajax(
+                {url : siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val(),
+                method: 'GET',
+                cache:false
+                }
+        
+        ).done(function (data) {
             self.data = data;
             self.loadObjects(self.A);
         }
