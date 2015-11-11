@@ -203,7 +203,41 @@ class Capa_Model extends CI_Model {
 
     public function eliminarCapa($id_capa){
         $query = "delete from capas where cap_ia_id = ?";
-        return $this->db->query($query,array($id_capa));
+        $this->db->trans_begin();
+        if($this->db->query($query,array($id_capa))){
+            $query = "select eme_ia_id,eme_c_capas from emergencias 
+                    where eme_c_capas like $id_capa  
+                    or eme_c_capas like '$id_capa,%' 
+                    or eme_c_capas like '%,$id_capa' 
+                    or eme_c_capas like '%,$id_capa,%'";
+            $result = $this->db->query($query);
+            $emergencias = $result->result_object();
+            foreach($emergencias as $item){
+                $capas = '';
+                $tmp = explode(',',$item->eme_c_capas);
+                foreach($tmp as $capa){
+                    if($capa != $id_capa){
+                        $capas .= $capa.',';
+                    }
+                }
+                $capas = trim($capas,',');
+
+                $query = "update emergencias set eme_c_capas = ? where eme_ia_id = ?";
+                $update = $this->db->query($query,array($capas,$item->eme_ia_id));
+            }
+
+            if ($this->db->trans_status() === FALSE) {
+                
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                $this->db->trans_commit();
+                return true;
+            }
+
+        }else{
+            return false;
+        }
     }
 
 }
