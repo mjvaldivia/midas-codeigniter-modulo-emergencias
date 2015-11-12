@@ -252,8 +252,8 @@
         <!-- end TOP NAVIGATION -->
 
         <!-- begin SIDE NAVIGATION -->
-        <nav class="navbar-side collapsed" role="navigation">
-            <div class="navbar-collapse sidebar-collapse collapse">
+        <nav class="navbar-side <?= menuCollapsed("navbar"); ?>" role="navigation">
+            <div class="navbar-collapse sidebar-collapse <?= menuCollapsed("sidebar"); ?>">
                 <ul id="side" class="nav navbar-nav side-nav">
                     <?= menuRender() ?>
                 </ul>
@@ -265,7 +265,7 @@
         <!-- end SIDE NAVIGATION -->
 
         <!-- begin MAIN PAGE CONTENT -->
-        <div id="page-wrapper" class="collapsed">
+        <div id="page-wrapper" class="<?= menuCollapsed("navbar"); ?>">
 
             <div class="page-content">
                 {body}

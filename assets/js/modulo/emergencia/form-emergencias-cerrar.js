@@ -1,4 +1,3 @@
-
 /**
  * Control de formulario para cerrar emergencia
  */
@@ -6,7 +5,7 @@
 var FormEmergenciasCerrar = Class({
     
     // Se declara la propiedad id, que es el identificador de la emergencia
-    id: null,
+    id : null,
 
     // Funcion que se ejecuta al instanciar
     __construct : function(value) {

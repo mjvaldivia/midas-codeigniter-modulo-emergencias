@@ -22,7 +22,7 @@
     <div class="col-lg-12 col-sm-12">
         <div class="row">
             
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <div class="circle-tile">
                     <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>">
                         <div class="circle-tile-heading orange">
@@ -38,7 +38,7 @@
                 </div>
             </div>
            
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <div class="circle-tile">
                     <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>">
                         <div class="circle-tile-heading red">
@@ -54,7 +54,7 @@
                 </div>
             </div>
             
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <div class="circle-tile">
                     <a href="<?= site_url("capas/ingreso") ?>">
                         <div class="circle-tile-heading blue">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <div class="circle-tile">
                     <a href="#">
                         <div class="circle-tile-heading green">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <div class="circle-tile">
                     <a href="#">
                         <div class="circle-tile-heading dark-blue">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <div class="circle-tile">
                     <a href="<?= site_url("soportes/bandeja_usuario") ?>">
                         <div class="circle-tile-heading dark-gray">
@@ -209,13 +209,7 @@
 </div>
 <!-- end DASHBOARD CIRCLE TILES -->
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
-<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
-<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
 
-<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
-<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
-<?= loadJS("assets/js/geo-encoder.js") ?>
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
@@ -227,6 +221,7 @@
 
 <?= loadJS("assets/lib/daterangepicker/moment.js", true) ?>
 <?= loadJS("assets/lib/daterangepicker/daterangepicker.js", true) ?>
+
 <?= loadJS("assets/lib/moment/moment.min.js", true) ?>
 <?= loadJS("assets/lib/fullcalendar/fullcalendar.min.js", true) ?>
 <?= loadJS("assets/lib/fullcalendar/lang-all.js", true) ?>

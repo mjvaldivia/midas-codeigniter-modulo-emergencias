@@ -2,6 +2,12 @@ $.fn.hasAttr = function(name) {
    return this.attr(name) !== undefined;
 };
 
+jQuery.loadCSS = function(url){
+    if(!$("link[href = '" + url + "']").length){
+        $("head").append('<link rel="stylesheet" type="text/css" href="' + url + '">')
+    }
+}
+
 $(function() {
     $('.page-content').addClass('page-content-ease-in');
 });
@@ -101,6 +107,22 @@ $(document).ready(function() {
         } else {
             $(this).qtip('option', 'content.text', 'Ocultar menu'); 
         }
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: "",
+            type: "post",
+            url: siteUrl + "home/ajax_menu_collapse", 
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(json){
+
+            }
+        });
+        
     });
     
     

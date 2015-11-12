@@ -44,6 +44,12 @@ class Home extends CI_Controller{
     public $template;
     
     /**
+     *
+     * @var Menucollapse 
+     */
+    public $menucollapse;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -116,6 +122,12 @@ class Home extends CI_Controller{
             }
         }
         echo json_encode($respuesta);
+    }
+    
+    public function ajax_menu_collapse(){
+        $this->load->library(array("menu/menucollapse"));
+        $this->menucollapse->setCollapse();
+        echo json_encode(array("correcto" => true));
     }
     
     /**
