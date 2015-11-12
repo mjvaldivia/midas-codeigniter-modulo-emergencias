@@ -497,5 +497,4 @@ class Emergencia_Model extends MY_Model {
                               ->whereAND("est_ia_id", $id_estado, "=");
         return $query;
     }
-
 }

@@ -4,11 +4,12 @@ Class Validar{
     
     /**
      * 
-     * @param string $fecha
+     * @param string $fecha fecha
+     * @param string $formato formato de entrada
      * @return boolean
      */
-    public function validarFechaSpanish($fecha){
-        $date = DateTime::createFromFormat("d-m-Y h:i", $fecha);
+    public function validarFechaSpanish($fecha, $formato = "d-m-Y h:i"){
+        $date = DateTime::createFromFormat($formato, $fecha);
         if($date instanceof DateTime){
             return true;
         } else {
@@ -16,6 +17,11 @@ Class Validar{
         }
     }
     
+    /**
+     * 
+     * @param string $string
+     * @return boolean
+     */
     public function validarVacio($string){
         if(strip_tags(TRIM($string)) == ""){
             return false;

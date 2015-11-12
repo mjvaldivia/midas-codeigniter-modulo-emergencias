@@ -20,9 +20,7 @@
                 <td><?php echo textMoreLess($row["eme_c_nombre_emergencia"]); ?></td>
                 <td><?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> </td>
                 <td>
-                   
                     <?php echo textMoreLess(comunasEmergenciaConComa($row["eme_ia_id"])); ?>
-                   
                 </td>
                 <td><?php echo ISODateTospanish($row["eme_d_fecha_emergencia"]); ?></td>
                 <td><?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?></td>
@@ -32,18 +30,21 @@
                         <i class="fa fa-fa2x fa-file-text-o"></i>
                     </button>-->
                     
+                    <?php if (puedeEditar()) { ?>
                     <button data="<?php echo $row["eme_ia_id"] ?>" class="btn btn-xs btn-blue emergencia-editar" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
                         <i class="fa fa-edit"></i>
                     </button>
+                    <?php } ?>
                     
                     <button onclick="window.open(siteUrl + 'visor/index/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Abrir el visor">
                         <i class="fa fa-globe"></i>
                     </button>
                     
+                    <?php if (puedeEditar()) { ?>
                     <button data="<?php echo $row["eme_ia_id"] ?>" class="btn btn-xs btn-blue emergencia-cerrar" data-toggle="tooltip" data-toogle-param="arriba" title="Cerrar emergencia">
                         <i class="fa fa-check"></i>
                     </button>
-                    
+                    <?php } ?>
                 </td>
             </tr>
             <?php } ?>

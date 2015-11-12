@@ -39,8 +39,6 @@ class Alarma extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array("session","utils"));
-        $this->load->library(array("template"));
         $this->load->model("alarma_model", "AlarmaModel");
         $this->load->model("alarma_comuna_model", "AlarmaComunaModel");
         $this->load->model("alarma_estado_model", "AlarmaEstadoModel");

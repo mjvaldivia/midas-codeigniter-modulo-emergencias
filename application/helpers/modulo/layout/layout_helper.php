@@ -2,6 +2,7 @@
 
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
+require_once(APPPATH . "helpers/modulo/layout/rol/Monitor.php");
 require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
 require_once(APPPATH . "helpers/modulo/layout/text/MoreLess.php");
 
@@ -20,6 +21,15 @@ function menuRender(){
 function menuCollapsed($html_object){
     $menu = New Layout_Menu_Collapse();
     return $menu->render($html_object);
+}
+
+/**
+ * Si el usuario es monitor, no puede editar
+ * @return boolean
+ */
+function puedeEditar(){
+    $editar = New Layout_Rol_Monitor();
+    return $editar->puedeEditar();
 }
 
 /**
