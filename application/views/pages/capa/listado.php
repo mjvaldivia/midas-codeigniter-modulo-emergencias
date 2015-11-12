@@ -1,12 +1,12 @@
-<br>
-<div id="pResultados" class="panel panel-primary" width="100%">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <i class="fa fa-th-list"></i>
-                Resultados
-            </h3>
+
+<div id="pResultados" class="portlet portlet-default" width="100%">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h4><i class="fa fa-th-list"></i>
+                Resultados</h4>
+            </div>
         </div>
-        <div class="panel-body table-responsive">
+        <div class="portlet-body table-responsive">
     <table id="tblCapas" class="table table-bordered table-striped dataTable">
         <thead>
             <tr>
