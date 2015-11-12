@@ -214,10 +214,12 @@ var Dashboard = Class({
     
     // boton cerrar emergencias
     bindBtnEmergenciaCerrar : function(){
+        var yo = this;
+        
         $(".emergencia-cerrar").livequery(function(){
             $(this).click(function(){
                 var id = $(this).attr("data");
-                var formulario = new FormEmergenciasCerrarDashboard(id);	
+                var formulario = new FormEmergenciasCerrarDashboard(id, yo);	
                 formulario.mostrarFormulario();
             });
         });
