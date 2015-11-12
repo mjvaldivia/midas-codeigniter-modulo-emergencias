@@ -172,7 +172,7 @@ var Emergencia = {};
                 html += "    </div>";
                 html += "    <div class=\"col-md-3 text-center\">";
                 html += "       <div class=\"btn-group\">";
-                html += "     <a data-toggle='modal' class='btn btn-primary modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"' data-title='Administracion del Reporte' data-success='exportarMapa("+row.eme_ia_id+");' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
+                html += "     <a data-toggle='modal' class='btn btn-primary modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"/eme_ia_id/"+row.eme_ia_id+"' data-title='Administracion del Reporte' data-success='exportarMapa("+row.eme_ia_id+");' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
 //                html += "           <a title=\"Reporte\" class=\"btn btn-default\" onclick=Emergencia.openIframe(" + row.eme_ia_id + "); >";
                // html += "               <i class=\"fa fa-fa2x fa-file-text-o\"></i>";
                // html += "           </a>";

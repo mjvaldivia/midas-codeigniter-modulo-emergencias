@@ -18,7 +18,7 @@
     <div class="panel-heading">
         <h3 class="panel-title">
             <i class="fa fa-file-pdf-o"></i>
-            Ajustes del Reporte
+            Ajustes del Reporte Emergencia : <?= $nombre_emergencia ?>
         </h3>
     </div>
     <div class="panel-body">
@@ -36,18 +36,18 @@
                 <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
                     <br>
                     <div class="col-xs-12">
-                        <div class="col-xs-6">
+                        <div class="col-md-6 col-xs-12">
                             <div class="text-center"><b>Puede ajustar la vista del mapa para el reporte</b></div>
                             <div id='dvMap' style="height: 350px;" class="col-md-12"></div>
                             
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-md-6 col-xs-12">
                             <div class="col-xs-12">
                                 <div class="form-horizontal">
                                     <div  class='form-group'>
                                         <label class="col-xs-12">Seleccione destinatarios (*)</label>
                                         <div class="col-xs-12">
-                                            <textarea  class="form-control required" id="tokenfield"  placeholder="ingrese destinatario(s)..."></textarea>
+                                            <textarea  class="form-control required" id="tokenfield" placeholder="ingrese destinatario(s)..."><?= $lista ?></textarea>
                                         </div>
 
                                     </div>
@@ -59,7 +59,7 @@
                                     <div  class='form-group'>
                                         <label class="col-xs-12">Asunto</label>
                                         <div class="col-xs-12">
-                                            <input type="text"  class="form-control" id="asunto" name="asunto" placeholder="ingrese asunto..." />
+                                            <input type="text"  class="form-control" id="asunto" name="asunto" value="Emergencia: {nombre_emergencia}" placeholder="ingrese asunto..." />
                                         </div>
 
                                     </div>
@@ -80,17 +80,17 @@
                                 <div class="form-horizontal">
                                     <div  class='form-group'>
 
-                                        <div class="col-xs-3 checkbox">
+                                        <div class="col-md-3 col-xs-12 checkbox">
                                             <label >
                                                 <input type="checkbox"  class="" id="con_copia" name="con_copia" checked="true"/>&nbsp;Enviarme una copia
                                             </label>
                                         </div>
-                                        <div class="col-xs-3 checkbox">
+                                        <div class="col-md-3 col-xs-12 checkbox">
                                             <label >
                                                 <input type="checkbox"  class="" id="adj_reporte" name="adj_reporte" checked="true"/>&nbsp;Adjuntar reporte 
                                             </label>
                                         </div>
-                                        <div class="col-xs-6">
+                                        <div class="col-md-6 col-xs-12">
 
                                             <a onclick="MapReport.cloneMap();" class="btn btn-md btn-warning" ><i class="fa fa-file-pdf-o"></i> Ver Reporte</a>
                                             <a onclick="MapReport.send_mail();" class="btn btn-md btn-success" ><i class="fa fa-envelope-o"></i> Enviar Correo</a>
@@ -104,8 +104,8 @@
 
                     <br>
                     <hr>
-                    <div  style="width: 0px; height: 0px; position: absolute; margin-top: 0px; z-index: -999">
-                        <div id='clon' style="width: 700px; height:600px; z-index: -999">
+                    <div class="col-sm-12"  style="position: absolute; margin-top: 0px; z-index: -999">
+                        <div class="col-sm-6" id='clon' style="height: 350px; z-index: -999">
 
                         </div>
 
@@ -115,7 +115,7 @@
                         
                         <div  class='form-group'>
                             <label class="col-xs-12">Seleccione archivos para adjuntar</label>
-                            <div class="col-md-12"> 
+                            <div class="col-md-12 table-responsive"> 
                                 <table id="tabla_doc" class="table table-bordered table-striped dataTable">
                                     <thead>
                                         <tr>
