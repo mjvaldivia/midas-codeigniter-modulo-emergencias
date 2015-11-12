@@ -21,7 +21,7 @@
                     <?php echo textMoreLess(comunasAlarmaConComa($row["ala_ia_id"])); ?>
                 </td>
                 <td><?php echo ISODateTospanish($row["ala_d_fecha_emergencia"]); ?></td>
-                <td><?php echo $row["ala_c_lugar_emergencia"]; ?></td>
+                <td><?php echo textMoreLess($row["ala_c_lugar_emergencia"]); ?></td>
                 <td width="80px" class="text-center">
                     <!--<button onclick="javascript:formEditarAlarma(<?php echo $row["ala_ia_id"]; ?>)" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la alarma">
                         <i class="fa fa-edit"></i>

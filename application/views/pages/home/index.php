@@ -33,9 +33,6 @@
                         <div class="circle-tile-description text-faded">
                             Alarmas
                         </div>
-                        <div id="alarmas-revision-cantidad" class="circle-tile-number text-faded">
-
-                        </div>
                         <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
@@ -51,9 +48,6 @@
                     <div class="circle-tile-content red">
                         <div class="circle-tile-description text-faded">
                             Emergencias
-                        </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
                         </div>
                         <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -71,9 +65,6 @@
                         <div class="circle-tile-description text-faded">
                             Capas
                         </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
-                        </div>
                         <a href="<?= site_url("capas/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
@@ -88,9 +79,6 @@
                     <div class="circle-tile-content green">
                         <div class="circle-tile-description text-faded">
                             Simulación
-                        </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
                         </div>
                         <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -107,9 +95,6 @@
                         <div class="circle-tile-description text-faded">
                             Documentación
                         </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
-                        </div>
                         <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
@@ -124,9 +109,6 @@
                     <div class="circle-tile-content dark-gray">
                         <div class="circle-tile-description text-faded">
                             Mesa de ayuda
-                        </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
                         </div>
                         <a href="<?= site_url("soportes/bandeja_usuario") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -235,7 +217,6 @@
 <?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
 <?= loadJS("assets/js/geo-encoder.js") ?>
 
-
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
@@ -259,5 +240,6 @@
 <?= loadJS("assets/lib/flot/jquery.flot.tooltip.min.js", true) ?>
 
 <?= loadJS("assets/js/bootbox.min.js", true) ?>
+
 
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>

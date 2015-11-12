@@ -1,8 +1,6 @@
 
 /**
- * Clase implementada con la libreria joii
- * http://joii.harold.info/
- * @type joii
+ * Control de formulario para cerrar emergencia
  */
 
 var FormEmergenciasCerrar = Class({
@@ -15,6 +13,7 @@ var FormEmergenciasCerrar = Class({
         this.id = value;
     },
     
+    //funcion de retorno al guardar formulario
     callBack : function(){
         $("#btnBuscar").trigger("click");
     },
@@ -91,9 +90,6 @@ var FormEmergenciasCerrar = Class({
                 });
             }
         }); 
-        
-        
-        
     }
 });
 
