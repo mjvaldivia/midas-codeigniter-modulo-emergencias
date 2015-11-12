@@ -158,7 +158,7 @@
                     </div>
 
                     <div class="col-md-10">
-                        <button type="button" class="pull-right btn btn-primary" onclick="Layer.guardar(this.form,this)">Guardar</button>
+                        <button type="button" class="pull-right btn btn-default btn-square" onclick="Layer.guardar(this.form,this)">Guardar</button>
                     </div>
                 </form>
             </div>
