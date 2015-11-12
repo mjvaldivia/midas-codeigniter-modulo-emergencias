@@ -38,7 +38,7 @@ class Capa_Model extends CI_Model {
 
             /* si existe nueva capa */
             if(isset($params['tmp_file_1'])){
-                $capa = $this->cache->get($params['tmp_file_' . $i]);   //capa 
+                $capa = $this->cache->get($params['tmp_file_1']);   //capa 
                     
                 $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre_editar']);
 
