@@ -179,15 +179,19 @@ var Emergencia = {};
                 html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Visor\" class=\"btn btn-primary\" href='" + siteUrl + "visor/index/id/" + row.eme_ia_id + "' target='_blank'>";
                 html += "               <i class=\"fa fa-fa2x fa-globe\"></i>";
                 html += "           </a>";
-                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Cerrar emergencia\" class=\"btn btn-primary\" onclick=Emergencia.cerrar(" + row.eme_ia_id + ");>";
-                html += "               <i class=\"fa fa-fa2x fa-check\"></i>";
-                html += "           </a>";
-                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Editar\" class=\"btn btn-primary\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
-                html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
-                html += "           </a>";
-                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Eliminar\" class=\"btn btn-primary\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
-                html += "               <i class=\"fa fa-fa2x fa-trash\"></i>";
-                html += "           </a>";
+                
+                if(row.est_ia_id != 2){
+                    html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Cerrar emergencia\" class=\"btn btn-primary\" onclick=Emergencia.cerrar(" + row.eme_ia_id + ");>";
+                    html += "               <i class=\"fa fa-fa2x fa-check\"></i>";
+                    html += "           </a>";
+                    html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Editar\" class=\"btn btn-primary\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
+                    html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
+                    html += "           </a>";
+                    html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Eliminar\" class=\"btn btn-primary\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
+                    html += "               <i class=\"fa fa-fa2x fa-trash\"></i>";
+                    html += "           </a>";
+                }
+                
                 html += "       </div>";
                 html += "    </div>";
                 html += "</div>";
@@ -296,7 +300,12 @@ var Emergencia = {};
             }
         });
     };
-
+    
+    this.cerrar = function(id){
+        var formulario = new FormEmergenciasCerrar(id);	
+        formulario.mostrarFormulario();
+    };
+    
     this.editarEmergencia = function (eme_ia_id) {
         var tabla = $('#tblEmergencias').DataTable({
             destroy: true

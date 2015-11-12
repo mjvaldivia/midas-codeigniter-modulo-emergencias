@@ -212,6 +212,7 @@ class Visor extends CI_Controller {
         $this->load->helper("session");
         sessionValidation();
         $params = $this->input->post();
+        
         $this->load->helper("session");
         $this->load->model("capa_model", "CapaModel");
         echo $this->CapaModel->guardarCapa($params);

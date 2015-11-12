@@ -4,6 +4,8 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
 <?= loadJS("assets/js/jquery.jcombo.js") ?>
+
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js") ?>
 <?= loadJS("assets/js/emergencia.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
 <?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
@@ -86,7 +88,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 
 <div id="contenedor-emergencia">
 <form class="form-inline form-busqueda">
-    <div class="portlet portlet-green">
+    <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
                 <h4>

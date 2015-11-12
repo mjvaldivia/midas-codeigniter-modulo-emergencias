@@ -18,6 +18,15 @@ class Emergencia_Model extends MY_Model {
      * @var string 
      */
     protected $_tabla = "emergencias";
+    
+    /**
+     * Retorna la alarma por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("eme_ia_id", $id);
+    }
         
     /**
      * Lista todas las alarmas
