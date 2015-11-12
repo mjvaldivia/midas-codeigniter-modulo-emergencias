@@ -106,5 +106,39 @@ class Capas extends CI_Controller
 
         echo json_encode($json);
     }
+
+
+    public function editarCapa(){
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+
+        $id_capa = $this->input->post('capa');
+        $this->load->model("capa_model", "CapaModel");
+
+        $this->load->model("categoria_cobertura_model", "CategoriaCobertura");
+
+        $CategoriaCobertura = $this->CategoriaCobertura->obtenerTodos();
+
+        $categorias = array();
+
+        foreach ($CategoriaCobertura as $c) {
+            $categorias[] = array(
+                'categoria_id' => $c["ccb_ia_categoria"],
+                'categoria_nombre' => $c["ccb_c_categoria"]
+            );
+        }
+
+        $this->load->model('comuna_model','ComunaModel');
+        $comunas = $this->ComunaModel->getComunasPorRegion($this->session->userdata['session_region_codigo']);
+
+        $capa = $this->CapaModel->getCapa($id_capa);
+        $data = array(
+            'id_capa' => $id_capa,
+            'capa' => $capa,
+            'categorias' => $categorias,
+            'comunas' => $comunas
+            );
+        echo $this->load->view("pages/capa/edicion",$data);
+    }
     
 }

@@ -44,6 +44,7 @@ var Utils = {};
     };
 
     this.validaForm = function (form_id) {
+        
         $(".has-error").removeClass("has-error");
         var bien = true;
         var message = '';
@@ -71,6 +72,7 @@ var Utils = {};
                     bien = false;
                     campos += "<i class='fa fa-caret-right'></i>";
                     campos += "&nbsp;" + $(obj).attr('placeholder') + "<br/>";
+
                 }
             }
             if (tipo == 'TEXTAREA') {

@@ -44,6 +44,20 @@ class Comuna_Model extends CI_Model
         return $this->_query->getById("com_ia_id", $id);
     }
     
+
+    public function getComunasPorRegion($id_region){
+        $query = "select c.* from ".$this->_tabla." c
+                left join provincias p on p.prov_ia_id = c.prov_ia_id 
+                left join regiones r on r.reg_ia_id = p.reg_ia_id 
+                where r.reg_ia_id = ?";
+        $result = $this->db->query($query,array($id_region));
+
+        if($result->num_rows() > 0){
+            return $result->result_object();
+        }else{
+            return null;
+        }
+    }
     
 }
 

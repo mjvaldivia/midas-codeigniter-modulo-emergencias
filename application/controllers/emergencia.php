@@ -200,10 +200,21 @@ class Emergencia extends CI_Controller {
         $properties = array();
         $arr_filename = array();
         $tmp_prop_array = array();
-        $tmp_name = $_FILES['input-capa']['tmp_name'];
-        $nombres = $_FILES['input-capa']['name'];
-        $size = $_FILES['input-capa']['size'];
-        $type = $_FILES['input-capa']['type'];
+
+        if(isset($_FILES['input-capa-editar'])){
+
+            $tmp_name = $_FILES['input-capa-editar']['tmp_name'];
+            $nombres = $_FILES['input-capa-editar']['name'];
+            $size = $_FILES['input-capa-editar']['size'];
+            $type = $_FILES['input-capa-editar']['type'];
+        }else{
+            $tmp_name = $_FILES['input-capa']['tmp_name'];
+            $nombres = $_FILES['input-capa']['name'];
+            $size = $_FILES['input-capa']['size'];
+            $type = $_FILES['input-capa']['type'];
+
+        }
+        
         $arr_error_filenames = array();
 
 
@@ -213,6 +224,7 @@ class Emergencia extends CI_Controller {
             $fp = file_get_contents($tmp_name[$i], 'r');
             
             $arr_properties = json_decode($fp,true);
+            
            // var_dump($arr_properties['features'][0]['properties']);die;
            
             if (!isset($arr_properties['features'][0]['properties'])) {
@@ -236,7 +248,7 @@ class Emergencia extends CI_Controller {
                         continue;
                     }
                     $properties['data'][] = array($k,
-                        "<input id='prop_$k' name='prop_$k' type='checkbox' checked=checked />");
+                        "<input class='propiedades' id='prop_$k' name='prop_$k' type='checkbox' checked=checked  />");
                     $tmp_prop_array[] = $k;
                 }
                 $arr_filename['data'][] = array(
@@ -256,7 +268,13 @@ class Emergencia extends CI_Controller {
         if (!isset($_FILES)) {
             show_error("No se han detectado archivos", 500, "Error interno");
         }
-        $tmp_name = $_FILES['input-icon']['tmp_name'];
+
+        if(isset($_FILES['input-icon-editar'])){
+            $tmp_name = $_FILES['input-icon-editar']['tmp_name'];    
+        }else{
+            $tmp_name = $_FILES['input-icon']['tmp_name'];    
+        }
+        
         
 
         $fp = file_get_contents($tmp_name, 'r');
