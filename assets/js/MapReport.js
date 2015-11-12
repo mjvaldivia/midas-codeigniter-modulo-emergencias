@@ -26,7 +26,13 @@ var MapReport = {
 
 
 
-        $.get(siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val()).done(function (data) {
+        $.ajax(
+                {url: siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val(),
+                    method: 'GET',
+                    cache: false
+                }
+
+        ).done(function (data) {
             self.data = data;
             self.loadObjects(self.A);
         }
@@ -37,7 +43,9 @@ var MapReport = {
     };
 
 
-    this.LoadMapCloned = function () {
+    this.LoadMapCloned = function (modo) {
+        $('#modal_' + $("#eme_ia_id").val()).scrollTop(0);
+        Emergencia.cargando();
         self.B = new google.maps.Map(document.getElementById('clon'),
                 {
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -47,8 +55,9 @@ var MapReport = {
                 });
         self.loadObjects(self.B);
         google.maps.event.addListenerOnce(self.B, 'tilesloaded', function () {
+
             setTimeout(function () {
-                self.renderImage();
+                self.renderImage(modo);
             }, 2000);
         });
 
@@ -56,7 +65,7 @@ var MapReport = {
     };
 
     this.loadObjects = function (mapa) {
-        if(mapa===self.A)
+        if (mapa === self.A)
             mapa = self.A = new google.maps.Map(document.getElementById('dvMap'), self.mapOptions);
         var emergencia = false;
         var data = self.data;
@@ -100,8 +109,13 @@ var MapReport = {
         if (json.geojson)
         {
             var error = 0;
-            try{self.loadJson(json.geojson, mapa);}catch(e){console.log(e.message);error++;}
-            if(error==0){
+            try {
+                self.loadJson(json.geojson, mapa);
+            } catch (e) {
+                console.log(e.message);
+                error++;
+            }
+            if (error == 0) {
                 emergencia = true;
             }
         }
@@ -133,7 +147,7 @@ var MapReport = {
             else
             { //ajusto segun el mapa A
                 mapa.fitBounds(self.A.getBounds());
-                mapa.setZoom(self.A.getZoom() );
+                mapa.setZoom(self.A.getZoom());
 
             }
 
@@ -154,24 +168,27 @@ var MapReport = {
     };
 
     this.loadJson = function (geojson, mapa) {
-        try{mapa.data.loadGeoJson(geojson, null, function (features) {
-            for (var i = 0; i < features.length; i++) {
+        try {
+            mapa.data.loadGeoJson(geojson, null, function (features) {
+                for (var i = 0; i < features.length; i++) {
 
-                var feature = features[i];
-                if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
-                    mapa.data.remove(self.referenciaMarker);
-                    self.emergencyMarker = feature;
-                    var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
+                    var feature = features[i];
+                    if (feature.getProperty("type") == "LUGAR_EMERGENCIA") {
+                        mapa.data.remove(self.referenciaMarker);
+                        self.emergencyMarker = feature;
+                        var gooLatLng = new google.maps.LatLng(parseFloat(feature.j.j.lat()), parseFloat(feature.j.j.lng()));
 
-                    self.centro = gooLatLng;
+                        self.centro = gooLatLng;
 
 
-                } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
-                    self.emergencyRadius = feature;
+                    } else if (feature.getProperty("type") == "RADIO_EMERGENCIA")
+                        self.emergencyRadius = feature;
 
-            }
+                }
 
-        });}catch(e){}
+            });
+        } catch (e) {
+        }
     };
     this.drawReferencia = function (ref_lat, ref_lng, geozone, mapa) {
         var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(ref_lng), parseFloat(ref_lat), geozone);
@@ -362,7 +379,7 @@ var MapReport = {
 
         return (Math.round((now - s) * 1000) / 1000) + s;
     };
-    this.renderImage = function () {
+    this.renderImage = function (modo) {
 
         html2canvas($('#clon'), {
             useCORS: true,
@@ -381,8 +398,70 @@ var MapReport = {
                     success: function (data) {
                         if (data.k !== 0)
                         {
+                            Emergencia.cargando();
+                            if (modo == 1) // es solo ver
+                            {
+                                window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
+                            } else // es enviar mail
+                            {
+                                var formulario = $('#form_reporte').serialize();
 
-                            window.open(siteUrl + 'visor/getReporte/id/' + $('#eme_ia_id').val() + '/k/' + data.k, "_blank");
+                                var tf = $('#tokenfield').val();
+                                var tf_values = tf.split(',');
+                                var destino = '';
+                                $.each(tf_values, function (key, value) {
+
+                                    if (destino !== '')
+                                        destino += ',';
+                                    destino += value.replace(/\((.*?)\)/, '').trim();
+                                });
+
+                                formulario += '&destino=' + destino;
+
+
+                                $.ajax({
+                                    url: siteUrl + 'visor/enviarMail/id/' + $('#eme_ia_id').val() + '/k/' + data.k,
+                                    dataType: 'json',
+                                    data: formulario,
+                                    type: 'POST',
+                                    success: function (data) {
+                                        if (data == 0) {
+
+                                            bootbox.dialog({
+                                                title: "Envío de correo",
+                                                message: 'Enviado correctamente',
+                                                buttons: {
+                                                    success: {
+                                                        label: "Aceptar",
+                                                        className: "btn-primary"
+
+                                                    }
+                                                }
+
+                                            });
+
+                                        } else
+                                        {
+                                            bootbox.dialog({
+                                                title: "Envío de correo",
+                                                message: 'Error al enviar email',
+                                                buttons: {
+                                                    success: {
+                                                        label: "Aceptar",
+                                                        className: "btn-primary"
+                                                    }
+                                                }
+
+                                            });
+                                        }
+                                    }
+                                });
+
+
+
+
+
+                            }
 
                         }
                     }
@@ -395,81 +474,118 @@ var MapReport = {
     };
     this.cloneMap = function () {
 
-        self.LoadMapCloned();
+        self.LoadMapCloned(1);
     };
-        this.dibujaTablaDocs = function () {
+
+    this.dibujaTablaDocs = function () {
         var ala_ia_id = $('#ala_ia_id').val();
         $("#tabla_doc").dataTable().fnDestroy();
         $('#tabla_doc').dataTable({
             ajax: {
                 url: siteUrl + 'archivo/getDocs/id/' + ala_ia_id + '/tipo/5',
                 type: 'POST',
-
                 async: true
             },
-            bPaginate : false,
-            bFilter : false,
+            bPaginate: false,
+            bFilter: false,
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
-            }
+            },
+            "aoColumns": [
+                null,
+                null,
+                null,
+                {"sClass": "text-center"},
+                null
+
+            ],
+            "aoColumnDefs": [
+                {'bSortable': false, 'aTargets': [4]}
+            ]
         });
         $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>");
+    };
+    this.send_mail = function () {
+        if (!Utils.validaForm('form_reporte'))
+            return false;
+        bootbox.dialog({
+            title: "Envío de correo",
+            message: '¿Está seguro que desea enviar el correo?',
+            buttons: {
+                success: {
+                    label: "Aceptar",
+                    className: "btn-primary",
+                    callback: function () {
+                        self.LoadMapCloned(2)
+                    }
+
+                },
+                danger: {
+                    label: "Cancelar",
+                    className: "btn-default"
+                }
+            }
+
+        });
+
+
     };
 }).apply(MapReport);
 
 
-$.get(siteUrl+'visor/getmails/').done(function (data) {
+$.get(siteUrl + 'visor/getmails/').done(function (data) {
     var array = $.parseJSON(data);
-    
 
-$('#tokenfield')
 
-        .on('tokenfield:createtoken', function (e) {
-            var data = e.attrs.value.split('|')
-            e.attrs.value = data[1] || data[0]
-            e.attrs.label = data[1] ? data[0] + ' (' + data[1] + ')' : data[0];
+    $('#tokenfield')
 
-            var existingTokens = $(this).tokenfield('getTokens');
-            $.each(existingTokens, function (index, token) {
-                if (token.value === e.attrs.value)
-                {
-                    //e.preventDefault();
-                   // alert('Ya está agregado');
+            .on('tokenfield:createtoken', function (e) {
+                var data = e.attrs.value.split('|')
+
+                e.attrs.value = data[1] || data[0]
+                e.attrs.label = data[1] ? data[0] + ' (' + data[1] + ')' : data[0];
+
+                var existingTokens = $(this).tokenfield('getTokens');
+                $.each(existingTokens, function (index, token) {
+                    if (token.value === e.attrs.value)
+                    {
+                        e.preventDefault();
+                        alert('Ya está agregado');
+                    }
+
+                });
+            })
+
+            .on('tokenfield:createdtoken', function (e) {
+                // Über-simplistic e-mail validation
+
+                var re = /\S+@\S+\.\S+/
+                var valid = re.test(e.attrs.value)
+                if (!valid) {
+                    $(e.relatedTarget).addClass('invalid')
                 }
 
+            })
+
+            .on('tokenfield:edittoken', function (e) {
+                if (e.attrs.label !== e.attrs.value) {
+                    var label = e.attrs.label.split(' (')
+                    e.attrs.value = label[0] + '|' + e.attrs.value
+                }
+            })
+
+            .on('tokenfield:removedtoken', function (e) {
+                // alert('Token removed! Token value was: ' + e.attrs.value)
+            })
+
+            .tokenfield({
+                autocomplete: {
+                    source: array,
+                    delay: 100
+                },
+                showAutocompleteOnFocus: true,
+                delimiter: [',', ';', ' ']
             });
-        })
-
-        .on('tokenfield:createdtoken', function (e) {
-            // Über-simplistic e-mail validation
-
-            var re = /\S+@\S+\.\S+/
-            var valid = re.test(e.attrs.value)
-            if (!valid) {
-                $(e.relatedTarget).addClass('invalid')
-            }
-
-        })
-
-        .on('tokenfield:edittoken', function (e) {
-            if (e.attrs.label !== e.attrs.value) {
-                var label = e.attrs.label.split(' (')
-                e.attrs.value = label[0] + '|' + e.attrs.value
-            }
-        })
-
-        .on('tokenfield:removedtoken', function (e) {
-            // alert('Token removed! Token value was: ' + e.attrs.value)
-        })
-
-        .tokenfield({
-            autocomplete: {
-                source: array,
-                delay: 100
-            },
-            showAutocompleteOnFocus: true,
-            delimiter: [',', ' ', '-', '_']
-        });
-    }); 
+});
 
 

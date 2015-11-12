@@ -7,18 +7,12 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Emergencia_Model extends CI_Model {
+class Emergencia_Model extends MY_Model {
 
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
-    
-    /**
-     *
-     * @var QueryBuilder
-     */
-    protected $_query;
-    
+        
     /**
      *
      * @var string 
@@ -26,15 +20,14 @@ class Emergencia_Model extends CI_Model {
     protected $_tabla = "emergencias";
     
     /**
-     * 
+     * Retorna la alarma por el identificador
+     * @param int $id clave primaria
+     * @return object
      */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('model/QueryBuilder');
-        $this->_query = New QueryBuilder($this->db);
-        $this->_query->setTable($this->_tabla);
+    public function getById($id){
+        return $this->_query->getById("eme_ia_id", $id);
     }
-    
+        
     /**
      * Lista todas las alarmas
      * @return array
@@ -52,15 +45,30 @@ class Emergencia_Model extends CI_Model {
     }
     
     /**
+     * Lista emergencias por estado
+     * @param int $id_estado
+     * @return array
+     */
+    public function listarEmergenciasPorEstado($id_estado){
+        $result = $this->_queryEmergenciasPorEstado($id_estado)
+                       ->orderBy("eme_d_fecha_recepcion", "DESC")
+                       ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param int $id_estado id del estado
      * @return int
      */
     public function cantidadEmergenciasPorEstado($id_estado){
-        $result = $this->_query->select("COUNT(*) as cantidad")
-                               ->from()
-                               ->whereAND("est_ia_id", $id_estado, "=")
-                               ->getOneResult();
+        $result = $this->_queryEmergenciasPorEstado($id_estado)
+                       ->select("COUNT(*) as cantidad", false)
+                       ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
         }else{
@@ -477,6 +485,17 @@ class Emergencia_Model extends CI_Model {
         }
 
         return $error;
+    }
+    
+    /**
+     * Consulta para emergencia por estado
+     * @return QueryBuilder
+     */
+    protected function _queryEmergenciasPorEstado($id_estado){
+        $query = $this->_query->select("*")
+                              ->from()
+                              ->whereAND("est_ia_id", $id_estado, "=");
+        return $query;
     }
 
 }

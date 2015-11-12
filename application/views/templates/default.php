@@ -18,6 +18,7 @@
     <?= loadJS("assets/lib/pace/pace.js", true) ?>
 
     <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
+    <?= loadJS("assets/lib/joii/joii.min.js", true) ?>
     <!-- GLOBAL STYLES - Include these on every page. -->
     <?= loadCSS("assets/lib/bootstrap-3.3.2-dist/css/bootstrap.css", true) ?>
     <?= loadCSS("assets/lib/qtip/jquery.qtip.min.css", true) ?>
@@ -67,7 +68,7 @@
 </head>
 
 <body>
-
+    
     <div id="wrapper">
 
         <!-- begin TOP NAVIGATION -->
@@ -75,6 +76,7 @@
 
             <!-- begin BRAND HEADING -->
             <div class="navbar-header">
+                <div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
                 <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".sidebar-collapse">
                     <i class="fa fa-bars"></i> Menu
                 </button>
@@ -288,6 +290,9 @@
     <?= loadJS("assets/lib/qtip/jquery.qtip.min.js", true) ?>
     <?= loadCSS("assets/lib/select2-4.0.0/css/select2.css", true) ?>
     <?= loadJS("assets/lib/select2-4.0.0/js/select2.js", true) ?>
+    <?= loadJS("assets/js/moment.min.js") ?>
+    <?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
+    <?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
     <?= loadJS("assets/js/base.js") ?>
     <?= loadJS("assets/js/utils.js") ?>
     <?= loadJS("assets/js/loading.js") ?>

@@ -24,7 +24,7 @@
             
             <div class="col-lg-2 col-sm-6">
                 <div class="circle-tile">
-                    <a href="<?= site_url("alarma/ingreso/tab/listado/estado/en_revision") ?>">
+                    <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>">
                         <div class="circle-tile-heading orange">
                             <i class="fa fa-bell fa-fw fa-3x"></i>
                         </div>
@@ -33,10 +33,7 @@
                         <div class="circle-tile-description text-faded">
                             Alarmas
                         </div>
-                        <div id="alarmas-revision-cantidad" class="circle-tile-number text-faded">
-
-                        </div>
-                        <a href="<?= site_url("alarma/ingreso/tab/listado/estado/en_revision") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -51,9 +48,6 @@
                     <div class="circle-tile-content red">
                         <div class="circle-tile-description text-faded">
                             Emergencias
-                        </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
                         </div>
                         <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -71,9 +65,6 @@
                         <div class="circle-tile-description text-faded">
                             Capas
                         </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
-                        </div>
                         <a href="<?= site_url("capas/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
@@ -88,9 +79,6 @@
                     <div class="circle-tile-content green">
                         <div class="circle-tile-description text-faded">
                             Simulación
-                        </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
                         </div>
                         <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -107,9 +95,6 @@
                         <div class="circle-tile-description text-faded">
                             Documentación
                         </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
-                        </div>
                         <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
@@ -124,9 +109,6 @@
                     <div class="circle-tile-content dark-gray">
                         <div class="circle-tile-description text-faded">
                             Mesa de ayuda
-                        </div>
-                        <div id="emergencias-encurso-cantidad" data-row="5" class="circle-tile-number text-faded">
-                           
                         </div>
                         <a href="<?= site_url("soportes/bandeja_usuario") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -227,6 +209,13 @@
 </div>
 <!-- end DASHBOARD CIRCLE TILES -->
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
+<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
+<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
+
+<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
+<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
+<?= loadJS("assets/js/geo-encoder.js") ?>
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
@@ -252,4 +241,5 @@
 
 <?= loadJS("assets/js/bootbox.min.js", true) ?>
 
-<?= loadJS("assets/js/modulo/dashboard.js", true) ?>
+
+<?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>

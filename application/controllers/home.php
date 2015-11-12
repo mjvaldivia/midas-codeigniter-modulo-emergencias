@@ -81,7 +81,7 @@ class Home extends CI_Controller{
     public function ajax_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
         $this->load->helper(array("modulo/alarma/alarma"));
-        $lista = $this->AlarmaModel->listar();
+        $lista = $this->AlarmaModel->listarAlarmasPorEstado(Alarma_Estado_Model::REVISION);
         $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista));
     }
         
@@ -90,7 +90,7 @@ class Home extends CI_Controller{
      */
     public function ajax_grilla_emergencias(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
-        $lista = $this->EmergenciaModel->listar();
+        $lista = $this->EmergenciaModel->listarEmergenciasPorEstado(Emergencia_Estado_Model::EN_CURSO);
         $this->load->view("pages/home/grilla_emergencias", array("lista" => $lista));
     }
         

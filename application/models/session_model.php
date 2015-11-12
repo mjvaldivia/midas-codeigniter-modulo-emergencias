@@ -187,6 +187,7 @@ class Session_Model extends CI_Model
                 $this->session->set_userdata("session_comunas", $r["comunas"]);
                 $this->session->set_userdata("session_roles", $r["roles"]);
                 $this->session->set_userdata("session_cre_activo", $r["usu_b_cre_activo"]); // es CRE y está activo
+                $this->session->set_userdata("session_email", $r["usu_c_email"]); 
 
                 $resultadoOperacion = true;
                 break;
@@ -279,6 +280,7 @@ class Session_Model extends CI_Model
                 $this->session->set_userdata("session_roles", $r["roles"]);
                 $this->session->set_userdata("session_cre_activo", $r["usu_b_cre_activo"]); // es CRE y está activo
                 $this->session->set_userdata("session_cambioRapido", 1);
+                $this->session->set_userdata("session_email", $r["usu_c_email"]); 
 
                 $resultadoOperacion = true;
                 break;

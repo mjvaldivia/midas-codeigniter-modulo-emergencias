@@ -5,7 +5,7 @@
  * Date: 14-08-15
  * Time: 02:07 PM
  */
-class Tipo_Emergencia_Model extends CI_Model
+class Tipo_Emergencia_Model extends MY_Model
 {
     /**
      * Tipos
@@ -26,37 +26,13 @@ class Tipo_Emergencia_Model extends CI_Model
     const OTROS = 14;
     const EMERGENCIA_RADIOLOGICA = 15;
     
-    /**
-     *
-     * @var QueryBuilder
-     */
-    protected $_query;
     
     /**
      *
      * @var string 
      */
     protected $_tabla = "auxiliar_emergencias_tipo";
-    
-    
-    /**
-     * 
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('model/QueryBuilder');
-        $this->_query = New QueryBuilder($this->db);
-        $this->_query->setTable($this->_tabla);
-    }
-    
-    /**
-     * Retorna HELPER para consultas generales
-     * @return Query
-     */
-    public function query(){
-        return $this->_query;
-    }
-    
+        
     /**
      * 
      * @param type $id

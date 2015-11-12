@@ -23,136 +23,132 @@
     </div>
     <div class="panel-body">
         <div class="col-md-12">
-            
+            <form id="form_reporte" >
 
             <input type="hidden" id='eme_ia_id' name="eme_ia_id" value='{id}'>
             <input type="hidden" id='ala_ia_id' name="ala_ia_id" value='{ala_ia_id}'>
 
-                <ul id="ul-tabs" class="nav nav-tabs">
-                    <li class='active'><a href="#tab1" data-toggle="tab">Envío de reporte por e-mail</a></li>
+            <ul id="ul-tabs" class="nav nav-tabs">
+                <li class='active'><a href="#tab1" data-toggle="tab">Envío de reporte por e-mail</a></li>
 
-                </ul>
-                <div id="tab-content" class="tab-content">
-                    <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
-                        <br>
-                        <div class="col-xs-12">
+            </ul>
+            <div id="tab-content" class="tab-content">
+                <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
+                    <br>
+                    <div class="col-xs-12">
                         <div class="col-xs-6">
+                            <div class="text-center"><b>Puede ajustar la vista del mapa para el reporte</b></div>
                             <div id='dvMap' style="height: 350px;" class="col-md-12"></div>
+                            
                         </div>
                         <div class="col-xs-6">
-                        <div class="col-xs-12">
-                            <form class="form-horizontal">
-                                <div  class='form-group'>
-                                    <label class="col-xs-12">Seleccione destinatarios</label>
-                                    <div class="col-xs-12">
-                                        <textarea  class="form-control" id="tokenfield"  placeholder="ingrese destinatario(s)...">test1@cosof.cl,test2@cosof.cl</textarea>
-                                    </div>
+                            <div class="col-xs-12">
+                                <div class="form-horizontal">
+                                    <div  class='form-group'>
+                                        <label class="col-xs-12">Seleccione destinatarios (*)</label>
+                                        <div class="col-xs-12">
+                                            <textarea  class="form-control required" id="tokenfield"  placeholder="ingrese destinatario(s)..."></textarea>
+                                        </div>
 
-                                </div>
-                            </form>
-                        </div >
-
-                        <div class="col-xs-12">
-                            <form class="form-horizontal">
-                                <div  class='form-group'>
-                                    <label class="col-xs-12">Asunto</label>
-                                    <div class="col-xs-12">
-                                        <input type="text"  class="form-control" id="asunto"  placeholder="ingrese asunto..." />
-                                    </div>
-
-                                </div>
-                            </form>
-                        </div >
-                        <div class="col-xs-12">
-                            <form class="form-horizontal">
-                                <div  class='form-group'>
-                                    <label class="col-xs-12">Mensaje</label>
-                                    <div class="col-xs-12">
-                                        <textarea rows="5" style="resize: none;"  class="form-control" id="mensaje"  placeholder="ingrese mensaje..." ></textarea>
-                                    </div>
-
-                                </div>
-                            </form>
-                        </div >
-                        <div class="col-xs-12">
-                            <form class="form-horizontal">
-                                <div  class='form-group'>
-
-                                    <div class="col-xs-3 checkbox">
-                                        <label >
-                                            <input type="checkbox"  class="" id="con_copia" checked="true"/>&nbsp;Enviarme una copia
-                                        </label>
-                                    </div>
-                                    <div class="col-xs-3 checkbox">
-                                        <label >
-                                            <input type="checkbox"  class="" id="adj_reporte" checked="true"/>&nbsp;Adjuntar reporte 
-                                        </label>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        
-                                     <a onclick="MapReport.cloneMap();" class="btn btn-lg btn-warning" ><i class="fa fa-file-pdf-o"></i> Ver Reporte</a>
-                                  
                                     </div>
                                 </div>
-                            </form>
-                        </div >
-                        <div class="col-xs-12">
-                            <form class="form-horizontal">
-                                <div  class='form-group'>
+                            </div >
 
+                            <div class="col-xs-12">
+                                <div class="form-horizontal">
+                                    <div  class='form-group'>
+                                        <label class="col-xs-12">Asunto</label>
+                                        <div class="col-xs-12">
+                                            <input type="text"  class="form-control" id="asunto" name="asunto" placeholder="ingrese asunto..." />
+                                        </div>
 
-
+                                    </div>
                                 </div>
-                            </form>
-                        </div >
+                            </div >
+                            <div class="col-xs-12">
+                                <div class="form-horizontal">
+                                    <div  class='form-group'>
+                                        <label class="col-xs-12">Mensaje</label>
+                                        <div class="col-xs-12">
+                                            <textarea rows="5" style="resize: none;"  class="form-control" id="mensaje" name="mensaje"  placeholder="ingrese mensaje..." ></textarea>
+                                        </div>
 
-                        </div >
-                        </div >
-
-                        <br>
-                        <hr>
-
-                        <div class="col-xs-12">
-
-                            <div  class='form-group'>
-                                <label class="col-xs-12">Adjuntos de la emergencia</label>
-                                <div class="col-md-12"> 
-                                    <table id="tabla_doc" class="table table-bordered table-striped dataTable">
-                                        <thead>
-                                            <tr>
-                                                <td>Nombre Archivo</td>
-                                                <td>Autor</td>
-                                                <td>Fecha</td>
-                                                <td></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>   
+                                    </div>
                                 </div>
-                            </div>
+                            </div >
+                            <div class="col-xs-12">
+                                <div class="form-horizontal">
+                                    <div  class='form-group'>
+
+                                        <div class="col-xs-3 checkbox">
+                                            <label >
+                                                <input type="checkbox"  class="" id="con_copia" name="con_copia" checked="true"/>&nbsp;Enviarme una copia
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-3 checkbox">
+                                            <label >
+                                                <input type="checkbox"  class="" id="adj_reporte" name="adj_reporte" checked="true"/>&nbsp;Adjuntar reporte 
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-6">
+
+                                            <a onclick="MapReport.cloneMap();" class="btn btn-md btn-warning" ><i class="fa fa-file-pdf-o"></i> Ver Reporte</a>
+                                            <a onclick="MapReport.send_mail();" class="btn btn-md btn-success" ><i class="fa fa-envelope-o"></i> Enviar Correo</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div >
                         </div >
-                        <div class="col-xs-12"></div>
-                        <br>
+                    </div >
+
+                    <br>
+                    <hr>
+                    <div  style="width: 0px; height: 0px; position: absolute; margin-top: 0px; z-index: -999">
+                        <div id='clon' style="width: 700px; height:600px; z-index: -999">
+
+                        </div>
+
                     </div>
+                    <br>
+                    <div class="col-xs-12">
+                        
+                        <div  class='form-group'>
+                            <label class="col-xs-12">Seleccione archivos para adjuntar</label>
+                            <div class="col-md-12"> 
+                                <table id="tabla_doc" class="table table-bordered table-striped dataTable">
+                                    <thead>
+                                        <tr>
+                                            <td>Nombre Archivo</td>
+                                            <td>Autor</td>
+                                            <td>Fecha</td>
+                                            <td></td>
+                                            <td style="width: 10px !important;">Adjuntar</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
+                                    </tbody>
+                                </table>   
+                            </div>
+                        </div>
+                    </div >
+                    <div class="col-xs-12"></div>
+                    <br>
                 </div>
+
             </div>
-
-
+            </form>
         </div>
-        
+
 
     </div>
 
-
-<div style="width: 0px; height: 0px; position: absolute; margin-top: 100px;">
-    <div id='clon' style="width: 700px; height:600px;">
-
-    </div>
 
 </div>
+
+
+
 
 
 

@@ -2097,6 +2097,44 @@ input[type="checkbox"]:checked::after,
 
 .table-middle > tbody > tr > td{vertical-align: middle;}
 
+
+
+
+.cargando{
+    display: none; 
+    position: fixed; 
+    width: 100%;
+
+   text-align: center;
+    z-index: 100000000; 
+    background-color: black;
+  
+    color:black;
+    font-size: 12px;
+    
+    top: 0;
+
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.5);
+  overflow: hidden;
+  text-shadow: 1px 1px 1px #000;
+
+}
+
+.cargando  img{
+    
+    padding: 5px; 
+    display: inline-block;
+    z-index: 10000000; 
+}
+
+
+.modal-backdrop{
+    height: 2048px !important;
+}
+
 .icono {
     background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgb(208, 228, 247) 0%, rgb(115, 177, 231) 24%, rgb(10, 119, 213) 50%, rgb(83, 159, 225) 79%, rgb(135, 188, 234) 100%) repeat scroll 0 0;
     border: 1px solid black;

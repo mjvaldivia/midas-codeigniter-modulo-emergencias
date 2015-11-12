@@ -4,6 +4,8 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
 <?= loadJS("assets/js/jquery.jcombo.js") ?>
+
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js") ?>
 <?= loadJS("assets/js/emergencia.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
 <?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
@@ -20,21 +22,21 @@
         margin-right: 20px;
     }
 
-    td,th {
+    #tblAlarmas td,th {
         vertical-align: middle!important;
         padding-bottom: 5px;
         border: 0!important;
     }
 
-    tr.odd div {
+    #tblAlarmas tr.odd div {
         background-color: whitesmoke;
     }
 
-    tr.even div {
+    #tblAlarmas tr.even div {
         background-color: rgb(208,228,247);
     }
 
-    .shadow {
+    #tblAlarmas .shadow {
 
 
         -webkit-border-radius: 4px;
@@ -86,7 +88,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 
 <div id="contenedor-emergencia">
 <form class="form-inline form-busqueda">
-    <div class="portlet portlet-green">
+    <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
                 <h4>
@@ -118,7 +120,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 
 <form class="form-horizontal" onsubmit="return false;">
 
-    <div id="pResultados" class="portlet portlet-green" width="100%" style="visibility: hidden">
+    <div id="pResultados" class="portlet portlet-default" width="100%" style="visibility: hidden">
         <div class="portlet-heading">
             <div class="portlet-title">
                 <h4><i class="fa fa-th-list"></i>

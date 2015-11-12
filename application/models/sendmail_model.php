@@ -17,18 +17,22 @@ class Sendmail_Model extends CI_Model {
     public $EAT_OFICINA = 6;
     public $CRE = 4;
 
-    public function emailSend($to = null, $cc = null, $bcc = null, $subject = null, $message = null, $dry_run = false) {
+    public function emailSend($to = null, $cc = null, $bcc = null, $subject = null, $message = null, $dry_run = false, $attach = array()) {
         
         $this->load->library('email');
 
         $this->email->from('noresponder@minsal.cl', 'MIDAS - MINSAL');
         $this->email->to($to);
         $this->email->cc($cc);
-        if ($bcc != null) {
-            $this->email->bcc($bcc);
-        }
+        $this->email->bcc($bcc);
         $this->email->subject($subject);
         $this->email->message($message);
+        
+        
+        foreach ($attach as $ruta){
+            $this->email->attach($ruta);
+        }
+        
         if ($dry_run) {
             var_dump($this->email);return;
         } else {

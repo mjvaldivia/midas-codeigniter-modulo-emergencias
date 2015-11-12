@@ -8,6 +8,13 @@ $(function() {
 
 $(document).ready(function() {
     
+    $(".datepicker").livequery(function(){
+        $(this).datetimepicker({
+            format: "DD-MM-YYYY hh:mm"
+        });
+    });
+    
+    
     $(".datatable.paginada").livequery(function(){
         if($(this).parent().hasAttr('data-row')) {
             var filas = parseInt($(this).parent().attr("data-row"));
@@ -125,3 +132,39 @@ $(document).ready(function() {
         });
     });
 });
+
+
+/**
+ * Procesa los errores en la validacion de formularios
+ * Ilumina los input con error
+ * @param {type} errores
+ * @returns {undefined}
+ */
+function procesaErrores(errores){
+    $.each(errores, function(i, valor){
+        var parent = getFormParent($("#" + i).parent(), 1);
+        
+        if(parent!=null){
+            if(valor!=""){
+                $(parent).addClass("has-error");
+                $(parent).children(".help-block").removeClass("hidden");
+                $(parent).children(".help-block").html("<i class=\"glyphicon glyphicon-warning-sign\"></i> " + valor);
+            } else {
+                $(parent).removeClass("has-error");
+                $(parent).children(".help-block").addClass("hidden");
+            }
+        }
+    });
+}
+
+function getFormParent(parent, intento){
+    if(intento > 4){
+        return null;
+    } else {
+        if($(parent).hasClass("form-group")){
+            return parent;
+        } else {
+            return getFormParent($(parent).parent(), intento +1);
+        }
+    }
+}

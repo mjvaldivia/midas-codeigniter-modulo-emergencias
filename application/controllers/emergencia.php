@@ -16,14 +16,94 @@ class Emergencia extends CI_Controller {
     public $template;
     
     /**
-     * 
+     *
+     * @var validar 
+     */
+    public $validar;
+    
+    /**
+     *
+     * @var Emergencia_Model 
+     */
+    public $emergencia_model;
+    
+    /**
+     *
+     * @var Emergencia_Estado_Model 
+     */
+    public $emergencia_estado_model;
+    
+    /**
+     * Constructor
      */
     public function __construct() {
         parent::__construct();
         $this->load->library("template");
-        $this->load->helper("session");
+        $this->load->helper(array("session","utils"));
 
+        $this->load->model("emergencia_model", "emergencia_model");
+        $this->load->model("emergencia_estado_model", "emergencia_estado_model");
+        
         sessionValidation();
+    }
+    
+    /**
+     * Despliega formulario para cerrar emergencia
+     */
+    public function formCerrar(){
+        
+        
+        $params = $this->uri->uri_to_assoc();
+        $emergencia = $this->emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            
+            $data = array("id" => $emergencia->eme_ia_id,
+                          "nombre" => $emergencia->eme_c_nombre_emergencia,
+                          "fecha" => Date("d-m-Y h:i"));
+            
+            $this->load->view("pages/emergencia/form-cerrar", $data);
+        } else {
+            show_404();
+        }
+    }
+    
+    public function cerrarEmergencia(){
+        $this->load->library("validar");
+        $correcto = true;
+        $error = array();
+        
+        $params = $this->input->post(null, true);
+        $emergencia = $this->emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            
+            if(!$this->validar->validarFechaSpanish($params["fecha_cierre"])){
+                $correcto = false;
+                $error["fecha-cierre"] = "Debe ingresar una fecha";
+            } else {
+                $error["fecha-cierre"] = "";
+            }
+            
+            if(!$this->validar->validarVacio($params["comentarios_cierre"])){
+                $correcto = false;
+                $error["comentarios_cierre"] = "Debe ingresar los comentarios";
+            } else {
+                $error["comentarios_cierre"] = "";
+            }
+
+            if($correcto){
+                $data = array("est_ia_id" => Emergencia_Estado_Model::CERRADA,
+                              "eme_d_fecha_cierre" => spanishDateToISO($params["fecha_cierre"]),
+                              "eme_c_comentario_cierre" => $params["comentarios_cierre"]);
+                $this->emergencia_model->query()->update($data, "eme_ia_id",  $emergencia->eme_ia_id);
+            }
+            
+            $respuesta = array("correcto" => $correcto,
+                               "error" => $error);
+            
+            echo json_encode($respuesta);
+        } else {
+            show_404();
+        }
     }
     
     
@@ -33,8 +113,6 @@ class Emergencia extends CI_Controller {
             show_404();
         }
 
-        $this->load->library("template");
-        $this->load->helper("session");
 
         if (isset($params['k']) && !$this->session->userdata('session_idUsuario')) {
             $this->load->model("usuario_model", "UsuarioModel");
