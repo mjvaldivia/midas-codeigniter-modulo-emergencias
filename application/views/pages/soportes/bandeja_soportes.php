@@ -7,8 +7,9 @@
                 <small><i class="fa fa-arrow-right"></i> Tickets de Soporte</small>
             </h1>
             <ol class="breadcrumb">
-                <li class="active"><i class="fa fa-question-circle"></i> Soportes</li>
-                <li>Mesa Regional</li>
+                <li><i class="fa fa-dashboard"></i><a href="<?php echo site_url();?>"> Dashboard </a></li>
+                <li ><i class="fa fa-question-circle"></i> Soportes</li>
+                <li class="active">Mesa Regional</li>
             </ol>
         </div>
     </div>
