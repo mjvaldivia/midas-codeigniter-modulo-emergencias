@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div class="form-group" id="div_properties_editar">
-                <label class="col-md-3 control-label">Propiedades de la(s) capa(s)</label>
+                <label class="col-md-3 control-label">Propiedades de la capa</label>
                 <div class="col-md-5">
                     <table id="tabla_propiedades-editar" class="table table-bordered table-striped dataTable">
                         <thead>
@@ -135,13 +135,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php $propiedades = explode(',',$capa->cap_c_propiedades);?>
-                        <?php foreach($propiedades as $propiedad):?>
+                        <?php $propiedadesCapa = explode(',',$capa->cap_c_propiedades);?>
+                        <?php foreach($geojson as $propiedad):?>
                             <tr>
                                 <td><?php echo $propiedad?></td>
                                 <td>
                                     <div class="checkbox">
-                                        <label><input class="propiedades" type="checkbox" name="prop_<?php echo $propiedad?>" id="prop_<?php echo $propiedad?>" value="<?php echo $propiedad?>" checked /></label>
+                                        <label>
+                                            <input class="propiedades" type="checkbox" name="prop_<?php echo $propiedad?>" id="prop_<?php echo $propiedad?>" value="<?php echo $propiedad?>" <?php if(in_array($propiedad,$propiedadesCapa)):?> checked <?php endif;?> />
+                                        </label>
                                     </div>
                                 </td>
                             </tr>

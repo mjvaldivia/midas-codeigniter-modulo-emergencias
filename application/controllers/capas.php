@@ -132,11 +132,31 @@ class Capas extends CI_Controller
         $comunas = $this->ComunaModel->getComunasPorRegion($this->session->userdata['session_region_codigo']);
 
         $capa = $this->CapaModel->getCapa($id_capa);
+
+        /** leer geojson asociado **/
+        $properties = array();
+        $tmp_prop_array = array();
+
+        
+        $fp = file_get_contents($capa->capa,'r');
+        
+        $arr_properties = json_decode($fp,true);
+        
+        foreach ($arr_properties['features'][0]['properties'] as $k => $v) {
+
+            if (in_array($k, $tmp_prop_array)) { // reviso que no se me repitan las propiedades
+                continue;
+            }
+            $properties[] = $k;
+            $tmp_prop_array[] = $k;
+        }
+         
         $data = array(
             'id_capa' => $id_capa,
             'capa' => $capa,
             'categorias' => $categorias,
-            'comunas' => $comunas
+            'comunas' => $comunas,
+            'geojson' => $properties
             );
         echo $this->load->view("pages/capa/edicion",$data);
     }
