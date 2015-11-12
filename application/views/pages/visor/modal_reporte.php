@@ -36,12 +36,12 @@
                 <div class='tab-pane active' id='tab1' style='overflow:hidden;'>
                     <br>
                     <div class="col-xs-12">
-                        <div class="col-xs-6">
+                        <div class="col-md-6 col-xs-12">
                             <div class="text-center"><b>Puede ajustar la vista del mapa para el reporte</b></div>
                             <div id='dvMap' style="height: 350px;" class="col-md-12"></div>
                             
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-md-6 col-xs-12">
                             <div class="col-xs-12">
                                 <div class="form-horizontal">
                                     <div  class='form-group'>
@@ -80,17 +80,17 @@
                                 <div class="form-horizontal">
                                     <div  class='form-group'>
 
-                                        <div class="col-xs-3 checkbox">
+                                        <div class="col-md-3 col-xs-12 checkbox">
                                             <label >
                                                 <input type="checkbox"  class="" id="con_copia" name="con_copia" checked="true"/>&nbsp;Enviarme una copia
                                             </label>
                                         </div>
-                                        <div class="col-xs-3 checkbox">
+                                        <div class="col-md-3 col-xs-12 checkbox">
                                             <label >
                                                 <input type="checkbox"  class="" id="adj_reporte" name="adj_reporte" checked="true"/>&nbsp;Adjuntar reporte 
                                             </label>
                                         </div>
-                                        <div class="col-xs-6">
+                                        <div class="col-md-6 col-xs-12">
 
                                             <a onclick="MapReport.cloneMap();" class="btn btn-md btn-warning" ><i class="fa fa-file-pdf-o"></i> Ver Reporte</a>
                                             <a onclick="MapReport.send_mail();" class="btn btn-md btn-success" ><i class="fa fa-envelope-o"></i> Enviar Correo</a>
@@ -115,7 +115,7 @@
                         
                         <div  class='form-group'>
                             <label class="col-xs-12">Seleccione archivos para adjuntar</label>
-                            <div class="col-md-12"> 
+                            <div class="col-md-12 table-responsive"> 
                                 <table id="tabla_doc" class="table table-bordered table-striped dataTable">
                                     <thead>
                                         <tr>
