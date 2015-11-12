@@ -294,14 +294,18 @@ class Emergencia_Model extends MY_Model {
     }
 
     public function getEmergencia($id) {
+        $this->load->helper('utils');
         $sql = "
             select
                 e.*,UCASE(LOWER(CONCAT(usu_c_nombre,' ',usu_c_apellido_paterno,' ',usu_c_apellido_materno))) usuario,
-                te.aux_c_nombre as tipo_emergencia
+                te.aux_c_nombre as tipo_emergencia,
+                GROUP_CONCAT(evc.com_ia_id) comunas
             from
               emergencias e
               inner join usuarios u on e.usu_ia_id = u.usu_ia_id
               inner join auxiliar_emergencias_tipo te on e.tip_ia_id = te.aux_ia_id
+              join emergencias_vs_comunas evc on e.eme_ia_id = evc.eme_ia_id
+              join comunas c on c.com_ia_id = evc.com_ia_id
             where e.eme_ia_id = ?";
 
         $query = $this->db->query($sql, $id);

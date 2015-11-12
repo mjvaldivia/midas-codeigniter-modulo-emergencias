@@ -98,9 +98,9 @@ class Visor extends CI_Controller {
         $params = $this->uri->uri_to_assoc();
         //var_dump($params);
         $data = $this->EmergenciaModel->getJsonEmergencia($params, false);
-        
+
         $data['emisor'] = $this->session->userdata('session_nombres');
-        
+
         $archivo = $this->ArchivoModel->get_file_from_key($params['k']);
         $data['imagename'] = $archivo['arch_c_nombre'];
         //var_dump($data);die;
@@ -111,8 +111,7 @@ class Visor extends CI_Controller {
         $pdf->WriteHTML($html); // write the HTML into the PDF
         $pdf->Output('acta.pdf', 'I');
     }
-    
-    
+
     public function ReporteAdisco() {
         $this->load->model("emergencia_model", "EmergenciaModel");
         $this->load->model("archivo_model", "ArchivoModel");
@@ -129,20 +128,19 @@ class Visor extends CI_Controller {
         $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
 
         $pdf->WriteHTML($html); // write the HTML into the PDF
-        $filename = 'reporte_'.uniqid().'.pdf';
-        
-        $pdf->Output('media/tmp/'.$filename, 'F');
-        if(!is_file('media/tmp/'.$filename)){
-                   $ruta = false;      
-        }
-        else{
-            $ruta = 'media/tmp/'.$filename;
+        $filename = 'reporte_' . uniqid() . '.pdf';
+
+        $pdf->Output('media/tmp/' . $filename, 'F');
+        if (!is_file('media/tmp/' . $filename)) {
+            $ruta = false;
+        } else {
+            $ruta = 'media/tmp/' . $filename;
         }
         return $ruta;
     }
 
     //manda mail desde el listado de emergencias , puede adjuntar reporte
-    public function enviarMail(){
+    public function enviarMail() {
         $error = 0;
         $this->load->model("archivo_model", "ArchivoModel");
         $this->load->model("Sendmail_Model", "SendmailModel");
@@ -152,50 +150,44 @@ class Visor extends CI_Controller {
         $this->load->helper("session");
         sessionValidation();
         $params_post = $this->input->post();
-        if(isset($params_post['adj_reporte']))
-        {
-            if($ruta = $this->ReporteAdisco()){
-            array_push($attach,$ruta);}
-            else{
+        if (isset($params_post['adj_reporte'])) {
+            if ($ruta = $this->ReporteAdisco()) {
+                array_push($attach, $ruta);
+            } else {
                 $error++;
             }
         }
-       
-        foreach ($params_post as $key=>$val){ //reviso los que han sido chequeados para enviarse como adjuntos
 
-            if(strpos($key,'chk_')!==false){
-                
+        foreach ($params_post as $key => $val) { //reviso los que han sido chequeados para enviarse como adjuntos
+            if (strpos($key, 'chk_') !== false) {
+
                 $id = explode('_', $key);
                 $id = $id[1];
-                
+
                 $arch = $this->ArchivoModel->get_file_from_id($id);
-                if($arch!==null)
-                {
-                    array_push($attach,$arch['arch_c_nombre']);
+                if ($arch !== null) {
+                    array_push($attach, $arch['arch_c_nombre']);
                 }
             }
         }
-        
-        
+
+
         $to = $params_post['destino'];
         $subject = $params_post['asunto'];
         $message = $params_post['mensaje'];
-        
-        
-        
-        if(isset($params_post['con_copia']))
-        {
-           $cc = $this->session->userdata('session_email');  
+
+
+
+        if (isset($params_post['con_copia'])) {
+            $cc = $this->session->userdata('session_email');
         }
         //var_dump($cc);die;
-       if (!$this->SendmailModel->emailSend($to, $cc, null, $subject, $message, false, $attach)) {
-           $error++;
-       }
-       echo $error;
+        if (!$this->SendmailModel->emailSend($to, $cc, null, $subject, $message, false, $attach)) {
+            $error++;
+        }
+        echo $error;
     }
 
-
-    
     public function saveGeoJson() {
 
         $this->load->library("template");
@@ -212,7 +204,7 @@ class Visor extends CI_Controller {
         $this->load->helper("session");
         sessionValidation();
         $params = $this->input->post();
-        
+
         $this->load->helper("session");
         $this->load->model("capa_model", "CapaModel");
         echo $this->CapaModel->guardarCapa($params);
@@ -259,11 +251,25 @@ class Visor extends CI_Controller {
 
         $this->template->parse("alone", "pages/visor/exportMap", $data);
     }
+
     public function reporte() {
+        $this->load->helper("session");
+        sessionValidation();
         $this->load->library("template");
         $params = $this->uri->uri_to_assoc();
-        $data = array('id' => $params['id'], 'ala_ia_id' => $params['ala_ia_id']);
 
+        $this->load->model("sendmail_model", "SendmailModel");
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        $eme = $this->EmergenciaModel->getEmergencia($params['eme_ia_id']);
+
+
+        $lista = $this->SendmailModel->get_destinatariosCorreo($eme['tip_ia_id'], $eme['comunas'], $this->session->userdata('session_idUsuario'));
+      //  var_dump($eme);var_dump($lista);
+        $data = array(  'id' => $params['id'],
+                        'ala_ia_id' => $params['ala_ia_id'],
+                        'lista' => $lista,
+                        'nombre_emergencia' =>$eme['eme_c_nombre_emergencia']
+                );
         $this->template->parse("alone", "pages/visor/modal_reporte", $data);
     }
 
@@ -287,8 +293,8 @@ class Visor extends CI_Controller {
             echo json_encode(array('k' => 0));
         }
     }
-    
-        public function getmails() {
+
+    public function getmails() {
         $this->load->helper("session");
         sessionValidation();
         $this->load->model("usuario_model", "UsuarioModel");

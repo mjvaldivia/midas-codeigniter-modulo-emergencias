@@ -159,7 +159,7 @@ var MapReport = {
             else {
                 //ajusto segun el mapa A
                 mapa.fitBounds(self.A.getBounds());
-                mapa.setZoom(self.A.getZoom() + 1);
+                mapa.setZoom(self.A.getZoom());
 
             }
         }
@@ -549,8 +549,8 @@ $.get(siteUrl + 'visor/getmails/').done(function (data) {
                 $.each(existingTokens, function (index, token) {
                     if (token.value === e.attrs.value)
                     {
-                        e.preventDefault();
-                        alert('Ya está agregado');
+                       // e.preventDefault();
+                       // alert('Ya está agregado');
                     }
 
                 });

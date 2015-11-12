@@ -18,7 +18,7 @@
     <div class="panel-heading">
         <h3 class="panel-title">
             <i class="fa fa-file-pdf-o"></i>
-            Ajustes del Reporte
+            Ajustes del Reporte Emergencia : <?= $nombre_emergencia ?>
         </h3>
     </div>
     <div class="panel-body">
@@ -47,7 +47,7 @@
                                     <div  class='form-group'>
                                         <label class="col-xs-12">Seleccione destinatarios (*)</label>
                                         <div class="col-xs-12">
-                                            <textarea  class="form-control required" id="tokenfield"  placeholder="ingrese destinatario(s)..."></textarea>
+                                            <textarea  class="form-control required" id="tokenfield" placeholder="ingrese destinatario(s)..."><?= $lista ?></textarea>
                                         </div>
 
                                     </div>
@@ -59,7 +59,7 @@
                                     <div  class='form-group'>
                                         <label class="col-xs-12">Asunto</label>
                                         <div class="col-xs-12">
-                                            <input type="text"  class="form-control" id="asunto" name="asunto" placeholder="ingrese asunto..." />
+                                            <input type="text"  class="form-control" id="asunto" name="asunto" value="Emergencia: {nombre_emergencia}" placeholder="ingrese asunto..." />
                                         </div>
 
                                     </div>
@@ -104,8 +104,8 @@
 
                     <br>
                     <hr>
-                    <div  style="width: 0px; height: 0px; position: absolute; margin-top: 0px; z-index: -999">
-                        <div id='clon' style="width: 700px; height:600px; z-index: -999">
+                    <div class="col-sm-12"  style="position: absolute; margin-top: 0px; z-index: -999">
+                        <div class="col-sm-6" id='clon' style="height: 350px; z-index: -999">
 
                         </div>
 
