@@ -48,14 +48,15 @@ var Dashboard = Class({
      * @returns void
      */
     loadGridAlarma : function(){
+        /*
         var params = {"desde" : $("#fecha_desde").val(),
-                      "hasta" : $("#fecha_hasta").val()};
+                      "hasta" : $("#fecha_hasta").val()};*/
     
         $.ajax({         
             dataType: "html",
             cache: false,
             async: true,
-            data: params,
+            data: "",
             type: "post",
             url: siteUrl + "home/ajax_grilla_alarmas", 
             error: function(xhr, textStatus, errorThrown){
@@ -72,14 +73,14 @@ var Dashboard = Class({
      * @returns void
      */
     loadGridEmergencia : function(){
-        var params = {"desde" : $("#fecha_desde").val(),
-                      "hasta" : $("#fecha_hasta").val()};
+        /*var params = {"desde" : $("#fecha_desde").val(),
+                      "hasta" : $("#fecha_hasta").val()};*/
     
         $.ajax({         
             dataType: "html",
             cache: false,
             async: true,
-            data: params,
+            data: "",
             type: "post",
             url: siteUrl + "home/ajax_grilla_emergencias", 
             error: function(xhr, textStatus, errorThrown){
@@ -214,10 +215,12 @@ var Dashboard = Class({
     
     // boton cerrar emergencias
     bindBtnEmergenciaCerrar : function(){
+        var yo = this;
+        
         $(".emergencia-cerrar").livequery(function(){
             $(this).click(function(){
                 var id = $(this).attr("data");
-                var formulario = new FormEmergenciasCerrarDashboard(id);	
+                var formulario = new FormEmergenciasCerrarDashboard(id, yo);	
                 formulario.mostrarFormulario();
             });
         });

@@ -9,6 +9,12 @@ Class Layout_Text_MoreLess{
     protected $_ci;
     
     /**
+     * Largo en caracteres
+     * @var int
+     */
+    protected $_largo;
+    
+    /**
      *
      * @var string 
      */
@@ -19,6 +25,14 @@ Class Layout_Text_MoreLess{
      */
     public function __construct() {
         $this->_ci =& get_instance();
+    }
+    
+    /**
+     * 
+     * @param int $largo
+     */
+    public function setLargo($largo){
+        $this->_largo = $largo;
     }
     
     /**
@@ -42,7 +56,7 @@ Class Layout_Text_MoreLess{
      * @return string
      */
     public function getTeaserString(){
-        return substr(strip_tags($this->_string), 0, 30);
+        return substr(strip_tags($this->_string), 0, $this->_largo);
     }
     
     /**

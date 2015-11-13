@@ -1,10 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * User: claudio
- * Date: 12-08-15
- * Time: 04:24 PM
- */
 class Home extends CI_Controller{
     
     /**
@@ -44,6 +39,12 @@ class Home extends CI_Controller{
     public $template;
     
     /**
+     *
+     * @var Menucollapse 
+     */
+    public $menucollapse;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -61,22 +62,16 @@ class Home extends CI_Controller{
     }
     
     /**
-     * Index-
+     * Index
      */
     public function index () {
-        
-        if ( ! file_exists(APPPATH.'/views/pages/home/index.php')){
-            show_404();
-        }
-
         $this->template->parse("default", 
                                "pages/home/index", 
                                 array());
     }
 
-    
     /**
-     * 
+     * Retorna grilla de alarmas
      */
     public function ajax_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
@@ -86,7 +81,7 @@ class Home extends CI_Controller{
     }
         
     /**
-     * 
+     * Retorna grilla de emergencias
      */
     public function ajax_grilla_emergencias(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
@@ -142,6 +137,14 @@ class Home extends CI_Controller{
         echo json_encode($respuesta);
     }
     
+    /**
+     * Guarda la seleccion de ocultar o mostrar menu
+     */
+    public function ajax_menu_collapse(){
+        $this->load->library(array("menu/menucollapse"));
+        $this->menucollapse->setCollapse();
+        echo json_encode(array("correcto" => true));
+    }
     
     /**
      * Devuelve datos para grafico de cantidad tipos de emergencia

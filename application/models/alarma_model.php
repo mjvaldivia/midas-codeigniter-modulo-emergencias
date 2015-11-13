@@ -48,14 +48,29 @@ class Alarma_Model extends MY_Model {
      * @return int
      */
     public function cantidadAlarmasPorEstado($id_estado){
-        $result = $this->_query->select("COUNT(*) as cantidad")
-                               ->from()
-                               ->whereAND("est_ia_id", $id_estado, "=")
-                               ->getOneResult();
+        $result = $this->_queryAlarmasPorEstado($id_estado)
+                       ->select("COUNT(*) as cantidad", false)
+                       ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
         }else{
             return 0;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_estado id del estado
+     * @return array
+     */
+    public function listarAlarmasPorEstado($id_estado){
+        $result = $this->_queryAlarmasPorEstado($id_estado)
+                       ->orderBy("ala_d_fecha_recepcion", "DESC")
+                       ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
         }
     }
     
@@ -76,37 +91,15 @@ class Alarma_Model extends MY_Model {
     }
     
     /**
-     * 
-     * @param int $id_estado id del estado
-     * @return array
-     */
-    public function listarAlarmasPorEstado($id_estado){
-        $result = $this->_query->select("*")
-                               ->from()
-                               ->whereAND("est_ia_id", $id_estado, "=")
-                               ->orderBy("ala_d_fecha_recepcion", "DESC")
-                               ->getAllResult();
-        if(!is_null($result)){
-            return $result;
-        } else {
-            return NULL;
-        }
-    }
-    
-    /**
      * Lista alarmas entre fechas dadas
      * @param DateTime $fecha_desde
      * @param DateTime $fecha_hasta
      * @return array
      */
     public function listarAlarmasEntreFechas($fecha_desde, $fecha_hasta){
-        $result = $this->_query->select("*")
-                               ->from()
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
-                               ->whereAND("est_ia_id", Alarma_Model::ACTIVADO, "<>")
-                               ->orderBy("ala_d_fecha_recepcion", "DESC")
-                               ->getAllResult();
+        $result = $this->_queryAlarmasEnRevisionEntreFechas($fecha_desde, $fecha_hasta)
+                       ->orderBy("ala_d_fecha_recepcion", "DESC")
+                       ->getAllResult();
         if(!is_null($result)){
             return $result;
         } else {
@@ -121,12 +114,9 @@ class Alarma_Model extends MY_Model {
      * @return int
      */
     public function cantidadAlarmasEntreFechas($fecha_desde, $fecha_hasta){
-        $result = $this->_query->select("COUNT(*) as cantidad")
-                               ->from()
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
-                               ->whereAND("est_ia_id", Alarma_Model::ACTIVADO, "<>")
-                               ->getOneResult();
+        $result = $this->_queryAlarmasEnRevisionEntreFechas($fecha_desde, $fecha_hasta)
+                       ->select("COUNT(*) as cantidad")
+                       ->getOneResult();
         if(!is_null($result)){
             return $result->cantidad;
         }else{
@@ -342,5 +332,31 @@ class Alarma_Model extends MY_Model {
             echo json_encode($resultados);
         else
             return $resultados;
+    }
+    
+    /**
+     * Consulta para alarmas por estado
+     * @return QueryBuilder
+     */
+    protected function _queryAlarmasPorEstado($id_estado){
+        $query = $this->_query->select("*")
+                              ->from()
+                              ->whereAND("est_ia_id", $id_estado, "=");
+        return $query;
+    }
+    
+    /**
+     * Consulta para alarmas en revision entre rango de fechas
+     * @param DateTime $fecha_desde
+     * @param DateTime $fecha_hasta
+     * @return QueryBuilder
+     */
+    protected function _queryAlarmasEnRevisionEntreFechas($fecha_desde, $fecha_hasta){
+        $query = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->whereAND("est_ia_id", Alarma_Model::REVISION, "=");
+        return $query;
     }
 }
