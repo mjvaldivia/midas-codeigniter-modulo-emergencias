@@ -439,7 +439,7 @@ var VisorMapa = {
             var params = '';
             self.map.data.forEach(function (feature) {
                 var existe = 0;
-                if (!feature.getProperty("midas"))
+                if (!feature.getProperty("midas") && feature.getProperty("type")!=='REFERENCIA')
                 {
                     $.each(arr, function (k, v) {
                         if (parseInt(arr[k]) == parseInt(feature.getProperty("TYPE"))) {
