@@ -204,6 +204,12 @@ var Alarma = {};
                     html += "                " + row.ala_c_lugar_emergencia + "";
                     html += "            </div>";
                     html += "        </div>";
+                    html += "        <div class=\"form-group col-md-12\">";
+                    html += "            <label class='col-md-4' style='text-align: right; margin-bottom: 0 !important;'>Comuna(s):</label>";
+                    html += "            <div class=\"col-md-8\">";
+                    html += "                " + row.comunas + "";
+                    html += "            </div>";
+                    html += "        </div>";
                     html += "    </div>";
                     html += "    <div class=\"col-md-2 text-center\">";
                     

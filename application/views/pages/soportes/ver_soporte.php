@@ -1,7 +1,7 @@
 
 <div class="col-xs-12">
 
-    <div class="portlet portlet-green">
+    <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
                 <?php $url = site_url('soportes/historialSoporte/id/'.$soporte->soporte_id);?>

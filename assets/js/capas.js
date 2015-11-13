@@ -96,6 +96,7 @@ var Layer = {};
                     url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
                 },
                 order: [[0, "desc"]],
+                bPaginate: false,
                 initComplete: function(){
                     $(".iComunas").jCombo(siteUrl + "session/obtenerJsonComunas");
                    
@@ -269,7 +270,7 @@ var Layer = {};
             language: "es",
             multiple: false,
             uploadAsync: true,
-            initialCaption: "Seleccione una o varias capas GeoJson",
+            initialCaption: "Seleccione una capa GeoJson",
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
         

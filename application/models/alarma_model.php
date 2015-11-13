@@ -155,6 +155,10 @@ class Alarma_Model extends MY_Model {
         $sql = "
             select
                 a.*,
+                 (select GROUP_CONCAT(c.com_c_nombre SEPARATOR ', ') from comunas c
+                                       join    alertas_vs_comunas avc on c.com_ia_id = avc.com_ia_id
+                                       where avc.ala_ia_id = a.ala_ia_id
+                                     ) comunas,
                 te.aux_c_nombre as ala_c_tipo_emergencia
             from
               alertas a

@@ -129,6 +129,7 @@
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>
                             </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
