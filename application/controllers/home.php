@@ -56,8 +56,6 @@ class Home extends CI_Controller{
         $this->load->model("emergencia_estado_model", "EmergenciaEstadoModel");
         $this->load->model("tipo_emergencia_model", "EmergenciaTipoModel");
         
-        $this->load->helper(array("session","utils"));
-        $this->load->library(array("template"));
         sessionValidation();
     }
     

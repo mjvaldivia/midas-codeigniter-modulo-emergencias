@@ -2,7 +2,7 @@
 
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
-require_once(APPPATH . "helpers/modulo/layout/rol/Monitor.php");
+require_once(APPPATH . "helpers/modulo/layout/usuario/Permiso.php");
 require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
 require_once(APPPATH . "helpers/modulo/layout/text/MoreLess.php");
 
@@ -28,7 +28,7 @@ function menuCollapsed($html_object){
  * @return boolean
  */
 function puedeEditar(){
-    $editar = New Layout_Rol_Monitor();
+    $editar = New Layout_Usuario_Permiso();
     return $editar->puedeEditar();
 }
 

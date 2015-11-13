@@ -18,7 +18,7 @@ var Dashboard = Class({
         
         this.loadDashboard();
         
-        this.bindBtnEmergenciaCerrar();
+        this.bindBtnEmergenciaFinalizar();
         this.bindBtnEmergenciaEditar();
         
     },
@@ -48,8 +48,7 @@ var Dashboard = Class({
      * @returns void
      */
     loadGridAlarma : function(){
-        /*
-        var params = {"desde" : $("#fecha_desde").val(),
+        /*var params = {"desde" : $("#fecha_desde").val(),
                       "hasta" : $("#fecha_hasta").val()};*/
     
         $.ajax({         
@@ -174,6 +173,7 @@ var Dashboard = Class({
      * carga el grafico de emergencias por tipo
      * @returns void
      */
+
 //    loadGraficoEmergenciasTipo : function(){
 //        $.ajax({         
 //            dataType: "json",
@@ -212,9 +212,10 @@ var Dashboard = Class({
 //            }
 //        }); 
 //    },
+
     
-    // boton cerrar emergencias
-    bindBtnEmergenciaCerrar : function(){
+    // boton finalizar emergencias
+    bindBtnEmergenciaFinalizar : function(){
         var yo = this;
         
         $(".emergencia-cerrar").livequery(function(){
