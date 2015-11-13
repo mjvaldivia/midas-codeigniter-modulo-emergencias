@@ -43,6 +43,16 @@ class Alarma_Model extends MY_Model {
     }
     
     /**
+     * Actualiza la alarma
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "ala_ia_id", $id);
+    }
+    
+    /**
      * 
      * @param int $id_estado id del estado
      * @return int

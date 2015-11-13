@@ -105,6 +105,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 
 <?= loadJS("assets/js/jquery.jcombo.js") ?>
 <?= loadJS("assets/js/alarmas.js") ?>
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js") ?>
+
 
 <script type="text/javascript">
     $(document).ready(function () {

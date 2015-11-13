@@ -211,11 +211,11 @@ class Emergencia_Model extends MY_Model {
             $this->db->query("
                 UPDATE alertas SET est_ia_id = $this->activado WHERE ala_ia_id = '" . $params['ala_ia_id'] . "'");
             $params['eme_ia_id'] = $eme_ia_id;
-            $res['res_mail'] = ($this->enviaMsjEmergencia($params)) ? 'enviado correctamente' : 'error al enviar';
+            $res['res_mail'] = ($this->enviaMsjEmergencia($params)) ? true : false;
         }
         $res['eme_ia_id'] = $eme_ia_id;
 
-        return json_encode($res);
+        return ($res);
     }
 
     public function getAlarma($params) {

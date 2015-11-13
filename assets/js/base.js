@@ -84,6 +84,7 @@ $(document).ready(function() {
     });
     
     $(".text-more").livequery(function(){
+        $(this).unbind( "click" );
         $(this).click(function(){
             if($(this).html() == "[Ocultar]"){
                 $(this).html("[Ver mas]");   
@@ -189,4 +190,16 @@ function getFormParent(parent, intento){
             return getFormParent($(parent).parent(), intento +1);
         }
     }
+}
+
+var stack_bottomright = {"dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25};
+
+function notificacionCorrecto(titulo, texto){
+    new PNotify({ title: titulo, text: texto, type: 'success',addclass: "stack-bottomright",
+        stack: stack_bottomright});
+}
+
+function notificacionError(titulo, texto){
+    new PNotify({ title: titulo, text: texto, type: 'danger',addclass: "stack-bottomright",
+        stack: stack_bottomright });
 }

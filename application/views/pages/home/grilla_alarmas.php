@@ -27,7 +27,7 @@
                         <i class="fa fa-edit"></i>
                     </button>-->
                     <?php if (puedeEditar()) { ?>
-                    <button onclick="window.open(siteUrl + 'emergencia/generaEmergencia/id/<?php echo $row["ala_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Generar emergencia">
+                    <button data="<?php echo $row["ala_ia_id"]; ?>" class="btn btn-xs btn-blue emergencia-nueva" data-toggle="tooltip" data-toogle-param="arriba" title="Generar emergencia">
                         <i class="fa fa-bullhorn"></i>
                     </button>
                     <?php } ?>

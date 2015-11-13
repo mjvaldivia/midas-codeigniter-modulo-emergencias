@@ -29,6 +29,24 @@ class Emergencia extends CI_Controller {
     
     /**
      *
+     * @var Alarma_Model 
+     */
+    public $alarma_model;
+    
+    /**
+     *
+     * @var Alarma_Comuna_Model 
+     */
+    public $alarma_comuna_model;
+    
+    /**
+     *
+     * @var Alarma_Estado_Model
+     */
+    public $alarma_estado_model;
+    
+    /**
+     *
      * @var Emergencia_Estado_Model 
      */
     public $emergencia_estado_model;
@@ -43,6 +61,9 @@ class Emergencia extends CI_Controller {
 
         $this->load->model("emergencia_model", "emergencia_model");
         $this->load->model("emergencia_estado_model", "emergencia_estado_model");
+        $this->load->model("alarma_model", "alarma_model");
+        $this->load->model("alarma_comuna_model", "alarma_comuna_model");
+        $this->load->model("alarma_estado_model", "alarma_estado_model");
         
         sessionValidation();
     }
@@ -50,9 +71,7 @@ class Emergencia extends CI_Controller {
     /**
      * Despliega formulario para cerrar emergencia
      */
-    public function formCerrar(){
-        
-        
+    public function form_finalizar(){
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
@@ -67,7 +86,10 @@ class Emergencia extends CI_Controller {
         }
     }
     
-    public function cerrarEmergencia(){
+    /**
+     * Finaliza una emergencia
+     */
+    public function json_finalizar_emergencia(){
         $this->load->library("validar");
         $correcto = true;
         $error = array();
@@ -106,53 +128,114 @@ class Emergencia extends CI_Controller {
         }
     }
     
-    
-    public function generaEmergencia() {
+    /**
+     * Despliega formulario para ingresar nueva emergencia
+     */
+    public function form_nueva(){
+        $this->load->helper(array("modulo/emergencia/emergencia_form","modulo/direccion/comuna"));
+        
         $params = $this->uri->uri_to_assoc();
-        if (!file_exists(APPPATH . "/views/pages/emergencia/generaEmergencia.php")) {
+        $alarma = $this->alarma_model->getById($params["id"]);
+        if(!is_null($alarma)){
+            
+            $data = array("id" => $alarma->ala_ia_id,
+                          "nombre_informante" => $alarma->ala_c_nombre_informante,
+                          "telefono_informante" => $alarma->ala_c_telefono_informante,
+                          "nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
+                          "id_tipo_emergencia" => $alarma->tip_ia_id,
+                          "nombre_lugar" => $alarma->ala_c_lugar_emergencia,
+                          "observacion" => $alarma->ala_c_observacion,
+                          "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
+                          "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion));
+            
+            $lista_comunas = $this->alarma_comuna_model->listaComunasPorAlarma($alarma->ala_ia_id);
+            foreach($lista_comunas as $comuna){
+                $data["lista_comunas"][] = $comuna["com_ia_id"];
+            }
+            
+            $this->load->view("pages/emergencia/form-nueva", $data);
+        } else {
             show_404();
         }
-
-
-        if (isset($params['k']) && !$this->session->userdata('session_idUsuario')) {
-            $this->load->model("usuario_model", "UsuarioModel");
-            $val = $this->UsuarioModel->validaKey($params['k']);
-            if ($val['activo'] == 1) {
-                $this->UsuarioModel->nologin($val['usu_c_rut']);
+    }
+    
+    public function json_guardar_emergencia(){
+        $this->load->library("validar");
+        
+        $correcto = true;
+        $error    = array();
+        
+        $params = $this->input->post(null, true);
+        
+        $alarma = $this->alarma_model->getById($params["id"]);
+        if(!is_null($alarma)){
+                        
+            if(!$this->validar->validarVacio($params["nueva_nombre_informante"])){
+                $correcto = false;
+                $error["nueva_nombre_informante"] = "Debe ingresar el nombre del informante";
             } else {
-                sessionValidation();
+                $error["nueva_nombre_informante"] = "";
             }
-        } else if (!isset($params['k'])) {
-
-            sessionValidation();
-        }
-        $data['ala_ia_id'] = $params['id'];
-        date_default_timezone_set("America/Argentina/Buenos_Aires");
-        $this->load->model("emergencia_model", "EmergenciaModel");
-        $estado_alerta = $this->EmergenciaModel->revisaEstado($params);
-
-        switch ($estado_alerta) {
-            case $this->EmergenciaModel->activado:
-                $this->template->parse("default", "pages/emergencia/activada", $data);
-                break;
-            case $this->EmergenciaModel->rechazado:
-                $this->template->parse("default", "pages/emergencia/anulada", $data);
-                break;
-            default :$this->template->parse("default", "pages/emergencia/generaEmergencia", $data);
-                break;
+            
+            if(!$this->validar->validarVacio($params["nueva_nombre_emergencia"])){
+                $correcto = false;
+                $error["nueva_nombre_emergencia"] = "Debe ingresar el nombre de la emergencia";
+            } else {
+                $error["nueva_nombre_emergencia"] = "";
+            }
+            
+            if(!$this->validar->validarVacio($params["nueva_nombre_lugar"])){
+                $correcto = false;
+                $error["nueva_nombre_lugar"] = "Debe ingresar el nombre del lugar";
+            } else {
+                $error["nueva_nombre_lugar"] = "";
+            }
+            
+            if(!$this->validar->validarVacio($params["nueva_tipo_emergencia"])){
+                $correcto = false;
+                $error["nueva_tipo_emergencia"] = "Debe ingresar un tipo de emergencia";
+            } else {
+                $error["nueva_tipo_emergencia"] = "";
+            }
+            
+           
+            
+            $respuesta = array();
+            if($correcto){
+                //parche para codigo antiguo
+                $respuesta = $this->emergencia_model->guardarEmergencia(array("iNombreInformante" => $params["nueva_nombre_informante"],
+                                                                              "iTelefonoInformante" => $params["nueva_telefono_informante"],
+                                                                              "iNombreEmergencia" => $params["nueva_nombre_emergencia"],
+                                                                              "iTiposEmergencias" => $params["nueva_tipo_emergencia"],
+                                                                              "iLugarEmergencia" => $params["nueva_nombre_lugar"],
+                                                                              "fechaEmergencia" => $params["nueva_fecha_emergencia"],
+                                                                              "fechaRecepcion" => $params["nueva_fecha_recepcion"],
+                                                                              "ala_ia_id" => $params["id"],
+                                                                              "iObservacion" => $params["nueva_observacion"],
+                                                                              "iComunas" => $params["nueva_comunas"]));
+            }
+            
+            $respuesta["correcto"] = $correcto;
+            $respuesta["error"]    = $error;
+            
+            echo json_encode($respuesta);
+        } else {
+            show_404();
         }
     }
-
-    public function rechaza() {
-        $this->load->helper(array("session", "debug"));
-        sessionValidation();
+    
+    /**
+     * Rechaza la alarma
+     */
+    public function json_rechaza_alarma() {
         $params = $this->input->post(null, true);
-        $this->load->library(array("template"));
-        $this->load->model("emergencia_model", "EmergenciaModel");
-        if ($res_guardar = $this->EmergenciaModel->rechazaEmergencia($params)) {
-            
+        $alarma = $this->alarma_model->getById($params["id"]);
+        if(!is_null($alarma)){
+            $this->alarma_model->update(array("est_ia_id" => Alarma_Estado_Model::RECHAZADO), $alarma->ala_ia_id);
+            echo json_encode(array("correcto" => true));
+        } else {
+            show_404();
         }
-        echo ($res_guardar) ? 1 : 0;
     }
 
     public function jsonTiposEmergencias() {
@@ -168,17 +251,6 @@ class Emergencia extends CI_Controller {
         }
 
         echo json_encode($json);
-    }
-
-    public function ingreso() {
-        $this->load->helper(array("session", "debug"));
-        sessionValidation();
-        $params = $this->input->post(null, true);
-        $data = array();
-        $data["lastPage"] = "alarma/ingreso";
-        $this->load->library(array("template"));
-        $this->load->model("emergencia_model", "EmergenciaModel");
-        echo $this->EmergenciaModel->guardarEmergencia($params);
     }
 
     public function getAlarma() {

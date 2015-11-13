@@ -32,7 +32,7 @@ var FormEmergenciasCerrar = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia/cerrarEmergencia", 
+            url: siteUrl + "emergencia/json_finalizar_emergencia", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -62,7 +62,7 @@ var FormEmergenciasCerrar = Class({
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "emergencia/formCerrar/id/" + this.id, 
+            url: siteUrl + "emergencia/form_finalizar/id/" + this.id, 
             error: function(xhr, textStatus, errorThrown){
 
             },

@@ -16,10 +16,14 @@ var Dashboard = Class({
         $.getScript(baseUrl + "assets/js/modulo/emergencia/form-emergencias-cerrar.js");
         $.getScript(baseUrl + "assets/js/modulo/home/form-emergencias-cerrar-dashboard.js");
         
+        $.getScript(baseUrl + "assets/js/modulo/emergencia/form-emergencias-nueva.js");
+        $.getScript(baseUrl + "assets/js/modulo/home/form-emergencias-nueva-dashboard.js");
+        
         this.loadDashboard();
         
         this.bindBtnEmergenciaFinalizar();
         this.bindBtnEmergenciaEditar();
+        this.bindBtnEmergenciaNueva();
         
     },
     
@@ -219,6 +223,7 @@ var Dashboard = Class({
         var yo = this;
         
         $(".emergencia-cerrar").livequery(function(){
+            $(this).unbind( "click" );
             $(this).click(function(){
                 var id = $(this).attr("data");
                 var formulario = new FormEmergenciasCerrarDashboard(id, yo);	
@@ -227,10 +232,25 @@ var Dashboard = Class({
         });
     },
     
+    bindBtnEmergenciaNueva : function(){
+        var yo = this;
+        
+        $(".emergencia-nueva").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(){
+                var id = $(this).attr("data");
+                var formulario = new FormEmergenciasNuevaDashboard(id, yo);	
+                formulario.mostrarFormulario();
+            });
+        });
+        
+    },
+    
     // boton editar emergencias
     bindBtnEmergenciaEditar : function(){
         var yo = this;
         $(".emergencia-editar").livequery(function(){
+            $(this).unbind( "click" );
             $(this).click(function(){
                 var id = $(this).attr("data");
                 
@@ -246,6 +266,7 @@ var Dashboard = Class({
         });
         
         $("#btnCancelar").livequery(function(){
+            $(this).unbind( "click" );
             $(this).click(function(){
                 $("#contenedor-home").fadeOut(function(){
                     $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
@@ -270,6 +291,7 @@ var Dashboard = Class({
         $("#contendor-grilla-emergencia").html(spinner); 
     }
 });
+
 
 $(document).ready(function() {
     var dashboard = new Dashboard();	

@@ -49,9 +49,6 @@ var Alarma = {};
     }
     this.inicioIngreso = function () {
 
-
-
-
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
         $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
             handlerLoad: function () {
@@ -414,8 +411,10 @@ var Alarma = {};
 
         
     };
+    
     this.generaEmergencia = function (ala_ia_id) {
-        window.open(siteUrl + 'emergencia/generaEmergencia/id/' + ala_ia_id, '_blank');
+        var formulario = new FormEmergenciasNueva(ala_ia_id);	
+        formulario.mostrarFormulario();
     };
 
     this.limpiar = function () {
@@ -423,7 +422,7 @@ var Alarma = {};
         $('#iComunas').picklist('destroy');
         $('#iComunas').picklist();
     };
-
+    
     this.cancelarEdicion = function(){
         $("#div_tab_2").fadeOut(function(){
             $("#div_tab_2").html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){

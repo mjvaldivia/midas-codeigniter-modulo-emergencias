@@ -124,7 +124,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="portlet-body">
-                            <div id="contendor-grilla-emergencia" class="table-responsive">
+                            <div id="contendor-grilla-emergencia" class="table-responsive" style="min-height: 400px">
                                 <div class="col-lg-12 text-center">
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>
@@ -159,7 +159,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="portlet-body" >
-                            <div id="contendor-grilla-alarma" class="table-responsive">
+                            <div id="contendor-grilla-alarma" class="table-responsive" style="min-height: 400px">
                                 <div class="col-lg-12 text-center">
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>
@@ -231,5 +231,8 @@
 <?= loadJS("assets/lib/flot/jquery.flot.tooltip.min.js", true) ?>
 
 <?= loadJS("assets/js/bootbox.min.js", true) ?>
+
+<?= loadCSS("assets/lib/picklist/picklist.css") ?>
+<?= loadJS("assets/lib/picklist/picklist.js") ?>
 
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>
