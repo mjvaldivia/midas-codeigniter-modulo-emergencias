@@ -67,10 +67,19 @@ var Alarma = {};
     };
 
     this.inicioListado = function () {
+        
+        var yo = this;
+        
         $("#TiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
         //$("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas", {selected_value: 3});
         $("#btnBuscarAlarmas").click(this.eventoBtnBuscar);
-        this.eventoBtnBuscar();
+        
+        $.getScript(baseUrl + "assets/js/modulo/general/permisos.js", function(){
+            yo.eventoBtnBuscar();
+        });
+
+        
+        
         $(window).resize(function () {
             $("table").css("width", "100%");
         });
@@ -107,6 +116,8 @@ var Alarma = {};
         tabla.destroy();
         $('#tblAlarmas').empty();
 
+        var permisos_alarma = new Permisos("alarma");	
+        var permisos_emergencia = new Permisos("emergencia");
 
         $.ajax({
             format: "json",
@@ -195,17 +206,31 @@ var Alarma = {};
                     html += "        </div>";
                     html += "    </div>";
                     html += "    <div class=\"col-md-2 text-center\">";
+                    
+                    
                     html += "       <div class=\"btn-group\">";
-                    html += "           <a title=\"Generar emergencia\" class=\"btn btn-default btn-square " + disabled + "\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
-                    html += "               <i class=\"fa fa-bullhorn\"></i>";
-                    html += "            </a>";
-                    html += "           <a title=\"Editar\" class=\"btn btn-default btn-square" + disabled + "\" onclick=Alarma.editarAlarma(" + row.ala_ia_id + ")>";
-                    html += "               <i class=\"fa fa-pencil\"></i>";
-                    html += "           </a>";
-                    html += "           <a title=\"Eliminar\" class=\"btn btn-default btn-square \" onclick=Alarma.eliminarAlarma(" + row.ala_ia_id + ")>";
-                    html += "               <i class=\"fa fa-trash\"></i>";
-                    html += "           </a>";
+                    
+                    if(permisos_emergencia.getNuevo()){
+                        html += "           <a title=\"Generar emergencia\" class=\"btn btn-default btn-square " + disabled + "\" onclick=Alarma.generaEmergencia(" + row.ala_ia_id + "); >";
+                        html += "               <i class=\"fa fa-bullhorn\"></i>";
+                        html += "            </a>";
+                    }
+                    
+                    if(permisos_alarma.getEditar()){
+                        html += "           <a title=\"Editar\" class=\"btn btn-default btn-square" + disabled + "\" onclick=Alarma.editarAlarma(" + row.ala_ia_id + ")>";
+                        html += "               <i class=\"fa fa-pencil\"></i>";
+                        html += "           </a>";
+                    }
+                    
+                    if(permisos_alarma.getEliminar()){
+                        html += "           <a title=\"Eliminar\" class=\"btn btn-default btn-square \" onclick=Alarma.eliminarAlarma(" + row.ala_ia_id + ")>";
+                        html += "               <i class=\"fa fa-trash\"></i>";
+                        html += "           </a>";
+                    }
+                    
                     html += "       </div>";
+                    
+                    
                     html += "    </div>";
                     html += "</div>";
 

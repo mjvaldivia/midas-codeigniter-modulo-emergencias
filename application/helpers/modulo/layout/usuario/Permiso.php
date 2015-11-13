@@ -1,6 +1,6 @@
 <?php
 
-Class Layout_Rol_Monitor{
+Class Layout_Usuario_Permiso{
     
     /**
      *
@@ -20,10 +20,17 @@ Class Layout_Rol_Monitor{
     public function __construct() {
         $this->_ci =& get_instance();
         $this->_ci->load->library("usuario");
-        
         $this->_ci->load->model("rol_model");
-
         $this->usuario = New Usuario();
+    }
+    
+    /**
+     * Retorna si el usuario puede ver o no el modulo
+     * @param modulo $modulo
+     * @return boolean
+     */
+    public function puedeVer($modulo){
+        return $this->usuario->getPermisoVer();
     }
     
     /**
@@ -31,7 +38,7 @@ Class Layout_Rol_Monitor{
      * no puede modificar nada
      * @return boolean
      */
-    public function puedeEditar(){
+    public function puedeEditar($modulo){
         return !$this->usuario->tieneRol(Rol_Model::MONITOR);
     }
 }

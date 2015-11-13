@@ -18,7 +18,7 @@ var Dashboard = Class({
         
         this.loadDashboard();
         
-        this.bindBtnEmergenciaCerrar();
+        this.bindBtnEmergenciaFinalizar();
         this.bindBtnEmergenciaEditar();
         
     },
@@ -48,8 +48,7 @@ var Dashboard = Class({
      * @returns void
      */
     loadGridAlarma : function(){
-        /*
-        var params = {"desde" : $("#fecha_desde").val(),
+        /*var params = {"desde" : $("#fecha_desde").val(),
                       "hasta" : $("#fecha_hasta").val()};*/
     
         $.ajax({         
@@ -175,7 +174,7 @@ var Dashboard = Class({
      * @returns void
      */
     loadGraficoEmergenciasTipo : function(){
-        $.ajax({         
+       /* $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
@@ -200,7 +199,7 @@ var Dashboard = Class({
                         },
                         tooltip: true,
                         tooltipOpts: {
-                            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                            content: "%p.0%, %s", 
                             shifts: {
                                 x: 20,
                                 y: 0
@@ -210,11 +209,11 @@ var Dashboard = Class({
                     });  
                 }
             }
-        }); 
+        }); */
     },
     
-    // boton cerrar emergencias
-    bindBtnEmergenciaCerrar : function(){
+    // boton finalizar emergencias
+    bindBtnEmergenciaFinalizar : function(){
         var yo = this;
         
         $(".emergencia-cerrar").livequery(function(){

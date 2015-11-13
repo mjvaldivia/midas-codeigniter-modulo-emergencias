@@ -1,4 +1,3 @@
-<!-- begin PAGE TITLE AREA -->
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
@@ -10,204 +9,200 @@
             </ol>
         </div>
     </div>
-    <!-- /.col-lg-12 -->
 </div>
-<!-- /.row -->
-<!-- end PAGE TITLE AREA -->
 
 <div id="contenedor-home">
 
-<!-- begin DASHBOARD CIRCLE TILES -->
-<div class="row">
-    <div class="col-lg-12 col-sm-12">
-        <div class="row">
-            
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="circle-tile">
-                    <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>">
-                        <div class="circle-tile-heading orange">
-                            <i class="fa fa-bell fa-fw fa-3x"></i>
-                        </div>
-                    </a>
-                    <div class="circle-tile-content orange">
-                        <div class="circle-tile-description text-faded">
-                            Alarmas
-                        </div>
-                        <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-           
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="circle-tile">
-                    <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>">
-                        <div class="circle-tile-heading red">
-                            <i class="fa fa-bullhorn fa-fw fa-3x"></i>
-                        </div>
-                    </a>
-                    <div class="circle-tile-content red">
-                        <div class="circle-tile-description text-faded">
-                            Emergencias
-                        </div>
-                        <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="circle-tile">
-                    <a href="<?= site_url("capas/ingreso") ?>">
-                        <div class="circle-tile-heading blue">
-                            <i class="fa fa-globe fa-fw fa-3x"></i>
-                        </div>
-                    </a>
-                    <div class="circle-tile-content blue">
-                        <div class="circle-tile-description text-faded">
-                            Capas
-                        </div>
-                        <a href="<?= site_url("capas/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="circle-tile">
-                    <a href="#">
-                        <div class="circle-tile-heading green">
-                            <i class="fa fa-flag-checkered fa-fw fa-3x"></i>
-                        </div>
-                    </a>
-                    <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded">
-                            Simulación
-                        </div>
-                        <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="circle-tile">
-                    <a href="#">
-                        <div class="circle-tile-heading dark-blue">
-                            <i class="fa fa-book fa-fw fa-3x"></i>
-                        </div>
-                    </a>
-                    <div class="circle-tile-content dark-blue">
-                        <div class="circle-tile-description text-faded">
-                            Documentación
-                        </div>
-                        <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="circle-tile">
-                    <a href="<?= site_url("soportes/bandeja_usuario") ?>">
-                        <div class="circle-tile-heading dark-gray">
-                            <i class="fa fa-question-circle fa-fw fa-3x"></i>
-                        </div>
-                    </a>
-                    <div class="circle-tile-content dark-gray">
-                        <div class="circle-tile-description text-faded">
-                            Mesa de ayuda
-                        </div>
-                        <a href="<?= site_url("soportes/bandeja_usuario") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12 col-sm-12">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="portlet portlet-default">
-                    <div class="portlet-heading">
-                        <div class="portlet-title">
-                            <h4><i class="fa fa-list-ul"></i> Ultimas emergencias</h4>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="portlet-body">
-                        <div id="contendor-grilla-emergencia" class="table-responsive">
-                            <div class="col-lg-12 text-center">
-                                <i class="fa fa-4x fa-spin fa-spinner"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="portlet portlet-default">
-                    <div class="portlet-heading">
-                        <div class="portlet-title">
-                            <h4><i class="fa fa-pie-chart"></i> Gráfico emergencias/tipo</h4>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div id="donutChart" class="portlet-body" style="height: 500px; padding-top: 100px">
-                        <div class="flot-chart">
-                            <div class="flot-chart-content" id="flot-chart-pie" style="height: 200px"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="portlet portlet-default">
-                    <div class="portlet-heading">
-                        <div class="portlet-title">
-                            <h4><i class="fa fa-list-ul"></i> Ultimas alarmas</h4>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="portlet-body" >
-                        <div id="contendor-grilla-alarma" class="table-responsive">
-                            <div class="col-lg-12 text-center">
-                                <i class="fa fa-4x fa-spin fa-spinner"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="portlet portlet-default">
-                    <div class="portlet-heading">
-                        <div class="portlet-title">
-                            <h4><i class="fa fa-line-chart"></i> Gráfico de emergencia por mes</h4>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div id="lineChart" class="panel-collapse collapse in">
-                        <div class="portlet-body" style="height: 555px;padding-top: 100px">
-                            <div id="morris-chart-line"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="row">
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="portlet portlet-blue">
-            <div class="portlet-heading">
-                <div class="portlet-title">
-                    <h4><i class="fa fa-calendar"></i> Calendario</h4>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="circle-tile">
+                        <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>">
+                            <div class="circle-tile-heading orange">
+                                <i class="fa fa-bell fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content orange">
+                            <div class="circle-tile-description text-faded">
+                                Alarmas
+                            </div>
+                            <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
                 </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="portlet-body">
-                <div class="table-responsive">
-                    <div id="calendar"></div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="circle-tile">
+                        <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>">
+                            <div class="circle-tile-heading red">
+                                <i class="fa fa-bullhorn fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content red">
+                            <div class="circle-tile-description text-faded">
+                                Emergencias
+                            </div>
+                            <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="circle-tile">
+                        <a href="<?= site_url("capas/ingreso") ?>">
+                            <div class="circle-tile-heading blue">
+                                <i class="fa fa-globe fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content blue">
+                            <div class="circle-tile-description text-faded">
+                                Capas
+                            </div>
+                            <a href="<?= site_url("capas/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="circle-tile">
+                        <a href="#">
+                            <div class="circle-tile-heading green">
+                                <i class="fa fa-flag-checkered fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content green">
+                            <div class="circle-tile-description text-faded">
+                                Simulación
+                            </div>
+                            <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="circle-tile">
+                        <a href="#">
+                            <div class="circle-tile-heading dark-blue">
+                                <i class="fa fa-book fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content dark-blue">
+                            <div class="circle-tile-description text-faded">
+                                Documentación
+                            </div>
+                            <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="circle-tile">
+                        <a href="<?= site_url("soportes/bandeja_usuario") ?>">
+                            <div class="circle-tile-heading dark-gray">
+                                <i class="fa fa-question-circle fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content dark-gray">
+                            <div class="circle-tile-description text-faded">
+                                Mesa de ayuda
+                            </div>
+                            <a href="<?= site_url("soportes/bandeja_usuario") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- end DASHBOARD CIRCLE TILES -->
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet portlet-default">
+                        <div class="portlet-heading">
+                            <div class="portlet-title">
+                                <h4><i class="fa fa-list-ul"></i> Emergencias en curso</h4>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="portlet-body">
+                            <div id="contendor-grilla-emergencia" class="table-responsive">
+                                <div class="col-lg-12 text-center">
+                                    <i class="fa fa-4x fa-spin fa-spinner"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="col-lg-4">
+                    <div class="portlet portlet-default">
+                        <div class="portlet-heading">
+                            <div class="portlet-title">
+                                <h4><i class="fa fa-pie-chart"></i> Gráfico emergencias/tipo</h4>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div id="donutChart" class="portlet-body" style="height: 500px; padding-top: 100px">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-chart-pie" style="height: 200px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="portlet portlet-default">
+                        <div class="portlet-heading">
+                            <div class="portlet-title">
+                                <h4><i class="fa fa-list-ul"></i> Alarmas en revisión</h4>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="portlet-body" >
+                            <div id="contendor-grilla-alarma" class="table-responsive">
+                                <div class="col-lg-12 text-center">
+                                    <i class="fa fa-4x fa-spin fa-spinner"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="portlet portlet-default">
+                        <div class="portlet-heading">
+                            <div class="portlet-title">
+                                <h4><i class="fa fa-line-chart"></i> Gráfico de emergencia por mes</h4>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div id="lineChart" class="panel-collapse collapse in">
+                            <div class="portlet-body" style="height: 555px;padding-top: 100px">
+                                <div id="morris-chart-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet portlet-blue">
+                <div class="portlet-heading">
+                    <div class="portlet-title">
+                        <h4><i class="fa fa-calendar"></i> Calendario</h4>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

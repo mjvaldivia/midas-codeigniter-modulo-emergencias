@@ -12,7 +12,25 @@ Class Usuario{
      *
      * @var CI_Session 
      */
-    protected $session;
+    protected $_session;
+    
+    /**
+     *
+     * @var Modulo_Model 
+     */
+    protected $_modulo_model;
+    
+    /**
+     *
+     * @var Permiso_Model
+     */
+    protected $_permiso_model;
+    
+    /**
+     *
+     * @var int
+     */
+    protected $_id_modulo;
     
     /**
      * 
@@ -20,7 +38,43 @@ Class Usuario{
     public function __construct() {
         $this->_ci =& get_instance();
         $this->_ci->load->library("session");
-        $this->session = New CI_Session();
+        $this->_ci->load->model("modulo_model");
+        $this->_ci->load->model("permiso_model");
+        
+        $this->_session       = New CI_Session();
+        $this->_modulo_model = New Modulo_Model();
+        $this->_permiso_model = New Permiso_Model();
+    }
+    
+    /**
+     * Setea modulo actual
+     * @param string $modulo
+     * @throws Exception
+     */
+    public function setModulo($modulo){
+        switch ($modulo) {
+            case "alarma":
+                $this->_id_modulo = Modulo_Model::SUB_MODULO_ALARMA;
+                break;
+            case "emergencia":
+                $this->_id_modulo = Modulo_Model::SUB_MODULO_EMERGENCIA;
+                break;
+            case "capas":
+                $this->_id_modulo = Modulo_Model::SUB_MODULO_CAPAS;
+                break;
+            default:
+                throw new Exception("No se encontro el modulo");
+                break;
+        } 
+    }
+    
+    /**
+     * Retorna arreglo con identificadores de roles
+     * @return array
+     */
+    public function listarRoles(){
+        $roles = explode(",", $this->_session->userdata("session_roles"));
+        return $roles;
     }
     
     /**
@@ -29,11 +83,28 @@ Class Usuario{
      * @return boolean
      */
     public function tieneRol($id_rol){
-        $roles = explode(",", $this->session->userdata("session_roles"));
+        $roles = $this->listarRoles();
         if(array_search($id_rol, $roles) === false){
             return false;
         } else {
             return true;
+        }
+    }
+    
+    public function getPermisoEditar(){
+        
+    }
+    
+    /**
+     * Si tiene o no permisos para ver el modulo
+     * @return boolean
+     */
+    public function getPermisoVer(){
+        $cantidad = $this->_permiso_model->tieneAccesoModulo($this->listarRoles(), $this->_id_modulo);
+        if($cantidad > 0){
+            return true;
+        } else {
+            return false;
         }
     }
 }

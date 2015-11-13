@@ -57,7 +57,9 @@ var Emergencia = {};
 
 
     this.inicioListado = function () {
-
+        
+        var yo = this;
+        
         $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
 
         /*$("#btnBuscar").click(this.eventoBtnBuscar);*/
@@ -65,7 +67,12 @@ var Emergencia = {};
         $(window).resize(function () {
             $("table").css("width", "100%");
         });
-        this.eventoBtnBuscar();
+        
+        $.getScript(baseUrl + "assets/js/modulo/general/permisos.js", function(){
+            yo.eventoBtnBuscar();
+        });
+        
+        
     };
 
     this.eventoBtnBuscar = function () {
@@ -92,6 +99,9 @@ var Emergencia = {};
         var tabla = $('#tblEmergencias').DataTable();
         tabla.destroy();
         $('#tblEmergencias').empty();
+
+        var permisos = new Permisos("emergencia");	
+        
 
         $.get(url).done(function (retorno) {
             var json = JSON.parse(retorno);
@@ -172,7 +182,11 @@ var Emergencia = {};
                 html += "    </div>";
                 html += "    <div class=\"col-md-3 text-center\">";
                 html += "       <div class=\"btn-group\">";
-                html += "     <a data-toggle='modal' class='btn btn-primary modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"/eme_ia_id/"+row.eme_ia_id+"' data-title='Administracion del Reporte' data-success='exportarMapa("+row.eme_ia_id+");' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
+                
+                
+                if(permisos.getEditar()){
+                    html += "     <a data-toggle='modal' class='btn btn-primary modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"/eme_ia_id/"+row.eme_ia_id+"' data-title='Administracion del Reporte' data-success='exportarMapa("+row.eme_ia_id+");' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
+                }
 //                html += "           <a title=\"Reporte\" class=\"btn btn-default\" onclick=Emergencia.openIframe(" + row.eme_ia_id + "); >";
                // html += "               <i class=\"fa fa-fa2x fa-file-text-o\"></i>";
                // html += "           </a>";
@@ -181,15 +195,21 @@ var Emergencia = {};
                 html += "           </a>";
                 
                 if(row.est_ia_id != 2){
-                    html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Cerrar emergencia\" class=\"btn btn-primary\" onclick=Emergencia.cerrar(" + row.eme_ia_id + ");>";
-                    html += "               <i class=\"fa fa-fa2x fa-check\"></i>";
-                    html += "           </a>";
-                    html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Editar\" class=\"btn btn-primary\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
-                    html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
-                    html += "           </a>";
-                    html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Eliminar\" class=\"btn btn-primary\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
-                    html += "               <i class=\"fa fa-fa2x fa-trash\"></i>";
-                    html += "           </a>";
+                    if(permisos.getEditar()){
+                        html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Cerrar emergencia\" class=\"btn btn-primary\" onclick=Emergencia.cerrar(" + row.eme_ia_id + ");>";
+                        html += "               <i class=\"fa fa-fa2x fa-check\"></i>";
+                        html += "           </a>";
+                    
+                        html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Editar\" class=\"btn btn-primary\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
+                        html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
+                        html += "           </a>";
+                    }
+                    
+                    if(permisos.getEliminar()){
+                        html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Eliminar\" class=\"btn btn-primary\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
+                        html += "               <i class=\"fa fa-fa2x fa-trash\"></i>";
+                        html += "           </a>";
+                    }
                 }
                 
                 html += "       </div>";

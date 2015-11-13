@@ -7,6 +7,54 @@
  */
 class Session extends CI_Controller
 {
+    
+    /**
+     *
+     * @var template
+     */
+    public $template;
+    
+    /**
+     *
+     * @var Usuario 
+     */
+    public $usuario;
+    
+    
+    /**
+     *
+     * @var Rol_Model 
+     */
+    public $rol_model;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library("usuario");
+        $this->load->model("rol_model", "rol_model");
+    }
+    
+    /**
+     * Ve si el usuario tiene permisos para editar
+     */
+    public function json_puede_editar(){
+        $params = $this->input->post(null, true);
+
+        $this->usuario->setModulo($params["modulo"]);
+        
+        $retorno = array("ver"    => $this->usuario->getPermisoVer(),
+                         "editar" => true,
+                         "nuevo"  => true,
+                         "eliminar" => true);
+        
+        
+        $retorno["correcto"] = true;
+        
+        echo json_encode($retorno);
+    }
+    
     public function obtenerJsonComunas() {
         $this->load->model("session_model", "Sesion");
 
