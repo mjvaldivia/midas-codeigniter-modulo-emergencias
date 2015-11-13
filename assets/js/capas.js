@@ -269,7 +269,7 @@ var Layer = {};
             language: "es",
             multiple: false,
             uploadAsync: true,
-            initialCaption: "Seleccione una o varias capas GeoJson",
+            initialCaption: "Seleccione una capa GeoJson",
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
         

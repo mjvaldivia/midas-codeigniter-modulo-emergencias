@@ -85,7 +85,7 @@
                     <input id="icon-editar" value='<?php echo $icono?>' name="icon-editar" class="form-control required" placeholder="Icono de la(s) Capa(s)" type="hidden" />
                     
                 </div>
-                <div class="col-md-2"><img id='img_icon_editar' height="32px" src="<?php echo $capa->icono?>"/></div>
+                <div class="col-md-2"><img id='img_icon_editar' height="32px" src="<?php echo base_url() . $capa->icono?>"/></div>
             </div>
             
             <div class="form-group">
