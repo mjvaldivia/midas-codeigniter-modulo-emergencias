@@ -266,10 +266,14 @@ class Emergencia_Model extends MY_Model {
      * 
      * @param array $params filtros array("tipoEmergencia", "anio", "estado_emergencia)
      * @return array
+     * --
+     * Vladimir: se agrega lista de comunas 
      */
     public function filtrarEmergencias($params) {
-        $query = $this->_query->select("e.*, "
-                                     . "te.aux_c_nombre as eme_c_tipo_emergencia")
+        $query = $this->_query->select("e.*, (select GROUP_CONCAT(c.com_c_nombre SEPARATOR ', ') from comunas c
+                                       join    emergencias_vs_comunas evc on c.com_ia_id = evc.com_ia_id
+                                       where evc.eme_ia_id = e.eme_ia_id
+                                     ) comunas, te.aux_c_nombre as eme_c_tipo_emergencia")
                               ->from($this->_tabla . " e")
                               ->join("auxiliar_emergencias_tipo te", "e.tip_ia_id = te.aux_ia_id", "INNER");
         

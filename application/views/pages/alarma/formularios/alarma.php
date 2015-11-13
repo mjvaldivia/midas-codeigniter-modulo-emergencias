@@ -1,7 +1,7 @@
 <div class="col-xs-12">
 <form  class="form-horizontal"  name='frmIngresoAlarma' id='frmIngresoAlarma' >
     <input type="hidden" name="ala_ia_id" id="ala_ia_id" value="<?= $ala_ia_id ?>" />
-    <div class="portlet portlet-green">
+    <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title"><h4>Datos de la alarma</h4></div>
         </div>

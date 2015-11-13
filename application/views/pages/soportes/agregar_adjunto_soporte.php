@@ -1,5 +1,5 @@
 <div class="col-xs-12">
-    <div class="portlet portlet-green">
+    <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
                 <h4>Adjuntar Archivo</h4>

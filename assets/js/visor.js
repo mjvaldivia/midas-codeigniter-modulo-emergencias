@@ -507,14 +507,30 @@ var VisorMapa = {
 
     $("#ctrlLayers").click(function () {
 
-        $("#wrapper").toggleClass("toggled");
+       
         
         var items = $('#selected_items').val().split(',');
         
         $.get(siteUrl + 'visor/obtenerCapasDT/eme_ia_id/'+ $('#hIdEmergencia').val()+'/id/' + items, function (data) {
+            
             var html = '';
             var json = JSON.parse(data);
-            $.each(json, function (k, v) {
+            if(json.length==0)
+            {
+                bootbox.dialog({
+                        title: "Resultado de la operacion",
+                        message: 'no hay capas de las comunas de la emergencia',
+                        buttons: {
+                            danger: {
+                                label: "Cerrar",
+                                className: "btn-danger"
+                            }
+                        }
+                    });
+                    return false;
+            } 
+            $("#wrapper").toggleClass("toggled");
+            $.each$("#wrapper").toggleClass("toggled");(json, function (k, v) {
                 html += '<li id=' + v.cap_ia_id + ' class="ui-state-default"><div class=checkbox><i class="fa fa-sort"></i><label>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;<img src="' + baseUrl + v.arch_c_nombre + '" height="24">&nbsp;' + v.cap_c_nombre + '</label></div></li>';
             });
             $('#sortable').html(html);

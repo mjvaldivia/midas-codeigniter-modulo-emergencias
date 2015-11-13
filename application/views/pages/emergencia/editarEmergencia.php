@@ -11,7 +11,7 @@
 <form  class="form-horizontal"  name='frmEditarEmergencia' id='frmEditarEmergencia'>
     <input type="hidden" id="ala_ia_id" name="ala_ia_id">
     <input type="hidden" id="eme_ia_id" name="eme_ia_id" value="<?php echo $eme_ia_id?>">
-    <div class="portlet portlet-green">
+    <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
                 <h4>Datos de la emergencia</h4>
