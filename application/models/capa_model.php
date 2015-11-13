@@ -219,6 +219,8 @@ class Capa_Model extends CI_Model {
         $arr_arch = array();
         foreach ($result->result_array() as $row) {
             $link = "";
+            $arr_ruta = explode('/', $row['capa']);
+            $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
             if ($row['arch_c_hash'] != '') {
                 $link = "<a target='_blank' class='btn btn-xs btn-default' href=" . site_url("archivo/download_file/k/" . $row['arch_c_hash']) . ">Descargar</a>";
             }
@@ -228,6 +230,7 @@ class Capa_Model extends CI_Model {
                 $row['geozone'],
                 "<img src='" . base_url($row['icono']) . "' height='24' />",
                 $row['cap_c_propiedades'],
+                $nombre,
                 $link,
                 "<a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(".$row['cap_ia_id'].");' ><i class='fa fa-edit'></i></a> <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(".$row['cap_ia_id'].")'><i class='fa fa-trash'></i></a>"
             );

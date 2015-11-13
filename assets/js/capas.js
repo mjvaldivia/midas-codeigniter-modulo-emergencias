@@ -96,6 +96,7 @@ var Layer = {};
                     url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
                 },
                 order: [[0, "desc"]],
+                bPaginate: false,
                 initComplete: function(){
                     $(".iComunas").jCombo(siteUrl + "session/obtenerJsonComunas");
                    

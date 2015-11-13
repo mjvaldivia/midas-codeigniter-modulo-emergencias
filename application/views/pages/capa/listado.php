@@ -15,6 +15,7 @@
                 <td>Zona Geográfica</td>
                 <td>Ícono</td>
                 <td>Propiedades</td>
+                <td>Nombre Archivo</td>
                 <td>Archivo</td>
                 <td></td>
                 
