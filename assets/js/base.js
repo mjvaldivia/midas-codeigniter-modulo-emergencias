@@ -14,6 +14,8 @@ $(function() {
 
 $(document).ready(function() {
     
+    
+    
     $(".datepicker").livequery(function(){
         $(this).datetimepicker({
             format: "DD-MM-YYYY hh:mm"

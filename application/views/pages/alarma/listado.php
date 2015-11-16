@@ -1,4 +1,3 @@
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;
@@ -106,7 +105,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 <?= loadJS("assets/js/jquery.jcombo.js") ?>
 <?= loadJS("assets/js/alarmas.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js") ?>
-
+<?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>
 
 <script type="text/javascript">
     $(document).ready(function () {

@@ -1,3 +1,5 @@
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
@@ -234,5 +236,15 @@
 
 <?= loadCSS("assets/lib/picklist/picklist.css") ?>
 <?= loadJS("assets/lib/picklist/picklist.js") ?>
+
+<?= loadJS("assets/js/geo-encoder.js") ?>
+
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js"); ?>
+<?= loadJS("assets/js/modulo/home/form-emergencias-cerrar-dashboard.js"); ?>
+
+//Crear emergencia
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js"); ?>
+<?= loadJS("assets/js/modulo/home/form-emergencias-nueva-dashboard.js"); ?>
+<?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>
 
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>

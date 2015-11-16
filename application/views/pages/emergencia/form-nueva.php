@@ -3,7 +3,30 @@
     
     <div class="row">
         <div class="col-lg-4">
-            
+            <div class="row">
+            <div class="col-md-12">
+                    <input type="hidden" id="geozone" name="geozone" value="<?= $geozone ?>" /> 
+                    <h4>Lugar de referencia</h4>
+                    <div id="mapa" class="col-md-12 mapa-alarma" style="height: 400px !important;"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <br>
+                            <label>Lon:</label>
+                            <input id="nueva_longitud" name="nueva_longitud" type="number" value="<?= $longitud_utm ?>"
+                                   class="form-control required mapa-coordenadas" placeholder="longitud (e)">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <br>
+                            <label>Lat:</label>
+                            <input id="nueva_latitud" name="nueva_latitud" type="number" value="<?= $latitud_utm ?>"
+                                   class="form-control required mapa-coordenadas" placeholder="latitud (n)">
+                        </div>
+                    </div>
+
+            </div>
+            </div>
         </div>
         <div class="col-lg-8">
             <div class="row">

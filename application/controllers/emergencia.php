@@ -146,7 +146,10 @@ class Emergencia extends CI_Controller {
                           "nombre_lugar" => $alarma->ala_c_lugar_emergencia,
                           "observacion" => $alarma->ala_c_observacion,
                           "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
-                          "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion));
+                          "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion),
+                          "geozone" => $alarma->ala_c_geozone,
+                          "latitud_utm" => $alarma->ala_c_utm_lat,
+                          "longitud_utm" => $alarma->ala_c_utm_lng);
             
             $lista_comunas = $this->alarma_comuna_model->listaComunasPorAlarma($alarma->ala_ia_id);
             foreach($lista_comunas as $comuna){
@@ -221,6 +224,11 @@ class Emergencia extends CI_Controller {
                                                                               "ala_ia_id" => $params["id"],
                                                                               "iObservacion" => $params["nueva_observacion"],
                                                                               "iComunas" => $params["nueva_comunas"]));
+                
+                //se actualizan coordenadas de alarma
+                $this->alarma_model->update(array("ala_c_utm_lat" => $params["nueva_latitud"], 
+                                                  "ala_c_utm_lng" => $params["nueva_longitud"] ), 
+                                            $params["id"]);
             }
             
             $respuesta["correcto"] = $correcto;

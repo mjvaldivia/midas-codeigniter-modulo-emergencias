@@ -68,15 +68,12 @@ var Alarma = {};
         var yo = this;
         
         $("#TiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
-        //$("#iEstadoAlarma").jCombo(siteUrl + "alarma/jsonEstadosAlarmas", {selected_value: 3});
         $("#btnBuscarAlarmas").click(this.eventoBtnBuscar);
         
         $.getScript(baseUrl + "assets/js/modulo/general/permisos.js", function(){
             yo.eventoBtnBuscar();
         });
 
-        
-        
         $(window).resize(function () {
             $("table").css("width", "100%");
         });

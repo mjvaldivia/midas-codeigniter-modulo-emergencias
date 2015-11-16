@@ -4,6 +4,7 @@ var FormEmergenciasNueva = Class({
      * Identificador de la alarma
      */
     id_alarma : null,
+    mapa : null,
     
     /**
      * si se envio o no correctamente el email
@@ -17,8 +18,6 @@ var FormEmergenciasNueva = Class({
      */
     __construct : function(value) {
         this.id_alarma = value;
-        
-        //this.bindComunasPicklist();
     },
     
     /**
@@ -62,6 +61,11 @@ var FormEmergenciasNueva = Class({
     bindComunasPicklist : function(){
         $("#nueva_comunas").picklist(); 
     },
+    
+    bindMapa : function(){
+       var mapa = new AlarmaMapa("mapa");
+       mapa.cargaMapa(); 
+    } ,
     
     /**
      * Se rechaza creacion de emergencia
@@ -179,6 +183,8 @@ var FormEmergenciasNueva = Class({
                     }
                 });
                 yo.bindComunasPicklist();
+                yo.bindMapa();
+                
             }
         }); 
     }

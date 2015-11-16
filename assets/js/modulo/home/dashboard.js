@@ -13,13 +13,7 @@ var Dashboard = Class({
      */
     __construct : function() {
         
-        //Finalizar emergencias
-        $.getScript(baseUrl + "assets/js/modulo/emergencia/form-emergencias-cerrar.js");
-        $.getScript(baseUrl + "assets/js/modulo/home/form-emergencias-cerrar-dashboard.js");
         
-        //Crear emergencia
-        $.getScript(baseUrl + "assets/js/modulo/emergencia/form-emergencias-nueva.js");
-        $.getScript(baseUrl + "assets/js/modulo/home/form-emergencias-nueva-dashboard.js");
         
         this.loadDashboard();
         
