@@ -16,6 +16,10 @@ var FormEmergenciasNuevaDashboard = Class({ extends : FormEmergenciasNueva}, {
         this.super("__construct", id);
     },
     
+    /**
+     * Recarga de grillas de alarma y emergencias
+     * @returns {void]
+     */
     recargaGrilla : function(){
         this.dashboard.loadGridAlarma();
         this.dashboard.loadGridEmergencia();

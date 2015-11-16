@@ -5,6 +5,9 @@ var FormEmergenciasNueva = Class({
      */
     id_alarma : null,
     
+    /**
+     * si se envio o no correctamente el email
+     */
     bo_email_enviado : false,
     
     /**
@@ -35,6 +38,10 @@ var FormEmergenciasNueva = Class({
         notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);
     },
     
+    /**
+     * Se recarga lista con resultados de busqueda
+     * @returns void
+     */
     recargaGrilla : function(){
         $("#btnBuscarAlarmas").trigger("click");
     },
@@ -48,10 +55,18 @@ var FormEmergenciasNueva = Class({
         notificacionCorrecto("Resultado de la operacion", "Se ha rechazado correctamente");
     },
     
+    /**
+     * Se asigna plugin picklist a combo de comunas
+     * @returns void
+     */
     bindComunasPicklist : function(){
         $("#nueva_comunas").picklist(); 
     },
     
+    /**
+     * Se rechaza creacion de emergencia
+     * @returns {Boolean}
+     */
     rechazaEmergencia : function(){
         var yo = this;
         
@@ -115,7 +130,11 @@ var FormEmergenciasNueva = Class({
         
         return salida;
     },
-    // Despliega el formulario
+    
+    /**
+     * Muestra formulario para ingresar nueva emergencia
+     * @returns void
+     */
     mostrarFormulario : function(){
         
         var yo = this;
@@ -133,8 +152,8 @@ var FormEmergenciasNueva = Class({
             success:function(html){
                 bootbox.dialog({
                     message: html,
-                    size: "large",
-                    title: "Generar emergencia",
+                    className: "modal90",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Generar emergencia",
                     buttons: {
                         guardar: {
                             label: " Activar y generar emergencia",
@@ -159,7 +178,6 @@ var FormEmergenciasNueva = Class({
                         }
                     }
                 });
-                
                 yo.bindComunasPicklist();
             }
         }); 

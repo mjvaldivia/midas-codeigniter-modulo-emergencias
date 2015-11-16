@@ -12,10 +12,12 @@ var Dashboard = Class({
      * @returns void
      */
     __construct : function() {
-        //se cargan dependencias
+        
+        //Finalizar emergencias
         $.getScript(baseUrl + "assets/js/modulo/emergencia/form-emergencias-cerrar.js");
         $.getScript(baseUrl + "assets/js/modulo/home/form-emergencias-cerrar-dashboard.js");
         
+        //Crear emergencia
         $.getScript(baseUrl + "assets/js/modulo/emergencia/form-emergencias-nueva.js");
         $.getScript(baseUrl + "assets/js/modulo/home/form-emergencias-nueva-dashboard.js");
         
@@ -33,7 +35,6 @@ var Dashboard = Class({
      */
     loadDashboard : function(){
         this.loadGraficoEmergenciasMes();
-        //this.loadGraficoEmergenciasTipo();
         this.loadCalendario();
         this.loadGrid();
     },
@@ -52,9 +53,6 @@ var Dashboard = Class({
      * @returns void
      */
     loadGridAlarma : function(){
-        /*var params = {"desde" : $("#fecha_desde").val(),
-                      "hasta" : $("#fecha_hasta").val()};*/
-    
         $.ajax({         
             dataType: "html",
             cache: false,
@@ -76,9 +74,6 @@ var Dashboard = Class({
      * @returns void
      */
     loadGridEmergencia : function(){
-        /*var params = {"desde" : $("#fecha_desde").val(),
-                      "hasta" : $("#fecha_hasta").val()};*/
-    
         $.ajax({         
             dataType: "html",
             cache: false,
@@ -174,51 +169,10 @@ var Dashboard = Class({
     },
     
     /**
-     * carga el grafico de emergencias por tipo
-     * @returns void
+     * Asocia el evento para desplegar formulario para finalizar emergencia
+     * a boton
+     * @returns {void}
      */
-
-//    loadGraficoEmergenciasTipo : function(){
-//        $.ajax({         
-//            dataType: "json",
-//            cache: false,
-//            async: true,
-//            data: "",
-//            type: "post",
-//            url: siteUrl + "home/json_cantidad_emergencia_por_tipo", 
-//            error: function(xhr, textStatus, errorThrown){
-//
-//            },
-//            success:function(retorno){
-//                if(retorno.correcto){
-//                    var data = retorno.data;
-//
-//                    var plotObj = $.plot($("#flot-chart-pie"), data, {
-//                        series: {
-//                            pie: {
-//                                    show: true
-//                            }
-//                        },
-//                        grid: {
-//                            hoverable: true 
-//                        },
-//                        tooltip: true,
-//                        tooltipOpts: {
-//                            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-//                            shifts: {
-//                                x: 20,
-//                                y: 0
-//                            },
-//                            defaultTheme: false
-//                        }
-//                    });  
-//                }
-//            }
-//        }); 
-//    },
-
-    
-    // boton finalizar emergencias
     bindBtnEmergenciaFinalizar : function(){
         var yo = this;
         
@@ -232,6 +186,11 @@ var Dashboard = Class({
         });
     },
     
+    /**
+     * Asocia el evento para desplegar formulario para ingresar emergencia
+     * a boton
+     * @returns {void}
+     */
     bindBtnEmergenciaNueva : function(){
         var yo = this;
         
@@ -246,7 +205,11 @@ var Dashboard = Class({
         
     },
     
-    // boton editar emergencias
+    /**
+     * Asocia el evento para desplegar formulario para editar emergencia
+     * a boton
+     * @returns {void}
+     */
     bindBtnEmergenciaEditar : function(){
         var yo = this;
         $(".emergencia-editar").livequery(function(){
@@ -278,7 +241,10 @@ var Dashboard = Class({
         });
     },
     
-    // se limpia la vista de dashboard
+    /**
+     * Se limpia la vista
+     * @returns {void}
+     */
     limpiarVista : function(){
         
         var spinner = "<div class=\"col-lg-12 text-center\">"
@@ -292,7 +258,9 @@ var Dashboard = Class({
     }
 });
 
-
+/**
+ * Inicio front-end
+ */
 $(document).ready(function() {
     var dashboard = new Dashboard();	
 });

@@ -2153,3 +2153,7 @@ input[type="checkbox"]:checked::after,
     left: auto;
     bottom: auto;
 }
+
+.modal90 > .modal-dialog{
+    width:90% !important;
+}

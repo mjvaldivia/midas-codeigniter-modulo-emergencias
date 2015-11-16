@@ -29,5 +29,18 @@ Class Validar{
             return true;
         }
     }
+    
+    /**
+     * 
+     * @param array $array
+     * @return boolean
+     */
+    public function validarArregloVacio($array){
+        if(count($array)>0){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 

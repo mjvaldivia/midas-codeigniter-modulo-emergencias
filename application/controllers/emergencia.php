@@ -159,6 +159,9 @@ class Emergencia extends CI_Controller {
         }
     }
     
+    /**
+     * Guarda nueva emergencia
+     */
     public function json_guardar_emergencia(){
         $this->load->library("validar");
         
@@ -198,8 +201,13 @@ class Emergencia extends CI_Controller {
                 $error["nueva_tipo_emergencia"] = "";
             }
             
-           
-            
+            if(!$this->validar->validarArregloVacio($params["nueva_comunas"])){
+                $correcto = false;
+                $error["nueva_comunas"] = "Debe ingresar al menos una comuna";
+            } else {
+                $error["nueva_comunas"] = "";
+            }
+
             $respuesta = array();
             if($correcto){
                 //parche para codigo antiguo
