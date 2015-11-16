@@ -62,6 +62,12 @@ Class Usuario{
             case "capas":
                 $this->_id_modulo = Modulo_Model::SUB_MODULO_CAPAS;
                 break;
+            case "simulacion":
+                $this->_id_modulo = Modulo_Model::SUB_SIMULACION;
+                break;
+            case "documentacion":
+                $this->_id_modulo = Modulo_Model::SUB_DOCUMENTACION;
+                break;
             default:
                 throw new Exception("No se encontro el modulo");
                 break;

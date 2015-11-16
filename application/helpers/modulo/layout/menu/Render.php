@@ -11,6 +11,12 @@ Class Layout_Menu_Render{
      * @var CI_Controller 
      */
     protected $ci;
+    
+    /**
+     *
+     * @var Usuario 
+     */
+    protected $usuario;
         
     /**
      * Nombre action actual
@@ -34,23 +40,28 @@ Class Layout_Menu_Render{
                                                         "child" => array()),   
 
                                    "Alarmas" => array("icon_class" => "fa-bell",
+                                                      "permiso" => "alarma",
                                                       "controller" => "alarma",
                                                       "action" => "ingreso",
                                                       "child" => array()),   
                                    "Emergencias" => array("icon_class" => "fa-bullhorn",
+                                                      "permiso" => "emergencia",
                                                       "controller" => "emergencia",
                                                       "action" => "listado",
                                                       "child" => array()), 
                                    "Administrador de capas" => array("icon_class" => "fa-globe",
+                                                      "permiso" => "capas",
                                                       "controller" => "capas",
                                                       "action" => "ingreso",
                                                       "child" => array()),  
                                    "Simulación" => array("icon_class" => "fa-flag-checkered",
+                                                         "permiso" => "simulacion",
                                                          "controller" => "",
                                                          "action" => "",
                                                          "child" => array()), 
            
                                    "Documentación" => array("icon_class" => "fa-book",
+                                                            "permiso" => "documentacion",
                                                             "controller" => "",
                                                             "action" => "",
                                                             "child" => array()), 
@@ -79,8 +90,10 @@ Class Layout_Menu_Render{
      */
     public function __construct() {
         $this->ci =& get_instance();
+        $this->ci->load->library("usuario");
         $this->_controller = $this->ci->router->fetch_class();
         $this->_action = $this->ci->router->fetch_method();
+        $this->usuario = New Usuario();
     }
        
        
@@ -90,35 +103,44 @@ Class Layout_Menu_Render{
     public function render(){
         $html = "";
         foreach($this->_paginas as $name => $datos){
-            if(count($datos['child'])>0){
-                $target = strtolower(str_replace(" ", "", $name));
-                
-                $child = $this->_listChildren($datos['child']);
-                
-                $class = "";
-                if($child['active']){
-                    $class = "in";
+            $ver = true;
+            
+            if(isset($datos["permiso"])){
+                $this->usuario->setModulo($datos["permiso"]);
+                $ver = $this->usuario->getPermisoVer();
+            }
+            
+            if($ver){
+                if(count($datos['child'])>0){
+                    $target = strtolower(str_replace(" ", "", $name));
+
+                    $child = $this->_listChildren($datos['child']);
+
+                    $class = "";
+                    if($child['active']){
+                        $class = "in";
+                    }
+
+                    $html .= $this->ci->load->view("pages/layout/menu-header-child", 
+                                                   array("icon_class" => $datos['icon_class'],
+                                                         "name"       => $name,
+                                                         "class"      => $class,
+                                                         "target"     => $target,
+                                                         "child"      => $child['html']), true);
+
+                }else{
+
+                    if(is_array($datos['controller'])){
+                        $controller = $datos['controller'][0];
+                    } else {
+                        $controller = $datos['controller'];
+                    }
+
+                    $html .= $this->ci->load->view("pages/layout/menu-header", 
+                                                   array("icon_class" => $datos['icon_class'],
+                                                         "name"       => $name,
+                                                         "url"        => $controller . "/" . $datos["action"]), true);
                 }
-                
-                $html .= $this->ci->load->view("pages/layout/menu-header-child", 
-                                               array("icon_class" => $datos['icon_class'],
-                                                     "name"       => $name,
-                                                     "class"      => $class,
-                                                     "target"     => $target,
-                                                     "child"      => $child['html']), true);
-                
-            }else{
-                
-                if(is_array($datos['controller'])){
-                    $controller = $datos['controller'][0];
-                } else {
-                    $controller = $datos['controller'];
-                }
-                
-                $html .= $this->ci->load->view("pages/layout/menu-header", 
-                                               array("icon_class" => $datos['icon_class'],
-                                                     "name"       => $name,
-                                                     "url"        => $controller . "/" . $datos["action"]), true);
             }
         }
         

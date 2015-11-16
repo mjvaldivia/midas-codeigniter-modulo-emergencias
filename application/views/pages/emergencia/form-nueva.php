@@ -6,7 +6,6 @@
             <div class="row">
             <div class="col-md-12">
                     <input type="hidden" id="geozone" name="geozone" value="<?= $geozone ?>" /> 
-                    <h4>Lugar de referencia</h4>
                     <div id="mapa" class="col-md-12 mapa-alarma" style="height: 400px !important;"></div>
                     <div class="col-md-6">
                         <div class="form-group">

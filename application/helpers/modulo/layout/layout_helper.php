@@ -32,6 +32,11 @@ function puedeEditar(){
     return $editar->puedeEditar();
 }
 
+function puedeVer($modulo){
+    $permiso = New Layout_Usuario_Permiso();
+    return $permiso->puedeVer($modulo);
+}
+
 /**
  * Activa o desactiva un tab
  * @param string $actual

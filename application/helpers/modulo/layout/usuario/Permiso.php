@@ -30,6 +30,7 @@ Class Layout_Usuario_Permiso{
      * @return boolean
      */
     public function puedeVer($modulo){
+        $this->usuario->setModulo($modulo);
         return $this->usuario->getPermisoVer();
     }
     

@@ -18,7 +18,8 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12">
             <div class="row">
-
+                
+                <?php if(puedeVer("alarma")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>">
@@ -34,7 +35,9 @@
                         </div>
                     </div>
                 </div>
-
+                <?php } ?>
+                
+                <?php if(puedeVer("emergencia")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>">
@@ -50,7 +53,9 @@
                         </div>
                     </div>
                 </div>
-
+                <?php } ?>
+                
+                <?php if(puedeVer("capas")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("capas/ingreso") ?>">
@@ -66,6 +71,9 @@
                         </div>
                     </div>
                 </div>
+                <?php } ?>
+                
+                <?php if(puedeVer("simulacion")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="#">
@@ -81,6 +89,9 @@
                         </div>
                     </div>
                 </div>
+                <?php } ?>
+                
+                <?php if(puedeVer("documentacion")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="#">
@@ -96,6 +107,8 @@
                         </div>
                     </div>
                 </div>
+                <?php } ?>
+                
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("soportes/bandeja_usuario") ?>">
@@ -116,6 +129,8 @@
     </div>
     <div class="row">
         <div class="col-lg-12 col-sm-12">
+            
+            <?php if(puedeVer("emergencia")) { ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="portlet portlet-default">
@@ -135,41 +150,33 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="col-lg-4">
-                    <div class="portlet portlet-default">
-                        <div class="portlet-heading">
-                            <div class="portlet-title">
-                                <h4><i class="fa fa-pie-chart"></i> Gráfico emergencias/tipo</h4>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="donutChart" class="portlet-body" style="height: 500px; padding-top: 100px">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-chart-pie" style="height: 200px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
             </div>
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="portlet portlet-default">
-                        <div class="portlet-heading">
-                            <div class="portlet-title">
-                                <h4><i class="fa fa-list-ul"></i> Alarmas en revisión</h4>
+            <?php } ?>
+            
+            <?php if(puedeVer("alarma")) { ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="portlet portlet-default">
+                            <div class="portlet-heading">
+                                <div class="portlet-title">
+                                    <h4><i class="fa fa-list-ul"></i> Alarmas en revisión</h4>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="portlet-body" >
-                            <div id="contendor-grilla-alarma" class="table-responsive" style="min-height: 400px">
-                                <div class="col-lg-12 text-center">
-                                    <i class="fa fa-4x fa-spin fa-spinner"></i>
+                            <div class="portlet-body" >
+                                <div id="contendor-grilla-alarma" class="table-responsive" style="min-height: 400px">
+                                    <div class="col-lg-12 text-center">
+                                        <i class="fa fa-4x fa-spin fa-spinner"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                </div>  
+            <?php } ?>
+             
+            <div class="row">
+                <div class="col-lg-12">
                     <div class="portlet portlet-default">
                         <div class="portlet-heading">
                             <div class="portlet-title">
@@ -226,11 +233,6 @@
 
 <?= loadJS("assets/lib/morris/raphael-2.1.0.min.js", true) ?>
 <?= loadJS("assets/lib/morris/morris.js", true) ?>
-
-<?= loadJS("assets/lib/flot/jquery.flot.min.js", true) ?>
-<?= loadJS("assets/lib/flot/jquery.flot.resize.min.js", true) ?>
-<?= loadJS("assets/lib/flot/jquery.flot.pie.min.js", true) ?>
-<?= loadJS("assets/lib/flot/jquery.flot.tooltip.min.js", true) ?>
 
 <?= loadJS("assets/js/bootbox.min.js", true) ?>
 
