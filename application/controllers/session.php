@@ -45,9 +45,9 @@ class Session extends CI_Controller
         $this->usuario->setModulo($params["modulo"]);
         
         $retorno = array("ver"    => $this->usuario->getPermisoVer(),
-                         "editar" => true,
-                         "nuevo"  => true,
-                         "eliminar" => true);
+                         "editar" => $this->usuario->getPermisoEditar(),
+                         "nuevo"  => $this->usuario->getPermisoEditar(),
+                         "eliminar" => $this->usuario->getPermisoEliminar());
         
         
         $retorno["correcto"] = true;

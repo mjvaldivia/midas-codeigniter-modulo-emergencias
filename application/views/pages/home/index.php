@@ -22,7 +22,7 @@
                 <?php if(puedeVer("alarma")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>">
+                        <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/ingreso/tab/nuevo"); } else {echo site_url("alarma/ingreso/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
                                 <i class="fa fa-bell fa-fw fa-3x"></i>
                             </div>
@@ -31,7 +31,7 @@
                             <div class="circle-tile-description text-faded">
                                 Alarmas
                             </div>
-                            <a href="<?= site_url("alarma/ingreso/tab/nuevo") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/ingreso/tab/nuevo"); } else {echo site_url("alarma/ingreso/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                 <?php if(puedeVer("capas")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?= site_url("capas/ingreso") ?>">
+                        <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>">
                             <div class="circle-tile-heading blue">
                                 <i class="fa fa-globe fa-fw fa-3x"></i>
                             </div>
@@ -67,7 +67,7 @@
                             <div class="circle-tile-description text-faded">
                                 Capas
                             </div>
-                            <a href="<?= site_url("capas/ingreso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>

@@ -48,18 +48,22 @@ var Alarma = {};
 
     }
     this.inicioIngreso = function () {
+        
+        var permisos = new Permisos("alarma");	
+        if(permisos.getNuevo()){
+            $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
 
-        $("#iTiposEmergencias").jCombo(siteUrl + "emergencia/jsonTiposEmergencias");
-        $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
-            handlerLoad: function () {
-                $("#iComunas").picklist();
-            },
-            initial_text: null
-        });
-        $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
-            format: "DD-MM-YYYY HH:mm"
-        });
+            $("#iComunas").jCombo(siteUrl + "session/obtenerJsonComunas", {
+                handlerLoad: function () {
+                    $("#iComunas").picklist();
+                },
+                initial_text: null
+            });
 
+            $("#fechaEmergencia, #fechaRecepcion").datetimepicker({
+                format: "DD-MM-YYYY HH:mm"
+            });
+        }
 
     };
 
@@ -70,9 +74,9 @@ var Alarma = {};
         $("#TiposEmergencias").jCombo(siteUrl + "alarma/jsonTiposEmergencias");
         $("#btnBuscarAlarmas").click(this.eventoBtnBuscar);
         
-        $.getScript(baseUrl + "assets/js/modulo/general/permisos.js", function(){
+        //$.getScript(baseUrl + "assets/js/modulo/general/permisos.js", function(){
             yo.eventoBtnBuscar();
-        });
+        //});
 
         $(window).resize(function () {
             $("table").css("width", "100%");

@@ -20,9 +20,13 @@
 <!-- end PAGE TITLE AREA -->
 
 <ul id="ul-tabs" class="nav nav-tabs">
+    
+    <?php if(puedeEditar("alarma")) { ?>
     <li class='<?= tabActive("nuevo", $tab_activo, "header") ?>'>
         <a href="#tab1" onclick ="if(Alarma.map==null)initialize();"  data-toggle="tab" id="tab-nueva">Nueva</a>
     </li>
+    <?php } ?>
+    
     <li class='<?= tabActive("listado", $tab_activo, "header") ?>'>
         <a href="#tab2" data-toggle="tab" id="tab-listado">Listado</a>
     </li>
@@ -30,11 +34,13 @@
 
 <div id="tab-content" class="tab-content">
     
+    <?php if(puedeEditar("alarma")) { ?>
     <div class='tab-pane top-spaced <?= tabActive("nuevo", $tab_activo, "content") ?>' id='tab1' style='overflow:hidden;'>
         <div id='div_tab_1'>
              <?= $formulario ?>
         </div>
     </div>
+    <?php } ?>
     
     <div class='tab-pane top-spaced <?= tabActive("listado", $tab_activo, "content") ?>' id='tab2' style='overflow:hidden;'>
         <div id='div_tab_2'>
@@ -53,12 +59,16 @@
 
 <?= loadJS("assets/js/bootbox.min.js") ?>
 <?= loadJS("assets/js/geo-encoder.js") ?>
+
+<?= loadJS("assets/js/modulo/general/permisos.js") ?>
 <?= loadJS("assets/js/alarmas.js") ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
         Alarma.inicioIngreso();
+        <?php if(puedeEditar("alarma")) { ?>
         initialize('map');
+        <?php } ?>
         //$('#div_tab_2').load(siteUrl+'alarma/listado');
     });
 </script>

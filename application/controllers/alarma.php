@@ -35,10 +35,19 @@ class Alarma extends CI_Controller {
     public $template;
     
     /**
+     *
+     * @var Usuario 
+     */
+    public $usuario;
+    
+    /**
      * 
      */
     public function __construct() {
         parent::__construct();
+        $this->load->library("usuario");
+        $this->usuario->setModulo("alarma");
+        
         $this->load->model("alarma_model", "AlarmaModel");
         $this->load->model("alarma_comuna_model", "AlarmaComunaModel");
         $this->load->model("alarma_estado_model", "AlarmaEstadoModel");
@@ -149,11 +158,18 @@ class Alarma extends CI_Controller {
         $params = $this->uri->uri_to_assoc();
         $this->load->helper(array("modulo/alarma/alarma_form"));
         
-        if(isset($params["tab"])){
-            $tab = $params["tab"];
+        
+        if($this->usuario->getPermisoEditar()){
+            if(isset($params["tab"])){
+                $tab = $params["tab"];
+            } else {
+                $tab = "nuevo";
+            }
         } else {
-            $tab = "nuevo";
+            $tab = "listado";
         }
+        
+        
         
         $id_estado = Alarma_Estado_Model::REVISION;
         if(isset($params["estado"])){

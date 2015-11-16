@@ -27,11 +27,26 @@ function menuCollapsed($html_object){
  * Si el usuario es monitor, no puede editar
  * @return boolean
  */
-function puedeEditar(){
+function puedeEditar($modulo){
     $editar = New Layout_Usuario_Permiso();
-    return $editar->puedeEditar();
+    return $editar->puedeEditar($modulo);
 }
 
+/**
+ * 
+ * @param string $modulo
+ * @return boolean
+ */
+function puedeEliminar($modulo){
+    $editar = New Layout_Usuario_Permiso();
+    return $editar->puedeEliminar($modulo);
+}
+
+/**
+ * 
+ * @param string $modulo
+ * @return boolean
+ */
 function puedeVer($modulo){
     $permiso = New Layout_Usuario_Permiso();
     return $permiso->puedeVer($modulo);

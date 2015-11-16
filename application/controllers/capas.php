@@ -9,6 +9,21 @@ if (!defined("BASEPATH")) exit("No direct script access allowed");
 
 class Capas extends CI_Controller
 {
+    /**
+     *
+     * @var Usuario 
+     */
+    public $usuario;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library("usuario");
+        $this->usuario->setModulo("capas");
+    }
+    
     public function index() {
         if (!file_exists(APPPATH . "/views/pages/capa/index.php")) {
             // Whoops, we don"t have a page for that!
@@ -34,8 +49,21 @@ class Capas extends CI_Controller
 
         $this->load->library(array("template"));
 
+        
+        
+        if($this->usuario->getPermisoEditar()){
+            if(isset($params["tab"])){
+                $tab = $params["tab"];
+            } else {
+                $tab = "nuevo";
+            }
+        } else {
+            $tab = "listado";
+        }
+        
         $data = array(
-            "editar" => false
+            "editar" => false,
+            "tab_activo" => $tab
         );
 
         $this->template->parse("default", "pages/capa/ingreso", $data);

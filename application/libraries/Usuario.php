@@ -97,8 +97,30 @@ Class Usuario{
         }
     }
     
+    /**
+     * Si puede editar o no
+     * @return boolean
+     */
+    public function getPermisoEliminar(){
+        $permiso = $this->_permiso_model->tienePermisoEliminar($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Si puede editar o no
+     * @return boolean
+     */
     public function getPermisoEditar(){
-        
+        $permiso = $this->_permiso_model->tienePermisoEditar($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
     }
     
     /**
@@ -106,8 +128,8 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoVer(){
-        $cantidad = $this->_permiso_model->tieneAccesoModulo($this->listarRoles(), $this->_id_modulo);
-        if($cantidad > 0){
+        $permiso = $this->_permiso_model->tieneAccesoModulo($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
             return true;
         } else {
             return false;

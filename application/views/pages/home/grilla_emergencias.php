@@ -30,7 +30,7 @@
                         <i class="fa fa-fa2x fa-file-text-o"></i>
                     </button>-->
                     
-                    <?php if (puedeEditar()) { ?>
+                    <?php if (puedeEditar("emergencia")) { ?>
                     <button data="<?php echo $row["eme_ia_id"] ?>" class="btn btn-xs btn-blue emergencia-editar" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
                         <i class="fa fa-edit"></i>
                     </button>
@@ -40,7 +40,7 @@
                         <i class="fa fa-globe"></i>
                     </button>
                     
-                    <?php if (puedeEditar()) { ?>
+                    <?php if (puedeEditar("emergencia")) { ?>
                     <button data="<?php echo $row["eme_ia_id"] ?>" class="btn btn-xs btn-blue emergencia-cerrar" data-toggle="tooltip" data-toogle-param="arriba" title="Cerrar emergencia">
                         <i class="fa fa-check"></i>
                     </button>

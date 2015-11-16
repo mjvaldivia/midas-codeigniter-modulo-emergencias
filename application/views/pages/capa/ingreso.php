@@ -29,15 +29,24 @@
 
 
 <ul id="ul-tabs" class="nav nav-tabs">
-    <li class='active'><a href="#tab1" data-toggle="tab">Nueva</a></li>
-    <li><a href="#tab2" data-toggle="tab">Listado</a></li>
+    
+    <?php if(puedeEditar("capas")) { ?>
+    <li class='<?= tabActive("nuevo", $tab_activo, "header") ?>'>
+        <a href="#tab1" data-toggle="tab">Nueva</a>
+    </li>
+    <?php } ?>
+    
+    <li class="<?= tabActive("listado", $tab_activo, "header") ?>">
+        <a href="#tab2" data-toggle="tab">Listado</a>
+    </li>
     <li style="display:none" id="tab-editar"><a href="#tab3" data-toggle="tab">Edición</a></li>
 </ul>
 
 
 
 <div id="tab-content" class="tab-content">
-    <div class='tab-pane active top-spaced' id='tab1' style='overflow:hidden;'>
+    <?php if(puedeEditar("capas")) { ?>
+    <div class='tab-pane <?= tabActive("nuevo", $tab_activo, "content") ?> top-spaced' id='tab1' style='overflow:hidden;'>
         <div id='div_tab_1' class='col-xs-12'>
             
             <div class="portlet portlet-default">
@@ -166,7 +175,8 @@
 </div>
 
     </div>
-    <div class='tab-pane' id='tab2' style='overflow:hidden;'>
+    <?php } ?>
+    <div class='tab-pane <?= tabActive("listado", $tab_activo, "content") ?>' id='tab2' style='overflow:hidden;'>
         <div id='div_tab_2' class='col-xs-12 top-spaced'>
 
         </div>

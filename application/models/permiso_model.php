@@ -15,11 +15,48 @@ class Permiso_Model extends MY_Model {
         parent::__construct();
         $this->load->model('modulo_model');
     }
-    /*
+    
+    /**
+     * 
+     * @param array $lista_roles
+     * @param int $id_submodulo
+     * @return boolean
+     */
+    public function tienePermisoEliminar($lista_roles, $id_submodulo){
+        $result = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
+                       ->whereAND("m.bo_eliminar", 1)
+                       ->select("count(*) as cantidad", false)
+                       ->getOneResult();
+        if(!is_null($result)){
+            if($result->cantidad > 0){
+                return true;
+            }
+        }
+            
+        return false;
+        
+    }
+    
+    /**
+     * 
+     * @param array $lista_roles
+     * @param int $id_submodulo
+     * @return boolean
+     */
     public function tienePermisoEditar($lista_roles, $id_submodulo){
         $result = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
+                       ->whereAND("m.bo_editar", 1)
+                       ->select("count(*) as cantidad", false)
                        ->getOneResult();
-    }*/
+        if(!is_null($result)){
+            if($result->cantidad > 0){
+                return true;
+            }
+        }
+            
+        return false;
+        
+    }
     
     /**
      * retorna si hay o no acceso a un modulo
@@ -32,10 +69,12 @@ class Permiso_Model extends MY_Model {
                        ->select("count(*) as cantidad", false)
                        ->getOneResult();
         if(!is_null($result)){
-            return $result->cantidad;
-        }else{
-            return 0;
+            if($result->cantidad > 0){
+                return true;
+            }
         }
+            
+        return false;
     }
     
     /**

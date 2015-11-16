@@ -40,7 +40,18 @@ Class Layout_Usuario_Permiso{
      * @return boolean
      */
     public function puedeEditar($modulo){
-        return !$this->usuario->tieneRol(Rol_Model::MONITOR);
+        $this->usuario->setModulo($modulo);
+        return $this->usuario->getPermisoEditar();
+    }
+    
+    /**
+     * Si el usuario es monitor
+     * no puede modificar nada
+     * @return boolean
+     */
+    public function puedeEliminar($modulo){
+        $this->usuario->setModulo($modulo);
+        return $this->usuario->getPermisoEliminar();
     }
 }
 

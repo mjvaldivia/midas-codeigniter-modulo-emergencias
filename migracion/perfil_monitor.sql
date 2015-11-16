@@ -17,13 +17,3 @@ INSERT INTO `sipresa_dev`.`usuarios_vs_oficinas` (`usu_ia_id`, `ofi_ia_id`) VALU
 INSERT INTO `sipresa_dev`.`usuarios_vs_oficinas` (`usu_ia_id`, `ofi_ia_id`) VALUES ('2', '10');
 INSERT INTO `sipresa_dev`.`usuarios_vs_oficinas` (`usu_ia_id`, `ofi_ia_id`) VALUES ('2', '8');
 INSERT INTO `sipresa_dev`.`usuarios_vs_oficinas` (`usu_ia_id`, `ofi_ia_id`) VALUES ('2', '9');
-
-# se agregan nuevos modulos a permisos
-INSERT INTO `sipresa_dev`.`permisos` (`per_ia_id`, `per_c_modulo`, `per_c_nombre`, `per_c_id_modulo`, `per_c_eliminar`) VALUES ('40', 'Emergencias', 'Gestión de capas', '2', 0);
-INSERT INTO `sipresa_dev`.`permisos` (`per_ia_id`, `per_c_modulo`, `per_c_nombre`, `per_c_id_modulo`) VALUES ('41', 'Emergencias', 'Simulación', '2');
-INSERT INTO `sipresa_dev`.`permisos` (`per_ia_id`, `per_c_modulo`, `per_c_nombre`, `per_c_id_modulo`) VALUES ('42', 'Emergencias', 'Documentación', '2');
-
-# permisos para administrador para nuevos modulos
-INSERT INTO `sipresa_dev`.`roles_vs_permisos` (`rol_ia_id`, `per_ia_id`, `rvsp_c_nivel_acceso`, `bo_editar`, `bo_eliminar`) VALUES ('27', '40', '0', '1', '1');
-INSERT INTO `sipresa_dev`.`roles_vs_permisos` (`rol_ia_id`, `per_ia_id`, `rvsp_c_nivel_acceso`, `bo_editar`, `bo_eliminar`) VALUES ('27', '41', '0', '1', '1');
-INSERT INTO `sipresa_dev`.`roles_vs_permisos` (`rol_ia_id`, `per_ia_id`, `rvsp_c_nivel_acceso`, `bo_editar`, `bo_eliminar`) VALUES ('27', '42', '0', '1', '1');
