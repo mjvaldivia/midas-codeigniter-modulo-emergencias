@@ -23,12 +23,17 @@
             <td><?php echo basename(FCPATH . $row['capa']); ?></td>
             <td><?php echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); ?> </td>
             <td>
+                <?php if (puedeEditar("capas")) { ?>
                 <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(<?php echo $row['cap_ia_id']; ?>);' >
                     <i class='fa fa-edit'></i>
                 </a>
+                <?php } ?>
+                
+                <?php if (puedeEliminar("capas")) { ?>
                 <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(<?php echo $row['cap_ia_id']; ?>)'>
                     <i class='fa fa-trash'></i>
                 </a>
+                <?php } ?>
             </td>
         </tr>
         <?php } ?>

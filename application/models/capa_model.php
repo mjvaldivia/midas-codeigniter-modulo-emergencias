@@ -227,42 +227,6 @@ class Capa_Model extends CI_Model {
         }
     }
 
-    function get_capas() {
-
-        $this->load->helper('utils');
-
-        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
-                join archivo a on c.capa_arch_ia_id = a.arch_ia_id
-                join archivo b on c.icon_arch_ia_id = b.arch_ia_id
-                join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
-                ";
-        $result = $this->db->query($sql);
-        $jsonData = array('data' => array());
-        $arr_arch = array();
-        foreach ($result->result_array() as $row) {
-            $link = "";
-            $arr_ruta = explode('/', $row['capa']);
-            $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
-            if ($row['arch_c_hash'] != '') {
-                $link = "<a target='_blank' class='btn btn-xs btn-default' href=" . site_url("archivo/download_file/k/" . $row['arch_c_hash']) . ">Descargar</a>";
-            }
-            $entry = array(
-                $row['cap_c_nombre'],
-                $row['ccb_c_categoria'],
-                $row['geozone'],
-                "<img src='" . base_url($row['icono']) . "' height='24' />",
-                $row['cap_c_propiedades'],
-                $nombre,
-                $link,
-                "<a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(".$row['cap_ia_id'].");' ><i class='fa fa-edit'></i></a> "
-              . "<a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(".$row['cap_ia_id'].")'><i class='fa fa-trash'></i></a>"
-            );
-            $arr_arch[] = $entry;
-            $jsonData['data'][] = $entry;
-        }
-        echo json_encode($jsonData);
-    }
-
     function getCapa($id_capa) {
 
         $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_mime mime, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
