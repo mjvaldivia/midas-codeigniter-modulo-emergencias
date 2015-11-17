@@ -201,6 +201,7 @@ class Visor extends CI_Controller {
     }
 
     public function guardarCapa() {
+        fb("guardar capa");
         $this->load->helper("session");
         sessionValidation();
         $params = $this->input->post();

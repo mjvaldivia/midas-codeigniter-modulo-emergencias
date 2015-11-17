@@ -6,18 +6,22 @@ var Layer = {};
 (function() {
 
     this.initList = function() {
-        $("#tblCapas").DataTable({
-            ajax: {
-                url: siteUrl + 'capas/getCapas',
-                type: 'POST',
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: "",
+            type: "post",
+            url: siteUrl + "capas/ajax_grilla_capas", 
+            error: function(xhr, textStatus, errorThrown){
 
-                async: true
             },
-            destroy: true,
-            language: {
-                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+            success:function(html){
+                $("#contenedor-grilla-capas").html(html);
             }
         });
+        
+        
     };
 
     this.initSave = function() {

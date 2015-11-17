@@ -16,11 +16,19 @@ class Capas extends CI_Controller
     public $usuario;
     
     /**
+     *
+     * @var Capa_Model
+     */
+    public $capa_model;
+    
+    /**
      * Constructor
      */
     public function __construct() {
         parent::__construct();
+        sessionValidation();
         $this->load->library("usuario");
+        $this->load->model("capa_model", "capa_model");
         $this->usuario->setModulo("capas");
     }
     
@@ -87,13 +95,10 @@ class Capas extends CI_Controller
     }
     
     
-    function getCapas() {
-        $this->load->helper(array("session", "debug"));
-
-        sessionValidation();
-        $this->load->model("capa_model", "CapaModel");
-
-        echo $this->CapaModel->get_capas();
+    function ajax_grilla_capas() {
+        $this->load->helper(array("modulo/capa/capa","file"));
+        $lista = $this->capa_model->listarCapas();
+        $this->load->view("pages/capa/grilla_capas", array("lista" => $lista));
     }
 
 

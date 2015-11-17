@@ -244,7 +244,6 @@
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js"); ?>
 <?= loadJS("assets/js/modulo/home/form-emergencias-cerrar-dashboard.js"); ?>
 
-//Crear emergencia
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js"); ?>
 <?= loadJS("assets/js/modulo/home/form-emergencias-nueva-dashboard.js"); ?>
 <?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>

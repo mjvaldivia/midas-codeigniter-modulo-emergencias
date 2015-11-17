@@ -6,6 +6,9 @@ if (!defined('BASEPATH'))
 class Capa_Model extends CI_Model {
 
     public function guardarCapa($params) {
+        
+        fb("entra a guardar capa");
+        
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
         $this->load->helper('utils');
         $this->load->model("archivo_model", "ArchivoModel");
@@ -41,7 +44,7 @@ class Capa_Model extends CI_Model {
                 $capa = $this->cache->get($params['tmp_file_1']);   //capa 
                     
                 $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre_editar']);
-
+                fb($capa_obj_arch_json);
                 $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
 
                 $this->db->query("
@@ -58,7 +61,7 @@ class Capa_Model extends CI_Model {
                 $tmp_name = 'media/tmp/' . $params['icon-editar']; 
 
                 $icon_obj_arch_json = $this->ArchivoModel->upload_to_site('icono_capa', $icon_type, $tmp_name, $cap_ia_id, $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icon_size);
-
+                fb($icon_obj_arch_json);
                 $icon_arch_ia_id = json_decode($icon_obj_arch_json)->id;
 
                 $this->db->query("
@@ -104,7 +107,9 @@ class Capa_Model extends CI_Model {
 
                 $cap_ia_id = $this->db->insert_id();
                 $capa = $this->cache->get($params['tmp_file_' . $i]);   //capa 
-
+                
+              
+                
                 $icon_size = filesize('media/tmp/' . $params['icon']);
                 $icon_type = filetype('media/tmp/' . $params['icon']);
                 $tmp_name = 'media/tmp/' . $params['icon'];
@@ -112,7 +117,7 @@ class Capa_Model extends CI_Model {
 
                 $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre']);
                 $icon_obj_arch_json = $this->ArchivoModel->upload_to_site('icono_capa', $icon_type, $tmp_name, $cap_ia_id, $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icon_size);
-
+                
                 $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
                 $icon_arch_ia_id = json_decode($icon_obj_arch_json)->id;
 
@@ -203,11 +208,28 @@ class Capa_Model extends CI_Model {
 
         echo json_encode($res);
     }
+    
+    /**
+     * Lista todas las capas
+     * @return array
+     */
+    public function listarCapas(){
+        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
+                join archivo a on c.capa_arch_ia_id = a.arch_ia_id
+                join archivo b on c.icon_arch_ia_id = b.arch_ia_id
+                join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
+                ";
+        $result = $this->db->query($sql);
+        if($result->num_rows() > 0){
+            return $result->result_array();
+        } else{
+            return null;
+        }
+    }
 
     function get_capas() {
 
         $this->load->helper('utils');
-
 
         $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
                 join archivo a on c.capa_arch_ia_id = a.arch_ia_id
@@ -232,7 +254,8 @@ class Capa_Model extends CI_Model {
                 $row['cap_c_propiedades'],
                 $nombre,
                 $link,
-                "<a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(".$row['cap_ia_id'].");' ><i class='fa fa-edit'></i></a> <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(".$row['cap_ia_id'].")'><i class='fa fa-trash'></i></a>"
+                "<a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(".$row['cap_ia_id'].");' ><i class='fa fa-edit'></i></a> "
+              . "<a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(".$row['cap_ia_id'].")'><i class='fa fa-trash'></i></a>"
             );
             $arr_arch[] = $entry;
             $jsonData['data'][] = $entry;
