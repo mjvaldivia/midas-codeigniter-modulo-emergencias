@@ -64,9 +64,27 @@ var AlarmaMapa = Class({
         
         var yo = this;
         
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat($('#nueva_longitud').val()), 
-                                                   parseFloat($('#nueva_latitud').val()), 
-                                                   $("#geozone").val());
+        
+        var latitud = "";
+        var longitud = "";
+        var geozone  = "19H"
+        
+        if($("#geozone").val()!=""){
+            geozone = $("#geozone").val();
+        }
+        
+        if($('#nueva_longitud').val() == "" || $('#nueva_latitud').val() == ""){
+            //UTM de valparaiso
+            longitud = 256029;
+            latitud = 6340442;
+        } else {
+            latitud = $('#nueva_latitud').val();
+            longitud = $('#nueva_longitud').val();
+        }
+        
+        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(longitud), 
+                                                   parseFloat(latitud), 
+                                                   geozone);
 
 
         var myLatlng = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
@@ -94,8 +112,6 @@ var AlarmaMapa = Class({
         this.marker = marker;
         this.mapa = map;
     },
-    
-    
     
     /**
      * Cambia posicion en los input

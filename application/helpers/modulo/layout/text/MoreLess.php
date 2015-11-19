@@ -70,9 +70,11 @@ Class Layout_Text_MoreLess{
        
        if($texto_completo != $texto_corto){
        
-            $html = "<span class=\"teaser\">".$texto_corto." ...</span> \n"
-                   ."<span class=\"text-complete\">".$texto_completo."</span> \n"
-                   ."<span class=\"text-more small\">[Ver mas]</span>";
+            $html = "<div>"
+                   ."<span class=\"more-less teaser\">".$texto_corto." ...</span> \n"
+                   ."<span class=\"more-less text-complete\">".$texto_completo."</span> \n"
+                   ."<span class=\"more-less text-more small\">[Ver mas]</span>"
+                   ."</div>";
             return $html;
        } else {
            return $texto_completo;

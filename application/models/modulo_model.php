@@ -10,9 +10,9 @@ class Modulo_Model extends MY_Model {
      */
     const SUB_MODULO_ALARMA = 6;
     const SUB_MODULO_EMERGENCIA = 7;
-    const SUB_MODULO_CAPAS = 40;
-    const SUB_SIMULACION   = 41;
-    const SUB_DOCUMENTACION = 42;
+    const SUB_MODULO_CAPAS = 41;
+    const SUB_SIMULACION   = 42;
+    const SUB_DOCUMENTACION = 43;
 
     /**
      *

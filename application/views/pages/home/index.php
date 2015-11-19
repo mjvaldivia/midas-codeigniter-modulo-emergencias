@@ -141,7 +141,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="portlet-body">
-                            <div id="contendor-grilla-emergencia" class="table-responsive" style="min-height: 400px">
+                            <div id="contendor-grilla-emergencia" class="table-responsive" style="min-height: 450px; padding-bottom:70px">
                                 <div class="col-lg-12 text-center">
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>

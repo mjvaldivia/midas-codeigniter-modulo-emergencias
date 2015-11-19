@@ -85,17 +85,18 @@ $(document).ready(function() {
        });*/
     });
     
-    $(".text-more").livequery(function(){
+    $(".more-less").livequery(function(){
         $(this).unbind( "click" );
         $(this).click(function(){
-            if($(this).html() == "[Ocultar]"){
-                $(this).html("[Ver mas]");   
+            var texto = $(this).parent().find(".text-more");
+            if($(texto).html() == "[Ocultar]"){
+                $(texto).html("[Ver mas]");   
                 $(this).parent().find(".teaser").show();
-                $(this).prev(".text-complete").hide();
+                $(this).parent().find(".text-complete").hide();
             } else {
-                $(this).html("[Ocultar]");
+                $(texto).html("[Ocultar]");
                 $(this).parent().find(".teaser").hide();
-                $(this).prev(".text-complete").show();
+                $(this).parent().find(".text-complete").show();
             }
         });  
     });

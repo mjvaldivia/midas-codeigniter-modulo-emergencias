@@ -20,6 +20,8 @@ var Dashboard = Class({
         this.bindBtnEmergenciaFinalizar();
         this.bindBtnEmergenciaEditar();
         this.bindBtnEmergenciaNueva();
+        this.bindBtnAlarmaEliminar();
+        this.bindBtnEmergenciaEliminar();
         
     },
     
@@ -162,6 +164,122 @@ var Dashboard = Class({
         });
     },
     
+    bindBtnEmergenciaEliminar : function(){
+        var yo = this;
+        $(".emergencia-eliminar").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(e){  
+                e.preventDefault();
+                var id = $(this).attr("data");
+                bootbox.dialog({
+                    title: "Eliminar elemento",
+                    message: '¿Está seguro que desea eliminar esta emergencia?',
+                    buttons: {
+                        success: {
+                            label: "Aceptar",
+                            className: "btn-primary",
+                            callback: function () {
+                                $.get(siteUrl + 'emergencia/eliminarEmergencia/id/' + id).done(function (retorno) {
+                                    if (retorno == 0) { // sin error
+                                        bootbox.dialog({
+                                            title: "Resultado de la operacion",
+                                            message: 'Se eliminó correctamente',
+                                            buttons: {
+                                                danger: {
+                                                    label: "Cerrar",
+                                                    className: "btn-info",
+                                                    callback: function () {
+                                                        yo.loadGridEmergencia();
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        bootbox.dialog({
+                                            title: "Resultado de la operacion",
+                                            message: 'Error al eliminar',
+                                            buttons: {
+                                                danger: {
+                                                    label: "Cerrar",
+                                                    className: "btn-danger"
+                                                }
+                                            }
+                                        });
+                                    }
+
+
+
+
+                                });
+
+                            }
+                        },
+                        danger: {
+                            label: "Cancelar",
+                            className: "btn-default"
+                        }
+                    }
+
+                });
+            });
+        });
+    },
+    
+    bindBtnAlarmaEliminar : function(){
+        var yo = this;
+        $(".alarma-eliminar").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(e){  
+                e.preventDefault();
+                var id = $(this).attr("data");
+                bootbox.dialog({
+                    title: "Eliminar elemento",
+                    message: '¿Está seguro que desea eliminar esta alarma?',
+                    buttons: {
+                        success: {
+                            label: "Aceptar",
+                            className: "btn-primary",
+                            callback: function () {
+                                $.get(siteUrl + 'alarma/eliminarAlarma/id/' + id).done(function (retorno) {
+                                    if (retorno == 0) { // sin error
+                                        bootbox.dialog({
+                                            title: "Resultado de la operacion",
+                                            message: 'Se eliminó correctamente',
+                                            buttons: {
+                                                danger: {
+                                                    label: "Cerrar",
+                                                    className: "btn-info",
+                                                    callback: function () {
+                                                        yo.loadGridAlarma();
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        bootbox.dialog({
+                                            title: "Resultado de la operacion",
+                                            message: 'Error al eliminar',
+                                            buttons: {
+                                                danger: {
+                                                    label: "Cerrar",
+                                                    className: "btn-danger"
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        },
+                        danger: {
+                            label: "Cancelar",
+                            className: "btn-default"
+                        }
+                            }
+                    }); 
+                });
+        });
+    },
+    
     /**
      * Asocia el evento para desplegar formulario para finalizar emergencia
      * a boton
@@ -172,7 +290,8 @@ var Dashboard = Class({
         
         $(".emergencia-cerrar").livequery(function(){
             $(this).unbind( "click" );
-            $(this).click(function(){
+            $(this).click(function(e){
+                e.preventDefault();
                 var id = $(this).attr("data");
                 var formulario = new FormEmergenciasCerrarDashboard(id, yo);	
                 formulario.mostrarFormulario();

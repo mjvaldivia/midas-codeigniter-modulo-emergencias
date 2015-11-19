@@ -2081,6 +2081,10 @@ input[type="checkbox"]:checked::after,
     display:none;
 }
 
+.more-less{
+    cursor:pointer;
+}
+
 .text-more{
     color:navy;
     font-size:10px;
@@ -2156,4 +2160,8 @@ input[type="checkbox"]:checked::after,
 
 .modal90 > .modal-dialog{
     width:90% !important;
+}
+
+.table-hover > tbody > tr:hover{
+    background-color: #d9edf7 ;
 }

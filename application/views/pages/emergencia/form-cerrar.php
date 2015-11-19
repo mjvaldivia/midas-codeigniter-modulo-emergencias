@@ -4,7 +4,7 @@
         <div class="col-md-12 text-left">
             <div class="form-group clearfix">
                 <label for="nombre-cierre" class="control-label">Nombre emergencia:</label>
-                <div class="input-group col-sm-6">
+                <div class="input-group col-sm-12">
                     <span><?php echo $nombre; ?></span>
                 </div>
                 <span class="help-block hidden"></span>
