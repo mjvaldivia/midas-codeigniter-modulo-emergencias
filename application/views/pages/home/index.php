@@ -176,37 +176,48 @@
             <?php } ?>
              
             <div class="row">
+                
                 <div class="col-lg-12">
                     <div class="portlet portlet-default">
                         <div class="portlet-heading">
                             <div class="portlet-title">
-                                <h4><i class="fa fa-line-chart"></i> Gráfico de emergencia por mes</h4>
+                                <h4><i class="fa fa-calendar"></i> Calendario</h4>
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div id="lineChart" class="panel-collapse collapse in">
-                            <div class="portlet-body" style="height: 555px;padding-top: 100px">
-                                <div id="morris-chart-line"></div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div id="calendar"></div>   
+                                </div>
+                                <div class="col-lg-6">
+                                    <div id="mapa-emergencias" style="height: 525px">
+                                    </div>  
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                
+                
+                
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="portlet portlet-blue">
+            <div class="portlet portlet-default">
                 <div class="portlet-heading">
                     <div class="portlet-title">
-                        <h4><i class="fa fa-calendar"></i> Calendario</h4>
+                        <h4><i class="fa fa-line-chart"></i> Gráfico de emergencia por mes</h4>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="portlet-body">
-                    <div class="table-responsive">
-                        <div id="calendar"></div>
+                <div id="lineChart" class="panel-collapse collapse in">
+                    <div class="portlet-body" style="height: 555px;padding-top: 100px">
+                        <div id="morris-chart-line"></div>
                     </div>
                 </div>
             </div>
@@ -248,4 +259,5 @@
 <?= loadJS("assets/js/modulo/home/form-emergencias-nueva-dashboard.js"); ?>
 <?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>
 
+<?= loadJS("assets/js/modulo/home/mapa.js"); ?>
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>

@@ -27,9 +27,31 @@ class Emergencia_Model extends MY_Model {
     public function getById($id){
         return $this->_query->getById("eme_ia_id", $id);
     }
+    
+    /**
+     * Lista emergencias por la region
+     * @param int $id_region
+     * @return array
+     */
+    public function listarPorRegion($id_region){
+        $result = $this->_query->select("DISTINCT e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+                               ->from("emergencias e")
+                               ->join("alertas a", "a.ala_ia_id = e.ala_ia_id")
+                               ->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
+                               ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
+                               ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                               ->whereAND("p.reg_ia_id", $id_region)
+                               //->groupBy("e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
         
     /**
-     * Lista todas las alarmas
+     * Lista todas las emergencias
      * @return array
      */
     public function listar(){

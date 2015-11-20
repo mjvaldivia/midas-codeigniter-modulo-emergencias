@@ -67,6 +67,54 @@ class Home extends CI_Controller{
                                "pages/home/index", 
                                 array());
     }
+    
+    /**
+     * Retorna informacion de la emergencia
+     */
+    public function ajax_emergencia_info(){
+        
+        $respuesta = array();
+        
+        $params = $this->input->post(null, true);
+        $emergencia = $this->EmergenciaModel->getById($params["id"]);
+        if(!is_null($emergencia)){
+            
+            $nombre_tipo = "";
+            
+            $tipo = $this->EmergenciaTipoModel->getById($emergencia->tip_ia_id);
+            if(!is_null($tipo)){
+                $nombre_tipo = $tipo->aux_c_nombre;
+            }
+
+            $respuesta = array("nombre_emergencia" => $emergencia->eme_c_nombre_emergencia,
+                               "nombre_informante" => $emergencia->eme_c_nombre_informante,
+                               "tipo"   => $nombre_tipo);
+        }
+        
+        $this->load->view("pages/home/ajax_emergencia_info", $respuesta);
+    }
+    
+    /**
+     * 
+     */
+    public function ajax_load_map_markers(){
+        $id_region = $this->session->userdata("session_region_codigo");
+        
+        $respuesta = array();
+        
+        $lista = $this->EmergenciaModel->listarPorRegion($id_region);
+        foreach($lista as $void => $row){
+            
+            if($row["ala_c_utm_lat"]!="" AND $row["ala_c_utm_lng"]!=""){
+                $respuesta[] = array("id" => $row["eme_ia_id"],
+                                     "nombre" => $row["eme_c_nombre_emergencia"],
+                                     "latitud" => $row["ala_c_utm_lat"],
+                                     "longitud" => $row["ala_c_utm_lng"]);
+            }
+        }
+        
+        echo json_encode($respuesta);
+    }
 
     /**
      * Retorna grilla de alarmas
@@ -127,8 +175,9 @@ class Home extends CI_Controller{
                 
                 $fecha_alerta = DateTime::createFromFormat("Y-m-d H:i:s", $alerta["eme_d_fecha_emergencia"]);
                 
-                $respuesta[] = array("title" => $alerta["eme_c_nombre_emergencia"],
-                                     "start" => $fecha_alerta->format("Y-m-d H:i:s"),
+                $respuesta[] = array("id"     => $alerta["eme_ia_id"],
+                                     "title"  => $alerta["eme_c_nombre_emergencia"],
+                                     "start"  => $fecha_alerta->format("Y-m-d H:i:s"),
                                      "allDay" => false);
             }
         }

@@ -6,15 +6,14 @@ var Dashboard = Class({
     
     // guarda contenido de la pagina
     content: "",
+    mapa_calendario : null,
 
     /**
      * Carga de dependencias
      * @returns void
      */
     __construct : function() {
-        
-        
-        
+
         this.loadDashboard();
         
         this.bindBtnEmergenciaFinalizar();
@@ -33,6 +32,7 @@ var Dashboard = Class({
         this.loadGraficoEmergenciasMes();
         this.loadCalendario();
         this.loadGrid();
+        this.loadMapa();
     },
     
     /**
@@ -42,6 +42,19 @@ var Dashboard = Class({
     loadGrid : function(){
         this.loadGridEmergencia();
         this.loadGridAlarma();
+    },
+    
+    /**
+     * Carga mapa de emergencias
+     * @returns {void}
+     */
+    loadMapa : function(){
+        var mapa = new HomeMapa("mapa-emergencias");
+        mapa.setLatitudLongitudUTM(6340442, 256029);
+        mapa.initialize();
+        mapa.loadMarkers();
+        
+        this.mapa_calendario = mapa;
     },
     
     /**
@@ -91,6 +104,9 @@ var Dashboard = Class({
      * @returns void
      */
     loadCalendario : function(){
+        
+        var yo = this;
+        
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
@@ -103,6 +119,7 @@ var Dashboard = Class({
                 right: 'month,agendaWeek,agendaDay'
             },
             lang: "es",
+            selectable : true,
             editable: false,
             droppable: false, 
             eventSources: [
@@ -124,7 +141,11 @@ var Dashboard = Class({
                     color: 'red',   
                     textColor: 'white' 
                 }
-            ]
+            ],
+            eventMouseover : function( event, jsEvent, view ) { 
+                var id = event.id;
+                yo.mapa_calendario.selectMarkerById(id);
+            }
         });
     },
     

@@ -2165,3 +2165,7 @@ input[type="checkbox"]:checked::after,
 .table-hover > tbody > tr:hover{
     background-color: #d9edf7 ;
 }
+
+.info_content{
+    width:300px;
+}
