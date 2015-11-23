@@ -29,20 +29,38 @@ class Emergencia_Model extends MY_Model {
     }
     
     /**
+     * 
+     * @param type $id_region
+     * @param DateTime $fecha_inicio
+     * @param DateTime $fecha_termino
+     */
+    public function listarPorRegionYFecha($id_region, $fecha_inicio = NULL, $fecha_termino = NULL){
+        $query = $this->_queryEmergenciasPorRegion($id_region);
+        
+        if($fecha_inicio instanceof DateTime){
+            $query->whereAND("eme_d_fecha_emergencia", $fecha_inicio->format("Y-m-d H:i:s"), ">=");
+        }
+        
+        if($fecha_termino instanceof DateTime){
+            $query->whereAND("eme_d_fecha_emergencia", $fecha_termino->format("Y-m-d H:i:s"), "<=");
+        }
+        
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista emergencias por la region
      * @param int $id_region
      * @return array
      */
     public function listarPorRegion($id_region){
-        $result = $this->_query->select("DISTINCT e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
-                               ->from("emergencias e")
-                               ->join("alertas a", "a.ala_ia_id = e.ala_ia_id")
-                               ->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
-                               ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
-                               ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
-                               ->whereAND("p.reg_ia_id", $id_region)
-                               //->groupBy("e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
-                               ->getAllResult();
+        $result = $this->_queryEmergenciasPorRegion($id_region)
+                       ->getAllResult();
         if(!is_null($result)){
             return $result;
         } else {
@@ -519,6 +537,7 @@ class Emergencia_Model extends MY_Model {
     
     /**
      * Consulta para emergencia por estado
+     * @param int $id_estado
      * @return QueryBuilder
      */
     protected function _queryEmergenciasPorEstado($id_estado){
@@ -526,5 +545,20 @@ class Emergencia_Model extends MY_Model {
                               ->from()
                               ->whereAND("est_ia_id", $id_estado, "=");
         return $query;
+    }
+    
+    /**
+     * 
+     * @param int $id_region
+     * @return QueryBuilder
+     */
+    protected function _queryEmergenciasPorRegion($id_region){
+        return $this->_query->select("DISTINCT e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+                            ->from("emergencias e")
+                            ->join("alertas a", "a.ala_ia_id = e.ala_ia_id")
+                            ->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
+                            ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
+                            ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                            ->whereAND("p.reg_ia_id", $id_region);
     }
 }

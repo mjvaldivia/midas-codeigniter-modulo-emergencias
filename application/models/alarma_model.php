@@ -85,19 +85,38 @@ class Alarma_Model extends MY_Model {
     }
     
     /**
+     * 
+     * @param type $id_region
+     * @param DateTime $fecha_inicio
+     * @param DateTime $fecha_termino
+     */
+    public function listarPorRegionYFecha($id_region, $fecha_inicio = NULL, $fecha_termino = NULL){
+        $query = $this->_queryAlarmasPorRegion($id_region);
+        
+        if($fecha_inicio instanceof DateTime){
+            $query->whereAND("ala_d_fecha_emergencia", $fecha_inicio->format("Y-m-d H:i:s"), ">=");
+        }
+        
+        if($fecha_termino instanceof DateTime){
+            $query->whereAND("ala_d_fecha_emergencia", $fecha_termino->format("Y-m-d H:i:s"), "<=");
+        }
+        
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista alarmas por la region
      * @param int $id_region
      * @return array
      */
     public function listarPorRegion($id_region){
-        $result = $this->_query->select("DISTINCT a.ala_ia_id, a.ala_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
-                               ->from("alertas a")
-                               ->join("alertas_vs_comunas ec", "ec.ala_ia_id = a.ala_ia_id", "INNER")
-                               ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
-                               ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
-                               ->whereAND("a.est_ia_id", Alarma_Estado_Model::ACTIVADO, "<>")
-                               ->whereAND("p.reg_ia_id", $id_region)
-                               ->getAllResult();
+        $result = $this->_queryAlarmasPorRegion($id_region)
+                       ->getAllResult();
         if(!is_null($result)){
             return $result;
         } else {
@@ -389,5 +408,20 @@ class Alarma_Model extends MY_Model {
                                ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
                                ->whereAND("est_ia_id", Alarma_Model::REVISION, "=");
         return $query;
+    }
+    
+    /**
+     * 
+     * @param int $id_region
+     * @return QueryBuilder
+     */
+    protected function _queryAlarmasPorRegion($id_region){
+        return $this->_query->select("DISTINCT a.ala_ia_id, a.ala_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+                            ->from("alertas a")
+                            ->join("alertas_vs_comunas ec", "ec.ala_ia_id = a.ala_ia_id", "INNER")
+                            ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
+                            ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                            ->whereAND("a.est_ia_id", Alarma_Estado_Model::ACTIVADO, "<>")
+                            ->whereAND("p.reg_ia_id", $id_region);
     }
 }

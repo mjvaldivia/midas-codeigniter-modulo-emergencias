@@ -29,10 +29,11 @@ var Dashboard = Class({
      * @returns void
      */
     loadDashboard : function(){
+        this.loadMapa();
         this.loadGraficoEmergenciasMes();
         this.loadCalendario();
         this.loadGrid();
-        this.loadMapa();
+        
     },
     
     /**
@@ -55,7 +56,7 @@ var Dashboard = Class({
         mapa.setLatitudLongitudUTM(6340442, 256029);
         
         mapa.initialize();
-        mapa.loadMarkers();
+        
         
         this.mapa_calendario = mapa;
     },
@@ -109,11 +110,6 @@ var Dashboard = Class({
     loadCalendario : function(){
         
         var yo = this;
-        
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
 
         $('#calendar').fullCalendar({
             header: {
@@ -146,7 +142,6 @@ var Dashboard = Class({
                 }
             ],
             eventClick: function(event, jsEvent, view) {
-                
                 var id = event.id;
                 
                 if(event.tipo == 2){
@@ -154,6 +149,9 @@ var Dashboard = Class({
                 } else {
                     yo.mapa_calendario.selectMarkerAlarmaById(id);
                 }
+            },
+            viewRender : function(view, element){
+                yo.mapa_calendario.loadMarkers(view.start, view.end);
             }
         });
     },

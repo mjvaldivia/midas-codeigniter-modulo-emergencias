@@ -149,14 +149,31 @@ var HomeMapa = Class({
     /**
      * Carga los marcadores
      */
-    loadMarkers : function(){
+    loadMarkers : function(fecha_inicio, fecha_termino){
+        
+        $.each(this.markers_emergencia, function(i, val){
+            val.marker.setMap(null);
+        });
+        
+        this.markers_emergencia = [];
+        
+        $.each(this.markers_alarma, function(i, val){
+            val.marker.setMap(null);
+        });
+        
+        this.markers_alarma = [];
+        
+        
+        var parametros = {"date_start" : fecha_inicio.format("YYYY-MM-DD"),
+                          "date_end"   : fecha_termino.format("YYYY-MM-DD")};
+         
         var yo = this;
         
         $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
-            data: "",
+            data: parametros,
             type: "post",
             url: siteUrl + "home/ajax_load_map_markers", 
             error: function(xhr, textStatus, errorThrown){

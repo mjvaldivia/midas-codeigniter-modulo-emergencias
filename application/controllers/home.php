@@ -68,6 +68,9 @@ class Home extends CI_Controller{
                                 array());
     }
     
+    /**
+     * Retorna informacion de la alarma
+     */
     public function ajax_alarma_info(){
         $respuesta = array();
         
@@ -120,11 +123,18 @@ class Home extends CI_Controller{
      * 
      */
     public function ajax_load_map_markers(){
+        $params = $this->input->post(null, true);
+        
+        
         $id_region = $this->session->userdata("session_region_codigo");
+        
+        $fecha_inicio = DateTime::createFromFormat("Y-m-d", $params["date_start"]);
+        $fecha_termino = DateTime::createFromFormat("Y-m-d", $params["date_end"]);
+         
         
         $respuesta = array();
         
-        $lista = $this->EmergenciaModel->listarPorRegion($id_region);
+        $lista = $this->EmergenciaModel->listarPorRegionYFecha($id_region, $fecha_inicio, $fecha_termino);
         foreach($lista as $void => $row){
             
             if($row["ala_c_utm_lat"]!="" AND $row["ala_c_utm_lng"]!=""){
@@ -137,7 +147,7 @@ class Home extends CI_Controller{
             
         }
         
-        $lista = $this->AlarmaModel->listarPorRegion($id_region);
+        $lista = $this->AlarmaModel->listarPorRegionYFecha($id_region, $fecha_inicio, $fecha_termino);
         foreach($lista as $void => $row){
             
             if($row["ala_c_utm_lat"]!="" AND $row["ala_c_utm_lng"]!=""){
