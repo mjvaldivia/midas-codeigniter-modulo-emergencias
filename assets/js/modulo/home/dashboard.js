@@ -3,7 +3,7 @@
  */
 
 var Dashboard = Class({
-    
+        
     // guarda contenido de la pagina
     content: "",
     mapa_calendario : null,
@@ -50,7 +50,10 @@ var Dashboard = Class({
      */
     loadMapa : function(){
         var mapa = new HomeMapa("mapa-emergencias");
+        
+        //centra el mapa en ubicacion por defecto
         mapa.setLatitudLongitudUTM(6340442, 256029);
+        
         mapa.initialize();
         mapa.loadMarkers();
         
@@ -142,9 +145,15 @@ var Dashboard = Class({
                     textColor: 'white' 
                 }
             ],
-            eventMouseover : function( event, jsEvent, view ) { 
+            eventClick: function(event, jsEvent, view) {
+                
                 var id = event.id;
-                yo.mapa_calendario.selectMarkerById(id);
+                
+                if(event.tipo == 2){
+                    yo.mapa_calendario.selectMarkerEmergenciaById(id);
+                } else {
+                    yo.mapa_calendario.selectMarkerAlarmaById(id);
+                }
             }
         });
     },

@@ -67,8 +67,12 @@ class QueryBuilder{
      * 
      * @param $db
      */
-    public function __construct($db) {
-        $this->_db = $db;
+    public function __construct($db = NULL) {
+        if(empty($db)){
+            
+        } else {
+            $this->_db = $db;
+        }
     }
     
     /**

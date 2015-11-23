@@ -1,20 +1,47 @@
 var HomeMapa = Class({
-
-    markers     : [],
+    
+    tipo_alarma : 1,
+    tipo_emergencia : 2,
+    
+    /**
+     * Zona por defecto
+     */
     geozone     : "19H",
+    
+    /**
+     * Id del elemento HTML que contiene el mapa
+     */
     id_div_mapa : "",
+    
+    /**
+     * Elemento google maps
+     */
+    mapa        : null,
+    
+    /**
+     * Lista de marcadores en el mapa
+     */
+    markers_emergencia     : [],
+    markers_alarma     : [],
+    
+    /**
+     * Popup de informacion de marcador
+     */
+    infoWindow  : null,
+    
+    /**
+     * Latitud y longitud del centro del mapa
+     */
     latitud     : "",
     longitud    : "",
-    mapa        : null,
-    infoWindow  : null,
 
     /**
      * Carga de dependencias
+     * @param {string} id elemento html
      * @returns void
      */
     __construct : function(id_mapa) {
         this.id_div_mapa = id_mapa;
-        
         this.infoWindow = new google.maps.InfoWindow();
     },
     
@@ -43,7 +70,7 @@ var HomeMapa = Class({
         var myLatlng = new google.maps.LatLng(this.latitud, this.longitud);
 
         var mapOptions = {
-          zoom: 10,
+          zoom: 8,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -58,9 +85,42 @@ var HomeMapa = Class({
      * @param {int} id
      * @returns {void}
      */
-    selectMarkerById : function(id){
+    selectMarkerAlarmaById : function(id){
         var yo = this;
-        var result = $.grep(this.markers, function(e){ return e.id == id; });
+        var result = $.grep(this.markers_alarma, function(e){ return e.id == id; });
+        
+        if(result.length > 0){
+            
+            $.ajax({         
+                dataType: "html",
+                cache: false,
+                async: true,
+                data: "id=" + id,
+                type: "post",
+                url: siteUrl + "home/ajax_alarma_info", 
+                error: function(xhr, textStatus, errorThrown){
+
+                },
+                success:function(html){
+                    var marker = result[0]["marker"];
+                    yo.mapa.setCenter(marker.getPosition());
+
+                    yo.infoWindow.setContent(html);
+                    yo.infoWindow.open(yo.mapa, marker);
+                    
+                }
+            });
+        }
+    },
+    
+    /**
+     * Selecciona un marcador, muestra informacion y centra el mapa
+     * @param {int} id
+     * @returns {void}
+     */
+    selectMarkerEmergenciaById : function(id){
+        var yo = this;
+        var result = $.grep(this.markers_emergencia, function(e){ return e.id == id; });
         
         if(result.length > 0){
             
@@ -111,16 +171,27 @@ var HomeMapa = Class({
                                                                yo.geozone);
                     
                     var position = new google.maps.LatLng(latLon[0], latLon[1]);
-
+                    
+                    var imagen = baseUrl + 'assets/img/spotlight-poi.png';
+                    if(markers[i]["tipo"] == yo.tipo_alarma){
+                        imagen = baseUrl + 'assets/img/spotlight-poi-yellow.png';
+                    }
+                    
                     marker = new google.maps.Marker({
                         id: markers[i]["id"],
                         position: position,
-                        icon: baseUrl + 'assets/img/spotlight-poi.png',
+                        icon: imagen,
                         map: yo.mapa,
                         title: markers[i]["nombre"]
                     });
                     
-                    yo.markers.push({"id" : markers[i]["id"], "marker" : marker})
+                    if(markers[i]["tipo"] == yo.tipo_alarma){
+                        yo.markers_alarma.push({"id" : markers[i]["id"], "marker" : marker})
+                    } else {
+                        yo.markers_emergencia.push({"id" : markers[i]["id"], "marker" : marker})
+                    }
+                    
+                    
                 }
             }
         });

@@ -57,7 +57,7 @@ Class Alarma_Nombre_Comunas{
      */
     public function getString(){
         $lista_comunas = $this->AlarmaComunaModel->listaComunasPorAlarma($this->_id_alarma);
-            
+        $comunas = "";
         $coma = "";
         foreach($lista_comunas as $key => $row){
             $comuna = $this->ComunaModel->getById($row["com_ia_id"]);

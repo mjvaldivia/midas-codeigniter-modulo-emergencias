@@ -68,6 +68,28 @@ class Home extends CI_Controller{
                                 array());
     }
     
+    public function ajax_alarma_info(){
+        $respuesta = array();
+        
+        $params = $this->input->post(null, true);
+        
+        $alarma = $this->AlarmaModel->getById($params["id"]);
+        if(!is_null($alarma)){
+            $nombre_tipo = "";
+            
+            $tipo = $this->EmergenciaTipoModel->getById($alarma->tip_ia_id);
+            if(!is_null($tipo)){
+                $nombre_tipo = $tipo->aux_c_nombre;
+            }
+
+            $respuesta = array("nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
+                               "nombre_informante" => $alarma->ala_c_nombre_informante,
+                               "tipo"   => $nombre_tipo);
+        }
+        
+        $this->load->view("pages/home/ajax_emergencia_info", $respuesta);
+    }
+    
     /**
      * Retorna informacion de la emergencia
      */
@@ -106,11 +128,26 @@ class Home extends CI_Controller{
         foreach($lista as $void => $row){
             
             if($row["ala_c_utm_lat"]!="" AND $row["ala_c_utm_lng"]!=""){
-                $respuesta[] = array("id" => $row["eme_ia_id"],
-                                     "nombre" => $row["eme_c_nombre_emergencia"],
-                                     "latitud" => $row["ala_c_utm_lat"],
+                $respuesta[] = array("id"       => $row["eme_ia_id"],
+                                     "tipo"     => 2,
+                                     "nombre"   => $row["eme_c_nombre_emergencia"],
+                                     "latitud"  => $row["ala_c_utm_lat"],
                                      "longitud" => $row["ala_c_utm_lng"]);
             }
+            
+        }
+        
+        $lista = $this->AlarmaModel->listarPorRegion($id_region);
+        foreach($lista as $void => $row){
+            
+            if($row["ala_c_utm_lat"]!="" AND $row["ala_c_utm_lng"]!=""){
+                $respuesta[] = array("id"       => $row["ala_ia_id"],
+                                     "tipo"     => 1,
+                                     "nombre"   => $row["ala_c_nombre_emergencia"],
+                                     "latitud"  => $row["ala_c_utm_lat"],
+                                     "longitud" => $row["ala_c_utm_lng"]);
+            }
+            
         }
         
         echo json_encode($respuesta);
@@ -151,7 +188,9 @@ class Home extends CI_Controller{
                 
                 $fecha_alerta = DateTime::createFromFormat("Y-m-d H:i:s", $alerta["ala_d_fecha_emergencia"]);
                 
-                $respuesta[] = array("title" => $alerta["ala_c_nombre_emergencia"],
+                $respuesta[] = array("id"    => $alerta["ala_ia_id"],
+                                     "tipo"  => 1,
+                                     "title" => $alerta["ala_c_nombre_emergencia"],
                                      "start" => $fecha_alerta->format("Y-m-d H:i:s"),
                                      "allDay" => false);
             }
@@ -176,6 +215,7 @@ class Home extends CI_Controller{
                 $fecha_alerta = DateTime::createFromFormat("Y-m-d H:i:s", $alerta["eme_d_fecha_emergencia"]);
                 
                 $respuesta[] = array("id"     => $alerta["eme_ia_id"],
+                                     "tipo"   => 2,
                                      "title"  => $alerta["eme_c_nombre_emergencia"],
                                      "start"  => $fecha_alerta->format("Y-m-d H:i:s"),
                                      "allDay" => false);

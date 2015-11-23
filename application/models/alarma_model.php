@@ -85,6 +85,27 @@ class Alarma_Model extends MY_Model {
     }
     
     /**
+     * Lista alarmas por la region
+     * @param int $id_region
+     * @return array
+     */
+    public function listarPorRegion($id_region){
+        $result = $this->_query->select("DISTINCT a.ala_ia_id, a.ala_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+                               ->from("alertas a")
+                               ->join("alertas_vs_comunas ec", "ec.ala_ia_id = a.ala_ia_id", "INNER")
+                               ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
+                               ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                               ->whereAND("a.est_ia_id", Alarma_Estado_Model::ACTIVADO, "<>")
+                               ->whereAND("p.reg_ia_id", $id_region)
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista todas las alarmas
      * @return array
      */

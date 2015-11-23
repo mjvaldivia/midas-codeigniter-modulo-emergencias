@@ -56,7 +56,7 @@ Class Emergencia_Nombre_Comunas{
      */
     public function getString(){
         $lista_comunas = $this->EmergenciaComunaModel->listaComunasPorEmergencia($this->_id_emergencia);
-            
+        $comunas = "";
         $coma = "";
         foreach($lista_comunas as $key => $row){
             $comuna = $this->ComunaModel->getById($row["com_ia_id"]);
