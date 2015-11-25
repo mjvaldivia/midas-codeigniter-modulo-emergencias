@@ -7,6 +7,7 @@ var Permisos = Class({
     nuevo: true,
     editar : true,
     eliminar : true,
+    finalizaremergencia : true,
     
     /**
      * Carga de dependencias
@@ -34,7 +35,7 @@ var Permisos = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "session/json_puede_editar", 
+            url: siteUrl + "session/json_permisos", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -44,6 +45,7 @@ var Permisos = Class({
                     yo.nuevo = data.nuevo;
                     yo.editar = data.editar;
                     yo.eliminar = data.eliminar;
+                    yo.finalizaremergencia = data.finalizar_emergencia;
                 }
             }
         });

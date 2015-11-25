@@ -72,6 +72,7 @@
                 </ul>
             </div>
 
+            <?php if (puedeEditar("emergencia")) { ?>
             <div class="dropdown pull-right">
                 <a title="Editar mapa" href="#" onclick="javascript:void(0)" class="btn btn-primary dropdown-toggle" type="button" id="ctrlDraw" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-pencil-square-o"></i>
@@ -131,7 +132,8 @@
                     </li>
                 </ul>
             </div>
-
+            <?php } ?>
+            
             <a id="ctrlIns" title="Maestro de instalaciones" class="btn btn-primary pull-right">
                 <i class="fa fa-building"></i>
             </a>
@@ -143,9 +145,13 @@
             <a id="ctrlLayers" href="#" title="Capas" class="btn btn-primary pull-right">
                 <i class="fa fa-clone"></i>
             </a>
+            
+            <?php if (puedeEditar("emergencia")) { ?>
             <a id="ctrlSave" href="#" title="Guardar" class="btn btn-primary pull-right">
                 <i class="fa fa-floppy-o"></i>
             </a>
+            <?php } ?>
+            
         </div>
     </div>
     <div class="main col-md-12 col-xs-12">

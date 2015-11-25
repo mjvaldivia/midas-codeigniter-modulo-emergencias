@@ -17,26 +17,6 @@
             <tr>
                 <td width="10%" align="center">
                     
-                    <!--<button data-style='width:80%;' class="btn btn-xs btn-blue modal-sipresa" data-href="<?= site_url("visor/reporte/id/" .  $row["eme_ia_id"] . "/ala_ia_id/" . $row["ala_ia_id"]); ?>" data-title='Administracion del Reporte' data-success='exportarMapa(<?php echo $row["ala_ia_id"] ?>);' data-target='#modal_<?php echo $row["ala_ia_id"] ?>'>
-                        <i class="fa fa-fa2x fa-file-text-o"></i>
-                    </button>-->
-                    <!--
-                    <?php if (puedeEditar("emergencia")) { ?>
-                    <button data="<?php echo $row["eme_ia_id"] ?>" class="btn btn-xs btn-blue emergencia-editar" data-toggle="tooltip" data-toogle-param="arriba" title="Editar la emergencia">
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <?php } ?>
-                    
-                    <button onclick="window.open(siteUrl + 'visor/index/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" class="btn btn-xs btn-blue" data-toggle="tooltip" data-toogle-param="arriba" title="Abrir el visor">
-                        <i class="fa fa-globe"></i>
-                    </button>
-                    
-                    <?php if (puedeEditar("emergencia")) { ?>
-                    <button data="<?php echo $row["eme_ia_id"] ?>" class="btn btn-xs btn-blue emergencia-cerrar" data-toggle="tooltip" data-toogle-param="arriba" title="Cerrar emergencia">
-                        <i class="fa fa-check"></i>
-                    </button>
-                    <?php } ?>
-                    -->
                     <div style="width: 90px">
                         <div class="row">
                             <div class="btn-group">
@@ -62,7 +42,7 @@
                                           <i class="fa fa-globe"></i> Abrir visor
                                       </a>
                                   </li>
-                                  <?php if (puedeEditar("emergencia")) { ?>
+                                  <?php if (puedeFinalizarEmergencia()) { ?>
                                   <li>
                                       <a data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-cerrar" href="#">
                                           <i class="fa fa-check"></i> Finalizar emergencia

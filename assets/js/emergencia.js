@@ -201,11 +201,14 @@ var Emergencia = {};
                 html += "           </a>";
                 
                 if(row.est_ia_id != 2){
-                    if(permisos.getEditar()){
+                    
+                    if(permisos.getFinalizaremergencia()){
                         html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Cerrar emergencia\" class=\"btn btn-primary\" onclick=Emergencia.cerrar(" + row.eme_ia_id + ");>";
                         html += "               <i class=\"fa fa-fa2x fa-check\"></i>";
                         html += "           </a>";
+                    }
                     
+                    if(permisos.getEditar()){
                         html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Editar\" class=\"btn btn-primary\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
                         html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
                         html += "           </a>";

@@ -5,7 +5,17 @@
 
 require_once(APPPATH . "helpers/modulo/emergencia/nombre/Tipo.php");
 require_once(APPPATH . "helpers/modulo/emergencia/nombre/Comunas.php");
+require_once(APPPATH . "helpers/modulo/emergencia/usuario/Permiso.php");
 require_once(APPPATH . "helpers/modulo/emergencia/html/IconoTipoEmergencia.php");
+
+/**
+ * 
+ * @return boolean
+ */
+function puedeFinalizarEmergencia(){
+    $permiso = New Emergencia_Usuario_Permiso();
+    return $permiso->puedeFinalizarEmergencia();
+}
 
 /**
  * Retorna el icono que le corresponde al tipo de emergencia

@@ -39,7 +39,7 @@ class Session extends CI_Controller
     /**
      * Ve si el usuario tiene permisos para editar
      */
-    public function json_puede_editar(){
+    public function json_permisos(){
         $params = $this->input->post(null, true);
 
         $this->usuario->setModulo($params["modulo"]);
@@ -47,7 +47,8 @@ class Session extends CI_Controller
         $retorno = array("ver"    => $this->usuario->getPermisoVer(),
                          "editar" => $this->usuario->getPermisoEditar(),
                          "nuevo"  => $this->usuario->getPermisoEditar(),
-                         "eliminar" => $this->usuario->getPermisoEliminar());
+                         "eliminar" => $this->usuario->getPermisoEliminar(),
+                         "finalizar_emergencia" => $this->usuario->getPermisoFinalizarEmergencia());
         
         
         $retorno["correcto"] = true;
