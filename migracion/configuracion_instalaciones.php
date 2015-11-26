@@ -1,0 +1,2 @@
+INSERT INTO `configuracion_instalaciones` (`avc_ia_id`, `avc_c_nombre`, `avc_c_disable`, `avc_c_funcionjavascript`, `avc_c_tipo`, `avc_c_tabla_auxiliar_nombre`, `avc_c_tabla_auxiliar_pk`, `avc_c_tabla_auxiliar_valor`, `avc_c_tabla_auxiliar_fk`, `avc_c_combo_padre`, `avc_c_tabla_auxiliar_unicidad`, `amb_ia_id`, `aux_ia_id`, `avc_i_orden`)
+VALUES ('895', 'Nivel de venta (UF)', 'SI', NULL, 'texto', NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL);
