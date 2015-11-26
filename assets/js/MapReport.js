@@ -478,6 +478,30 @@ var MapReport = {
     };
 
     this.dibujaTablaDocs = function () {
+        
+        var permisos = new Permisos("emergencia");
+        
+         if(permisos.getEditar()){
+             var a_target = 4;
+             var columnas = [
+                null,
+                null,
+                null,
+                {"sClass": "text-center"},
+                null
+
+            ];
+         } else {
+             var a_target = 3;
+             var columnas = [
+                null,
+                null,
+                null,
+                {"sClass": "text-center"},
+            ];
+         }
+        
+        
         var ala_ia_id = $('#ala_ia_id').val();
         $("#tabla_doc").dataTable().fnDestroy();
         $('#tabla_doc').dataTable({
@@ -491,16 +515,9 @@ var MapReport = {
             language: {
                 url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
             },
-            "aoColumns": [
-                null,
-                null,
-                null,
-                {"sClass": "text-center"},
-                null
-
-            ],
+            "aoColumns": columnas,
             "aoColumnDefs": [
-                {'bSortable': false, 'aTargets': [4]}
+                {'bSortable': false, 'aTargets': [a_target]}
             ]
         });
         $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>");

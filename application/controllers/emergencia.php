@@ -127,6 +127,7 @@ class Emergencia extends CI_Controller {
             show_404();
         }
     }
+
     
     /**
      * Despliega formulario para ingresar nueva emergencia

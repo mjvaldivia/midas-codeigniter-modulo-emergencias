@@ -205,6 +205,8 @@ var EmergenciaEditar = {};
     };
 
     this.dibujaTablaDocs = function () {
+        
+        
         var ala_ia_id = $('#ala_ia_id').val();
         $("#tabla_doc").dataTable().fnDestroy();
         $('#tabla_doc').dataTable({

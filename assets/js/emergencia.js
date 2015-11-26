@@ -74,7 +74,7 @@ var Emergencia = {};
         
         
     };
-
+    
     this.eventoBtnBuscar = function () {
         var btnText = $("#btnBuscar").html();
         $("#btnBuscar").attr('disabled',true).html('Buscando... <i class="fa fa-spin fa-spinner"></i>');
@@ -190,9 +190,9 @@ var Emergencia = {};
                 html += "       <div class=\"btn-group\">";
                 
                 
-                if(permisos.getEditar()){
-                    html += "     <a data-toggle='modal' class='btn btn-primary modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"/eme_ia_id/"+row.eme_ia_id+"' data-title='Administracion del Reporte' data-success='exportarMapa("+row.eme_ia_id+");' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
-                }
+          
+                    html += "     <a data-toggle='modal' class='btn btn-primary modal-sipresa' data-style='width:80%;' data-href='"+ siteUrl +"visor/reporte/id/"+row.eme_ia_id+"/ala_ia_id/"+row.ala_ia_id+"/eme_ia_id/"+row.eme_ia_id+"' data-title='Administracion del Reporte' data-target='#modal_"+row.eme_ia_id+"'><i class='fa fa-fa2x fa-file-text-o'></i></a>";
+                
 //                html += "           <a title=\"Reporte\" class=\"btn btn-default\" onclick=Emergencia.openIframe(" + row.eme_ia_id + "); >";
                // html += "               <i class=\"fa fa-fa2x fa-file-text-o\"></i>";
                // html += "           </a>";
@@ -212,7 +212,7 @@ var Emergencia = {};
                         html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Editar\" class=\"btn btn-primary\" onclick=Emergencia.editarEmergencia(" + row.eme_ia_id + ");>";
                         html += "               <i class=\"fa fa-fa2x fa-pencil\"></i>";
                         html += "           </a>";
-                    }
+                    } 
                     
                     if(permisos.getEliminar()){
                         html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Eliminar\" class=\"btn btn-primary\" onclick=Emergencia.eliminarEmergencia(" + row.eme_ia_id + ");>";
