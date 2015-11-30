@@ -6,7 +6,6 @@
  */
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
-require_once('class.phpmailer.php');
 
 class Sendmail_Model extends MY_Model {
 
@@ -20,8 +19,8 @@ class Sendmail_Model extends MY_Model {
 
     public function emailSend($to = null, $cc = null, $bcc = null, $subject = null, $message = null, $dry_run = false, $attach = array()) {
         
-        $this->load->library('phpmailer');
-        $mail = $this->email->load();
+        $this->load->library('mailer');
+        $mail = $this->mailer->load();
         $mail->IsSMTP(); // telling the class to use SMTP
         try {
             $mail->Host = "mail.minsal.cl";           // SMTP server
