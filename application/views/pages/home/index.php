@@ -76,7 +76,7 @@
                 <?php if(puedeVer("simulacion")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="#">
+                        <a href="<?= site_url("/session/inicia_simulacion") ?>">
                             <div class="circle-tile-heading green">
                                 <i class="fa fa-flag-checkered fa-fw fa-3x"></i>
                             </div>
@@ -85,7 +85,7 @@
                             <div class="circle-tile-description text-faded">
                                 Simulación
                             </div>
-                            <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?= site_url("/session/inicia_simulacion") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>

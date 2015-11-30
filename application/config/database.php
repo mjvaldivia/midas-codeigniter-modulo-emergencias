@@ -45,7 +45,8 @@
 | the active record class
 */
 
-$active_group = 'desarrollo';
+
+$active_group = ENVIRONMENT;
 $active_record = TRUE;
 
 $db['produccion']['hostname'] = '10.8.43.145';
@@ -82,22 +83,36 @@ $db['test']['autoinit'] = TRUE;
 $db['test']['stricton'] = FALSE;
 
 
-$db['desarrollo']['hostname'] = '10.8.43.172';
-$db['desarrollo']['username'] = 'sipresa_usr';
-$db['desarrollo']['password'] = 'sipresa2014';
-$db['desarrollo']['database'] = 'sipresa_dev2';
-$db['desarrollo']['dbdriver'] = 'mysql';
-$db['desarrollo']['dbprefix'] = '';
-$db['desarrollo']['pconnect'] = TRUE;
-$db['desarrollo']['db_debug'] = TRUE;
-$db['desarrollo']['cache_on'] = FALSE;
-$db['desarrollo']['cachedir'] = '';
-$db['desarrollo']['char_set'] = 'utf8';
-$db['desarrollo']['dbcollat'] = 'utf8_general_ci';
-$db['desarrollo']['swap_pre'] = '';
-$db['desarrollo']['autoinit'] = TRUE;
-$db['desarrollo']['stricton'] = FALSE;
+$db['development']['hostname'] = '10.8.43.172';
+$db['development']['username'] = 'sipresa_usr';
+$db['development']['password'] = 'sipresa2014';
+$db['development']['database'] = 'sipresa_dev2';
+$db['development']['dbdriver'] = 'mysql';
+$db['development']['dbprefix'] = '';
+$db['development']['pconnect'] = TRUE;
+$db['development']['db_debug'] = TRUE;
+$db['development']['cache_on'] = FALSE;
+$db['development']['cachedir'] = '';
+$db['development']['char_set'] = 'utf8';
+$db['development']['dbcollat'] = 'utf8_general_ci';
+$db['development']['swap_pre'] = '';
+$db['development']['autoinit'] = TRUE;
+$db['development']['stricton'] = FALSE;
 
-
+$db['simulacion']['hostname'] = 'localhost';
+$db['simulacion']['username'] = 'root';
+$db['simulacion']['password'] = '';
+$db['simulacion']['database'] = 'sipresa_dev2';
+$db['simulacion']['dbdriver'] = 'mysql';
+$db['simulacion']['dbprefix'] = '';
+$db['simulacion']['pconnect'] = TRUE;
+$db['simulacion']['db_debug'] = TRUE;
+$db['simulacion']['cache_on'] = FALSE;
+$db['simulacion']['cachedir'] = '';
+$db['simulacion']['char_set'] = 'utf8';
+$db['simulacion']['dbcollat'] = 'utf8_general_ci';
+$db['simulacion']['swap_pre'] = '';
+$db['simulacion']['autoinit'] = TRUE;
+$db['simulacion']['stricton'] = FALSE;
 /* End of file database.php */
 /* Location: ./application/config/database.php */

@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Archivo_Model extends CI_Model {
+class Archivo_Model extends MY_Model {
 
     public $TIPO_EMERGENCIA = 5;
     public $TIPO_GEOJSON = 6;

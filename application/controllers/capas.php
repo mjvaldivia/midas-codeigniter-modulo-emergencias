@@ -7,7 +7,7 @@ if (!defined("BASEPATH")) exit("No direct script access allowed");
  */
 
 
-class Capas extends CI_Controller
+class Capas extends MY_Controller 
 {
     /**
      *

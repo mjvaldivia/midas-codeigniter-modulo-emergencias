@@ -5,7 +5,7 @@
  * Date: 17-08-15
  * Time: 11:02 AM
  */
-class Session_Model extends CI_Model
+class Session_Model extends MY_Model
 {
     public function obtenerComunas() {
         $this->load->helper("debug");

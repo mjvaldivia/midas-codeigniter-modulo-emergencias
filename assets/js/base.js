@@ -14,6 +14,7 @@ $(function() {
 
 $(document).ready(function() {
     
+    notificacionSimulacion();
     
     
     $(".datepicker").livequery(function(){
@@ -195,7 +196,37 @@ function getFormParent(parent, intento){
     }
 }
 
+var stack_bar_bottom = {"dir1": "up", "dir2": "right", "spacing1": 0, "spacing2": 0};
 var stack_bottomright = {"dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25};
+
+function notificacionSimulacion(){
+    $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: "",
+            type: "post",
+            url: siteUrl + "session/ajax_simulacion", 
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(data){
+                if(data.simulacion){
+                    var opts = {
+                                title: "El sistema está en modo simulación.",
+                                type: 'error',
+                                text: "<a href=\"" + siteUrl + "session/termina_simulacion\" class=\"btn btn-xs btn-primary\">SALIR DE MODO SIMULACIÓN</a>",
+                                addclass: "stack-bar-bottom",
+                                cornerclass: "",
+                                hide: false,
+                                width: "100%",
+                                stack: stack_bar_bottom
+                            };
+                    new PNotify(opts);
+                }
+            }
+        });
+}
 
 function notificacionCorrecto(titulo, texto){
     new PNotify({ title: titulo, text: texto, type: 'success',addclass: "stack-bottomright",
