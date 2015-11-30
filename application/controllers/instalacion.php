@@ -8,7 +8,7 @@ if (!defined("BASEPATH"))
  * Date: 09-09-15
  * Time: 03:05 PM
  */
-class Instalacion extends CI_Controller {
+class Instalacion extends MY_Controller {
 
     public function obtenerJsonDtTipos() {
         $this->load->helper("session");

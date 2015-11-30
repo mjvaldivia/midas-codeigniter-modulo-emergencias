@@ -6,7 +6,7 @@
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
-class Archivo extends CI_Controller {
+class Archivo extends MY_Controller {
 
     public function subir() {
         // load basicos

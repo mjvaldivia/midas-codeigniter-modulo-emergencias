@@ -3,6 +3,7 @@
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Permiso.php");
+require_once(APPPATH . "helpers/modulo/layout/sistema/Simulacion.php");
 require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
 require_once(APPPATH . "helpers/modulo/layout/text/MoreLess.php");
 
@@ -75,4 +76,13 @@ function textMoreLess($string, $largo = 30){
     $text->setString($string);
     $text->setLargo($largo);
     return $text->render();
+}
+
+/**
+ * Muestra mensaje cuando esta en simulacion
+ * @return string html
+ */
+function htmlSimulacion(){
+    $simulacion = New Layout_Sistema_Simulacion();
+    return $simulacion->render();
 }

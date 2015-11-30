@@ -2158,6 +2158,26 @@ input[type="checkbox"]:checked::after,
     bottom: auto;
 }
 
+.ui-pnotify.stack-bar-bottom {
+    right: 0;
+    bottom: 0;
+    top: auto;
+    left: 0;
+}
+
+.stack-bar-bottom > .ui-pnotify-container{
+    margin-bottom: 0;
+}
+
+.stack-bar-bottom > .ui-pnotify-container > .ui-pnotify-text, 
+.stack-bar-bottom > .ui-pnotify-container > .ui-pnotify-title{
+    text-align: center;
+}
+
+.stack-bar-bottom > .ui-pnotify-container > .ui-pnotify-icon {
+   visibility: hidden;
+}
+
 .modal90 > .modal-dialog{
     width:90% !important;
 }

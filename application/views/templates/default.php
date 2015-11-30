@@ -85,9 +85,10 @@
                 </button>
                 <div class="navbar-brand">
                     <a href="<?php echo base_url("/") ?>" style="color: #FFF">
-                       <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencias
-                       <!-- <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" data-1x="img/flex-admin-logo@1x.png" data-2x="img/flex-admin-logo@2x.png" class="hisrc img-responsive" alt="">-->
+                        <div> <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencias</div>
+                       
                     </a>
+           
                 </div>
             </div>
             <!-- end BRAND HEADING -->
@@ -109,101 +110,22 @@
                 <ul class="nav navbar-right">
 
                     <!-- begin MESSAGES DROPDOWN -->
+                    <?= htmlSimulacion(); ?>
+
+                    
                     <li class="dropdown">
                         <a href="#" class="messages-link dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope"></i>
-                            <!--<span class="number">4</span> <i class="fa fa-caret-down"></i>-->
                         </a>
                         <ul class="dropdown-menu dropdown-scroll dropdown-messages">
 
-                            <!-- Messages Dropdown Heading -->
+                        
                             <li class="dropdown-header">
                                 <i class="fa fa-envelope"></i> No hay mensajes nuevos
                             </li>
 
-                            <!-- Messages Dropdown Body - This is contained within a SlimScroll fixed height box. You can change the height using the SlimScroll jQuery features. -->
-                           <!-- <li id="messageScroll">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#">
-                                            <div class="row">
-                                                <div class="col-xs-2">
-                                                    
-                                                </div>
-                                                <div class="col-xs-10">
-                                                    <p>
-                                                        <strong>Jane Smith</strong>: Hi again! I wanted to let you know that the order...
-                                                    </p>
-                                                    <p class="small">
-                                                        <i class="fa fa-clock-o"></i> 12 minutes ago
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="row">
-                                                <div class="col-xs-2">
-                                                    
-                                                </div>
-                                                <div class="col-xs-10">
-                                                    <p>
-                                                        <strong>Roddy Austin</strong>: Thanks for the info, if you need anything from...
-                                                    </p>
-                                                    <p class="small">
-                                                        <i class="fa fa-clock-o"></i> 3:39 PM
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="row">
-                                                <div class="col-xs-2">
-                                                    
-                                                </div>
-                                                <div class="col-xs-10">
-                                                    <p>
-                                                        <strong>Stacy Gibson</strong>: Hey, what was the purchase order number for the...
-                                                    </p>
-                                                    <p class="small">
-                                                        <i class="fa fa-clock-o"></i> Yesterday at 10:23 AM
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="row">
-                                                <div class="col-xs-2">
-                                                    
-                                                </div>
-                                                <div class="col-xs-10">
-                                                    <p>
-                                                        <strong>Jeffrey Cortez</strong>: Check out this video I found the other day, it's...
-                                                    </p>
-                                                    <p class="small">
-                                                        <i class="fa fa-clock-o"></i> Tuesday at 12:23 PM
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
                             
-
-                            
-                            <li class="dropdown-footer">
-                                <a href="mailbox.html">Read All Messages</a>
-                            </li>
-                            -->
-
                         </ul>
-                        <!-- /.dropdown-menu -->
                     </li>
                     <!-- /.dropdown -->
                     <!-- end MESSAGES DROPDOWN -->

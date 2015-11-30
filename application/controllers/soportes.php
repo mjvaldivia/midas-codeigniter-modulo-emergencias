@@ -3,7 +3,7 @@ session_start();
 if (!defined("BASEPATH")) exit("No direct script access allowed");
 
 
-class Soportes extends CI_Controller {
+class Soportes extends MY_Controller {
 
     const NUEVO_TICKET = 'Ticket creado';
     const NUEVO_MENSAJE = 'Nuevo mensaje en ticket';

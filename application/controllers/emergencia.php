@@ -7,7 +7,7 @@
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
-class Emergencia extends CI_Controller {
+class Emergencia extends MY_Controller {
 
      /**
      *

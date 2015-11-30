@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Visor extends CI_Controller {
+class Visor extends MY_Controller {
 
     public function index() {
         // load basicos

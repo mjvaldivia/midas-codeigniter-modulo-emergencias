@@ -5,8 +5,7 @@
  * Date: 17-08-15
  * Time: 10:58 AM
  */
-class Session extends CI_Controller
-{
+class Session extends MY_Controller {
     
     /**
      *
@@ -34,6 +33,38 @@ class Session extends CI_Controller
         parent::__construct();
         $this->load->library("usuario");
         $this->load->model("rol_model", "rol_model");
+    }
+    
+    /**
+     * Inicia el modo simulacion
+     */
+    public function inicia_simulacion(){
+        $this->enviroment->setSimulacion();
+        header("location: " . base_url());
+        die();
+    }
+    
+    /**
+     * Inicia el modo simulacion
+     */
+    public function termina_simulacion(){
+        $this->enviroment->clearSimulacion();
+        header("location: " . base_url());
+        die();
+    }
+    
+    /**
+     * Esta en simulacion o no
+     */
+    public function ajax_simulacion(){
+        $ambiente = $this->enviroment->getDatabase();
+        if($ambiente == "simulacion"){
+            $respuesta = true;
+        } else {
+            $respuesta = false;
+        }
+        
+        echo json_encode(array("simulacion" => $respuesta));
     }
     
     /**

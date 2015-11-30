@@ -8,7 +8,7 @@ if (!defined("BASEPATH"))
  * Date: 12-08-15
  * Time: 04:24 PM
  */
-class Alarma extends CI_Controller {
+class Alarma extends MY_Controller {
 
     /**
      *
