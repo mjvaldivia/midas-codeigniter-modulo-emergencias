@@ -5,7 +5,7 @@
  * Date: 09-09-15
  * Time: 02:30 PM
  */
-class Tipo_Instalacion_Model extends CI_Model {
+class Tipo_Instalacion_Model extends MY_Model {
 
     public function obtenerTodos() {
         $sql = "

@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
  * @author Vladimir
  * @since 14-09-15
  */
-class Usuario_Model extends CI_Model {
+class Usuario_Model extends MY_Model {
 
     public function generaKeyId($idUser = null) {
         $key_id = ($idUser == null) ? md5(uniqid($idUser)) : md5(uniqid());

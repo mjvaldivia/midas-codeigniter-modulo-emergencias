@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Categoria_Cobertura_Model extends CI_Model {
+class Categoria_Cobertura_Model extends MY_Model {
 
     public function obtenerTodos() {
         $sql = "

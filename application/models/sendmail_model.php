@@ -7,7 +7,7 @@
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
-class Sendmail_Model extends CI_Model {
+class Sendmail_Model extends MY_Model {
 
     public $SEREMI = 1;
     public $JEFE_DAS = 2;

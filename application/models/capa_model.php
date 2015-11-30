@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Capa_Model extends CI_Model {
+class Capa_Model extends MY_Model {
 
     public function guardarCapa($params) {
         

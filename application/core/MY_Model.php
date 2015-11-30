@@ -20,8 +20,15 @@ Class MY_Model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->load->library('model/QueryBuilder');
+        $this->load->library('Enviroment');
+        
+        $enviroment = New Enviroment();
+        $this->db = $this->load->database($enviroment->getDatabase(), true);
+        
         $this->_query = New QueryBuilder($this->db);
         $this->_query->setTable($this->_tabla);
+        
+        
     }
     
     /**

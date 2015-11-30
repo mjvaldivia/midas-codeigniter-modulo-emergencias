@@ -4,7 +4,7 @@
  * Date: 21-09-15
  * Time: 01:33 PM
  */
-class Instalacion_Model extends CI_Model
+class Instalacion_Model extends MY_Model
 {
     public function obtenerInsSegunTipIns($params) {
         $sql = "select com_ia_id from emergencias_vs_comunas where eme_ia_id = ?";

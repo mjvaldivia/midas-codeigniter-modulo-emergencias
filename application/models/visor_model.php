@@ -5,7 +5,7 @@
  * Date: 01-10-15
  * Time: 05:41 PM
  */
-class Visor_Model extends CI_Model
+class Visor_Model extends MY_Model
 {
     public function guardarEstadoTipoIns($params) {
         $sql = "insert into tipo_ins_visor(id_emergencia, id_tipo_ins) values (?, ?)";
