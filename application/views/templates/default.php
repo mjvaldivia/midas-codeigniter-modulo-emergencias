@@ -113,11 +113,11 @@
                     <?= htmlSimulacion(); ?>
 
                     
-                    <li class="dropdown">
-                        <a href="#" class="messages-link dropdown-toggle" data-toggle="dropdown">
+                    <!--<li class="dropdown">
+                        <a href="#" class="-link dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-scroll dropdown-messages">
+                        <ul class="dropdown-menu dropdown-scroll dropdown-alerts">
 
                         
                             <li class="dropdown-header">
@@ -126,7 +126,7 @@
 
                             
                         </ul>
-                    </li>
+                    </li>-->
                     <!-- /.dropdown -->
                     <!-- end MESSAGES DROPDOWN -->
                     <!-- begin USER ACTIONS DROPDOWN -->

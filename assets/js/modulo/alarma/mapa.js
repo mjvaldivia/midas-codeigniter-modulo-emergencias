@@ -138,7 +138,7 @@ var AlarmaMapa = Class({
         google.maps.event.trigger(this.mapa, "resize");
         this.mapa.setCenter(center); 
         
-        this.callback(this.mapa);
+       // this.callback(this.mapa);
         
     }
     

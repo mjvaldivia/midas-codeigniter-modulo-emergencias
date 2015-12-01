@@ -85,7 +85,7 @@
                             <div class="circle-tile-description text-faded">
                                 Simulación
                             </div>
-                            <a href="<?= site_url("/session/inicia_simulacion") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?= site_url("/session/inicia_simulacion") ?>" class="circle-tile-footer">Ir a simulación <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>

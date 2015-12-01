@@ -63,12 +63,16 @@ var FormEmergenciasNueva = Class({
     },
     
     bindMapa : function(){
-       var mapa = new AlarmaMapa("mapa");
-       mapa.setLongitud($("#nueva_longitud").val());
-       mapa.setLatitud($("#nueva_latitud").val());
-       mapa.setGeozone($("#geozone").val());
-       mapa.inicio();
-       mapa.cargaMapa(); 
+        var mapa = new AlarmaMapa("mapa");
+       
+        if($("#nueva_longitud").val() != "" && $("#nueva_latitud").val() != ""){
+            mapa.setLongitud($("#nueva_longitud").val());
+            mapa.setLatitud($("#nueva_latitud").val());
+            mapa.setGeozone($("#geozone").val());
+        }
+
+        mapa.inicio();
+        mapa.cargaMapa(); 
     } ,
     
     /**

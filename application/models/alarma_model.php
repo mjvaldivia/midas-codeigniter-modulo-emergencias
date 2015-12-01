@@ -69,6 +69,36 @@ class Alarma_Model extends MY_Model {
     }
     
     /**
+     * Lista alarmas de acuerdo a parametros
+     * @param array $parametros
+     * @return array
+     */
+    public function buscar(array $parametros = array()){
+        $query = $this->_query->select("*")
+                               ->from();
+        
+        if(!empty($parametros["id_estado"])){
+            $query->whereAND("est_ia_id", $parametros["id_estado"], "=");
+        }
+        
+        if(!empty($parametros["id_tipo"])){
+            $query->whereAND("tip_ia_id", $parametros["id_tipo"], "=");
+        }
+        
+        if(!empty($parametros["year"])){
+            $query->whereAND("year(ala_d_fecha_recepcion)", $parametros["year"], "=");
+            
+        }
+        
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param int $id_estado id del estado
      * @return array
