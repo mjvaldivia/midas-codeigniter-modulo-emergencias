@@ -66,21 +66,21 @@ $db['production']['autoinit'] = TRUE;
 $db['production']['stricton'] = FALSE;
 
 
-$db['test']['hostname'] = '10.8.43.145';
-$db['test']['username'] = 'sipresamelo';
-$db['test']['password'] = 'InfoSeremi05';
-$db['test']['database'] = 'sipresa_test';
-$db['test']['dbdriver'] = 'mysql';
-$db['test']['dbprefix'] = '';
-$db['test']['pconnect'] = TRUE;
-$db['test']['db_debug'] = TRUE;
-$db['test']['cache_on'] = FALSE;
-$db['test']['cachedir'] = '';
-$db['test']['char_set'] = 'utf8';
-$db['test']['dbcollat'] = 'utf8_general_ci';
-$db['test']['swap_pre'] = '';
-$db['test']['autoinit'] = TRUE;
-$db['test']['stricton'] = FALSE;
+$db['testing']['hostname'] = '10.8.43.145';
+$db['testing']['username'] = 'sipresamelo';
+$db['testing']['password'] = 'InfoSeremi05';
+$db['testing']['database'] = 'sipresa_test';
+$db['testing']['dbdriver'] = 'mysql';
+$db['testing']['dbprefix'] = '';
+$db['testing']['pconnect'] = TRUE;
+$db['testing']['db_debug'] = TRUE;
+$db['testing']['cache_on'] = FALSE;
+$db['testing']['cachedir'] = '';
+$db['testing']['char_set'] = 'utf8';
+$db['testing']['dbcollat'] = 'utf8_general_ci';
+$db['testing']['swap_pre'] = '';
+$db['testing']['autoinit'] = TRUE;
+$db['testing']['stricton'] = FALSE;
 
 
 $db['development']['hostname'] = '10.8.43.172';
