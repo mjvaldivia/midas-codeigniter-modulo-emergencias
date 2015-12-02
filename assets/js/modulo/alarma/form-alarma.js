@@ -119,9 +119,8 @@ var FormAlarma = Class({
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    
-                    yo.callBackGuardar();
                     yo.bo_email_enviado = data.res_mail;
+                    yo.callBackGuardar();
                     salida = true;
                 } else {
                     $("#form_nueva_error").removeClass("hidden");
