@@ -19,25 +19,55 @@ class Sendmail_Model extends MY_Model {
 
     public function emailSend($to = null, $cc = null, $bcc = null, $subject = null, $message = null, $dry_run = false, $attach = array()) {
         
-        $this->load->library('email');
-
-        $this->email->from('noresponder@minsal.cl', 'MIDAS - MINSAL');
-        $this->email->to($to);
-        $this->email->cc($cc);
-        $this->email->bcc($bcc);
-        $this->email->subject($subject);
-        $this->email->message($message);
-        
-        
-        foreach ($attach as $ruta){
-            $this->email->attach($ruta);
+        $this->load->library('mailer');
+        $mail = $this->mailer->load();
+        $mail->IsSMTP(); // telling the class to use SMTP
+        try {
+            $mail->Host = "mail.minsal.cl";           // SMTP server
+            //$mail->SMTPDebug  = 2;                         // enables SMTP debug information (for testing)
+            $mail->SMTPAuth = true;                         // enable SMTP authentication
+            $mail->Port = 25;                      // set the SMTP port for the GMAIL server 465
+            $mail->Username = "sistemas";            // SMTP account username
+            $mail->Password = "siste14S";               // SMTP account password
+            if($bcc!==null){
+                $mail->AddBCC($bcc);
+            }
+            if($cc!==null){
+                $mail->AddCC($cc);
+            }
+            $array_to=  explode(',', $to);
+            
+            foreach ($array_to as $to) {
+                $mail->AddAddress($to);
+            }
+            foreach ($attach as $ruta){
+            $mail->AddAttachment($ruta);
+            }
+            $mail->AddReplyTo("noresponder@minsal.cl", 'MIDAS - MINSAL');
+            $mail->SetFrom('noresponder@minsal.cl', 'MIDAS - MINSAL');
+            
+            
+            //$mail->Subject = 'PHPMailer Test Subject via mail(), advanced';
+            $mail->AltBody = 'To view the message, please use an HTML compatible email viewer!'; // optional - MsgHTML will create an alternate automatically
+            $mail->Subject = utf8_decode($subject);
+            $mail->IsHTML(true);
+            $mail->MsgHTML(utf8_decode($message));
+            
+            if ($dry_run) {
+            var_dump($mail);return;
+        }else{
+            $mail->Send();
         }
-        
-        if ($dry_run) {
-            var_dump($this->email);return;
-        } else {
-            return $this->email->send();
+            
+        } catch (phpmailerException $e) {
+            echo $e->errorMessage(); //Pretty error messages from PHPMailer
+            return false;
+        } catch (Exception $e) {
+            echo $e->getMessage(); //Boring error messages from anything else!
+            return false;
         }
+        return true;
+        
     }
 
     public function get_destinatariosCorreo($tipo_emergencia = null, $comunas = null, $id_usuario_excluir = null) {

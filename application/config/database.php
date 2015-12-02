@@ -49,21 +49,21 @@
 $active_group = ENVIRONMENT;
 $active_record = TRUE;
 
-$db['produccion']['hostname'] = '10.8.43.145';
-$db['produccion']['username'] = 'sipresamelo';
-$db['produccion']['password'] = 'InfoSeremi05';
-$db['produccion']['database'] = 'sipresa_clon';
-$db['produccion']['dbdriver'] = 'mysql';
-$db['produccion']['dbprefix'] = '';
-$db['produccion']['pconnect'] = TRUE;
-$db['produccion']['db_debug'] = TRUE;
-$db['produccion']['cache_on'] = FALSE;
-$db['produccion']['cachedir'] = '';
-$db['produccion']['char_set'] = 'utf8';
-$db['produccion']['dbcollat'] = 'utf8_general_ci';
-$db['produccion']['swap_pre'] = '';
-$db['produccion']['autoinit'] = TRUE;
-$db['produccion']['stricton'] = FALSE;
+$db['production']['hostname'] = '10.8.43.145';
+$db['production']['username'] = 'sipresamelo';
+$db['production']['password'] = 'InfoSeremi05';
+$db['production']['database'] = 'sipresa_clon';
+$db['production']['dbdriver'] = 'mysql';
+$db['production']['dbprefix'] = '';
+$db['production']['pconnect'] = TRUE;
+$db['production']['db_debug'] = TRUE;
+$db['production']['cache_on'] = FALSE;
+$db['production']['cachedir'] = '';
+$db['production']['char_set'] = 'utf8';
+$db['production']['dbcollat'] = 'utf8_general_ci';
+$db['production']['swap_pre'] = '';
+$db['production']['autoinit'] = TRUE;
+$db['production']['stricton'] = FALSE;
 
 
 $db['test']['hostname'] = '10.8.43.145';
