@@ -296,7 +296,7 @@ class Alarma_Model extends MY_Model {
         $params['lista_id_comunas'] = $comunas[0]['id_comunas'];
         $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
 
-        return ($this->enviaMsjAlarma($params)) ? 'enviado correctamente' : 'error al enviar';
+        return ($this->enviaMsjAlarma($params)) ? true : false;
     }
 
     public function enviaMsjAlarma($params) {
