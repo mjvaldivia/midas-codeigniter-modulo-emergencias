@@ -97,6 +97,15 @@ class Alarma extends MY_Controller {
         $this->template->parse("default", "pages/alarma/inbox", $data);
     }
     
+    
+    public function form_nueva(){
+        $this->load->helper(array("modulo/emergencia/emergencia_form","modulo/direccion/comuna"));
+        $this->load->view("pages/alarma/form", array());
+    }
+    
+    /**
+     * Formulario para editar alarma
+     */
     public function form_editar(){
         $this->load->helper(array("modulo/emergencia/emergencia_form","modulo/direccion/comuna"));
         
@@ -138,9 +147,9 @@ class Alarma extends MY_Controller {
         
         $params = $this->input->post(null, true);
         
-        $lista = $this->AlarmaModel->buscar(array("id_estado" => $params["id_estado"],
-                                                  "id_tipo"   => $params["id_tipo"],
-                                                  "year"      => $params["year"]));
+        $lista = $this->AlarmaModel->buscar(array("id_estado" => $params["filtro_id_estado"],
+                                                  "id_tipo"   => $params["filtro_id_tipo"],
+                                                  "year"      => $params["filtro_year"]));
         
         $this->load->view("pages/alarma/grilla-alarmas", array("lista" => $lista));
     }

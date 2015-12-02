@@ -8,7 +8,36 @@ var AlarmaListado = Class({
         this.loadGridAlarma();
         this.bindBtnEmergenciaNueva();
         this.bindBtnAlarmaEliminar();
-        this.bindEditarAlarma();
+        this.bindBtnEditarAlarma();
+        this.bindBtnBuscar();
+        this.bindBtnNuevaAlarma();
+        
+        var url = $(location).attr('href');
+        var nuevo = url.indexOf("tab/nuevo");
+        console.log(nuevo);
+        if(nuevo != -1){
+            $("#nueva").trigger("click");
+        }
+    },
+    
+    
+    bindBtnNuevaAlarma : function(){
+        var yo = this;
+        
+        $("#nueva").click(function(e){
+            e.preventDefault();
+            var id = $(this).attr("data");
+            var formulario = new FormAlarma(id, yo);	
+            formulario.mostrarFormulario();
+        });
+        
+    },
+    
+    bindBtnBuscar : function(){
+        var yo = this;
+        $("#btnBuscarAlarmas").click(function(){
+            yo.loadGridAlarma();
+        });
     },
     
     /**
@@ -16,7 +45,7 @@ var AlarmaListado = Class({
      * a boton
      * @returns {void}
      */
-    bindEditarAlarma : function(){
+    bindBtnEditarAlarma : function(){
         var yo = this;
         
         $(".editar").livequery(function(){

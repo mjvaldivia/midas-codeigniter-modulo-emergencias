@@ -108,8 +108,8 @@ var AlarmaMapa = Class({
     setInputs : function(posicion){
         var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(posicion.lng()), parseFloat(posicion.lat()));
         //console.log(results[0].geometry.location.lat());
-        $('#nueva_longitud').val(punto[0]);
-        $('#nueva_latitud').val(punto[1]);
+        $('#longitud').val(punto[0]);
+        $('#latitud').val(punto[1]);
     },
     
     setMarkerInputs : function(){

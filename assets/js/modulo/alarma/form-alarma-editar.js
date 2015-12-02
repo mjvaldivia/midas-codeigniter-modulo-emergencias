@@ -1,18 +1,19 @@
-var FormAlarmasEditar = Class({ extends : FormEmergenciasNueva}, {
+var FormAlarmasEditar = Class({ extends : FormAlarma}, {
     
-    bindMapa : function(){
-        var mapa = new AlarmaMapa("mapa");
-       
-        if($("#longitud").val() != "" && $("#latitud").val() != ""){
-            mapa.setLongitud($("#longitud").val());
-            mapa.setLatitud($("#latitud").val());
-            mapa.setGeozone($("#geozone").val());
-        }
-
-        mapa.inicio();
-        mapa.cargaMapa(); 
-    } ,
     
+    /**
+     * Retorno despues de guardar
+     * @returns void
+     */
+    callBackGuardar : function(){
+        this.recargaGrilla();        
+        notificacionCorrecto("Resultado de la operacion", "Se ha editado la alarma correctamente");
+    },
+    
+    /**
+     * Guarda la edicion de la alarma
+     * @returns {Boolean}
+     */
     guardar : function(){
         var yo = this;
         
@@ -34,10 +35,9 @@ var FormAlarmasEditar = Class({ extends : FormEmergenciasNueva}, {
                 if(data.correcto == true){
                     procesaErrores(data.error);
                     yo.callBackGuardar();
-                    yo.bo_email_enviado = data.res_mail;
                     salida = true;
                 } else {
-                    $("#form-nueva-error").removeClass("hidden");
+                    $("#form_editar_error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
             }
@@ -71,7 +71,8 @@ var FormAlarmasEditar = Class({ extends : FormEmergenciasNueva}, {
                     title: "<i class=\"fa fa-arrow-right\"></i> Editar alarma",
                     buttons: {
                         guardar: {
-                            label: " Guardar",
+                            id: "btn-guardar",
+                            label: " Guardar edición de alarma",
                             className: "btn-success fa fa-check",
                             callback: function() {
                                 return yo.guardar();
@@ -90,15 +91,6 @@ var FormAlarmasEditar = Class({ extends : FormEmergenciasNueva}, {
                 yo.bindMapa();
             }
         }); 
-    },
-    
-    /**
-     * Se asigna plugin picklist a combo de comunas
-     * @returns void
-     */
-    bindComunasPicklist : function(){
-        $("#comunas").picklist(); 
-    }
-    
+    }    
 });
 

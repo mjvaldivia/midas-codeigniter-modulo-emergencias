@@ -15,6 +15,7 @@
             </tr>
         </thead>
         <tbody>
+            <?php if(count($lista)>0){ ?>
             <?php foreach($lista as $row){ ?>
             <tr>
                 <?php if (puedeEditar("emergencia") && puedeEliminar("alarma")) { ?>
@@ -83,6 +84,7 @@
                 </td>
                 
             </tr>
+            <?php } ?>
             <?php } ?>
         </tbody>
     </table>

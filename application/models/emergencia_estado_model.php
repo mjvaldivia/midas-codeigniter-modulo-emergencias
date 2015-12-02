@@ -25,6 +25,15 @@ class Emergencia_Estado_Model extends MY_Model
     protected $_tabla = "estados_emergencias";
     
     /**
+     * Retorna la alarma por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("est_ia_id", $id);
+    }
+    
+    /**
      * Lista todos los estados
      * @return array
      */

@@ -337,7 +337,8 @@ var Dashboard = Class({
         
         $(".emergencia-nueva").livequery(function(){
             $(this).unbind( "click" );
-            $(this).click(function(){
+            $(this).click(function(e){
+                e.preventDefault();
                 var id = $(this).attr("data");
                 var formulario = new FormEmergenciasNuevaDashboard(id, yo);	
                 formulario.mostrarFormulario();

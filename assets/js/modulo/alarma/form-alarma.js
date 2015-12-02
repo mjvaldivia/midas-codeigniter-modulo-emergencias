@@ -1,5 +1,20 @@
-var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
-        
+var FormAlarma = Class({
+    
+    /**
+     * Identificador de la alarma
+     */
+    id_alarma : null,
+    
+    /**
+     * Mapa de google
+     */
+    mapa : null,
+    
+    /**
+     * si se envio o no correctamente el email
+     */
+    bo_email_enviado : false,
+    
     /**
      * 
      * @param int value identificador de alarma
@@ -7,8 +22,28 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
      */
     __construct : function(value) {
         this.id_alarma = value;
-    },
         
+        
+        
+    },
+    
+    /**
+     * Retorno despues de guardar
+     * @returns void
+     */
+    callBackGuardar : function(){
+       this.recargaGrilla();
+        
+        var agregar = "";
+        if(this.bo_email_enviado){
+            agregar = "<br/> Estado email: Enviado correctamente";
+        } else {
+            notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
+        }
+        
+        notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);
+    },
+    
     /**
      * Se recarga lista con resultados de busqueda
      * @returns void
@@ -16,55 +51,58 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
     recargaGrilla : function(){
         $("#btnBuscarAlarmas").trigger("click");
     },
-    
+        
     /**
-     * Retorno despues de rechazar
+     * Se asigna plugin picklist a combo de comunas
      * @returns void
      */
-    callBackRechazar : function(){
-        this.recargaGrilla();
-        notificacionCorrecto("Resultado de la operacion", "Se ha rechazado correctamente");
+    bindComunasPicklist : function(){
+        $("#comunas").picklist(); 
     },
     
     /**
-     * Se rechaza creacion de emergencia
-     * @returns {Boolean}
+     * 
+     * @returns {undefined}
      */
-    rechazaEmergencia : function(){
-        var yo = this;
-        
-        var parametros = $("#form_nueva_emergencia").serializeArray();
-        
-        var salida = false;
-        
-        $.ajax({         
-            dataType: "json",
-            cache: false,
-            async: false,
-            data: parametros,
-            type: "post",
-            url: siteUrl + "emergencia/json_rechaza_alarma", 
-            error: function(xhr, textStatus, errorThrown){
+    bindMapa : function(){
+        var mapa = new AlarmaMapa("mapa");
+       
+        if($("#longitud").val() != "" && $("#latitud").val() != ""){
+            mapa.setLongitud($("#longitud").val());
+            mapa.setLatitud($("#latitud").val());
+            
+            if($("#geozone").val() == ""){
+                $.ajax({         
+                    dataType: "json",
+                    cache: false,
+                    async: false,
+                    data: "",
+                    type: "post",
+                    url: siteUrl + "session/getMinMaxUsr", 
+                    error: function(xhr, textStatus, errorThrown){
 
-            },
-            success:function(data){
-                salida = data.correcto;
-                yo.callBackRechazar();
-            }
-        }); 
-        
-        return salida;
-    },
+                    },
+                    success:function(data){
+                        $("#geozone").val(data.com_c_geozone);
+                    }
+                }); 
+            } 
+            
+            mapa.setGeozone($("#geozone").val());
+        }
+
+        mapa.inicio();
+        mapa.cargaMapa(); 
+    } ,
     
     /**
-     * Guarda y activa la alarma
+     * 
      * @returns {Boolean}
      */
-    guardaEmergencia : function(){
-        
+    guardar : function(){
         var yo = this;
         
-        var parametros = $("#form_nueva_emergencia").serializeArray();
+        var parametros = $("#form_editar").serializeArray();
         
         var salida = false;
         
@@ -74,7 +112,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia/json_activa_alarma", 
+            url: siteUrl + "alarma/guardaAlarma", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -85,7 +123,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
                     yo.callBackGuardar();
                     salida = true;
                 } else {
-                    $("#form_nueva_emergencia_error").removeClass("hidden");
+                    $("#form_editar_error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
             }
@@ -108,7 +146,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "emergencia/form_nueva/id/" + this.id_alarma , 
+            url: siteUrl + "alarma/form_nueva/" , 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -116,20 +154,13 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
                 bootbox.dialog({
                     message: html,
                     className: "modal90",
-                    title: "<i class=\"fa fa-arrow-right\"></i> Generar emergencia",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Nueva alarma",
                     buttons: {
                         guardar: {
-                            label: " Activar y generar emergencia",
+                            label: " Guardar alarma",
                             className: "btn-success fa fa-check",
                             callback: function() {
-                                return yo.guardaEmergencia();
-                            }
-                        },
-                        rechazar: {
-                            label: " Rechazar emergencia",
-                            className: "btn-danger fa fa-thumbs-down",
-                            callback: function() {
-                                return yo.rechazaEmergencia();
+                                return yo.guardar();
                             }
                         },
                         cerrar: {
@@ -143,7 +174,6 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
                 });
                 yo.bindComunasPicklist();
                 yo.bindMapa();
-                
             }
         }); 
     }

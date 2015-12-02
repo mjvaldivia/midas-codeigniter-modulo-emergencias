@@ -2193,3 +2193,9 @@ input[type="checkbox"]:checked::after,
 .fc-event .fc-content {
     cursor: pointer;
 }
+
+label {
+
+    font-weight: normal;
+
+}
