@@ -10,11 +10,39 @@ class Archivo_Model extends MY_Model {
     public $TIPO_CAPA = 7;
     public $TIPO_ICONO_DE_CAPA = 8;
     public $TIPO_MAPA_REPORTE = 9;
+    
+    
     public $DOC_FOLDER = 'media/doc/';
     public $EMERGENCIA_FOLDER = 'media/doc/emergencia/';
     public $ALARMA_FOLDER = 'media/doc/alarmas/';
     public $CAPA_FOLDER = 'media/doc/capa/';
-
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        
+        if($this->_enviroment->esSimulacion()){
+            $this->DOC_FOLDER = 'media/simulacion/';
+            $this->EMERGENCIA_FOLDER = $this->DOC_FOLDER . "emergencia/";
+            $this->ALARMA_FOLDER     = $this->DOC_FOLDER . "alarmas/";
+            $this->CAPA_FOLDER       = $this->DOC_FOLDER . "capa/";
+        }
+    }
+    
+    /**
+     * 
+     * @param type $filename
+     * @param type $mimetype
+     * @param type $tmp_name
+     * @param type $id_entidad
+     * @param type $tipo
+     * @param type $size
+     * @param type $cache_id
+     * @param type $nombre_capa
+     * @return type
+     */
     public function upload_to_site($filename = null, $mimetype = null, $tmp_name = null, $id_entidad = null, $tipo = null, $size = null, $cache_id = null, $nombre_capa = null) {
 
         header('Content-type: application/json');

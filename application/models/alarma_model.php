@@ -277,7 +277,7 @@ class Alarma_Model extends MY_Model {
         return $resultados;
     }
 
-    public function guardarAlarma($params) {
+    public function enviaCorreo($params) {
 
 
         $comunas_query = $this->db->query("
@@ -285,13 +285,13 @@ class Alarma_Model extends MY_Model {
         on avc.com_ia_id = c.com_ia_id
         where avc.ala_ia_id = " . $params["ala_ia_id"]);
 
-        $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['iTiposEmergencias'] . "'");
+        $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['tipo_emergencia'] . "'");
 
 
         $tipo_emergencia = $tipo_query->result_array();
         $comunas = $comunas_query->result_array();
 
-
+        $params["id_tipo_emergencia"] = $params['tipo_emergencia'];
         $params['lista_comunas'] = $comunas[0]['comunas'];
         $params['lista_id_comunas'] = $comunas[0]['id_comunas'];
         $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
@@ -307,14 +307,14 @@ class Alarma_Model extends MY_Model {
         $key_id = $this->UsuarioModel->generaKeyId($this->session->userdata('session_idUsuario'));
         $mensaje = "<b>SIPRESA: Revisión de Alarma</b><br><br>";
         $mensaje .= $this->session->userdata('session_nombres') . " ha registrado la alarma código : " . $params['ala_ia_id'] . "<br><br>";
-        $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['iNombreEmergencia'] . "<br>";
+        $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['nombre_emergencia'] . "<br>";
         $mensaje .= "<b>Tipo de emergencia:</b> " . $params['tipo_emergencia'] . "<br>";
-        $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['iLugarEmergencia'] . "<br>";
+        $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['nombre_lugar'] . "<br>";
         $mensaje .= "<b>Comuna(s):</b> " . $params['lista_comunas'] . "<br>";
-        $mensaje .= "<b>Fecha de la emergencia:</b> " . spanishDateToISO($params['fechaEmergencia']) . "<br>";
-        $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fechaRecepcion']) . "<br>";
-        $mensaje .= "<b>Nombre del informante:</b> " . $params['iNombreInformante'] . "<br>";
-        $mensaje .= "<b>Teléfono del informante:</b> " . $params['iTelefonoInformante'] . "<br><br>";
+        $mensaje .= "<b>Fecha de la emergencia:</b> " . spanishDateToISO($params['fecha_emergencia']) . "<br>";
+        $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fecha_recepcion']) . "<br>";
+        $mensaje .= "<b>Nombre del informante:</b> " . $params['nombre_informante'] . "<br>";
+        $mensaje .= "<b>Teléfono del informante:</b> " . $params['telefono_informante'] . "<br><br>";
 
 
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
@@ -350,7 +350,7 @@ class Alarma_Model extends MY_Model {
 
         // mando mail al resto
         $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
-        $to = $this->SendmailModel->get_destinatariosCorreo($params['iTiposEmergencias'], $params['lista_id_comunas'], $id_usuario_excluir);
+        $to = $this->SendmailModel->get_destinatariosCorreo($params["id_tipo_emergencia"], $params['lista_id_comunas'], $id_usuario_excluir);
         if (!$this->SendmailModel->emailSend($to, null, null, $subject, $mensaje)) {
             $error++;
         }

@@ -2199,3 +2199,7 @@ label {
     font-weight: normal;
 
 }
+
+.pac-container {
+    z-index: 1051 !important;
+}

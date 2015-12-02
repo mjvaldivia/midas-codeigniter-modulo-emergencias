@@ -100,7 +100,8 @@ class Alarma extends MY_Controller {
     
     public function form_nueva(){
         $this->load->helper(array("modulo/emergencia/emergencia_form","modulo/direccion/comuna"));
-        $this->load->view("pages/alarma/form", array());
+        $data = array("form_name" => "form_nueva");
+        $this->load->view("pages/alarma/form", $data);
     }
     
     /**
@@ -198,48 +199,15 @@ class Alarma extends MY_Controller {
      * Guarda formulario de alarma
      */
     public function guardaAlarma() {       
-        $this->load->library("validar");
+         $this->load->library(array("alarma/alarmavalidar"));
         
         $params = $this->input->post(null, true);
         
         $correcto = true;
         $error = array();
         
-        if(!$this->validar->validarVacio($params["nombre_informante"])){
-            $correcto = false;
-            $error["nombre_informante"] = "Debe ingresar el nombre del informante";
-        } else {
-            $error["nombre_informante"] = "";
-        }
-
-        if(!$this->validar->validarVacio($params["nombre_emergencia"])){
-            $correcto = false;
-            $error["nombre_emergencia"] = "Debe ingresar el nombre de la emergencia";
-        } else {
-            $error["nombre_emergencia"] = "";
-        }
-
-        if(!$this->validar->validarVacio($params["nombre_lugar"])){
-            $correcto = false;
-            $error["nombre_lugar"] = "Debe ingresar el nombre del lugar";
-        } else {
-            $error["nombre_lugar"] = "";
-        }
-
-        if(!$this->validar->validarVacio($params["tipo_emergencia"])){
-            $correcto = false;
-            $error["tipo_emergencia"] = "Debe ingresar un tipo de emergencia";
-        } else {
-            $error["tipo_emergencia"] = "";
-        }
-
-        if(!$this->validar->validarArregloVacio($params["comunas"])){
-            $correcto = false;
-            $error["comunas"] = "Debe ingresar al menos una comuna";
-        } else {
-            $error["comunas"] = "";
-        }
         
+        $correcto = $this->alarmavalidar->esValido($params);
         $respuesta = array();
         if($correcto){
         
@@ -275,7 +243,7 @@ class Alarma extends MY_Controller {
                 $id = $this->AlarmaModel->query()->insert($data);
                 $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['comunas']);
                 $params["ala_ia_id"] = $id;
-                $respuesta_email = $this->AlarmaModel->guardarAlarma($params);
+                $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
             }
             
             
@@ -284,7 +252,7 @@ class Alarma extends MY_Controller {
         
         $respuesta["res_mail"] = $respuesta_email;
         $respuesta["correcto"] = $correcto;
-        $respuesta["error"]    = $error;
+        $respuesta["error"]    = $this->alarmavalidar->getErrores();
         
         echo json_encode($respuesta);
     }

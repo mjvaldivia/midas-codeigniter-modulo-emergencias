@@ -1,3 +1,5 @@
+var marker;
+
 var AlarmaMapa = Class({
     
     mapa : null,
@@ -30,6 +32,8 @@ var AlarmaMapa = Class({
         $(".mapa-coordenadas").change(function(){
             yo.setMarkerInputs();
         });
+        
+        this.places();
     },
     
     /**
@@ -47,7 +51,7 @@ var AlarmaMapa = Class({
     setMarker : function (posicion){
         var yo = this;       
         
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: posicion,
             draggable:true,
             map: yo.mapa,
@@ -59,6 +63,7 @@ var AlarmaMapa = Class({
         });
         
         this.marker = marker;
+        
     },
     
     /**
@@ -85,7 +90,7 @@ var AlarmaMapa = Class({
         map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
 
 
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: myLatlng,
             draggable:true,
             map: map,
@@ -96,8 +101,31 @@ var AlarmaMapa = Class({
             yo.setInputs(marker.getPosition());
         });
         
+        
+        
         this.marker = marker;
         this.mapa = map;
+    },
+    
+    places : function(){
+        var yo = this;
+        
+        ac = new google.maps.places.Autocomplete(
+                (document.getElementById('nombre_lugar')), {
+            componentRestrictions: {country: 'cl'}
+        });
+
+        ac.addListener('place_changed', function () {
+            var place = ac.getPlace();
+            if (place.length === 0) {
+                return;
+            }
+            
+            var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
+            $('#longitud').val(punto[0]);
+            $('#latitud').val(punto[1]);
+            $('.mapa-coordenadas').trigger("change");
+        });  
     },
     
     /**
@@ -113,8 +141,7 @@ var AlarmaMapa = Class({
     },
     
     setMarkerInputs : function(){
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(this.longitud), parseFloat(this.latitud), this.geozone);
-        console.log(latLon);
+        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat($('#longitud').val()), parseFloat($('#latitud').val()), this.geozone);
         this.marker.setPosition( new google.maps.LatLng( parseFloat(latLon[0]), parseFloat(latLon[1]) ) );
         this.mapa.panTo( new google.maps.LatLng( parseFloat(latLon[0]), parseFloat(latLon[1]) ) );
     },

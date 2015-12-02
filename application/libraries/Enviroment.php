@@ -17,6 +17,23 @@ class Enviroment{
         $this->_session = New CI_Session();
     }
     
+    /**
+     * 
+     * @return boolean
+     */
+    public function esSimulacion(){
+        $enviroment = $this->_session->userdata('session_enviroment');
+        if($enviroment === false){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    /**
+     * Retorna el environment de la database
+     * @return string
+     */
     public function getDatabase(){
         $enviroment = $this->_session->userdata('session_enviroment');
         if($enviroment === false){

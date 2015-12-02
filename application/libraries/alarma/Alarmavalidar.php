@@ -76,6 +76,14 @@ Class Alarmavalidar{
             $this->_error["comunas"] = "";
         }
         
+        $fecha_recepcion = DateTime::createFromFormat("d-m-Y H:i", $params["fecha_recepcion"]);
+        if($fecha_recepcion instanceof DateTime){
+            $this->_error["fecha_recepcion"] = "";
+        } else {
+            $this->_correcto = false;
+            $this->_error["fecha_recepcion"] = "Debe ingresarse una fecha de válida";
+        }
+        
         return $this->_correcto;
     }
     

@@ -13,6 +13,12 @@ Class MY_Model extends CI_Model {
      * @var string 
      */
     protected $_tabla;
+    
+    /**
+     *
+     * @var Enviroment 
+     */
+    protected $_enviroment;
      
     /**
      * Constructor
@@ -22,8 +28,8 @@ Class MY_Model extends CI_Model {
         $this->load->library('model/QueryBuilder');
         $this->load->library('Enviroment');
         
-        $enviroment = New Enviroment();
-        $this->db = $this->load->database($enviroment->getDatabase(), true);
+        $this->_enviroment = New Enviroment();
+        $this->db = $this->load->database($this->_enviroment->getDatabase(), true);
         
         $this->_query = New QueryBuilder($this->db);
         $this->_query->setTable($this->_tabla);

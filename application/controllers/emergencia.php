@@ -197,9 +197,11 @@ class Emergencia extends MY_Controller {
                               "eme_d_fecha_emergencia"    => spanishDateToISO($params["fecha_emergencia"]),
                               "eme_c_lugar_emergencia"    => $params["nombre_lugar"],
                               "eme_d_fecha_recepcion"     => spanishDateToISO($params["fecha_recepcion"]),
-                              "est_ia_id" => Emergencia_Estado_Model::EN_CURSO,
-                              "ala_ia_id" => $alarma->ala_ia_id,
-                              "eme_c_observacion" => $params["nobservacion"]
+                              "est_ia_id"         => Emergencia_Estado_Model::EN_CURSO,
+                              "ala_ia_id"         => $alarma->ala_ia_id,
+                              "eme_c_observacion" => $params["nobservacion"],
+                              "rol_ia_id"         => $this->session->userdata('session_idCargo'),
+                              "usu_ia_id"         => $this->session->userdata('session_idUsuario')
                              );
 
                 $id = $this->emergencia_model->query()->insert($data);

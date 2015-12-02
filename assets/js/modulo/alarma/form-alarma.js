@@ -102,7 +102,7 @@ var FormAlarma = Class({
     guardar : function(){
         var yo = this;
         
-        var parametros = $("#form_editar").serializeArray();
+        var parametros = $("#form_nueva").serializeArray();
         
         var salida = false;
         
@@ -119,11 +119,12 @@ var FormAlarma = Class({
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    yo.bo_email_enviado = data.res_mail;
+                    
                     yo.callBackGuardar();
+                    yo.bo_email_enviado = data.res_mail;
                     salida = true;
                 } else {
-                    $("#form_editar_error").removeClass("hidden");
+                    $("#form_nueva_error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
             }
