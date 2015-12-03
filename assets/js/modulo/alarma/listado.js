@@ -14,7 +14,6 @@ var AlarmaListado = Class({
         
         var url = $(location).attr('href');
         var nuevo = url.indexOf("tab/nuevo");
-        console.log(nuevo);
         if(nuevo != -1){
             $("#nueva").trigger("click");
         }

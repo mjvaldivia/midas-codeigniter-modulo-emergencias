@@ -1,20 +1,33 @@
 var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
-        
-    /**
-     * 
-     * @param int value identificador de alarma
-     * @returns void
-     */
-    __construct : function(value) {
-        this.id_alarma = value;
-    },
-        
+                
     /**
      * Se recarga lista con resultados de busqueda
      * @returns void
      */
     recargaGrilla : function(){
         $("#btnBuscarAlarmas").trigger("click");
+    },
+    
+    /**
+     * Activa los botones presentes en el paso 2
+     * @returns {undefined}
+     */
+    btnPaso2 : function(){
+        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
+        $(path_buttons + "button[data-bb-handler='guardar']").hide();
+        //$(path_buttons + "button[data-bb-handler='rechazar']").hide();
+        $(path_buttons + "button[data-bb-handler='paso2']").show();
+    },
+    
+    /**
+     * Activa los botones presentes en paso 1
+     * @returns {undefined}
+     */
+    btnPaso1 : function(){
+        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
+        $(path_buttons + "button[data-bb-handler='guardar']").show();
+        //$(path_buttons + "button[data-bb-handler='rechazar']").show();
+        $(path_buttons + "button[data-bb-handler='paso2']").hide();
     },
     
     /**
@@ -64,7 +77,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
         
         var yo = this;
         
-        var parametros = $("#form_nueva_emergencia").serializeArray();
+        var parametros = this.getParametros("form_nueva_emergencia");
         
         var salida = false;
         
@@ -125,6 +138,14 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
                                 return yo.guardaEmergencia();
                             }
                         },
+                        paso2: {
+                            label: " Ir al paso 2",
+                            className: "btn-primary fa fa-arrow-right",
+                            callback: function() {
+                                yo.showPaso2("form_nueva_emergencia");
+                                return false;
+                            }
+                        },
                         rechazar: {
                             label: " Rechazar emergencia",
                             className: "btn-danger fa fa-thumbs-down",
@@ -132,6 +153,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
                                 return yo.rechazaEmergencia();
                             }
                         },
+                        
                         cerrar: {
                             label: " Cancelar",
                             className: "btn-white fa fa-close",
@@ -141,9 +163,9 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
                         }
                     }
                 });
-                yo.bindComunasPicklist();
-                yo.bindMapa();
                 
+                yo.bindMapa();
+                yo.callOnShow();
             }
         }); 
     }

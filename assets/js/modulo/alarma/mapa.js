@@ -110,22 +110,25 @@ var AlarmaMapa = Class({
     places : function(){
         var yo = this;
         
-        ac = new google.maps.places.Autocomplete(
-                (document.getElementById('nombre_lugar')), {
-            componentRestrictions: {country: 'cl'}
-        });
+        $("#nombre_lugar").livequery(function(){
+            ac = new google.maps.places.Autocomplete((document.getElementById('nombre_lugar')), {
+                componentRestrictions: {country: 'cl'}
+            });
 
-        ac.addListener('place_changed', function () {
-            var place = ac.getPlace();
-            if (place.length === 0) {
-                return;
-            }
-            
-            var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
-            $('#longitud').val(punto[0]);
-            $('#latitud').val(punto[1]);
-            $('.mapa-coordenadas').trigger("change");
-        });  
+            ac.addListener('place_changed', function () {
+                var place = ac.getPlace();
+                if (place.length === 0) {
+                    return;
+                }
+
+                var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
+                $('#longitud').val(punto[0]);
+                $('#latitud').val(punto[1]);
+                $('.mapa-coordenadas').trigger("change");
+            });
+        });
+        
+          
     },
     
     /**

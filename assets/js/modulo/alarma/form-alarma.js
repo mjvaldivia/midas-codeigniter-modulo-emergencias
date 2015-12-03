@@ -22,9 +22,100 @@ var FormAlarma = Class({
      */
     __construct : function(value) {
         this.id_alarma = value;
-        
-        
-        
+        this.bindSelectEmergenciaTipo();
+    },
+    
+    
+    
+    /**
+     * Formulario de tipo de emergencia
+     * @returns {void}
+     */
+    bindSelectEmergenciaTipo : function(){
+        var yo = this;
+        $("#tipo_emergencia").livequery(function(){
+            $(this).unbind("change");
+            $(this).change(function(){
+                var parametros = {"id_tipo" : $(this).val(),
+                                  "id" : $("#id").val()}
+                $.ajax({         
+                    dataType: "json",
+                    cache: false,
+                    async: false,
+                    data: parametros,
+                    type: "post",
+                    url: siteUrl + "alarma/form_tipo_emergencia", 
+                    error: function(xhr, textStatus, errorThrown){
+
+                    },
+                    success:function(data){
+                        $("#form-tipo-emergencia").html(data.html);
+                       
+                        if(data.form){
+                            $("#div-pasos").show();
+                            yo.btnPaso2();
+                        } else {
+                            $("#div-pasos").hide();
+                            yo.btnPaso1();
+                        }
+                    }
+                }); 
+            });
+            $(this).trigger("change");
+        });
+    },
+    
+    /**
+     * Activa los botones presentes en el paso 2
+     * @returns {undefined}
+     */
+    btnPaso2 : function(){
+        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
+        $(path_buttons + "button[data-bb-handler='guardar']").hide();
+        $(path_buttons + "button[data-bb-handler='paso2']").show();
+    },
+    
+    /**
+     * Activa los botones presentes en paso 1
+     * @returns {undefined}
+     */
+    btnPaso1 : function(){
+        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
+        $(path_buttons + "button[data-bb-handler='guardar']").show();
+        $(path_buttons + "button[data-bb-handler='paso2']").hide();
+    },
+    
+    /**
+     * Configura los steps
+     * @returns {void}
+     */
+    configSteps : function(){
+        var yo = this;
+        var navListItems = $('ul.setup-panel li a'),
+            allWells = $('.setup-content');
+
+        allWells.hide();
+
+        navListItems.click(function(e)
+        {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this).closest('li');
+
+            if (!$item.hasClass('disabled')) {
+                navListItems.closest('li').removeClass('active');
+                $item.addClass('active');
+                allWells.hide();
+                $target.show();
+                
+                if($(this).attr("href") == "#step-1"){
+                    yo.btnPaso2();
+                }
+                                           
+            }
+        });
+
+        $('ul.setup-panel li.active a').trigger('click');
     },
     
     /**
@@ -95,6 +186,17 @@ var FormAlarma = Class({
         mapa.cargaMapa(); 
     } ,
     
+    getParametros : function(form){
+        var parametros = $("#" + form).serializeArray();
+        
+        $("#form-tipos-emergencia").find(".form-control").each(function(){
+            parametros.push({"name"  : $(this).attr("name"),
+                             "value" : $(this).val()});
+        });
+        
+        return parametros;
+    },
+    
     /**
      * 
      * @returns {Boolean}
@@ -102,7 +204,9 @@ var FormAlarma = Class({
     guardar : function(){
         var yo = this;
         
-        var parametros = $("#form_nueva").serializeArray();
+        var parametros = this.getParametros("form_nueva");
+        
+        //console.log($("#form-tipos-emergencia").serializeArray());
         
         var salida = false;
         
@@ -130,6 +234,42 @@ var FormAlarma = Class({
         }); 
         
         return salida;
+    },
+    
+    callOnShow : function(){
+        this.configSteps();
+        this.bindComunasPicklist();
+        
+    },
+    
+    showPaso2 : function(form){
+        var yo = this;
+        var parametros = $("#" + form).serializeArray();
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "alarma/ajax_validar_datos_generales", 
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(data){
+                if(data.correcto == true){
+                    procesaErrores(data.error);
+                    $('ul.setup-panel li:eq(1)').removeClass('disabled');
+                    $('ul.setup-panel li a[href="#step-2"]').trigger('click');
+
+                    yo.btnPaso1();
+ 
+
+                } else {
+                    $("#" + form + "_error").removeClass("hidden");
+                    procesaErrores(data.error);
+                }
+            }
+        });   
     },
     
     /**
@@ -163,6 +303,14 @@ var FormAlarma = Class({
                                 return yo.guardar();
                             }
                         },
+                        paso2: {
+                            label: " Ir al paso 2",
+                            className: "btn-primary fa fa-arrow-right",
+                            callback: function() {
+                                yo.showPaso2("form_nueva");
+                                return false;
+                            }
+                        },
                         cerrar: {
                             label: " Cancelar",
                             className: "btn-white fa fa-close",
@@ -172,8 +320,8 @@ var FormAlarma = Class({
                         }
                     }
                 });
-                yo.bindComunasPicklist();
                 yo.bindMapa();
+                yo.callOnShow();
             }
         }); 
     }

@@ -1,9 +1,30 @@
-<style type="text/css">
-    div.viaPublica, div.propiedadPrivada {
-        display: none;
-    }
-</style>
-
+<form  id="form-tipos-emergencia" name="form_tipos_emergencia" enctype="application/x-www-form-urlencoded" action="" method="post">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group clearfix">
+                <label for="form_tipo_descripcion" class="control-label">Descripción:</label>
+                <textarea  class="form-control" name="form_tipo_descripcion" id="form_tipo_descripcion"><?php echo $form_tipo_descripcion; ?></textarea>
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <legend> Material radioactivo </legend>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group clearfix">
+                <label for="form_tipo_fuente_radioactiva" class="control-label">Equipo y/o fuente radioactiva:</label>
+                <input  class="form-control" name="form_tipo_fuente_radioactiva" id="form_tipo_fuente_radioactiva" value="<?php echo $form_tipo_fuente_radioactiva; ?>" />
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+    </div>
+</form>
+    
+<!--
 <div class="col-md-12">
     <div class="form-group">
         <div class="page-header" style="margin-bottom: 0px; margin-top: 10px">
@@ -362,16 +383,4 @@
             <h4>7.- Acciones tomadas</h4>
         </div>
     </div>
-</div>
-
-<link rel="stylesheet" href="<?= base_url("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>" type="text/css"/>
-<script type="text/javascript" src="<?= base_url("/assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>"></script>
-<script type="text/javascript" src="<?= base_url("/assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>"></script>
-
-<script type="text/javascript" src="<?= base_url("/assets/js/form-radiologico.min.js") ?>"></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        FormRadiologico.inicio();
-    });
-</script>
+</div>-->

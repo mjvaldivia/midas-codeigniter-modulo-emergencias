@@ -17,7 +17,7 @@ var FormAlarmasEditar = Class({ extends : FormAlarma}, {
     guardar : function(){
         var yo = this;
         
-        var parametros = $("#form_editar").serializeArray();
+        var parametros = this.getParametros("form_editar");
         
         var salida = false;
         
@@ -78,6 +78,14 @@ var FormAlarmasEditar = Class({ extends : FormAlarma}, {
                                 return yo.guardar();
                             }
                         },
+                        paso2: {
+                            label: " Ir al paso 2",
+                            className: "btn-primary fa fa-arrow-right",
+                            callback: function() {
+                                yo.showPaso2("form_editar");
+                                return false;
+                            }
+                        },
                         cerrar: {
                             label: " Cancelar",
                             className: "btn-white fa fa-close",
@@ -87,8 +95,9 @@ var FormAlarmasEditar = Class({ extends : FormAlarma}, {
                         }
                     }
                 });
-                yo.bindComunasPicklist();
+                
                 yo.bindMapa();
+                yo.callOnShow();
             }
         }); 
     }    
