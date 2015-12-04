@@ -45,12 +45,9 @@ var FormAlarma = Class({
                     data: parametros,
                     type: "post",
                     url: siteUrl + "alarma/form_tipo_emergencia", 
-                    error: function(xhr, textStatus, errorThrown){
-
-                    },
+                    error: function(xhr, textStatus, errorThrown){},
                     success:function(data){
                         $("#form-tipo-emergencia").html(data.html);
-                       
                         if(data.form){
                             $("#div-pasos").show();
                             yo.btnPaso2();
@@ -189,9 +186,18 @@ var FormAlarma = Class({
     getParametros : function(form){
         var parametros = $("#" + form).serializeArray();
         
-        $("#form-tipos-emergencia").find(".form-control").each(function(){
+        $("#form-tipos-emergencia").find(".form-control , input[type='radio'], input[type='checkbox']").each(function(){
+            
+            if($(this).attr("type") == "radio" || $(this).attr("type") == "checkbox"){
+                if($(this).is(':checked')){
+                    parametros.push({"name"  : $(this).attr("name"),
+                                     "value" : $(this).val()});
+                }
+            } else {
             parametros.push({"name"  : $(this).attr("name"),
                              "value" : $(this).val()});
+            }
+                         
         });
         
         return parametros;

@@ -63,11 +63,11 @@ class Alarma extends MY_Controller {
      * Index
      */
     public function index(){
-        $this->load->helper("modulo/direccion/comuna");
-        $this->load->helper("modulo/alarma/alarma_form");
-        $this->load->helper("modulo/emergencia/emergencia");
-        $this->load->helper("modulo/emergencia/emergencia_form");
-        
+        $this->load->helper(array("modulo/direccion/comuna",
+                                  "modulo/alarma/alarma_form",
+                                  "modulo/emergencia/emergencia",
+                                  "modulo/emergencia/emergencia_form"));
+
         if($this->usuario->getPermisoEditar()){
             if(isset($params["tab"])){
                 $tab = $params["tab"];
@@ -106,7 +106,9 @@ class Alarma extends MY_Controller {
      * Formulario para nueva alarma
      */
     public function form_nueva(){
-        $this->load->helper(array("modulo/emergencia/emergencia_form","modulo/direccion/comuna"));
+        $this->load->helper(array("modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"));
+        
         $data = array("form_name" => "form_nueva");
         $this->load->view("pages/alarma/form", $data);
     }
@@ -115,26 +117,28 @@ class Alarma extends MY_Controller {
      * Formulario para editar alarma
      */
     public function form_editar(){
-        $this->load->helper(array("modulo/emergencia/emergencia_form","modulo/direccion/comuna"));
+        $this->load->helper(array("modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"));
         
         $params = $this->uri->uri_to_assoc();
         $alarma = $this->AlarmaModel->getById($params["id"]);
         if(!is_null($alarma)){
             
             $data = array("id" => $alarma->ala_ia_id,
-                          "nombre_informante" => $alarma->ala_c_nombre_informante,
+                          "nombre_informante"   => $alarma->ala_c_nombre_informante,
                           "telefono_informante" => $alarma->ala_c_telefono_informante,
-                          "nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
-                          "id_tipo_emergencia" => $alarma->tip_ia_id,
-                          "nombre_lugar" => $alarma->ala_c_lugar_emergencia,
-                          "observacion" => $alarma->ala_c_observacion,
-                          "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
-                          "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion),
-                          "geozone" => $alarma->ala_c_geozone,
-                          "latitud_utm" => $alarma->ala_c_utm_lat,
+                          "nombre_emergencia"   => $alarma->ala_c_nombre_emergencia,
+                          "id_tipo_emergencia"  => $alarma->tip_ia_id,
+                          "nombre_lugar"        => $alarma->ala_c_lugar_emergencia,
+                          "observacion"         => $alarma->ala_c_observacion,
+                          "fecha_emergencia"    => ISODateTospanish($alarma->ala_d_fecha_emergencia),
+                          "fecha_recepcion"     => ISODateTospanish($alarma->ala_d_fecha_recepcion),
+                          "geozone"             => $alarma->ala_c_geozone,
+                          "latitud_utm"  => $alarma->ala_c_utm_lat,
                           "longitud_utm" => $alarma->ala_c_utm_lng);
             
             $lista_comunas = $this->AlarmaComunaModel->listaComunasPorAlarma($alarma->ala_ia_id);
+            
             foreach($lista_comunas as $comuna){
                 $data["lista_comunas"][] = $comuna["com_ia_id"];
             }
@@ -147,24 +151,11 @@ class Alarma extends MY_Controller {
     }
     
     /**
-     * Verifica datos generales
-     */
-    public function ajax_validar_datos_generales(){
-        $this->load->library(array("alarma/alarmavalidar"));
-        
-        $params = $this->input->post(null, true);
-
-        $correcto = $this->alarmavalidar->esValido($params);
-        $respuesta = array("correcto" => $correcto,
-                           "error"    => $this->alarmavalidar->getErrores());
-        
-        echo json_encode($respuesta);
-    }
-    
-    /**
      * Formulario con datos relacionados a tipo emergencia
      */
     public function form_tipo_emergencia(){
+        $this->load->helper(array("modulo/alarma/alarma_form"));
+        
         $params = $this->input->post(null, true);
         $tipo   = $this->emergencia_tipo_model->getById($params["id_tipo"]);
         $alarma = $this->AlarmaModel->getById($params["id"]);
@@ -180,7 +171,7 @@ class Alarma extends MY_Controller {
                     
                     if(!is_null($alarma)){
                         $datos = unserialize($alarma->ala_c_datos_tipo_emergencia);
-                        if(count($datos)>0){
+                        if(is_array($datos) && count($datos)>0){
                             foreach($datos as $nombre_input => $valor){
                                 $array["form_tipo_" . $nombre_input] = $valor;
                             }
@@ -199,11 +190,26 @@ class Alarma extends MY_Controller {
     }
     
     /**
+     * Verifica datos generales
+     */
+    public function ajax_validar_datos_generales(){
+        $this->load->library(array("alarma/alarmavalidar"));
+        
+        $params = $this->input->post(null, true);
+
+        $correcto = $this->alarmavalidar->esValido($params);
+        $respuesta = array("correcto" => $correcto,
+                           "error"    => $this->alarmavalidar->getErrores());
+        
+        echo json_encode($respuesta);
+    }
+    
+    /**
      * Retorna grilla de alarmas
      */
     public function ajax_grilla_alarmas(){
-        $this->load->helper(array("modulo/emergencia/emergencia"));
-        $this->load->helper(array("modulo/alarma/alarma"));
+        $this->load->helper(array("modulo/emergencia/emergencia",
+                                  "modulo/alarma/alarma"));
         
         $params = $this->input->post(null, true);
         
@@ -214,21 +220,18 @@ class Alarma extends MY_Controller {
         $this->load->view("pages/alarma/grilla/grilla-alarmas", array("lista" => $lista));
     }
  
-
     /**
      * Guarda formulario de alarma
      */
     public function guardaAlarma() {       
-        $this->load->library(array("alarma/alarmavalidar", "alarma/alarmaguardar"));
+        $this->load->library(array("alarma/alarmavalidar", 
+                                   "alarma/alarmaguardar"));
         
         $params = $this->input->post(null, true);
         
-        $correcto = true;
-        $error = array();
-        
-        
-        $correcto = $this->alarmavalidar->esValido($params);
         $respuesta = array();
+        $correcto = $this->alarmavalidar->esValido($params);
+        
         if($correcto){
         
         

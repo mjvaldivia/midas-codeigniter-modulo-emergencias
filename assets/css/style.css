@@ -2203,3 +2203,7 @@ label {
 .pac-container {
     z-index: 1051 !important;
 }
+
+.radio label, .checkbox label {
+    padding-left: 0;
+}

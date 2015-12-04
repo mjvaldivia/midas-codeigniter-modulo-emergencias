@@ -300,6 +300,8 @@ class Alarma_Model extends MY_Model {
     }
 
     public function enviaMsjAlarma($params) {
+        $this->load->library('Simulacion');
+        
         $error = 0;
         $this->load->helper('utils');
         $this->load->helper('session');
@@ -319,7 +321,8 @@ class Alarma_Model extends MY_Model {
 
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
-        $subject = "SIPRESA: Revisión de Alarma";
+        $simulacion = New Simulacion();
+        $subject = $simulacion . "SIPRESA: Revisión de Alarma";
 
 
         $this->load->model("Sendmail_Model", "SendmailModel");

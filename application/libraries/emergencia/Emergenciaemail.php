@@ -10,6 +10,12 @@ Class Emergenciaemail{
     
     /**
      *
+     * @var Simulacion 
+     */
+    protected $_simulacion;
+    
+    /**
+     *
      * @var array 
      */
     protected $_emergencia;
@@ -48,10 +54,13 @@ Class Emergenciaemail{
         $this->_ci->load->model("tipo_emergencia_model");
         $this->_ci->load->model("emergencia_comuna_model");
         
+        $this->_ci->load->library("simulacion");
+        
         $this->_emergencia_model        = New Emergencia_Model();
         $this->_emergencia_tipo_model   = New Emergencia_Estado_Model();
         $this->_emergencia_comuna_model = New Emergencia_Comuna_Model();
         $this->_sendmail_model          = New Sendmail_Model();
+        $this->_simulacion = New Simulacion();
     }
     
     /**
@@ -71,7 +80,7 @@ Class Emergenciaemail{
      * @return boolean
      */
     public function enviar(){
-        $subject = "Confirmación de una situación de emergencia";
+        $subject = $this->_simulacion . "Confirmación de una situación de emergencia";
         $to = $this->_sendmail_model->get_destinatariosCorreo($this->_emergencia->tip_ia_id, $this->_listaIdComunasConComa(), null);
         return $this->_sendmail_model->emailSend($to, null, null, $subject, $this->_getMensaje(), false);
     }
