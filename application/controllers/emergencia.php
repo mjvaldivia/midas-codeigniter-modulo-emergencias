@@ -340,7 +340,7 @@ class Emergencia extends MY_Controller {
     }
 
     public function subir_CapaTemp() {
-        
+        $this->load->library("capa/capageojson");
         $error = false;
         $this->load->helper(array("session", "debug"));
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
@@ -352,7 +352,8 @@ class Emergencia extends MY_Controller {
         $properties = array();
         $arr_filename = array();
         $tmp_prop_array = array();
-
+        $tipo_geometria = array();
+        
         if(isset($_FILES['input-capa-editar'])){
 
             $tmp_name = $_FILES['input-capa-editar']['tmp_name'];
@@ -403,14 +404,44 @@ class Emergencia extends MY_Controller {
                         "<input class='propiedades' id='prop_$k' name='prop_$k' type='checkbox' checked=checked  />");
                     $tmp_prop_array[] = $k;
                 }
+                
                 $arr_filename['data'][] = array(
                     $nombres[$i],
                     "<select name=iComunas_".($i+1)." id=iComunas_".($i+1)." class='form-control iComunas required' placeholder='Comuna de la capa' ></select> <input name=tmp_file_".($i+1)." id=tmp_file_".($i+1)." value='$nombre_cache_id' type=hidden />",
                 );
                 
+                $this->capageojson->setGeojson($arr_properties);
+                $geometrias = $this->capageojson->listGeometry();
+                
+                if(in_array("Polygon", $geometrias) OR in_array("MultiPolygon", $geometrias)){
+                    $tipo_geometria['data'][] = array("Poligonos",
+                                                      "<input name=\"color_".($i+1)."\" id=\"color_".($i+1)."\" placeholder=\"Color del poligono\" type='text' class=\"colorpicker required\" value=\"\"/>");
+                }
+                
+                if(in_array("Point", $geometrias)){
+                    $tipo_geometria['data'][] = array("Icono",
+                                                      "<select name=\"icono_".($i+1)."\" id=\"icono_".($i+1)."\" style=\"width: 300px\" placeholder=\"Icono de los marcadores\" class=\" select2-images required\">"
+                                                    . "<option value=\"\"></option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi.png")."\">Rojo</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-yellow.png")."\">Amarillo</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-blue.png")."\">Azul</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-green.png")."\">Verde</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-pink.png")."\">Rosado</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-black.png")."\">Negro</option>"
+                                                    . "</select>");
+                }
+                
             }
         }
-        echo ($error) ? json_encode(array("uploaded" => 0, "error_filenames" => $arr_error_filenames, 'properties' => $properties, 'filenames' => $arr_filename)) : json_encode(array("uploaded" => 1, 'properties' => $properties, 'filenames' => $arr_filename));
+        echo ($error) ? json_encode(array("uploaded" => 0, 
+                                          "error_filenames" => $arr_error_filenames, 
+                                          'properties' => $properties, 
+                                          'filenames' => $arr_filename,
+                                          'geometry' => $tipo_geometria)) 
+                      : json_encode(array("uploaded" => 1, 
+                                          'properties' => $properties, 
+                                          'filenames' => $arr_filename,
+                                          'geometry' => $tipo_geometria));
     }
     public function subir_IconTemp() {
         

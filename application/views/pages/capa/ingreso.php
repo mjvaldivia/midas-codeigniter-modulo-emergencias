@@ -112,15 +112,7 @@
                         </div>
                     </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Icono (*)</label>
-                        <div class="col-md-4">
-                            <input id="input-icon" name="input-icon" class="form-control" placeholder="Icono de la(s) Capa(s)" type="file" data-show-preview="false" />
-                            <input id="icon" value='' name="icon" class="form-control required" placeholder="Icono de la(s) Capa(s)" type="hidden" />
-                            
-                        </div>
-                        <div class="col-md-2"><img id='img_icon' height="32px" /></div>
-                    </div>
+
                     
                     <div class="form-group">
                         <label class="col-md-3 control-label">Capa(s) (*)</label>
@@ -130,6 +122,23 @@
                         
                     </div>
                     
+                    <div id="div_color" class="hidden">
+                        <label class="col-md-3 control-label">Configuración de capa</label>
+                        <div class="col-md-9">
+                            <table id="tabla_colores" class="table table-bordered table-striped required" placeholder="Archivo de capa válido">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Tipo
+                                    </th>
+                                    <th>
+                                        Color/icono
+                                    </th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                     
                     <div class="form-group" id="div_comunas" style="display:none;">
                         <label class="col-md-3 control-label">Comuna de la(s) capa(s)</label>
@@ -190,6 +199,7 @@
 
     </div>
 </div> 
+
 <?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
@@ -198,6 +208,7 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
+
 
 
 <?= loadJS("assets/js/capas.js") ?>
