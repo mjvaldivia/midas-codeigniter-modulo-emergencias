@@ -246,9 +246,8 @@ class Capa_Model extends MY_Model {
 
     function getCapa($id_capa) {
 
-        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_mime mime, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
+        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
                 join archivo a on c.capa_arch_ia_id = a.arch_ia_id
-                join archivo b on c.icon_arch_ia_id = b.arch_ia_id
                 join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
                 where c.cap_ia_id = ?";
         $result = $this->db->query($sql,array($id_capa));

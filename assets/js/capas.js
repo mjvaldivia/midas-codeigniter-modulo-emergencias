@@ -273,16 +273,6 @@ var Layer = {};
 
 
     this.initSaveEdicion = function() {
-       /* $("#input-icon-editar").fileinput({
-            language: "es",
-            multiple: false,
-            uploadAsync: true,
-            initialCaption: "Seleccione Icono",
-            allowedFileTypes: ['image'],
-            uploadUrl: siteUrl + "emergencia/subir_IconTemp",
-            dropZoneTitle:''
-        });*/
-        
 
         $("#input-capa-editar").fileinput({
             language: "es",
@@ -291,14 +281,7 @@ var Layer = {};
             initialCaption: "Seleccione una capa GeoJson",
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
-        
-        /*$('#input-icon-editar').on('filebatchuploadsuccess', function(event, data) {
-            $('#icon-editar').val(data.response.nombre_cache_id);
-            $('#img_icon_editar').attr('src',baseUrl+''+data.response.ruta);
-            
-        });*/
-        
-        
+
         $('#input-capa-editar').on('filebatchuploadsuccess', function(event, data) {
            
            if(data.response.uploaded==0)//error
@@ -307,10 +290,7 @@ var Layer = {};
                $.each(data.response.error_filenames,function(k,v){
                   error_filenames += '-'+v+'<br>'; 
                });
-                   
-               
-              
-               
+
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: error_filenames,

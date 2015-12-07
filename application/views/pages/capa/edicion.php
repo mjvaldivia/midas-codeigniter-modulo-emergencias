@@ -76,17 +76,7 @@
                 </div>
             </div>
             </div>
-            <div class="form-group">
-                <?php $icon = explode("/",$capa->icono);?>
-                <?php $icono = array_pop($icon);?>
-                <label class="col-md-3 control-label">Icono (*)</label>
-                <div class="col-md-4">
-                    <input id="input-icon-editar" name="input-icon-editar" class="form-control" placeholder="Icono de la(s) Capa(s)" type="file" data-show-preview="false" value="<?php echo $icono?>" />
-                    <input id="icon-editar" value='<?php echo $icono?>' name="icon-editar" class="form-control required" placeholder="Icono de la(s) Capa(s)" type="hidden" />
-                    
-                </div>
-                <div class="col-md-2"><img id='img_icon_editar' height="32px" src="<?php echo base_url() . $capa->icono?>"/></div>
-            </div>
+
             
             <div class="form-group">
                 <?php $capa_file = explode("/",$capa->capa);?>
@@ -171,9 +161,6 @@
     $('#input-capa-editar').on('fileloaded', function(event, file){
        $(this).fileinput("upload");
     });
-    $('#input-icon-editar').on('fileloaded', function(event, file){
 
-       $(this).fileinput("upload");
-    });
 
 </script>

@@ -142,8 +142,7 @@ class Capas extends MY_Controller
 
 
     public function editarCapa(){
-        $this->load->helper(array("session", "debug"));
-        sessionValidation();
+
 
         $id_capa = $this->input->post('capa');
         $this->load->model("capa_model", "CapaModel");
