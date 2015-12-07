@@ -217,7 +217,7 @@ class Capa_Model extends MY_Model {
             'id' => $row[0]['cap_ia_id'],
             'nombre' => $row[0]['cap_c_nombre'],
             'capa' => base_url($row[0]['capa']),
-            'icono' => base_url($row[0]['icon_path']),
+            'icono' => $row[0]['icon_path'],
             'color' => $row[0]['color'],
             'propiedades' => $row[0]['cap_c_propiedades'],
             'geozone' => $row[0]['cap_c_geozone_number'] . $row[0]['cap_c_geozone_letter'],
