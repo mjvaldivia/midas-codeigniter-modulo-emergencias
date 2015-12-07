@@ -182,6 +182,7 @@ var Layer = {};
                             className: "btn-info",
                             callback: function(){
                                 if(form.capa_edicion === undefined){
+                                    $(btn).attr('disabled',false);
                                     location.reload();    
                                 }else{
                                     $("#tab3").fadeOut(function(){
