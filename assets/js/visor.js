@@ -751,7 +751,7 @@ var VisorMapa = {
                                 self.map.data.add(point);
                                 break;
                             case 'Polygon':
-                                json_props['fillColor'] = '#999999';
+                                json_props['fillColor'] = json.color;
                                 var arr = [[]];
                                 var LatLng;
 
@@ -768,7 +768,7 @@ var VisorMapa = {
                                 self.map.data.add(polygon);
                                 break;
                             case 'MultiPolygon':
-                                json_props['fillColor'] = '#999999';
+                                json_props['fillColor'] = json.color;
                                 var LatLng;
                                 for (var m = 0; m < feature.geometry.coordinates.length; m++)
                                 {
@@ -793,7 +793,7 @@ var VisorMapa = {
                                 }
                                 break;
                             case 'LineString':
-                                json_props['strokeColor'] = '#0000FF';
+                                json_props['strokeColor'] = json.color;
                                 var arr = [];
                                 var LatLng;
                                 //console.log(feature.geometry.coordinates.length);return;

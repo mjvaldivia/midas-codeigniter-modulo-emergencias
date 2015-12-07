@@ -200,7 +200,16 @@ class Capa_Model extends MY_Model {
 
     public function getjson($id) {
         $this->load->helper("url");
-        $result = $this->db->query(" SELECT c.cap_ia_id, c.cap_c_nombre, a.arch_c_nombre capa,a2.arch_c_nombre icono,c.cap_c_propiedades, c.cap_c_geozone_number, c.cap_c_geozone_letter  from capas c join archivo a on c.capa_arch_ia_id = a.arch_ia_id join archivo a2 on c.icon_arch_ia_id = a2.arch_ia_id where cap_ia_id = $id");
+        $result = $this->db->query(" SELECT c.cap_ia_id, "
+                                         . "c.cap_c_nombre, "
+                                         . "a.arch_c_nombre capa,"
+                                         . "c.icon_path, "
+                                         . "c.color, "
+                                         . "c.cap_c_propiedades, "
+                                         . "c.cap_c_geozone_number, "
+                                         . "c.cap_c_geozone_letter  "
+                                 . "from capas c join archivo a on c.capa_arch_ia_id = a.arch_ia_id "
+                                 . "where cap_ia_id = $id");
         $row = $result->result_array();
         $str = file_get_contents($row[0]['capa']);
 
@@ -208,7 +217,8 @@ class Capa_Model extends MY_Model {
             'id' => $row[0]['cap_ia_id'],
             'nombre' => $row[0]['cap_c_nombre'],
             'capa' => base_url($row[0]['capa']),
-            'icono' => base_url($row[0]['icono']),
+            'icono' => base_url($row[0]['icon_path']),
+            'color' => $row[0]['color'],
             'propiedades' => $row[0]['cap_c_propiedades'],
             'geozone' => $row[0]['cap_c_geozone_number'] . $row[0]['cap_c_geozone_letter'],
             'json_str' => $str,
