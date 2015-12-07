@@ -43,7 +43,7 @@
             <?php } ?>
             
             <?php if($capa->icon_path != ""){ ?>
-            <div class="form-group hidden">
+            <div class="form-group">
                 <label class="col-md-3 control-label">Icono (*)</label>
                 <div class="col-md-7">
                     <select name="icono_editar" id="icono_editar" style="width: 300px" placeholder="Icono de los marcadores" class="select2-images required">
