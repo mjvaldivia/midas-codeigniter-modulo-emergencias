@@ -54,27 +54,18 @@ class Capa_Model extends MY_Model {
                         UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id 
                         where cap_ia_id =" . $cap_ia_id
                 );
+            }
+            
+            $update = array();
+            if(isset($params["color_editar"])){
+                    $update["color"] = $params["color_editar"];
+            } 
 
-
+            if(isset($params["icono_editar"])){
+                $update["icon_path"] = $params["icono_editar"];
             }
 
-            /*if(file_exists('media/tmp/' . $params['icon-editar'])){
-                $icon_size = filesize('media/tmp/' . $params['icon-editar']);
-                $icon_type = filetype('media/tmp/' . $params['icon-editar']);
-                $tmp_name = 'media/tmp/' . $params['icon-editar']; 
-
-                $icon_obj_arch_json = $this->ArchivoModel->upload_to_site('icono_capa', $icon_type, $tmp_name, $cap_ia_id, $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icon_size);
-                fb($icon_obj_arch_json);
-                $icon_arch_ia_id = json_decode($icon_obj_arch_json)->id;
-
-                $this->db->query("
-                        UPDATE capas SET icon_arch_ia_id = $icon_arch_ia_id 
-                        where cap_ia_id =" . $cap_ia_id
-                );
-
-
-            }*/
-            
+            $this->_query->update($update, "cap_ia_id", $cap_ia_id);
             
             if ($this->db->trans_status() === FALSE) {
                 $error = true;
