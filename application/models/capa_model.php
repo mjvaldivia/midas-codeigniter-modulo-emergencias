@@ -4,7 +4,13 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Capa_Model extends MY_Model {
-
+    
+    /**
+     * Nombre de tabla
+     * @var string 
+     */
+    protected $_tabla = "capas";
+    
     public function guardarCapa($params) {
         
         fb("entra a guardar capa");
@@ -107,25 +113,27 @@ class Capa_Model extends MY_Model {
 
                 $cap_ia_id = $this->db->insert_id();
                 $capa = $this->cache->get($params['tmp_file_' . $i]);   //capa 
-                
-              
-                
-                $icon_size = filesize('media/tmp/' . $params['icon']);
-                $icon_type = filetype('media/tmp/' . $params['icon']);
-                $tmp_name = 'media/tmp/' . $params['icon'];
 
+                $update = array();
 
                 $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre']);
-                $icon_obj_arch_json = $this->ArchivoModel->upload_to_site('icono_capa', $icon_type, $tmp_name, $cap_ia_id, $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icon_size);
-                
                 $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
-                $icon_arch_ia_id = json_decode($icon_obj_arch_json)->id;
+                $update["capa_arch_ia_id"] = $capa_arch_ia_id;
+                
+                if(isset($params["color_" . $i])){
+                    $update["color"] = $params["color_" . $i];
+                } 
+                
+                if(isset($params["icono_" . $i])){
+                    $update["icon_path"] = $params["icono_" . $i];
+                }
+                
+                $this->_query->update($update, "cap_ia_id", $cap_ia_id);
 
-
-                $this->db->query("
+                /*$this->db->query("
                         UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id, icon_arch_ia_id = $icon_arch_ia_id 
                         where cap_ia_id =" . $cap_ia_id
-                );
+                );*/
 
                 if ($this->db->trans_status() === FALSE) {
                     $error = true;
