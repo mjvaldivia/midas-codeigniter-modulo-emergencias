@@ -9,7 +9,7 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body" style="padding: 0px;">
                 <ul id="sortable">
 
                 </ul>
