@@ -511,7 +511,35 @@ var VisorMapa = {
         
         var items = $('#selected_items').val().split(',');
         
-        $.get(siteUrl + 'visor/obtenerCapasDT/eme_ia_id/'+ $('#hIdEmergencia').val()+'/id/' + items, function (data) {
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: "",
+            type: "post",
+            url: siteUrl + "visor/obtenerCapasDT/eme_ia_id/" + $('#hIdEmergencia').val() + "/id/" + items, 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+                if(data.correcto){
+                    $("#wrapper").toggleClass("toggled");
+                    $('#sortable').html(data.html);
+                } else {
+                    bootbox.dialog({
+                        title: "Resultado de la operacion",
+                        message: 'no hay capas de las comunas de la emergencia',
+                        buttons: {
+                            danger: {
+                                label: "Cerrar",
+                                className: "btn-danger"
+                            }
+                        }
+                    });
+                }
+            }
+        }); 
+        
+        /*$.get(siteUrl + 'visor/obtenerCapasDT/eme_ia_id/'+ $('#hIdEmergencia').val()+'/id/' + items, function (data) {
             
             var html = '';
             var json = JSON.parse(data);
@@ -532,10 +560,12 @@ var VisorMapa = {
             $("#wrapper").toggleClass("toggled");
             
             $.each(json, function (k, v) {
-                html += '<li id=' + v.cap_ia_id + ' class="ui-state-default"><div class=checkbox><i class="fa fa-sort"></i><label>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;<img src="' + baseUrl + v.arch_c_nombre + '" height="24">&nbsp;' + v.cap_c_nombre + '</label></div></li>';
+                html += '<li id=' + v.cap_ia_id + ' class="ui-state-default">\n'
+                        + '<div class=checkbox>\n'
+                        + '<i class="fa fa-sort"></i><label>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;<img src="' + baseUrl + v.arch_c_nombre + '" height="24">&nbsp;' + v.cap_c_nombre + '</label></div></li>';
             });
             $('#sortable').html(html);
-        });
+        });*/
     });
 
     $("#sortable").sortable({

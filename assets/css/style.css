@@ -2207,3 +2207,8 @@ label {
 .radio label, .checkbox label {
     padding-left: 0;
 }
+
+.color-capa-preview{
+    height: 30px;
+    width:30px;
+}

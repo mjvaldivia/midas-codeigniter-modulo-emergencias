@@ -11,6 +11,15 @@ class Capa_Model extends MY_Model {
      */
     protected $_tabla = "capas";
     
+    /**
+     * Retorna registro por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("cap_ia_id", $id);
+    }
+    
     public function guardarCapa($params) {
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
         $this->load->helper('utils');
@@ -58,7 +67,7 @@ class Capa_Model extends MY_Model {
             
             $update = array();
             if(isset($params["color_editar"])){
-                    $update["color"] = $params["color_editar"];
+                $update["color"] = $params["color_editar"];
             } 
 
             if(isset($params["icono_editar"])){
@@ -135,6 +144,23 @@ class Capa_Model extends MY_Model {
         
 
         echo ($error) ? 0 : 1;
+    }
+    
+    /**
+     * Retorna capas por comuna
+     * @param array $lista_comunas
+     * @return array
+     */
+    public function listarCapasPorComunas(array $lista_comunas){
+        $result = $this->_query->select("c.*")
+                               ->from("capas c")
+                               ->whereAND("c.com_ia_id", $lista_comunas, "IN")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
 
     public function obtenerTodos($eme_ia_id, $ids = null) {
