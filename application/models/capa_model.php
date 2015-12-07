@@ -170,10 +170,10 @@ class Capa_Model extends MY_Model {
         }
 
         if ($error == 0) {
-            $result = $this->db->query(" SELECT c.*, cc.ccb_c_categoria, a.arch_c_nombre from 
+            $result = $this->db->query(" SELECT c.*, cc.ccb_c_categoria from 
                 capas c join categorias_capas_coberturas cc 
                 on c.ccb_ia_categoria = cc.ccb_ia_categoria
-                join archivo a on c.icon_arch_ia_id = a.arch_ia_id $where");
+                $where");
 
             $arr_ids = array();
             if ($ids == !null) {
@@ -191,7 +191,7 @@ class Capa_Model extends MY_Model {
                     'cap_c_nombre' => $row['cap_c_nombre'],
                     'ccb_c_categoria' => $row['ccb_c_categoria'],
                     'cap_ia_id' => $row['cap_ia_id'],
-                    'arch_c_nombre' => $row['arch_c_nombre']
+                    'arch_c_nombre' => $row['icon_path']
                 ));
             }
         }
