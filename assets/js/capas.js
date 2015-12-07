@@ -272,7 +272,7 @@ var Layer = {};
 
 
     this.initSaveEdicion = function() {
-        $("#input-icon-editar").fileinput({
+       /* $("#input-icon-editar").fileinput({
             language: "es",
             multiple: false,
             uploadAsync: true,
@@ -280,7 +280,7 @@ var Layer = {};
             allowedFileTypes: ['image'],
             uploadUrl: siteUrl + "emergencia/subir_IconTemp",
             dropZoneTitle:''
-        });
+        });*/
         
 
         $("#input-capa-editar").fileinput({
@@ -291,11 +291,11 @@ var Layer = {};
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
         
-        $('#input-icon-editar').on('filebatchuploadsuccess', function(event, data) {
+        /*$('#input-icon-editar').on('filebatchuploadsuccess', function(event, data) {
             $('#icon-editar').val(data.response.nombre_cache_id);
             $('#img_icon_editar').attr('src',baseUrl+''+data.response.ruta);
             
-        });
+        });*/
         
         
         $('#input-capa-editar').on('filebatchuploadsuccess', function(event, data) {

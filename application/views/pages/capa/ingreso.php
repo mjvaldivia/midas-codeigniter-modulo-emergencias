@@ -221,9 +221,4 @@
     $('#input-capa').on('fileloaded', function(event, file){
        $(this).fileinput("upload");
     });
-    $('#input-icon').on('fileloaded', function(event, file){
-
-       $(this).fileinput("upload");
-    });
-
 </script>
