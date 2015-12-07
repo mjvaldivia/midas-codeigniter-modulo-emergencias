@@ -12,9 +12,6 @@ class Capa_Model extends MY_Model {
     protected $_tabla = "capas";
     
     public function guardarCapa($params) {
-        
-        fb("entra a guardar capa");
-        
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
         $this->load->helper('utils');
         $this->load->model("archivo_model", "ArchivoModel");
@@ -50,7 +47,7 @@ class Capa_Model extends MY_Model {
                 $capa = $this->cache->get($params['tmp_file_1']);   //capa 
                     
                 $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre_editar']);
-                fb($capa_obj_arch_json);
+
                 $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
 
                 $this->db->query("
@@ -61,7 +58,7 @@ class Capa_Model extends MY_Model {
 
             }
 
-            if(file_exists('media/tmp/' . $params['icon-editar'])){
+            /*if(file_exists('media/tmp/' . $params['icon-editar'])){
                 $icon_size = filesize('media/tmp/' . $params['icon-editar']);
                 $icon_type = filetype('media/tmp/' . $params['icon-editar']);
                 $tmp_name = 'media/tmp/' . $params['icon-editar']; 
@@ -76,7 +73,7 @@ class Capa_Model extends MY_Model {
                 );
 
 
-            }
+            }*/
             
             
             if ($this->db->trans_status() === FALSE) {

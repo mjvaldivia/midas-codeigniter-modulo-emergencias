@@ -170,7 +170,7 @@ class Capas extends MY_Controller
         $tmp_prop_array = array();
 
         
-        $fp = file_get_contents($capa->capa,'r');
+        $fp = file_get_contents(base_url($capa->capa,'r'));
         
         $arr_properties = json_decode($fp,true);
         

@@ -21,6 +21,10 @@
     <?= loadCSS("assets/css/emergencias.css") ?>
     <?= loadJS("assets/js/utils.js") ?>
     <?= loadJS("assets/js/loading.js") ?>
+    
+    <!-- THEME STYLES - Include these on every page. -->
+    <?= loadCSS("assets/css/style.css", true) ?>
+    <?= loadCSS("assets/css/visor.css", true) ?>
 
     <?php //google maps API ?>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing,geometry"></script>
@@ -43,7 +47,8 @@
 </head>
 <body>
     <div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
-    <div class="header col-md-12">
+    <div class="row">
+    <div class=" col-md-12">
         <div class="col-md-9">
             <div class="col-md-2 col-xs-2">
                 <img src="<?= base_url("/assets/img/logo_visor.jpg") ?>" class="logo-visor">
@@ -154,10 +159,12 @@
             
         </div>
     </div>
-    <div class="main col-md-12 col-xs-12">
-        {body}
     </div>
-
+    <div class="row">
+        <div class="main col-md-12 col-xs-12">
+            {body}
+        </div>
+    </div>
     <div class="modal fade" id="modal-kml">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

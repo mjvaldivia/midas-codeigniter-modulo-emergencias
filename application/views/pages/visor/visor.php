@@ -1,56 +1,24 @@
 <?= loadCSS("assets/lib/bootstrap-3.3.5/css/simple-sidebar.css", true) ?>
-<style type="text/css">
-    @media (max-width: 480px) {
-        #input-buscador-mapa {
-            width: 155px
-        }
-    }
-    ul#sortable{
-        padding-left: 5px;
-    }
-    #sortable li{
-        background-color: #ffffff;
-        list-style: none;
-        border: 1px solid #ccc;
-        padding: 5px 10px;
-        border-radius: 5px;
-        width: 90%;
-        margin:4px 0px; 
-    }
-    #sortable li:hover{
-        cursor: move;
-    }
-    #sortable li label{
-        font-size: 15px;
-        font-weight: bold;
-    }
-    .contextmenu a{
-        cursor:pointer;
-        text-decoration: none;
-    }
-.contextmenu{
-   visibility: hidden;
-    background: #ffffff;
-    border: 1px solid #8888FF;
-    z-index: 10;
-    position: absolute;
-    min-width: 10px;
-    height: 35px;
-}
-.contextmenu div{
-    padding: 5px
-    }
-</style>
 <div id="wrapper" class='toggled'>
-        <div id="sidebar-wrapper">
+    
+    <div id="sidebar-wrapper">
+        <div class="portlet portlet-blue" style="margin-bottom: 0px;">
+            <div class="portlet-heading">
+                <div class="portlet-title">
+                    <h4><i class="fa fa-list-ul"></i> Seleccionar capas</h4>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="portlet-body">
+                <ul id="sortable">
 
-                    Cargar Capas<br><br>
-                    <ul id="sortable">
-                    
-                  </ul>
-                    <input type='hidden' id='selected_items' value=''>
-
+                </ul>
+                <div class="clearfix"></div>
+            </div>
         </div>
+        <input type='hidden' id='selected_items' value=''>
+    </div>
+    
 <div id="page-content-wrapper">
 <input type="hidden" id="hIdEmergencia" name="hIdEmergencia" value="<?= $emergencia["eme_ia_id"] ?>"/>
 
