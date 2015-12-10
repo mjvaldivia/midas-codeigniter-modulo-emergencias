@@ -113,6 +113,11 @@ var FormAlarma = Class({
         });
 
         $('ul.setup-panel li.active a').trigger('click');
+        $('ul.setup-panel li').click(function(){
+            $(this).nextAll("li").each(function(){
+                $(this).addClass("disabled");
+            });
+        });
     },
     
     /**

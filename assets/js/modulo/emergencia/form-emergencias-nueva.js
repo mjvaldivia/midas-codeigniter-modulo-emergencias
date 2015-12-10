@@ -62,7 +62,9 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
             },
             success:function(data){
                 salida = data.correcto;
-                yo.callBackRechazar();
+                if(data.correcto){
+                    yo.callBackRechazar();
+                }
             }
         }); 
         

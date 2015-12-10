@@ -132,7 +132,6 @@ class Alarma extends MY_Controller {
                           "nombre_lugar"        => $alarma->ala_c_lugar_emergencia,
                           "observacion"         => $alarma->ala_c_observacion,
                           "fecha_emergencia"    => ISODateTospanish($alarma->ala_d_fecha_emergencia),
-                          "fecha_recepcion"     => ISODateTospanish($alarma->ala_d_fecha_recepcion),
                           "geozone"             => $alarma->ala_c_geozone,
                           "latitud_utm"  => $alarma->ala_c_utm_lat,
                           "longitud_utm" => $alarma->ala_c_utm_lng);
@@ -243,7 +242,6 @@ class Alarma extends MY_Controller {
                             "ala_c_lugar_emergencia" => $params['nombre_lugar'],
                             "ala_d_fecha_emergencia" => spanishDateToISO($params['fecha_emergencia']),
                             "rol_ia_id"              => $this->session->userdata('session_idCargo'),
-                            "ala_d_fecha_recepcion"  => spanishDateToISO($params['fecha_recepcion']),
                             "usu_ia_id"              => $this->session->userdata('session_idUsuario'),
                             "ala_c_observacion"      => $params['observacion'],
                             "ala_c_utm_lat" => $params['latitud'],
@@ -262,6 +260,7 @@ class Alarma extends MY_Controller {
                 $respuesta_email = "";
             //la alarma no existia
             } else {
+                $data["ala_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
                 $data["est_ia_id"] = Alarma_Model::REVISION;
                 $id = $this->AlarmaModel->query()->insert($data);
                 $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['comunas']);

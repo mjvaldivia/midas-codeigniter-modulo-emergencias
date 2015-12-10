@@ -579,16 +579,20 @@ var VisorMapa = {
 
     var self = this;
     this.selectCapa = function (id) {
+        
         var selections = $('#selected_items').val();
 
         if ($("#chk_" + id).is(":checked")) {
+            
             if (selections == "")
                 var coma = "";
             else
                 var coma = ",";
 
             $('#selected_items').val(selections + coma + id);
+           
         } else {
+            
             var arr_select = selections.split(",");
             var newSelect = "";
             for (var i = 0; i < arr_select.length; i++) {
@@ -601,13 +605,15 @@ var VisorMapa = {
                 }
             }
             $('#selected_items').val(newSelect);
+            
             self.map.data.forEach(function (feature) {
-
+                console.log(feature.getProperty("TYPE"));
                 if (feature.getProperty("TYPE") == id)
                 {
                     self.map.data.remove(feature);
                 }
             });
+            
         }
 
         self.cargarCapas();
@@ -703,6 +709,7 @@ var VisorMapa = {
                     }
 
                 });
+                
                 if (cargada > 0) {
                     continue;
                 }
@@ -710,7 +717,7 @@ var VisorMapa = {
                 $.get(siteUrl + 'visor/get_json_capa/id/' + arr_select[i], function (data) {
                     var json = JSON.parse(data);
                     var geojson = JSON.parse(json.json_str);
-                    //console.log(geojson);
+
                     var feature;
                     var arr_prop_on = json.propiedades.split(',');
 

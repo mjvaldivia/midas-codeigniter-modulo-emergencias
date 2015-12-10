@@ -225,7 +225,7 @@ class Capa_Model extends MY_Model {
                                  . "from capas c join archivo a on c.capa_arch_ia_id = a.arch_ia_id "
                                  . "where cap_ia_id = $id");
         $row = $result->result_array();
-        $str = file_get_contents($row[0]['capa']);
+        $str = file_get_contents(BASEPATH . "../" . utf8_decode($row[0]['capa']));
 
         $res = array(
             'id' => $row[0]['cap_ia_id'],

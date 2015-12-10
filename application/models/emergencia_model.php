@@ -20,6 +20,21 @@ class Emergencia_Model extends MY_Model {
     protected $_tabla = "emergencias";
     
     /**
+     *
+     * @var CI_Session 
+     */
+    protected $_session;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library("session");
+        $this->_session = New CI_Session();
+    }
+    
+    /**
      * Retorna la alarma por el identificador
      * @param int $id clave primaria
      * @return object
@@ -121,10 +136,13 @@ class Emergencia_Model extends MY_Model {
      * @return array
      */
     public function listarYearsConEmergencias(){
-        $result = $this->_query->select("YEAR(eme_d_fecha_emergencia) as ano")
-                               ->from()
-                               ->groupBy("YEAR(eme_d_fecha_emergencia)")
-                               ->getAllResult();
+        $query = $this->_query->select("YEAR(e.eme_d_fecha_emergencia) as ano")
+                               ->from($this->_tabla . " e")
+                               ->groupBy("YEAR(e.eme_d_fecha_emergencia)");
+        
+        $this->_addQueryComunas($query);
+        
+        $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;
         } else {
@@ -157,12 +175,15 @@ class Emergencia_Model extends MY_Model {
      * @return array
      */
     public function listarEmergenciasEntreFechas($fecha_desde, $fecha_hasta){
-        $result = $this->_query->select("*")
-                               ->from()
-                               ->whereAND("eme_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
-                               ->whereAND("eme_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
-                               ->orderBy("eme_d_fecha_recepcion", "DESC")
-                               ->getAllResult();
+        $query = $this->_query->select("e.*")
+                               ->from($this->_tabla . " e")
+                               ->whereAND("e.eme_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("e.eme_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->orderBy("e.eme_d_fecha_recepcion", "DESC");
+        
+        $this->_addQueryComunas($query);
+        
+        $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;
         } else {
@@ -328,6 +349,8 @@ class Emergencia_Model extends MY_Model {
         if(!empty($params["estado_emergencia"])){
             $query->whereAND("e.est_ia_id", $params["estado_emergencia"]);
         }
+        
+        $this->_addQueryComunas($query);
                                 
         $resultado = $query->getAllResult();
         if(!is_null($resultado)){
@@ -542,8 +565,11 @@ class Emergencia_Model extends MY_Model {
      */
     protected function _queryEmergenciasPorEstado($id_estado){
         $query = $this->_query->select("*")
-                              ->from()
-                              ->whereAND("est_ia_id", $id_estado, "=");
+                              ->from($this->_tabla . " e")
+                              ->whereAND("e.est_ia_id", $id_estado, "=");
+        
+        $this->_addQueryComunas($query);
+        
         return $query;
     }
     
@@ -553,12 +579,31 @@ class Emergencia_Model extends MY_Model {
      * @return QueryBuilder
      */
     protected function _queryEmergenciasPorRegion($id_region){
-        return $this->_query->select("DISTINCT e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+        $query = $this->_query->select("DISTINCT e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
                             ->from("emergencias e")
                             ->join("alertas a", "a.ala_ia_id = e.ala_ia_id")
                             ->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
                             ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
                             ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
                             ->whereAND("p.reg_ia_id", $id_region);
+        
+        $comunas = explode(",", $this->_session->userdata('session_comunas'));
+        if(count($comunas)>0){
+            $query->whereAND("ec.com_ia_id", $comunas, "IN");
+        }
+        
+        return $query;
+    }
+    
+    /**
+     * Filtra por las comunas del usuario
+     * @param QueryBuilder $query
+     */
+    protected function _addQueryComunas(&$query){
+        $comunas = explode(",", $this->_session->userdata('session_comunas'));
+        if(count($comunas)>0){
+            $query->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
+                  ->whereAND("ec.com_ia_id", $comunas, "IN");
+        }
     }
 }

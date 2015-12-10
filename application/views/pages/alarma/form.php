@@ -118,7 +118,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group clearfix">
                                                     <label for="fecha_emergencia" class="control-label">Fecha/Hora de la emergencia:</label>
-                                                    <div class="input-group col-sm-12" id="div-fecha" type="datetime">
+                                                    <div class="input-group col-sm-12" id="div-fecha">
                                                         <input value="<?php echo $fecha_emergencia; ?>" class="form-control datepicker" placeholder="Fecha / Hora" name="fecha_emergencia" id="fecha_emergencia">
                                                         <div class="input-group-addon" style="cursor: pointer">
                                                             <i class="fa fa-calendar"></i>
@@ -127,18 +127,7 @@
                                                     <span class="help-block hidden"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group clearfix">
-                                                    <label for="fecha_recepcion" class="control-label">Fecha/Hora de recepción (*):</label>
-                                                    <div class="input-group col-sm-12" id="div-fecha" type="datetime">
-                                                        <input value="<?php echo $fecha_recepcion; ?>" class="form-control datepicker" placeholder="Fecha / Hora" name="fecha_recepcion" id="fecha_recepcion">
-                                                        <div class="input-group-addon" style="cursor: pointer">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
-                                                    <span class="help-block hidden"></span>
-                                                </div>
-                                            </div>
+                                            
                                         </div>
 
                                 </div>
