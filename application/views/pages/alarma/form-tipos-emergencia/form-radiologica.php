@@ -470,81 +470,286 @@
         </div>
     </div>
     
-    <div class="col-lg-4">
-        <div class="form-group clearfix">
-            <label for="form_tipo_riesgo_potencial" class="control-label">Riesgo potencial</label>
-            <div class="checkbox">
-                <label>
-                    <input type="radio" name="form_tipo_riesgo_potencial" id="form_tipo_riesgo_potencial_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial); ?>> Si
-                </label>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group clearfix">
+                <label for="form_tipo_riesgo_potencial" class="control-label">a. Riesgo potencial</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="form_tipo_riesgo_potencial" id="form_tipo_riesgo_potencial_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial); ?>> Si
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="form_tipo_riesgo_potencial" id="form_tipo_riesgo_potencial_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial); ?>> No
+                    </label>
+                </div>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="radio" name="form_tipo_riesgo_potencial" id="form_tipo_riesgo_potencial_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial); ?>> No
-                </label>
+        </div>
+
+        <div id="div-riesgo-potencial" class="hidden">
+            <div class="col-lg-2">
+                <div class="form-group clearfix">
+                    <label for="form_tipo_riesgo_potencial_irradiacion_personas" class="control-label">Irradiación a personas</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_personas" id="form_tipo_riesgo_potencial_irradiacion_personas_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_irradiacion_personas); ?>> Si
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_personas" id="form_tipo_riesgo_potencial_irradiacion_personas_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_irradiacion_personas); ?>> No
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group clearfix">
+                    <label for="form_tipo_riesgo_potencial_contaminacion_personas" class="control-label">Contaminación a personas</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_personas" id="form_tipo_riesgo_potencial_contaminacion_personas_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_contaminacion_personas); ?>> Si
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_personas" id="form_tipo_riesgo_potencial_contaminacion_personas_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_contaminacion_personas); ?>> No
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group clearfix">
+                    <label for="form_tipo_riesgo_potencial_irradiacion_ambiental" class="control-label">Irradiación ambiental</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_ambiental" id="form_tipo_riesgo_potencial_irradiacion_ambiental_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_irradiacion_ambiental); ?>> Si
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_ambiental" id="form_tipo_riesgo_potencial_irradiacion_ambiental_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_irradiacion_ambiental); ?>> No
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group clearfix">
+                    <label for="form_tipo_riesgo_potencial_contaminacion_ambiental" class="control-label">Contaminación ambiental</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_ambiental" id="form_tipo_riesgo_potencial_contaminacion_ambiental_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_contaminacion_ambiental); ?>> Si
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_ambiental" id="form_tipo_riesgo_potencial_contaminacion_ambiental_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_contaminacion_ambiental); ?>> No
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     
-    <div id="div-riesgo-potencial">
-        <div class="col-lg-2">
+    <div class="row">
+        <div class="col-lg-4">
             <div class="form-group clearfix">
-                <label for="form_tipo_riesgo_potencial_irradiacion_personas" class="control-label">Irradiación a personas</label>
+                <label for="form_tipo_evaluacion_radiacion" class="control-label">b. Evaluación de la radiación</label>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_personas" id="form_tipo_riesgo_potencial_irradiacion_personas_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_irradiacion_personas); ?>> Si
+                        <input type="radio" name="form_tipo_evaluacion_radiacion" id="form_tipo_evaluacion_radiacion_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_evaluacion_radiacion); ?>> Si
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_personas" id="form_tipo_riesgo_potencial_irradiacion_personas_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_irradiacion_personas); ?>> No
+                        <input type="radio" name="form_tipo_evaluacion_radiacion" id="form_tipo_evaluacion_radiacion_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_evaluacion_radiacion); ?>> No
                     </label>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        
+        <div id="div-evaluacion-radiacion" class="hidden">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group clearfix">
+                            <label for="form_tipo_riesgo_potencial_irradiacion_personas" class="control-label">Efectúa medición de radiación:</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="radio" name="form_tipo_evaluacion_radiacion_efectua_medicion" id="form_tipo_evaluacion_radiacion_efectua_medicion_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_evaluacion_radiacion_efectua_medicion); ?>> Si
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="radio" name="form_tipo_evaluacion_radiacion_efectua_medicion" id="form_tipo_evaluacion_radiacion_efectua_medicion_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_evaluacion_radiacion_efectua_medicion); ?>> No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group clearfix">
+                            <label for="form_tipo_evaluacion_radiacion_instrumento" class="control-label">Instrumento:</label>
+                            <input class="form-control" name="form_tipo_evaluacion_radiacion_instrumento" id="form_tipo_evaluacion_radiacion_instrumento" value="<?php echo $form_tipo_evaluacion_radiacion_instrumento; ?>" />
+                            <span class="help-block hidden"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group clearfix">
+                            <label for="form_tipo_evaluacion_radiacion_unidad" class="control-label">Unidad:</label>
+                            <input class="form-control" name="form_tipo_evaluacion_radiacion_unidad" id="form_tipo_evaluacion_radiacion_unidad" value="<?php echo $form_tipo_evaluacion_radiacion_unidad; ?>" />
+                            <span class="help-block hidden"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group clearfix">
+                            <label for="form_tipo_evaluacion_radiacion_tasa" class="control-label">Tasa de dosis de radiación natural (fondo):</label>
+                            <input class="form-control" name="form_tipo_evaluacion_radiacion_tasa" id="form_tipo_evaluacion_radiacion_tasa" value="<?php echo $form_tipo_evaluacion_radiacion_tasa; ?>" />
+                            <span class="help-block hidden"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group clearfix">
+                            <label for="form_tipo_evaluacion_radiacion_distancia" class="control-label">Distancias de seguridad recomendadas:</label>
+                            <input class="form-control" name="form_tipo_evaluacion_radiacion_distancia" id="form_tipo_evaluacion_radiacion_distancia" value="<?php echo $form_tipo_evaluacion_radiacion_distancia; ?>" />
+                            <span class="help-block hidden"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12">
             <div class="form-group clearfix">
-                <label for="form_tipo_riesgo_potencial_contaminacion_personas" class="control-label">Contaminación a personas</label>
+                <label for="form_tipo_evaluacion_equipo" class="control-label">c. Evaluación equipo y/o fuente</label>
+            </div>
+        </div>
+    </div>
+    
+     <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group clearfix">
+                <label for="form_tipo_evaluacion_equipo_aplica" class="control-label">Aplica</label>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_personas" id="form_tipo_riesgo_potencial_contaminacion_personas_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_contaminacion_personas); ?>> Si
+                        <input type="radio" name="form_tipo_evaluacion_equipo_aplica" id="form_tipo_evaluacion_equipo_aplica_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_evaluacion_equipo_aplica); ?>> Si
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_personas" id="form_tipo_riesgo_potencial_contaminacion_personas_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_contaminacion_personas); ?>> No
+                        <input type="radio" name="form_tipo_evaluacion_equipo_aplica" id="form_tipo_evaluacion_equipo_aplica_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_evaluacion_equipo_aplica); ?>> No
                     </label>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-4">
             <div class="form-group clearfix">
-                <label for="form_tipo_riesgo_potencial_irradiacion_ambiental" class="control-label">Irradiación ambiental</label>
+                <label for="form_tipo_evaluacion_equipo_evidencia_dano" class="control-label">Evidencia daño</label>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_ambiental" id="form_tipo_riesgo_potencial_irradiacion_ambiental_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_irradiacion_ambiental); ?>> Si
+                        <input type="radio" name="form_tipo_evaluacion_equipo_evidencia_dano" id="form_tipo_evaluacion_equipo_evidencia_dano_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_evaluacion_equipo_evidencia_dano); ?>> Si
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_irradiacion_ambiental" id="form_tipo_riesgo_potencial_irradiacion_ambiental_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_irradiacion_ambiental); ?>> No
+                        <input type="radio" name="form_tipo_evaluacion_equipo_evidencia_dano" id="form_tipo_evaluacion_equipo_evidencia_dano_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_evaluacion_equipo_evidencia_dano); ?>> No
                     </label>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-4">
             <div class="form-group clearfix">
-                <label for="form_tipo_riesgo_potencial_contaminacion_ambiental" class="control-label">Contaminación ambiental</label>
+                <label for="form_tipo_personas_expuestas" class="control-label">d. Trabajadores y personas expuestas</label>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_ambiental" id="form_tipo_riesgo_potencial_contaminacion_ambiental_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_riesgo_potencial_contaminacion_ambiental); ?>> Si
+                        <input type="radio" name="form_tipo_personas_expuestas" id="form_tipo_personas_expuestas_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_personas_expuestas); ?>> Si
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="radio" name="form_tipo_riesgo_potencial_contaminacion_ambiental" id="form_tipo_riesgo_potencial_contaminacion_ambiental_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_riesgo_potencial_contaminacion_ambiental); ?>> No
+                        <input type="radio" name="form_tipo_personas_expuestas" id="form_tipo_personas_expuestas_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_personas_expuestas); ?>> No
                     </label>
                 </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="form_tipo_personas_expuestas" id="form_tipo_personas_expuestas_nc" <?= formValueEmergenciaTipoChecked("NC", $form_tipo_personas_expuestas); ?>> NC
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group clearfix">
+                <label for="form_tipo_personas_expuestas_indique" class="control-label">Indique personas expuestas:</label>
+                <textarea  class="form-control" name="form_tipo_personas_expuestas_indique" id="form_tipo_personas_expuestas_indique"><?php echo $form_tipo_personas_expuestas_indique; ?></textarea>
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group clearfix">
+                <label for="form_tipo_registros_fotograficos" class="control-label">e. Registros fotográficos</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="form_tipo_registros_fotograficos" id="form_tipo_registros_fotograficos_si" <?= formValueEmergenciaTipoChecked("Si", $form_tipo_registros_fotograficos); ?>> Si
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="form_tipo_registros_fotograficos" id="form_tipo_registros_fotograficos_no" <?= formValueEmergenciaTipoChecked("No", $form_tipo_registros_fotograficos); ?>> No
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <legend> Acciones tomadas </legend>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group clearfix">
+                <label for="form_tipo_acciones_tomadas_resguardo_publico" class="control-label">Resguardo a público:</label>
+                <textarea  class="form-control" name="form_tipo_acciones_tomadas_resguardo_publico" id="form_tipo_acciones_tomadas_resguardo_publico"><?php echo $form_tipo_acciones_tomadas_resguardo_publico; ?></textarea>
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group clearfix">
+                <label for="form_tipo_acciones_tomadas_resguardo_trabajadores" class="control-label">Resguardo a trabajadores:</label>
+                <textarea  class="form-control" name="form_tipo_acciones_tomadas_resguardo_trabajadores" id="form_tipo_acciones_tomadas_resguardo_trabajadores"><?php echo $form_tipo_acciones_tomadas_resguardo_trabajadores; ?></textarea>
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group clearfix">
+                <label for="form_tipo_acciones_tomadas_control" class="control-label">Control de derrame y/o contaminación:</label>
+                <textarea  class="form-control" name="form_tipo_acciones_tomadas_control" id="form_tipo_acciones_tomadas_control"><?php echo $form_tipo_acciones_tomadas_control; ?></textarea>
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group clearfix">
+                <label for="form_tipo_acciones_tomadas_medidas_administrativas" class="control-label">Medidas administrativas:</label>
+                <textarea  class="form-control" name="form_tipo_acciones_tomadas_medidas_administrativas" id="form_tipo_acciones_tomadas_medidas_administrativas"><?php echo $form_tipo_acciones_tomadas_medidas_administrativas; ?></textarea>
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group clearfix">
+                <label for="form_tipo_acciones_tomadas_sumario_sanitario" class="control-label">Inicio Sumario Sanitario, materias:</label>
+                <textarea  class="form-control" name="form_tipo_acciones_tomadas_sumario_sanitario" id="form_tipo_acciones_tomadas_sumario_sanitario"><?php echo $form_tipo_acciones_tomadas_sumario_sanitario; ?></textarea>
+                <span class="help-block hidden"></span>
             </div>
         </div>
     </div>

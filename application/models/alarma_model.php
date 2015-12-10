@@ -32,6 +32,21 @@ class Alarma_Model extends MY_Model {
      * @var string 
      */
     protected $_tabla = "alertas";
+    
+    /**
+     *
+     * @var CI_Session 
+     */
+    protected $_session;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library("session");
+        $this->_session = New CI_Session();
+    }
         
     /**
      * Retorna la alarma por el identificador
@@ -74,21 +89,22 @@ class Alarma_Model extends MY_Model {
      * @return array
      */
     public function buscar(array $parametros = array()){
-        $query = $this->_query->select("*")
-                               ->from();
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a");
         
         if(!empty($parametros["id_estado"])){
-            $query->whereAND("est_ia_id", $parametros["id_estado"], "=");
+            $query->whereAND("a.est_ia_id", $parametros["id_estado"], "=");
         }
         
         if(!empty($parametros["id_tipo"])){
-            $query->whereAND("tip_ia_id", $parametros["id_tipo"], "=");
+            $query->whereAND("a.tip_ia_id", $parametros["id_tipo"], "=");
         }
         
         if(!empty($parametros["year"])){
-            $query->whereAND("year(ala_d_fecha_recepcion)", $parametros["year"], "=");
-            
+            $query->whereAND("year(a.ala_d_fecha_recepcion)", $parametros["year"], "=");
         }
+        
+        $this->_addQueryComunas($query);
         
         $result = $query->getAllResult();
         if(!is_null($result)){
@@ -105,7 +121,7 @@ class Alarma_Model extends MY_Model {
      */
     public function listarAlarmasPorEstado($id_estado){
         $result = $this->_queryAlarmasPorEstado($id_estado)
-                       ->orderBy("ala_d_fecha_recepcion", "DESC")
+                       ->orderBy("a.ala_d_fecha_recepcion", "DESC")
                        ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -178,7 +194,7 @@ class Alarma_Model extends MY_Model {
      */
     public function listarAlarmasEntreFechas($fecha_desde, $fecha_hasta){
         $result = $this->_queryAlarmasEnRevisionEntreFechas($fecha_desde, $fecha_hasta)
-                       ->orderBy("ala_d_fecha_recepcion", "DESC")
+                       ->orderBy("a.ala_d_fecha_recepcion", "DESC")
                        ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -423,8 +439,11 @@ class Alarma_Model extends MY_Model {
      */
     protected function _queryAlarmasPorEstado($id_estado){
         $query = $this->_query->select("*")
-                              ->from()
-                              ->whereAND("est_ia_id", $id_estado, "=");
+                              ->from($this->_tabla . " a")
+                              ->whereAND("a.est_ia_id", $id_estado, "=");
+        
+        $this->_addQueryComunas($query);
+        
         return $query;
     }
     
@@ -435,11 +454,14 @@ class Alarma_Model extends MY_Model {
      * @return QueryBuilder
      */
     protected function _queryAlarmasEnRevisionEntreFechas($fecha_desde, $fecha_hasta){
-        $query = $this->_query->select("*")
-                               ->from()
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
-                               ->whereAND("est_ia_id", Alarma_Model::REVISION, "=");
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a")
+                               ->whereAND("a.ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("a.ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->whereAND("a.est_ia_id", Alarma_Model::REVISION, "=");
+        
+        $this->_addQueryComunas($query);
+        
         return $query;
     }
     
@@ -449,12 +471,31 @@ class Alarma_Model extends MY_Model {
      * @return QueryBuilder
      */
     protected function _queryAlarmasPorRegion($id_region){
-        return $this->_query->select("DISTINCT a.ala_ia_id, a.ala_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+        $query = $this->_query->select("DISTINCT a.ala_ia_id, a.ala_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
                             ->from("alertas a")
-                            ->join("alertas_vs_comunas ec", "ec.ala_ia_id = a.ala_ia_id", "INNER")
-                            ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
+                            ->join("alertas_vs_comunas ac", "ac.ala_ia_id = a.ala_ia_id", "INNER")
+                            ->join("comunas c", "c.com_ia_id = ac.com_ia_id", "INNER")
                             ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
                             ->whereAND("a.est_ia_id", Alarma_Estado_Model::ACTIVADO, "<>")
                             ->whereAND("p.reg_ia_id", $id_region);
+        
+        $comunas = explode(",", $this->_session->userdata('session_comunas'));
+        if(count($comunas)>0){
+            $query->whereAND("ac.com_ia_id", $comunas, "IN");
+        }
+        
+        return $query;
+    }
+    
+    /**
+     * Filtra por las comunas del usuario
+     * @param QueryBuilder $query
+     */
+    protected function _addQueryComunas(&$query){
+        $comunas = explode(",", $this->_session->userdata('session_comunas'));
+        if(count($comunas)>0){
+            $query->join("alertas_vs_comunas ac", "ac.ala_ia_id = a.ala_ia_id", "INNER")
+                  ->whereAND("ac.com_ia_id", $comunas, "IN");
+        }
     }
 }
