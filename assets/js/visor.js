@@ -946,7 +946,7 @@ var VisorMapa = {
                             var ti = facilities[i];
                             if (row.aux_ia_id == ti.id_tipo_ins) {
                                 checked = 'checked="checked"';
-                                check_instalaciones.push(row.aux_ia_id);
+                                /*check_instalaciones.push(row.aux_ia_id);*/
                                 break;
                             }
                         }
