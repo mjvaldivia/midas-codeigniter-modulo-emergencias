@@ -453,6 +453,7 @@ class Emergencia_Model extends MY_Model {
         WHERE eme_ia_id =  '" . $params['eme_ia_id'] . "'");
 
         if ($query) {
+
             $this->db->query("DELETE from emergencias_vs_comunas WHERE eme_ia_id = '" . $params['eme_ia_id'] . "'");
         }
         if ($query && isset($params['iComunas'])) {
