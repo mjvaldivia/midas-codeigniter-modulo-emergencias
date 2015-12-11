@@ -252,6 +252,10 @@
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
 
+<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
+<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
+
+<?= loadJS("assets/js/modulo/general/permisos.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js"); ?>
 <?= loadJS("assets/js/modulo/home/form-emergencias-cerrar-dashboard.js"); ?>
 
@@ -262,3 +266,4 @@
 
 <?= loadJS("assets/js/modulo/home/mapa.js"); ?>
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>
+<?= loadJS("assets/js/MapReport.js") ?>

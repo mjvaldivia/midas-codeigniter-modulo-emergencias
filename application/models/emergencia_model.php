@@ -353,6 +353,7 @@ class Emergencia_Model extends MY_Model {
         $this->_addQueryComunas($query);
                                 
         $resultado = $query->getAllResult();
+        fb($resultado);
         if(!is_null($resultado)){
             return $resultado;
         } else {

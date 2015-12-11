@@ -196,7 +196,7 @@ class Emergencia extends MY_Controller {
                               "tip_ia_id"                 => $params["tipo_emergencia"],
                               "eme_d_fecha_emergencia"    => spanishDateToISO($params["fecha_emergencia"]),
                               "eme_c_lugar_emergencia"    => $params["nombre_lugar"],
-                              "eme_d_fecha_recepcion"     => spanishDateToISO($params["fecha_recepcion"]),
+                              "eme_d_fecha_recepcion"     => DATE("Y-m-d H:i:s"),
                               "est_ia_id"         => Emergencia_Estado_Model::EN_CURSO,
                               "ala_ia_id"         => $alarma->ala_ia_id,
                               "eme_c_observacion" => $params["nobservacion"],

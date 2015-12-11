@@ -13,7 +13,7 @@ var Dashboard = Class({
      * @returns void
      */
     __construct : function() {
-
+        $(window).scrollTop(0);
         this.loadDashboard();
         
         this.bindBtnEmergenciaFinalizar();

@@ -177,7 +177,8 @@
 <div id="moldeIns" class='infoWindow' style="display: none">
     <h4>
         __nombre_fantasia__<br/>
-        __razon_social__
+        __razon_social__<br/>
+        __tipo_instalacion__
     </h4>
     <div class="well">
         __direccion__<br/>

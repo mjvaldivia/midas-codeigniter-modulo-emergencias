@@ -19,6 +19,7 @@
 <?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
+<?= loadJS("assets/js/MapReport.js") ?>
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;

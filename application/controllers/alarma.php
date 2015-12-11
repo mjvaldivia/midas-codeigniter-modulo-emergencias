@@ -109,7 +109,8 @@ class Alarma extends MY_Controller {
         $this->load->helper(array("modulo/emergencia/emergencia_form",
                                   "modulo/direccion/comuna"));
         
-        $data = array("form_name" => "form_nueva");
+        $data = array("form_name" => "form_nueva",
+                      "geozone" => "19H");
         $this->load->view("pages/alarma/form", $data);
     }
     

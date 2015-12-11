@@ -1,3 +1,6 @@
+var check_instalaciones = [];
+
+
 var VisorMapa = {
     map: null,
     canvas: null,
@@ -318,6 +321,7 @@ var VisorMapa = {
         div_tablas.append('<ul id="ul-tabs" class="nav nav-tabs"></ul>');
         $('#ul-tabs').after('<div id="tab-content" class="tab-content"></div>');
         $.each(capas.tipo, function (key, value) {
+            //console.log(capas);
             type = capas.tipo[key];
             layername = capas.layername[key];
             jsonDT = {};
@@ -336,7 +340,6 @@ var VisorMapa = {
             $('#ul-tabs').append('<li class=' + active + '><a href="#tab' + key + '" data-toggle="tab">' + layername + '</a></li>');
             $('#tab-content').append("<div class='tab-pane " + active + "' id='tab" + key + "' style='overflow:hidden;'><div id='div_tab_" + key + "' class='col-xs-12 table-responsive'></div></div>");
             $('#div_tab_' + key).append('<table id=table_' + key + ' class="table table-bordered table-striped"><thead></thead><tbody></tbody><tfoot></tfoot></table>');
-
             $("#table_" + key).DataTable({
                 columns: capas.cols[key],
                 data: jsonDT.data,
@@ -389,7 +392,13 @@ var VisorMapa = {
                     sTitle: "Razón Social"
                 };
                 columns.push(obj);
-
+                
+                obj = {
+                    mData: "tipo_instalacion",
+                    sTitle: "Tipo instalación"
+                };
+                columns.push(obj);
+                
                 obj = {
                     mData: "nombre_fantasia",
                     sTitle: "Nombre Fantasía"
@@ -882,6 +891,7 @@ var VisorMapa = {
 
             html = html.replace(/__razon_social__/g, instalacion.ins_c_razon_social);
             html = html.replace(/__nombre_fantasia__/g, instalacion.ins_c_nombre_fantasia);
+            html = html.replace(/__tipo_instalacion__/g, instalacion.tipo_instalacion);
             html = html.replace(/__comuna__/g, instalacion.com_c_nombre);
             html = html.replace(/__region__/g, instalacion.reg_c_nombre);
             html = html.replace(/__direccion__/g,
@@ -898,6 +908,7 @@ var VisorMapa = {
                     infoWindow: html,
                     id_maestro: instalacion.ins_ia_id,
                     razon_social: instalacion.ins_c_razon_social,
+                    tipo_instalacion: instalacion.tipo_instalacion,
                     nombre_fantasia: instalacion.ins_c_nombre_fantasia,
                     direccion: instalacion.ins_c_nombre_direccion + ", " +
                             instalacion.ins_c_numero_direccion + " " +
@@ -938,7 +949,7 @@ var VisorMapa = {
                                 break;
                             }
                         }
-                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + '/>';
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + ' class="check_instalaciones check_instalacion_'+row.aux_ia_id+'"  />';
                     }
                 },
                 {data: "amb_c_nombre"},
@@ -962,21 +973,58 @@ var VisorMapa = {
         });
 
         $("#ctrlIns").click(function () {
+
             $("#mMaestroInstalaciones").appendTo('body').modal("show");
+            var total_check = check_instalaciones.length;
+            for(var i=0; i<total_check; i++){
+                var instalacion = check_instalaciones[i];
+                $('.check_instalacion_'+instalacion).prop('checked',true);
+            }
         });
 
-        $("#btnCargarIns").click(function () {
-            var params = {};
-            params.idEmergencia = $("#hIdEmergencia").val();
-            params.tiposIns = [];
 
-            var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
-            for (var i = 0; i < checkboxs.length; i++) {
-                params.tiposIns.push(checkboxs[i].value);
+        $('body').on('click','.check_instalaciones',function(){
+            if($(this).is(':checked')){
+                check_instalaciones.push($(this).val());
+            }else{
+                var total_check = check_instalaciones.length;
+                for(var i=0; i<total_check; i++){
+                    if(check_instalaciones[i] == $(this).val()){
+                        check_instalaciones.splice(i,1);
+                    }
+                }
             }
 
-            $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
-            $("#mMaestroInstalaciones").modal("hide");
+        })
+
+        $("#btnCargarIns").click(function () {
+            if(check_instalaciones.length == 0){
+                bootbox.dialog({
+                    title: "Atención",
+                    message: 'Debe seleccionar mínimo una instalación',
+                    buttons: {
+                        danger: {
+                            label: "Cerrar",
+                            className: "btn-info"
+
+                        }
+                    }
+
+                });
+            }else{
+                var params = {};
+                params.idEmergencia = $("#hIdEmergencia").val();
+                params.tiposIns = check_instalaciones;
+                console.log(params.tiposIns);
+                /*var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
+                 for (var i = 0; i < checkboxs.length; i++) {
+                 params.tiposIns.push(checkboxs[i].value);
+                 }*/
+
+                $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
+                $("#mMaestroInstalaciones").modal("hide");
+            }
+
         });
     };
 
@@ -1339,9 +1387,6 @@ var VisorMapa = {
         this.map.data.add(polygon);
         this.emergencyRadius = polygon;
         this.map.data.remove(this.referenciaMarker);
-
-
-
     };
 
     var emergencyOtherReceiver = function () {
