@@ -48,21 +48,27 @@
 <body>
     <div class='cargando'><img src="<?= base_url("assets/img/loading.gif") ?>"/><span>Cargando...</span></div>
     <div class="row">
-    <div class=" col-md-12">
+    <div class=" col-md-12" style="margin-top:5px;">
         <div class="col-md-9">
             <div class="col-md-2 col-xs-2">
                 <img src="<?= base_url("/assets/img/logo_visor.jpg") ?>" class="logo-visor">
             </div>
-            <div class="col-md-10 col-xs-10">
-                <div class="row">
-                    <div class="col-md-2 col-xs-2"><label>Código Emergencia:</label>&nbsp;<span><?= $emergencia["eme_ia_id"] ?></span></div>
-                    <div class="col-md-5 col-xs-5"><label>Nombre Emergencia:</label>&nbsp;<span><?= $emergencia["eme_c_nombre_emergencia"] ?></span></div>
-                    <div class="col-md-4 col-xs-4"><label>Tipo Emergencia:</label>&nbsp;<span><?= $emergencia["tipo_emergencia"] ?></span></div>
+            <div class="col-md- 10 col-xs-10">
+                <div class="row small" style="line-height: 35px;">
+                    <div class="col-md-2 col-xs-12">
+                        <p class="btn btn-primary btn-sm"><strong>Código:</strong> <span class="badge"><?= $emergencia["eme_ia_id"] ?></span></p>
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <p class="btn btn-primary btn-sm" style="width:100%;"><strong>Nombre Emergencia:</strong>&nbsp;<span class="badge"><?= $emergencia["eme_c_nombre_emergencia"] ?></span></p>
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <p class="btn btn-primary btn-sm" style="width:100%;"><strong>Tipo Emergencia:</strong>&nbsp;<span class="badge"><?= $emergencia["tipo_emergencia"] ?></span></p>
+                    </div>
                 </div>
                
             </div>
         </div>
-        <div class="col-md-3 col-xs-12" style="padding-right: 0">
+        <div class="col-md-2 col-xs-12 pull-right" style="padding-right: 0">
             <!--<div class="dropdown pull-right">
                 <a title="Subir capa" href="#" onclick="javascript:void(0)" class="btn btn-primary dropdown-toggle" type="button" id="ctrlUpload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-upload"></i>
