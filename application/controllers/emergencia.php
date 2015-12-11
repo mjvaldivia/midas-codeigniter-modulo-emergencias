@@ -267,7 +267,7 @@ class Emergencia extends MY_Controller {
         if (!file_exists(APPPATH . "/views/pages/emergencia/listado.php")) {
             show_404();
         }
-        
+
         $params = $this->uri->uri_to_assoc();
         $this->load->model("emergencia_estado_model", "Emergencia_Estado_Model");
         $this->load->helper(array("modulo/emergencia/emergencia_form"));
