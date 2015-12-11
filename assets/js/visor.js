@@ -987,7 +987,7 @@ var VisorMapa = {
 
 
         $('body').on('click','.check_instalaciones',function(){
-            if($(this).is(':checked')){
+            if($(this).prop('checked') === true){
                 check_instalaciones.push($(this).val());
             }else{
                 var total_check = check_instalaciones.length;
