@@ -9,6 +9,10 @@ var MapReport = {
     data: null
 
 };
+
+
+
+
 (function () {
     var self = this;
     this.mapOptions = {
@@ -20,12 +24,6 @@ var MapReport = {
                 //mapTypeControl: false
     };
     this.LoadMap = function () {
-
-
-
-
-
-
         $.ajax(
                 {url: siteUrl + "visor/obtenerJsonEmergenciaVisor/id/" + $("#eme_ia_id").val(),
                     method: 'GET',
@@ -38,10 +36,7 @@ var MapReport = {
         }
 
         );
-
-
     };
-
 
     this.LoadMapCloned = function (modo) {
         $('#modal_' + $("#eme_ia_id").val()).scrollTop(0);
@@ -73,7 +68,7 @@ var MapReport = {
         var json = JSON.parse(data);
         //var bounds = new google.maps.LatLngBounds();
 
-
+        
 
         mapa.data.setStyle(function (feature) {
             var color = null;
@@ -163,8 +158,7 @@ var MapReport = {
 
             }
         }
-
-
+        
     };
 
     this.loadJson = function (geojson, mapa) {

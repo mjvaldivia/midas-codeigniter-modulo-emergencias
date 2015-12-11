@@ -1,13 +1,6 @@
 
-<?= loadJS("assets/js/MapReport.js") ?>
-<script type="text/javascript">
-    $(document).ready(function () {
 
-        MapReport.LoadMap();
-        MapReport.dibujaTablaDocs();
-    });
 
-</script>
 
 <style>
     .ui-autocomplete {
@@ -199,5 +192,12 @@
 
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        MapReport.dibujaTablaDocs();
+        MapReport.LoadMap();
+        //MapReport.dibujaTablaDocs();
+    });
 
+</script>
 

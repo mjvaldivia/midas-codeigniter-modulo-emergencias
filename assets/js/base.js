@@ -22,7 +22,7 @@ function formatState (state) {
 
 $(document).ready(function() {
     
-    notificacionSimulacion();
+    //notificacionSimulacion();
     
     
     $(".datepicker").livequery(function(){
