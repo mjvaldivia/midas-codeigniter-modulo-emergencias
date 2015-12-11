@@ -59,7 +59,6 @@ Class Layout_Menu_Render{
                                                          "controller" => "session",
                                                          "action" => "inicia_simulacion",
                                                          "child" => array()), 
-           
                                    "Documentación" => array("icon_class" => "fa-book",
                                                             "permiso" => "documentacion",
                                                             "controller" => "",
@@ -81,7 +80,17 @@ Class Layout_Menu_Render{
                                                                                             "controller" => "soportes",
                                                                                             "action"     => "bandeja_usuario")
                                                                              )
-                                                                    )   
+                                                                    ),
+                                    "Usuarios" => array("icon_class" => "fa-users",
+                                                            "controller" => "",
+                                                            "action" => "",
+                                                            "child" => array("Mantenedor" => array(
+                                                                                            "controller" => "mantenedorusuario",
+                                                                                            "action"     => "index"),
+                                                                             "Permisos" => array(
+                                                                                            "controller" => "permiso",
+                                                                                            "action"     => "index")
+                                                                             )),
                                 );
     
     

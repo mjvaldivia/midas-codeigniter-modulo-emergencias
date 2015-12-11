@@ -102,8 +102,14 @@ var Emergencia = {};
 
         var permisos = new Permisos("emergencia");	
         
+        
+        $.ajax({
+            format: "json",
+            cache: false,
+            url: url,
+            data: '',
+            success: function (retorno) {
 
-        $.get(url).done(function (retorno) {
             var json = JSON.parse(retorno);
 
             json.columns[0]["mRender"] = function (data, type, row) {
@@ -239,7 +245,8 @@ var Emergencia = {};
             $("#pResultados").css("visibility", "visible");
             $("#pResultados").slideDown("slow");
             $("#btnBuscar").attr('disabled',false).html(btnText);
-        });
+        }
+    });
     };
     this.openIframe = function(id){
 

@@ -33,6 +33,12 @@ Class Usuario{
     protected $_id_modulo;
     
     /**
+     * Si es o no administrador
+     * @var boolean
+     */
+    protected $_administrador = false;
+    
+    /**
      * 
      */
     public function __construct() {
@@ -67,6 +73,9 @@ Class Usuario{
                 break;
             case "documentacion":
                 $this->_id_modulo = Modulo_Model::SUB_DOCUMENTACION;
+                break;
+            case "administracion":
+                $this->_administrador = true;
                 break;
             default:
                 throw new Exception("No se encontro el modulo");
