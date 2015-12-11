@@ -348,7 +348,7 @@ var VisorMapa = {
         });
 
 
-        $("#mInfo").modal("show");
+        $("#mInfo").appendTo('body').modal("show");
         $("#ctrlInfo").click(); // para que se apague
 
 
@@ -962,7 +962,7 @@ var VisorMapa = {
         });
 
         $("#ctrlIns").click(function () {
-            $("#mMaestroInstalaciones").modal("show");
+            $("#mMaestroInstalaciones").appendTo('body').modal("show");
         });
 
         $("#btnCargarIns").click(function () {
@@ -1050,8 +1050,9 @@ var VisorMapa = {
                 self.map.data.add(point);
                 self.emergencyMarker = point;
                 self.map.setCenter(self.emergencyMarker.getGeometry().get());
-                $("#mRadioEmergencia").modal("show");
+                $("#mRadioEmergencia").appendTo('body').modal({backdrop: 'static',keyboard:false});
                 $("#iRadioEmergencia").closest("div").removeClass("has-error");
+
             }
             $("#ctrlDrawOFF").click();
         });
@@ -1100,7 +1101,7 @@ var VisorMapa = {
         for (var i = 0; i < controlsID.length; i++) {
             (function (context, origen) {
                 var clickHandler = function () {
-                    $("#mOtrosEmergencias").modal("show");
+                    $("#mOtrosEmergencias").appendTo('body').modal("show");
                     context.otherControlSelected = origen;
                 };
                 $("#" + origen.id).on("click", clickHandler);

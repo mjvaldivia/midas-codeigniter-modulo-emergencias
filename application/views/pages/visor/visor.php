@@ -27,7 +27,7 @@
 <div id="mapa" class="col-md-12 visor-emergencias">
 </div>
 
-<div class="modal fade" id="mRadioEmergencia" data-keyboard="false" data-backdrop="static">
+<div class="modal fade" id="mRadioEmergencia" role="dialog" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label class="col-md-6 control-label">Indique metros:</label>
                             <div class="col-md-2">
-                                <input id="iRadioEmergencia" name="iRadioEmergencia" class="form-control" value="0"/>
+                                <input id="iRadioEmergencia" name="iRadioEmergencia" class="form-control" value="0" type="text"/>
                             </div>
                         </div>
                     </div>
