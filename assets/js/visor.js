@@ -945,7 +945,7 @@ var VisorMapa = {
                         for (var i = 0; i < facilities.length; i++) {
                             var ti = facilities[i];
                             if (row.aux_ia_id == ti.id_tipo_ins) {
-                                checked = 'checked';
+                                checked = 'checked="checked"';
                                 check_instalaciones.push(row.aux_ia_id);
                                 break;
                             }
@@ -981,13 +981,13 @@ var VisorMapa = {
             var total_check = check_instalaciones.length;
             for(var i=0; i<total_check; i++){
                 var instalacion = check_instalaciones[i];
-                $('.check_instalacion_'+instalacion).prop('checked',true);
+                $('.check_instalacion_'+instalacion).attr('checked',true);
             }
         });
 
 
         $('body').on('click','.check_instalaciones',function(){
-            if($(this).prop('checked') === true){
+            if($(this).attr('checked') === "checked"){
                 check_instalaciones.push($(this).val());
             }else{
                 var total_check = check_instalaciones.length;
