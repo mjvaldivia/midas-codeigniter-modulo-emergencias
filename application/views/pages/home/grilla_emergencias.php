@@ -13,6 +13,7 @@
             </tr>
         </thead>
         <tbody>
+            <?php if(count($lista)>0){ ?>
             <?php foreach($lista as $row){ ?>
             <tr>
                 <td width="10%" align="center">
@@ -75,6 +76,7 @@
                 <td><?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?></td>
                 
             </tr>
+            <?php } ?>
             <?php } ?>
         </tbody>
     </table>

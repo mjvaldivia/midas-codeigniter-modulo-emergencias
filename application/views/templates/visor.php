@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="col-md-3 col-xs-12" style="padding-right: 0">
-            <div class="dropdown pull-right">
+            <!--<div class="dropdown pull-right">
                 <a title="Subir capa" href="#" onclick="javascript:void(0)" class="btn btn-primary dropdown-toggle" type="button" id="ctrlUpload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-upload"></i>
                 </a>
@@ -75,7 +75,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div>-->
 
             <?php if (puedeEditar("emergencia")) { ?>
             <div class="dropdown pull-right">

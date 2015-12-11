@@ -7,7 +7,8 @@
                 <?php } ?>
                 <!--<th></th>-->
                 <th>Nombre alarma</th>
-                <th>Tipo alarma</th>
+                <th>Estado</th>
+                <th>Tipo</th>
                 <th>Comunas afectadas</th>
                 <th>Fecha alarma</th>
                 <th>Lugar</th>
@@ -69,6 +70,9 @@
                 
                 <td>
                     <?php echo $row["ala_c_nombre_emergencia"]; ?>
+                </td>
+                <td>
+                    <?php echo nombreAlarmaEstado($row["est_ia_id"]); ?> 
                 </td>
                 <td>
                     <?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> 
