@@ -945,7 +945,7 @@ var VisorMapa = {
                         for (var i = 0; i < facilities.length; i++) {
                             var ti = facilities[i];
                             if (row.aux_ia_id == ti.id_tipo_ins) {
-                                checked = 'checked="true"';
+                                checked = 'checked';
                                 check_instalaciones.push(row.aux_ia_id);
                                 break;
                             }
@@ -977,7 +977,7 @@ var VisorMapa = {
 
             $("#mMaestroInstalaciones").appendTo('body').modal("show");
 
-            
+
             var total_check = check_instalaciones.length;
             for(var i=0; i<total_check; i++){
                 var instalacion = check_instalaciones[i];
