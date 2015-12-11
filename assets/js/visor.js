@@ -975,6 +975,12 @@ var VisorMapa = {
         $("#ctrlIns").click(function () {
 
             $("#mMaestroInstalaciones").appendTo('body').modal("show");
+
+            $(".check_instalaciones").each(function(){
+                if($(this).is(':checked')){
+                    check_instalaciones.push($(this).val());
+                }
+            })
             var total_check = check_instalaciones.length;
             for(var i=0; i<total_check; i++){
                 var instalacion = check_instalaciones[i];
