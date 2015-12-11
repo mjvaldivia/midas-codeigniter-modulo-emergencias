@@ -20,6 +20,17 @@ class Modulo_Model extends MY_Model {
      */
     protected $_tabla = "permisos";
     
-
+    /**
+     * Lista los submodulos de emergencia
+     * @return array
+     */
+    public function listSubmodulos(){
+        $array = array(Modulo_Model::SUB_MODULO_ALARMA,
+                       Modulo_Model::SUB_MODULO_EMERGENCIA,
+                       Modulo_Model::SUB_MODULO_CAPAS,
+                       Modulo_Model::SUB_SIMULACION,
+                       Modulo_Model::SUB_DOCUMENTACION);
+        return $array;
+    }
 }
 

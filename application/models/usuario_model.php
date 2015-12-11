@@ -9,6 +9,65 @@ if (!defined('BASEPATH'))
  */
 class Usuario_Model extends MY_Model {
 
+    /**
+     * Nombre de tabla
+     * @var string 
+     */
+    protected $_tabla = "usuarios";
+    
+    /**
+     *
+     * @var Modulo_Model 
+     */
+    protected $_modulo_model;
+    
+    /**
+     * Constructor
+     */
+    public function __construct(){
+        parent::__construct();
+        $this->load->model("modulo_model");
+        $this->_modulo_model = New Modulo_Model();
+    }
+    
+    /**
+     * Retorna la alarma por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("usu_ia_id", $id);
+    }
+    
+    /**
+     * Actualiza la alarma
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "usu_ia_id", $id);
+    }
+    
+    /**
+     * Lista usuarios pertenecientes a emergencias
+     */
+    public function listarUsuariosEmergencia(){
+        $result = $this->_query->select("DISTINCT u.*")
+                               ->from($this->_tabla . " u")
+                               ->join("usuarios_vs_roles ur", "ur.usu_ia_id = u.usu_ia_id", "INNER")
+                               ->join("roles_vs_permisos rp", "rp.rol_ia_id = ur.rol_ia_id", "INNER")
+                               ->whereAND("rp.per_ia_id", $this->_modulo_model->listSubmodulos(), "IN")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    
+    
     public function generaKeyId($idUser = null) {
         $key_id = ($idUser == null) ? md5(uniqid($idUser)) : md5(uniqid());
         $query = $this->db->query('INSERT INTO nologin (usu_ia_id,key_id) VALUES (' . $idUser . ',"' . $key_id . '")');

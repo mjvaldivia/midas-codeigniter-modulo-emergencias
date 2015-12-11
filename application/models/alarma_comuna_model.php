@@ -1,12 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * User: claudio
- * Date: 17-08-15
- * Time: 10:09 AM
- */
-class Alarma_Comuna_Model extends MY_Model
-{    
+class Alarma_Comuna_Model extends MY_Model{    
     
     /**
      *
