@@ -337,7 +337,6 @@ var VisorMapa = {
             $('#ul-tabs').append('<li class=' + active + '><a href="#tab' + key + '" data-toggle="tab">' + layername + '</a></li>');
             $('#tab-content').append("<div class='tab-pane " + active + "' id='tab" + key + "' style='overflow:hidden;'><div id='div_tab_" + key + "' class='col-xs-12 table-responsive'></div></div>");
             $('#div_tab_' + key).append('<table id=table_' + key + ' class="table table-bordered table-striped"><thead></thead><tbody></tbody><tfoot></tfoot></table>');
-            
             $("#table_" + key).DataTable({
                 columns: capas.cols[key],
                 data: jsonDT.data,
