@@ -1,3 +1,6 @@
+var check_instalaciones = [];
+
+
 var VisorMapa = {
     map: null,
     canvas: null,
@@ -946,7 +949,7 @@ var VisorMapa = {
                                 break;
                             }
                         }
-                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + '/>';
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + ' class="check_instalaciones check_instalacion_'+row.aux_ia_id+'"  />';
                     }
                 },
                 {data: "amb_c_nombre"},
@@ -970,21 +973,58 @@ var VisorMapa = {
         });
 
         $("#ctrlIns").click(function () {
+
             $("#mMaestroInstalaciones").appendTo('body').modal("show");
+            var total_check = check_instalaciones.length;
+            for(var i=0; i<total_check; i++){
+                var instalacion = check_instalaciones[i];
+                $('.check_instalacion_'+instalacion).prop('checked',true);
+            }
         });
 
-        $("#btnCargarIns").click(function () {
-            var params = {};
-            params.idEmergencia = $("#hIdEmergencia").val();
-            params.tiposIns = [];
 
-            var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
-            for (var i = 0; i < checkboxs.length; i++) {
-                params.tiposIns.push(checkboxs[i].value);
+        $('body').on('click','.check_instalaciones',function(){
+            if($(this).is(':checked')){
+                check_instalaciones.push($(this).val());
+            }else{
+                var total_check = check_instalaciones.length;
+                for(var i=0; i<total_check; i++){
+                    if(check_instalaciones[i] == $(this).val()){
+                        check_instalaciones.splice(i,1);
+                    }
+                }
             }
 
-            $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
-            $("#mMaestroInstalaciones").modal("hide");
+        })
+
+        $("#btnCargarIns").click(function () {
+            if(check_instalaciones.length == 0){
+                bootbox.dialog({
+                    title: "Atención",
+                    message: 'Debe seleccionar mínimo una instalación',
+                    buttons: {
+                        danger: {
+                            label: "Cerrar",
+                            className: "btn-info"
+
+                        }
+                    }
+
+                });
+            }else{
+                var params = {};
+                params.idEmergencia = $("#hIdEmergencia").val();
+                params.tiposIns = check_instalaciones;
+                console.log(params.tiposIns);
+                /*var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
+                 for (var i = 0; i < checkboxs.length; i++) {
+                 params.tiposIns.push(checkboxs[i].value);
+                 }*/
+
+                $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
+                $("#mMaestroInstalaciones").modal("hide");
+            }
+
         });
     };
 
