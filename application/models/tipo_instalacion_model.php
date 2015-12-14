@@ -9,7 +9,7 @@ class Tipo_Instalacion_Model extends MY_Model {
 
     public function obtenerTodos() {
         $sql = "
-        select
+        select DISTINCT
             ti.*,
             a.*
         from
