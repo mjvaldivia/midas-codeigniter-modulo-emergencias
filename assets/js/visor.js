@@ -945,7 +945,7 @@ var VisorMapa = {
                         var aux = "0";
                         for (var i = 0; i < facilities.length; i++) {
                             var ti = facilities[i];
-                            
+
                             if (row.aux_ia_id == ti.id_tipo_ins) {
                                 checked = 'checked="checked"';
 
@@ -1006,7 +1006,19 @@ var VisorMapa = {
         })
 
         $("#btnCargarIns").click(function () {
-            if(check_instalaciones.length == 0){
+            var params = {};
+            params.idEmergencia = $("#hIdEmergencia").val();
+            params.tiposIns = check_instalaciones;
+            console.log(params.tiposIns);
+            /*var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
+             for (var i = 0; i < checkboxs.length; i++) {
+             params.tiposIns.push(checkboxs[i].value);
+             }*/
+
+            $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
+            $("#mMaestroInstalaciones").modal("hide");
+
+            /*if(check_instalaciones.length == 0){
                 bootbox.dialog({
                     title: "Atención",
                     message: 'Debe seleccionar mínimo una instalación',
@@ -1024,14 +1036,10 @@ var VisorMapa = {
                 params.idEmergencia = $("#hIdEmergencia").val();
                 params.tiposIns = check_instalaciones;
                 console.log(params.tiposIns);
-                /*var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
-                 for (var i = 0; i < checkboxs.length; i++) {
-                 params.tiposIns.push(checkboxs[i].value);
-                 }*/
 
                 $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
                 $("#mMaestroInstalaciones").modal("hide");
-            }
+            }*/
 
         });
     };
