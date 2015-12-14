@@ -1,3 +1,4 @@
+
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
 
 <div class="row">
@@ -225,7 +226,10 @@
     </div>
 
 </div>
-
+<script>
+// parche sucio y asqueroso para quitar el cargando
+    setTimeout(function(){$('.cargando').hide();},3000);
+</script>
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
