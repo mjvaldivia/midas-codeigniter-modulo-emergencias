@@ -133,7 +133,7 @@ var Utils = {};
         $(document).ajaxComplete(function(event, xhr, opts) {
             switch (xhr.status) {
                 case 401:
-                    location.href = "http://asdigital.minsal.cl/acceso";
+                  //  location.href = "http://asdigital.minsal.cl/acceso";
                     break;
                 case 404:
                     alert('archivo no encontrado');

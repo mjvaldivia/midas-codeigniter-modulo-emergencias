@@ -32,6 +32,21 @@ class Alarma_Model extends MY_Model {
      * @var string 
      */
     protected $_tabla = "alertas";
+    
+    /**
+     *
+     * @var CI_Session 
+     */
+    protected $_session;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library("session");
+        $this->_session = New CI_Session();
+    }
         
     /**
      * Retorna la alarma por el identificador
@@ -69,13 +84,44 @@ class Alarma_Model extends MY_Model {
     }
     
     /**
+     * Lista alarmas de acuerdo a parametros
+     * @param array $parametros
+     * @return array
+     */
+    public function buscar(array $parametros = array()){
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a");
+        
+        if(!empty($parametros["id_estado"])){
+            $query->whereAND("a.est_ia_id", $parametros["id_estado"], "=");
+        }
+        
+        if(!empty($parametros["id_tipo"])){
+            $query->whereAND("a.tip_ia_id", $parametros["id_tipo"], "=");
+        }
+        
+        if(!empty($parametros["year"])){
+            $query->whereAND("year(a.ala_d_fecha_recepcion)", $parametros["year"], "=");
+        }
+        
+        $this->_addQueryComunas($query);
+        
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param int $id_estado id del estado
      * @return array
      */
     public function listarAlarmasPorEstado($id_estado){
         $result = $this->_queryAlarmasPorEstado($id_estado)
-                       ->orderBy("ala_d_fecha_recepcion", "DESC")
+                       ->orderBy("a.ala_d_fecha_recepcion", "DESC")
                        ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -148,7 +194,7 @@ class Alarma_Model extends MY_Model {
      */
     public function listarAlarmasEntreFechas($fecha_desde, $fecha_hasta){
         $result = $this->_queryAlarmasEnRevisionEntreFechas($fecha_desde, $fecha_hasta)
-                       ->orderBy("ala_d_fecha_recepcion", "DESC")
+                       ->orderBy("a.ala_d_fecha_recepcion", "DESC")
                        ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -247,7 +293,7 @@ class Alarma_Model extends MY_Model {
         return $resultados;
     }
 
-    public function guardarAlarma($params) {
+    public function enviaCorreo($params) {
 
 
         $comunas_query = $this->db->query("
@@ -255,21 +301,23 @@ class Alarma_Model extends MY_Model {
         on avc.com_ia_id = c.com_ia_id
         where avc.ala_ia_id = " . $params["ala_ia_id"]);
 
-        $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['iTiposEmergencias'] . "'");
+        $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['tipo_emergencia'] . "'");
 
 
         $tipo_emergencia = $tipo_query->result_array();
         $comunas = $comunas_query->result_array();
 
-
+        $params["id_tipo_emergencia"] = $params['tipo_emergencia'];
         $params['lista_comunas'] = $comunas[0]['comunas'];
         $params['lista_id_comunas'] = $comunas[0]['id_comunas'];
         $params['tipo_emergencia'] = $tipo_emergencia[0]['nombre'];
 
-        return ($this->enviaMsjAlarma($params)) ? 'enviado correctamente' : 'error al enviar';
+        return ($this->enviaMsjAlarma($params)) ? true : false;
     }
 
     public function enviaMsjAlarma($params) {
+        $this->load->library('Simulacion');
+        
         $error = 0;
         $this->load->helper('utils');
         $this->load->helper('session');
@@ -277,19 +325,20 @@ class Alarma_Model extends MY_Model {
         $key_id = $this->UsuarioModel->generaKeyId($this->session->userdata('session_idUsuario'));
         $mensaje = "<b>SIPRESA: Revisión de Alarma</b><br><br>";
         $mensaje .= $this->session->userdata('session_nombres') . " ha registrado la alarma código : " . $params['ala_ia_id'] . "<br><br>";
-        $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['iNombreEmergencia'] . "<br>";
+        $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['nombre_emergencia'] . "<br>";
         $mensaje .= "<b>Tipo de emergencia:</b> " . $params['tipo_emergencia'] . "<br>";
-        $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['iLugarEmergencia'] . "<br>";
+        $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['nombre_lugar'] . "<br>";
         $mensaje .= "<b>Comuna(s):</b> " . $params['lista_comunas'] . "<br>";
-        $mensaje .= "<b>Fecha de la emergencia:</b> " . spanishDateToISO($params['fechaEmergencia']) . "<br>";
-        $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fechaRecepcion']) . "<br>";
-        $mensaje .= "<b>Nombre del informante:</b> " . $params['iNombreInformante'] . "<br>";
-        $mensaje .= "<b>Teléfono del informante:</b> " . $params['iTelefonoInformante'] . "<br><br>";
+        $mensaje .= "<b>Fecha de la emergencia:</b> " . spanishDateToISO($params['fecha_emergencia']) . "<br>";
+        $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fecha_recepcion']) . "<br>";
+        $mensaje .= "<b>Nombre del informante:</b> " . $params['nombre_informante'] . "<br>";
+        $mensaje .= "<b>Teléfono del informante:</b> " . $params['telefono_informante'] . "<br><br>";
 
 
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
-        $subject = "SIPRESA: Revisión de Alarma";
+        $simulacion = New Simulacion();
+        $subject = $simulacion . "SIPRESA: Revisión de Alarma";
 
 
         $this->load->model("Sendmail_Model", "SendmailModel");
@@ -320,7 +369,7 @@ class Alarma_Model extends MY_Model {
 
         // mando mail al resto
         $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
-        $to = $this->SendmailModel->get_destinatariosCorreo($params['iTiposEmergencias'], $params['lista_id_comunas'], $id_usuario_excluir);
+        $to = $this->SendmailModel->get_destinatariosCorreo($params["id_tipo_emergencia"], $params['lista_id_comunas'], $id_usuario_excluir);
         if (!$this->SendmailModel->emailSend($to, null, null, $subject, $mensaje)) {
             $error++;
         }
@@ -390,8 +439,11 @@ class Alarma_Model extends MY_Model {
      */
     protected function _queryAlarmasPorEstado($id_estado){
         $query = $this->_query->select("*")
-                              ->from()
-                              ->whereAND("est_ia_id", $id_estado, "=");
+                              ->from($this->_tabla . " a")
+                              ->whereAND("a.est_ia_id", $id_estado, "=");
+        
+        $this->_addQueryComunas($query);
+        
         return $query;
     }
     
@@ -402,11 +454,14 @@ class Alarma_Model extends MY_Model {
      * @return QueryBuilder
      */
     protected function _queryAlarmasEnRevisionEntreFechas($fecha_desde, $fecha_hasta){
-        $query = $this->_query->select("*")
-                               ->from()
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
-                               ->whereAND("ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
-                               ->whereAND("est_ia_id", Alarma_Model::REVISION, "=");
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a")
+                               ->whereAND("a.ala_d_fecha_emergencia", $fecha_desde->format("Y-m-d H:i:s"), ">=")
+                               ->whereAND("a.ala_d_fecha_emergencia", $fecha_hasta->format("Y-m-d H:i:s"), "<=")
+                               ->whereAND("a.est_ia_id", Alarma_Model::REVISION, "=");
+        
+        $this->_addQueryComunas($query);
+        
         return $query;
     }
     
@@ -416,12 +471,31 @@ class Alarma_Model extends MY_Model {
      * @return QueryBuilder
      */
     protected function _queryAlarmasPorRegion($id_region){
-        return $this->_query->select("DISTINCT a.ala_ia_id, a.ala_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+        $query = $this->_query->select("DISTINCT a.ala_ia_id, a.ala_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
                             ->from("alertas a")
-                            ->join("alertas_vs_comunas ec", "ec.ala_ia_id = a.ala_ia_id", "INNER")
-                            ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
+                            ->join("alertas_vs_comunas ac", "ac.ala_ia_id = a.ala_ia_id", "INNER")
+                            ->join("comunas c", "c.com_ia_id = ac.com_ia_id", "INNER")
                             ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
                             ->whereAND("a.est_ia_id", Alarma_Estado_Model::ACTIVADO, "<>")
                             ->whereAND("p.reg_ia_id", $id_region);
+        
+        $comunas = explode(",", $this->_session->userdata('session_comunas'));
+        if(count($comunas)>0){
+            $query->whereAND("ac.com_ia_id", $comunas, "IN");
+        }
+        
+        return $query;
+    }
+    
+    /**
+     * Filtra por las comunas del usuario
+     * @param QueryBuilder $query
+     */
+    protected function _addQueryComunas(&$query){
+        $comunas = explode(",", $this->_session->userdata('session_comunas'));
+        if(count($comunas)>0){
+            $query->join("alertas_vs_comunas ac", "ac.ala_ia_id = a.ala_ia_id", "INNER")
+                  ->whereAND("ac.com_ia_id", $comunas, "IN");
+        }
     }
 }

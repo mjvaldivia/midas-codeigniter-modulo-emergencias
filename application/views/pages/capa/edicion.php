@@ -32,6 +32,33 @@
                     </select>
                 </div>
             </div>
+            
+            <?php if($capa->color != ""){ ?>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Color (*)</label>
+                <div class="col-md-7">
+                    <input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="<?php echo $capa->color; ?>"/>
+                </div>
+            </div>
+            <?php } ?>
+            
+            <?php if($capa->icon_path != ""){ ?>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Icono (*)</label>
+                <div class="col-md-7">
+                    <select name="icono_editar" id="icono_editar" style="width: 300px" placeholder="Icono de los marcadores" class="select2-images required">
+                        <option value=""></option>
+                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi.png") ?>">Rojo</option>
+                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-yellow.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-yellow.png") ?>">Amarillo</option>
+                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-blue.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-blue.png") ?>">Azul</option>
+                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-green.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-green.png") ?>">Verde</option>
+                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-pink.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-pink.png") ?>">Rosado</option>
+                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-black.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-black.png") ?>">Negro</option>
+                    </select>
+                </div>
+            </div>
+            <?php } ?>
+            
             <div class="form-group">
                 <label class="col-md-3 control-label">Zona Geográfica (*)</label>
                 <div class="col-md-7 row">
@@ -76,18 +103,7 @@
                 </div>
             </div>
             </div>
-            <div class="form-group">
-                <?php $icon = explode("/",$capa->icono);?>
-                <?php $icono = array_pop($icon);?>
-                <label class="col-md-3 control-label">Icono (*)</label>
-                <div class="col-md-4">
-                    <input id="input-icon-editar" name="input-icon-editar" class="form-control" placeholder="Icono de la(s) Capa(s)" type="file" data-show-preview="false" value="<?php echo $icono?>" />
-                    <input id="icon-editar" value='<?php echo $icono?>' name="icon-editar" class="form-control required" placeholder="Icono de la(s) Capa(s)" type="hidden" />
-                    
-                </div>
-                <div class="col-md-2"><img id='img_icon_editar' height="32px" src="<?php echo base_url() . $capa->icono?>"/></div>
-            </div>
-            
+
             <div class="form-group">
                 <?php $capa_file = explode("/",$capa->capa);?>
                 <?php $capa_file = array_pop($capa_file);?>
@@ -98,10 +114,7 @@
                 <div class="col-md-5">
                     <p class="form-control-static" id="nombre_geojson"><?php echo $capa_file?></p>
                 </div>
-                  
-                
             </div>
-            
             
             <div class="form-group" id="div_comunas_editar" style="display:none;">
                 <label class="col-md-3 control-label">Comuna de la capa</label>
@@ -120,6 +133,7 @@
                     </table>
                 </div>
             </div>
+            
             <div class="form-group" id="div_properties_editar">
                 <label class="col-md-3 control-label">Propiedades de la capa</label>
                 <div class="col-md-5">
@@ -166,14 +180,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         Layer.initSaveEdicion();
-        
     });
     $('#input-capa-editar').on('fileloaded', function(event, file){
        $(this).fileinput("upload");
     });
-    $('#input-icon-editar').on('fileloaded', function(event, file){
-
-       $(this).fileinput("upload");
-    });
-
 </script>

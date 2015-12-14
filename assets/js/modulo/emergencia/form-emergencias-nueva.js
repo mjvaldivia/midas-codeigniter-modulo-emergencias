@@ -1,48 +1,33 @@
-var FormEmergenciasNueva = Class({
-    
-    /**
-     * Identificador de la alarma
-     */
-    id_alarma : null,
-    mapa : null,
-    
-    /**
-     * si se envio o no correctamente el email
-     */
-    bo_email_enviado : false,
-    
-    /**
-     * 
-     * @param int value identificador de alarma
-     * @returns void
-     */
-    __construct : function(value) {
-        this.id_alarma = value;
-    },
-    
-    /**
-     * Retorno despues de guardar
-     * @returns void
-     */
-    callBackGuardar : function(){
-       this.recargaGrilla();
-        
-        var agregar = "";
-        if(this.bo_email_enviado){
-            agregar = "<br/> Estado email: Enviado correctamente";
-        } else {
-            notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
-        }
-        
-        notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);
-    },
-    
+var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
+                
     /**
      * Se recarga lista con resultados de busqueda
      * @returns void
      */
     recargaGrilla : function(){
         $("#btnBuscarAlarmas").trigger("click");
+    },
+    
+    /**
+     * Activa los botones presentes en el paso 2
+     * @returns {undefined}
+     */
+    btnPaso2 : function(){
+        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
+        $(path_buttons + "button[data-bb-handler='guardar']").hide();
+        //$(path_buttons + "button[data-bb-handler='rechazar']").hide();
+        $(path_buttons + "button[data-bb-handler='paso2']").show();
+    },
+    
+    /**
+     * Activa los botones presentes en paso 1
+     * @returns {undefined}
+     */
+    btnPaso1 : function(){
+        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
+        $(path_buttons + "button[data-bb-handler='guardar']").show();
+        //$(path_buttons + "button[data-bb-handler='rechazar']").show();
+        $(path_buttons + "button[data-bb-handler='paso2']").hide();
     },
     
     /**
@@ -53,23 +38,6 @@ var FormEmergenciasNueva = Class({
         this.recargaGrilla();
         notificacionCorrecto("Resultado de la operacion", "Se ha rechazado correctamente");
     },
-    
-    /**
-     * Se asigna plugin picklist a combo de comunas
-     * @returns void
-     */
-    bindComunasPicklist : function(){
-        $("#nueva_comunas").picklist(); 
-    },
-    
-    bindMapa : function(){
-       var mapa = new AlarmaMapa("mapa");
-       mapa.setLongitud($("#nueva_longitud").val());
-       mapa.setLatitud($("#nueva_latitud").val());
-       mapa.setGeozone($("#geozone").val());
-       mapa.inicio();
-       mapa.cargaMapa(); 
-    } ,
     
     /**
      * Se rechaza creacion de emergencia
@@ -94,7 +62,9 @@ var FormEmergenciasNueva = Class({
             },
             success:function(data){
                 salida = data.correcto;
-                yo.callBackRechazar();
+                if(data.correcto){
+                    yo.callBackRechazar();
+                }
             }
         }); 
         
@@ -109,7 +79,7 @@ var FormEmergenciasNueva = Class({
         
         var yo = this;
         
-        var parametros = $("#form_nueva_emergencia").serializeArray();
+        var parametros = this.getParametros("form_nueva_emergencia");
         
         var salida = false;
         
@@ -119,18 +89,18 @@ var FormEmergenciasNueva = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia/json_guardar_emergencia", 
+            url: siteUrl + "emergencia/json_activa_alarma", 
             error: function(xhr, textStatus, errorThrown){
 
             },
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    yo.callBackGuardar();
                     yo.bo_email_enviado = data.res_mail;
+                    yo.callBackGuardar();
                     salida = true;
                 } else {
-                    $("#form-nueva-error").removeClass("hidden");
+                    $("#form_nueva_emergencia_error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
             }
@@ -170,6 +140,14 @@ var FormEmergenciasNueva = Class({
                                 return yo.guardaEmergencia();
                             }
                         },
+                        paso2: {
+                            label: " Ir al paso 2",
+                            className: "btn-primary fa fa-arrow-right",
+                            callback: function() {
+                                yo.showPaso2("form_nueva_emergencia");
+                                return false;
+                            }
+                        },
                         rechazar: {
                             label: " Rechazar emergencia",
                             className: "btn-danger fa fa-thumbs-down",
@@ -177,6 +155,7 @@ var FormEmergenciasNueva = Class({
                                 return yo.rechazaEmergencia();
                             }
                         },
+                        
                         cerrar: {
                             label: " Cancelar",
                             className: "btn-white fa fa-close",
@@ -186,9 +165,9 @@ var FormEmergenciasNueva = Class({
                         }
                     }
                 });
-                yo.bindComunasPicklist();
-                yo.bindMapa();
                 
+                yo.bindMapa();
+                yo.callOnShow();
             }
         }); 
     }

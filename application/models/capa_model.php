@@ -4,11 +4,23 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Capa_Model extends MY_Model {
-
+    
+    /**
+     * Nombre de tabla
+     * @var string 
+     */
+    protected $_tabla = "capas";
+    
+    /**
+     * Retorna registro por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("cap_ia_id", $id);
+    }
+    
     public function guardarCapa($params) {
-        
-        fb("entra a guardar capa");
-        
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
         $this->load->helper('utils');
         $this->load->model("archivo_model", "ArchivoModel");
@@ -44,34 +56,25 @@ class Capa_Model extends MY_Model {
                 $capa = $this->cache->get($params['tmp_file_1']);   //capa 
                     
                 $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre_editar']);
-                fb($capa_obj_arch_json);
+
                 $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
 
                 $this->db->query("
                         UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id 
                         where cap_ia_id =" . $cap_ia_id
                 );
-
-
-            }
-
-            if(file_exists('media/tmp/' . $params['icon-editar'])){
-                $icon_size = filesize('media/tmp/' . $params['icon-editar']);
-                $icon_type = filetype('media/tmp/' . $params['icon-editar']);
-                $tmp_name = 'media/tmp/' . $params['icon-editar']; 
-
-                $icon_obj_arch_json = $this->ArchivoModel->upload_to_site('icono_capa', $icon_type, $tmp_name, $cap_ia_id, $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icon_size);
-                fb($icon_obj_arch_json);
-                $icon_arch_ia_id = json_decode($icon_obj_arch_json)->id;
-
-                $this->db->query("
-                        UPDATE capas SET icon_arch_ia_id = $icon_arch_ia_id 
-                        where cap_ia_id =" . $cap_ia_id
-                );
-
-
             }
             
+            $update = array();
+            if(isset($params["color_editar"])){
+                $update["color"] = $params["color_editar"];
+            } 
+
+            if(isset($params["icono_editar"])){
+                $update["icon_path"] = $params["icono_editar"];
+            }
+
+            $this->_query->update($update, "cap_ia_id", $cap_ia_id);
             
             if ($this->db->trans_status() === FALSE) {
                 $error = true;
@@ -107,25 +110,27 @@ class Capa_Model extends MY_Model {
 
                 $cap_ia_id = $this->db->insert_id();
                 $capa = $this->cache->get($params['tmp_file_' . $i]);   //capa 
-                
-              
-                
-                $icon_size = filesize('media/tmp/' . $params['icon']);
-                $icon_type = filetype('media/tmp/' . $params['icon']);
-                $tmp_name = 'media/tmp/' . $params['icon'];
 
+                $update = array();
 
                 $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre']);
-                $icon_obj_arch_json = $this->ArchivoModel->upload_to_site('icono_capa', $icon_type, $tmp_name, $cap_ia_id, $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icon_size);
-                
                 $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
-                $icon_arch_ia_id = json_decode($icon_obj_arch_json)->id;
+                $update["capa_arch_ia_id"] = $capa_arch_ia_id;
+                
+                if(isset($params["color_" . $i])){
+                    $update["color"] = $params["color_" . $i];
+                } 
+                
+                if(isset($params["icono_" . $i])){
+                    $update["icon_path"] = $params["icono_" . $i];
+                }
+                
+                $this->_query->update($update, "cap_ia_id", $cap_ia_id);
 
-
-                $this->db->query("
+                /*$this->db->query("
                         UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id, icon_arch_ia_id = $icon_arch_ia_id 
                         where cap_ia_id =" . $cap_ia_id
-                );
+                );*/
 
                 if ($this->db->trans_status() === FALSE) {
                     $error = true;
@@ -139,6 +144,23 @@ class Capa_Model extends MY_Model {
         
 
         echo ($error) ? 0 : 1;
+    }
+    
+    /**
+     * Retorna capas por comuna
+     * @param array $lista_comunas
+     * @return array
+     */
+    public function listarCapasPorComunas(array $lista_comunas){
+        $result = $this->_query->select("c.*")
+                               ->from("capas c")
+                               ->whereAND("c.com_ia_id", $lista_comunas, "IN")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
 
     public function obtenerTodos($eme_ia_id, $ids = null) {
@@ -162,10 +184,10 @@ class Capa_Model extends MY_Model {
         }
 
         if ($error == 0) {
-            $result = $this->db->query(" SELECT c.*, cc.ccb_c_categoria, a.arch_c_nombre from 
+            $result = $this->db->query(" SELECT c.*, cc.ccb_c_categoria from 
                 capas c join categorias_capas_coberturas cc 
                 on c.ccb_ia_categoria = cc.ccb_ia_categoria
-                join archivo a on c.icon_arch_ia_id = a.arch_ia_id $where");
+                $where");
 
             $arr_ids = array();
             if ($ids == !null) {
@@ -183,7 +205,7 @@ class Capa_Model extends MY_Model {
                     'cap_c_nombre' => $row['cap_c_nombre'],
                     'ccb_c_categoria' => $row['ccb_c_categoria'],
                     'cap_ia_id' => $row['cap_ia_id'],
-                    'arch_c_nombre' => $row['arch_c_nombre']
+                    'arch_c_nombre' => $row['icon_path']
                 ));
             }
         }
@@ -192,15 +214,25 @@ class Capa_Model extends MY_Model {
 
     public function getjson($id) {
         $this->load->helper("url");
-        $result = $this->db->query(" SELECT c.cap_ia_id, c.cap_c_nombre, a.arch_c_nombre capa,a2.arch_c_nombre icono,c.cap_c_propiedades, c.cap_c_geozone_number, c.cap_c_geozone_letter  from capas c join archivo a on c.capa_arch_ia_id = a.arch_ia_id join archivo a2 on c.icon_arch_ia_id = a2.arch_ia_id where cap_ia_id = $id");
+        $result = $this->db->query(" SELECT c.cap_ia_id, "
+                                         . "c.cap_c_nombre, "
+                                         . "a.arch_c_nombre capa,"
+                                         . "c.icon_path, "
+                                         . "c.color, "
+                                         . "c.cap_c_propiedades, "
+                                         . "c.cap_c_geozone_number, "
+                                         . "c.cap_c_geozone_letter  "
+                                 . "from capas c join archivo a on c.capa_arch_ia_id = a.arch_ia_id "
+                                 . "where cap_ia_id = $id");
         $row = $result->result_array();
-        $str = file_get_contents($row[0]['capa']);
+        $str = file_get_contents(BASEPATH . "../" . utf8_decode($row[0]['capa']));
 
         $res = array(
             'id' => $row[0]['cap_ia_id'],
             'nombre' => $row[0]['cap_c_nombre'],
             'capa' => base_url($row[0]['capa']),
-            'icono' => base_url($row[0]['icono']),
+            'icono' => $row[0]['icon_path'],
+            'color' => $row[0]['color'],
             'propiedades' => $row[0]['cap_c_propiedades'],
             'geozone' => $row[0]['cap_c_geozone_number'] . $row[0]['cap_c_geozone_letter'],
             'json_str' => $str,
@@ -214,9 +246,8 @@ class Capa_Model extends MY_Model {
      * @return array
      */
     public function listarCapas(){
-        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
+        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
                 join archivo a on c.capa_arch_ia_id = a.arch_ia_id
-                join archivo b on c.icon_arch_ia_id = b.arch_ia_id
                 join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
                 ";
         $result = $this->db->query($sql);
@@ -229,9 +260,8 @@ class Capa_Model extends MY_Model {
 
     function getCapa($id_capa) {
 
-        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, b.arch_c_mime mime, b.arch_c_nombre icono, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
+        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
                 join archivo a on c.capa_arch_ia_id = a.arch_ia_id
-                join archivo b on c.icon_arch_ia_id = b.arch_ia_id
                 join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
                 where c.cap_ia_id = ?";
         $result = $this->db->query($sql,array($id_capa));

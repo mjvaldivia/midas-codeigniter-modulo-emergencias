@@ -1,0 +1,46 @@
+body{
+    background: none;
+}
+
+@media (max-width: 480px) {
+    #input-buscador-mapa {
+        width: 155px
+    }
+}
+ul#sortable{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#sortable li{
+    background-color: #ffffff;
+    list-style: none;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100%;
+
+    margin:4px 0px; 
+}
+#sortable li:hover{
+    cursor: move;
+}
+#sortable li label{
+    font-size: 15px;
+    font-weight: bold;
+}
+.contextmenu a{
+    cursor:pointer;
+    text-decoration: none;
+}
+.contextmenu{
+   visibility: hidden;
+    background: #ffffff;
+    border: 1px solid #8888FF;
+    z-index: 10;
+    position: absolute;
+    min-width: 10px;
+    height: 35px;
+}
+.contextmenu div{
+    padding: 5px
+}

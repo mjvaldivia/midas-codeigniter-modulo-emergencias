@@ -52,6 +52,12 @@ class Emergencia extends MY_Controller {
     public $emergencia_estado_model;
     
     /**
+     *
+     * @var Emergencia_Comuna_Model 
+     */
+    public $emergencia_comuna_model;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -61,6 +67,7 @@ class Emergencia extends MY_Controller {
 
         $this->load->model("emergencia_model", "emergencia_model");
         $this->load->model("emergencia_estado_model", "emergencia_estado_model");
+        $this->load->model("emergencia_comuna_model", "emergencia_comuna_model");
         $this->load->model("alarma_model", "alarma_model");
         $this->load->model("alarma_comuna_model", "alarma_comuna_model");
         $this->load->model("alarma_estado_model", "alarma_estado_model");
@@ -156,8 +163,8 @@ class Emergencia extends MY_Controller {
             foreach($lista_comunas as $comuna){
                 $data["lista_comunas"][] = $comuna["com_ia_id"];
             }
-            
-            $this->load->view("pages/emergencia/form-nueva", $data);
+            $data["form_name"] = "form_nueva_emergencia";
+            $this->load->view("pages/alarma/form", $data);
         } else {
             show_404();
         }
@@ -166,9 +173,9 @@ class Emergencia extends MY_Controller {
     /**
      * Guarda nueva emergencia
      */
-    public function json_guardar_emergencia(){
-        $this->load->library("validar");
-        
+    public function json_activa_alarma(){
+        $this->load->library(array("alarma/alarmavalidar", "emergencia/emergenciaemail"));
+        //$this->load->library("emergencia/emergenciaemail");
         $correcto = true;
         $error    = array();
         
@@ -177,63 +184,41 @@ class Emergencia extends MY_Controller {
         $alarma = $this->alarma_model->getById($params["id"]);
         if(!is_null($alarma)){
                         
-            if(!$this->validar->validarVacio($params["nueva_nombre_informante"])){
-                $correcto = false;
-                $error["nueva_nombre_informante"] = "Debe ingresar el nombre del informante";
-            } else {
-                $error["nueva_nombre_informante"] = "";
-            }
-            
-            if(!$this->validar->validarVacio($params["nueva_nombre_emergencia"])){
-                $correcto = false;
-                $error["nueva_nombre_emergencia"] = "Debe ingresar el nombre de la emergencia";
-            } else {
-                $error["nueva_nombre_emergencia"] = "";
-            }
-            
-            if(!$this->validar->validarVacio($params["nueva_nombre_lugar"])){
-                $correcto = false;
-                $error["nueva_nombre_lugar"] = "Debe ingresar el nombre del lugar";
-            } else {
-                $error["nueva_nombre_lugar"] = "";
-            }
-            
-            if(!$this->validar->validarVacio($params["nueva_tipo_emergencia"])){
-                $correcto = false;
-                $error["nueva_tipo_emergencia"] = "Debe ingresar un tipo de emergencia";
-            } else {
-                $error["nueva_tipo_emergencia"] = "";
-            }
-            
-            if(!$this->validar->validarArregloVacio($params["nueva_comunas"])){
-                $correcto = false;
-                $error["nueva_comunas"] = "Debe ingresar al menos una comuna";
-            } else {
-                $error["nueva_comunas"] = "";
-            }
+            $correcto = $this->alarmavalidar->esValido($params);
 
             $respuesta = array();
             if($correcto){
-                //parche para codigo antiguo
-                $respuesta = $this->emergencia_model->guardarEmergencia(array("iNombreInformante" => $params["nueva_nombre_informante"],
-                                                                              "iTelefonoInformante" => $params["nueva_telefono_informante"],
-                                                                              "iNombreEmergencia" => $params["nueva_nombre_emergencia"],
-                                                                              "iTiposEmergencias" => $params["nueva_tipo_emergencia"],
-                                                                              "iLugarEmergencia" => $params["nueva_nombre_lugar"],
-                                                                              "fechaEmergencia" => $params["nueva_fecha_emergencia"],
-                                                                              "fechaRecepcion" => $params["nueva_fecha_recepcion"],
-                                                                              "ala_ia_id" => $params["id"],
-                                                                              "iObservacion" => $params["nueva_observacion"],
-                                                                              "iComunas" => $params["nueva_comunas"]));
                 
-                //se actualizan coordenadas de alarma
-                $this->alarma_model->update(array("ala_c_utm_lat" => $params["nueva_latitud"], 
-                                                  "ala_c_utm_lng" => $params["nueva_longitud"] ), 
+                $data = array(
+                              "eme_c_nombre_informante"   => $params["nombre_informante"],
+                              "eme_c_telefono_informante" => $params["telefono_informante"],
+                              "eme_c_nombre_emergencia"   => $params["nombre_emergencia"],
+                              "tip_ia_id"                 => $params["tipo_emergencia"],
+                              "eme_d_fecha_emergencia"    => spanishDateToISO($params["fecha_emergencia"]),
+                              "eme_c_lugar_emergencia"    => $params["nombre_lugar"],
+                              "eme_d_fecha_recepcion"     => DATE("Y-m-d H:i:s"),
+                              "est_ia_id"         => Emergencia_Estado_Model::EN_CURSO,
+                              "ala_ia_id"         => $alarma->ala_ia_id,
+                              "eme_c_observacion" => $params["nobservacion"],
+                              "rol_ia_id"         => $this->session->userdata('session_idCargo'),
+                              "usu_ia_id"         => $this->session->userdata('session_idUsuario')
+                             );
+
+                $id = $this->emergencia_model->query()->insert($data);
+                $this->emergencia_comuna_model->query()->insertOneToMany("eme_ia_id", "com_ia_id", $id, $params['comunas']);
+                
+                //se actualiza alarma
+                $this->alarma_model->update(array("ala_c_utm_lat" => $params["latitud"], 
+                                                  "ala_c_utm_lng" => $params["longitud"],
+                                                  "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
                                             $params["id"]);
+                //envio de email
+                $this->emergenciaemail->setEmergencia($id);
+                $respuesta["res_mail"] = $this->emergenciaemail->enviar();
             }
             
             $respuesta["correcto"] = $correcto;
-            $respuesta["error"]    = $error;
+            $respuesta["error"]    = $this->alarmavalidar->getErrores();
             
             echo json_encode($respuesta);
         } else {
@@ -282,7 +267,7 @@ class Emergencia extends MY_Controller {
         if (!file_exists(APPPATH . "/views/pages/emergencia/listado.php")) {
             show_404();
         }
-        
+
         $params = $this->uri->uri_to_assoc();
         $this->load->model("emergencia_estado_model", "Emergencia_Estado_Model");
         $this->load->helper(array("modulo/emergencia/emergencia_form"));
@@ -355,7 +340,7 @@ class Emergencia extends MY_Controller {
     }
 
     public function subir_CapaTemp() {
-        
+        $this->load->library("capa/capageojson");
         $error = false;
         $this->load->helper(array("session", "debug"));
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
@@ -367,7 +352,8 @@ class Emergencia extends MY_Controller {
         $properties = array();
         $arr_filename = array();
         $tmp_prop_array = array();
-
+        $tipo_geometria = array();
+        
         if(isset($_FILES['input-capa-editar'])){
 
             $tmp_name = $_FILES['input-capa-editar']['tmp_name'];
@@ -418,14 +404,44 @@ class Emergencia extends MY_Controller {
                         "<input class='propiedades' id='prop_$k' name='prop_$k' type='checkbox' checked=checked  />");
                     $tmp_prop_array[] = $k;
                 }
+                
                 $arr_filename['data'][] = array(
                     $nombres[$i],
                     "<select name=iComunas_".($i+1)." id=iComunas_".($i+1)." class='form-control iComunas required' placeholder='Comuna de la capa' ></select> <input name=tmp_file_".($i+1)." id=tmp_file_".($i+1)." value='$nombre_cache_id' type=hidden />",
                 );
                 
+                $this->capageojson->setGeojson($arr_properties);
+                $geometrias = $this->capageojson->listGeometry();
+                
+                if(in_array("Polygon", $geometrias) OR in_array("MultiPolygon", $geometrias)){
+                    $tipo_geometria['data'][] = array("Poligonos",
+                                                      "<input name=\"color_".($i+1)."\" id=\"color_".($i+1)."\" placeholder=\"Color del poligono\" type='text' class=\"colorpicker required\" value=\"\"/>");
+                }
+                
+                if(in_array("Point", $geometrias)){
+                    $tipo_geometria['data'][] = array("Icono",
+                                                      "<select name=\"icono_".($i+1)."\" id=\"icono_".($i+1)."\" style=\"width: 300px\" placeholder=\"Icono de los marcadores\" class=\" select2-images required\">"
+                                                    . "<option value=\"\"></option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi.png")."\">Rojo</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-yellow.png")."\">Amarillo</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-blue.png")."\">Azul</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-green.png")."\">Verde</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-pink.png")."\">Rosado</option>"
+                                                    . "<option value=\"". base_url("assets/img/markers/spotlight-poi-black.png")."\">Negro</option>"
+                                                    . "</select>");
+                }
+                
             }
         }
-        echo ($error) ? json_encode(array("uploaded" => 0, "error_filenames" => $arr_error_filenames, 'properties' => $properties, 'filenames' => $arr_filename)) : json_encode(array("uploaded" => 1, 'properties' => $properties, 'filenames' => $arr_filename));
+        echo ($error) ? json_encode(array("uploaded" => 0, 
+                                          "error_filenames" => $arr_error_filenames, 
+                                          'properties' => $properties, 
+                                          'filenames' => $arr_filename,
+                                          'geometry' => $tipo_geometria)) 
+                      : json_encode(array("uploaded" => 1, 
+                                          'properties' => $properties, 
+                                          'filenames' => $arr_filename,
+                                          'geometry' => $tipo_geometria));
     }
     public function subir_IconTemp() {
         

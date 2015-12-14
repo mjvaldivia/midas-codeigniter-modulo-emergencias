@@ -25,7 +25,7 @@ var Layer = {};
     };
 
     this.initSave = function() {
-        $("#input-icon").fileinput({
+        /*$("#input-icon").fileinput({
             language: "es",
             multiple: false,
             uploadAsync: true,
@@ -33,7 +33,7 @@ var Layer = {};
             allowedFileTypes: ['image'],
             uploadUrl: siteUrl + "emergencia/subir_IconTemp",
             dropZoneTitle:''
-        });
+        });*/
         
 
         $("#input-capa").fileinput({
@@ -44,11 +44,11 @@ var Layer = {};
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
         
-        $('#input-icon').on('filebatchuploadsuccess', function(event, data) {
+       /* $('#input-icon').on('filebatchuploadsuccess', function(event, data) {
             $('#icon').val(data.response.nombre_cache_id);
             $('#img_icon').attr('src',baseUrl+''+data.response.ruta);
             
-        });
+        });*/
         
          $("#iCategoria").jCombo(siteUrl + "visor/obtenerJsonCatCoberturas");
         
@@ -60,10 +60,7 @@ var Layer = {};
                $.each(data.response.error_filenames,function(k,v){
                   error_filenames += '-'+v+'<br>'; 
                });
-                   
-               
-              
-               
+
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: error_filenames,
@@ -79,10 +76,25 @@ var Layer = {};
            
            var properties = data.response.properties.data;
            var filename = data.response.filenames.data;
-           
+           var geometry = data.response.geometry.data;
            
             $('#tabla_propiedades').DataTable().destroy();
             $('#tabla_comunas').DataTable().destroy();
+            $('#tabla_colores').DataTable().destroy();
+            
+            $('#tabla_colores').DataTable({
+                data: geometry,
+                language: {
+                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                },
+                bPaginate : false,
+                order: [[0, "desc"]],
+                initComplete: function(){
+                    $('#div_color').removeClass("hidden");
+                }
+                
+            }); 
+            
             
             $('#tabla_propiedades').DataTable({
                 data: properties,
@@ -94,6 +106,7 @@ var Layer = {};
                 initComplete: function(){$('#div_properties').slideDown('slow');}
                 
             }); 
+            
             $('#tabla_comunas').DataTable({
                 data: filename,
                 language: {
@@ -169,6 +182,7 @@ var Layer = {};
                             className: "btn-info",
                             callback: function(){
                                 if(form.capa_edicion === undefined){
+                                    $(btn).attr('disabled',false);
                                     location.reload();    
                                 }else{
                                     $("#tab3").fadeOut(function(){
@@ -259,16 +273,6 @@ var Layer = {};
 
 
     this.initSaveEdicion = function() {
-        $("#input-icon-editar").fileinput({
-            language: "es",
-            multiple: false,
-            uploadAsync: true,
-            initialCaption: "Seleccione Icono",
-            allowedFileTypes: ['image'],
-            uploadUrl: siteUrl + "emergencia/subir_IconTemp",
-            dropZoneTitle:''
-        });
-        
 
         $("#input-capa-editar").fileinput({
             language: "es",
@@ -277,14 +281,7 @@ var Layer = {};
             initialCaption: "Seleccione una capa GeoJson",
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
-        
-        $('#input-icon-editar').on('filebatchuploadsuccess', function(event, data) {
-            $('#icon-editar').val(data.response.nombre_cache_id);
-            $('#img_icon_editar').attr('src',baseUrl+''+data.response.ruta);
-            
-        });
-        
-        
+
         $('#input-capa-editar').on('filebatchuploadsuccess', function(event, data) {
            
            if(data.response.uploaded==0)//error
@@ -293,10 +290,7 @@ var Layer = {};
                $.each(data.response.error_filenames,function(k,v){
                   error_filenames += '-'+v+'<br>'; 
                });
-                   
-               
-              
-               
+
                 bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: error_filenames,

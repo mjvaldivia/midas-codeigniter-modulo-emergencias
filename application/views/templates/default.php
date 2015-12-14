@@ -30,7 +30,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
     -->
     <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
-
+    <?= loadCSS("assets/lib/spectrum-colorpicker/spectrum.css") ?>
 
 
     <!-- THEME STYLES - Include these on every page. -->
@@ -113,11 +113,11 @@
                     <?= htmlSimulacion(); ?>
 
                     
-                    <li class="dropdown">
-                        <a href="#" class="messages-link dropdown-toggle" data-toggle="dropdown">
+                    <!--<li class="dropdown">
+                        <a href="#" class="-link dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-scroll dropdown-messages">
+                        <ul class="dropdown-menu dropdown-scroll dropdown-alerts">
 
                         
                             <li class="dropdown-header">
@@ -126,7 +126,7 @@
 
                             
                         </ul>
-                    </li>
+                    </li>-->
                     <!-- /.dropdown -->
                     <!-- end MESSAGES DROPDOWN -->
                     <!-- begin USER ACTIONS DROPDOWN -->
@@ -219,6 +219,7 @@
     <?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
     <?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
     <?= loadJS("assets/lib/pnotify/pnotify.custom.min.js", true) ?>
+    <?= loadJS("assets/lib/spectrum-colorpicker/spectrum.js") ?>
     <?= loadJS("assets/js/base.js") ?>
     <?= loadJS("assets/js/utils.js") ?>
     <?= loadJS("assets/js/loading.js") ?>

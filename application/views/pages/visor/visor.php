@@ -1,56 +1,24 @@
 <?= loadCSS("assets/lib/bootstrap-3.3.5/css/simple-sidebar.css", true) ?>
-<style type="text/css">
-    @media (max-width: 480px) {
-        #input-buscador-mapa {
-            width: 155px
-        }
-    }
-    ul#sortable{
-        padding-left: 5px;
-    }
-    #sortable li{
-        background-color: #ffffff;
-        list-style: none;
-        border: 1px solid #ccc;
-        padding: 5px 10px;
-        border-radius: 5px;
-        width: 90%;
-        margin:4px 0px; 
-    }
-    #sortable li:hover{
-        cursor: move;
-    }
-    #sortable li label{
-        font-size: 15px;
-        font-weight: bold;
-    }
-    .contextmenu a{
-        cursor:pointer;
-        text-decoration: none;
-    }
-.contextmenu{
-   visibility: hidden;
-    background: #ffffff;
-    border: 1px solid #8888FF;
-    z-index: 10;
-    position: absolute;
-    min-width: 10px;
-    height: 35px;
-}
-.contextmenu div{
-    padding: 5px
-    }
-</style>
 <div id="wrapper" class='toggled'>
-        <div id="sidebar-wrapper">
+    
+    <div id="sidebar-wrapper">
+        <div class="portlet portlet-blue" style="margin-bottom: 0px;">
+            <div class="portlet-heading">
+                <div class="portlet-title">
+                    <h4><i class="fa fa-list-ul"></i> Seleccionar capas</h4>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="portlet-body" style="padding: 0px;">
+                <ul id="sortable">
 
-                    Cargar Capas<br><br>
-                    <ul id="sortable">
-                    
-                  </ul>
-                    <input type='hidden' id='selected_items' value=''>
-
+                </ul>
+                <div class="clearfix"></div>
+            </div>
         </div>
+        <input type='hidden' id='selected_items' value=''>
+    </div>
+    
 <div id="page-content-wrapper">
 <input type="hidden" id="hIdEmergencia" name="hIdEmergencia" value="<?= $emergencia["eme_ia_id"] ?>"/>
 
@@ -59,7 +27,7 @@
 <div id="mapa" class="col-md-12 visor-emergencias">
 </div>
 
-<div class="modal fade" id="mRadioEmergencia" data-keyboard="false" data-backdrop="static">
+<div class="modal fade" id="mRadioEmergencia" role="dialog" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,7 +39,7 @@
                         <div class="form-group">
                             <label class="col-md-6 control-label">Indique metros:</label>
                             <div class="col-md-2">
-                                <input id="iRadioEmergencia" name="iRadioEmergencia" class="form-control" value="0"/>
+                                <input id="iRadioEmergencia" name="iRadioEmergencia" class="form-control" value="0" type="text"/>
                             </div>
                         </div>
                     </div>
@@ -209,7 +177,8 @@
 <div id="moldeIns" class='infoWindow' style="display: none">
     <h4>
         __nombre_fantasia__<br/>
-        __razon_social__
+        __razon_social__<br/>
+        __tipo_instalacion__
     </h4>
     <div class="well">
         __direccion__<br/>

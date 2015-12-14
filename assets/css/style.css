@@ -681,7 +681,7 @@ a:focus {
 */
 
  .page-title {
-    margin: 30px 0;
+    margin: 10px 0;
 }
 
 .page-title h1 {
@@ -2192,4 +2192,23 @@ input[type="checkbox"]:checked::after,
 
 .fc-event .fc-content {
     cursor: pointer;
+}
+
+label {
+
+    font-weight: normal;
+
+}
+
+.pac-container {
+    z-index: 1051 !important;
+}
+
+.radio label, .checkbox label {
+    padding-left: 0;
+}
+
+.color-capa-preview{
+    height: 30px;
+    width:30px;
 }

@@ -1,3 +1,6 @@
+var check_instalaciones = [];
+
+
 var VisorMapa = {
     map: null,
     canvas: null,
@@ -318,6 +321,7 @@ var VisorMapa = {
         div_tablas.append('<ul id="ul-tabs" class="nav nav-tabs"></ul>');
         $('#ul-tabs').after('<div id="tab-content" class="tab-content"></div>');
         $.each(capas.tipo, function (key, value) {
+            //console.log(capas);
             type = capas.tipo[key];
             layername = capas.layername[key];
             jsonDT = {};
@@ -336,7 +340,6 @@ var VisorMapa = {
             $('#ul-tabs').append('<li class=' + active + '><a href="#tab' + key + '" data-toggle="tab">' + layername + '</a></li>');
             $('#tab-content').append("<div class='tab-pane " + active + "' id='tab" + key + "' style='overflow:hidden;'><div id='div_tab_" + key + "' class='col-xs-12 table-responsive'></div></div>");
             $('#div_tab_' + key).append('<table id=table_' + key + ' class="table table-bordered table-striped"><thead></thead><tbody></tbody><tfoot></tfoot></table>');
-
             $("#table_" + key).DataTable({
                 columns: capas.cols[key],
                 data: jsonDT.data,
@@ -348,7 +351,7 @@ var VisorMapa = {
         });
 
 
-        $("#mInfo").modal("show");
+        $("#mInfo").appendTo('body').modal("show");
         $("#ctrlInfo").click(); // para que se apague
 
 
@@ -389,7 +392,13 @@ var VisorMapa = {
                     sTitle: "Razón Social"
                 };
                 columns.push(obj);
-
+                
+                obj = {
+                    mData: "tipo_instalacion",
+                    sTitle: "Tipo instalación"
+                };
+                columns.push(obj);
+                
                 obj = {
                     mData: "nombre_fantasia",
                     sTitle: "Nombre Fantasía"
@@ -511,7 +520,35 @@ var VisorMapa = {
         
         var items = $('#selected_items').val().split(',');
         
-        $.get(siteUrl + 'visor/obtenerCapasDT/eme_ia_id/'+ $('#hIdEmergencia').val()+'/id/' + items, function (data) {
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: "",
+            type: "post",
+            url: siteUrl + "visor/obtenerCapasDT/eme_ia_id/" + $('#hIdEmergencia').val() + "/id/" + items, 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+                if(data.correcto){
+                    $("#wrapper").toggleClass("toggled");
+                    $('#sortable').html(data.html);
+                } else {
+                    bootbox.dialog({
+                        title: "Resultado de la operacion",
+                        message: 'no hay capas de las comunas de la emergencia',
+                        buttons: {
+                            danger: {
+                                label: "Cerrar",
+                                className: "btn-danger"
+                            }
+                        }
+                    });
+                }
+            }
+        }); 
+        
+        /*$.get(siteUrl + 'visor/obtenerCapasDT/eme_ia_id/'+ $('#hIdEmergencia').val()+'/id/' + items, function (data) {
             
             var html = '';
             var json = JSON.parse(data);
@@ -532,10 +569,12 @@ var VisorMapa = {
             $("#wrapper").toggleClass("toggled");
             
             $.each(json, function (k, v) {
-                html += '<li id=' + v.cap_ia_id + ' class="ui-state-default"><div class=checkbox><i class="fa fa-sort"></i><label>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;<img src="' + baseUrl + v.arch_c_nombre + '" height="24">&nbsp;' + v.cap_c_nombre + '</label></div></li>';
+                html += '<li id=' + v.cap_ia_id + ' class="ui-state-default">\n'
+                        + '<div class=checkbox>\n'
+                        + '<i class="fa fa-sort"></i><label>&nbsp;&nbsp;&nbsp;' + v.chkbox + '&nbsp;<img src="' + baseUrl + v.arch_c_nombre + '" height="24">&nbsp;' + v.cap_c_nombre + '</label></div></li>';
             });
             $('#sortable').html(html);
-        });
+        });*/
     });
 
     $("#sortable").sortable({
@@ -549,16 +588,20 @@ var VisorMapa = {
 
     var self = this;
     this.selectCapa = function (id) {
+        
         var selections = $('#selected_items').val();
 
         if ($("#chk_" + id).is(":checked")) {
+            
             if (selections == "")
                 var coma = "";
             else
                 var coma = ",";
 
             $('#selected_items').val(selections + coma + id);
+           
         } else {
+            
             var arr_select = selections.split(",");
             var newSelect = "";
             for (var i = 0; i < arr_select.length; i++) {
@@ -571,13 +614,15 @@ var VisorMapa = {
                 }
             }
             $('#selected_items').val(newSelect);
+            
             self.map.data.forEach(function (feature) {
-
+                console.log(feature.getProperty("TYPE"));
                 if (feature.getProperty("TYPE") == id)
                 {
                     self.map.data.remove(feature);
                 }
             });
+            
         }
 
         self.cargarCapas();
@@ -673,6 +718,7 @@ var VisorMapa = {
                     }
 
                 });
+                
                 if (cargada > 0) {
                     continue;
                 }
@@ -680,7 +726,7 @@ var VisorMapa = {
                 $.get(siteUrl + 'visor/get_json_capa/id/' + arr_select[i], function (data) {
                     var json = JSON.parse(data);
                     var geojson = JSON.parse(json.json_str);
-                    //console.log(geojson);
+
                     var feature;
                     var arr_prop_on = json.propiedades.split(',');
 
@@ -751,7 +797,7 @@ var VisorMapa = {
                                 self.map.data.add(point);
                                 break;
                             case 'Polygon':
-                                json_props['fillColor'] = '#999999';
+                                json_props['fillColor'] = json.color;
                                 var arr = [[]];
                                 var LatLng;
 
@@ -768,7 +814,7 @@ var VisorMapa = {
                                 self.map.data.add(polygon);
                                 break;
                             case 'MultiPolygon':
-                                json_props['fillColor'] = '#999999';
+                                json_props['fillColor'] = json.color;
                                 var LatLng;
                                 for (var m = 0; m < feature.geometry.coordinates.length; m++)
                                 {
@@ -793,7 +839,7 @@ var VisorMapa = {
                                 }
                                 break;
                             case 'LineString':
-                                json_props['strokeColor'] = '#0000FF';
+                                json_props['strokeColor'] = json.color;
                                 var arr = [];
                                 var LatLng;
                                 //console.log(feature.geometry.coordinates.length);return;
@@ -845,6 +891,7 @@ var VisorMapa = {
 
             html = html.replace(/__razon_social__/g, instalacion.ins_c_razon_social);
             html = html.replace(/__nombre_fantasia__/g, instalacion.ins_c_nombre_fantasia);
+            html = html.replace(/__tipo_instalacion__/g, instalacion.tipo_instalacion);
             html = html.replace(/__comuna__/g, instalacion.com_c_nombre);
             html = html.replace(/__region__/g, instalacion.reg_c_nombre);
             html = html.replace(/__direccion__/g,
@@ -861,6 +908,7 @@ var VisorMapa = {
                     infoWindow: html,
                     id_maestro: instalacion.ins_ia_id,
                     razon_social: instalacion.ins_c_razon_social,
+                    tipo_instalacion: instalacion.tipo_instalacion,
                     nombre_fantasia: instalacion.ins_c_nombre_fantasia,
                     direccion: instalacion.ins_c_nombre_direccion + ", " +
                             instalacion.ins_c_numero_direccion + " " +
@@ -894,14 +942,20 @@ var VisorMapa = {
                 {
                     mRender: function (data, type, row) {
                         var checked = "";
+                        var aux = "0";
                         for (var i = 0; i < facilities.length; i++) {
                             var ti = facilities[i];
+
                             if (row.aux_ia_id == ti.id_tipo_ins) {
-                                checked = 'checked="true"';
+                                checked = 'checked="checked"';
+
                                 break;
                             }
                         }
-                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + '/>';
+                        if(checked != ''){
+                            check_instalaciones.push(row.aux_ia_id);
+                        }
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + ' class="check_instalaciones check_instalacion_'+row.aux_ia_id+'"  />';
                     }
                 },
                 {data: "amb_c_nombre"},
@@ -925,21 +979,68 @@ var VisorMapa = {
         });
 
         $("#ctrlIns").click(function () {
-            $("#mMaestroInstalaciones").modal("show");
+
+            $("#mMaestroInstalaciones").appendTo('body').modal("show");
+
+
+            var total_check = check_instalaciones.length;
+            for(var i=0; i<total_check; i++){
+                var instalacion = check_instalaciones[i];
+                $('.check_instalacion_'+instalacion).attr('checked',true);
+            }
         });
+
+
+        $('body').on('click','.check_instalaciones',function(){
+            if($(this).attr('checked') === "checked"){
+                check_instalaciones.push($(this).val());
+            }else{
+                var total_check = check_instalaciones.length;
+                for(var i=0; i<total_check; i++){
+                    if(check_instalaciones[i] == $(this).val()){
+                        check_instalaciones.splice(i,1);
+                    }
+                }
+            }
+
+        })
 
         $("#btnCargarIns").click(function () {
             var params = {};
             params.idEmergencia = $("#hIdEmergencia").val();
-            params.tiposIns = [];
-
-            var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
-            for (var i = 0; i < checkboxs.length; i++) {
-                params.tiposIns.push(checkboxs[i].value);
-            }
+            params.tiposIns = check_instalaciones;
+            console.log(params.tiposIns);
+            /*var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
+             for (var i = 0; i < checkboxs.length; i++) {
+             params.tiposIns.push(checkboxs[i].value);
+             }*/
 
             $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
             $("#mMaestroInstalaciones").modal("hide");
+
+            /*if(check_instalaciones.length == 0){
+                bootbox.dialog({
+                    title: "Atención",
+                    message: 'Debe seleccionar mínimo una instalación',
+                    buttons: {
+                        danger: {
+                            label: "Cerrar",
+                            className: "btn-info"
+
+                        }
+                    }
+
+                });
+            }else{
+                var params = {};
+                params.idEmergencia = $("#hIdEmergencia").val();
+                params.tiposIns = check_instalaciones;
+                console.log(params.tiposIns);
+
+                $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
+                $("#mMaestroInstalaciones").modal("hide");
+            }*/
+
         });
     };
 
@@ -1013,8 +1114,9 @@ var VisorMapa = {
                 self.map.data.add(point);
                 self.emergencyMarker = point;
                 self.map.setCenter(self.emergencyMarker.getGeometry().get());
-                $("#mRadioEmergencia").modal("show");
+                $("#mRadioEmergencia").appendTo('body').modal({backdrop: 'static',keyboard:false});
                 $("#iRadioEmergencia").closest("div").removeClass("has-error");
+
             }
             $("#ctrlDrawOFF").click();
         });
@@ -1063,7 +1165,7 @@ var VisorMapa = {
         for (var i = 0; i < controlsID.length; i++) {
             (function (context, origen) {
                 var clickHandler = function () {
-                    $("#mOtrosEmergencias").modal("show");
+                    $("#mOtrosEmergencias").appendTo('body').modal("show");
                     context.otherControlSelected = origen;
                 };
                 $("#" + origen.id).on("click", clickHandler);
@@ -1301,9 +1403,6 @@ var VisorMapa = {
         this.map.data.add(polygon);
         this.emergencyRadius = polygon;
         this.map.data.remove(this.referenciaMarker);
-
-
-
     };
 
     var emergencyOtherReceiver = function () {

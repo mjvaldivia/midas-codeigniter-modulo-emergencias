@@ -20,8 +20,9 @@ class Emergencia_Comuna_Model extends MY_Model
      * @return string
      */
     public function listaComunasPorEmergencia($id_emergencia){
-        $result = $this->_query->select("*")
-                               ->from()
+        $result = $this->_query->select("ec.evc_ia_id, c.com_ia_id, c.com_c_nombre")
+                               ->from($this->_tabla . " ec")
+                               ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
                                ->whereAND("eme_ia_id", $id_emergencia)
                                ->getAllResult();
         if (!is_null($result)){

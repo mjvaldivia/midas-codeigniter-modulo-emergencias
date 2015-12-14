@@ -5,7 +5,7 @@
     </a>
     <ul class="dropdown-menu dropdown-scroll dropdown-alerts">
 
-        <a href="session/termina_simulacion">
+        <a href="<?php echo base_url("/session/termina_simulacion") ?>">
         <li class="dropdown-header">
             <i class="fa fa-sign-out"></i> Salir de modo simulación
         </li>

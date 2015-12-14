@@ -18,7 +18,7 @@
             <td><?php echo $row['cap_c_nombre']; ?></td>
             <td><?php echo $row['ccb_c_categoria']; ?></td>
             <td><?php echo $row['geozone']; ?></td>
-            <td><img src="<?php echo base_url($row['icono']) ?>" height="24" /></td>
+            <td align="center"><?php echo getCapaPreview($row["cap_ia_id"]); ?></td>
             <td><?php echo $row['cap_c_propiedades']; ?></td>
             <td><?php echo basename(FCPATH . $row['capa']); ?></td>
             <td><?php echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); ?> </td>

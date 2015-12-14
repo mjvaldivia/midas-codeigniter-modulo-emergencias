@@ -142,8 +142,7 @@ class Capas extends MY_Controller
 
 
     public function editarCapa(){
-        $this->load->helper(array("session", "debug"));
-        sessionValidation();
+
 
         $id_capa = $this->input->post('capa');
         $this->load->model("capa_model", "CapaModel");
@@ -171,7 +170,7 @@ class Capas extends MY_Controller
         $tmp_prop_array = array();
 
         
-        $fp = file_get_contents($capa->capa,'r');
+        $fp = file_get_contents(base_url($capa->capa,'r'));
         
         $arr_properties = json_decode($fp,true);
         

@@ -22,7 +22,7 @@
                 <?php if(puedeVer("alarma")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/ingreso/tab/nuevo"); } else {echo site_url("alarma/ingreso/tab/listado");} ?>">
+                        <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
                                 <i class="fa fa-bell fa-fw fa-3x"></i>
                             </div>
@@ -31,7 +31,7 @@
                             <div class="circle-tile-description text-faded">
                                 Alarmas
                             </div>
-                            <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/ingreso/tab/nuevo"); } else {echo site_url("alarma/ingreso/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                             <div class="circle-tile-description text-faded">
                                 Simulación
                             </div>
-                            <a href="<?= site_url("/session/inicia_simulacion") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?= site_url("/session/inicia_simulacion") ?>" class="circle-tile-footer">Ir a simulación <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -252,12 +252,18 @@
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
 
+<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
+<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
+
+<?= loadJS("assets/js/modulo/general/permisos.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js"); ?>
 <?= loadJS("assets/js/modulo/home/form-emergencias-cerrar-dashboard.js"); ?>
 
+<?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js"); ?>
 <?= loadJS("assets/js/modulo/home/form-emergencias-nueva-dashboard.js"); ?>
 <?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>
 
 <?= loadJS("assets/js/modulo/home/mapa.js"); ?>
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>
+<?= loadJS("assets/js/MapReport.js") ?>

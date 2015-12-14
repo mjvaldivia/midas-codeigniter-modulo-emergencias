@@ -4,9 +4,7 @@ if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * User: claudio
- * Date: 12-08-15
- * Time: 04:24 PM
+ * Controlador para alarmas
  */
 class Alarma extends MY_Controller {
 
@@ -27,6 +25,12 @@ class Alarma extends MY_Controller {
      * @var Alarma_Estado_Model
      */
     public $AlarmaEstadoModel;
+    
+    /**
+     *
+     * @var Tipo_Emergencia_Model
+     */
+    public $emergencia_tipo_model;
     
     /**
      *
@@ -51,114 +55,19 @@ class Alarma extends MY_Controller {
         $this->load->model("alarma_model", "AlarmaModel");
         $this->load->model("alarma_comuna_model", "AlarmaComunaModel");
         $this->load->model("alarma_estado_model", "AlarmaEstadoModel");
+        $this->load->model("tipo_emergencia_model", "emergencia_tipo_model");
         sessionValidation();
     }
     
     /**
-     * Formulario de ingreso de alarma
+     * Index
      */
-    public function ingreso() {
-        $this->load->helper("modulo/direccion/comuna");
-        $this->load->helper("modulo/emergencia/emergencia");
-        
-        if (!file_exists(APPPATH . "/views/pages/alarma/ingreso.php")) {
-            show_404();
-        }
-        
-        $datos['es_CRE'] = 0;
-        if((int)$this->session->userdata('session_idCargo')==4){
-            $datos['es_CRE'] = 1;
-        }
-        
-        $datos["html_listado"] = $this->html_listado();
-        
-        $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
-        $this->template->parse("default", "pages/alarma/ingreso", $data);
-    }
-    
-    /**
-     * Formulario de edicion
-     */
-    public function editar() {
-        $params = $this->uri->uri_to_assoc();
-        $datos['ala_ia_id'] = $params['id'];
+    public function index(){
+        $this->load->helper(array("modulo/direccion/comuna",
+                                  "modulo/alarma/alarma_form",
+                                  "modulo/emergencia/emergencia",
+                                  "modulo/emergencia/emergencia_form"));
 
-        $data["formulario"] = $this->load->view("pages/alarma/formularios/alarma", $datos, true);
-        /*$this->template->parse("default", "pages/alarma/editar", $data);*/
-        $this->load->view("pages/alarma/editar", $data);
-    }
-    
-    public function getAlarma() {
-        $params = $this->uri->uri_to_assoc();
-        $this->load->model("alarma_model", "AlarmaModel");
-        return $this->AlarmaModel->getJsonAlarma($params);
-    }
-
-    /**
-     * Guarda formulario de alarma
-     */
-    public function guardaAlarma() {
-        if (!file_exists(APPPATH . "/views/pages/alarma/ingreso_paso_2.php")) {
-            show_404();
-        }
-        
-        $params = $this->input->post(null, true);
-        
-        $data = array(
-                        "ala_c_nombre_informante"   => $params['iNombreInformante'],
-                        "ala_c_telefono_informante" => $params['iTelefonoInformante'],
-                        "ala_c_nombre_emergencia"   => $params['iNombreEmergencia'],
-                        "tip_ia_id"                 => $params['iTiposEmergencias'],
-                        "ala_c_lugar_emergencia" => $params['iLugarEmergencia'],
-                        "ala_d_fecha_emergencia" => spanishDateToISO($params['fechaEmergencia']),
-                        "rol_ia_id"              => $this->session->userdata('session_idCargo'),
-                        "ala_d_fecha_recepcion"  => spanishDateToISO($params['fechaRecepcion']),
-                        "usu_ia_id"              => $this->session->userdata('session_idUsuario'),
-                        "est_ia_id"              => Alarma_Model::REVISION,
-                        "ala_c_observacion"      => $params['iObservacion'],
-                        "ala_c_utm_lat" => $params['ins_c_coordenada_n'],
-                        "ala_c_utm_lng" => $params['ins_c_coordenada_e'],
-                        "ala_c_geozone" => $params['geozone']
-                       );
-
-        $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["ala_ia_id"]);
-        
-        //la alarma ya existia
-        if(!is_null($alerta)){
-            $id= $alerta->ala_ia_id;
-            $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
-            $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['iComunas']);
-            $respuesta_email = "";
-        //la alarma no existia
-        } else {
-            $id = $this->AlarmaModel->query()->insert($data);
-            $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['iComunas']);
-            $params["ala_ia_id"] = $id;
-            $respuesta_email = $this->AlarmaModel->guardarAlarma($params);
-        }
-
-        $respuesta = array("ala_ia_id" => $id,
-                           "res_mail"  => $respuesta_email);
-        echo json_encode($respuesta);
-    }
-    
-    /**
-     * Elimina la alarma
-     */
-    public function eliminarAlarma() { 
-        $params = $this->uri->uri_to_assoc();
-        $res = $this->AlarmaModel->eliminarAlarma($params['id']);
-        echo ($res) ? 1 : 0;
-    }
-
-    /**
-     * retorna lista
-     */
-    public function html_listado() {
-        $params = $this->uri->uri_to_assoc();
-        $this->load->helper(array("modulo/alarma/alarma_form"));
-        
-        
         if($this->usuario->getPermisoEditar()){
             if(isset($params["tab"])){
                 $tab = $params["tab"];
@@ -168,8 +77,6 @@ class Alarma extends MY_Controller {
         } else {
             $tab = "listado";
         }
-        
-        
         
         $id_estado = Alarma_Estado_Model::REVISION;
         if(isset($params["estado"])){
@@ -188,82 +95,201 @@ class Alarma extends MY_Controller {
       
         $data = array(
             "tab_activo" => $tab,
-            "select_estado_id_default" => $id_estado,
-            "anioActual" => date('Y')
+            "id_estado" => $id_estado,
+            "year" => date('Y')
         );
-         // var_dump($data);die;
-        return $this->load->view("pages/alarma/listado", $data, true);
-    }
-
-    /**
-     * Retorna lista de alarmas
-     */
-    public function jsonAlarmasDT() {
-        $params = $this->uri->uri_to_assoc();
-        $alarmas = $this->AlarmaModel->filtrarAlarmas($params);
-
-        $json["data"] = $alarmas;
-        $json["columns"] = array(
-            array("sTitle" => "Alarmas"),
-        );
-
-        echo json_encode($json);
-    }
-
-    /**
-     * Retorna tipos de emergencias
-     */
-    public function jsonTiposEmergencias() {
-        $this->load->model("tipo_emergencia_model", "TipoEmergencia");
-        $tiposEmergencia = $this->TipoEmergencia->get();
-
-        $json = array();
-        foreach ($tiposEmergencia as $te) {
-            $json[] = array(
-                $te["aux_ia_id"],
-                $te["aux_c_nombre"],
-            );
-        }
-
-        echo json_encode($json);
-    }
-
-    /**
-     * Retorna estados de la alarma
-     */
-    public function jsonEstadosAlarmas() {
-        $estados = $this->AlarmaModel->obtenerEstados();
-
-        $json = array();
-        foreach ($estados as $e) {
-            $json[] = array(
-                $e["est_ia_id"],
-                $e["est_c_nombre"],
-            );
-        }
-
-        echo json_encode($json);
+        
+        $this->template->parse("default", "pages/alarma/index", $data);
     }
     
     /**
-     * 
+     * Formulario para nueva alarma
      */
-    public function paso2() {
-
-        if (!file_exists(APPPATH . "/views/pages/alarma/ingreso_paso_2.php")) {
+    public function form_nueva(){
+        $this->load->helper(array("modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"));
+        
+        $data = array("form_name" => "form_nueva",
+                      "geozone" => "19H");
+        $this->load->view("pages/alarma/form", $data);
+    }
+    
+    /**
+     * Formulario para editar alarma
+     */
+    public function form_editar(){
+        $this->load->helper(array("modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"));
+        
+        $params = $this->uri->uri_to_assoc();
+        $alarma = $this->AlarmaModel->getById($params["id"]);
+        if(!is_null($alarma)){
+            
+            $data = array("id" => $alarma->ala_ia_id,
+                          "nombre_informante"   => $alarma->ala_c_nombre_informante,
+                          "telefono_informante" => $alarma->ala_c_telefono_informante,
+                          "nombre_emergencia"   => $alarma->ala_c_nombre_emergencia,
+                          "id_tipo_emergencia"  => $alarma->tip_ia_id,
+                          "nombre_lugar"        => $alarma->ala_c_lugar_emergencia,
+                          "observacion"         => $alarma->ala_c_observacion,
+                          "fecha_emergencia"    => ISODateTospanish($alarma->ala_d_fecha_emergencia),
+                          "geozone"             => $alarma->ala_c_geozone,
+                          "latitud_utm"  => $alarma->ala_c_utm_lat,
+                          "longitud_utm" => $alarma->ala_c_utm_lng);
+            
+            $lista_comunas = $this->AlarmaComunaModel->listaComunasPorAlarma($alarma->ala_ia_id);
+            
+            foreach($lista_comunas as $comuna){
+                $data["lista_comunas"][] = $comuna["com_ia_id"];
+            }
+            
+            $data["form_name"] = "form_editar";
+            $this->load->view("pages/alarma/form", $data);
+        } else {
             show_404();
         }
-
-        $params = $this->uri->uri_to_assoc();
-
-        $data['ala_ia_id'] = $params['id'];
-        $data['tipoAlarma'] = $params['tip_ia_id'];
-        switch ($params['tip_ia_id']){
-            case 15: $data["formulario"] = $this->template->parse("pages/alarma/formularios/radiologico", $data, true);
-                break;   
+    }
+    
+    /**
+     * Formulario con datos relacionados a tipo emergencia
+     */
+    public function form_tipo_emergencia(){
+        $this->load->helper(array("modulo/alarma/alarma_form"));
+        
+        $params = $this->input->post(null, true);
+        $tipo   = $this->emergencia_tipo_model->getById($params["id_tipo"]);
+        $alarma = $this->AlarmaModel->getById($params["id"]);
+        
+        $respuesta = array("html" => "",
+                           "form" => false);
+                
+        if(!is_null($tipo)){
+            switch ($tipo->aux_ia_id) {
+                case Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA:
+                    
+                    $array = array();
+                    
+                    if(!is_null($alarma)){
+                        $datos = unserialize($alarma->ala_c_datos_tipo_emergencia);
+                        if(is_array($datos) && count($datos)>0){
+                            foreach($datos as $nombre_input => $valor){
+                                $array["form_tipo_" . $nombre_input] = $valor;
+                            }
+                        }
+                    }
+                    
+                    $respuesta["html"] = $this->load->view("pages/alarma/form-tipos-emergencia/form-radiologica", $array, true);
+                    $respuesta["form"] = true;
+                    break;
+                default:
+                    break;
+            }
         }
         
-        $this->template->parse("default", "pages/alarma/ingreso_paso_2", $data);
+        echo json_encode($respuesta);
     }
+    
+    /**
+     * Verifica datos generales
+     */
+    public function ajax_validar_datos_generales(){
+        $this->load->library(array("alarma/alarmavalidar"));
+        
+        $params = $this->input->post(null, true);
+
+        $correcto = $this->alarmavalidar->esValido($params);
+        $respuesta = array("correcto" => $correcto,
+                           "error"    => $this->alarmavalidar->getErrores());
+        
+        echo json_encode($respuesta);
+    }
+    
+    /**
+     * Retorna grilla de alarmas
+     */
+    public function ajax_grilla_alarmas(){
+        $this->load->helper(array("modulo/emergencia/emergencia",
+                                  "modulo/alarma/alarma"));
+        
+        $params = $this->input->post(null, true);
+        
+        $lista = $this->AlarmaModel->buscar(array("id_estado" => $params["filtro_id_estado"],
+                                                  "id_tipo"   => $params["filtro_id_tipo"],
+                                                  "year"      => $params["filtro_year"]));
+        
+        $this->load->view("pages/alarma/grilla/grilla-alarmas", array("lista" => $lista));
+    }
+ 
+    /**
+     * Guarda formulario de alarma
+     */
+    public function guardaAlarma() {       
+        $this->load->library(array("alarma/alarmavalidar", 
+                                   "alarma/alarmaguardar"));
+        
+        $params = $this->input->post(null, true);
+        
+        $respuesta = array();
+        $correcto = $this->alarmavalidar->esValido($params);
+        
+        if($correcto){
+        
+        
+            $data = array(
+                            "ala_c_nombre_informante"   => $params['nombre_informante'],
+                            "ala_c_telefono_informante" => $params['telefono_informante'],
+                            "ala_c_nombre_emergencia"   => $params['nombre_emergencia'],
+                            "tip_ia_id"                 => $params['tipo_emergencia'],
+                            "ala_c_lugar_emergencia" => $params['nombre_lugar'],
+                            "ala_d_fecha_emergencia" => spanishDateToISO($params['fecha_emergencia']),
+                            "rol_ia_id"              => $this->session->userdata('session_idCargo'),
+                            "usu_ia_id"              => $this->session->userdata('session_idUsuario'),
+                            "ala_c_observacion"      => $params['observacion'],
+                            "ala_c_utm_lat" => $params['latitud'],
+                            "ala_c_utm_lng" => $params['longitud'],
+                            "ala_c_geozone" => $params['geozone']
+                           );
+
+            $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
+
+            //la alarma ya existia
+            if(!is_null($alerta)){
+
+                $id= $alerta->ala_ia_id;
+                $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
+                $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['comunas']);
+                $respuesta_email = "";
+            //la alarma no existia
+            } else {
+                $data["ala_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
+                $data["est_ia_id"] = Alarma_Model::REVISION;
+                $id = $this->AlarmaModel->query()->insert($data);
+                $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['comunas']);
+                $params["ala_ia_id"] = $id;
+                $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
+            }
+            
+            $this->alarmaguardar->setAlarma($id);
+            $this->alarmaguardar->setTipo($params["tipo_emergencia"]);
+            $this->alarmaguardar->guardar($params);
+
+        }
+        
+        $respuesta["res_mail"] = $respuesta_email;
+        $respuesta["correcto"] = $correcto;
+        $respuesta["error"]    = $this->alarmavalidar->getErrores();
+        
+        echo json_encode($respuesta);
+    }
+    
+    /**
+     * Elimina la alarma
+     */
+    public function eliminarAlarma() { 
+        $params = $this->uri->uri_to_assoc();
+        $res = $this->AlarmaModel->eliminarAlarma($params['id']);
+        echo ($res) ? 1 : 0;
+    }
+
 
 }

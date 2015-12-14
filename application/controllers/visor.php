@@ -5,6 +5,27 @@ if (!defined('BASEPATH'))
 
 class Visor extends MY_Controller {
 
+    /**
+     *
+     * @var Capa_Model 
+     */
+    public $capa_model;
+    
+    /**
+     *
+     * @var Emergencia_Comuna_Model; 
+     */
+    public $emergencia_comuna_model;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("capa_model", "capa_model");
+        $this->load->model("emergencia_comuna_model", "emergencia_comuna_model");
+    }
+    
     public function index() {
         // load basicos
         $this->load->library("template");
@@ -229,12 +250,27 @@ class Visor extends MY_Controller {
     }
 
     public function obtenerCapasDT() {
-        $this->load->model("capa_model", "CapaModel");
+        $this->load->helper(array("modulo/capa/capa"));
         $params = $this->uri->uri_to_assoc();
-
-
-        $Coberturas = $this->CapaModel->obtenerTodos($params['eme_ia_id'], $params['id']);
-        return json_encode($Coberturas);
+        
+        $lista_comunas = array();
+        $lista_comunas_emergencia = $this->emergencia_comuna_model->listaComunasPorEmergencia($params['eme_ia_id']);
+        if(count($lista_comunas_emergencia)>0){
+            foreach($lista_comunas_emergencia as $comuna){
+                $lista_comunas[] = $comuna["com_ia_id"];
+            }
+        }
+        
+        $lista_capas = $this->capa_model->listarCapasPorComunas($lista_comunas);
+        
+        $retorno = array();
+        if(!is_null($lista_capas)){
+            $retorno["correcto"] = true;
+            $retorno["html"] = $this->load->view("pages/visor/seleccion_capas", array("lista_capas" => $lista_capas), true);
+        } else {
+            $retorno["correcto"] = false;
+        }
+        echo json_encode($retorno);
     }
 
     public function get_json_capa() {
