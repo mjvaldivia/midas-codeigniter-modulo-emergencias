@@ -942,18 +942,18 @@ var VisorMapa = {
                 {
                     mRender: function (data, type, row) {
                         var checked = "";
-                        var aux = 0;
+                        var aux = "0";
                         for (var i = 0; i < facilities.length; i++) {
                             var ti = facilities[i];
+                            
                             if (row.aux_ia_id == ti.id_tipo_ins) {
                                 checked = 'checked="checked"';
-                                if(aux != row.aux_ia_id){
-                                    check_instalaciones.push(row.aux_ia_id);
-                                    aux = row.aux_ia_id;
-                                }
 
                                 break;
                             }
+                        }
+                        if(checked != ''){
+                            check_instalaciones.push(row.aux_ia_id);
                         }
                         return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + ' class="check_instalaciones check_instalacion_'+row.aux_ia_id+'"  />';
                     }
