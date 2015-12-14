@@ -13,7 +13,8 @@ var VisorMapa = {
     otherControlDataColor: null,
     otherControlSelected: null,
     otherStatusInfoControl: "off",
-    centro : null
+    centro : null,
+    checkInstalacion : null
 };
 
 (function () {
@@ -936,6 +937,7 @@ var VisorMapa = {
             ajax: {
                 url: siteUrl + "instalacion/obtenerJsonDtTipos",
                 type: "GET",
+                cache: false,
                 async: true
             },
             columns: [
@@ -943,7 +945,7 @@ var VisorMapa = {
                     mRender: function (data, type, row) {
                         var checked = "";
                         var aux = "0";
-                        for (var i = 0; i < facilities.length; i++) {
+                        /*for (var i = 0; i < facilities.length; i++) {
                             var ti = facilities[i];
 
                             if (row.aux_ia_id == ti.id_tipo_ins) {
@@ -953,9 +955,23 @@ var VisorMapa = {
                             }
                         }
                         if(checked != ''){
-                            check_instalaciones.push(row.aux_ia_id);
-                        }
-                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + ' class="check_instalaciones check_instalacion_'+row.aux_ia_id+'"  />';
+                            var total_check = check_instalaciones.length;
+                            if(total_check == 0){
+                                check_instalaciones.push(row.aux_ia_id);
+                            }else{
+                                for(var i=0; i<total_check; i++){
+                                    var instalacion = check_instalaciones[i];
+
+                                    if(row.aux_ia_id != instalacion){
+                                        check_instalaciones.push(row.aux_ia_id);
+                                    }
+                                }
+                            }
+
+
+                        }*/
+                        console.log(check_instalaciones);
+                        return '<input id="iTipIns' + row.aux_ia_id + '" name="iTipIns[]" value="' + row.aux_ia_id + '" type="checkbox" ' + checked + ' class="check_instalaciones check_instalacion_'+row.aux_ia_id+'" onclick="VisorMapa.checkInstalacion(this);" />';
                     }
                 },
                 {data: "amb_c_nombre"},
@@ -991,7 +1007,7 @@ var VisorMapa = {
         });
 
 
-        $('body').on('click','.check_instalaciones',function(){
+        /*$('body').on('click','.check_instalaciones',function(){
             if($(this).attr('checked') === "checked"){
                 check_instalaciones.push($(this).val());
             }else{
@@ -1003,25 +1019,14 @@ var VisorMapa = {
                 }
             }
 
-        })
+        })*/
 
         $("#btnCargarIns").click(function () {
-            var params = {};
-            params.idEmergencia = $("#hIdEmergencia").val();
-            params.tiposIns = check_instalaciones;
-            console.log(params.tiposIns);
-            /*var checkboxs = $("input[type='checkbox'][name='iTipIns[]']:checked");
-             for (var i = 0; i < checkboxs.length; i++) {
-             params.tiposIns.push(checkboxs[i].value);
-             }*/
 
-            $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
-            $("#mMaestroInstalaciones").modal("hide");
-
-            /*if(check_instalaciones.length == 0){
+            if(check_instalaciones.length == 0){
                 bootbox.dialog({
                     title: "Atención",
-                    message: 'Debe seleccionar mínimo una instalación',
+                    message: 'Debe seleccionar mínimo una tipo de instalación',
                     buttons: {
                         danger: {
                             label: "Cerrar",
@@ -1039,9 +1044,25 @@ var VisorMapa = {
 
                 $.post(siteUrl + "visor/obtenerJsonInsSegunTipIns", params).done(drawPointsIns.bind(self));
                 $("#mMaestroInstalaciones").modal("hide");
-            }*/
+            }
 
         });
+    };
+
+
+    this.checkInstalacion = function (item) {
+        if($(item).is(':checked')){
+            check_instalaciones.push($(item).val());
+        }else{
+            var total_check = check_instalaciones.length;
+            for(var i=0; i<total_check; i++){
+                if(check_instalaciones[i] == $(item).val()){
+                    check_instalaciones.splice(i,1);
+                }
+            }
+        }
+
+        console.log(check_instalaciones);
     };
 
     this.makeEmergencyDrawManager = function () {
