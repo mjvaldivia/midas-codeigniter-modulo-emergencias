@@ -1,5 +1,5 @@
 
-
+<?= loadJS("assets/js/MapReport.js") ?>
 
 
 <style>
@@ -191,13 +191,13 @@
 
 
 
-
 <script type="text/javascript">
     $(document).ready(function () {
-        MapReport.dibujaTablaDocs();
+  MapReport.dibujaTablaDocs();
         MapReport.LoadMap();
-        //MapReport.dibujaTablaDocs();
+      
     });
 
 </script>
+
 
