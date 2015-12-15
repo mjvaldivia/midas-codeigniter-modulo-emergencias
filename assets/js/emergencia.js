@@ -342,22 +342,11 @@ var Emergencia = {};
         formulario.mostrarFormulario();
     };
     
-    this.editarEmergencia = function (eme_ia_id) {
-        var tabla = $('#tblEmergencias').DataTable({
-            destroy: true
-        });
-        tabla.destroy();
-        content = $("#contenedor-emergencia").html();
-        $("#contenedor-emergencia").fadeOut(function(){
-            $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
-                $(this).load(siteUrl + 'emergencia/editar/id/' + eme_ia_id);
-            });
-        });
-
-        /*window.open(siteUrl + 'emergencia/editar/id/' + eme_ia_id, '_blank');*/
-
-
+    this.editarEmergencia = function (id) {
+        var formulario = new FormEmergenciasEditar(id);
+        formulario.mostrarFormulario();
     };
+    
     this.eliminarEmergencia = function (eme_ia_id) {
         bootbox.dialog({
             title: "Eliminar elemento",

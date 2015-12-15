@@ -140,24 +140,25 @@ class Emergencia extends MY_Controller {
      * Despliega formulario para ingresar nueva emergencia
      */
     public function form_nueva(){
-        $this->load->helper(array("modulo/emergencia/emergencia_form","modulo/direccion/comuna"));
+        $this->load->helper(array("modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"));
         
         $params = $this->uri->uri_to_assoc();
         $alarma = $this->alarma_model->getById($params["id"]);
         if(!is_null($alarma)){
             
-            $data = array("id" => $alarma->ala_ia_id,
-                          "nombre_informante" => $alarma->ala_c_nombre_informante,
+            $data = array("id"                  => $alarma->ala_ia_id,
+                          "nombre_informante"   => $alarma->ala_c_nombre_informante,
                           "telefono_informante" => $alarma->ala_c_telefono_informante,
-                          "nombre_emergencia" => $alarma->ala_c_nombre_emergencia,
-                          "id_tipo_emergencia" => $alarma->tip_ia_id,
-                          "nombre_lugar" => $alarma->ala_c_lugar_emergencia,
-                          "observacion" => $alarma->ala_c_observacion,
-                          "fecha_emergencia" => ISODateTospanish($alarma->ala_d_fecha_emergencia),
-                          "fecha_recepcion" => ISODateTospanish($alarma->ala_d_fecha_recepcion),
-                          "geozone" => $alarma->ala_c_geozone,
-                          "latitud_utm" => $alarma->ala_c_utm_lat,
-                          "longitud_utm" => $alarma->ala_c_utm_lng);
+                          "nombre_emergencia"   => $alarma->ala_c_nombre_emergencia,
+                          "id_tipo_emergencia"  => $alarma->tip_ia_id,
+                          "nombre_lugar"        => $alarma->ala_c_lugar_emergencia,
+                          "observacion"         => $alarma->ala_c_observacion,
+                          "fecha_emergencia"    => ISODateTospanish($alarma->ala_d_fecha_emergencia),
+                          "fecha_recepcion"     => ISODateTospanish($alarma->ala_d_fecha_recepcion),
+                          "geozone"             => $alarma->ala_c_geozone,
+                          "latitud_utm"         => $alarma->ala_c_utm_lat,
+                          "longitud_utm"        => $alarma->ala_c_utm_lng);
             
             $lista_comunas = $this->alarma_comuna_model->listaComunasPorAlarma($alarma->ala_ia_id);
             foreach($lista_comunas as $comuna){
@@ -174,10 +175,11 @@ class Emergencia extends MY_Controller {
      * Guarda nueva emergencia
      */
     public function json_activa_alarma(){
-        $this->load->library(array("alarma/alarmavalidar", "emergencia/emergenciaemail"));
-        //$this->load->library("emergencia/emergenciaemail");
+        $this->load->library(array("alarma/alarmavalidar", 
+                                   "emergencia/emergenciaguardar",
+                                   "emergencia/emergenciaemail"));
+
         $correcto = true;
-        $error    = array();
         
         $params = $this->input->post(null, true);
         
@@ -212,6 +214,11 @@ class Emergencia extends MY_Controller {
                                                   "ala_c_utm_lng" => $params["longitud"],
                                                   "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
                                             $params["id"]);
+                
+                $this->emergenciaguardar->setEmergencia($id);
+                $this->emergenciaguardar->setTipo($params["tipo_emergencia"]);
+                $this->emergenciaguardar->guardar($params);
+                
                 //envio de email
                 $this->emergenciaemail->setEmergencia($id);
                 $respuesta["res_mail"] = $this->emergenciaemail->enviar();
@@ -238,6 +245,45 @@ class Emergencia extends MY_Controller {
         } else {
             show_404();
         }
+    }
+    
+    public function form_editar(){
+        $this->load->helper(array("modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"));
+
+        $params = $this->uri->uri_to_assoc();
+        $emergencia = $this->emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            
+            $alarma = $this->alarma_model->getById($emergencia->ala_ia_id);
+            
+            $data = array("id"                  => $emergencia->eme_ia_id,
+                          "ala_id"              => $emergencia->ala_ia_id,
+                          "nombre_informante"   => $emergencia->eme_c_nombre_informante,
+                          "telefono_informante" => $emergencia->eme_c_telefono_informante,
+                          "nombre_emergencia"   => $emergencia->eme_c_nombre_emergencia,
+                          "id_tipo_emergencia"  => $emergencia->tip_ia_id,
+                          "nombre_lugar"        => $emergencia->eme_c_lugar_emergencia,
+                          "observacion"         => $emergencia->eme_c_observacion,
+                          "fecha_emergencia"    => ISODateTospanish($emergencia->eme_d_fecha_emergencia),
+                          "geozone"             => $alarma->ala_c_geozone,
+                          "latitud_utm"         => $alarma->ala_c_utm_lat,
+                          "longitud_utm"        => $alarma->ala_c_utm_lng);
+            
+            $lista_comunas = $this->emergencia_comuna_model->listaComunasPorEmergencia($emergencia->eme_ia_id);
+            foreach($lista_comunas as $comuna){
+                $data["lista_comunas"][] = $comuna["com_ia_id"];
+            }
+            $data["form_name"] = "form_editar_emergencia";
+            
+            $this->load->view("pages/emergencia/form-editar", $data);
+        }
+    }
+    
+    public function ajax_validar_informacion_emergencia(){
+        $respuesta["correcto"] = true;
+        $respuesta["error"]    = array();
+        echo json_encode($respuesta);
     }
 
     public function jsonTiposEmergencias() {

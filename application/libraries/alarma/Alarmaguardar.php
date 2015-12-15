@@ -90,9 +90,17 @@ Class Alarmaguardar{
                 }
             }
             
-            $update = array("ala_c_datos_tipo_emergencia" => serialize($datos));
-            $this->_alarma_model->update($update, $this->_alarma->ala_ia_id);
+            $this->_guardaDatosTipoEmergencia($datos);
         }
+    }
+    
+    /**
+     * 
+     * @param array $datos
+     */
+    protected function _guardaDatosTipoEmergencia($datos){
+        $update = array("ala_c_datos_tipo_emergencia" => serialize($datos));
+        $this->_alarma_model->update($update, $this->_alarma->ala_ia_id);
     }
 }
 

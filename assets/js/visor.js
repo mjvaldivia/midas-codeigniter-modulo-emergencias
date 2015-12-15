@@ -933,6 +933,7 @@ var VisorMapa = {
             ajax: {
                 url: siteUrl + "instalacion/obtenerJsonDtTipos",
                 type: "GET",
+                cache: false,
                 async: true
             },
             columns: [

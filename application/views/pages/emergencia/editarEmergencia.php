@@ -141,26 +141,23 @@
             </div>
             <div class="form-group ">
 
-        
+                <div class="col-md-offset-4 col-md-8 small"> 
+                    <table id="tabla_doc" class="table table-bordered table-striped dataTable table-hover table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Nombre Archivo</th>
+                            <th>Autor</th>
+                            <th>Fecha</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                    
-                    <div class="col-md-offset-4 col-md-8 small"> 
-                        <table id="tabla_doc" class="table table-bordered table-striped dataTable table-hover table-condensed">
-                            <thead>
-                            <tr>
-                                <th>Nombre Archivo</th>
-                                <th>Autor</th>
-                                <th>Fecha</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>   
-                    </div>
-                   
+                        </tbody>
+                    </table>   
                 </div>
+
+            </div>
             
             
             <div id="botonera" class="col-md-10 text-right">
