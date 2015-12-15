@@ -12,6 +12,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
      */
     __construct : function(value) {
         this.id_emergencia = value;
+        console.log("LLama constructor");
     },
     
     /**
@@ -118,6 +119,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
      * @returns {undefined}
      */
     showPaso3 : function(form){
+        console.log("Inicio mostrando paso 3");
         var yo = this;
         var parametros = $("#" + form).serializeArray();
         $.ajax({         
@@ -135,7 +137,9 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
                     procesaErrores(data.error);
                     $('ul.setup-panel li:eq(2)').removeClass('disabled');
                     $('ul.setup-panel li a[href="#step-3"]').trigger('click');
+                    
                     yo.btnPaso3();
+                    
                 } else {
                     $("#" + form + "_error").removeClass("hidden");
                     procesaErrores(data.error);
@@ -143,7 +147,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
             }
         });   
     },
-    
+        
     /**
      * 
      * @returns {Boolean}

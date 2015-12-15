@@ -83,7 +83,7 @@ var FormAlarma = Class({
             $(path_buttons + "button[data-bb-handler='paso2']").hide();
         }
     },
-    
+        
     /**
      * Configura los steps
      * @returns {void}

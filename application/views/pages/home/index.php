@@ -256,6 +256,10 @@
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
 
+<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+
 <?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
 <?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
 
@@ -265,7 +269,9 @@
 
 <?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js"); ?>
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-editar.js"); ?>
 <?= loadJS("assets/js/modulo/home/form-emergencias-nueva-dashboard.js"); ?>
+<?= loadJS("assets/js/modulo/home/form-emergencias-editar-dashboard.js"); ?>
 <?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>
 
 <?= loadJS("assets/js/modulo/home/mapa.js"); ?>

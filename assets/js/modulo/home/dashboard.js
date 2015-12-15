@@ -358,27 +358,8 @@ var Dashboard = Class({
             $(this).unbind( "click" );
             $(this).click(function(){
                 var id = $(this).attr("data");
-                
-                yo.limpiarVista();
-    
-                yo.content = $("#contenedor-home").html();
-                $("#contenedor-home").fadeOut(function(){
-                    $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
-                        $(this).load(siteUrl + 'emergencia/editar/id/' + id);
-                    });
-                });
-            });
-        });
-        
-        $("#btnCancelar").livequery(function(){
-            $(this).unbind( "click" );
-            $(this).click(function(){
-                $("#contenedor-home").fadeOut(function(){
-                    $(this).html('<div class="text-center"><i class="fa fa-spin fa-spinner fa-5x"></i></div>').fadeIn(function(){
-                        $(this).html(yo.content);
-                        yo.loadDashboard();
-                    });
-                });
+                var formulario = new FormEmergenciasEditarDashboard(id, yo);	
+                formulario.mostrarFormulario();
             });
         });
     },
