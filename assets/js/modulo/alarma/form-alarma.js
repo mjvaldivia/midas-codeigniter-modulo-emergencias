@@ -22,7 +22,7 @@ var FormAlarma = Class({
      */
     __construct : function(value) {
         this.id_alarma = value;
-        this.bindSelectEmergenciaTipo();
+        
     },
     
     
@@ -33,32 +33,29 @@ var FormAlarma = Class({
      */
     bindSelectEmergenciaTipo : function(){
         var yo = this;
-        $("#tipo_emergencia").livequery(function(){
-            $(this).unbind("change");
-            $(this).change(function(){
-                var parametros = {"id_tipo" : $(this).val(),
-                                  "id" : $("#id").val()}
-                $.ajax({         
-                    dataType: "json",
-                    cache: false,
-                    async: false,
-                    data: parametros,
-                    type: "post",
-                    url: siteUrl + "alarma/form_tipo_emergencia", 
-                    error: function(xhr, textStatus, errorThrown){},
-                    success:function(data){
-                        $("#form-tipo-emergencia").html(data.html);
-                        if(data.form){
-                            $("#div-pasos").show();
-                        } else {
-                            $("#div-pasos").hide();
-                        }
-                        yo.btnPaso1();
+        
+        $("#tipo_emergencia").on('change', function() {
+            var parametros = {"id_tipo" : $(this).val(),
+                              "id" : $("#id").val()}
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: parametros,
+                type: "post",
+                url: siteUrl + "alarma/form_tipo_emergencia", 
+                error: function(xhr, textStatus, errorThrown){},
+                success:function(data){
+                    $("#form-tipo-emergencia").html(data.html);
+                    if(data.form){
+                        $("#div-pasos").show();
+                    } else {
+                        $("#div-pasos").hide();
                     }
-                }); 
-            });
-            $(this).trigger("change");
-        });
+                    yo.btnPaso1();
+                }
+            }); 
+        }).change();        
     },
     
     /**
@@ -78,7 +75,7 @@ var FormAlarma = Class({
     btnPaso1 : function(){
         var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
         
-        if($("#tipo_emergencia").val()== 15){
+        if($("#tipo_emergencia").val() == 15){
             $(path_buttons + "button[data-bb-handler='guardar']").hide();
             $(path_buttons + "button[data-bb-handler='paso2']").show();
         } else {
@@ -266,7 +263,7 @@ var FormAlarma = Class({
     callOnShow : function(){
         this.configSteps();
         this.bindComunasPicklist();
-        
+        this.bindSelectEmergenciaTipo();
     },
     
     showPaso2 : function(form){

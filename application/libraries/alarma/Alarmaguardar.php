@@ -69,7 +69,7 @@ Class Alarmaguardar{
      * Guarda los campos del tipo de emergencia
      * @param array $parametros
      */
-    public function guardar($parametros){
+    public function guardarDatosTipoEmergencia($parametros){
         
         switch ($this->_tipo_emergencia->aux_ia_id) {
             case Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA:

@@ -12,8 +12,17 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
      */
     __construct : function(value) {
         this.id_emergencia = value;
-        this.bindSelectEmergenciaTipo();
     },
+    
+    /**
+     * Retorno despues de guardar
+     * @returns void
+     */
+    callBackGuardar : function(){
+       Emergencia.eventoBtnBuscar();
+       notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente");
+    },
+    
     
      /**
      * Control de click al retornar
@@ -78,34 +87,36 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
      */
     bindSelectEmergenciaTipo : function(){
         var yo = this;
-        $("#tipo_emergencia").livequery(function(){
-            $(this).unbind("change");
-            $(this).change(function(){
-                var parametros = {"id_tipo" : $(this).val(),
-                                  "id" : $("#id").val()}
-                $.ajax({         
-                    dataType: "json",
-                    cache: false,
-                    async: false,
-                    data: parametros,
-                    type: "post",
-                    url: siteUrl + "alarma/form_tipo_emergencia", 
-                    error: function(xhr, textStatus, errorThrown){},
-                    success:function(data){
-                        $("#form-tipo-emergencia").html(data.html);
-                        if(data.form){
-                            $("#step3-header").show();
-                        } else {
-                            $("#step3-header").hide();
-                        }
-                        yo.btnPaso1();
+        
+        $("#tipo_emergencia").on('change', function() {
+            var parametros = {"id_tipo" : $(this).val(),
+                              "id" : $("#id").val()}
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: parametros,
+                type: "post",
+                url: siteUrl + "emergencia/form_tipo_emergencia", 
+                error: function(xhr, textStatus, errorThrown){},
+                success:function(data){
+                    $("#form-tipo-emergencia").html(data.html);
+                    if(data.form){
+                        $("#step3-header").show();
+                    } else {
+                        $("#step3-header").hide();
                     }
-                }); 
-            });
-            $(this).trigger("change");
-        });
+                    yo.btnPaso1();
+                }
+            }); 
+        }).change();  
     },
     
+    /**
+     * 
+     * @param {string} form
+     * @returns {undefined}
+     */
     showPaso3 : function(form){
         var yo = this;
         var parametros = $("#" + form).serializeArray();
@@ -131,6 +142,47 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
                 }
             }
         });   
+    },
+    
+    /**
+     * 
+     * @returns {Boolean}
+     */
+    guardar : function(){
+        var yo = this;
+        
+        var parametros = this.getParametros("form_editar_emergencia");
+
+        var salida = false;
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "emergencia/json_guarda_emergencia", 
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(data){
+                if(data.correcto == true){
+                    procesaErrores(data.error);
+                    yo.callBackGuardar();
+                    salida = true;
+                } else {
+                    $("#form_nueva_error").removeClass("hidden");
+                    procesaErrores(data.error);
+                }
+            }
+        }); 
+        
+        return salida;
+    },
+    
+    getParametros : function(form){
+        var parametros = $.merge(this.super("getParametros", form), $("#form-informacion-emergencia").serializeArray());
+        return parametros;
     },
         
     /**
@@ -161,7 +213,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
                             label: " Guardar",
                             className: "btn-success fa fa-check",
                             callback: function() {
-                                return yo.guardaEmergencia();
+                                return yo.guardar();
                             }
                         },  
                         paso2: {
