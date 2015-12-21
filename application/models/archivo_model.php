@@ -39,6 +39,15 @@ class Archivo_Model extends MY_Model {
     }
     
     /**
+     * Retorna la alarma por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("arch_ia_id", $id);
+    }
+    
+    /**
      * 
      * @param string $hash
      * @return object
@@ -62,7 +71,8 @@ class Archivo_Model extends MY_Model {
      */
     public function buscar(array $parametros = array()){
         $query = $this->_query->select("a.*")
-                               ->from($this->_tabla . " a");
+                               ->from($this->_tabla . " a")
+                               ->orderBy("a.arch_f_fecha", "DESC");
         
         $result = $query->getAllResult();
         if(!is_null($result)){
@@ -373,6 +383,25 @@ class Archivo_Model extends MY_Model {
             return $row[0];
         } else
             return 0;
+    }
+    
+    /**
+     * 
+     * @param int $id_archivo
+     */
+    public function remove($id_archivo){
+        $archivo = $this->getById($id_archivo);
+        if(!is_null($archivo)){
+            
+            $this->load->model("archivo_alarma_model", "archivo_alarma_model");
+            $this->archivo_alarma_model->deletePorArchivo($id_archivo);
+            
+            $this->load->model("archivo_emevisor_model", "archivo_emevisor_model");
+            $this->archivo_emevisor_model->deletePorArchivo($id_archivo);
+            
+            $this->query()->delete("arch_ia_id", $id_archivo);
+            @unlink("./" . $archivo->arch_c_nombre);
+        }
     }
 
     public function delete($path) {

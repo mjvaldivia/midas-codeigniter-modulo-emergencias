@@ -14,7 +14,7 @@
             <?php foreach($lista as $row){ ?>
             <tr>
                 <td width="5%" align="center">
-                    <input type="checkbox" name="seleccion[]" value="<?php echo $row["arch_ia_id"] ?>" />
+                    <input type="checkbox" name="seleccion[]" value="<?php echo $row["arch_ia_id"] ?>" class="seleccion-archivo" />
                 </td>
                 <td width="40%" align="left">
                     <a href="<?php echo site_url("archivo/download_file/k/" . $row["arch_c_hash"]); ?>" target="_blank">

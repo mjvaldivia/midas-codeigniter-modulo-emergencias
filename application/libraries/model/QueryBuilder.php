@@ -457,7 +457,7 @@ class QueryBuilder{
     }
 
 
-    public function delete($id){
+    public function delete($primary, $id){
 
         return $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id));
         

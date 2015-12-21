@@ -10,6 +10,108 @@ var MantendorDocumentos = Class({
     __construct : function(value) {
         this.loadGridArchivos();
         this.bindDropzone();
+        this.bindArchivos();
+        
+    },
+    
+    bindArchivos : function(){
+        
+        var yo = this;
+        
+        $(".seleccion-archivo").livequery(function(){
+           $(this).unbind("click");
+           $(this).click(function(){
+               
+                var checked = 0;
+                if($(this).is(":checked")){
+                    checked = 1;
+                }
+               
+                $.ajax({         
+                    dataType: "json",
+                    cache: false,
+                    async: false,
+                    data: "id=" + $(this).val() + "&seleccionado=" + checked,
+                    type: "post",
+                    url: siteUrl + "mantenedor_documentos/selecciona_archivo", 
+                    error: function(xhr, textStatus, errorThrown){},
+                    success:function(data){
+                        if(data.cantidad > 0){
+                            $("#seleccionadas-cantidad").html(data.cantidad);
+                            $("#div-archivos-seleccionados").removeClass("hidden");
+                        } else {
+                            $("#seleccionadas-cantidad").html("0");
+                            $("#div-archivos-seleccionados").addClass("hidden");
+                        }
+                    }
+                }); 
+           });
+        });
+        
+        $("#delete-all").click(function(){
+            bootbox.dialog({
+                message: "¿Realmente desea eliminar los archivos seleccionados?",
+                title: "Eliminar archivos",
+                buttons: {
+                    guardar: {
+                        label: " Eliminar",
+                        className: "btn-success fa fa-check",
+                        callback: function() {
+                            return yo.eliminarArchivos();
+                        }
+                    },
+                    cerrar: {
+                        label: " Cancelar",
+                        className: "btn-white fa fa-close",
+                        callback: function() {
+
+                        }
+                    }
+                }
+            });
+        });
+        
+        $("#clear-all").click(function(){
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: "",
+                type: "post",
+                url: siteUrl + "mantenedor_documentos/limpiar_seleccion", 
+                error: function(xhr, textStatus, errorThrown){},
+                success:function(data){
+                    $("#seleccionadas-cantidad").html("0");
+                    $("#div-archivos-seleccionados").addClass("hidden");
+                    $(".seleccion-archivo").prop( "checked", false );
+                }
+            }); 
+        });
+    },
+    
+    /**
+     * Elimina los archivos seleccionados
+     * @returns {undefined}
+     */
+    eliminarArchivos : function(){
+        
+        var yo = this;
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: "",
+            type: "post",
+            url: siteUrl + "mantenedor_documentos/eliminar_seleccion", 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+                $("#seleccionadas-cantidad").html("0");
+                $("#div-archivos-seleccionados").addClass("hidden");
+                $(".seleccion-archivo").prop( "checked", false );
+                yo.loadGridArchivos();
+            }
+        });   
     },
     
     /**
@@ -54,7 +156,7 @@ var MantendorDocumentos = Class({
                 $("#div-grilla-documentos").html(html);
             }
         });
-    },
+    }
 });
 
 /**

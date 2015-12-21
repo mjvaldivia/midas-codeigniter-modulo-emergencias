@@ -44,11 +44,12 @@
                                 </div>
 
                                 <div class="col-lg-5">
-                                    <div class="alert alert-warning" style="padding: 7px; text-align: center;">
-                                        <strong><span id="seleccionadas-cantidad"><?php echo $this->cantidad; ?></span></strong>
+                                    <div id="div-archivos-seleccionados" class="alert alert-warning hidden" style="padding: 7px; text-align: center;">
+                                        <strong><span id="seleccionadas-cantidad"><?php echo $cantidad; ?></span></strong>
                                         Archivos seleccionados
                                     </div>
                                 </div>
+                                
                                 <div class="col-lg-3" style="text-align: right">
 
                                     <button data-toggle="tooltip"  id="clear-all" class="btn btn-info" title="Limpiar todos los archivos seleccionados">
@@ -106,6 +107,6 @@
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
-
+<?= loadJS("assets/js/bootbox.min.js", true) ?>
 <?= loadJS("assets/lib/dropzone/dropzone.js") ?>
 <?= loadJS("assets/js/modulo/mantenedor/documentos.js") ?>
