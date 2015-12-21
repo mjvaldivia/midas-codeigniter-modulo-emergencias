@@ -30,7 +30,7 @@ class Mantenedor_usuario extends MY_Controller {
     public function ajax_grilla(){
         $params = $this->input->post(null, true);
         
-        $lista = $this->usuario_model->listarUsuariosEmergencia();
+        $lista = $this->usuario_model->listarUsuariosEmergencia($params["filtro_nombre"], $params["filtro_id_region"]);
         
         $this->load->view("pages/mantenedor_usuarios/grilla/grilla-usuarios", array("lista" => $lista));
     }

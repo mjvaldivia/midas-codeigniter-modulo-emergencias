@@ -4,7 +4,13 @@ var MantenedorUsuarios = Class({
      * @returns void
      */
     __construct : function() {
+        var yo = this;
+        
         this.loadGridUsuario();
+        
+        $("#btn-buscar").click(function(){
+            yo.loadGridUsuario();
+        });
     },
     
     /**

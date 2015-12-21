@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <button id="btnBuscarAlarmas" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">
+                            <button id="btn-buscar" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">
                                 <i class="fa fa-search"></i>
                                 Buscar
                             </button>
