@@ -1,11 +1,11 @@
 <?php
 
-require_once(__DIR__ . "/../alarma/Alarmaguardar.php");
+require_once(__DIR__ . "/../alarma/Alarma_guardar.php");
 
 /**
  * Guarda emergencia
  */
-Class Emergencia_guardar extends Alarmaguardar{
+Class Emergencia_guardar extends Alarma_guardar{
     
     /**
      *

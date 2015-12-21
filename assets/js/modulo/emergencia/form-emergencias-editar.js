@@ -48,7 +48,6 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
     btnPaso1 : function(){
         var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
         $(path_buttons + "button[data-bb-handler='guardar']").hide();
-        $(path_buttons + "button[data-bb-handler='paso3']").hide();
         $(path_buttons + "button[data-bb-handler='paso2']").show();
     },
     
@@ -58,27 +57,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
      */
     btnPaso2 : function(){
         var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
-        
-        if($("#tipo_emergencia").val()== 15){
-            $(path_buttons + "button[data-bb-handler='guardar']").hide();
-            $(path_buttons + "button[data-bb-handler='paso3']").show();
-            $(path_buttons + "button[data-bb-handler='paso2']").hide();
-        } else {
-            $(path_buttons + "button[data-bb-handler='guardar']").show();
-            $(path_buttons + "button[data-bb-handler='paso3']").hide();
-            $(path_buttons + "button[data-bb-handler='paso2']").hide();
-        }
-        
-    },
-    
-    /**
-     * Activa los botones presentes en paso 3
-     * @returns {undefined}
-     */
-    btnPaso3 : function(){
-        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
         $(path_buttons + "button[data-bb-handler='guardar']").show();
-        $(path_buttons + "button[data-bb-handler='paso3']").hide();
         $(path_buttons + "button[data-bb-handler='paso2']").hide();
     },
     
@@ -112,42 +91,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
             }); 
         }).change();  
     },
-    
-    /**
-     * 
-     * @param {string} form
-     * @returns {undefined}
-     */
-    showPaso3 : function(form){
-        console.log("Inicio mostrando paso 3");
-        var yo = this;
-        var parametros = $("#" + form).serializeArray();
-        $.ajax({         
-            dataType: "json",
-            cache: false,
-            async: false,
-            data: parametros,
-            type: "post",
-            url: siteUrl + "emergencia/ajax_validar_informacion_emergencia", 
-            error: function(xhr, textStatus, errorThrown){
 
-            },
-            success:function(data){
-                if(data.correcto == true){
-                    procesaErrores(data.error);
-                    $('ul.setup-panel li:eq(2)').removeClass('disabled');
-                    $('ul.setup-panel li a[href="#step-3"]').trigger('click');
-                    
-                    yo.btnPaso3();
-                    
-                } else {
-                    $("#" + form + "_error").removeClass("hidden");
-                    procesaErrores(data.error);
-                }
-            }
-        });   
-    },
-        
     /**
      * 
      * @returns {Boolean}
@@ -165,7 +109,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia/json_guarda_emergencia", 
+            url: siteUrl + "emergencia/save_editar", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -228,14 +172,6 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
                                 return false;
                             }
                         },
-                        paso3: {
-                            label: " Ir al paso 3",
-                            className: "btn-primary fa fa-arrow-right",
-                            callback: function() {
-                                yo.showPaso3("form-informacion-emergencia");
-                                return false;
-                            }
-                        },
                         cerrar: {
                             label: " Cancelar",
                             className: "btn-white fa fa-close",
@@ -245,55 +181,14 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
                         }
                     }
                 });
+                
                 yo.btnPaso1();
                 yo.bindMapa();
                 yo.callOnShow();
-                yo.iniciarUpload();
-                yo.dibujaTablaDocs();
             }
         }); 
     },
-    
-    iniciarUpload : function () {
-        var yo = this;
-        
-        var ala_ia_id = $('#ala_id').val();
-        $("#iDocMaterial").fileinput({
-            language: "es",
-            uploadUrl: siteUrl + "archivo/subir/tipo/5/id/" + ala_ia_id,
-            uploadAsync: true,
-            multiple: true,
-            initialCaption: "Seleccione archivos y luego presione subir",
-            allowedFileTypes: ['image', 'html', 'text', 'video', 'audio', 'flash', 'object']
-        });
-        
-        $('#iDocMaterial').on('filebatchuploadcomplete', function () {
-            yo.dibujaTablaDocs();
-        });
-    },
-    
-    dibujaTablaDocs : function () {
 
-        var ala_ia_id = $('#ala_id').val();
-        $("#tabla_doc").dataTable().fnDestroy();
-        $('#tabla_doc').dataTable({
-            ajax: {
-                url: siteUrl + 'archivo/getDocs/id/' + ala_ia_id + '/tipo/5',
-                type: 'POST',
-                async: true
-            },
-            language: {
-                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
-            },
-             "aoColumns": [
-                null,
-                null,
-                null,
-                {"sClass": "text-center"}
-            ]
-        });
-        $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>");
-    }
     
 });
 

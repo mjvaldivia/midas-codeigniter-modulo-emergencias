@@ -32,7 +32,7 @@ var FormEmergenciasCerrar = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia/json_finalizar_emergencia", 
+            url: siteUrl + "emergencia_finalizar/save", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -62,7 +62,7 @@ var FormEmergenciasCerrar = Class({
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "emergencia/form_finalizar/id/" + this.id, 
+            url: siteUrl + "emergencia_finalizar/form/id/" + this.id, 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -73,14 +73,14 @@ var FormEmergenciasCerrar = Class({
                     buttons: {
                         guardar: {
                             label: " Aceptar",
-                            className: "btn-default fa fa-check",
+                            className: "btn-success fa fa-check",
                             callback: function() {
                                 return yo.guardaFormulario();
                             }
                         },
                         cerrar: {
                             label: " Cancelar",
-                            className: "btn-primary fa fa-close",
+                            className: "btn-white fa fa-close",
                             callback: function() {
 
                             }

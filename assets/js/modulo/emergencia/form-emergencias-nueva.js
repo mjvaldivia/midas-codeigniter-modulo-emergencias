@@ -67,7 +67,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia/json_activa_alarma", 
+            url: siteUrl + "emergencia/save_nuevo", 
             error: function(xhr, textStatus, errorThrown){
 
             },

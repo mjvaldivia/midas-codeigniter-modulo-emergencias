@@ -24,9 +24,7 @@ var FormAlarma = Class({
         this.id_alarma = value;
         
     },
-    
-    
-    
+
     /**
      * Formulario de tipo de emergencia
      * @returns {void}
@@ -75,7 +73,7 @@ var FormAlarma = Class({
     btnPaso1 : function(){
         var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
         
-        if($("#tipo_emergencia").val() == 15){
+        if($("#tipo_emergencia").val() != ""){
             $(path_buttons + "button[data-bb-handler='guardar']").hide();
             $(path_buttons + "button[data-bb-handler='paso2']").show();
         } else {
@@ -229,9 +227,7 @@ var FormAlarma = Class({
         var yo = this;
         
         var parametros = this.getParametros("form_nueva");
-        
-        //console.log($("#form-tipos-emergencia").serializeArray());
-        
+
         var salida = false;
         
         $.ajax({         
@@ -241,9 +237,7 @@ var FormAlarma = Class({
             data: parametros,
             type: "post",
             url: siteUrl + "alarma/guardaAlarma", 
-            error: function(xhr, textStatus, errorThrown){
-
-            },
+            error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);

@@ -1,6 +1,6 @@
 <?php
 
-Class Alarmaguardar{
+Class Alarma_guardar{
     /**
      *
      * @var CI_Controller 
@@ -76,7 +76,7 @@ Class Alarmaguardar{
                 $guardar = true;
                 break;
             default:
-                $guardar = false;
+                $guardar = true;
                 break;
         }
         

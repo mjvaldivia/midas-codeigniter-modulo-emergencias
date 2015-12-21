@@ -17,6 +17,13 @@ class Archivo_Model extends MY_Model {
     public $ALARMA_FOLDER = 'media/doc/alarmas/';
     public $CAPA_FOLDER = 'media/doc/capa/';
     
+    
+    /**
+     * Nombre de tabla
+     * @var string 
+     */
+    protected $_tabla = "archivo";
+    
     /**
      * Constructor
      */
@@ -28,6 +35,40 @@ class Archivo_Model extends MY_Model {
             $this->EMERGENCIA_FOLDER = $this->DOC_FOLDER . "emergencia/";
             $this->ALARMA_FOLDER     = $this->DOC_FOLDER . "alarmas/";
             $this->CAPA_FOLDER       = $this->DOC_FOLDER . "capa/";
+        }
+    }
+    
+    /**
+     * 
+     * @param string $hash
+     * @return object
+     */
+    public function getByHash($hash){
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a")
+                               ->whereAND("a.arch_c_hash", $hash);
+        $result = $query->getOneResult();
+        if(!is_null($result)){
+            return $result;
+        }else{
+            return NULL;
+        }
+    }
+    
+    /**
+     * Listar
+     * @param array $parametros
+     * @return array
+     */
+    public function buscar(array $parametros = array()){
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a");
+        
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
         }
     }
     

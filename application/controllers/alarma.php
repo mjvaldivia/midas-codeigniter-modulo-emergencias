@@ -125,7 +125,7 @@ class Alarma extends MY_Controller {
         $alarma = $this->AlarmaModel->getById($params["id"]);
         if(!is_null($alarma)){
             
-            $data = array("id" => $alarma->ala_ia_id,
+            $data = array("ala_id" => $alarma->ala_ia_id,
                           "nombre_informante"   => $alarma->ala_c_nombre_informante,
                           "telefono_informante" => $alarma->ala_c_telefono_informante,
                           "nombre_emergencia"   => $alarma->ala_c_nombre_emergencia,
@@ -210,7 +210,7 @@ class Alarma extends MY_Controller {
      */
     public function guardaAlarma() {       
         $this->load->library(array("alarma/alarmavalidar", 
-                                   "alarma/alarmaguardar"));
+                                   "alarma/alarma_guardar"));
         
         $params = $this->input->post(null, true);
         
@@ -235,7 +235,7 @@ class Alarma extends MY_Controller {
                             "ala_c_geozone" => $params['geozone']
                            );
 
-            $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["id"]);
+            $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["ala_id"]);
 
             //la alarma ya existia
             if(!is_null($alerta)){
@@ -254,9 +254,9 @@ class Alarma extends MY_Controller {
                 $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
             }
             
-            $this->alarmaguardar->setAlarma($id);
-            $this->alarmaguardar->setTipo($params["tipo_emergencia"]);
-            $this->alarmaguardar->guardarDatosTipoEmergencia($params);
+            $this->alarma_guardar->setAlarma($id);
+            $this->alarma_guardar->setTipo($params["tipo_emergencia"]);
+            $this->alarma_guardar->guardarDatosTipoEmergencia($params);
 
         }
         

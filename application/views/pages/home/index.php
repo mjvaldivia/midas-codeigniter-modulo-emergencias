@@ -95,7 +95,7 @@
                 <?php if(puedeVer("documentacion")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="#">
+                        <a href="<?= site_url("/mantenedor_documentos/index") ?>">
                             <div class="circle-tile-heading dark-blue">
                                 <i class="fa fa-book fa-fw fa-3x"></i>
                             </div>
@@ -104,7 +104,7 @@
                             <div class="circle-tile-description text-faded">
                                 Documentación
                             </div>
-                            <a href="<?= site_url("/") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?= site_url("/mantenedor_documentos/index") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>

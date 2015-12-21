@@ -7,7 +7,18 @@ require_once(BASEPATH . "../application/models/tipo_emergencia_model.php");
  */
 Class Alarma_form_tipo{
     
+    /**
+     * Ubicacion de los templates para formulario
+     * @var string 
+     */
+    protected $_path = "pages/alarma/form-tipos-emergencia/";
+    
+    /**
+     * Formularios
+     * @var type 
+     */
     protected $_path_form = array(
+                                  "default" => "form-general",
                                   Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA => "form-radiologica"
                                  );
     /**
@@ -81,28 +92,37 @@ Class Alarma_form_tipo{
         if(!is_null($this->_emergencia_tipo)){
             switch ($this->_emergencia_tipo->aux_ia_id) {
                 case Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA:
-                    
-                    $array = array();
-                    
-                    $datos = unserialize($this->_getDataFromBd());
-                    if(is_array($datos) && count($datos)>0){
-                        foreach($datos as $nombre_input => $valor){
-                            $array["form_tipo_" . $nombre_input] = $valor;
-                        }
-                    }
-                    
-                    
-                    $respuesta["path"] = "pages/alarma/form-tipos-emergencia/" . $this->_path_form[Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA];
-                    $respuesta["data"] = $array;
-                    $respuesta["form"] = true;
+                    $respuesta["path"] = $this->_path . $this->_path_form[Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA];
                     break;
                 default:
+                    $respuesta["path"] = $this->_path . $this->_path_form["default"];
                     break;
+                    
             }
+            $respuesta["data"] = $this->_populate();
+            $respuesta["form"] = true;
         }
         
         return $respuesta;
     }
+    
+    /**
+     * 
+     * @return array
+     */
+    protected function _populate(){
+        $array = array();
+                    
+        $datos = unserialize($this->_getDataFromBd());
+        if(is_array($datos) && count($datos)>0){
+            foreach($datos as $nombre_input => $valor){
+                $array["form_tipo_" . $nombre_input] = $valor;
+            }
+        }
+        
+        return $array;
+    }
+    
     
     /**
      * Retorna la data

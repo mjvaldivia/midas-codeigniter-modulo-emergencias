@@ -62,8 +62,6 @@ class Emergencia extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
-        $this->load->library("template");
-        $this->load->helper(array("session","utils"));
 
         $this->load->model("emergencia_model", "emergencia_model");
         $this->load->model("emergencia_estado_model", "emergencia_estado_model");
@@ -74,104 +72,66 @@ class Emergencia extends MY_Controller {
         
         sessionValidation();
     }
-    
-    /**
-     * Despliega formulario para cerrar emergencia
-     */
-    public function form_finalizar(){
-        $params = $this->uri->uri_to_assoc();
-        $emergencia = $this->emergencia_model->getById($params["id"]);
-        if(!is_null($emergencia)){
-            
-            $data = array("id" => $emergencia->eme_ia_id,
-                          "nombre" => $emergencia->eme_c_nombre_emergencia,
-                          "fecha" => Date("d-m-Y h:i"));
-            
-            $this->load->view("pages/emergencia/form-cerrar", $data);
-        } else {
-            show_404();
-        }
-    }
-    
-    /**
-     * Finaliza una emergencia
-     */
-    public function json_finalizar_emergencia(){
-        $this->load->library("validar");
-        $correcto = true;
-        $error = array();
-        
-        $params = $this->input->post(null, true);
-        $emergencia = $this->emergencia_model->getById($params["id"]);
-        if(!is_null($emergencia)){
-            
-            if(!$this->validar->validarFechaSpanish($params["fecha_cierre"])){
-                $correcto = false;
-                $error["fecha-cierre"] = "Debe ingresar una fecha";
-            } else {
-                $error["fecha-cierre"] = "";
-            }
-            
-            if(!$this->validar->validarVacio($params["comentarios_cierre"])){
-                $correcto = false;
-                $error["comentarios_cierre"] = "Debe ingresar los comentarios";
-            } else {
-                $error["comentarios_cierre"] = "";
-            }
 
-            if($correcto){
-                $data = array("est_ia_id" => Emergencia_Estado_Model::CERRADA,
-                              "eme_d_fecha_cierre" => spanishDateToISO($params["fecha_cierre"]),
-                              "eme_c_comentario_cierre" => $params["comentarios_cierre"]);
-                $this->emergencia_model->query()->update($data, "eme_ia_id",  $emergencia->eme_ia_id);
-            }
-            
-            $respuesta = array("correcto" => $correcto,
-                               "error" => $error);
-            
-            echo json_encode($respuesta);
-        } else {
-            show_404();
-        }
-    }
-
-    
     /**
      * Despliega formulario para ingresar nueva emergencia
      */
-    public function form_nueva(){
-        $this->load->helper(array("modulo/emergencia/emergencia_form",
-                                  "modulo/direccion/comuna"));
-        
+    public function form_nueva()
+    {
         $params = $this->uri->uri_to_assoc();
-        $alarma = $this->alarma_model->getById($params["id"]);
-        if(!is_null($alarma)){
-            
-            $data = array("id"                  => $alarma->ala_ia_id,
-                          "nombre_informante"   => $alarma->ala_c_nombre_informante,
-                          "telefono_informante" => $alarma->ala_c_telefono_informante,
-                          "nombre_emergencia"   => $alarma->ala_c_nombre_emergencia,
-                          "id_tipo_emergencia"  => $alarma->tip_ia_id,
-                          "nombre_lugar"        => $alarma->ala_c_lugar_emergencia,
-                          "observacion"         => $alarma->ala_c_observacion,
-                          "fecha_emergencia"    => ISODateTospanish($alarma->ala_d_fecha_emergencia),
-                          "fecha_recepcion"     => ISODateTospanish($alarma->ala_d_fecha_recepcion),
-                          "geozone"             => $alarma->ala_c_geozone,
-                          "latitud_utm"         => $alarma->ala_c_utm_lat,
-                          "longitud_utm"        => $alarma->ala_c_utm_lng);
-            
-            $lista_comunas = $this->alarma_comuna_model->listaComunasPorAlarma($alarma->ala_ia_id);
-            foreach($lista_comunas as $comuna){
-                $data["lista_comunas"][] = $comuna["com_ia_id"];
-            }
-            $data["form_name"] = "form_nueva_emergencia";
-            $this->load->view("pages/alarma/form", $data);
-        } else {
-            show_404();
-        }
+        
+        $this->load->helper(
+                            array(
+                                  "modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"
+                                 )
+                           );
+        
+        $this->load->library(
+                             array(
+                                   "emergencia/emergencia_edit"
+                                  )
+                            );
+
+        $this->emergencia_edit->setAlarma($params["id"]);
+        $data = $this->emergencia_edit->getNewData();
+        
+        $data["form_name"] = "form_nueva_emergencia";
+        $this->load->view("pages/alarma/form", $data);
+       
     }
     
-    public function json_guarda_emergencia(){
+    /**
+     * Despliega formulario para editar la emergencia
+     */
+    public function form_editar()
+    {
+        $params = $this->uri->uri_to_assoc();
+        
+        $this->load->helper(
+                            array(
+                                  "modulo/emergencia/emergencia_form",
+                                  "modulo/direccion/comuna"
+                                 )
+                           );
+        
+        $this->load->library(
+                             array(
+                                   "emergencia/emergencia_edit"
+                                  )
+                            );
+        
+        $this->emergencia_edit->setEmergencia($params["id"]);
+        $data = $this->emergencia_edit->getEditData();
+        
+        $data["form_name"] = "form_editar_emergencia";
+        $this->load->view("pages/alarma/form", $data);
+    }
+    
+    /**
+     * Guarda la emergencia
+     */
+    public function save_editar(){
         $this->load->library(array("alarma/alarmavalidar", 
                                    "emergencia/emergencia_guardar"));
         
@@ -179,7 +139,7 @@ class Emergencia extends MY_Controller {
         
         $params = $this->input->post(null, true);
         
-        $emergencia = $this->emergencia_model->getById($params["id"]);
+        $emergencia = $this->emergencia_model->getById($params["eme_id"]);
         if(!is_null($emergencia)){
                         
             $correcto = $this->alarmavalidar->esValido($params);
@@ -207,7 +167,7 @@ class Emergencia extends MY_Controller {
                         "eme_c_informacion_adicional" => $params["editar_informacion"]
                        );
                 
-                $this->emergencia_guardar->setEmergencia($params["id"]);
+                $this->emergencia_guardar->setEmergencia($emergencia->eme_ia_id);
                 $this->emergencia_guardar->guardar($data);
                 $this->emergencia_guardar->setComunas($params['comunas']);
                 $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
@@ -251,7 +211,7 @@ class Emergencia extends MY_Controller {
     /**
      * Guarda nueva emergencia
      */
-    public function json_activa_alarma(){
+    public function save_nuevo(){
         $this->load->library(array("alarma/alarmavalidar", 
                                    "emergencia/emergencia_guardar",
                                    "emergencia/emergencia_email"));
@@ -260,7 +220,7 @@ class Emergencia extends MY_Controller {
         
         $params = $this->input->post(null, true);
         
-        $alarma = $this->alarma_model->getById($params["id"]);
+        $alarma = $this->alarma_model->getById($params["ala_id"]);
         if(!is_null($alarma)){
                         
             $correcto = $this->alarmavalidar->esValido($params);
@@ -321,55 +281,6 @@ class Emergencia extends MY_Controller {
         } else {
             show_404();
         }
-    }
-    
-    public function form_editar(){
-        $this->load->helper(array("modulo/emergencia/emergencia_form",
-                                  "modulo/direccion/comuna"));
-
-        $params = $this->uri->uri_to_assoc();
-        $emergencia = $this->emergencia_model->getById($params["id"]);
-        if(!is_null($emergencia)){
-            
-            $alarma = $this->alarma_model->getById($emergencia->ala_ia_id);
-            
-            $data = array("id"                  => $emergencia->eme_ia_id,
-                          "ala_id"              => $emergencia->ala_ia_id,
-                          "nombre_informante"   => $emergencia->eme_c_nombre_informante,
-                          "telefono_informante" => $emergencia->eme_c_telefono_informante,
-                          "nombre_emergencia"   => $emergencia->eme_c_nombre_emergencia,
-                          "id_tipo_emergencia"  => $emergencia->tip_ia_id,
-                          "nombre_lugar"        => $emergencia->eme_c_lugar_emergencia,
-                          "observacion"         => $emergencia->eme_c_observacion,
-                          "fecha_emergencia"    => ISODateTospanish($emergencia->eme_d_fecha_emergencia),
-                
-                          "recursos" => $emergencia->eme_c_recursos,
-                          "riesgo"   => $emergencia->eme_c_riesgo,
-                          "numero_heridos"     => $emergencia->eme_c_heridos,
-                          "numero_fallecidos"  => $emergencia->eme_c_fallecidos,
-                          "capacidad_superada" => $emergencia->eme_c_capacidad,
-                          "descripcion_evento" => $emergencia->eme_c_descripcion,
-                          "acciones"           => $emergencia->eme_c_acciones,
-                          "informacion"        => $emergencia->eme_c_informacion_adicional,
-                          
-                          "geozone"             => $alarma->ala_c_geozone,
-                          "latitud_utm"         => $alarma->ala_c_utm_lat,
-                          "longitud_utm"        => $alarma->ala_c_utm_lng);
-            
-            $lista_comunas = $this->emergencia_comuna_model->listaComunasPorEmergencia($emergencia->eme_ia_id);
-            foreach($lista_comunas as $comuna){
-                $data["lista_comunas"][] = $comuna["com_ia_id"];
-            }
-            $data["form_name"] = "form_editar_emergencia";
-            
-            $this->load->view("pages/emergencia/form-editar", $data);
-        }
-    }
-    
-    public function ajax_validar_informacion_emergencia(){
-        $respuesta["correcto"] = true;
-        $respuesta["error"]    = array();
-        echo json_encode($respuesta);
     }
 
     public function jsonTiposEmergencias() {
