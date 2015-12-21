@@ -8,6 +8,16 @@ class Region_Model extends MY_Model{
      */
     protected $_tabla = "regiones";
     
+    
+    /**
+     * 
+     * @param int $id
+     * @return int
+     */
+    public function getById($id){
+        return $this->_query->getById("reg_ia_id", $id);
+    }
+    
     /**
      * 
      * @return array

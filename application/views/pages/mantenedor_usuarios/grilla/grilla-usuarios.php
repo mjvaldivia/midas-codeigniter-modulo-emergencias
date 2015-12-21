@@ -53,7 +53,7 @@
                     <?php echo $row["usu_c_email"]; ?>
                 </td>
                 <td>
-                    <?php echo $row["reg_ia_id"]; ?>
+                    <?php echo nombreRegion($row["reg_ia_id"]); ?>
                 </td>
             </tr>
             <?php } ?>

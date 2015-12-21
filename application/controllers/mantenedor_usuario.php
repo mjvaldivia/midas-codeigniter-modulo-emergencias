@@ -13,6 +13,7 @@ class Mantenedor_usuario extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
+        $this->load->helper(array("modulo/direccion/region"));
         $this->load->model("usuario_model", "usuario_model");
     }
     
@@ -20,7 +21,6 @@ class Mantenedor_usuario extends MY_Controller {
      * Listado de usuarios
      */
     public function index(){
-        $this->load->helper(array("modulo/direccion/region"));
         $this->template->parse("default", "pages/mantenedor_usuarios/index", array());
     }
     
