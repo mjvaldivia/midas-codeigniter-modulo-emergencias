@@ -85,7 +85,7 @@ Class Layout_Menu_Render{
                                                             "controller" => "",
                                                             "action" => "",
                                                             "child" => array("Mantenedor" => array(
-                                                                                            "controller" => "mantenedorusuario",
+                                                                                            "controller" => "mantenedor_usuario",
                                                                                             "action"     => "index"),
                                                                              "Permisos" => array(
                                                                                             "controller" => "permiso",

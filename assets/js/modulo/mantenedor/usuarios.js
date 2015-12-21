@@ -1,4 +1,4 @@
-var UsuarioListado = Class({
+var MantenedorUsuarios = Class({
     /**
      * Carga de dependencias
      * @returns void
@@ -20,7 +20,7 @@ var UsuarioListado = Class({
             async: true,
             data: $("#busqueda").serializeArray(),
             type: "post",
-            url: siteUrl + "mantenedorusuario/ajax_grilla", 
+            url: siteUrl + "mantenedor_usuario/ajax_grilla", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(html){
                 $("#grilla-usuarios").html(html);
@@ -35,6 +35,6 @@ var UsuarioListado = Class({
  * Inicio front-end
  */
 $(document).ready(function() {
-    var listado = new UsuarioListado();	
+    var listado = new MantenedorUsuarios();	
 });
 

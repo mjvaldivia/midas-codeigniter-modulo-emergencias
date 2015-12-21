@@ -1,6 +1,6 @@
 <?php
 
-class Mantenedorusuario extends MY_Controller {
+class Mantenedor_usuario extends MY_Controller {
     
     /**
      *
@@ -21,7 +21,7 @@ class Mantenedorusuario extends MY_Controller {
      */
     public function index(){
         $this->load->helper(array("modulo/direccion/region"));
-        $this->template->parse("default", "pages/usuario/index", array());
+        $this->template->parse("default", "pages/mantenedor_usuarios/index", array());
     }
     
     /**
@@ -32,7 +32,7 @@ class Mantenedorusuario extends MY_Controller {
         
         $lista = $this->usuario_model->listarUsuariosEmergencia();
         
-        $this->load->view("pages/usuario/grilla/grilla-usuarios", array("lista" => $lista));
+        $this->load->view("pages/mantenedor_usuarios/grilla/grilla-usuarios", array("lista" => $lista));
     }
 }
 

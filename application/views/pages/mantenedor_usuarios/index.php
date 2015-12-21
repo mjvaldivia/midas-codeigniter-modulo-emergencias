@@ -79,4 +79,4 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
-<?= loadJS("assets/js/modulo/usuario/listado.js") ?>
+<?= loadJS("assets/js/modulo/mantenedor/usuarios.js") ?>
