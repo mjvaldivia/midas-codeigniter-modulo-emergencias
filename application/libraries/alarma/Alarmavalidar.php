@@ -1,6 +1,7 @@
 <?php
 
 Class Alarmavalidar{
+    
     /**
      *
      * @var boolean

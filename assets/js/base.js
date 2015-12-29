@@ -37,7 +37,8 @@ $(document).ready(function() {
     $(".select2-tags").livequery(function(){
         $(this).select2({
             width: '100%',
-            tags: true
+            tags: true,
+            allowClear: true
         });
     });
     
