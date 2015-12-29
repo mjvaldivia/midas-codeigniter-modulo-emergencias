@@ -52,7 +52,7 @@
                                   <?php } ?>
                                   
                                   <li>
-                                      <a data-toggle='modal' class=' modal-sipresa' data-style='width:80%;' data-href='<?php echo site_url("visor/reporte/id/" . $row["eme_ia_id"] . "/ala_ia_id/" . $row["ala_ia_id"] . "/eme_ia_id/" . $row["eme_ia_id"]) ?>' data-title='Administracion del Reporte' data-target='#modal_<?php echo $row["eme_ia_id"]; ?>'>
+                                      <a style="cursor: pointer" data-toggle='modal' class='modal-sipresa' data-style='width:80%;' data-href='<?php echo site_url("visor/reporte/id/" . $row["eme_ia_id"] . "/ala_ia_id/" . $row["ala_ia_id"] . "/eme_ia_id/" . $row["eme_ia_id"]) ?>' data-title='Administracion del Reporte' data-target='#modal_<?php echo $row["eme_ia_id"]; ?>'>
                                           <i class="fa fa-file-text-o"></i> Reporte
                                       </a>
                                   </li>

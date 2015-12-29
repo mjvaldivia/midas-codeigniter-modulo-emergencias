@@ -61,8 +61,8 @@ Class Layout_Menu_Render{
                                                          "child" => array()), 
                                    "Documentación" => array("icon_class" => "fa-book",
                                                             "permiso" => "documentacion",
-                                                            "controller" => "",
-                                                            "action" => "",
+                                                            "controller" => "mantenedor_documentos",
+                                                            "action" => "index",
                                                             "child" => array()), 
                                    "Soportes" => array("icon_class" => "fa-question-circle",
                                                             "controller" => "",
@@ -85,7 +85,7 @@ Class Layout_Menu_Render{
                                                             "controller" => "",
                                                             "action" => "",
                                                             "child" => array("Mantenedor" => array(
-                                                                                            "controller" => "mantenedorusuario",
+                                                                                            "controller" => "mantenedor_usuario",
                                                                                             "action"     => "index"),
                                                                              "Permisos" => array(
                                                                                             "controller" => "permiso",

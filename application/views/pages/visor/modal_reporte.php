@@ -193,11 +193,9 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-  MapReport.dibujaTablaDocs();
+        MapReport.dibujaTablaDocs();
         MapReport.LoadMap();
-      
     });
-
 </script>
 
 

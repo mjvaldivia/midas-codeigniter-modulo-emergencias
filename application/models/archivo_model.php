@@ -17,6 +17,13 @@ class Archivo_Model extends MY_Model {
     public $ALARMA_FOLDER = 'media/doc/alarmas/';
     public $CAPA_FOLDER = 'media/doc/capa/';
     
+    
+    /**
+     * Nombre de tabla
+     * @var string 
+     */
+    protected $_tabla = "archivo";
+    
     /**
      * Constructor
      */
@@ -28,6 +35,50 @@ class Archivo_Model extends MY_Model {
             $this->EMERGENCIA_FOLDER = $this->DOC_FOLDER . "emergencia/";
             $this->ALARMA_FOLDER     = $this->DOC_FOLDER . "alarmas/";
             $this->CAPA_FOLDER       = $this->DOC_FOLDER . "capa/";
+        }
+    }
+    
+    /**
+     * Retorna la alarma por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("arch_ia_id", $id);
+    }
+    
+    /**
+     * 
+     * @param string $hash
+     * @return object
+     */
+    public function getByHash($hash){
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a")
+                               ->whereAND("a.arch_c_hash", $hash);
+        $result = $query->getOneResult();
+        if(!is_null($result)){
+            return $result;
+        }else{
+            return NULL;
+        }
+    }
+    
+    /**
+     * Listar
+     * @param array $parametros
+     * @return array
+     */
+    public function buscar(array $parametros = array()){
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a")
+                               ->orderBy("a.arch_f_fecha", "DESC");
+        
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
         }
     }
     
@@ -332,6 +383,25 @@ class Archivo_Model extends MY_Model {
             return $row[0];
         } else
             return 0;
+    }
+    
+    /**
+     * 
+     * @param int $id_archivo
+     */
+    public function remove($id_archivo){
+        $archivo = $this->getById($id_archivo);
+        if(!is_null($archivo)){
+            
+            $this->load->model("archivo_alarma_model", "archivo_alarma_model");
+            $this->archivo_alarma_model->deletePorArchivo($id_archivo);
+            
+            $this->load->model("archivo_emevisor_model", "archivo_emevisor_model");
+            $this->archivo_emevisor_model->deletePorArchivo($id_archivo);
+            
+            $this->query()->delete("arch_ia_id", $id_archivo);
+            @unlink("./" . $archivo->arch_c_nombre);
+        }
     }
 
     public function delete($path) {

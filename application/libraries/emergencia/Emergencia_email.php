@@ -1,6 +1,6 @@
 <?php
 
-Class Emergenciaemail{
+Class Emergencia_email{
     
     /**
      *

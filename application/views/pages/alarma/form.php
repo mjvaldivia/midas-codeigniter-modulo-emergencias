@@ -17,8 +17,8 @@
         <div class="col-xs-12">
             <div class="col-md-12 well text-center">
                 <form  id="<?= $form_name ?>" name="<?= $form_name ?>" enctype="application/x-www-form-urlencoded" action="" method="post">
-                    <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"/>
-
+                    <input type="hidden" name="eme_id" id="eme_id" value="<?php echo $eme_id; ?>"/>
+                    <input type="hidden" name="ala_id" id="ala_id" value="<?php echo $ala_id; ?>" />
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="row">

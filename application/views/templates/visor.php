@@ -50,21 +50,31 @@
     <div class="row">
     <div class=" col-md-12" style="margin-top:5px;">
         <div class="col-md-9">
-            <div class="col-md-2 col-xs-2">
+            <div class="col-md-1 col-xs-1">
                 <img src="<?= base_url("/assets/img/logo_visor.jpg") ?>" class="logo-visor">
             </div>
             <div class="col-md- 10 col-xs-10">
-                <div class="row small" style="line-height: 35px;">
-                    <div class="col-md-2 col-xs-12">
-                        <p class="btn btn-primary btn-sm"><strong>Código:</strong> <span class="badge"><?= $emergencia["eme_ia_id"] ?></span></p>
-                    </div>
-                    <div class="col-md-5 col-xs-12">
-                        <p class="btn btn-primary btn-sm" style="width:100%;"><strong>Nombre Emergencia:</strong>&nbsp;<span class="badge"><?= $emergencia["eme_c_nombre_emergencia"] ?></span></p>
-                    </div>
-                    <div class="col-md-5 col-xs-12">
-                        <p class="btn btn-primary btn-sm" style="width:100%;"><strong>Tipo Emergencia:</strong>&nbsp;<span class="badge"><?= $emergencia["tipo_emergencia"] ?></span></p>
-                    </div>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <?= $emergencia["eme_c_nombre_emergencia"]?>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#">Código: <span class="badge"><?= $emergencia["eme_ia_id"]?></span></a></li>
+                        <li><a href="#">Tipo: <span class="badge"><?= $emergencia["tipo_emergencia"]?></span></a></li>
+                    </ul>
                 </div>
+                <!--<div class="row small" style="line-height: 35px;">
+                    <div class="col-md-2 col-xs-12">
+                        <p class="btn btn-primary btn-sm"><strong>Código:</strong> <span class="badge"><?/*= $emergencia["eme_ia_id"] */?></span></p>
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <p class="btn btn-primary btn-sm" style="width:100%;"><strong>Nombre Emergencia:</strong>&nbsp;<span class="badge"><?/*= $emergencia["eme_c_nombre_emergencia"] */?></span></p>
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <p class="btn btn-primary btn-sm" style="width:100%;"><strong>Tipo Emergencia:</strong>&nbsp;<span class="badge"><?/*= $emergencia["tipo_emergencia"] */?></span></p>
+                    </div>
+                </div>-->
                
             </div>
         </div>

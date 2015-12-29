@@ -22,44 +22,38 @@ var FormAlarma = Class({
      */
     __construct : function(value) {
         this.id_alarma = value;
-        this.bindSelectEmergenciaTipo();
+        
     },
-    
-    
-    
+
     /**
      * Formulario de tipo de emergencia
      * @returns {void}
      */
     bindSelectEmergenciaTipo : function(){
         var yo = this;
-        $("#tipo_emergencia").livequery(function(){
-            $(this).unbind("change");
-            $(this).change(function(){
-                var parametros = {"id_tipo" : $(this).val(),
-                                  "id" : $("#id").val()}
-                $.ajax({         
-                    dataType: "json",
-                    cache: false,
-                    async: false,
-                    data: parametros,
-                    type: "post",
-                    url: siteUrl + "alarma/form_tipo_emergencia", 
-                    error: function(xhr, textStatus, errorThrown){},
-                    success:function(data){
-                        $("#form-tipo-emergencia").html(data.html);
-                        if(data.form){
-                            $("#div-pasos").show();
-                            yo.btnPaso2();
-                        } else {
-                            $("#div-pasos").hide();
-                            yo.btnPaso1();
-                        }
+        
+        $("#tipo_emergencia").on('change', function() {
+            var parametros = {"id_tipo" : $(this).val(),
+                              "id" : $("#ala_id").val()}
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: parametros,
+                type: "post",
+                url: siteUrl + "alarma/form_tipo_emergencia", 
+                error: function(xhr, textStatus, errorThrown){},
+                success:function(data){
+                    $("#form-tipo-emergencia").html(data.html);
+                    if(data.form){
+                        $("#div-pasos").show();
+                    } else {
+                        $("#div-pasos").hide();
                     }
-                }); 
-            });
-            $(this).trigger("change");
-        });
+                    yo.btnPaso1();
+                }
+            }); 
+        }).change();        
     },
     
     /**
@@ -68,8 +62,8 @@ var FormAlarma = Class({
      */
     btnPaso2 : function(){
         var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
-        $(path_buttons + "button[data-bb-handler='guardar']").hide();
-        $(path_buttons + "button[data-bb-handler='paso2']").show();
+        $(path_buttons + "button[data-bb-handler='guardar']").show();
+        $(path_buttons + "button[data-bb-handler='paso2']").hide();
     },
     
     /**
@@ -78,10 +72,16 @@ var FormAlarma = Class({
      */
     btnPaso1 : function(){
         var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
-        $(path_buttons + "button[data-bb-handler='guardar']").show();
-        $(path_buttons + "button[data-bb-handler='paso2']").hide();
+        
+        if($("#tipo_emergencia").val() != ""){
+            $(path_buttons + "button[data-bb-handler='guardar']").hide();
+            $(path_buttons + "button[data-bb-handler='paso2']").show();
+        } else {
+            $(path_buttons + "button[data-bb-handler='guardar']").show();
+            $(path_buttons + "button[data-bb-handler='paso2']").hide();
+        }
     },
-    
+        
     /**
      * Configura los steps
      * @returns {void}
@@ -105,9 +105,8 @@ var FormAlarma = Class({
                 allWells.hide();
                 $target.show();
                 
-                if($(this).attr("href") == "#step-1"){
-                    yo.btnPaso2();
-                }
+                yo.controlBackSteps(this);
+                
                                            
             }
         });
@@ -118,6 +117,18 @@ var FormAlarma = Class({
                 $(this).addClass("disabled");
             });
         });
+    },
+    
+    /**
+     * Control de click al retornar
+     * @param {object} navItem
+     * @returns {undefined}
+     */
+    controlBackSteps : function(navItem){
+        var yo = this;
+        if($(navItem).attr("href") == "#step-1"){
+            yo.btnPaso1();
+        }
     },
     
     /**
@@ -216,9 +227,7 @@ var FormAlarma = Class({
         var yo = this;
         
         var parametros = this.getParametros("form_nueva");
-        
-        //console.log($("#form-tipos-emergencia").serializeArray());
-        
+
         var salida = false;
         
         $.ajax({         
@@ -228,9 +237,7 @@ var FormAlarma = Class({
             data: parametros,
             type: "post",
             url: siteUrl + "alarma/guardaAlarma", 
-            error: function(xhr, textStatus, errorThrown){
-
-            },
+            error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
@@ -250,7 +257,7 @@ var FormAlarma = Class({
     callOnShow : function(){
         this.configSteps();
         this.bindComunasPicklist();
-        
+        this.bindSelectEmergenciaTipo();
     },
     
     showPaso2 : function(form){
@@ -271,12 +278,9 @@ var FormAlarma = Class({
                     procesaErrores(data.error);
                     $('ul.setup-panel li:eq(1)').removeClass('disabled');
                     $('ul.setup-panel li a[href="#step-2"]').trigger('click');
-
-                    yo.btnPaso1();
- 
-
+                    yo.btnPaso2();
                 } else {
-                    $("#" + form + "_error").removeClass("hidden");
+                    $("#" + form + "_error").addClass("hidden");
                     procesaErrores(data.error);
                 }
             }

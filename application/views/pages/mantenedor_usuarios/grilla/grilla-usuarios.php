@@ -26,14 +26,14 @@
 
                                 <ul class="dropdown-menu" role="menu">                                  
                                   <li>
-                                      <a data="" class="editar" href="#">
+                                      <a data="<?php echo $row["usu_ia_id"]; ?>" class="editar" href="#">
                                           <i class="fa fa-edit"></i> Editar
                                       </a>
                                   </li>
                     
                                   <li class="divider"></li>
                                   <li>
-                                      <a data="" class="alarma-eliminar" href="#">
+                                      <a data="<?php echo $row["usu_ia_id"]; ?>" class="alarma-eliminar" href="#">
                                           <i class="fa fa-trash"></i> Eliminar
                                       </a>
                                   </li>
@@ -53,7 +53,7 @@
                     <?php echo $row["usu_c_email"]; ?>
                 </td>
                 <td>
-                    <?php echo $row["reg_ia_id"]; ?>
+                    <?php echo nombreRegion($row["reg_ia_id"]); ?>
                 </td>
             </tr>
             <?php } ?>

@@ -7,29 +7,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
     recargaGrilla : function(){
         $("#btnBuscarAlarmas").trigger("click");
     },
-    
-    /**
-     * Activa los botones presentes en el paso 2
-     * @returns {undefined}
-     */
-    btnPaso2 : function(){
-        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
-        $(path_buttons + "button[data-bb-handler='guardar']").hide();
-        //$(path_buttons + "button[data-bb-handler='rechazar']").hide();
-        $(path_buttons + "button[data-bb-handler='paso2']").show();
-    },
-    
-    /**
-     * Activa los botones presentes en paso 1
-     * @returns {undefined}
-     */
-    btnPaso1 : function(){
-        var path_buttons = ".bootbox > .modal-dialog > .modal-content > .modal-footer > "; 
-        $(path_buttons + "button[data-bb-handler='guardar']").show();
-        //$(path_buttons + "button[data-bb-handler='rechazar']").show();
-        $(path_buttons + "button[data-bb-handler='paso2']").hide();
-    },
-    
+        
     /**
      * Retorno despues de rechazar
      * @returns void
@@ -89,7 +67,7 @@ var FormEmergenciasNueva = Class({ extends : FormAlarma}, {
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia/json_activa_alarma", 
+            url: siteUrl + "emergencia/save_nuevo", 
             error: function(xhr, textStatus, errorThrown){
 
             },

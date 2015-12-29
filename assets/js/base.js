@@ -22,15 +22,11 @@ function formatState (state) {
 
 $(document).ready(function() {
     
-    //notificacionSimulacion();
-    
-    
     $(".datepicker").livequery(function(){
         $(this).datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
     });
-    
     
     $(".select2-images").livequery(function(){ 
         $(this).select2({
@@ -38,13 +34,18 @@ $(document).ready(function() {
         });
     });
     
+    $(".select2-tags").livequery(function(){
+        $(this).select2({
+            width: '100%',
+            tags: true
+        });
+    });
+    
     $(".colorpicker").livequery(function(){
         $(this).spectrum({
-            //color: "#FFF",
             allowEmpty:true,
             showInput: true,
             className: "full-spectrum",
-            //showInitial: true,
             showPalette: true,
             showSelectionPalette: true,
             maxSelectionSize: 10,
@@ -63,7 +64,7 @@ $(document).ready(function() {
 
             },
             change: function(color) {
-               // $(this).val(color.toHexString());
+               
             },
             palette: [
                 ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
@@ -83,9 +84,7 @@ $(document).ready(function() {
             ]
         });
     });
-    
-    
-    
+
     $(".datatable.paginada").livequery(function(){
         if($(this).parent().hasAttr('data-row')) {
             var filas = parseInt($(this).parent().attr("data-row"));
@@ -100,52 +99,45 @@ $(document).ready(function() {
             "destroy" : true,
             "aaSorting": [],
             language: 
-                {
-                    "sProcessing":     "Procesando...",
-                    "sLengthMenu":     "Mostrar _MENU_ registros",
-                    "sZeroRecords":    "No se encontraron resultados",
-                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix":    "",
-                    "sSearch":         "Buscar:",
-                    "sUrl":            "",
-                    "sInfoThousands":  ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst":    "Primero",
-                        "sLast":     "Último",
-                        "sNext":     "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
+            {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
                 },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
             "fnDrawCallback": function( oSettings ) {
                 $("#" + id).removeClass("hidden");
              }
         });
     });
     
-    
     $(".form-busqueda").livequery(function(){
-        
-       var button = $(this).find(".btn-buscar"); 
-        
-       $(this).find("input").keypress(function (evt) {
+        var button = $(this).find(".btn-buscar"); 
+        $(this).find("input").keypress(function (evt) {
             var charCode = evt.charCode || evt.keyCode;
             if (charCode  == 13) {
                 $(button).trigger("click");
                 return false;
             }
        });
-       
-       /*$(this).find("select").change(function(){
-           $(button).trigger("click");
-       });*/
     });
     
     $(".more-less").livequery(function(){

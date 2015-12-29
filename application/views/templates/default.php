@@ -213,8 +213,10 @@
     <?= loadJS("assets/lib/popupoverlay/logout.js", true) ?>
     <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
     <?= loadJS("assets/lib/qtip/jquery.qtip.min.js", true) ?>
+    
     <?= loadCSS("assets/lib/select2-4.0.0/css/select2.css", true) ?>
     <?= loadJS("assets/lib/select2-4.0.0/js/select2.js", true) ?>
+    
     <?= loadJS("assets/js/moment.min.js") ?>
     <?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
     <?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>

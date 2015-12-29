@@ -373,6 +373,7 @@ class Alarma_Model extends MY_Model {
         if (!$this->SendmailModel->emailSend($to, null, null, $subject, $mensaje)) {
             $error++;
         }
+        
         return ($error==0)?true:false;
     }
 

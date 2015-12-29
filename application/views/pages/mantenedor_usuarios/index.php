@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <button id="btnBuscarAlarmas" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">
+                            <button id="btn-buscar" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">
                                 <i class="fa fa-search"></i>
                                 Buscar
                             </button>
@@ -79,4 +79,4 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
-<?= loadJS("assets/js/modulo/usuario/listado.js") ?>
+<?= loadJS("assets/js/modulo/mantenedor/usuarios.js") ?>

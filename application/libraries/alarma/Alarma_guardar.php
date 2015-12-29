@@ -1,6 +1,6 @@
 <?php
 
-Class Alarmaguardar{
+Class Alarma_guardar{
     /**
      *
      * @var CI_Controller 
@@ -69,14 +69,14 @@ Class Alarmaguardar{
      * Guarda los campos del tipo de emergencia
      * @param array $parametros
      */
-    public function guardar($parametros){
+    public function guardarDatosTipoEmergencia($parametros){
         
         switch ($this->_tipo_emergencia->aux_ia_id) {
             case Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA:
                 $guardar = true;
                 break;
             default:
-                $guardar = false;
+                $guardar = true;
                 break;
         }
         
@@ -90,9 +90,17 @@ Class Alarmaguardar{
                 }
             }
             
-            $update = array("ala_c_datos_tipo_emergencia" => serialize($datos));
-            $this->_alarma_model->update($update, $this->_alarma->ala_ia_id);
+            $this->_guardaDatosTipoEmergencia($datos);
         }
+    }
+    
+    /**
+     * 
+     * @param array $datos
+     */
+    protected function _guardaDatosTipoEmergencia($datos){
+        $update = array("ala_c_datos_tipo_emergencia" => serialize($datos));
+        $this->_alarma_model->update($update, $this->_alarma->ala_ia_id);
     }
 }
 

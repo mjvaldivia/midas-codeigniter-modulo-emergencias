@@ -44,6 +44,16 @@ class Emergencia_Model extends MY_Model {
     }
     
     /**
+     * Actualiza 
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "eme_ia_id", $id);
+    }
+    
+    /**
      * 
      * @param type $id_region
      * @param DateTime $fecha_inicio

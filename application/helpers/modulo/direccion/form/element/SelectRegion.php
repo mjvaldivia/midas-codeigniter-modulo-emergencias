@@ -55,6 +55,10 @@ Class Direccion_Form_Element_SelectRegion{
         $this->_nombre = $nombre;
     }
     
+    /**
+     * 
+     * @param array $atributos
+     */
     public function setAtributos($atributos){
         $this->_element->addAtributos($atributos);
     }
@@ -65,7 +69,6 @@ Class Direccion_Form_Element_SelectRegion{
      * @return string html
      */
     public function render($default = array()){
-       
         $this->_element->setNombre($this->_nombre);
         $this->_element->populate($this->_listar());
         $this->_element->setOptionId("reg_ia_id");

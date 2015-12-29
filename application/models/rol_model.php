@@ -18,4 +18,20 @@ class Rol_Model extends MY_Model {
     public function getById($id){
         return $this->_query->getById("rol_ia_id", $id);
     }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function listar(){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->orderBy("rol_c_nombre", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
 }

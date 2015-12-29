@@ -3,23 +3,34 @@
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
-<?= loadJS("assets/js/jquery.jcombo.js") ?>
-
-
-
-<?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js") ?>
-<?= loadJS("assets/js/emergencia.js") ?>
-<?= loadJS("assets/js/bootbox.min.js") ?>
-<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
-<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
+<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
 <?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
 <?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
+
+<?= loadCSS("assets/lib/picklist/picklist.css") ?>
+<?= loadJS("assets/lib/picklist/picklist.js") ?>
+
+<?= loadJS("assets/js/bootbox.min.js") ?>
+
+<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
+<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
 
 <?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
 <?= loadJS("assets/js/MapReport.js") ?>
+
+<?= loadJS("assets/js/modulo/alarma/mapa.js") ?>
+<?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js") ?>
+<?= loadJS("assets/js/modulo/emergencia/form-emergencias-editar.js") ?>
+
+<?= loadJS("assets/js/emergencia.js") ?>
+
+
 <style type="text/css">
     .form-inline .form-group {
         margin-right: 20px;

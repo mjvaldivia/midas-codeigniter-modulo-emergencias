@@ -41,7 +41,6 @@
                 Fecha: <?= $eme_d_fecha_emergencia ?><br>
                 Elaborado por: <?= $emisor ?><br>
                 Fecha de emisión: <?= date('d-m-Y H:i') ?><br>
-               
         </th>
     </tr>
 </table>
@@ -51,7 +50,6 @@
         <th colspan="2">
            INFORMACIÓN DE LA ALARMA 
         </th>
-        
     </tr>
     <tr>
         <td>Encargado de la alarma</td>
@@ -84,7 +82,6 @@
         <th colspan="2">
            INFORMACIÓN DE LA EMERGENCIA
         </th>
-        
     </tr>
     <tr>
         <td>Descripción del evento</td>
@@ -107,11 +104,9 @@
     </tr>
     <tr>
         <td colspan="2">¿Está en riesgo la seguridad de nuestro personal? <?= $eme_c_riesgo ?></td>
-        
     </tr>
     <tr>
         <td colspan="2">¿En que ha sido superada su capacidad para una respuesta eficiente y efectiva? <?= $eme_c_capacidad ?></td>
-        
     </tr>
 </table>
 
