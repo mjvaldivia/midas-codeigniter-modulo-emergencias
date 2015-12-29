@@ -51,10 +51,8 @@ class Permiso_Model extends MY_Model {
             if($result->cantidad > 0){
                 return true;
             }
-        }
-            
+        }  
         return false;
-        
     }
     
     /**

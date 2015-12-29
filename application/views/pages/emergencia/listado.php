@@ -13,7 +13,6 @@
 <?= loadCSS("assets/lib/picklist/picklist.css") ?>
 <?= loadJS("assets/lib/picklist/picklist.js") ?>
 
-
 <?= loadJS("assets/js/bootbox.min.js") ?>
 
 <?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>

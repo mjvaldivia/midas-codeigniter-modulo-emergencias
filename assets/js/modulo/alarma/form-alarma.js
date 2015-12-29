@@ -34,7 +34,7 @@ var FormAlarma = Class({
         
         $("#tipo_emergencia").on('change', function() {
             var parametros = {"id_tipo" : $(this).val(),
-                              "id" : $("#id").val()}
+                              "id" : $("#ala_id").val()}
             $.ajax({         
                 dataType: "json",
                 cache: false,

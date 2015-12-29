@@ -1,22 +1,20 @@
 <?php
 
-class Rol_Model extends MY_Model {
-    
-    const MONITOR = 44;
-    
+class Ambito_Model extends MY_Model
+{    
     /**
      *
      * @var string 
      */
-    protected $_tabla = "roles";
-    
+    protected $_tabla = "ambitos";
+               
     /**
-     * Retorna por el identificador
-     * @param int $id clave primaria
-     * @return object
+     * 
+     * @param int $id
+     * @return int
      */
     public function getById($id){
-        return $this->_query->getById("rol_ia_id", $id);
+        return $this->_query->getById("amb_ia_id", $id);
     }
     
     /**
@@ -26,7 +24,7 @@ class Rol_Model extends MY_Model {
     public function listar(){
         $result = $this->_query->select("*")
                                ->from()
-                               ->orderBy("rol_c_nombre", "ASC")
+                               ->orderBy("amb_c_nombre", "ASC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -35,3 +33,4 @@ class Rol_Model extends MY_Model {
         }
     }
 }
+

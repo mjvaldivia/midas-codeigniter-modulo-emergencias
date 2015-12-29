@@ -1,4 +1,4 @@
-<form id="form-informacion-emergencia" name="form_informacion_emergencia" enctype="application/x-www-form-urlencoded" action="" method="post">
+<form id="form-tipos-emergencia" name="form_tipos_emergencia" enctype="application/x-www-form-urlencoded" action="" method="post">
     
     <div class="row">
         <div class="col-md-6 text-left">
@@ -86,8 +86,9 @@
                 <span class="help-block hidden"></span>
             </div>
         </div>
+        
         <div class="col-md-6 text-left">
-
+            <!--
             <div class="form-group">
                 <label class="control-label">Antecedentes documentales</label>
 
@@ -111,7 +112,7 @@
                 </div>
 
             </div>
-
+            -->
         </div>
     </div>
 

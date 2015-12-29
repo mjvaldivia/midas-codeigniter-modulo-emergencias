@@ -5,13 +5,7 @@ require_once(APPPATH . 'third_party/Cosof/Form/Select.php');
 /**
  * Elemento select para comuna
  */
-Class Direccion_Form_Element_SelectRegion{
-    
-    /**
-     *
-     * @var int 
-     */
-    protected $_id_region;
+Class Usuario_Form_Element_SelectCargo{
     
     /**
      *
@@ -33,9 +27,9 @@ Class Direccion_Form_Element_SelectRegion{
     
     /**
      *
-     * @var Region_Model 
+     * @var Cargo_Model 
      */
-    protected $_region_model;
+    protected $_cargo_model;
     
     /**
      * 
@@ -43,8 +37,8 @@ Class Direccion_Form_Element_SelectRegion{
     public function __construct() {
         $this->ci =& get_instance();
         $this->_element = New Cosof_Form_Select();
-        $this->ci->load->model("region_model");
-        $this->_region_model = New Region_Model();
+        $this->ci->load->model("cargo_model");
+        $this->_cargo_model = New Cargo_Model();
     }
     
     /**
@@ -71,17 +65,17 @@ Class Direccion_Form_Element_SelectRegion{
     public function render($default = array()){
         $this->_element->setNombre($this->_nombre);
         $this->_element->populate($this->_listar());
-        $this->_element->setOptionId("reg_ia_id");
-        $this->_element->setOptionName("reg_c_nombre");
+        $this->_element->setOptionId("crg_ia_id");
+        $this->_element->setOptionName("crg_c_nombre");
         return $this->_element->render($this->_nombre, $default);
     }
     
     /**
-     * Lista de comunas
+     * Lista 
      * @return array
      */
     protected function _listar(){
-        return $this->_region_model->listar();
+        return $this->_cargo_model->listar();
     }
 }
 

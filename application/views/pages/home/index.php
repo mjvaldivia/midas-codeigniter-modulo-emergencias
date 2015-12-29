@@ -231,6 +231,12 @@
     setTimeout(function(){$('.cargando').hide();},3000);
 </script>
 
+<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
+<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
+
+<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
+<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
+
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
@@ -254,14 +260,13 @@
 <?= loadCSS("assets/lib/picklist/picklist.css") ?>
 <?= loadJS("assets/lib/picklist/picklist.js") ?>
 
+<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
+
 <?= loadJS("assets/js/geo-encoder.js") ?>
 
 <?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
-
-<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
-<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js"); ?>
@@ -276,4 +281,5 @@
 
 <?= loadJS("assets/js/modulo/home/mapa.js"); ?>
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>
-<?= loadJS("assets/js/MapReport.js") ?>
+
+<?= loadJS("assets/js/emergencia.js") ?>

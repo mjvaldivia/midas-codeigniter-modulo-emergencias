@@ -544,6 +544,8 @@ var MapReport = {
 }).apply(MapReport);
 
 
+$(document).ready(function() {
+
 $.get(siteUrl + 'visor/getmails/').done(function (data) {
     var array = $.parseJSON(data);
 
@@ -600,3 +602,4 @@ $.get(siteUrl + 'visor/getmails/').done(function (data) {
 });
 
 
+});
