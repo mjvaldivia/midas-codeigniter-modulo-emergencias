@@ -253,7 +253,7 @@ class Emergencia extends MY_Controller {
                 $this->alarma_model->update(array("ala_c_utm_lat" => $params["latitud"], 
                                                   "ala_c_utm_lng" => $params["longitud"],
                                                   "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
-                                            $params["id"]);
+                                            $alarma->ala_ia_id);
                 
                 //envio de email
                 $this->emergencia_email->setEmergencia($id);

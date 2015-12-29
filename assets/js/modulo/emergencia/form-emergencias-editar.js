@@ -70,7 +70,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
         
         $("#tipo_emergencia").on('change', function() {
             var parametros = {"id_tipo" : $(this).val(),
-                              "id" : $("#id").val()}
+                              "id" : $("#eme_id").val()}
             $.ajax({         
                 dataType: "json",
                 cache: false,
