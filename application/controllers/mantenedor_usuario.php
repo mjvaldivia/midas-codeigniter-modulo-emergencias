@@ -47,6 +47,9 @@ class Mantenedor_usuario extends MY_Controller {
         $this->template->parse("default", "pages/mantenedor_usuarios/index", array());
     }
     
+    /**
+     * Guardar
+     */
     public function save()
     {
         $this->load->library(array("mantenedor/usuario/mantenedor_usuario_validar"));
@@ -108,11 +111,13 @@ class Mantenedor_usuario extends MY_Controller {
                           "nombre" => $usuario->usu_c_nombre,
                           "apellido_paterno" => $usuario->usu_c_apellido_paterno,
                           "apellido_materno" => $usuario->usu_c_apellido_materno,
+                          "sexo" => $usuario->sex_ia_id,
                           "telefono_fijo"    => $usuario->usu_c_telefono,
                           "telefono_celular" => $usuario->usu_c_celular,
                           "email" => $usuario->usu_c_email,
                           "region" => $usuario->reg_ia_id,
-                          "cargo" => $usuario->crg_ia_id);
+                          "cargo" => $usuario->crg_ia_id,
+                          "activo" => $usuario->est_ia_id);
             
             $lista_oficinas = $this->usuario_oficina_model->listarOficinasPorUsuario($usuario->usu_ia_id);
             $data["lista_oficinas"] = $this->form_select->populateMultiselect($lista_oficinas, "ofi_ia_id");

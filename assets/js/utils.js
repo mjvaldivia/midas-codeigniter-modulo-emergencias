@@ -22,12 +22,7 @@ var Utils = {};
         $('#pCambioRapido').on('shown.bs.modal', function () {
             $("#users").jCombo(siteUrl + "session/obtenerJsonUsuariosImpersonables", {
                 handlerLoad: function() {
-                    $('#users').select2({
-                        placeholder: "Seleccione usuario",
-                        allowClear: true,
-                        width: '100%',
-                        dropdownAutoWidth: true
-                    });
+                    $('#users').chosen({width: "100%"});
                 }
             });
         });

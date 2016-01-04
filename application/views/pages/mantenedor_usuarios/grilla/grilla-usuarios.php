@@ -31,12 +31,13 @@
                                       </a>
                                   </li>
                     
-                                  <li class="divider"></li>
+                                  <!--<li class="divider"></li>
                                   <li>
-                                      <a data="<?php echo $row["usu_ia_id"]; ?>" class="alarma-eliminar" href="#">
+                                      <a disabled data="<?php echo $row["usu_ia_id"]; ?>" class="alarma-eliminar disabled" href="#">
                                           <i class="fa fa-trash"></i> Eliminar
                                       </a>
                                   </li>
+                                  -->
                                 </ul>
                                
                             </div>

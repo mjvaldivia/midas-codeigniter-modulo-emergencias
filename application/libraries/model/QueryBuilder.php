@@ -379,14 +379,15 @@ class QueryBuilder{
             }
         }
         
-        foreach($array_id_secondary as $key => $id_secondary){
-            if(!in_array($id_secondary, $guardados)){
-                $insert = array($primary => $id_primary,
-                                $secondary => $id_secondary);
-                $this->insert($insert);
+        if(count($array_id_secondary)>0){
+            foreach($array_id_secondary as $key => $id_secondary){
+                if(!in_array($id_secondary, $guardados)){
+                    $insert = array($primary => $id_primary,
+                                    $secondary => $id_secondary);
+                    $this->insert($insert);
+                }
             }
         }
-        
         
     }
     

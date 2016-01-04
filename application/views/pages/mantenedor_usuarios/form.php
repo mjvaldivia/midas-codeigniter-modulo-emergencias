@@ -26,11 +26,7 @@
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Sexo (*):</label>
                                 <div class="input-group col-sm-6">
-                                    <select name="sexo" id="sexo" class="form-control">
-                                        <option value=""> -- Seleccione -- </option>
-                                        <option value="1"> Masculino </option>
-                                        <option value="2"> Femenino </option>
-                                    </select>
+                                    <?php echo formElementSelectSexo("sexo", $sexo, array("class" => "form-control")) ?>
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
@@ -153,10 +149,9 @@
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Activo:</label>
                                 <div class="input-group col-sm-6">
-                                    <select name="activo" id="activo" class="form-control">
-                                        <option value="1"> Si </option>
-                                        <option value="2"> No </option>
-                                    </select>
+                                    
+                                    <?php echo formElementSelectActivo("activo", $activo, array("class" => "form-control")) ?>
+                      
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
@@ -169,7 +164,6 @@
                                 <div class="input-group col-sm-12">
                                     <?php echo formElementSelectOficinas("oficinas[]", $lista_oficinas, $region, array("class"    => "form-control select2-tags", 
                                                                                                                        "multiple" => "multiple")) ?>
-
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
@@ -183,7 +177,6 @@
                                 <div class="input-group col-sm-12">
                                     <?php echo formElementSelectRoles("roles[]", $lista_roles, array("class"    => "form-control select2-tags", 
                                                                                                      "multiple" => "multiple")) ?>
-
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
