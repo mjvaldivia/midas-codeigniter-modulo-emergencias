@@ -159,7 +159,6 @@
                         </div>
                     </div>
                 </form>
-                <!--<button id="activate-step-2" class="btn btn-primary btn-lg">Activate Step 2</button>-->
             </div>
         </div>
     </div>

@@ -45,8 +45,11 @@ class Mantenedor_permiso extends MY_Controller {
      */
     public function form()
     {
+        $params = $this->input->post(null, true);
         $lista = $this->modulo_model->listarModulosEmergencia();
-        $this->load->view("pages/mantenedor_permisos/form", array("lista" => $lista));
+        $this->load->view("pages/mantenedor_permisos/form", 
+                          array("lista" => $lista,
+                                "id_rol" => $params["id"]));
     }
     
     /**

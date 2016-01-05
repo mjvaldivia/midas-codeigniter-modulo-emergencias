@@ -4,14 +4,44 @@ var MantenedorPermisos = Class({
      * @returns void
      */
     __construct : function() {
-        var yo = this;
         this.loadGridRoles();
+        this.bindButtonEditar();
+    },
+    
+    callBackEditar : function(){
         
+        $(".ver").each(function(index, element){
+  
+
+            var rel = $(element).attr("data-rel");
+            if($(element).is(":checked")){
+                $("#permisos_io_" + rel).removeClass("hidden");
+            } else {
+                $("#permisos_io_" + rel).addClass("hidden");
+            }
+        });
+        
+        
+        $(".ver").livequery(function(){
+            $(this).unbind("click");
+            $(this).click(function(){
+                var rel = $(this).attr("data-rel");
+                if($(this).is(":checked")){
+                    $("#permisos_io_" + rel).removeClass("hidden");
+                } else {
+                    $("#permisos_io_" + rel).addClass("hidden");
+                }
+            });
+        });
+    },
+    
+    bindButtonEditar : function(){
+        var yo = this;
         $(".editar").livequery(function(){
            $(this).unbind("click");
            $(this).click(function(){
                var id = $(this).attr("data");
-               $.ajax({         
+                $.ajax({         
                     dataType: "html",
                     cache: false,
                     async: true,
@@ -41,8 +71,11 @@ var MantenedorPermisos = Class({
                                 }
                             }
                         });
+                        yo.callBackEditar();
                     }
                 }); 
+                
+                
            });
         });
     },

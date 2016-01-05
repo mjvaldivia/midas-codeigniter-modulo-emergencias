@@ -225,10 +225,6 @@
     </div>
 
 </div>
-<script>
-// parche sucio y asqueroso para quitar el cargando
-    setTimeout(function(){$('.cargando').hide();},3000);
-</script>
 
 <?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
 <?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
