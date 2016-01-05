@@ -1,5 +1,7 @@
 <?php
 
+require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectActivo.php");
+require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectSexo.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectCargo.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectRoles.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectAmbito.php");
@@ -28,6 +30,34 @@ function formElementSelectCargo($input_nombre, $input_valor = "", $atributos){
  */
 function formElementSelectRoles($input_nombre, $input_valor = "", $atributos){
     $select = New Usuario_Form_Element_SelectRoles();
+    $select->setAtributos($atributos);
+    $select->setNombre($input_nombre);
+    return $select->render($input_valor);
+}
+
+/**
+ * 
+ * @param string $input_nombre
+ * @param int $input_valor
+ * @param array $atributos
+ * @return string html
+ */
+function formElementSelectSexo($input_nombre, $input_valor = "", $atributos){
+    $select = New Usuario_Form_Element_SelectSexo();
+    $select->setAtributos($atributos);
+    $select->setNombre($input_nombre);
+    return $select->render($input_valor);
+}
+
+/**
+ * 
+ * @param string $input_nombre
+ * @param int $input_valor
+ * @param array $atributos
+ * @return string html
+ */
+function formElementSelectActivo($input_nombre, $input_valor = "", $atributos){
+    $select = New Usuario_Form_Element_SelectActivo();
     $select->setAtributos($atributos);
     $select->setNombre($input_nombre);
     return $select->render($input_valor);

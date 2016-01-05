@@ -21,6 +21,23 @@ class Modulo_Model extends MY_Model {
     protected $_tabla = "permisos";
     
     /**
+     * 
+     * @return array
+     */
+    public function listarModulosEmergencia(){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("per_c_id_modulo", Modulo_Model::MODULO_EMERGENCIA)
+                               ->orderBy("per_c_nombre", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista los submodulos de emergencia
      * @return array
      */

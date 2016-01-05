@@ -17,6 +17,27 @@ class Permiso_Model extends MY_Model {
     }
     
     /**
+     * Ve si un rol tiene acceso o no a emergencias
+     * @param int $id_rol
+     * @return boolean
+     */
+    public function tieneAccesoRol($id_rol){
+        $result = $this->_query->select("count(*) as cantidad")
+                              ->from($this->_tabla . " m")
+                              ->join("permisos p", "p.per_ia_id = m.per_ia_id", "INNER")
+                              ->whereAND("m.rol_ia_id", $id_rol)
+                              ->whereAND("p.per_c_id_modulo", Modulo_Model::MODULO_EMERGENCIA)
+                              ->getOneResult();
+        if(!is_null($result)){
+            if($result->cantidad > 0){
+                return true;
+            }
+        }
+            
+        return false;
+    }
+    
+    /**
      * Permiso para finalizar emergencia
      * @param array $lista_roles
      * @param int $id_submodulo

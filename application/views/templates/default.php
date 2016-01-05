@@ -214,7 +214,10 @@
     <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
     <?= loadJS("assets/lib/qtip/jquery.qtip.min.js", true) ?>
     
+    <?= loadCSS("assets/lib/chosen_v1.4.2/chosen.min.css") ?>
+    <?= loadJS("assets/lib/chosen_v1.4.2/chosen.jquery.min.js") ?>
     <?= loadCSS("assets/lib/select2-4.0.0/css/select2.css", true) ?>
+    <?= loadCSS("assets/lib/select2-4.0.0/css/select2-bootstrap.css", true) ?>
     <?= loadJS("assets/lib/select2-4.0.0/js/select2.js", true) ?>
     
     <?= loadJS("assets/js/moment.min.js") ?>
@@ -224,7 +227,7 @@
     <?= loadJS("assets/lib/spectrum-colorpicker/spectrum.js") ?>
     <?= loadJS("assets/js/base.js") ?>
     <?= loadJS("assets/js/utils.js") ?>
-    <?= loadJS("assets/js/loading.js") ?>
+
         <script type="text/javascript">
             $(document).ready(function () {
                 Utils.listenerCambioRapido();
@@ -262,8 +265,18 @@
                     <h4 id="pCambioRapidoTitle" class="modal-title">Seleccione un usuario para el cambio rápido</h4>
                 </div>
                 <div class="modal-body">
-                    <label>Seleccione usuario:</label>
-                    <select id="users" name="users" class="form-control  select2"></select>
+                    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Seleccione usuario:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 clearfix">
+                            <select id="users" name="users" class="form-control"></select>
+                        </div>
+                    </div>
+                   
                 </div>
                 <div class="modal-footer">
                     <button id="btnCambioRapido" type="button" class="btn btn-success">Aceptar</button>

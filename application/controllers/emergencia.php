@@ -7,6 +7,9 @@
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
+/**
+ * 
+ */
 class Emergencia extends MY_Controller {
 
      /**
@@ -419,7 +422,7 @@ class Emergencia extends MY_Controller {
             $error = false;
             $fp = file_get_contents($tmp_name[$i], 'r');
             
-            $arr_properties = json_decode($fp,true);
+            $arr_properties = json_decode(utf8_encode($fp),true);
             
            // var_dump($arr_properties['features'][0]['properties']);die;
            

@@ -7,6 +7,7 @@ require_once(APPPATH . "helpers/modulo/emergencia/nombre/Tipo.php");
 require_once(APPPATH . "helpers/modulo/emergencia/nombre/Comunas.php");
 require_once(APPPATH . "helpers/modulo/emergencia/usuario/Permiso.php");
 require_once(APPPATH . "helpers/modulo/emergencia/html/IconoTipoEmergencia.php");
+require_once(APPPATH . "helpers/modulo/emergencia/html/reporte/TipoEmergencia.php");
 
 /**
  * 
@@ -48,4 +49,15 @@ function comunasEmergenciaConComa($id_emergencia){
     $comunas = New Emergencia_Nombre_Comunas();
     $comunas->setIdEmergencia($id_emergencia);
     return $comunas->getString();
+}
+
+/**
+ * 
+ * @param int $id_emergencia
+ * @return string
+ */
+function reporteEmergenciaTipo($id_emergencia){
+    $html = New Emergencia_Html_Reporte_TipoEmergencia();
+    $html->setEmergencia($id_emergencia);
+    return $html->render();
 }

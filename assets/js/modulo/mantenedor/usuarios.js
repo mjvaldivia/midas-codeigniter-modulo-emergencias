@@ -8,6 +8,32 @@ var MantenedorUsuarios = Class({
         
         this.loadGridUsuario();
         
+        $("#region").livequery(function(){
+            $(this).change(function(){
+                    $.ajax({         
+                    dataType: "json",
+                    cache: false,
+                    async: true,
+                    data: "",
+                    type: "post",
+                    url: siteUrl + "oficina/rest/region/" + $(this).val(), 
+                    error: function(xhr, textStatus, errorThrown){},
+                    success:function(json){
+                        
+                        $("#oficinas").html("");
+                        
+                        $.each(json, function(i, oficina){
+                           $("#oficinas").append("<option value=\"" + oficina.ofi_ia_id + "\">" + oficina.ofi_c_nombre + "</option>"); 
+                        });
+                        
+                        $("#oficinas").val("");
+                        
+                        $("#oficinas").trigger("change");
+                    }
+                }); 
+            });
+        });
+        
         $("#btn-buscar").click(function(){
             yo.loadGridUsuario();
         });
@@ -89,8 +115,46 @@ var MantenedorUsuarios = Class({
         });
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
+    callBackGuardar : function(){
+        this.loadGridUsuario();
+    },
+    
+    /**
+     * 
+     * @returns {Boolean}
+     */
     guardar : function(){
+        var yo = this;
         
+        var parametros = $("#form-usuario").serializeArray();
+
+        var salida = false;
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "mantenedor_usuario/save", 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+                if(data.correcto == true){
+                    procesaErrores(data.error);
+                    yo.callBackGuardar();
+                    salida = true;
+                } else {
+                    $("#form_nueva_error").removeClass("hidden");
+                    procesaErrores(data.error);
+                }
+            }
+        }); 
+        
+        return salida;
     },
     
     /**

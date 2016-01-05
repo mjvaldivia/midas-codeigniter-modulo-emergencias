@@ -50,6 +50,15 @@ class Usuario_Model extends MY_Model {
     }
     
     /**
+     * 
+     * @param array $data
+     * @return int identificador usuario ingresado
+     */
+    public function insert($data){
+        return $this->_query->insert($data);
+    }
+    
+    /**
      * Lista usuarios pertenecientes a emergencias
      */
     public function listarUsuariosEmergencia($nombre = NULL, $id_region = NULL){
