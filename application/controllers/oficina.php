@@ -25,9 +25,11 @@ class Oficina extends MY_Controller {
     }
     
     /**
-     * 
+     * Servicio para retornar oficinas
+     * de acuerdo a la region
      */
-    public function rest(){
+    public function rest()
+    {
         header('Content-type: application/json');
         $params = $this->uri->uri_to_assoc();
         
