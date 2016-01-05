@@ -1,4 +1,7 @@
 <?php
+
+//echo "Estimado  usuario favor usar nuevo sitio web, ingrese mediante <a href='http://midas.minsal.cl'>http://midas.minsal.cl</a>";die;
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
