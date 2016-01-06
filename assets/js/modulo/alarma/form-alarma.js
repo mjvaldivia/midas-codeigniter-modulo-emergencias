@@ -33,6 +33,25 @@ var FormAlarma = Class({
         var yo = this;
         
         $("#tipo_emergencia").on('change', function() {
+
+            /* obtener correos destinatarios */
+            var tipo_emergencia = $(this).val();
+            var comunas_seleccionadas = [];
+            $("#comunas_seleccionados option").each(function(){
+                comunas_seleccionadas.push($(this).val());
+            });
+            if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
+                $.post(siteUrl + 'alarma/obtenerListadoCorreosAlarma',{tipo_emergencia:tipo_emergencia, comunas_seleccionadas:comunas_seleccionadas},function(response){
+                    if(response.correos != ""){
+                        $("#correos_alarma").html("Además se dará aviso a los siguientes correos: " + response.correos);
+                    }else{
+                        $("#correos_alarma").html("");
+                    }
+                },'json');
+            }else{
+                $("#correos_alarma").html("");
+            }
+
             var parametros = {"id_tipo" : $(this).val(),
                               "id" : $("#ala_id").val()}
             $.ajax({         
@@ -161,7 +180,7 @@ var FormAlarma = Class({
      * @returns void
      */
     bindComunasPicklist : function(){
-        $("#comunas").picklist(); 
+        $("#comunas").picklist();
     },
     
     /**
@@ -340,6 +359,32 @@ var FormAlarma = Class({
             }
         }); 
     }
+
 });
 
+
+
+$(document).ready(function(){
+
+    $("body").on('click','#picklist-btn-comunas-a, #picklist-btn-comunas-at, #picklist-btn-comunas-q, #picklist-btn-comunas-qt',function(){
+        var tipo_emergencia = $("#tipo_emergencia").val();
+        var comunas_seleccionadas = [];
+        $("#comunas_seleccionados option").each(function(){
+            comunas_seleccionadas.push($(this).val());
+        });
+        if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
+            $.post(siteUrl + 'alarma/obtenerListadoCorreosAlarma',{tipo_emergencia:tipo_emergencia, comunas_seleccionadas:comunas_seleccionadas},function(response){
+                if(response.correos != ""){
+                    $("#correos_alarma").html("Además se dará aviso a los siguientes correos: " + response.correos);
+                }else{
+                    $("#correos_alarma").html("");
+                }
+            },'json');
+        }else{
+            $("#correos_alarma").html("");
+        }
+
+
+    })
+});
 
