@@ -416,7 +416,8 @@ class Emergencia extends MY_Controller {
         
         $arr_error_filenames = array();
 
-
+        $poligono = null;
+        $icono = null;
         for ($i = 0; $i < sizeof($tmp_name); $i++) {
 
             $error = false;
@@ -460,13 +461,13 @@ class Emergencia extends MY_Controller {
                 $geometrias = $this->capageojson->listGeometry();
                 
                 if(in_array("Polygon", $geometrias) OR in_array("MultiPolygon", $geometrias)){
-                    $tipo_geometria['data'][] = array("Poligonos",
-                                                      "<input name=\"color_".($i+1)."\" id=\"color_".($i+1)."\" placeholder=\"Color del poligono\" type='text' class=\"colorpicker required\" value=\"\"/>");
+                    $poligono = array("Poligonos",
+                                                      "<input name=\"color_poligono\" id=\"color_poligono\" placeholder=\"Color del poligono\" type='text' class=\"colorpicker required\" value=\"\"/>");
                 }
                 
                 if(in_array("Point", $geometrias)){
-                    $tipo_geometria['data'][] = array("Icono",
-                                                      "<select name=\"icono_".($i+1)."\" id=\"icono_".($i+1)."\" style=\"width: 300px\" placeholder=\"Icono de los marcadores\" class=\" select2-images required\">"
+                    $icono = array("Icono",
+                                                      "<select name=\"icono_color\" id=\"icono_color\" style=\"width: 300px\" placeholder=\"Icono de los marcadores\" class=\" select2-images required\">"
                                                     . "<option value=\"\"></option>"
                                                     . "<option value=\"". base_url("assets/img/markers/spotlight-poi.png")."\">Rojo</option>"
                                                     . "<option value=\"". base_url("assets/img/markers/spotlight-poi-yellow.png")."\">Amarillo</option>"
@@ -479,6 +480,14 @@ class Emergencia extends MY_Controller {
                 
             }
         }
+
+        if(!is_null($poligono))
+            $tipo_geometria['data'][] = $poligono;
+
+        if(!is_null($icono))
+            $tipo_geometria['data'][] = $icono;
+
+
         echo ($error) ? json_encode(array("uploaded" => 0, 
                                           "error_filenames" => $arr_error_filenames, 
                                           'properties' => $properties, 

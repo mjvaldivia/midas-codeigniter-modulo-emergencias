@@ -277,4 +277,17 @@ class Alarma extends MY_Controller {
     }
 
 
+
+    public function obtenerListadoCorreosAlarma(){
+        $this->load->model('sendmail_model','SendmailModel');
+        $params = $this->input->post(null, true);
+
+        $json['correos'] = $this->SendmailModel->get_destinatariosCorreo($params['tipo_emergencia'],implode(',',$params['comunas_seleccionadas']));
+
+        echo json_encode($json);
+
+
+    }
+
+
 }

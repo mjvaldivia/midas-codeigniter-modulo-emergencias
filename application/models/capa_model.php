@@ -117,12 +117,12 @@ class Capa_Model extends MY_Model {
                 $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
                 $update["capa_arch_ia_id"] = $capa_arch_ia_id;
                 
-                if(isset($params["color_" . $i])){
-                    $update["color"] = $params["color_" . $i];
+                if(isset($params["color_poligono"])){
+                    $update["color"] = $params["color_poligono"];
                 } 
                 
-                if(isset($params["icono_" . $i])){
-                    $update["icon_path"] = $params["icono_" . $i];
+                if(isset($params["icono_color"])){
+                    $update["icon_path"] = $params["icono_color"];
                 }
                 
                 $this->_query->update($update, "cap_ia_id", $cap_ia_id);
