@@ -8,33 +8,76 @@ var MantenedorPermisos = Class({
         this.bindButtonEditar();
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     callBackEditar : function(){
+        var yo = this;
         
         $(".ver").each(function(index, element){
-  
-
-            var rel = $(element).attr("data-rel");
-            if($(element).is(":checked")){
-                $("#permisos_io_" + rel).removeClass("hidden");
-            } else {
-                $("#permisos_io_" + rel).addClass("hidden");
-            }
+            yo.clickVer(element);
         });
-        
         
         $(".ver").livequery(function(){
             $(this).unbind("click");
             $(this).click(function(){
-                var rel = $(this).attr("data-rel");
-                if($(this).is(":checked")){
-                    $("#permisos_io_" + rel).removeClass("hidden");
-                } else {
-                    $("#permisos_io_" + rel).addClass("hidden");
-                }
+                yo.clickVer(this);
             });
         });
     },
     
+    clickVer : function(element){
+        var rel = $(element).attr("data-rel");
+        if($(element).is(":checked")){
+            $("#permisos_io_" + rel).removeClass("hidden");
+        } else {
+            $("#permisos_io_" + rel).addClass("hidden");
+            
+            $("#permisos_io_" + rel).find("input").each(function(index, element){
+                $(element).attr("checked",false);
+            });
+        }
+    },
+    
+    callBackGuardar : function(){
+        this.loadGridRoles();
+    },
+    
+    guardar : function(){
+        var yo = this;
+        
+        var parametros = $("#form-permisos").serializeArray();
+
+        var salida = false;
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "mantenedor_permiso/save", 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+                if(data.correcto == true){
+                    procesaErrores(data.error);
+                    yo.callBackGuardar();
+                    salida = true;
+                } else {
+                    $("#form_nueva_error").removeClass("hidden");
+                    procesaErrores(data.error);
+                }
+            }
+        }); 
+        
+        return salida;
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
     bindButtonEditar : function(){
         var yo = this;
         $(".editar").livequery(function(){
