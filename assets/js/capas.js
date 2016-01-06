@@ -77,7 +77,7 @@ var Layer = {};
            var properties = data.response.properties.data;
            var filename = data.response.filenames.data;
            var geometry = data.response.geometry.data;
-           
+
             $('#tabla_propiedades').DataTable().destroy();
             $('#tabla_comunas').DataTable().destroy();
             $('#tabla_colores').DataTable().destroy();

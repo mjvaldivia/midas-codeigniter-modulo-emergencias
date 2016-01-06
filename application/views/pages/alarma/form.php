@@ -172,6 +172,9 @@
             </div>
         </div>
     </div>
+    <div class="alert alert-warning text-center">
+        <p>Esta Alarma será enviada a los siguientes correos: SEREMI, Jefe DAS, Jefe SP, CRE.</p>
+    </div>
 </div>
 
 
