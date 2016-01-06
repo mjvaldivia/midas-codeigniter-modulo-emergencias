@@ -1,7 +1,7 @@
 <?php
 
 require_once(APPPATH . "helpers/modulo/permiso/rol/AccesoEstado.php");
-
+require_once(APPPATH . "helpers/modulo/permiso/form/attribute/Checked.php");
 /**
  * 
  * @param int $rol_id
@@ -10,4 +10,56 @@ require_once(APPPATH . "helpers/modulo/permiso/rol/AccesoEstado.php");
 function estadoAccesoEmergencias($rol_id){
     $acceso = New Permiso_Rol_AccesoEstado();
     return $acceso->render($rol_id);
+}
+
+/**
+ * 
+ * @param type $id_rol
+ * @param type $id_modulo
+ * @return type
+ */
+function permisoFormCheckedVer($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->ver();
+}
+
+/**
+ * 
+ * @param type $id_rol
+ * @param type $id_modulo
+ * @return type
+ */
+function permisoFormCheckedFinalizar($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->finalizar();
+}
+
+/**
+ * 
+ * @param type $id_rol
+ * @param type $id_modulo
+ * @return type
+ */
+function permisoFormCheckedEliminar($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->eliminar();
+}
+
+/**
+ * 
+ * @param type $id_rol
+ * @param type $id_modulo
+ * @return type
+ */
+function permisoFormCheckedEditar($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->editar();
 }

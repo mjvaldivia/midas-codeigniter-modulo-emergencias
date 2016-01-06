@@ -364,29 +364,35 @@ class QueryBuilder{
      * @param array $array_id_secondary
      */
     public function insertOneToMany($primary, $secondary, $id_primary, $array_id_secondary){
-        $query = $this->_db->query("SELECT * FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id_primary));
         
-        $guardados = array();
         
-        if ($query->num_rows() > 0){
-            $lista = $query->result_array();
-            foreach ($lista as $row){
-                if(!in_array($row[$secondary], $array_id_secondary)){
-                    $query = $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ? AND ". $secondary . " = ?", array($id_primary, $row[$secondary]));
-                } else {
-                    $guardados[] = $row[$secondary];
+        if(is_array($array_id_secondary)){
+            $query = $this->_db->query("SELECT * FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id_primary));
+
+            $guardados = array();
+
+            if ($query->num_rows() > 0){
+                $lista = $query->result_array();
+                foreach ($lista as $row){
+                    if(!in_array($row[$secondary], $array_id_secondary)){
+                        $query = $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ? AND ". $secondary . " = ?", array($id_primary, $row[$secondary]));
+                    } else {
+                        $guardados[] = $row[$secondary];
+                    }
                 }
             }
-        }
-        
-        if(count($array_id_secondary)>0){
-            foreach($array_id_secondary as $key => $id_secondary){
-                if(!in_array($id_secondary, $guardados)){
-                    $insert = array($primary => $id_primary,
-                                    $secondary => $id_secondary);
-                    $this->insert($insert);
+
+            if(count($array_id_secondary)>0){
+                foreach($array_id_secondary as $key => $id_secondary){
+                    if(!in_array($id_secondary, $guardados)){
+                        $insert = array($primary => $id_primary,
+                                        $secondary => $id_secondary);
+                        $this->insert($insert);
+                    }
                 }
             }
+        } else {
+             $query = $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id_primary));
         }
         
     }

@@ -110,26 +110,41 @@ class Visor extends MY_Controller {
     }
 
     public function getReporte() {
-        $this->load->library("template");
-        $this->load->helper("session");
-        sessionValidation();
-        $this->load->model("archivo_model", "ArchivoModel");
         ini_set('memory_limit', '64M');
+        
+        $this->load->helper(array("modulo/usuario/usuario", 
+                                  "modulo/emergencia/emergencia",
+                                  "modulo/emergencia/emergencia_reporte"));
+        
+        $this->load->model("archivo_model", "ArchivoModel");
         $this->load->model("emergencia_model", "EmergenciaModel");
+        $this->load->model("usuario_model", "usuario_model");
+        
         $params = $this->uri->uri_to_assoc();
-        //var_dump($params);
-        $data = $this->EmergenciaModel->getJsonEmergencia($params, false);
-
-        $data['emisor'] = $this->session->userdata('session_nombres');
+  
+        $emergencia = $this->EmergenciaModel->getById($params["id"]);
+        if(!is_null($emergencia)){
+                        
+            $data = array("eme_ia_id" => $emergencia->eme_ia_id,
+                          "eme_c_nombre_emergencia" => $emergencia->eme_c_nombre_emergencia,
+                          "eme_d_fecha_emergencia"  => ISODateTospanish($emergencia->eme_d_fecha_emergencia),
+                          "hora_emergencia" => ISOTimeTospanish($emergencia->eme_d_fecha_emergencia),
+                          "hora_recepcion"  => ISOTimeTospanish($emergencia->eme_d_fecha_recepcion),
+                          "eme_c_lugar_emergencia" => $emergencia->eme_c_lugar_emergencia,
+                          "emisor" => $this->session->userdata('session_nombres'),
+                          "id_usuario_encargado" => $emergencia->usu_ia_id,
+                          "eme_c_observacion"    => $emergencia->eme_c_observacion);
+        }
 
         $archivo = $this->ArchivoModel->get_file_from_key($params['k']);
         $data['imagename'] = $archivo['arch_c_nombre'];
-        //var_dump($data);die;
-        $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
+
+        $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); 
+        
         $this->load->library('pdf');
         $pdf = $this->pdf->load();
         $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
-        $pdf->WriteHTML($html); // write the HTML into the PDF
+        $pdf->WriteHTML($html);
         $pdf->Output('acta.pdf', 'I');
     }
 

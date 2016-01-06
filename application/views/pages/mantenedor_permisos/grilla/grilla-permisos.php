@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th></th>
-                <th>Nombre</th>
+                <th>Rol</th>
                 <th>Acceso a emergencias</th>
             </tr>
         </thead>

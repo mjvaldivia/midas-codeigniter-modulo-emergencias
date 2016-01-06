@@ -180,6 +180,24 @@
         <nav class="navbar-side <?= menuCollapsed("navbar"); ?>" role="navigation">
             <div class="navbar-collapse sidebar-collapse <?= menuCollapsed("sidebar"); ?>">
                 <ul id="side" class="nav navbar-nav side-nav">
+                    <li class="side-user hidden-xs">
+                        
+                        <p class="welcome">
+                            <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
+                        </p>
+                        <p class="name tooltip-sidebar-logout">
+                            {session_usuario} <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
+                        </p>
+                        <div class="clearfix"></div>
+                    </li>
+                    <!--<li class="nav-search">
+                        <form role="form">
+                            <input type="search" class="form-control" placeholder="Buscar...">
+                            <button class="btn">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </li>-->
                     <?= menuRender() ?>
                 </ul>
                 <!-- /.side-nav -->

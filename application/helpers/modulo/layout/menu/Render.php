@@ -84,7 +84,7 @@ Class Layout_Menu_Render{
                                     "Usuarios" => array("icon_class" => "fa-users",
                                                             "controller" => "",
                                                             "action" => "",
-                                                            "child" => array("Mantenedor" => array(
+                                                            "child" => array("Personas" => array(
                                                                                             "controller" => "mantenedor_usuario",
                                                                                             "action"     => "index"),
                                                                              "Permisos" => array(

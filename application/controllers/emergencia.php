@@ -7,6 +7,9 @@
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
+/**
+ * 
+ */
 class Emergencia extends MY_Controller {
 
      /**

@@ -41,12 +41,48 @@ class Mantenedor_permiso extends MY_Controller {
     }
     
     /**
+     * 
+     */
+    public function save(){
+        $params = $this->input->post(null, true);
+        
+        //se ingresa el permiso para ver
+        $this->permiso_model->query()
+                            ->insertOneToMany("rol_ia_id", "per_ia_id", $params["id"], $params["ver"]);
+        
+        $lista_permisos = $this->permiso_model->listarPorRol($params["id"]);
+        if(count($lista_permisos)>0){
+            foreach($lista_permisos as $permiso)
+            {
+                $editar    = $this->_setearPermiso($permiso["per_ia_id"], $params["editar"]);
+                $eliminar  = $this->_setearPermiso($permiso["per_ia_id"], $params["eliminar"]);
+                $finalizar = $this->_setearPermiso($permiso["per_ia_id"], $params["finalizar"]);  
+                
+                $data = array("bo_editar" => $editar,
+                              "bo_eliminar" => $eliminar,
+                              "bo_finalizar_emergencia" => $finalizar);
+                
+                $this->permiso_model->update($data, $permiso["rvsp_ia_id"]);
+            }
+        }
+        
+        $respuesta = array("correcto" => true,
+                           "error"    => array());
+        
+        echo json_encode($respuesta);
+        
+    }
+    
+    /**
      * Carga formulario
      */
     public function form()
     {
+        $params = $this->input->post(null, true);
         $lista = $this->modulo_model->listarModulosEmergencia();
-        $this->load->view("pages/mantenedor_permisos/form", array("lista" => $lista));
+        $this->load->view("pages/mantenedor_permisos/form", 
+                          array("lista" => $lista,
+                                "id_rol" => $params["id"]));
     }
     
     /**
@@ -57,6 +93,25 @@ class Mantenedor_permiso extends MY_Controller {
         $params = $this->input->post(null, true);
         $lista = $this->rol_model->listar();
         $this->load->view("pages/mantenedor_permisos/grilla/grilla-permisos", array("lista" => $lista));
+    }
+    
+    /**
+     * 
+     * @param type $per_ia_id
+     * @param type $permisos
+     * @return int
+     */
+    protected function _setearPermiso($per_ia_id, $permisos){
+        $activo = 0;
+        if(is_array($permisos)){
+            $seleccionado = array_search($per_ia_id, $permisos);
+            if($seleccionado === false){
+                $activo = 0;
+            } else {
+                $activo = 1;
+            }
+        }
+        return $activo;
     }
 }
 

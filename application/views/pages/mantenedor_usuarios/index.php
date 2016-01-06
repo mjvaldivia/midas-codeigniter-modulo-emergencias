@@ -7,7 +7,7 @@
                 <div class="pull-right">
                     <a href="#" id="nueva" class="btn btn-green btn-square">
                         <i class="fa fa-plus"></i>
-                        Nuevo usuario
+                        Nueva persona
                     </a>
                 </div>
 

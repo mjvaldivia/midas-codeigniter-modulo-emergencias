@@ -17,6 +17,33 @@ class Permiso_Model extends MY_Model {
     }
     
     /**
+     * Actualiza la alarma
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "rvsp_ia_id", $id);
+    }
+    
+    /**
+     * 
+     * @param int $id_rol
+     * @return array
+     */
+    public function listarPorRol($id_rol){
+        $result = $this->_query->select("*")
+                              ->from($this->_tabla . " m")
+                              ->whereAND("m.rol_ia_id", $id_rol)
+                              ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Ve si un rol tiene acceso o no a emergencias
      * @param int $id_rol
      * @return boolean
