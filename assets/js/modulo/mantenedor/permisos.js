@@ -10,6 +10,7 @@ var MantenedorPermisos = Class({
         this.bindButtonNuevoRol();
         this.bindButtonEditarRol();
         this.bindButtonEliminarRol();
+        this.bindButtonUsuarios();
     },
     
     /**
@@ -178,6 +179,41 @@ var MantenedorPermisos = Class({
         }); 
         
         return salida;
+    },
+    
+    bindButtonUsuarios : function(){
+        var yo = this;
+        $(".usuarios").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(e){  
+                var id = $(this).attr("data");
+                $.ajax({         
+                    dataType: "html",
+                    cache: false,
+                    async: true,
+                    data: "id=" + id,
+                    type: "post",
+                    url: siteUrl + "mantenedor_rol/usuarios", 
+                    error: function(xhr, textStatus, errorThrown){},
+                    success:function(html){
+                        bootbox.dialog({
+                            message: html,
+                            className: "modal90",
+                            title: "Usuarios asociados al rol",
+                            buttons: {
+                                cerrar: {
+                                    label: " Cancelar",
+                                    className: "btn-white fa fa-close",
+                                    callback: function() {
+
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });  
+            });  
+        }); 
     },
     
     /**

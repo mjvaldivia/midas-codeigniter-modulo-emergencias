@@ -59,6 +59,24 @@ class Usuario_Model extends MY_Model {
     }
     
     /**
+     * 
+     * @param int $id_rol
+     * @return array
+     */
+    public function listarUsuariosPorRol($id_rol){
+        $result = $this->_query->select("DISTINCT u.*")
+                               ->from($this->_tabla . " u")
+                               ->join("usuarios_vs_roles ur", "ur.usu_ia_id = u.usu_ia_id", "INNER")
+                               ->whereAND("ur.rol_ia_id", $id_rol)
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista usuarios pertenecientes a emergencias
      */
     public function listarUsuariosEmergencia($rut = NULL, $nombre = NULL, $id_region = NULL){

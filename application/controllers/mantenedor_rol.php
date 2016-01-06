@@ -22,6 +22,12 @@ class Mantenedor_rol extends MY_Controller {
     
     /**
      *
+     * @var Usuario_Model 
+     */
+    public $usuario_model;
+    
+    /**
+     *
      * @var Usuario_Rol_Model 
      */
     public $usuario_rol_model;
@@ -37,6 +43,7 @@ class Mantenedor_rol extends MY_Controller {
         $this->load->model("usuario_rol_model", "usuario_rol_model");
         $this->load->model("rol_model", "rol_model");
         $this->load->model("modulo_model", "modulo_model");
+        $this->load->model("usuario_model", "usuario_model");
     }
     
     /**
@@ -154,6 +161,14 @@ class Mantenedor_rol extends MY_Controller {
         $this->load->view("pages/mantenedor_rol/form-permisos", 
                           array("lista" => $lista,
                                 "id_rol" => $params["id"]));
+    }
+    
+    public function usuarios()
+    {
+        $this->load->helper(array("modulo/direccion/region"));
+        $params = $this->input->post(null, true);
+        $lista = $this->usuario_model->listarUsuariosPorRol($params["id"]);
+        $this->load->view("pages/mantenedor_rol/grilla/grilla-usuarios", array("lista" => $lista));
     }
     
     /**

@@ -1,5 +1,6 @@
+<div class="row">
 <div class="col-lg-12" data-row="10">
-    <table id="grilla" class="table table-hover datatable paginada hidden">
+    <table id="grilla" class="table table-hover datatable paginada">
         <thead>
             <tr>
                 <th></th>
@@ -35,4 +36,5 @@
             <?php } ?>
         </tbody>
     </table>
+</div>
 </div>
