@@ -58,7 +58,7 @@ Class Archivo_upload{
     public function upload($file_name){
         $path = $this->_nuevoDirectorio();
         $config = array('upload_path'   => $path,
-                        'allowed_types' => 'gif|jpg|png|bmp|doc|docx|pdf|xls|xlsx|txt|ppt|pptx',
+                        'allowed_types' => 'gif|jpg|png|bmp|doc|docx|pdf|xls|xlsx|txt|ppt|pptx|csv',
                         'max_size'   => '0',
                         'max_width'  => '0',
                         'max_height' => '0');
@@ -121,7 +121,7 @@ Class Archivo_upload{
         if(is_dir($this->_path . $random)){
             return $this->_nuevoDirectorio();
         } else {
-            mkdir($this->_path . $random);
+            mkdir($this->_path . $random,0777,true);
             return $this->_path . $random;
         }
     }
