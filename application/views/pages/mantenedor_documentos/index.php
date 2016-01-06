@@ -23,8 +23,10 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#gallery" data-toggle="tab"> <i class="fa fa-list"></i> Librer&iacute;a</a>
                     </li>
+                    <?php if(puedeEditar("documentacion")) { ?>
                     <li><a href="#upload" data-toggle="tab"> <i class="fa fa-upload"></i> Subir Archivo</a>
                     </li>
+                    <?php } ?>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="gallery">
@@ -42,7 +44,8 @@
                                     </div>
                                     </form>-->
                                 </div>
-
+                                
+                                <?php if(puedeEliminar("documentacion")) { ?>
                                 <div class="col-lg-5">
                                     <div id="div-archivos-seleccionados" class="alert alert-warning hidden" style="padding: 7px; text-align: center;">
                                         <strong><span id="seleccionadas-cantidad"><?php echo $cantidad; ?></span></strong>
@@ -62,7 +65,7 @@
                                         Borrar
                                     </button>
                                 </div>
-
+                                <?php } ?>
                             </div>
 
                             <div class="row">
@@ -82,6 +85,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php if(puedeEditar("documentacion")) { ?>
                     <div class="tab-pane fade " id="upload">
                         <div class="col-lg-12 top-spaced">
                             <div class="row">
@@ -98,6 +102,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
                     <div class="clearfix"></div>
                 </div>
             </div>
