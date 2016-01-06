@@ -22,17 +22,22 @@
                                         <span class="sr-only">Desplegar menú</span>
                                     </button>
 
-                                    <ul class="dropdown-menu" role="menu">                                  
-                                      <li>
-                                          <a data="<?php echo $row["rol_ia_id"]; ?>" class="editar" href="#">
-                                              <i class="fa fa-edit"></i> Editar
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a data="<?php echo $row["rol_ia_id"]; ?>" class="usuarios" href="#">
-                                              <i class="fa fa-users"></i> Usuarios asociados
-                                          </a>
-                                      </li>
+                                    <ul class="dropdown-menu" role="menu">  
+                                        <li>
+                                            <a data="<?php echo $row["rol_ia_id"]; ?>" class="editar-rol" href="#">
+                                                <i class="fa fa-edit"></i> Editar rol
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data="<?php echo $row["rol_ia_id"]; ?>" class="editar-permiso" href="#">
+                                                <i class="fa fa-edit"></i> Editar permisos
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data="<?php echo $row["rol_ia_id"]; ?>" class="usuarios" href="#">
+                                                <i class="fa fa-users"></i> Usuarios asociados
+                                            </a>
+                                        </li>
                                     </ul>
 
                                 </div>

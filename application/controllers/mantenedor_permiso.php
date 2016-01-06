@@ -43,7 +43,7 @@ class Mantenedor_permiso extends MY_Controller {
     /**
      * 
      */
-    public function save(){
+    public function save_permisos(){
         $params = $this->input->post(null, true);
         
         //se ingresa el permiso para ver
@@ -74,9 +74,25 @@ class Mantenedor_permiso extends MY_Controller {
     }
     
     /**
+     * 
+     */
+    public function save(){
+        $params = $this->input->post(null, true);
+        $rol = $this->rol_model->getById($params["id"]);
+        
+        $data = array("rol_c_nombre" => $params["nombre"]);
+        
+        if(is_null($rol)){
+            $this->rol_model->insert($data);
+        } else {
+            $this->rol_model->update($data, $rol->rol_ia_id);
+        }
+    }
+    
+    /**
      * Carga formulario
      */
-    public function form()
+    public function form_permisos()
     {
         $params = $this->input->post(null, true);
         $lista = $this->modulo_model->listarModulosEmergencia();

@@ -1,11 +1,12 @@
 var MantenedorPermisos = Class({
+    
     /**
      * Carga de dependencias
      * @returns void
      */
     __construct : function() {
         this.loadGridRoles();
-        this.bindButtonEditar();
+        this.bindButtonEditarPermiso();
     },
     
     /**
@@ -44,7 +45,7 @@ var MantenedorPermisos = Class({
         this.loadGridRoles();
     },
     
-    guardar : function(){
+    guardarPermiso : function(){
         var yo = this;
         
         var parametros = $("#form-permisos").serializeArray();
@@ -57,7 +58,7 @@ var MantenedorPermisos = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "mantenedor_permiso/save", 
+            url: siteUrl + "mantenedor_permiso/save_permisos", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto == true){
@@ -78,9 +79,9 @@ var MantenedorPermisos = Class({
      * 
      * @returns {undefined}
      */
-    bindButtonEditar : function(){
+    bindButtonEditarPermiso : function(){
         var yo = this;
-        $(".editar").livequery(function(){
+        $(".editar-permiso").livequery(function(){
            $(this).unbind("click");
            $(this).click(function(){
                var id = $(this).attr("data");
@@ -90,7 +91,7 @@ var MantenedorPermisos = Class({
                     async: true,
                     data: "id=" + id,
                     type: "post",
-                    url: siteUrl + "mantenedor_permiso/form", 
+                    url: siteUrl + "mantenedor_permiso/form_permisos", 
                     error: function(xhr, textStatus, errorThrown){},
                     success:function(html){
                         bootbox.dialog({
@@ -102,7 +103,7 @@ var MantenedorPermisos = Class({
                                     label: " Guardar",
                                     className: "btn-success fa fa-check",
                                     callback: function() {
-                                        return yo.guardar();
+                                        return yo.guardarPermiso();
                                     }
                                 },
                                 cerrar: {

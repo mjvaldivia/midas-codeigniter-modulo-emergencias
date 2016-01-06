@@ -20,6 +20,25 @@ class Rol_Model extends MY_Model {
     }
     
     /**
+     * Actualiza 
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "ala_ia_id", $id);
+    }
+    
+    /**
+     * 
+     * @param array $data
+     * @return int
+     */
+    public function insert($data){
+        return $this->_query->insert($data);
+    }
+    
+    /**
      * 
      * @return array
      */
