@@ -18,6 +18,15 @@ class Usuario_Rol_Model extends MY_Model
     }
     
     /**
+     * Borra todos los registros asociados a un rol
+     * @param int $id_rol
+     * @return boolean
+     */
+    public function deletePorRol($id_rol){
+        return $this->_query->delete("rol_ia_id", $id_rol);
+    }
+    
+    /**
      * 
      * @param int $id_usuario identificador usuario
      * @return array

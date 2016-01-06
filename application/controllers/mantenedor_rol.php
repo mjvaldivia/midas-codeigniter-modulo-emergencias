@@ -1,6 +1,6 @@
 <?php
 
-class Mantenedor_permiso extends MY_Controller {
+class Mantenedor_rol extends MY_Controller {
     
     /**
      *
@@ -21,6 +21,12 @@ class Mantenedor_permiso extends MY_Controller {
     public $modulo_model;
     
     /**
+     *
+     * @var Usuario_Rol_Model 
+     */
+    public $usuario_rol_model;
+    
+    /**
      * Constructor
      */
     public function __construct() 
@@ -28,6 +34,7 @@ class Mantenedor_permiso extends MY_Controller {
         parent::__construct();
         $this->load->helper(array("modulo/permiso/permiso"));
         $this->load->model("permiso_model", "permiso_model");
+        $this->load->model("usuario_rol_model", "usuario_rol_model");
         $this->load->model("rol_model", "rol_model");
         $this->load->model("modulo_model", "modulo_model");
     }
@@ -37,13 +44,78 @@ class Mantenedor_permiso extends MY_Controller {
      */
     public function index()
     {
-        $this->template->parse("default", "pages/mantenedor_permisos/index", array());
+        $this->template->parse("default", "pages/mantenedor_rol/index", array());
     }
     
     /**
      * 
      */
-    public function save_permisos(){
+    public function save()
+    {
+        $this->load->library(array("mantenedor/rol/mantenedor_rol_validar"));
+        
+        $params = $this->input->post(null, true);
+        
+        $correcto = $this->mantenedor_rol_validar->esValido($params);
+        
+        if($correcto){
+            $rol = $this->rol_model->getById($params["id"]);
+            $data = array("rol_c_nombre" => $params["nombre"]);
+            if(is_null($rol)){
+                $this->rol_model->insert($data);
+            } else {
+                $this->rol_model->update($data, $rol->rol_ia_id);
+            }
+        }
+        
+        $respuesta = array("correcto" => $correcto,
+                           "error"    => $this->mantenedor_rol_validar->getErrores());
+        
+        echo json_encode($respuesta);
+    }
+    
+    /**
+     * 
+     */
+    public function eliminar_rol()
+    {
+        $params = $this->input->post(null, true);
+        
+        $this->usuario_rol_model->deletePorRol($params["id"]);
+        $this->permiso_model->deletePorRol($params["id"]);
+        $this->rol_model->delete($params["id"]);
+        
+        $respuesta = array("correcto" => true,
+                           "error"    => array());
+        
+        echo json_encode($respuesta);
+    }
+    
+    /**
+     * Formulario para ingresar/editar rol
+     * @throws Exception
+     */
+    public function form()
+    {
+        $params = $this->input->post(null, true);
+        $rol = $this->rol_model->getById($params["id"]);
+        if(!is_null($rol)){
+            $data = array("id"  => $rol->rol_ia_id,
+                          "nombre" => $rol->rol_c_nombre );
+        } else {
+            $data = array();
+        }
+        
+        
+        $this->load->view("pages/mantenedor_rol/form", $data);
+        
+    }
+    
+    /**
+     * 
+     */
+    public function save_permisos()
+    {
         $params = $this->input->post(null, true);
         
         //se ingresa el permiso para ver
@@ -70,33 +142,16 @@ class Mantenedor_permiso extends MY_Controller {
                            "error"    => array());
         
         echo json_encode($respuesta);
-        
     }
     
     /**
-     * 
-     */
-    public function save(){
-        $params = $this->input->post(null, true);
-        $rol = $this->rol_model->getById($params["id"]);
-        
-        $data = array("rol_c_nombre" => $params["nombre"]);
-        
-        if(is_null($rol)){
-            $this->rol_model->insert($data);
-        } else {
-            $this->rol_model->update($data, $rol->rol_ia_id);
-        }
-    }
-    
-    /**
-     * Carga formulario
+     * Formulario para editar permisos
      */
     public function form_permisos()
     {
         $params = $this->input->post(null, true);
         $lista = $this->modulo_model->listarModulosEmergencia();
-        $this->load->view("pages/mantenedor_permisos/form", 
+        $this->load->view("pages/mantenedor_rol/form-permisos", 
                           array("lista" => $lista,
                                 "id_rol" => $params["id"]));
     }
@@ -108,7 +163,7 @@ class Mantenedor_permiso extends MY_Controller {
     {
         $params = $this->input->post(null, true);
         $lista = $this->rol_model->listar();
-        $this->load->view("pages/mantenedor_permisos/grilla/grilla-permisos", array("lista" => $lista));
+        $this->load->view("pages/mantenedor_rol/grilla/grilla-permisos", array("lista" => $lista));
     }
     
     /**

@@ -26,7 +26,7 @@ class Rol_Model extends MY_Model {
      * @return int
      */
     public function update($data, $id){
-        return $this->_query->update($data, "ala_ia_id", $id);
+        return $this->_query->update($data, "rol_ia_id", $id);
     }
     
     /**
@@ -36,6 +36,10 @@ class Rol_Model extends MY_Model {
      */
     public function insert($data){
         return $this->_query->insert($data);
+    }
+    
+    public function delete($id_rol){
+        return $this->_query->delete("rol_ia_id", $id_rol);
     }
     
     /**

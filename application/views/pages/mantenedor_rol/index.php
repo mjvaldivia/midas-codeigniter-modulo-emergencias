@@ -26,12 +26,14 @@
         
                             
         <div id="pResultados" class="portlet portlet-default">
-            <div class="portlet-body table-responsive">
+            <div class="portlet-body table-responsive" style="padding-bottom: 75px">
                 <div id="grilla-roles"></div>
                 <div id="grilla-roles-loading" class="col-lg-12 text-center"> 
                     <i class="fa fa-4x fa-spin fa-spinner"></i> 
                 </div>
+               
             </div>
+            
         </div>
     </div>
 </div>
