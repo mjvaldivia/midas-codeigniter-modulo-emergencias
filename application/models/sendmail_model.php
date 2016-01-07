@@ -35,8 +35,9 @@ class Sendmail_Model extends MY_Model {
             if($cc!==null){
                 $mail->AddCC($cc);
             }
+
             $array_to=  explode(',', $to);
-            
+
             foreach ($array_to as $to) {
                 $mail->AddAddress($to);
             }

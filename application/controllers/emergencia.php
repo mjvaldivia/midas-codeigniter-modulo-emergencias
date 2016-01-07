@@ -177,6 +177,27 @@ class Emergencia extends MY_Controller {
                 $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
                 
                 $id = $this->emergencia_guardar->getId();
+
+                /* verificar si existen adjuntos en temporal */
+                $directorio = 'media/tmp/';
+                $readDir = array_diff(scandir($directorio), array('..', '.'));
+                $this->load->model('archivo_model');
+                foreach($readDir as $file){
+                    if(preg_match("/^".$emergencia->eme_ia_id."-emergencia_adjunto_temp_/",$file)){
+                        if(!is_dir('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/')){
+                            mkdir('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/',0777,true);
+                        }
+                        $file_nuevo = str_replace('emergencia_adjunto_temp_','',$file);
+                        if(rename($directorio.$file, 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo)){
+
+                            $ruta = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo;
+                            $archivo = $this->archivo_model->file_to_bd('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/', $file_nuevo, mime_content_type($ruta), $this->archivo_model->TIPO_EMERGENCIA, $emergencia->ala_ia_id, filesize($ruta));
+                            $file_nuevo = $archivo . '_'.$file_nuevo;
+                            rename($ruta,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo);
+                        }
+
+                    }
+                }
                 
                 $respuesta["correcto"] = $correcto;
                 $respuesta["error"]    = $this->alarmavalidar->getErrores();
@@ -537,6 +558,44 @@ class Emergencia extends MY_Controller {
         $this->load->model("emergencia_model", "EmergenciaModel");
         $res = $this->EmergenciaModel->eliminar_Emergencia($params['id']);
         echo ($res) ? 1 : 0;
+    }
+
+
+    public function subir_AdjuntoEmergenciaTmp(){
+        $params = $this->uri->uri_to_assoc();
+        $this->load->helper(array("session", "debug"));
+        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        sessionValidation();
+        if (!isset($_FILES)) {
+            show_error("No se han detectado archivos", 500, "Error interno");
+        }
+
+        /*if(isset($_FILES['adjunto-emergencia'])){
+            $tmp_name = $_FILES['input-icon-editar']['tmp_name'];
+        }else{
+            $tmp_name = $_FILES['adjunto-emergencia']['tmp_name'];
+        }*/
+
+        $tmp_name = $_FILES['adjunto-emergencia']['tmp_name'];
+        $name = explode(".",$_FILES['adjunto-emergencia']['name']);
+        array_pop($name);
+        $name = implode($name);
+
+
+
+        $fp = file_get_contents($tmp_name, 'r');
+
+
+        $nombre_cache_id = $params['id'] . '-emergencia_adjunto_temp_'.$name.'_'.  uniqid();
+        $binary_path = ('media/tmp/'.$nombre_cache_id);
+        $ftmp = fopen($binary_path, 'w');
+        fwrite($ftmp, $fp);
+
+
+
+
+
+        echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>$binary_path));
     }
     
 }
