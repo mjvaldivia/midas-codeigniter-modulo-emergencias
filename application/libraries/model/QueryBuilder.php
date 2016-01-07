@@ -151,6 +151,20 @@ class QueryBuilder{
     }
     
     /**
+     * Añade un WHERE complejo
+     * @param string $where
+     */
+    public function addWhere($where){
+         if(empty($this->where)){
+            $sql = " WHERE " .$where;
+        }else{
+            $sql = " AND " . $where;
+        }
+        $this->where .= $sql;
+        return $this;
+    }
+    
+    /**
      * 
      * @param type $campo
      * @param type $valor
@@ -394,7 +408,6 @@ class QueryBuilder{
         } else {
              $query = $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ?", array($id_primary));
         }
-        
     }
     
     /**

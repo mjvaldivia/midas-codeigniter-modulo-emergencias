@@ -138,12 +138,14 @@ class Mantenedor_rol extends MY_Controller {
                 $finalizar = $this->_setearPermiso($permiso["per_ia_id"], $params["finalizar"]);  
                 $reporte = $this->_setearPermiso($permiso["per_ia_id"], $params["reporte"]);  
                 $visor = $this->_setearPermiso($permiso["per_ia_id"], $params["visor"]);
+                $activar_alarma = $this->_setearPermiso($permiso["per_ia_id"], $params["activar_alarma"]);
                 
                 $data = array("bo_editar" => $editar,
                               "bo_eliminar" => $eliminar,
                               "bo_finalizar_emergencia" => $finalizar,
                               "bo_reporte_emergencia" => $reporte,
-                              "bo_visor_emergencia" => $visor);
+                              "bo_visor_emergencia" => $visor,
+                              "bo_activar_alarma" => $activar_alarma);
                 
                 $this->permiso_model->update($data, $permiso["rvsp_ia_id"]);
             }

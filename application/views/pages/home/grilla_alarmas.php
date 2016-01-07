@@ -18,15 +18,13 @@
             <?php if(count($lista)>0){ ?>
             <?php foreach($lista as $row){ ?>
             <tr>
-                <?php if (puedeEditar("emergencia") && puedeEliminar("alarma")) { ?>
+                <?php if (puedeActivarAlarma("alarma") || puedeEliminar("alarma")) { ?>
                 <td width="10%" align="center">
                     
                     <div style="width: 90px">
                         <div class="row">
                             <div class="btn-group">
-                               
-                                
-                                
+
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                     Acciones
                                     <span class="caret"></span>
@@ -35,16 +33,17 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     
-                                  <?php if (puedeEditar("emergencia")) { ?>
+                                  <?php if (puedeActivarAlarma("alarma")) { ?>
                                   <li>
                                       <a data="<?php echo $row["ala_ia_id"]; ?>" class="emergencia-nueva" href="#">
                                           <i class="fa fa-bullhorn"></i> Generar emergencia
                                       </a>
                                   </li>
+                                  <li class="divider"></li>
                                   <?php } ?>
                                   
                                   <?php if (puedeEliminar("alarma")) { ?>
-                                  <li class="divider"></li>
+                                  
                                   <li>
                                       <a data="<?php echo $row["ala_ia_id"]; ?>" class="alarma-eliminar" href="#">
                                           <i class="fa fa-trash"></i> Eliminar

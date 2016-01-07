@@ -53,7 +53,7 @@ var MapReport = {
 
             setTimeout(function () {
                 self.renderImage(modo);
-            }, 2000);
+            }, 4000);
         });
 
 

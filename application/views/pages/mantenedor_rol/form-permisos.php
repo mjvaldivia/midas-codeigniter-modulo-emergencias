@@ -11,7 +11,7 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body" style='height: 100px'>
                 <div class="row"> 
                     <div class="col-sm-4">
                         <input <?php echo permisoFormCheckedVer($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="ver[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
@@ -19,6 +19,7 @@
                     </div>
                     <div id="permisos_io_<?php echo $row["per_ia_id"] ?>">
                         <?php if($row["per_ia_id"] != Modulo_Model::SUB_SIMULACION) { ?>
+                            
                             <div class="col-sm-4">
                                 <input <?php echo permisoFormCheckedEditar($id_rol, $row["per_ia_id"]); ?> name="editar[]" id="editar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                                 Editar
@@ -27,6 +28,14 @@
                                 <input <?php echo permisoFormCheckedEliminar($id_rol, $row["per_ia_id"]); ?> name="eliminar[]" id="eliminar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                                 Eliminar
                             </div>
+                        
+                            <?php if($row["per_ia_id"] == Modulo_Model::SUB_MODULO_ALARMA) { ?>
+                                <div class="col-sm-4">
+                                    <input <?php echo permisoFormCheckedActivarAlarma($id_rol, $row["per_ia_id"]); ?> name="activar_alarma[]" id="activar_alarma_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                                    Activar alarma
+                                </div>
+                            <?php } ?>
+                        
                             <?php if($row["per_ia_id"] == Modulo_Model::SUB_MODULO_EMERGENCIA) { ?>
                    
                                 <div class="col-sm-4">

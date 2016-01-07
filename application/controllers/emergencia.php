@@ -372,7 +372,7 @@ class Emergencia extends MY_Controller {
         $json["columns"] = array(
             array("sTitle" => "Emergencias"),
         );
-   
+        
         echo json_encode($json);
     }
 

@@ -31,6 +31,19 @@ function permisoFormCheckedVer($id_rol, $id_modulo){
  * @param type $id_modulo
  * @return type
  */
+function permisoFormCheckedActivarAlarma($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->activarAlarma();
+}
+
+/**
+ * 
+ * @param type $id_rol
+ * @param type $id_modulo
+ * @return type
+ */
 function permisoFormCheckedFinalizar($id_rol, $id_modulo){
     $atributo = New Permiso_Form_Attribute_Checked();
     $atributo->setRol($id_rol);

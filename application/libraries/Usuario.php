@@ -136,6 +136,19 @@ Class Usuario{
      * 
      * @return boolean
      */
+    public function getPermisoActivarAlarma(){
+        $permiso = $this->_permiso_model->tienePermisoActivarAlarma($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
     public function getPermisoVisorEmergencia(){
         $permiso = $this->_permiso_model->tienePermisoVisorEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
         if($permiso){

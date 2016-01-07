@@ -135,11 +135,17 @@
                             <i class="fa fa-user"></i> {session_usuario} <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
+                            
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-cog"></i> {session_cargo}
+                                    <i class="fa fa-cog"></i> <strong>Roles</strong>
                                 </a>
                             </li>
+                            
+                            <?php echo headerRoles(); ?>
+                            
+                            <li class="divider"></li>
+                            
                             <li>
                                 <a href="#">
                                     <i class="fa fa-globe"></i> {session_region}
