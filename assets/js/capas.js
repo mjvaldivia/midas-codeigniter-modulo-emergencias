@@ -368,9 +368,9 @@ var Layer = {};
                 },
                 success:function(html){
                     $("#contenedor-grilla-capas").html(html);
-
+                    $("#resultados_capa").html(' para capa <strong>'+nombre_capa+'</strong>  <button type="button" class="btn btn-sm btn-success" title="Volver a Listado de Capas" onclick="Layer.volverListadoCapas();"><i class="fa fa-arrow-left"></i></button>');
                     $("#tab2 > #div_tab_2").fadeIn(function(){
-                        $("#resultados_capa").html(' para capa <strong>'+nombre_capa+'</strong>  <button type="button" class="btn btn-sm btn-success" title="Volver a Listado de Capas" onclick="Layer.volverListadoCapas();"><i class="fa fa-arrow-left"></i></button>');
+
                     });
                 }
             });
@@ -392,8 +392,10 @@ var Layer = {};
                 },
                 success:function(html){
                     $("#contenedor-grilla-capas").html(html);
+                    $("#resultados_capa").html('');
+                    $("#tab2 > #div_tab_2").fadeIn(function(){
 
-                    $("#tab2 > #div_tab_2").fadeIn();
+                    });
                 }
             });
         });
