@@ -20,6 +20,29 @@ class Rol_Model extends MY_Model {
     }
     
     /**
+     * Actualiza 
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "rol_ia_id", $id);
+    }
+    
+    /**
+     * 
+     * @param array $data
+     * @return int
+     */
+    public function insert($data){
+        return $this->_query->insert($data);
+    }
+    
+    public function delete($id_rol){
+        return $this->_query->delete("rol_ia_id", $id_rol);
+    }
+    
+    /**
      * 
      * @return array
      */

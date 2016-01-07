@@ -59,15 +59,37 @@ class Usuario_Model extends MY_Model {
     }
     
     /**
+     * 
+     * @param int $id_rol
+     * @return array
+     */
+    public function listarUsuariosPorRol($id_rol){
+        $result = $this->_query->select("DISTINCT u.*")
+                               ->from($this->_tabla . " u")
+                               ->join("usuarios_vs_roles ur", "ur.usu_ia_id = u.usu_ia_id", "INNER")
+                               ->whereAND("ur.rol_ia_id", $id_rol)
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista usuarios pertenecientes a emergencias
      */
-    public function listarUsuariosEmergencia($nombre = NULL, $id_region = NULL){
+    public function listarUsuariosEmergencia($rut = NULL, $nombre = NULL, $id_region = NULL){
         $query = $this->_query->select("DISTINCT u.*")
                                ->from($this->_tabla . " u");
                                /*->join("usuarios_vs_roles ur", "ur.usu_ia_id = u.usu_ia_id", "INNER")
                                ->join("roles_vs_permisos rp", "rp.rol_ia_id = ur.rol_ia_id", "INNER")
                                ->whereAND("rp.per_ia_id", $this->_modulo_model->listSubmodulos(), "IN");*/
 
+        if(!is_null($rut) and $rut!=""){
+            $query->whereAND("u.usu_c_rut", "%" . $rut . "%", "LIKE");
+        }
+        
         if(!is_null($nombre) and $nombre!=""){
             $query->whereAND("CONCAT_WS(\" \", u.usu_c_nombre, u.usu_c_apellido_paterno, u.usu_c_apellido_materno)", "%" . $nombre . "%", "LIKE");
         }

@@ -23,29 +23,28 @@
 <div class="row">
     <div class="col-lg-12">           
         <form name="busqueda" id="busqueda" class=" form-busqueda">
-            <div class="portlet portlet-default">
-                <div class="portlet-heading">
-                    <div class="portlet-title">
-                        <h4><i class="fa fa-filter"></i>
-                        Filtros
-                        </h4>
-                    </div>
-                </div>
+            <div class="portlet portlet-basic">
                 <div class="portlet-body">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
+                            <div class="form-group clearfix">
+                                <label for="" class="control-label">Rut</label>
+                                <input id="filtro_rut" name="filtro_rut" type="text" class="form-control" value=""/>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
                             <div class="form-group clearfix">
                                 <label for="" class="control-label">Nombre</label>
                                 <input id="filtro_nombre" name="filtro_nombre" type="text" class="form-control" value=""/>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group clearfix">
                                 <label for="filtro_id_region" class="control-label">Región</label>
                                 <?= formElementSelectRegion("filtro_id_region", "",array("class" => "form-control") ) ?>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <button id="btn-buscar" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">
                                 <i class="fa fa-search"></i>
                                 Buscar
@@ -57,13 +56,6 @@
         </form>
                             
         <div id="pResultados" class="portlet portlet-default">
-            <div class="portlet-heading">
-                <div class="portlet-title">
-                    <h4><i class="fa fa-th-list"></i>
-                    Resultados
-                    </h4>
-                </div>
-            </div>
             <div class="portlet-body table-responsive">
                 <div id="grilla-usuarios"></div>
                 <div id="grilla-usuarios-loading" class="col-lg-12 text-center"> 

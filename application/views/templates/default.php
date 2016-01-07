@@ -84,7 +84,7 @@
                     <i class="fa fa-bars"></i> Menu
                 </button>
                 <div class="navbar-brand">
-                    <a href="<?php echo base_url("/") ?>" style="color: #FFF">
+                    <a href="<?php echo base_url("/") ?>">
                         <div> <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencias</div>
                        
                     </a>

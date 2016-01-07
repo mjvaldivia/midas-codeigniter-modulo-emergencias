@@ -139,7 +139,7 @@ class Mantenedor_usuario extends MY_Controller {
     {
         $params = $this->input->post(null, true);
         
-        $lista = $this->usuario_model->listarUsuariosEmergencia($params["filtro_nombre"], $params["filtro_id_region"]);
+        $lista = $this->usuario_model->listarUsuariosEmergencia($params["filtro_rut"],$params["filtro_nombre"], $params["filtro_id_region"]);
         
         $this->load->view("pages/mantenedor_usuarios/grilla/grilla-usuarios", array("lista" => $lista));
     }

@@ -206,9 +206,12 @@ a:focus {
 .navbar-top .navbar-brand a {
     display: inline-block;
     transition: all ease-in-out .3s;
+    color: #FFF;
+    font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .navbar-top .navbar-brand a:hover {
+    text-decoration: none;
     opacity: 0.7;
 }
 

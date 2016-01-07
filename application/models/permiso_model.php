@@ -27,6 +27,15 @@ class Permiso_Model extends MY_Model {
     }
     
     /**
+     * Borra todos los permisos asociados a un rol
+     * @param int $id_rol
+     * @return boolean
+     */
+    public function deletePorRol($id_rol){
+        return $this->_query->delete("rol_ia_id", $id_rol);
+    }
+    
+    /**
      * 
      * @param int $id_rol
      * @return array
@@ -81,6 +90,44 @@ class Permiso_Model extends MY_Model {
             }
         }
             
+        return false;
+    }
+    
+    /**
+     * 
+     * @param array $lista_roles
+     * @param int $id_submodulo
+     * @return boolean
+     */
+    public function tienePermisoReporteEmergencia($lista_roles, $id_submodulo){
+        $result = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
+                       ->whereAND("m.bo_reporte_emergencia", 1)
+                       ->select("count(*) as cantidad", false)
+                       ->getOneResult();
+        if(!is_null($result)){
+            if($result->cantidad > 0){
+                return true;
+            }
+        }  
+        return false;
+    }
+    
+    /**
+     * 
+     * @param array $lista_roles
+     * @param int $id_submodulo
+     * @return boolean
+     */
+    public function tienePermisoVisorEmergencia($lista_roles, $id_submodulo){
+        $result = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
+                       ->whereAND("m.bo_visor_emergencia", 1)
+                       ->select("count(*) as cantidad", false)
+                       ->getOneResult();
+        if(!is_null($result)){
+            if($result->cantidad > 0){
+                return true;
+            }
+        }  
         return false;
     }
     

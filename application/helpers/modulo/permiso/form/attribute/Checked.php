@@ -115,6 +115,32 @@ Class Permiso_Form_Attribute_Checked{
      * 
      * @return string
      */
+    public function reporteEmergencia(){
+        $valido = $this->_permiso_model->tienePermisoReporteEmergencia(array($this->_id_rol), $this->_id_modulo);
+        if($valido){
+            return $this->_checked();
+        } else {
+            return "";
+        }
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function visorEmergencia(){
+        $valido = $this->_permiso_model->tienePermisoVisorEmergencia(array($this->_id_rol), $this->_id_modulo);
+        if($valido){
+            return $this->_checked();
+        } else {
+            return "";
+        }
+    }
+    
+    /**
+     * 
+     * @return string
+     */
     protected function _checked(){
         return "checked=\"checked\"";
     }
