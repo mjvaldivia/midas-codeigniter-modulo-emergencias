@@ -371,7 +371,7 @@ class Visor extends MY_Controller {
 
         $this->load->model("archivo_model", "ArchivoModel");
         $resp = $this->ArchivoModel->upload_to_site($name, 'image/png', $tmp_name, $params['eme_ia_id'], $this->ArchivoModel->TIPO_MAPA_REPORTE, filesize($tmp_name));
-        header("Access-Control-Allow-Origin: ");
+        header("Access-Control-Allow-Origin:*");
         if (json_decode($resp)->error == 0) {
             echo json_encode(array('k' => json_decode($resp)->k));
         } else {
