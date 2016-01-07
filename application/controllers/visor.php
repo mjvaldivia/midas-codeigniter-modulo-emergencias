@@ -185,46 +185,53 @@ class Visor extends MY_Controller {
         $this->load->library("template");
         $this->load->helper("session");
         sessionValidation();
-        $params_post = $this->input->post();
 
-        if (isset($params_post['adj_reporte'])) {
-            if ($ruta = $this->ReporteAdisco()) {
-                array_push($attach, $ruta);
-            } else {
+        $params_post = array();
+        parse_str($this->input->post('datos'),$params_post);
+        if(count($params_post) == 0){
+            $error++;
+        }else{
+            if (isset($params_post['adj_reporte'])) {
+                if ($ruta = $this->ReporteAdisco()) {
+                    array_push($attach, $ruta);
+                } else {
+                    $error++;
+                }
+            }
+
+            foreach ($params_post as $key => $val) { //reviso los que han sido chequeados para enviarse como adjuntos
+                if (strpos($key, 'chk_') !== false) {
+
+                    $id = explode('_', $key);
+                    $id = $id[1];
+
+                    $arch = $this->ArchivoModel->get_file_from_id($id);
+                    if ($arch !== null) {
+                        array_push($attach, $arch['arch_c_nombre']);
+                    }
+                }
+            }
+
+
+
+
+            $to = $params_post['destino'];
+            $subject = $params_post['asunto'];
+            $message = $params_post['mensaje'];
+
+
+            if (isset($params_post['con_copia'])) {
+                $cc = $this->session->userdata('session_email');
+            }
+            //var_dump($cc);die;
+            if (!$this->SendmailModel->emailSend($to, $cc, null, $subject, $message, false, $attach)) {
                 $error++;
             }
         }
 
-        foreach ($params_post as $key => $val) { //reviso los que han sido chequeados para enviarse como adjuntos
-            if (strpos($key, 'chk_') !== false) {
 
-                $id = explode('_', $key);
-                $id = $id[1];
-
-                $arch = $this->ArchivoModel->get_file_from_id($id);
-                if ($arch !== null) {
-                    array_push($attach, $arch['arch_c_nombre']);
-                }
-            }
-        }
-
-
-
-
-        $to = $params_post['destino'];
-        $subject = $params_post['asunto'];
-        $message = $params_post['mensaje'];
-
-
-
-        if (isset($params_post['con_copia'])) {
-            $cc = $this->session->userdata('session_email');
-        }
-        //var_dump($cc);die;
-        if (!$this->SendmailModel->emailSend($to, $cc, null, $subject, $message, false, $attach)) {
-            $error++;
-        }
-        echo $error;
+        $json['estado'] = $error;
+        echo json_encode($json);
     }
 
     public function saveGeoJson() {

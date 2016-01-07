@@ -5,7 +5,7 @@
             <td>Categoría</td>
             <td>Zona Geográfica</td>
             <td>Ícono</td>
-            <td>Propiedades</td>
+            <td>Región</td>
             <td># GeoJSON cargados</td>
             <!--<td>Nombre Archivo</td>-->
             <!--<td>Archivo</td>-->
@@ -20,7 +20,7 @@
             <td><?php echo $row['ccb_c_categoria']; ?></td>
             <td><?php echo $row['geozone']; ?></td>
             <td align="center"><?php echo getCapaPreview($row["cap_ia_id"]); ?></td>
-            <td><?php echo $row['cap_c_propiedades']; ?></td>
+            <td><?php echo $row['nombre_region']; ?></td>
             <td class="text-center"><?php echo $row['total_geojson']?></td>
             <!--<td><?php echo basename(FCPATH . $row['capa']); ?></td>-->
             <!--<td><?php echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); ?> </td>-->

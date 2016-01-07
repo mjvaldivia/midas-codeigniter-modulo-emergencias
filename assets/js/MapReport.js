@@ -411,15 +411,15 @@ var MapReport = {
                                 });
 
                                 formulario += '&destino=' + destino;
-
+                                console.log(formulario);
 
                                 $.ajax({
                                     url: siteUrl + 'visor/enviarMail/id/' + $('#eme_ia_id').val() + '/k/' + data.k,
                                     dataType: 'json',
-                                    data: formulario,
+                                    data: {datos:formulario},
                                     type: 'POST',
                                     success: function (data) {
-                                        if (data == 0) {
+                                        if (data.estado == 0) {
 
                                             bootbox.dialog({
                                                 title: "Envío de correo",
