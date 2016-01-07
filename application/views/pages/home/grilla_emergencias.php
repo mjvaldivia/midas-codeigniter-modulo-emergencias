@@ -38,11 +38,14 @@
                                   </li>
                                   <?php } ?>
                                   
+                                  <?php if(puedeAbrirVisorEmergencia("emergencia")) { ?>
                                   <li>
                                       <a onclick="window.open(siteUrl + 'visor/index/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" href="#">
                                           <i class="fa fa-globe"></i> Abrir visor
                                       </a>
                                   </li>
+                                  <?php } ?>
+                                  
                                   <?php if (puedeFinalizarEmergencia()) { ?>
                                   <li>
                                       <a data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-cerrar" href="#">
@@ -51,11 +54,13 @@
                                   </li>
                                   <?php } ?>
                                   
+                                  <?php if(puedeVerReporteEmergencia("emergencia")) { ?>
                                   <li>
                                       <a style="cursor: pointer" data-toggle='modal' class='modal-sipresa' data-style='width:80%;' data-href='<?php echo site_url("visor/reporte/id/" . $row["eme_ia_id"] . "/ala_ia_id/" . $row["ala_ia_id"] . "/eme_ia_id/" . $row["eme_ia_id"]) ?>' data-title='Administracion del Reporte' data-target='#modal_<?php echo $row["eme_ia_id"]; ?>'>
                                           <i class="fa fa-file-text-o"></i> Reporte
                                       </a>
                                   </li>
+                                  <?php } ?>
                                   
                                   <?php if (puedeEliminar("emergencia")) { ?>
                                   <li class="divider"></li>

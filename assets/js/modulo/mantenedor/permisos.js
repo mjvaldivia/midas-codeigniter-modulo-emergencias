@@ -11,6 +11,7 @@ var MantenedorPermisos = Class({
         this.bindButtonEditarRol();
         this.bindButtonEliminarRol();
         this.bindButtonUsuarios();
+        this.bindButtonQuitarUsuarioRol();
     },
     
     /**
@@ -34,6 +35,30 @@ var MantenedorPermisos = Class({
         }); 
         
         return true;
+    },
+    
+    bindButtonQuitarUsuarioRol : function(){
+      $(".quitar-usuario-rol").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(e){  
+                e.preventDefault();
+                var id = $(this).attr("data-rel");
+                var id_rol = $("#id_rol").val();
+                $.ajax({         
+                    dataType: "json",
+                    cache: false,
+                    async: true,
+                    data: "id_usuario=" + id + "&id_rol=" + id_rol,
+                    type: "post",
+                    url: siteUrl + "mantenedor_rol/quitar_usuario_rol", 
+                    error: function(xhr, textStatus, errorThrown){},
+                    success:function(data){
+                       
+                    }
+                });
+                $(this).parent("td").parent("tr").remove();
+            });
+        });  
     },
     
     /**

@@ -120,6 +120,32 @@ Class Usuario{
     }
     
     /**
+     * 
+     * @return boolean
+     */
+    public function getPermisoReporteEmergencia(){
+        $permiso = $this->_permiso_model->tienePermisoReporteEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getPermisoVisorEmergencia(){
+        $permiso = $this->_permiso_model->tienePermisoVisorEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * Si puede editar o no
      * @return boolean
      */

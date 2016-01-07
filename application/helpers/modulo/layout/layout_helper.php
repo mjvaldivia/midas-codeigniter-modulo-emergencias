@@ -45,6 +45,26 @@ function puedeEliminar($modulo){
 
 /**
  * 
+ * @param type $modulo
+ * @return type
+ */
+function puedeAbrirVisorEmergencia($modulo){
+    $reporte = New Layout_Usuario_Permiso();
+    return $reporte->puedeAbrirVisorEmergencia($modulo);
+}
+
+/**
+ * 
+ * @param type $modulo
+ * @return type
+ */
+function puedeVerReporteEmergencia($modulo){
+    $reporte = New Layout_Usuario_Permiso();
+    return $reporte->puedeVerReporteEmergencia($modulo);
+}
+
+/**
+ * 
  * @param string $modulo
  * @return boolean
  */

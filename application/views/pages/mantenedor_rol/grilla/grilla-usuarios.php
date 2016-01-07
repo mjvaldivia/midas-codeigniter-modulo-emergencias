@@ -1,3 +1,5 @@
+<input type="hidden" name="id_rol" id="id_rol" value="<?php echo $id; ?>" />
+
 <div class="row">
 <div class="col-lg-12" data-row="10">
     <table id="grilla" class="table table-hover datatable paginada">
@@ -15,7 +17,7 @@
             <?php foreach($lista as $row){ ?>
             <tr>
                 <td width="10%" align="center">    
-                    <button class="btn btn-xs btn-danger" title="Quitar usuario del rol">
+                    <button data-rel="<?php echo $row["usu_ia_id"]; ?>" class="btn btn-xs btn-danger quitar-usuario-rol" title="Quitar usuario del rol">
                         <i class="fa fa-remove"></i>
                     </button>
                 </td>

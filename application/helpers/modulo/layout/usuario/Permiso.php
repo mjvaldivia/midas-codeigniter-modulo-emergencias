@@ -53,5 +53,25 @@ Class Layout_Usuario_Permiso{
         $this->usuario->setModulo($modulo);
         return $this->usuario->getPermisoEliminar();
     }
+    
+    /**
+     * 
+     * @param string $modulo
+     * @return boolean
+     */
+    public function puedeVerReporteEmergencia($modulo){
+        $this->usuario->setModulo($modulo);
+        return $this->usuario->getPermisoReporteEmergencia();
+    }
+    
+    /**
+     * 
+     * @param string $modulo
+     * @return boolean
+     */
+    public function puedeAbrirVisorEmergencia($modulo){
+        $this->usuario->setModulo($modulo);
+        return $this->usuario->getPermisoVisorEmergencia();
+    }
 }
 

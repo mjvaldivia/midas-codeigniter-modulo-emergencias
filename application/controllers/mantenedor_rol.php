@@ -136,10 +136,14 @@ class Mantenedor_rol extends MY_Controller {
                 $editar    = $this->_setearPermiso($permiso["per_ia_id"], $params["editar"]);
                 $eliminar  = $this->_setearPermiso($permiso["per_ia_id"], $params["eliminar"]);
                 $finalizar = $this->_setearPermiso($permiso["per_ia_id"], $params["finalizar"]);  
+                $reporte = $this->_setearPermiso($permiso["per_ia_id"], $params["reporte"]);  
+                $visor = $this->_setearPermiso($permiso["per_ia_id"], $params["visor"]);
                 
                 $data = array("bo_editar" => $editar,
                               "bo_eliminar" => $eliminar,
-                              "bo_finalizar_emergencia" => $finalizar);
+                              "bo_finalizar_emergencia" => $finalizar,
+                              "bo_reporte_emergencia" => $reporte,
+                              "bo_visor_emergencia" => $visor);
                 
                 $this->permiso_model->update($data, $permiso["rvsp_ia_id"]);
             }
@@ -163,12 +167,27 @@ class Mantenedor_rol extends MY_Controller {
                                 "id_rol" => $params["id"]));
     }
     
+    
+    public function quitar_usuario_rol()
+    {
+        $params = $this->input->post(null, true);
+        $this->usuario_rol_model->deletePorUsuarioYRol($params["id_usuario"], $params["id_rol"]);
+        $respuesta = array("correcto" => true,
+                           "error"    => array());
+        
+        echo json_encode($respuesta);
+    }
+    
     public function usuarios()
     {
         $this->load->helper(array("modulo/direccion/region"));
         $params = $this->input->post(null, true);
         $lista = $this->usuario_model->listarUsuariosPorRol($params["id"]);
-        $this->load->view("pages/mantenedor_rol/grilla/grilla-usuarios", array("lista" => $lista));
+        
+        $data = array("id" => $params["id"],
+                      "lista" => $lista);
+        
+        $this->load->view("pages/mantenedor_rol/grilla/grilla-usuarios", $data);
     }
     
     /**
