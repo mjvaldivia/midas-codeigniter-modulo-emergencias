@@ -154,7 +154,7 @@
                             <tr>
                                 <td><?php echo $propiedad?></td>
                                 <td>
-                                    <div class="checkbox">
+                                    <div class="">
                                         <label>
                                             <input class="propiedades" type="checkbox" name="prop_<?php echo $propiedad?>" id="prop_<?php echo $propiedad?>" value="<?php echo $propiedad?>" <?php if(in_array($propiedad,$propiedadesCapa)):?> checked <?php endif;?> />
                                         </label>

@@ -6,8 +6,9 @@
             <td>Zona Geográfica</td>
             <td>Ícono</td>
             <td>Propiedades</td>
-            <td>Nombre Archivo</td>
-            <td>Archivo</td>
+            <td># GeoJSON cargados</td>
+            <!--<td>Nombre Archivo</td>-->
+            <!--<td>Archivo</td>-->
             <td></td>
         </tr>
     </thead>
@@ -20,20 +21,23 @@
             <td><?php echo $row['geozone']; ?></td>
             <td align="center"><?php echo getCapaPreview($row["cap_ia_id"]); ?></td>
             <td><?php echo $row['cap_c_propiedades']; ?></td>
-            <td><?php echo basename(FCPATH . $row['capa']); ?></td>
-            <td><?php echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); ?> </td>
+            <td class="text-center"><?php echo $row['total_geojson']?></td>
+            <!--<td><?php echo basename(FCPATH . $row['capa']); ?></td>-->
+            <!--<td><?php echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); ?> </td>-->
             <td>
-                <?php if (puedeEditar("capas")) { ?>
-                <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(<?php echo $row['cap_ia_id']; ?>);' >
+                <button class="btn btn-sm btn-success" type="button" title="Ver Detalle" onclick="Layer.listarCapasDetalle('<?php echo $row['cap_c_nombre']?>')" ><i class="fa fa-arrow-right"></i></button>
+                <!--
+                <?php /*if (puedeEditar("capas")) { */?>
+                <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(<?php /*echo $row['cap_ia_id']; */?>);' >
                     <i class='fa fa-edit'></i>
                 </a>
-                <?php } ?>
+                <?php /*} */?>
                 
-                <?php if (puedeEliminar("capas")) { ?>
-                <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(<?php echo $row['cap_ia_id']; ?>)'>
+                <?php /*if (puedeEliminar("capas")) { */?>
+                <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(<?php /*echo $row['cap_ia_id']; */?>)'>
                     <i class='fa fa-trash'></i>
                 </a>
-                <?php } ?>
+                <?php /*} */?> -->
             </td>
         </tr>
         <?php } ?>

@@ -152,6 +152,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
 
             },
             success:function(html){
+
                 bootbox.dialog({
                     message: html,
                     className: "modal90",
