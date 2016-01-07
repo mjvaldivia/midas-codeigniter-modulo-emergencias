@@ -88,7 +88,7 @@ Class Layout_Menu_Render{
                                                                              )
                                                                     ),
                                     "Usuarios" => array("icon_class" => "fa-users",
-                                                        "rol" => Rol_Model::ADMINISTRADOR,
+                                                        "rol" => "administrador",
                                                         "controller" => "",
                                                         "action" => "",
                                                         "child" => array("Personas" => array(
@@ -129,9 +129,9 @@ Class Layout_Menu_Render{
                 $ver = $this->usuario->getPermisoVer();
             }
             
-            if(isset($datos["rol"])){
+            if(isset($datos["rol"]) and $datos["rol"] == "administrador"){
                 $roles = explode(",", $this->_session->userdata("session_roles"));
-                $existe = array_search($datos["rol"], $roles);
+                $existe = array_search(Rol_Model::ADMINISTRADOR, $roles);
                 if($existe === false){
                     $ver = false;
                 }
