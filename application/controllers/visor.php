@@ -186,7 +186,7 @@ class Visor extends MY_Controller {
         $this->load->helper("session");
         sessionValidation();
         $params_post = $this->input->post();
-        
+
         if (isset($params_post['adj_reporte'])) {
             if ($ruta = $this->ReporteAdisco()) {
                 array_push($attach, $ruta);

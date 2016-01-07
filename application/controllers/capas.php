@@ -95,10 +95,17 @@ class Capas extends MY_Controller
     }
     
     
-    function ajax_grilla_capas() {
+    function ajax_grilla_capas_unicas() {
         $this->load->helper(array("modulo/capa/capa","file"));
-        $lista = $this->capa_model->listarCapas();
+        $lista = $this->capa_model->listarCapasUnicas();
         $this->load->view("pages/capa/grilla_capas", array("lista" => $lista));
+    }
+
+    function ajax_grilla_capas() {
+        $nombre_capa = $this->input->post('nombre_capa');
+        $this->load->helper(array("modulo/capa/capa","file"));
+        $lista = $this->capa_model->listarCapas($nombre_capa);
+        $this->load->view("pages/capa/grilla_capas_detalle", array("lista" => $lista));
     }
 
 

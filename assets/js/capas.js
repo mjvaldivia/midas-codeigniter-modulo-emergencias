@@ -12,7 +12,7 @@ var Layer = {};
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "capas/ajax_grilla_capas", 
+            url: siteUrl + "capas/ajax_grilla_capas_unicas",
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -352,5 +352,51 @@ var Layer = {};
         });
 
     } ;
+
+
+    this.listarCapasDetalle = function(nombre_capa){
+        $("#tab2 > #div_tab_2").fadeOut(function(){
+            $.ajax({
+                dataType: "html",
+                cache: false,
+                async: true,
+                data: {nombre_capa:nombre_capa},
+                type: "post",
+                url: siteUrl + "capas/ajax_grilla_capas",
+                error: function(xhr, textStatus, errorThrown){
+
+                },
+                success:function(html){
+                    $("#contenedor-grilla-capas").html(html);
+
+                    $("#tab2 > #div_tab_2").fadeIn(function(){
+                        $("#resultados_capa").html(' para capa <strong>'+nombre_capa+'</strong>  <button type="button" class="btn btn-sm btn-success" title="Volver a Listado de Capas" onclick="Layer.volverListadoCapas();"><i class="fa fa-arrow-left"></i></button>');
+                    });
+                }
+            });
+        });
+    } ;
+
+
+    this.volverListadoCapas = function(){
+        $("#tab2 > #div_tab_2").fadeOut(function(){
+            $.ajax({
+                dataType: "html",
+                cache: false,
+                async: true,
+                data: "",
+                type: "post",
+                url: siteUrl + "capas/ajax_grilla_capas_unicas",
+                error: function(xhr, textStatus, errorThrown){
+
+                },
+                success:function(html){
+                    $("#contenedor-grilla-capas").html(html);
+
+                    $("#tab2 > #div_tab_2").fadeIn();
+                }
+            });
+        });
+    }
     
 }).apply(Layer);

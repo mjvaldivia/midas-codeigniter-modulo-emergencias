@@ -245,11 +245,28 @@ class Capa_Model extends MY_Model {
      * Lista todas las capas
      * @return array
      */
-    public function listarCapas(){
-        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c 
+    public function listarCapasUnicas(){
+        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone, count(cap_ia_id) as total_geojson from capas c
+                join archivo a on c.capa_arch_ia_id = a.arch_ia_id
+                join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria group by cap_c_nombre
+                ";
+        $result = $this->db->query($sql);
+        if($result->num_rows() > 0){
+            return $result->result_array();
+        } else{
+            return null;
+        }
+    }
+
+    public function listarCapas($nombre_capa=null){
+        $where = '';
+        if(!is_null($nombre_capa)){
+            $where .= ' where cap_c_nombre = "'.$nombre_capa.'"';
+        }
+        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c
                 join archivo a on c.capa_arch_ia_id = a.arch_ia_id
                 join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
-                ";
+                " . $where;
         $result = $this->db->query($sql);
         if($result->num_rows() > 0){
             return $result->result_array();

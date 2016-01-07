@@ -3,7 +3,7 @@
     <div class="portlet-heading">
         <div class="portlet-title">
             <h4><i class="fa fa-th-list"></i>
-            Resultados</h4>
+            Resultados <span id="resultados_capa"></span></h4>
         </div>
     </div>
     <div id="contenedor-grilla-capas" class="portlet-body table-responsive">
