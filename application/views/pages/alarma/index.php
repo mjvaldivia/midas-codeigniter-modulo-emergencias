@@ -25,13 +25,6 @@
     <div class="col-lg-12">           
         <form name="busqueda" id="busqueda" class=" form-busqueda">
             <div class="portlet portlet-default">
-                <div class="portlet-heading">
-                    <div class="portlet-title">
-                        <h4><i class="fa fa-filter"></i>
-                        Filtros
-                        </h4>
-                    </div>
-                </div>
                 <div class="portlet-body">
                     <div class="row">
                         <div class="col-lg-3">
@@ -64,13 +57,6 @@
         </form>
                             
         <div id="pResultados" class="portlet portlet-default">
-            <div class="portlet-heading">
-                <div class="portlet-title">
-                    <h4><i class="fa fa-th-list"></i>
-                    Resultados
-                    </h4>
-                </div>
-            </div>
             <div class="portlet-body table-responsive">
                 <div id="grilla-alarma"></div>
                 <div id="grilla-alarma-loading" class="col-lg-12 text-center"> <i class="fa fa-4x fa-spin fa-spinner"></i> </div>

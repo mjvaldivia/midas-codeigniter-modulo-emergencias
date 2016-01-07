@@ -25,12 +25,13 @@
                         <div class="col-md-4 text-left">
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Sexo (*):</label>
-                                <div class="input-group col-sm-6">
+                                <div class="input-group col-sm-12">
                                     <?php echo formElementSelectSexo("sexo", $sexo, array("class" => "form-control")) ?>
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
+                        
                         <div class="col-md-4 text-left">
                             <div class="form-group clearfix">
                                 <label for="region" class="control-label">Región (*):</label>
@@ -138,16 +139,17 @@
                     <div class="row">
                         <div class="col-md-6 text-left">
                             <div class="form-group clearfix">
-                                <label for="region" class="control-label">Cargo (*):</label>
+                                <label for="sexo" class="control-label">Perfil (*):</label>
                                 <div class="input-group col-sm-12">
-                                    <?php echo formElementSelectCargo("cargo", $cargo, array("class" => "form-control")) ?>
+                                    <?php echo formElementSelectPerfil("perfil", $perfil, array("class" => "form-control")) ?>
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
+                        
                         <div class="col-md-6 text-left">
                             <div class="form-group clearfix">
-                                <label for="sexo" class="control-label">Activo:</label>
+                                <label for="sexo" class="control-label">Activo (*):</label>
                                 <div class="input-group col-sm-6">
                                     
                                     <?php echo formElementSelectActivo("activo", $activo, array("class" => "form-control")) ?>
@@ -199,11 +201,7 @@
             </div>
         </div>
     </div>
-    
-    
-    
-    
-    
+
     <div class="row">
         <div class="col-md-12">
             <div id="form-usuario-error" class="alert alert-danger hidden">

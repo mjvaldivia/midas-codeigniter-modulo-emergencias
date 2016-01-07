@@ -71,6 +71,7 @@ Class Layout_Menu_Render{
                                                             "action" => "index",
                                                             "child" => array()), 
                                    "Soportes" => array("icon_class" => "fa-question-circle",
+                                                       "rol" => "administrador",
                                                             "controller" => "",
                                                             "action" => "",
                                                             "child" => array("Mesa Regional" => array(

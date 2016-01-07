@@ -2215,3 +2215,7 @@ label {
     height: 30px;
     width:30px;
 }
+
+.help-block {
+    font-size:10px;
+}

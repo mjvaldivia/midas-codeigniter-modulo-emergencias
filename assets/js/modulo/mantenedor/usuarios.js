@@ -148,7 +148,7 @@ var MantenedorUsuarios = Class({
                     yo.callBackGuardar();
                     salida = true;
                 } else {
-                    $("#form_nueva_error").removeClass("hidden");
+                    $("#form-usuario-error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
             }

@@ -70,6 +70,27 @@ Class Mantenedor_usuario_validar{
         } else {
             $this->_error["apellido_materno"] = "";
         }
+        
+        if(!$this->validar->validarVacio($params["activo"])){
+            $this->_correcto = false;
+            $this->_error["activo"] = "Debe seleccionar un valor";
+        } else {
+            $this->_error["activo"] = "";
+        }
+        
+        if(!$this->validar->validarVacio($params["sexo"])){
+            $this->_correcto = false;
+            $this->_error["sexo"] = "Debe seleccionar un valor";
+        } else {
+            $this->_error["sexo"] = "";
+        }
+        
+        if(!$this->validar->validarVacio($params["perfil"])){
+            $this->_correcto = false;
+            $this->_error["perfil"] = "Debe seleccionar un valor";
+        } else {
+            $this->_error["perfil"] = "";
+        }
        
         return $this->_correcto;
     }

@@ -103,14 +103,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 <div id="contenedor-emergencia">
 <form class="form-inline form-busqueda">
     <div class="portlet portlet-default">
-        <div class="portlet-heading">
-            <div class="portlet-title">
-                <h4>
-                <i class="fa fa-filter"></i>
-                Filtros
-                </h4>
-            </div>
-        </div>
         <div class="portlet-body">
             <div class="form-group">
                 <label for="" class="control-label">Año</label>
@@ -135,12 +127,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
 <form class="form-horizontal" onsubmit="return false;">
 
     <div id="pResultados" class="portlet portlet-default" width="100%" style="visibility: hidden">
-        <div class="portlet-heading">
-            <div class="portlet-title">
-                <h4><i class="fa fa-th-list"></i>
-                Resultados</h4>
-            </div>
-        </div>
         <div class="portlet-body table-responsive">
             <table id="tblEmergencias" class="table">
                 <thead>
