@@ -28,7 +28,7 @@ class Session_Model extends MY_Model
           select * from (
               select
                 usu_ia_id,
-                CONCAT(usu_c_login,' - ',UPPER(crg_c_nombre),' - ',UPPER(reg_c_nombre)) as usu_c_cargo,
+                CONCAT_WS(' - ', UPPER(CONCAT_WS(' ',usu_c_nombre,usu_c_apellido_paterno,usu_c_apellido_materno)), UPPER(crg_c_nombre), UPPER(reg_c_nombre)) as usu_c_cargo,
                 (
                     select
                       count(*)
