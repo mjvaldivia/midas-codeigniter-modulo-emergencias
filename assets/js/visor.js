@@ -152,6 +152,7 @@ var VisorMapa = {
 
         if (json.capas)
         {
+            $('#selected_items').val(json.capas);
             self.cargarCapas(json.capas);
         }
 
