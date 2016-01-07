@@ -6,8 +6,10 @@
             Resultados <span id="resultados_capa"></span></h4>
         </div>
     </div>
-    <div id="contenedor-grilla-capas" class="portlet-body table-responsive">
-      
+    <div class='portlet-body'>
+        <div id="contenedor-grilla-capas" class="table-responsive">
+
+        </div>
     </div>
 </div>
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
