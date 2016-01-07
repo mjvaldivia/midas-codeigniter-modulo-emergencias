@@ -18,15 +18,13 @@
             <?php if(count($lista)>0){ ?>
             <?php foreach($lista as $row){ ?>
             <tr>
-                <?php if (puedeEditar("emergencia") && puedeEliminar("alarma")) { ?>
+                <?php if (puedeEditar("emergencia") || puedeEliminar("alarma")) { ?>
                 <td width="10%" align="center">
                     
                     <div style="width: 90px">
                         <div class="row">
                             <div class="btn-group">
-                               
-                                
-                                
+
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                     Acciones
                                     <span class="caret"></span>
