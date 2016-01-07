@@ -186,11 +186,11 @@
     </div>
     <?php } ?>
     <div class='tab-pane <?= tabActive("listado", $tab_activo, "content") ?>' id='tab2' style='overflow:hidden;'>
-        <div class='col-xs-12 top-spaced'>
-            <div id='div_tab_2'>
+
+            <div id='div_tab_2' class='col-xs-12 top-spaced'>
 
             </div>
-        </div>
+
     </div>
 
     <div class='tab-pane' id='tab3' style='overflow:hidden;display:none'>
