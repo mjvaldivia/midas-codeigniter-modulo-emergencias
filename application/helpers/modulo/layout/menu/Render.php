@@ -14,6 +14,12 @@ Class Layout_Menu_Render{
     
     /**
      *
+     * @var CI_Session 
+     */
+    protected $_session;
+    
+    /**
+     *
      * @var Usuario 
      */
     protected $usuario;
@@ -82,15 +88,16 @@ Class Layout_Menu_Render{
                                                                              )
                                                                     ),
                                     "Usuarios" => array("icon_class" => "fa-users",
-                                                            "controller" => "",
-                                                            "action" => "",
-                                                            "child" => array("Personas" => array(
-                                                                                            "controller" => "mantenedor_usuario",
-                                                                                            "action"     => "index"),
-                                                                             "Roles" => array(
-                                                                                            "controller" => "mantenedor_rol",
-                                                                                            "action"     => "index")
-                                                                             )),
+                                                        "rol" => Rol_Model::ADMINISTRADOR,
+                                                        "controller" => "",
+                                                        "action" => "",
+                                                        "child" => array("Personas" => array(
+                                                                                        "controller" => "mantenedor_usuario",
+                                                                                        "action"     => "index"),
+                                                                         "Roles" => array(
+                                                                                        "controller" => "mantenedor_rol",
+                                                                                        "action"     => "index")
+                                                                         )),
                                 );
     
     
@@ -99,10 +106,13 @@ Class Layout_Menu_Render{
      */
     public function __construct() {
         $this->ci =& get_instance();
+        $this->ci->load->library("session");
         $this->ci->load->library("usuario");
+        $this->ci->load->model("rol_model", "rol_model");
         $this->_controller = $this->ci->router->fetch_class();
         $this->_action = $this->ci->router->fetch_method();
         $this->usuario = New Usuario();
+        $this->_session       = New CI_Session();
     }
        
        
@@ -117,6 +127,14 @@ Class Layout_Menu_Render{
             if(isset($datos["permiso"])){
                 $this->usuario->setModulo($datos["permiso"]);
                 $ver = $this->usuario->getPermisoVer();
+            }
+            
+            if(isset($datos["rol"])){
+                $roles = explode(",", $this->_session->userdata("session_roles"));
+                $existe = array_search($datos["rol"], $roles);
+                if($existe === false){
+                    $ver = false;
+                }
             }
             
             if($ver){

@@ -2,6 +2,7 @@
 
 class Rol_Model extends MY_Model {
     
+    const ADMINISTRADOR = 27;
     const MONITOR = 44;
     
     /**
