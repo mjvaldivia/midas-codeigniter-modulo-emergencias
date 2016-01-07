@@ -73,5 +73,15 @@ Class Layout_Usuario_Permiso{
         $this->usuario->setModulo($modulo);
         return $this->usuario->getPermisoVisorEmergencia();
     }
+    
+    /**
+     * 
+     * @param string $modulo
+     * @return boolean
+     */
+    public function puedeActivarAlarma($modulo){
+        $this->usuario->setModulo($modulo);
+        return $this->usuario->getPermisoActivarAlarma();
+    }
 }
 

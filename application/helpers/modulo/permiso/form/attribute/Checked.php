@@ -141,6 +141,19 @@ Class Permiso_Form_Attribute_Checked{
      * 
      * @return string
      */
+    public function activarAlarma(){
+        $valido = $this->_permiso_model->tienePermisoActivarAlarma(array($this->_id_rol), $this->_id_modulo);
+        if($valido){
+            return $this->_checked();
+        } else {
+            return "";
+        }
+    }
+    
+    /**
+     * 
+     * @return string
+     */
     protected function _checked(){
         return "checked=\"checked\"";
     }

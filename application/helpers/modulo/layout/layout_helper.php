@@ -3,6 +3,7 @@
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Permiso.php");
+require_once(APPPATH . "helpers/modulo/layout/usuario/Roles.php");
 require_once(APPPATH . "helpers/modulo/layout/sistema/Simulacion.php");
 require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
 require_once(APPPATH . "helpers/modulo/layout/text/MoreLess.php");
@@ -25,6 +26,15 @@ function menuCollapsed($html_object){
 }
 
 /**
+ * 
+ * @return string
+ */
+function headerRoles(){
+    $html = New Layout_Usuario_Roles();
+    return $html->render();
+}
+
+/**
  * Si el usuario es monitor, no puede editar
  * @return boolean
  */
@@ -41,6 +51,16 @@ function puedeEditar($modulo){
 function puedeEliminar($modulo){
     $editar = New Layout_Usuario_Permiso();
     return $editar->puedeEliminar($modulo);
+}
+
+/**
+ * 
+ * @param type $modulo
+ * @return type
+ */
+function puedeActivarAlarma($modulo){
+    $reporte = New Layout_Usuario_Permiso();
+    return $reporte->puedeActivarAlarma($modulo);
 }
 
 /**
