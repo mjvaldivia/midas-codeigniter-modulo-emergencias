@@ -149,15 +149,33 @@ class Visor extends MY_Controller {
     }
 
     public function ReporteAdisco() {
-        $this->load->model("emergencia_model", "EmergenciaModel");
+        $this->load->helper(array("modulo/usuario/usuario", 
+                                  "modulo/emergencia/emergencia",
+                                  "modulo/emergencia/emergencia_reporte"));
+        
         $this->load->model("archivo_model", "ArchivoModel");
-        ini_set('memory_limit', '64M');
-        $ruta = false;
-        $params_get = $this->uri->uri_to_assoc();
-        $data = $this->EmergenciaModel->getJsonEmergencia($params_get, false);
-        $data['emisor'] = $this->session->userdata('session_nombres');
-        $archivo = $this->ArchivoModel->get_file_from_key($params_get['k']);
+        $this->load->model("emergencia_model", "EmergenciaModel");
+        $this->load->model("usuario_model", "usuario_model");
+        
+         $params = $this->input->post(null, true);
+  
+        $emergencia = $this->EmergenciaModel->getById($params["eme_ia_id"]);
+        if(!is_null($emergencia)){
+                        
+            $data = array("eme_ia_id" => $emergencia->eme_ia_id,
+                          "eme_c_nombre_emergencia" => $emergencia->eme_c_nombre_emergencia,
+                          "eme_d_fecha_emergencia"  => ISODateTospanish($emergencia->eme_d_fecha_emergencia),
+                          "hora_emergencia" => ISOTimeTospanish($emergencia->eme_d_fecha_emergencia),
+                          "hora_recepcion"  => ISOTimeTospanish($emergencia->eme_d_fecha_recepcion),
+                          "eme_c_lugar_emergencia" => $emergencia->eme_c_lugar_emergencia,
+                          "emisor" => $this->session->userdata('session_nombres'),
+                          "id_usuario_encargado" => $emergencia->usu_ia_id,
+                          "eme_c_observacion"    => $emergencia->eme_c_observacion);
+        }
+
+        $archivo = $this->ArchivoModel->get_file_from_key($params['k']);
         $data['imagename'] = $archivo['arch_c_nombre'];
+        
         $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
         $this->load->library('pdf');
         $pdf = $this->pdf->load();
@@ -177,6 +195,10 @@ class Visor extends MY_Controller {
 
     //manda mail desde el listado de emergencias , puede adjuntar reporte
     public function enviarMail() {
+        $this->load->helper(array("modulo/usuario/usuario", 
+                                  "modulo/emergencia/emergencia",
+                                  "modulo/emergencia/emergencia_reporte"));
+        
         $error = 0;
         $this->load->model("archivo_model", "ArchivoModel");
         $this->load->model("Sendmail_Model", "SendmailModel");
@@ -185,9 +207,9 @@ class Visor extends MY_Controller {
         $this->load->library("template");
         $this->load->helper("session");
         sessionValidation();
+        
+        $params_post = $this->input->post(null, true);
 
-        $params_post = array();
-        parse_str($this->input->post('datos'),$params_post);
         if(count($params_post) == 0){
             $error++;
         }else{
