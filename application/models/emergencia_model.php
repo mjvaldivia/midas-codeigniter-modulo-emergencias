@@ -612,10 +612,9 @@ class Emergencia_Model extends MY_Model {
      * @param QueryBuilder $query
      */
     protected function _addQueryComunas(&$query){
-        $comunas = explode(",", $this->_session->userdata('session_comunas'));
-        if(count($comunas)>0){
-            $query->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
-                  ->whereAND("ec.com_ia_id", $comunas, "IN");
-        }
+       /* $comunas = explode(",", $this->_session->userdata('session_comunas'));
+        if(count($comunas)>0){*/
+            $query->addWhere("e.eme_ia_id IN (SELECT ec.eme_ia_id FROM emergencias_vs_comunas ec WHERE ec.com_ia_id IN(".$this->_session->userdata('session_comunas').") )");
+        //}
     }
 }
