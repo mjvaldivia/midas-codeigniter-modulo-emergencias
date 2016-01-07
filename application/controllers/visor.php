@@ -158,7 +158,7 @@ class Visor extends MY_Controller {
         $this->load->model("usuario_model", "usuario_model");
         
          $params = $this->input->post(null, true);
-  
+  $params2 = $this->uri->uri_to_assoc();
         $emergencia = $this->EmergenciaModel->getById($params["eme_ia_id"]);
         if(!is_null($emergencia)){
                         
@@ -173,7 +173,7 @@ class Visor extends MY_Controller {
                           "eme_c_observacion"    => $emergencia->eme_c_observacion);
         }
 
-        $archivo = $this->ArchivoModel->get_file_from_key($params['k']);
+        $archivo = $this->ArchivoModel->get_file_from_key($params2['k']);
         $data['imagename'] = $archivo['arch_c_nombre'];
         
         $html = $this->load->view('pages/emergencia/reporteEmergencia', $data, true); // render the view into HTML
