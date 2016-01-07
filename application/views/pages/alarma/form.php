@@ -168,9 +168,11 @@
                 <div id="form-tipo-emergencia">
                     
                 </div>
+                <?php if($eme_id > 0):?>
                 <div class="col-xs-12">
                     <input type="file" name="adjunto-emergencia" id="adjunto-emergencia" multiple />
                 </div>
+                <?php endif;?>
             </div>
         </div>
     </div>
@@ -184,13 +186,16 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var emergencia = $("#eme_id").val();
-        $("#adjunto-emergencia").fileinput({
-            language: "es",
-            multiple: true,
-            uploadAsync: true,
-            initialCaption: "Seleccione los adjuntos a la emergencia",
-            uploadUrl: siteUrl + "emergencia/subir_AdjuntoEmergenciaTmp/id/"+emergencia
-        });
+        if(emergencia > 0){
+            $("#adjunto-emergencia").fileinput({
+                language: "es",
+                multiple: true,
+                uploadAsync: true,
+                initialCaption: "Seleccione los adjuntos a la emergencia",
+                uploadUrl: siteUrl + "emergencia/subir_AdjuntoEmergenciaTmp/id/"+emergencia
+            });
+        }
+
     });
 
 </script>
