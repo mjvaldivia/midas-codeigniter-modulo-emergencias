@@ -427,8 +427,10 @@ var MapReport = {
                                                 buttons: {
                                                     success: {
                                                         label: "Aceptar",
-                                                        className: "btn-primary"
-
+                                                        className: "btn-primary",
+                                                        callback: function(){
+                                                            $(".modal").hide();
+                                                        }
                                                     }
                                                 }
 
