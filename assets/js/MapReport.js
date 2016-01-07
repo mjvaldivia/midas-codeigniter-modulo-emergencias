@@ -416,7 +416,7 @@ var MapReport = {
                                 $.ajax({
                                     url: siteUrl + 'visor/enviarMail/id/' + $('#eme_ia_id').val() + '/k/' + data.k,
                                     dataType: 'json',
-                                    data: {datos:formulario},
+                                    data: formulario,
                                     type: 'POST',
                                     success: function (data) {
                                         if (data.estado == 0) {
@@ -448,6 +448,19 @@ var MapReport = {
 
                                             });
                                         }
+                                    },
+                                    error: function(){
+                                        bootbox.dialog({
+                                            title: "Envío de correo",
+                                            message: 'Error al enviar email',
+                                            buttons: {
+                                                success: {
+                                                    label: "Aceptar",
+                                                    className: "btn-primary"
+                                                }
+                                            }
+
+                                        });
                                     }
                                 });
 
