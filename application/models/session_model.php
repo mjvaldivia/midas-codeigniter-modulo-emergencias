@@ -28,7 +28,7 @@ class Session_Model extends MY_Model
           select * from (
               select
                 usu_ia_id,
-                CONCAT(usu_c_login,' - ',UPPER(crg_c_nombre),' - ',UPPER(reg_c_nombre)) as usu_c_cargo,
+                CONCAT_WS(' - ', UPPER(CONCAT_WS(' ',usu_c_nombre,usu_c_apellido_paterno,usu_c_apellido_materno)), UPPER(crg_c_nombre), UPPER(reg_c_nombre)) as usu_c_cargo,
                 (
                     select
                       count(*)
@@ -107,7 +107,7 @@ class Session_Model extends MY_Model
             select * from (
               select
               u.*,
-              c.crg_c_nombre,
+             
               r.reg_c_nombre,
               (
                 select
@@ -156,7 +156,7 @@ class Session_Model extends MY_Model
               ) as habilitado_emergencias
             from
               usuarios u
-              inner join cargos c on c.crg_ia_id = u.crg_ia_id
+
               inner join regiones r on r.reg_ia_id = u.reg_ia_id
               where u.usu_c_rut = ?
             ) t
@@ -202,7 +202,7 @@ class Session_Model extends MY_Model
             select * from (
               select
               u.*,
-              c.crg_c_nombre,
+              
               r.reg_c_nombre,
               (
                 select
@@ -251,7 +251,7 @@ class Session_Model extends MY_Model
               ) as habilitado_emergencias
             from
               usuarios u
-              inner join cargos c on c.crg_ia_id = u.crg_ia_id
+              
               inner join regiones r on r.reg_ia_id = u.reg_ia_id
               where u.usu_ia_id = ?
             ) t

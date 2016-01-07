@@ -137,7 +137,7 @@
             
             
                     <div class="row">
-                        <div class="col-md-6 text-left">
+                        <!--<div class="col-md-4 text-left">
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Perfil (*):</label>
                                 <div class="input-group col-sm-12">
@@ -145,12 +145,20 @@
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
+                        </div>-->
+                        <div class="col-md-5 text-left">
+                            <div class="form-group clearfix">
+                                <label for="sexo" class="control-label">Cargo (*):</label>
+                                <div class="input-group col-sm-12">
+                                    <?php echo formElementSelectCargo("cargo", $cargo, array("class" => "form-control")) ?>
+                                </div>
+                                <span class="help-block hidden"></span>
+                            </div>
                         </div>
-                        
-                        <div class="col-md-6 text-left">
+                        <div class="col-md-3 text-left">
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Activo (*):</label>
-                                <div class="input-group col-sm-6">
+                                <div class="input-group col-sm-12">
                                     
                                     <?php echo formElementSelectActivo("activo", $activo, array("class" => "form-control")) ?>
                       
