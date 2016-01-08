@@ -3,16 +3,19 @@
  */
 $(document).ready(function() {
     
-    var visor = new Visor("mapa");
+    var id = $("#id").val();
     
+    var visor = new Visor("mapa");
+    visor.emergencia(id);
     //marcadores
     var lugar_emergencia = new MapaMarcadorLugarEmergencia();
     visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_emergencia.marcador);
     
     //capas
     var capas = new MapaCapa();
-    visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capas);
-    
+    capas.capasPorEmergencia(id);
+    visor.addOnReadyFunction("capas asociadas a la emergencia", capas.cargaCapas);
+    visor.addCapa(capas);
     
     //poligonos
     

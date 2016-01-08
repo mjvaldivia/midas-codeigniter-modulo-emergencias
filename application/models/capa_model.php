@@ -216,7 +216,7 @@ class Capa_Model extends MY_Model {
         $this->load->helper("url");
         $result = $this->db->query(" SELECT c.cap_ia_id, "
                                          . "c.cap_c_nombre, "
-                                         . "a.arch_c_nombre capa,"
+                                         . "a.arch_c_nombre as capa,"
                                          . "c.icon_path, "
                                          . "c.color, "
                                          . "c.cap_c_propiedades, "

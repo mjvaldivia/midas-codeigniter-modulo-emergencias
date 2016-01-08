@@ -17,7 +17,7 @@ class Emergencia_Comuna_Model extends MY_Model
     /**
      * Lista de comunas por emergencia
      * @param int $id_emergencia
-     * @return string
+     * @return array
      */
     public function listaComunasPorEmergencia($id_emergencia){
         $result = $this->_query->select("ec.evc_ia_id, c.com_ia_id, c.com_c_nombre")

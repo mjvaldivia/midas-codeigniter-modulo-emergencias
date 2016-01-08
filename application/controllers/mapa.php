@@ -16,6 +16,12 @@ class Mapa extends MY_Controller {
     
     /**
      *
+     * @var Emergencia_Comuna_Model 
+     */
+    public $_emergencia_comuna_model;
+    
+    /**
+     *
      * @var Alarma_Model 
      */
     public $_alarma_model;
@@ -38,6 +44,7 @@ class Mapa extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("emergencia_model", "_emergencia_model");
+        $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
         $this->load->model("archivo_model", "_archivo_model");
@@ -58,6 +65,29 @@ class Mapa extends MY_Controller {
         }
     }
     
+    public function popup_capas(){
+        $this->load->helper(array("modulo/capa/capa"));
+        $params = $this->input->post(null, true);
+        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($emergencia->eme_ia_id);
+            if(count($lista_comunas)>0){
+                $comunas = array();
+                foreach($lista_comunas as $comuna){
+                    $comunas[] = $comuna["com_ia_id"];
+                }
+                $lista_capas = $this->_capa_model->listarCapasPorComunas($comunas);
+                $this->load->view("pages/mapa/popup-capas", array("capas" => $lista_capas,
+                                                            "seleccionadas" => $params["capas"]));
+            }
+        } else {
+            throw new Exception("La emergencia no existe");
+        }
+    }
+    
+    /**
+     * Retorna las capas asociadas a una emergencia
+     */
     public function ajax_capas(){
         $data = array("correcto" => false);
         
@@ -75,7 +105,7 @@ class Mapa extends MY_Controller {
                             $data["resultado"]["capas"][$id_capa] = array("zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
                                                                           "icono" => $capa->icon_path,
                                                                           "color" => $capa->color,
-                                                                          "json"  => file_get_contents(base_url($archivo->arch_c_nombre)));
+                                                                          "json"  => json_decode(file_get_contents(base_url($archivo->arch_c_nombre))));
                         }
                     }
                 }
