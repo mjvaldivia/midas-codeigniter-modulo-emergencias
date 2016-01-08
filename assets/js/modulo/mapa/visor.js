@@ -1,4 +1,5 @@
 var Visor = Class({    
+    
     mapa : null,
     geozone : "19H",
     id_div_mapa : "",
@@ -6,16 +7,41 @@ var Visor = Class({
     longitud : 256029,
     callback : null,
     
+    on_ready_functions : {},
+    
     /**
      * Carga de dependencias
      * @returns void
      */
     __construct : function(id_mapa) {
         this.id_div_mapa = id_mapa;
+    },
+    
+    /**
+     * Añade funciones a ejecutar cuando el mapa esta cargado
+     * @param {string} index identificador de la funcion para debug
+     * @param {function} funcion funcion a ejecutar
+     * @returns {void}
+     */
+    addOnReadyFunction : function(index, funcion){
+        this.on_ready_functions[index] = funcion;
+    },
+    
+    /**
+     * Eventos para inicializar mapa
+     * @returns {void}
+     */
+    bindMapa : function(){
         google.maps.event.addDomListener(window, 'load', this.initialize());
         google.maps.event.addDomListener(window, "resize", this.resizeMap());
     },
 
+    /**
+     * Retorna mapa
+     */
+    getMapa : function(){
+        return this.mapa;
+    },
     
     /**
      * Inicia el mapa
@@ -39,6 +65,16 @@ var Visor = Class({
         };
 
         map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
+
+        google.maps.event.addListenerOnce(map, 'idle', function(){
+            console.log("Mapa cargado totalmente");
+            console.log("Iniciando carga de elementos");
+            $.each(yo.on_ready_functions, function(i, funcion){
+                console.log("Carga de " + i);
+                funcion(map);
+            });
+        });
+
 
         this.mapa = map;
     },

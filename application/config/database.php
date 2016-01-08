@@ -83,9 +83,9 @@ $db['testing']['autoinit'] = TRUE;
 $db['testing']['stricton'] = FALSE;
 
 
-$db['development']['hostname'] = '10.8.43.172';
-$db['development']['username'] = 'sipresa_usr';
-$db['development']['password'] = 'sipresa2014';
+$db['development']['hostname'] = 'localhost';
+$db['development']['username'] = 'root';
+$db['development']['password'] = '';
 $db['development']['database'] = 'sipresa_dev2';
 $db['development']['dbdriver'] = 'mysql';
 $db['development']['dbprefix'] = '';
