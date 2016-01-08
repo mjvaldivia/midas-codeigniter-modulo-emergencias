@@ -126,6 +126,24 @@ class Emergencia extends MY_Controller {
         
         $this->emergencia_edit->setEmergencia($params["id"]);
         $data = $this->emergencia_edit->getEditData();
+
+        /* revisar adjuntos de emergencia */
+        $adjuntos = array();
+        $dir_adjuntos = 'media/doc/emergencia/'.$params['id'].'/adjuntos/';
+        $readDir = array_diff(scandir($dir_adjuntos), array('..', '.'));
+        if(count($readDir) > 0){
+            $this->load->model('archivo_model','ArchivoModel');
+            foreach($readDir as $file){
+                $data_adjunto = $this->ArchivoModel->getByPath($dir_adjuntos.$file);
+                $data_adjunto[0]['nombre'] = $file;
+                $data_adjunto[0]['path'] = site_url() . '/archivo/download_file/k/'.$data_adjunto[0]['arch_c_hash'];
+                $adjuntos[] = $data_adjunto[0];
+
+            }
+            $data['adjuntos'] = $adjuntos;
+        }
+
+        echo site_url();
         
         $data["form_name"] = "form_editar_emergencia";
         $this->load->view("pages/alarma/form", $data);

@@ -482,4 +482,15 @@ class Archivo_Model extends MY_Model {
         return $frame;
     }
 
+
+
+    public function getByPath($path){
+        $query = "select * from archivo where arch_c_nombre like '$path' limit 1";
+        $result = $this->db->query($query);
+
+        return $result->result_array();
+
+    }
+
+
 }
