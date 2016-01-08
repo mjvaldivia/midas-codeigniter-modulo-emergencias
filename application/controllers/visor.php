@@ -157,8 +157,8 @@ class Visor extends MY_Controller {
         $this->load->model("emergencia_model", "EmergenciaModel");
         $this->load->model("usuario_model", "usuario_model");
         
-         $params = $this->input->post(null, true);
-  $params2 = $this->uri->uri_to_assoc();
+        $params = $this->input->post(null, true);
+        $params2 = $this->uri->uri_to_assoc();
         $emergencia = $this->EmergenciaModel->getById($params["eme_ia_id"]);
         if(!is_null($emergencia)){
                         
