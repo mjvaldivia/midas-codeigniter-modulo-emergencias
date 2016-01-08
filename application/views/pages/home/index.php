@@ -29,7 +29,7 @@
                         </a>
                         <div class="circle-tile-content orange">
                             <div class="circle-tile-description text-faded">
-                                Alarmas
+                                Alertas
                             </div>
                             <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
