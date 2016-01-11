@@ -91,6 +91,10 @@ class Mapa extends MY_Controller {
         }
     }
     
+    public function popup_capa_informacion(){
+        $params = $this->input->post(null, true);
+    }
+    
     /**
      * Carga datos de una capa
      */
@@ -112,7 +116,8 @@ class Mapa extends MY_Controller {
      * Retorna las capas asociadas a una emergencia
      */
     public function ajax_capas_emergencia(){
-        $data = array("correcto" => false);
+        $data = array("correcto" => true,
+                      "resultado" => array("capas" => array()));
         
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
@@ -128,7 +133,7 @@ class Mapa extends MY_Controller {
                 }
             }
         } else {
-            $data["error"] = "La emergencia no existe";
+            $data["info"] = "La emergencia no tiene capas asociadas";
         }
         
         echo json_encode($data);

@@ -72,7 +72,7 @@ var Visor = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
 
         var mapOptions = {
-          zoom: 15,
+          zoom: 13,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -93,7 +93,13 @@ var Visor = Class({
         this.controlInstalaciones(map);
         this.controlSave(map);
         
-
+        map.addListener('click', function(event) {
+            console.log(event);
+        });
+        
+        
+        
+        
         this.mapa = map;
     },
     

@@ -831,6 +831,7 @@ var VisorMapa = {
                                                 var obj = new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1]));
                                                 arr[0].push(obj);
                                             }
+                                            
                                             var Polygon = new google.maps.Data.Feature({
                                                 geometry: new google.maps.Data.Polygon(arr),
                                                 properties: json_props

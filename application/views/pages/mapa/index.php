@@ -14,9 +14,18 @@
 <?= loadJS("assets/js/geo-encoder.js"); ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
 
+
+<?= loadJS("assets/js/modulo/mapa/extencion/maps.google.polygon.containsLatLng.js"); ?>
+
+<?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/marcador.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/marcador/lugar_emergencia.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/mapa.js"); ?>
+
+
+<?= loadJS("assets/js/modulo/mapa/front-end.js"); ?>
