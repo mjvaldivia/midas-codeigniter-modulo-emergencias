@@ -65,8 +65,13 @@ class Mapa extends MY_Controller {
         }
     }
     
+    /**
+     * Popup que muestra capas
+     * @throws Exception
+     */
     public function popup_capas(){
-        $this->load->helper(array("modulo/capa/capa"));
+        $this->load->helper(array("modulo/capa/capa",
+                                  "modulo/visor/visor"));
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
@@ -77,8 +82,9 @@ class Mapa extends MY_Controller {
                     $comunas[] = $comuna["com_ia_id"];
                 }
                 $lista_capas = $this->_capa_model->listarCapasPorComunas($comunas);
-                $this->load->view("pages/mapa/popup-capas", array("capas" => $lista_capas,
-                                                            "seleccionadas" => $params["capas"]));
+                $this->load->view("pages/mapa/popup-capas", 
+                                   array("capas" => $lista_capas,
+                                         "seleccionadas" => $params["capas"]));
             }
         } else {
             throw new Exception("La emergencia no existe");
@@ -86,9 +92,26 @@ class Mapa extends MY_Controller {
     }
     
     /**
+     * Carga datos de una capa
+     */
+    public function ajax_capa(){
+        $data = array("correcto" => false,
+                      "error" => "La capa no existe o no pudo ser cargada");
+        
+        $params = $this->input->post(null, true);
+        $resultado = $this->_cargaCapa($params["id"]);
+        if(!is_null($resultado)){
+            $data = array("correcto" => true,
+                          "capa" => $resultado);
+        }
+        
+        echo json_encode($data);
+    }
+    
+    /**
      * Retorna las capas asociadas a una emergencia
      */
-    public function ajax_capas(){
+    public function ajax_capas_emergencia(){
         $data = array("correcto" => false);
         
         $params = $this->input->post(null, true);
@@ -97,16 +120,10 @@ class Mapa extends MY_Controller {
             $lista_capas = explode(",", $emergencia->eme_c_capas);
             if(count($lista_capas)>0){
                 foreach($lista_capas as $id_capa){
-                    $capa = $this->_capa_model->getById($id_capa);
-                    if(!is_null($capa)){
-                        $archivo = $this->_archivo_model->getById($capa->capa_arch_ia_id);
-                        if(!is_null($archivo)){
-                            $data["correcto"] = true;
-                            $data["resultado"]["capas"][$id_capa] = array("zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
-                                                                          "icono" => $capa->icon_path,
-                                                                          "color" => $capa->color,
-                                                                          "json"  => json_decode(file_get_contents(base_url($archivo->arch_c_nombre))));
-                        }
+                    $resultado = $this->_cargaCapa($id_capa);
+                    if(!is_null($resultado)){
+                        $data["correcto"] = true;
+                        $data["resultado"]["capas"][$id_capa] = $resultado;
                     }
                 }
             }
@@ -143,5 +160,25 @@ class Mapa extends MY_Controller {
         }
         
         echo json_encode($data);
+    }
+    
+    /**
+     * Carga datos de una capa
+     * @param int $id_capa
+     * @return array
+     */
+    protected function _cargaCapa($id_capa){
+        $retorno = null;
+        $capa = $this->_capa_model->getById($id_capa);
+        if(!is_null($capa)){
+            $archivo = $this->_archivo_model->getById($capa->capa_arch_ia_id);
+            if(!is_null($archivo)){
+                $retorno = array("zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
+                                 "icono" => $capa->icon_path,
+                                 "color" => $capa->color,
+                                 "json"  => json_decode(file_get_contents(base_url($archivo->arch_c_nombre))));
+            }
+        }
+        return $retorno;
     }
 }

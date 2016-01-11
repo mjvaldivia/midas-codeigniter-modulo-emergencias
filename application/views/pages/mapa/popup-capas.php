@@ -14,7 +14,7 @@
                 <?php foreach($capas as $row){ ?>
                 <tr>
                     <td width="5%" align="center">
-                       <input class="seleccion-capa" value="<?php echo $row["cap_ia_id"]; ?>" type="checkbox" id="chk_capa_<?php echo $row["cap_ia_id"]; ?>" name="chk_capa[<?php echo $row["cap_ia_id"]; ?>]"/>
+                       <input <?php echo visorCapasSeleccionadasChecked($row["cap_ia_id"], $seleccionadas);?> class="seleccion-capa" value="<?php echo $row["cap_ia_id"]; ?>" type="checkbox" id="chk_capa_<?php echo $row["cap_ia_id"]; ?>" name="chk_capa[<?php echo $row["cap_ia_id"]; ?>]"/>
                     </td>
                     <td align="center" width="20%">
                         <?php echo getCapaPreview($row["cap_ia_id"]); ?>

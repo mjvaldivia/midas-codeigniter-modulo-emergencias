@@ -10,7 +10,7 @@ var MapaMarcador = Class({
     },
     
     removerMarcadores : function(atributo, valor){
-        console.log(lista_markers);
+        
         var arr = jQuery.grep(lista_markers, function( a ) {
             if(a[atributo] == valor){
                 return true;
