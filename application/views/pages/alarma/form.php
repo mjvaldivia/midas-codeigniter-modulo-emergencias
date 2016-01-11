@@ -169,6 +169,18 @@
                     
                 </div>
                 <?php if($eme_id > 0):?>
+                    <?php if(isset($adjuntos) and count($adjuntos) > 0):?>
+                    <div class="col-xs-12">
+                        <div class="alert alert-info">
+                            <p><strong>Adjuntos</strong></p>
+                            <ul>
+                                <?php foreach($adjuntos as $adjunto):?>
+                                <li><a href="<?php echo $adjunto['path'];?>" target="_blank"><i class="fa fa-file-o"></i> <?php echo $adjunto['nombre']?></a></li>
+                                <?php endforeach;?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
                 <div class="col-xs-12">
                     <input type="file" name="adjunto-emergencia" id="adjunto-emergencia" multiple />
                 </div>
