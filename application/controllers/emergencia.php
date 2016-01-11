@@ -143,8 +143,7 @@ class Emergencia extends MY_Controller {
             $data['adjuntos'] = $adjuntos;
         }
 
-        echo site_url();
-        
+
         $data["form_name"] = "form_editar_emergencia";
         $this->load->view("pages/alarma/form", $data);
     }
@@ -615,5 +614,28 @@ class Emergencia extends MY_Controller {
 
         echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>$binary_path));
     }
+
+
+    public function borrarAdjuntoEmergencia(){
+        $json = array();
+        $adjunto = $this->input->post('adjunto');
+        $this->load->model('archivo_model','ArchivoModel');
+        if($this->ArchivoModel->delete($adjunto)){
+            $archivo = $this->ArchivoModel->getByPath($adjunto);
+            $this->ArchivoModel->remove($archivo[0]['arch_ia_id']);
+            if(is_file($adjunto) === false){
+                $json['estado'] = true;
+                $json['mensaje'] = 'Adjunto eliminado';
+            }
+
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Problemas al eliminar adjunto. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+    }
+
+
     
 }

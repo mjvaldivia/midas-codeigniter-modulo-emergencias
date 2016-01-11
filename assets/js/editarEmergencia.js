@@ -228,6 +228,8 @@ var EmergenciaEditar = {};
         $("#tabla_doc").wrap("<div class='col-sm-12' style='padding-left:0px !important;'></div>");
     };
 
+
+
     
 
 }).apply(EmergenciaEditar);

@@ -175,7 +175,7 @@
                             <p><strong>Adjuntos</strong></p>
                             <ul>
                                 <?php foreach($adjuntos as $adjunto):?>
-                                <li><a href="<?php echo $adjunto['path'];?>" target="_blank"><i class="fa fa-file-o"></i> <?php echo $adjunto['nombre']?></a></li>
+                                <li style="margin:2px 0;"><a href="<?php echo $adjunto['path'];?>" target="_blank"><i class="fa fa-file-o"></i> <?php echo $adjunto['nombre']?></a> <button type="btn btn-xs btn-danger" type="button" onclick="Emergencia.borrarAdjunto('<?php echo $adjunto['arch_c_nombre']?>',this)"><i class="fa fa-trash-o"></i></button></li>
                                 <?php endforeach;?>
                             </ul>
                         </div>
