@@ -221,6 +221,7 @@ class Visor extends MY_Controller {
                 }
             }
 
+            $array_item = array();
             foreach ($params_post as $key => $val) { //reviso los que han sido chequeados para enviarse como adjuntos
                 if (strpos($key, 'chk_') !== false) {
 
@@ -229,7 +230,8 @@ class Visor extends MY_Controller {
 
                     $arch = $this->ArchivoModel->get_file_from_id($id);
                     if ($arch !== null) {
-                        array_push($attach, $arch['arch_c_nombre']);
+                        //array_push($attach, $arch['arch_c_nombre']);
+                        array_push($array_item,site_url('archivo/view_file_mail/k/'.$arch['arch_c_hash']));
                     }
                 }
             }
@@ -241,6 +243,13 @@ class Visor extends MY_Controller {
             $subject = $params_post['asunto'];
             $message = $params_post['mensaje'];
 
+            if(count($array_item) > 0){
+                $adjuntos = '<p>Enlaces a adjuntos complementarios</p>';
+                foreach($array_item as $item){
+                    $adjuntos .= '<a href="'.$item.'">'.$item.'</a><br/>';
+                }
+                $message .= $adjuntos;
+            }
 
             if (isset($params_post['con_copia'])) {
                 $cc = $this->session->userdata('session_email');
