@@ -229,9 +229,15 @@ class Visor extends MY_Controller {
                     $id = $id[1];
 
                     $arch = $this->ArchivoModel->get_file_from_id($id);
+                    $nombre = explode("/",$arch['arch_c_nombre']);
+                    $nombre = $nombre[count($nombre)-1];
                     if ($arch !== null) {
                         //array_push($attach, $arch['arch_c_nombre']);
-                        array_push($array_item,site_url('archivo/view_file_mail/k/'.$arch['arch_c_hash']));
+                        $array_item[] = array(
+                            'url' => site_url('archivo/view_file_mail/k/'.$arch['arch_c_hash']),
+                            'nombre' => $nombre
+                        );
+
                     }
                 }
             }
@@ -246,7 +252,7 @@ class Visor extends MY_Controller {
             if(count($array_item) > 0){
                 $adjuntos = '<p>Enlaces a adjuntos complementarios</p>';
                 foreach($array_item as $item){
-                    $adjuntos .= '<a href="'.$item.'">'.$item.'</a><br/>';
+                    $adjuntos .= '<a href="'.$item['url'].'">'.$item['nombre'].'</a><br/>';
                 }
                 $message .= $adjuntos;
             }
