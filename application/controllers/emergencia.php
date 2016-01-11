@@ -194,6 +194,13 @@ class Emergencia extends MY_Controller {
                 $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
                 $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
                 
+                //se actualiza alarma
+                $this->alarma_model->update(array("ala_c_utm_lat" => $params["latitud"], 
+                                                  "ala_c_utm_lng" => $params["longitud"],
+                                                  "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
+                                            $emergencia->ala_ia_id);
+                
+                
                 $id = $this->emergencia_guardar->getId();
 
                 /* verificar si existen adjuntos en temporal */
