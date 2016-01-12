@@ -408,6 +408,25 @@ var Emergencia = {};
             });
         });
     };
+
+    this.borrarAdjunto = function(adjunto,item){
+        bootbox.confirm("Desea eliminar este adjunto?",function(result){
+            if(result === true){
+                $.post(siteUrl + "emergencia/borrarAdjuntoEmergencia",{adjunto:adjunto},function(response){
+                    if(response.estado == true){
+                        bootbox.alert(response.mensaje,function(){
+                            $(item).parent().fadeOut(function(){
+                                $(this).remove();
+                            });
+                        });
+
+                    }else{
+                        bootbox.alert(response.mensaje);
+                    }
+                },'json');
+            }
+        });
+    }
     
 
 

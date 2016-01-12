@@ -33,8 +33,6 @@ Class MY_Model extends CI_Model {
         
         $this->_query = New QueryBuilder($this->db);
         $this->_query->setTable($this->_tabla);
-        
-        
     }
     
     /**
