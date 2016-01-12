@@ -91,8 +91,37 @@ class Mapa extends MY_Controller {
         }
     }
     
-    public function popup_capa_informacion(){
+    public function popup_poligono_informacion(){
+        $this->load->helper(array("modulo/visor/visor"));
+        
         $params = $this->input->post(null, true);
+        $informacion = $params["informacion"];
+        
+        $capa = $this->_capa_model->getById($params["capa"]);
+        
+        if(is_null($capa)){
+            
+            if(isset($informacion["NAME"])){
+                $nombre = $informacion["NAME"];
+                unset($informacion["NAME"]);
+            }
+            
+            if(isset($informacion["NOMBRE"])){
+                $nombre = $informacion["NOMBRE"];
+                unset($informacion["NOMBRE"]);
+            }
+            
+            $id_capa = NULL;
+            
+        } else {
+            $id_capa = $capa->cap_ia_id;
+            $nombre = $capa->cap_c_nombre;
+        }        
+        
+        $this->load->view("pages/mapa/popup-poligono-informacion", 
+                          array("nombre" => $nombre,
+                                "informacion" => $informacion,
+                                "lista_marcadores"  => $params["marcadores"]));
     }
     
     /**

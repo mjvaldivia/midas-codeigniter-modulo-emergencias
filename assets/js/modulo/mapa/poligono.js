@@ -104,6 +104,10 @@ var MapaPoligono = Class({
                     var bo_marcador_dentro_de_poligono = poligono_seleccionado.containsLatLng(marker.getPosition()); 
                     if(bo_marcador_dentro_de_poligono){
                         marcadores[i] = marker.informacion;
+                        
+                        if(marker.capa != null){
+                           marcadores[i]["CAPA"] = marker.capa;
+                        }
                     }
                });
             });
@@ -145,7 +149,7 @@ var MapaPoligono = Class({
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/popup_capa_informacion", 
+            url: siteUrl + "mapa/popup_poligono_informacion", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
