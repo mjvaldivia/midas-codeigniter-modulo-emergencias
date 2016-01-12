@@ -2,6 +2,8 @@
 
 require_once(__DIR__ . "/propiedades/Informacion.php");
 require_once(__DIR__ . "/poligono/Instalaciones.php");
+require_once(__DIR__ . "/capa/Disponibles.php");
+
 /**
  * 
  * @param int $valor
@@ -17,6 +19,11 @@ function visorCapasSeleccionadasChecked($valor, $seleccionados){
             return "checked=\"checked\"";
         }
     }
+}
+
+function visorHtmlCapasDisponibles($lista_categorias, $comunas){
+    $html = New Visor_Capa_Disponibles($lista_categorias, $comunas);
+    return $html->render();
 }
 
 function visorInformacion($propiedades){

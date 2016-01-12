@@ -24,6 +24,7 @@
     
     <!-- GLOBAL STYLES - Include these on every page. -->
     <?= loadCSS("assets/lib/bootstrap-3.3.2-dist/css/bootstrap.css", true) ?>
+    <?= loadCSS("assets/css/bootstrap.vertical-tabs.css", true) ?>
     <?= loadCSS("assets/lib/qtip/jquery.qtip.min.css", true) ?>
     
     <!--<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel="stylesheet" type="text/css">

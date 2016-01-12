@@ -151,10 +151,32 @@ class Capa_Model extends MY_Model {
      * @param array $lista_comunas
      * @return array
      */
-    public function listarCapasPorComunas(array $lista_comunas){
-        $result = $this->_query->select("c.*")
+    public function listarCapasPorComunasYCategoria($id_categoria, array $lista_comunas){
+        $result = $this->_query->select("DISTINCT c.*")
                                ->from("capas c")
-                               ->whereAND("c.com_ia_id", $lista_comunas, "IN")
+                               ->join("capas_geometria g", "g.geometria_capa = c.cap_ia_id", "INNER")
+                               ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id")
+                               ->whereAND("p.poligono_comuna", $lista_comunas, "IN")
+                               ->whereAND("c.ccb_ia_categoria", $id_categoria, "=")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Retorna capas por comuna
+     * @param array $lista_comunas
+     * @return array
+     */
+    public function listarCapasPorComunas(array $lista_comunas){
+        $result = $this->_query->select("DISTINCT c.*")
+                               ->from("capas c")
+                               ->join("capas_geometria g", "g.geometria_capa = c.cap_ia_id", "INNER")
+                               ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id")
+                               ->whereAND("p.poligono_comuna", $lista_comunas, "IN")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;

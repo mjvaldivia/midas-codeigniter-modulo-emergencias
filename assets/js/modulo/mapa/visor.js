@@ -146,6 +146,7 @@ var Visor = Class({
             
             bootbox.dialog({
                     message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+                    className: "modal90",
                     title: "<i class=\"fa fa-arrow-right\"></i> Capas disponibles",
                     buttons: {
                         cerrar: {
