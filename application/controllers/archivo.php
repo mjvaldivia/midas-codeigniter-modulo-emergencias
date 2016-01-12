@@ -51,4 +51,13 @@ class Archivo extends MY_Controller {
         $this->ArchivoModel->descargar($params['k']);
     }
 
+
+    function view_file_mail(){
+        $this->load->helper(array("session", "debug"));
+
+        $params = $this->uri->uri_to_assoc();
+        $this->load->model("archivo_model", "ArchivoModel");
+        $this->ArchivoModel->descargar($params['k']);
+    }
+
 }
