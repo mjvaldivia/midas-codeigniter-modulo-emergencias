@@ -40,6 +40,7 @@
         <a href="#tab2" data-toggle="tab">Listado</a>
     </li>
     <li style="display:none" id="tab-editar"><a href="#tab3" data-toggle="tab">Edición</a></li>
+    <li style="display:none" id="tab-items-subcapa"><a href="#tab4" data-toggle="tab">Items Subcapa</a></li>
 </ul>
 
 
@@ -195,6 +196,16 @@
 
     <div class='tab-pane' id='tab3' style='overflow:hidden;display:none'>
         <div id='div_tab_3' class='col-xs-12 top-spaced'>
+
+        </div>
+
+    </div>
+
+    <div class='tab-pane' id='tab4' style='overflow:hidden;display:none'>
+        <div class="col-xs-12 text-right top-spaced">
+            <button type="button" class="btn btn-success" onclick="Layer.cancelarEdicion();">Volver</button>
+        </div>
+        <div id='div_tab_4' class='col-xs-12 table-responsive small'>
 
         </div>
 

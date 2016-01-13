@@ -109,6 +109,38 @@ class Capas extends MY_Controller
     }
 
 
+    function ajax_grilla_items_subcapas() {
+        $id_subcapa = $this->input->post('subcapa');
+        $this->load->helper(array("modulo/capa/capa"));
+
+        $arr_items = array();
+        $arr_cabeceras = array();
+        $subcapa = $this->capa_model->getSubCapa($id_subcapa);
+
+        $arr_cabeceras = explode(",",$subcapa['cap_c_propiedades']);
+        $lista = $this->capa_model->listarItemsSubCapas($id_subcapa);
+        if($lista){
+            foreach($lista as $item){
+                $arr_propiedades = array();
+                $propiedades = unserialize($item['poligono_propiedades']);
+                foreach($arr_cabeceras as $cabecera){
+                    $arr_propiedades[] = $propiedades[$cabecera];
+                }
+                $arr_items[] = array(
+                    'comuna' => $item['com_c_nombre'],
+                    'provincia' => $item['prov_c_nombre'],
+                    'region' => $item['reg_c_nombre'],
+                    'id' => $item['poligono_id'],
+                    'propiedades' => $arr_propiedades
+                );
+            }
+        }
+
+
+        $this->load->view("pages/capa/grilla_capas_items_subcapa", array("lista" => $arr_items, "cabeceras" => $arr_cabeceras));
+    }
+
+
     public function validarCapaEmergencia(){
         $this->load->helper(array("session", "debug"));
         $id_capa = $this->input->post('capa');

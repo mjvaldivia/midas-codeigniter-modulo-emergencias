@@ -381,11 +381,11 @@ class Capa_Model extends MY_Model {
     }
 
     function getSubCapa($id_subcapa) {
-
         $sql = "select * from capas_geometria
-          left join capas on cap_ia_id = capas_geometria.geometria_capa
+          left join capas on cap_ia_id = geometria_capa
           where geometria_id = ?";
         $result = $this->db->query($sql,array($id_subcapa));
+
         if($result->num_rows() > 0){
             $result = $result->result_array();
             return $result[0];
@@ -481,6 +481,30 @@ class Capa_Model extends MY_Model {
 
 
             return true;
+        }else{
+            return null;
+        }
+    }
+
+
+    public function listarItemsSubCapas($id_subcapa=null){
+        $where = '';
+        if(!is_null($id_subcapa) and is_numeric($id_subcapa)){
+            $where .= ' where cp.poligono_capitem = '.$id_subcapa;
+        }
+
+        $query = "select cp.*,c.com_ia_id, c.com_c_nombre, p.prov_c_nombre,p.prov_ia_id, r.reg_ia_id,reg_c_nombre, cap.cap_c_propiedades as propiedades
+          from capas_poligonos_informacion cp
+          left join capas_geometria cg on cg.geometria_id = cp.poligono_capitem
+          left join capas cap on cap.cap_ia_id = cg.geometria_capa
+          left join comunas c on c.com_ia_id = cp.poligono_comuna
+          left join provincias p on p.prov_ia_id = c.prov_ia_id
+          left join regiones r on r.reg_ia_id = p.reg_ia_id " . $where;
+
+        $result = $this->db->query($query);
+
+        if($result->num_rows() > 0){
+            return $result->result_array();
         }else{
             return null;
         }

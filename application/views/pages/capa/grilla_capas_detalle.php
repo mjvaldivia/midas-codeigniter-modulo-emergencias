@@ -1,11 +1,11 @@
 <table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Categoría</th>
+            <th class="text-center">Nombre</th>
+            <th class="text-center">Categoría</th>
             <!--<td>Zona Geográfica</td>-->
-            <th>Total Items</th>
-            <th>Ícono o Color</th>
+            <th class="text-center">Total Items</th>
+            <th class="text-center">Ícono o Color</th>
             <!--<td>Propiedades</td>-->
             <!--<td>Nombre Archivo</td>
             <td>Archivo</td>-->
@@ -18,7 +18,7 @@
         <tr>
             <td><?php echo $row['geometria_nombre']; ?></td>
             <td><?php echo $row['ccb_c_categoria']; ?></td>
-            <td class="text-center"><?php echo $row['total_items']?></td>
+            <td class="text-center"><a href="javascript:void(0);" onclick="Layer.listarItemsSubCapa(<?php echo $row['geometria_id']?>)"><?php echo $row['total_items']?></a></td>
             <!--<td><?php /*echo $row['geozone']; */?></td>-->
             <td align="center">
                 <?php if(is_null($row['geometria_icono']) or empty($row['geometria_icono'])):?>
@@ -35,7 +35,7 @@
             <!--<td><?php /*echo $row['cap_c_propiedades']; */?></td>-->
             <!--<td><?php /*echo basename(FCPATH . $row['capa']); */?></td>-->
             <!--<td><?php /*echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); */?> </td>-->
-            <td>
+            <td class="text-center">
                 <?php if (puedeEditar("capas")) { ?>
                 <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarSubCapa(<?php echo $row['geometria_id']; ?>);' >
                     <i class='fa fa-edit'></i>
