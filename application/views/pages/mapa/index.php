@@ -14,8 +14,9 @@
 <?= loadJS("assets/js/geo-encoder.js"); ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>
 
-
+<?= loadCSS("assets/js/modulo/mapa/extencion/maps.google.buttons.css") ?>
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.polygon.containsLatLng.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/extencion/maps.google.buttons.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>

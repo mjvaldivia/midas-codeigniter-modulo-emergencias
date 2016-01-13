@@ -57,23 +57,28 @@ Class Visor_Poligono_Instalaciones{
      */
     protected function _htmlTabContent(){
         $html = "<div class=\"tab-content\">";
-        $primero = true;
-        foreach($this->_lista_marcadores as $grupo => $instalaciones){
-            
-            $class = "";
-            if($primero){
-                $class = "active";
+        
+        if(count($this->_lista_marcadores)>0){
+            $primero = true;
+            foreach($this->_lista_marcadores as $grupo => $instalaciones){
+
+                $class = "";
+                if($primero){
+                    $class = "active";
+                }
+
+                $id = md5($grupo);
+
+                $html .= "<div role=\"tabpanel\" class=\"tab-pane top-spaced ".$class."\" id=\"" . $id . "\">";
+
+                $html .= $this->_htmlTableInstalaciones($instalaciones);
+
+                $html .= "</div>";
+
+                $primero = false;
             }
-            
-            $id = md5($grupo);
-            
-            $html .= "<div role=\"tabpanel\" class=\"tab-pane top-spaced ".$class."\" id=\"" . $id . "\">";
-            
-            $html = $this->_htmlTableInstalaciones($instalaciones);
-            
-            $html .= "</div>";
-            
-            $primero = false;
+        } else {
+            $html .= "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
         }
         
         $html .= "</div>";
@@ -121,7 +126,7 @@ Class Visor_Poligono_Instalaciones{
             $html .= "</tbody>"
                     ."</table>";
         } else {
-            $html = "<div class=\"alert alert-info\">No existen instalaciones</div>";
+            $html = "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
         }
         
         return $html;

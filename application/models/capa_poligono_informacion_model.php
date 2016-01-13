@@ -33,6 +33,25 @@ class Capa_Poligono_Informacion_Model extends MY_Model {
      * 
      * @param int $id_capa
      * @param array $lista_comunas
+     * @return array
+     */
+    public function listarPorSubcapaComuna($id_subcapa, $lista_comunas){
+        $result = $this->_query->select("p.*")
+                               ->from($this->_tabla . " p")
+                               ->whereAND("p.poligono_capitem", $id_subcapa, "=")
+                               ->whereAND("p.poligono_comuna", $lista_comunas, "IN")
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_capa
+     * @param array $lista_comunas
      * @return type
      */
     public function listarPorCapaComuna($id_capa, $lista_comunas){

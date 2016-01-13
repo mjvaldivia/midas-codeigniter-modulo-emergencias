@@ -63,10 +63,18 @@ class Mapa extends MY_Controller {
     public $_tipo_capa_model;
     
     /**
+     *
+     * @var Emergencia_Comuna 
+     */
+    public $emergencia_comuna;
+    
+    /**
      * 
      */
     public function __construct() {
         parent::__construct();
+        $this->load->library("emergencia/emergencia_comuna");
+        
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("emergencia_capas_geometria_model", "_emergencia_capas_model");
         $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
@@ -125,16 +133,13 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
-            $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($emergencia->eme_ia_id);
+            
+            $lista_comunas = $this->emergencia_comuna->listComunas($emergencia->eme_ia_id);
+            
             if(count($lista_comunas)>0){
-                $comunas = array();
-                foreach($lista_comunas as $comuna){
-                    $comunas[] = $comuna["com_ia_id"];
-                }
-                
                 $lista_capas = array();
                 
-                $lista_tipos = $this->_tipo_capa_model->listarCategoriasPorComunas($comunas);
+                $lista_tipos = $this->_tipo_capa_model->listarCategoriasPorComunas($lista_comunas);
                 if(count($lista_tipos)>0){
                     foreach($lista_tipos as $tipo){
                         $lista_capas[] = array("id_categoria" => $tipo["ccb_ia_categoria"],
@@ -142,11 +147,10 @@ class Mapa extends MY_Controller {
                     }
                 }
                 
-                
                 $this->load->view("pages/mapa/popup-capas", 
                                    array("capas" => $lista_capas,
                                          "seleccionadas" => $params["capas"],
-                                         "comunas" => $comunas));
+                                         "comunas" => $lista_comunas));
             }
         } else {
             throw new Exception("La emergencia no existe");
@@ -194,10 +198,14 @@ class Mapa extends MY_Controller {
                       "error" => "La capa no existe o no pudo ser cargada");
         
         $params = $this->input->post(null, true);
-        $resultado = $this->_cargaCapa($params["id"]);
-        if(!is_null($resultado)){
-            $data = array("correcto" => true,
-                          "capa" => $resultado);
+        
+        $lista_comunas = $this->emergencia_comuna->listComunas($params["id_emergencia"]);
+        if(count($lista_comunas)>0){
+            $resultado = $this->_cargaCapa($params["id"], $lista_comunas);
+            if(!is_null($resultado)){
+                $data = array("correcto" => true,
+                              "capa" => $resultado);
+            }
         }
         
         echo json_encode($data);
@@ -213,10 +221,13 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
+            
+            $lista_comunas = $this->emergencia_comuna->listComunas($emergencia->eme_ia_id);
+
             $lista_capas = $this->_emergencia_capas_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_capas)>0){
                 foreach($lista_capas as $capa){
-                    $resultado = $this->_cargaCapa($capa["id_geometria"]);
+                    $resultado = $this->_cargaCapa($capa["id_geometria"], $lista_comunas);
                     if(!is_null($resultado)){
                         $data["correcto"] = true;
                         $data["resultado"]["capas"][$capa["id_geometria"]] = $resultado;
@@ -263,7 +274,7 @@ class Mapa extends MY_Controller {
      * @param int $id_capa
      * @return array
      */
-    protected function _cargaCapa($id_subcapa){
+    protected function _cargaCapa($id_subcapa, $comunas = array()){
         fb("Cargando capa " . $id_subcapa);
         $retorno = null;
         
@@ -272,7 +283,7 @@ class Mapa extends MY_Controller {
             $capa = $this->_capa_model->getById($subcapa->geometria_capa);
             if(!is_null($capa)){
                 $json = array();
-                $lista_poligonos = $this->_capa_poligono_informacion_model->listarPorSubcapa($subcapa->geometria_id);
+                $lista_poligonos = $this->_capa_poligono_informacion_model->listarPorSubcapaComuna($subcapa->geometria_id, $comunas);
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
                         $json[] = array("id" => $poligono["poligono_id"],

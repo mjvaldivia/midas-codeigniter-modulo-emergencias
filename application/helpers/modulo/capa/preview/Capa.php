@@ -3,7 +3,7 @@
 /**
  * 
  */
-Class Capa_Preview_Icono{
+Class Capa_Preview_Capa{
     
     /**
      *

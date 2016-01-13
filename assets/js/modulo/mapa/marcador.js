@@ -54,8 +54,15 @@ var MapaMarcador = Class({
         var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(lon), 
                                                    parseFloat(lat), 
                                                    zona);
+        if(!(latLon[0] >= -90 && latLon[0] <= 90)){
+            latLon[0] = lat;
+        }
+        
+         if(!(latLon[1] >= -90 && latLon[1] <= 90)){
+            latLon[1] = lon;
+        }
 
-
+        
         var posicion = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
 
         marker = new google.maps.Marker({
