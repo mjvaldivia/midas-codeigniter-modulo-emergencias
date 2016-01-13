@@ -20,6 +20,19 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
+
+set_include_path(
+        '.' . PATH_SEPARATOR . realpath(dirname(__FILE__)).'/application/third_party'
+        .PATH_SEPARATOR . get_include_path()
+        );
+
+require 'Zend/Loader/Autoloader.php';
+$autoloader = Zend_Loader_Autoloader::getInstance();
+
+define('CACHE_FRONTEND_OPTIONS', serialize(array('automatic_cleaning_factor' => 0)));
+
+
+
 define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
