@@ -397,11 +397,17 @@ class Capa_Model extends MY_Model {
 
 
     public function validarCapaEmergencia($id_capa){
-        $query = "select count(*) as total from emergencias 
-                where eme_c_capas like $id_capa  
+        /*$query = "select count(*) as total from emergencias
+                where eme_c_capas like '$id_capa'
                 or eme_c_capas like '$id_capa,%' 
                 or eme_c_capas like '%,$id_capa' 
-                or eme_c_capas like '%,$id_capa,%'";
+                or eme_c_capas like '%,$id_capa,%'";*/
+
+        $query = "select count(ecg.id_geometria) as total from emergencias_capas_geometria ecg
+          inner join capas_geometria cg on cg.geometria_id = ecg.id_geometria
+          inner join capas c on c.cap_ia_id = cg.geometria_capa
+          where c.cap_ia_id = ".$id_capa;
+
         $result = $this->db->query($query);
         $validate = $result->result_object();
         
@@ -409,43 +415,62 @@ class Capa_Model extends MY_Model {
     }
 
 
+    public function validarSubCapaEmergencia($id_subcapa){
+        /*$query = "select count(*) as total from emergencias
+                where eme_c_capas like '$id_capa'
+                or eme_c_capas like '$id_capa,%'
+                or eme_c_capas like '%,$id_capa'
+                or eme_c_capas like '%,$id_capa,%'";*/
+
+        $query = "select count(*) as total from emergencias_capas_geometria where id_geometria = ".$id_subcapa;
+
+        $result = $this->db->query($query);
+        $validate = $result->result_object();
+
+        return $validate[0]->total;
+    }
+
+
     public function eliminarCapa($id_capa){
-        $query = "delete from capas where cap_ia_id = ?";
+
         $this->db->trans_begin();
-        if($this->db->query($query,array($id_capa))){
-            $query = "select eme_ia_id,eme_c_capas from emergencias 
-                    where eme_c_capas like $id_capa  
-                    or eme_c_capas like '$id_capa,%' 
-                    or eme_c_capas like '%,$id_capa' 
-                    or eme_c_capas like '%,$id_capa,%'";
-            $result = $this->db->query($query);
-            $emergencias = $result->result_object();
-            foreach($emergencias as $item){
-                $capas = '';
-                $tmp = explode(',',$item->eme_c_capas);
-                foreach($tmp as $capa){
-                    if($capa != $id_capa){
-                        $capas .= $capa.',';
-                    }
-                }
-                $capas = trim($capas,',');
 
-                $query = "update emergencias set eme_c_capas = ? where eme_ia_id = ?";
-                $update = $this->db->query($query,array($capas,$item->eme_ia_id));
-            }
+        $query = "select id_geometria from emergencias_capas_geometria
+                    inner join capas_geometria on geometria_id = emergencias_capas_geometria.id_geometria
+                    where geometria_capa = " . $id_capa;
 
-            if ($this->db->trans_status() === FALSE) {
-                
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                $this->db->trans_commit();
-                return true;
-            }
+        $result = $this->db->query($query);
+        $subcapas = $result->result_array();
 
-        }else{
-            return false;
+        foreach($subcapas as $subcapa){
+            /* eliminar todos los items asociadas a la subcapa en cuestion */
+            $query = "delete from capas_poligonos_informacion where poligono_capitem = " . $subcapa['id_geometria'];
+            $delete = $this->db->query($query);
+
+            /* eliminar registro de subcapa asociado con emergencia */
+            $query = "delete from emergencias_capas_geometria where id_geometria = " . $subcapa['id_geometria'];
+            $delete = $this->db->query($query);
+
+            /* eliminar registro de subcapa de la tabla de capas_geometria */
+            $query = "delete from capas_geometria where geometria_id = " . $subcapa['id_geometria'];
+            $delete = $this->db->query($query);
+
         }
+
+        /* eliminar capa */
+        $query = "delete from capas where cap_ia_id = " . $id_capa;
+        $delete = $this->db->query($query);
+
+        if ($this->db->trans_status() === FALSE) {
+
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            $this->db->trans_commit();
+            return true;
+        }
+
+
     }
 
 

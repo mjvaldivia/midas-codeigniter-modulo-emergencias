@@ -230,8 +230,44 @@ var Layer = {};
     };
 
 
+
     this.eliminarCapa = function(id_capa){
+
         $.post(siteUrl + 'capas/validarCapaEmergencia',{capa:id_capa},function(response){
+            if(response.estado == true){
+                var mensaje = 'La capa a eliminar se encuentra asociada a una Emergencia. Desea eliminarla de todas formas?';
+            }else{
+                var mensaje = 'Desea eliminar esta capa?';
+            }
+            bootbox.confirm(mensaje, function(result) {
+                if(result){
+                    /* eliminar capa */
+                    $.post(siteUrl + 'capas/eliminarCapa',{capa:id_capa},function(response){
+                        if(response.estado == true){
+                            bootbox.alert(response.mensaje,function(){
+                                Layer.initList();
+                            });
+                        }else{
+                            bootbox.dialog({title:'Error', message:response.mensaje});
+                        }
+                    },'json').fail(function(){
+                        bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
+                    });
+                }
+
+            });
+        },'json').fail(function(){
+            bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
+        });
+
+    };
+
+
+
+
+
+    this.eliminarSubCapa = function(id_capa){
+        $.post(siteUrl + 'capas/validarSubCapaEmergencia',{capa:id_capa},function(response){
             if(response.estado == true){
                 var mensaje = 'La capa a eliminar se encuentra asociada a una Emergencia. Desea eliminarla de todas formas?';
             }else{

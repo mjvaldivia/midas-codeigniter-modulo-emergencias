@@ -159,6 +159,24 @@ class Capas extends MY_Controller
     }
 
 
+    public function validarSubCapaEmergencia(){
+        $this->load->helper(array("session", "debug"));
+        $id_capa = $this->input->post('capa');
+
+        sessionValidation();
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->validarSubCapaEmergencia($id_capa) > 0){
+            $json['estado'] = true;
+        }else{
+            $json['estado'] = false;
+        }
+        die();
+        echo json_encode($json);
+    }
+
+
     public function eliminarCapa(){
         $this->load->helper(array("session", "debug"));
         sessionValidation();
