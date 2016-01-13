@@ -42,7 +42,7 @@ Class Capa_Preview_Icono{
         if($this->_capa->color != ""){
             return "<div class=\"color-capa-preview\" style=\"background-color:".$this->_capa->color."\"></div>";
         } elseif($this->_capa->icon_path != ""){
-            return "<img src=\"" . $this->_capa->icon_path . "\" title=\"Icono de capa\" style=\"height: 30px;\"  >";
+            return "<img src=\"" . base_url($this->_capa->icon_path) . "\" title=\"Icono de capa\" style=\"height: 30px;\"  >";
         }
     }
     

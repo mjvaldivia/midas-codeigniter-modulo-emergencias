@@ -38,7 +38,7 @@ var Layer = {};
 
         $("#input-capa").fileinput({
             language: "es",
-            multiple: true,
+            multiple: false,
             uploadAsync: true,
             initialCaption: "Seleccione una o varias capas GeoJson",
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
@@ -53,7 +53,7 @@ var Layer = {};
          $("#iCategoria").jCombo(siteUrl + "visor/obtenerJsonCatCoberturas");
         
         $('#input-capa').on('filebatchuploadsuccess', function(event, data) {
-           
+
            if(data.response.uploaded==0)//error
            {
                var error_filenames = 'El (los) siguiente(s) archivos no son válidos:<br>';
@@ -73,7 +73,8 @@ var Layer = {};
                 });
            }
            if(data.response.filenames.length==0) return; // no se subio ningun archivo valido
-           
+
+            $("#tmp_file").val(data.response.nombre_cache_id);
            var properties = data.response.properties.data;
            var filename = data.response.filenames.data;
            var geometry = data.response.geometry.data;
@@ -271,6 +272,17 @@ var Layer = {};
         });
     };
 
+    this.editarSubCapa = function(id_subcapa){
+        $("#tab-editar").fadeIn(function(){
+            $("#ul-tabs").find('li.active').removeClass('active');
+            $("#tab-content").find('div.tab-pane.active').removeClass('active');
+            $(this).addClass('active');
+            $.post(siteUrl + 'capas/editarSubCapa',{capa:id_subcapa},function(response){
+                $("#div_tab_3").html(response);
+                $("#tab3").addClass('active').show();
+            },'html');
+        });
+    }
 
     this.initSaveEdicion = function() {
 
@@ -354,13 +366,13 @@ var Layer = {};
     } ;
 
 
-    this.listarCapasDetalle = function(nombre_capa){
+    this.listarCapasDetalle = function(id_capa,nombre_capa){
         $("#tab2 > #div_tab_2").fadeOut(function(){
             $.ajax({
                 dataType: "html",
                 cache: false,
                 async: true,
-                data: {nombre_capa:nombre_capa},
+                data: {id_capa:id_capa},
                 type: "post",
                 url: siteUrl + "capas/ajax_grilla_capas",
                 error: function(xhr, textStatus, errorThrown){
@@ -399,6 +411,42 @@ var Layer = {};
                 }
             });
         });
+    };
+
+
+    this.guardarSubCapa = function(form, btn){
+        btn.disabled = true;
+        var btnText = $(btn).html();
+        $(btn).html('Guardando... <i class="fa fa-spin fa-spinner"></i>');
+
+        var error = "";
+        if(form.nombre_subcapa.value == ""){
+            error = "- Debe ingresar nombre de la subcapa";
+        }
+
+        if(error != ""){
+            bootbox.alert(error,function(){
+                $(btn).html(btnText).attr('disabled',false);
+            });
+        }else{
+            var params = $(form).serialize();
+            $.post(siteUrl + 'capas/guardarSubCapa',params,function(response){
+                if(response.estado == true){
+                    bootbox.alert(response.mensaje,function(){
+                        $(btn).html(btnText).attr('disabled',false);
+                        Layer.cancelarEdicion();
+                    });
+                }else{
+                    bootbox.alert(response.mensaje,function(){
+                        $(btn).html(btnText).attr('disabled',false);
+                    });
+                }
+            },'json').fail(function(){
+                bootbox.alert("Error en el sistema. Intente nuevamente",function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                });
+            });
+        }
     }
     
 }).apply(Layer);

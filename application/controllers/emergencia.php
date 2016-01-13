@@ -505,9 +505,9 @@ class Emergencia extends MY_Controller {
                 $this->capageojson->setGeojson($arr_properties);
                 $geometrias = $this->capageojson->listGeometry();
                 
-                if(in_array("Polygon", $geometrias) OR in_array("MultiPolygon", $geometrias)){
+                if(in_array("Polygon", $geometrias) OR in_array("MultiPolygon", $geometrias) or in_array("MultiLineString", $geometrias)){
                     $poligono = array("Poligonos",
-                                                      "<input name=\"color_poligono\" id=\"color_poligono\" placeholder=\"Color del poligono\" type='text' class=\"colorpicker required\" value=\"\"/>");
+                                                      "<input name=\"color_poligono\" id=\"color_poligono\" placeholder=\"Color del poligono o linea\" type='text' class=\"colorpicker required\" value=\"\"/>");
                 }
                 
                 if(in_array("Point", $geometrias)){
@@ -538,7 +538,8 @@ class Emergencia extends MY_Controller {
                                           'properties' => $properties, 
                                           'filenames' => $arr_filename,
                                           'geometry' => $tipo_geometria)) 
-                      : json_encode(array("uploaded" => 1, 
+                      : json_encode(array("uploaded" => 1,
+                                            'nombre_cache_id' => $nombre_cache_id,
                                           'properties' => $properties, 
                                           'filenames' => $arr_filename,
                                           'geometry' => $tipo_geometria));
