@@ -57,6 +57,33 @@ var Visor = Class({
     },
     
     /**
+     * Guardar
+     * @returns {void}
+     */
+    guardar : function(){
+        var parametros = {"capas" : this.capa.retornaIdCapas(),
+                          "id" : this.id_emergencia};
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "mapa/save", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                if(data.correcto){
+                    notificacionCorrecto("Guardado","Se ha guardado correctamente la configuración del mapa")
+                } else {
+                    notificacionError("Ha ocurrido un problema", data.error);
+                }
+            }
+        }); 
+    },
+    
+    /**
      * Inicia el mapa
      * @returns {void}
      */
@@ -234,6 +261,7 @@ var Visor = Class({
     },
     
     controlSave : function (map) {
+        var yo = this;
         var controlDiv = document.createElement('div');
         // Set CSS for the control border.
         var controlUI = document.createElement('div');
@@ -261,7 +289,11 @@ var Visor = Class({
         controlText.style.paddingRight = '5px';
         controlText.innerHTML = '<i class=\"fa fa-save\"></i> Guardar';
         controlUI.appendChild(controlText);
-
+        
+        controlUI.addEventListener('click', function() {
+            yo.guardar();
+        });
+        
         controlDiv.index = 1;
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
 

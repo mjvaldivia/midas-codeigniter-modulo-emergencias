@@ -23,10 +23,12 @@ var MapaCapa = Class({
     retornaIdCapas : function(){
         var lista_capas = {};
         var i = 0;
-        
+        console.log(this.capas);
         $.each(this.capas, function(id_capa, capa){
-            lista_capas[i] = id_capa;
-            i++;
+            if(!($.isEmptyObject(capa))){
+                lista_capas[i] = id_capa;
+                i++;
+            }
         });
         return lista_capas;
     },
@@ -36,25 +38,25 @@ var MapaCapa = Class({
      * @param {int} id_capa
      * @returns {void}
      */
-    addCapa : function(id_capa){
+    addCapa : function(id_subcapa){
         var yo = this;
         
-        
-        console.log("Agregando capa " + id_capa);
+        console.log(yo.capas);
+        console.log("Agregando Sub-Capa " + id_subcapa);
         $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
-            data: "id=" + id_capa,
+            data: "id=" + id_subcapa,
             type: "post",
             url: siteUrl + "mapa/ajax_capa", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
-                    if(($.isEmptyObject(yo.capas[id_capa]))){
-                        console.log("Cargando nueva capa " + id_capa);
-                        yo.capas[id_capa] = data.capa;
-                        yo.cargaCapa(id_capa, data.capa);
+                    if(($.isEmptyObject(yo.capas[id_subcapa]))){
+                        console.log("Cargando nueva capa " + id_subcapa);
+                        yo.capas[id_subcapa] = data.capa;
+                        yo.cargaCapa(id_subcapa, data.capa);
                     }
                 }
                 console.log(yo.capas);
@@ -85,7 +87,6 @@ var MapaCapa = Class({
         this.class_poligono.seteaMapa(mapa);
         this.class_multipoligono.seteaMapa(mapa);
         
-        
         var yo = this;
         $.each(this.capas, function(id_capa, capa){
             yo.cargaCapa(id_capa, capa);
@@ -94,19 +95,19 @@ var MapaCapa = Class({
     
     /**
      * Carga una capa
-     * @param {int} id_capa
+     * @param {int} id_subcapa
      * @param {object} capa
      * @returns {void}
      */
-    cargaCapa : function(id_capa, capa){
+    cargaCapa : function(id_subcapa, capa){
         var yo = this;
         var i = 0;
         
-        $.each(capa.json.features, function(id_feature, feature){
-            if(feature.type == "Feature"){
-                yo.elemento(feature.geometry, feature.properties, id_capa, capa.zona, capa.icono, capa.color);
-                i++;
-            } 
+        $.each(capa.json, function(id, data){
+            
+            yo.elemento(data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
+            i++;
+            
         });
     },
     
@@ -118,11 +119,12 @@ var MapaCapa = Class({
      * @param {string} color
      * @returns {void}
      */
-    elemento : function(geometry, propiedades, capa, zona, icono, color){
+    elemento : function(geometry, propiedades, subcapa, zona, icono, color){
+       
         var yo = this;
         switch (geometry.type) {
             case "Point":
-                yo.class_marcador.posicionarMarcador(capa,
+                yo.class_marcador.posicionarMarcador(subcapa,
                                                      geometry.coordinates[0], 
                                                      geometry.coordinates[1], 
                                                      propiedades,
@@ -130,10 +132,10 @@ var MapaCapa = Class({
                                                      icono);
                 break;
             case "Polygon":
-                yo.class_poligono.dibujarPoligono(capa, geometry.coordinates, propiedades, zona, color);
+                yo.class_poligono.dibujarPoligono(subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
             case "MultiPolygon":
-                yo.class_multipoligono.dibujarPoligono(capa, geometry.coordinates, propiedades, zona, color);
+                yo.class_multipoligono.dibujarPoligono(subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
         }
     },

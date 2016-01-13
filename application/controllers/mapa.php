@@ -40,15 +40,21 @@ class Mapa extends MY_Controller {
     
     /**
      *
-     * @var Emergencia_Capas_Model 
+     * @var Emergencia_Capas_Geometria_Model 
      */
     public $_emergencia_capas_model;
     
     /**
      *
-     * @var Capa_Punto_Informacion 
+     * @var Capa_Poligono_Informacion_Model
      */
     public $_capa_poligono_informacion_model;
+    
+    /**
+     *
+     * @var Capa_Geometria_Model 
+     */
+    public $_capa_geometria_model;
     
     /**
      *
@@ -67,6 +73,7 @@ class Mapa extends MY_Controller {
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
         $this->load->model("capa_poligono_informacion_model", "_capa_poligono_informacion_model");
+        $this->load->model("capa_geometria_model", "_capa_geometria_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
         $this->load->model("archivo_model", "_archivo_model");
     }
@@ -84,6 +91,28 @@ class Mapa extends MY_Controller {
         } else {
             throw new Exception(__METHOD__ . " - La emergencia no existe");
         }
+    }
+    
+    /**
+     * Guarda configuracion del mapa
+     */
+    public function save(){
+        $params = $this->input->post(null, true);
+        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            $this->_emergencia_capas_model->query()
+                                          ->insertOneToMany("id_emergencia", 
+                                                            "id_geometria", 
+                                                            $emergencia->eme_ia_id, 
+                                                            $params["capas"]);
+            $data = array("correcto" => true,
+                          "error" => "");
+        } else {
+            $data = array("correcto" => false,
+                          "error" => "La emergencia no existe");
+        }
+        
+        echo json_encode($data);
     }
     
     /**
@@ -187,10 +216,10 @@ class Mapa extends MY_Controller {
             $lista_capas = $this->_emergencia_capas_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_capas)>0){
                 foreach($lista_capas as $capa){
-                    $resultado = $this->_cargaCapa($capa->id_capa);
+                    $resultado = $this->_cargaCapa($capa["id_geometria"]);
                     if(!is_null($resultado)){
                         $data["correcto"] = true;
-                        $data["resultado"]["capas"][$capa->cap_ia_id] = $resultado;
+                        $data["resultado"]["capas"][$capa["id_geometria"]] = $resultado;
                     }
                 }
             }
@@ -234,16 +263,39 @@ class Mapa extends MY_Controller {
      * @param int $id_capa
      * @return array
      */
-    protected function _cargaCapa($id_capa){
+    protected function _cargaCapa($id_subcapa){
+        fb("Cargando capa " . $id_subcapa);
         $retorno = null;
-        $capa = $this->_capa_model->getById($id_capa);
-        if(!is_null($capa)){
-            
-            $retorno = array("zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
-                             "icono" => $capa->icon_path,
-                             "color" => $capa->color,
-                             "json"  => json_decode(file_get_contents(base_url($archivo->arch_c_nombre))));
-            
+        
+        $subcapa = $this->_capa_geometria_model->getById($id_subcapa);
+        if(!is_null($subcapa)){
+            $capa = $this->_capa_model->getById($subcapa->geometria_capa);
+            if(!is_null($capa)){
+                $json = array();
+                $lista_poligonos = $this->_capa_poligono_informacion_model->listarPorSubcapa($subcapa->geometria_id);
+                if(count($lista_poligonos)>0){
+                    foreach($lista_poligonos as $poligono){
+                        $json[] = array("id" => $poligono["poligono_id"],
+                                        "propiedades" => unserialize($poligono["poligono_propiedades"]),
+                                        "geojson"     => unserialize($poligono["poligono_geometria"]));
+                    }
+                }
+                
+                $icono = "";
+                if(!empty($subcapa->geometria_icono)){
+                    $icono = base_url($subcapa->geometria_icono);
+                } else {
+                    if(!empty($capa->icon_path)){
+                        $icono = base_url($capa->icon_path);
+                    }
+                }
+                
+                $retorno = array("zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
+                                 "icono" => $icono,
+                                 "color" => $capa->color,
+                                 "json"  => $json);
+
+            }
         }
         return $retorno;
     }

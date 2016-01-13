@@ -5,7 +5,8 @@
                 <tr>
                     <th></th>
                     <th>Icono/Color</th>
-                    <th>Nombre</th>                
+                    <th>Nombre</th>     
+                    <th>Comuna</th>   
                 </tr>
             </thead>
             <tbody>
@@ -18,9 +19,12 @@
                         <td align="center" width="20%">
                             <?php echo getCapaPreview($id_capa); ?>
                         </td>
-                        <td width="75%">
+                        <td width="55%">
                             <?php echo $row["geometria_nombre"]; ?>
                         </td>      
+                        <td width="20%">
+                            
+                        </td>
                     </tr>
                     <?php } ?>
                 <?php } ?>

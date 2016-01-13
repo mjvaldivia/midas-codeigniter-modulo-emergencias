@@ -24,8 +24,8 @@ Class Visor_Propiedades_Informacion{
         $html = "";
         foreach($this->_propiedades as $nombre => $valor){
             $html .= "<div class=\"row\">"
-                   . "<div class=\"col-ls-4\">" . $nombre . ":</div>"
-                   . "<div class=\"col-ls-8\">" . $valor . "</div>"
+                   . "<div class=\"col-lg-4\">" . $nombre . ":</div>"
+                   . "<div class=\"col-lg-8\">" . $valor . "</div>"
                    . "</div>";
         }
         return $html;
