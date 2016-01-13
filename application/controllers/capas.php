@@ -219,6 +219,28 @@ class Capas extends MY_Controller
     }
 
 
+
+    public function eliminarItemSubcapa(){
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+
+        $id_item = $this->input->post('item');
+
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->eliminarItemSubCapa($id_item)){
+            $json['estado'] = true;
+            $json['mensaje'] = 'Item eliminado correctametne';
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Hubo un problema al eliminar el item. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+    }
+
+
     public function editarCapa(){
 
 

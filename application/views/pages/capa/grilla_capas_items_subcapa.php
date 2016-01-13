@@ -22,13 +22,13 @@
             <?php endforeach;?>
             <td class="text-center">
                 <?php if (puedeEditar("capas")) { ?>
-                <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarSubCapa(<?php echo $row['geometria_id']; ?>);' >
+                <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarItemSubCapa(<?php echo $row['id']; ?>);' >
                     <i class='fa fa-edit'></i>
                 </a>
                 <?php } ?>
                 
                 <?php if (puedeEliminar("capas")) { ?>
-                <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(<?php echo $row['cap_ia_id']; ?>)'>
+                <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarItemSubcapa(<?php echo $row['id']; ?>)'>
                     <i class='fa fa-trash'></i>
                 </a>
                 <?php } ?>

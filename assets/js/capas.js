@@ -296,6 +296,25 @@ var Layer = {};
         
     };
 
+
+    this.eliminarItemSubcapa = function(id_item){
+        bootbox.confirm('Desea eliminar este item?',function(result){
+            if(result){
+                $.post(siteUrl + 'capas/eliminarItemSubcapa',{item:id_item},function(response){
+                    if(response.estado == true){
+                        bootbox.alert(response.mensaje,function(){
+                            Layer.initList();
+                        });
+                    }else{
+                        bootbox.dialog({title:'Error', message:response.mensaje});
+                    }
+                },'json').fail(function(){
+                    bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
+                });
+            }
+        });
+    }
+
     this.editarCapa = function(id_capa){
         $("#tab-editar").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');

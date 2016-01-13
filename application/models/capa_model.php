@@ -496,6 +496,16 @@ class Capa_Model extends MY_Model {
     }
 
 
+    public function eliminarItemSubCapa($id_item){
+        $query = "delete from capas_poligonos_informacion where poligono_id = " .$id_item;
+        if($this->db->query($query)){
+            return true;
+        }else{
+            return null;
+        }
+    }
+
+
     public function guardarSubCapa($params){
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
         $this->load->model("archivo_model", "ArchivoModel");
