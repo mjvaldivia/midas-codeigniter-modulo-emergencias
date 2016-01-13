@@ -49,7 +49,7 @@ Class Capa_Preview_Subcapa{
     public function render(){
         $capa = $this->_capa_model->getById($this->_subcapa->geometria_capa);
         if($capa->color != ""){
-            return "<div class=\"color-capa-preview\" style=\"background-color:".$this->_capa->color."\"></div>";
+            return "<div class=\"color-capa-preview\" style=\"background-color:".$capa->color."\"></div>";
         } elseif($capa->icon_path != ""){
             if(!empty($this->_subcapa->geometria_icono)){
                 $icono = base_url($this->_subcapa->geometria_icono);
