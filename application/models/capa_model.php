@@ -24,8 +24,12 @@ class Capa_Model extends MY_Model {
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
         $this->load->helper('utils');
         $this->load->model("archivo_model", "ArchivoModel");
+        $this->load->model("comuna_model", "ComunaModel");
         $error = false;
         $lista_propiedades = '';
+
+
+
         foreach ($params as $k => $v) {
 
             if (strstr($k, 'prop_')) {
@@ -37,6 +41,7 @@ class Capa_Model extends MY_Model {
         }
 
         if(isset($params['capa_edicion']) and $params['capa_edicion'] > 0){
+
             if($params['items'] == 0){
                 $comuna = $params['comuna_editar'];
             }else{
@@ -85,15 +90,15 @@ class Capa_Model extends MY_Model {
                 
         }else{
 
-            for ($i = 1; $i <= $params['items']; $i++) {
+            $this->load->model('categoria_cobertura_model','CategoriaCapa');
+            $categoria_capa = $this->CategoriaCapa->getById($params['iCategoria']);
+            $geometria_capa = $categoria_capa['ccb_n_tipo'];
 
-
-                $this->db->trans_begin();
-                $this->db->query("
-                        INSERT INTO capas (cap_c_nombre, 
+            $this->db->trans_begin();
+            $this->db->query("
+                        INSERT INTO capas(cap_c_nombre,
                         cap_c_geozone_number,
                         cap_c_geozone_letter,
-                        com_ia_id,
                         ccb_ia_categoria,
                         cap_c_propiedades
                         )
@@ -102,43 +107,103 @@ class Capa_Model extends MY_Model {
                            '" . $params['nombre'] . "',
                            '" . $params['gznumber'] . "',
                            '" . $params['gzletter'] . "',
-                           '" . $params['iComunas_' . $i] . "',
                            '" . $params['iCategoria'] . "',
                            '" . $lista_propiedades . "'
                         )
                         ");
 
-                $cap_ia_id = $this->db->insert_id();
-                $capa = $this->cache->get($params['tmp_file_' . $i]);   //capa 
+            $cap_ia_id = $this->db->insert_id();
 
-                $update = array();
+            $capa = $this->cache->get($params['tmp_file']);
+            $capa_content = json_decode($capa['content']);
 
-                $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre']);
-                $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
-                $update["capa_arch_ia_id"] = $capa_arch_ia_id;
-                
-                if(isset($params["color_poligono"])){
-                    $update["color"] = $params["color_poligono"];
-                } 
-                
-                if(isset($params["icono_color"])){
-                    $update["icon_path"] = $params["icono_color"];
-                }
-                
-                $this->_query->update($update, "cap_ia_id", $cap_ia_id);
+            $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre']);
 
-                /*$this->db->query("
-                        UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id, icon_arch_ia_id = $icon_arch_ia_id 
-                        where cap_ia_id =" . $cap_ia_id
-                );*/
+            $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
 
-                if ($this->db->trans_status() === FALSE) {
-                    $error = true;
-                    $this->db->trans_rollback();
-                } else {
-                    $this->db->trans_commit();
-                }
+            $update = array();
+
+
+            //$update["capa_arch_ia_id"] = $capa_arch_ia_id;
+
+            if(isset($params["color_poligono"])){
+                $update["color"] = $params["color_poligono"];
             }
+
+            if(isset($params["icono_color"])){
+                $icono_color = explode(base_url(),$params["icono_color"]);
+                $update["icon_path"] = trim($icono_color[1],"/");
+            }
+
+            $this->_query->update($update, "cap_ia_id", $cap_ia_id);
+
+            $items_capa = $capa_content->features;
+            foreach($items_capa as $item){
+
+                $geometria = serialize((array)$item->geometry);
+
+                $tipo = '';
+                if(!isset($item->properties->TIPO)){
+                    $item->properties->TIPO = $tipo = mb_strtoupper($params['nombre']);
+                    $properties = (array)$item->properties;
+                    $properties = addslashes(serialize($properties));
+                }else{
+                    if(is_null($item->properties->TIPO) or empty($item->properties->TIPO)){
+                        $tipo = mb_strtoupper($params['nombre']);
+                    }else{
+                        $tipo = $item->properties->TIPO;
+                    }
+                }
+
+                $properties = (array)$item->properties;
+                $properties = addslashes(serialize($properties));
+
+                /* obtener comuna */
+                $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
+                if(is_null($comuna)){
+                    continue;
+                }
+                $comuna = $comuna[0];
+
+                $tipo = mb_strtoupper($tipo);
+
+                $query = "select geometria_id,count(geometria_nombre) as existe_tipo from capas_geometria where geometria_nombre like '$tipo' and geometria_tipo = $geometria_capa and geometria_capa = $cap_ia_id";
+                $result = $this->db->query($query);
+                $result = $result->result_array();
+
+                if($result[0]['existe_tipo'] == 0){
+                    $query = "insert into capas_geometria(geometria_capa,geometria_tipo,geometria_nombre) value($cap_ia_id,$geometria_capa,'$tipo')";
+
+                    $insert = $this->db->query($query);
+                    $query = "select geometria_id from capas_geometria where geometria_nombre like '$tipo' and geometria_tipo = $geometria_capa and geometria_capa = $cap_ia_id order by geometria_id DESC limit 1";
+                    $result = $this->db->query($query);
+                    $result = $result->result_array();
+
+                    $id_tipo = $result[0]['geometria_id'];
+
+                }else{
+                    $id_tipo = $result[0]['geometria_id'];
+                }
+
+                $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_comuna,poligono_propiedades,poligono_geometria) value($id_tipo,$comuna->com_ia_id,'$properties','$geometria')";
+                $insertar = $this->db->query($query);
+
+
+            }
+
+            /*$this->db->query("
+                    UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id, icon_arch_ia_id = $icon_arch_ia_id
+                    where cap_ia_id =" . $cap_ia_id
+            );*/
+
+            if ($this->db->trans_status() === FALSE) {
+                $error = true;
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
+
+
         }
 
         
@@ -246,12 +311,7 @@ class Capa_Model extends MY_Model {
      * @return array
      */
     public function listarCapasUnicas(){
-        $sql = "select cc.ccb_c_categoria,  c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone, count(cap_ia_id) as total_geojson,
-          (select r.reg_c_nombre from regiones r
-            left join provincias p on p.reg_ia_id = r.reg_ia_id
-            LEFT JOIN comunas com on com.prov_ia_id = p.prov_ia_id
-            where com.com_ia_id = c.com_ia_id limit 1
-          ) as nombre_region
+        $sql = "select cc.ccb_c_categoria,  c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone
 
         from capas c
             join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria GROUP BY cap_c_nombre";
@@ -263,15 +323,16 @@ class Capa_Model extends MY_Model {
         }
     }
 
-    public function listarCapas($nombre_capa=null){
+    public function listarCapas($id_capa=null){
         $where = '';
-        if(!is_null($nombre_capa)){
-            $where .= ' where cap_c_nombre = "'.$nombre_capa.'"';
+        if(!is_null($id_capa)){
+            $where .= ' where c.geometria_capa = '.$id_capa;
         }
-        $sql = "select cc.ccb_c_categoria, a.arch_c_hash,a.arch_c_nombre capa, c.*, CONCAT(c.cap_c_geozone_number,c.cap_c_geozone_letter) geozone from capas c
-                join archivo a on c.capa_arch_ia_id = a.arch_ia_id
-                join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria
+        $sql = "select cc.ccb_c_categoria, c.*,cap.*, CONCAT(cap.cap_c_geozone_number,cap.cap_c_geozone_letter) geozone from capas_geometria c
+                left join capas cap on cap.cap_ia_id = c.geometria_capa
+                join categorias_capas_coberturas cc on cc.ccb_ia_categoria = cap.ccb_ia_categoria
                 " . $where;
+
         $result = $this->db->query($sql);
         if($result->num_rows() > 0){
             return $result->result_array();
@@ -294,6 +355,21 @@ class Capa_Model extends MY_Model {
             return null;
         }
         
+    }
+
+    function getSubCapa($id_subcapa) {
+
+        $sql = "select * from capas_geometria
+          left join capas on cap_ia_id = capas_geometria.geometria_capa
+          where geometria_id = ?";
+        $result = $this->db->query($sql,array($id_subcapa));
+        if($result->num_rows() > 0){
+            $result = $result->result_array();
+            return $result[0];
+        }else{
+            return null;
+        }
+
     }
 
 
@@ -348,5 +424,37 @@ class Capa_Model extends MY_Model {
             return false;
         }
     }
+
+
+    public function guardarSubCapa($params){
+        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        $this->load->model("archivo_model", "ArchivoModel");
+        $this->load->model("comuna_model", "ComunaModel");
+
+        $params = $this->input->post();
+
+        $icono = $this->cache->get($params['tmp_file_icono']);
+
+        $icono_ruta = explode(base_url(),$params["ruta_icono"]);
+        $icono_ruta = $icono_ruta[1];
+
+
+
+        $query = "update capas_geometria set geometria_nombre = ? where geometria_id = ?";
+        if($this->db->query($query,array($params['nombre_subcapa'],$icono_ruta,$params['id_subcapa']))){
+            $subir_icono = $this->ArchivoModel->upload_to_site($icono['filename'], $icono['type'], $icono_ruta, $params['id_capa'], $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icono['size'], $icono['nombre_cache_id']);
+            if($subir_icono){
+                $subir_icono = json_decode($subir_icono);
+                $nombre_icono = 'media/doc/capa/'.$params['id_capa'].'/'.date(Y).'/'.$subir_icono->id . "_" . $subir_icono->filename;
+                $query = "update capas_geometria set geometria_icono = ? where geometria_id = ?";
+                $update = $this->db->query($query,array($nombre_icono,$params['id_subcapa']));
+            }
+
+            return true;
+        }else{
+            return null;
+        }
+    }
+
 
 }

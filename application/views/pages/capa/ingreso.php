@@ -115,9 +115,9 @@
 
                     
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Capa(s) (*)</label>
+                        <label class="col-md-3 control-label">Capa (*)</label>
                         <div class="col-md-4">
-                            <input id="input-capa" name="input-capa[]" class="form-control" multiple="" type="file" data-show-preview="false" />
+                            <input id="input-capa" name="input-capa[]" class="form-control"  type="file" data-show-preview="false" />
                         </div>
                         
                     </div>
@@ -139,8 +139,8 @@
                             </table>
                         </div>
                     </div>
-                    
-                    <div class="form-group" id="div_comunas" style="display:none;">
+                    <input name="tmp_file" id="tmp_file" type="hidden"/>
+                    <!--<div class="form-group" id="div_comunas" style="display:none;">
                         <label class="col-md-3 control-label">Comuna de la(s) capa(s)</label>
                         <div class="col-md-9">
                             <table id="tabla_comunas" class="table table-bordered table-striped required" placeholder="Archivo de capa válido">
@@ -156,7 +156,7 @@
                                 </thead>
                             </table>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group" id="div_properties" style="display:none;">
                         <label class="col-md-3 control-label">Propiedades de la(s) capa(s)</label>
                         <div class="col-md-5">
