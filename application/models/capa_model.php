@@ -350,7 +350,8 @@ class Capa_Model extends MY_Model {
         if(!is_null($id_capa)){
             $where .= ' where c.geometria_capa = '.$id_capa;
         }
-        $sql = "select cc.ccb_c_categoria, c.*,cap.*, CONCAT(cap.cap_c_geozone_number,cap.cap_c_geozone_letter) geozone from capas_geometria c
+        $sql = "select cc.ccb_c_categoria, c.*,cap.*, CONCAT(cap.cap_c_geozone_number,cap.cap_c_geozone_letter) geozone,
+  (select count(*) as total from capas_poligonos_informacion where poligono_capitem = c.geometria_id) as total_items from capas_geometria c
                 left join capas cap on cap.cap_ia_id = c.geometria_capa
                 join categorias_capas_coberturas cc on cc.ccb_ia_categoria = cap.ccb_ia_categoria
                 " . $where;
@@ -455,22 +456,29 @@ class Capa_Model extends MY_Model {
 
         $params = $this->input->post();
 
-        $icono = $this->cache->get($params['tmp_file_icono']);
 
-        $icono_ruta = explode(base_url(),$params["ruta_icono"]);
-        $icono_ruta = $icono_ruta[1];
 
 
 
         $query = "update capas_geometria set geometria_nombre = ? where geometria_id = ?";
-        if($this->db->query($query,array($params['nombre_subcapa'],$icono_ruta,$params['id_subcapa']))){
-            $subir_icono = $this->ArchivoModel->upload_to_site($icono['filename'], $icono['type'], $icono_ruta, $params['id_capa'], $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icono['size'], $icono['nombre_cache_id']);
-            if($subir_icono){
-                $subir_icono = json_decode($subir_icono);
-                $nombre_icono = 'media/doc/capa/'.$params['id_capa'].'/'.date(Y).'/'.$subir_icono->id . "_" . $subir_icono->filename;
+        if($this->db->query($query,array($params['nombre_subcapa'],$params['id_subcapa']))){
+            if(isset($params['tmp_file_icono'])){
+                $icono = $this->cache->get($params['tmp_file_icono']);
+
+                $icono_ruta = explode(base_url(),$params["ruta_icono"]);
+                $icono_ruta = $icono_ruta[1];
+                $subir_icono = $this->ArchivoModel->upload_to_site($icono['filename'], $icono['type'], $icono_ruta, $params['id_capa'], $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icono['size'], $icono['nombre_cache_id']);
+                if($subir_icono){
+                    $subir_icono = json_decode($subir_icono);
+                    $nombre_icono = 'media/doc/capa/'.$params['id_capa'].'/'.date(Y).'/'.$subir_icono->id . "_" . $subir_icono->filename;
+                    $query = "update capas_geometria set geometria_icono = ? where geometria_id = ?";
+                    $update = $this->db->query($query,array($nombre_icono,$params['id_subcapa']));
+                }
+            }elseif(isset($params['color_poligono'])){
                 $query = "update capas_geometria set geometria_icono = ? where geometria_id = ?";
-                $update = $this->db->query($query,array($nombre_icono,$params['id_subcapa']));
+                $update = $this->db->query($query,array($params['color_poligono'],$params['id_subcapa']));
             }
+
 
             return true;
         }else{

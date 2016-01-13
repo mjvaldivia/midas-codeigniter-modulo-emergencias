@@ -1,14 +1,15 @@
 <table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden">
     <thead>
         <tr>
-            <td>Nombre</td>
-            <td>Categoría</td>
+            <th>Nombre</th>
+            <th>Categoría</th>
             <!--<td>Zona Geográfica</td>-->
-            <td>Ícono o Color</td>
+            <th>Total Items</th>
+            <th>Ícono o Color</th>
             <!--<td>Propiedades</td>-->
             <!--<td>Nombre Archivo</td>
             <td>Archivo</td>-->
-            <td></td>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -17,12 +18,17 @@
         <tr>
             <td><?php echo $row['geometria_nombre']; ?></td>
             <td><?php echo $row['ccb_c_categoria']; ?></td>
+            <td class="text-center"><?php echo $row['total_items']?></td>
             <!--<td><?php /*echo $row['geozone']; */?></td>-->
             <td align="center">
                 <?php if(is_null($row['geometria_icono']) or empty($row['geometria_icono'])):?>
                     <?php echo getCapaPreview($row["cap_ia_id"]); ?>
                 <?php else:?>
+                    <?php if($row['geometria_tipo'] == 1):?>
                     <img src="<?php echo base_url($row['geometria_icono'])?>" />
+                    <?php else:?>
+                        <div class="color-capa-preview" style="background-color:<?php echo $row['geometria_icono']?>"></div>
+                    <?php endif;?>
                 <?php endif;?>
 
             </td>
