@@ -230,10 +230,12 @@ var Layer = {};
     };
 
 
+
     this.eliminarCapa = function(id_capa){
+
         $.post(siteUrl + 'capas/validarCapaEmergencia',{capa:id_capa},function(response){
             if(response.estado == true){
-                var mensaje = 'La capa a eliminar se encuentra asociada a una Emergencia. Desea eliminarla de todas formas?';
+                var mensaje = 'La capa a eliminar posee subcapas asociadas a una Emergencia. Desea eliminarla de todas formas?';
             }else{
                 var mensaje = 'Desea eliminar esta capa?';
             }
@@ -241,6 +243,40 @@ var Layer = {};
                 if(result){
                     /* eliminar capa */
                     $.post(siteUrl + 'capas/eliminarCapa',{capa:id_capa},function(response){
+                        if(response.estado == true){
+                            bootbox.alert(response.mensaje,function(){
+                                Layer.initList();
+                            });
+                        }else{
+                            bootbox.dialog({title:'Error', message:response.mensaje});
+                        }
+                    },'json').fail(function(){
+                        bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
+                    });
+                }
+
+            });
+        },'json').fail(function(){
+            bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
+        });
+
+    };
+
+
+
+
+
+    this.eliminarSubCapa = function(id_capa){
+        $.post(siteUrl + 'capas/validarSubCapaEmergencia',{capa:id_capa},function(response){
+            if(response.estado == true){
+                var mensaje = 'La subcapa a eliminar se encuentra asociada a una Emergencia. Desea eliminarla de todas formas?';
+            }else{
+                var mensaje = 'Desea eliminar esta subcapa?';
+            }
+            bootbox.confirm(mensaje, function(result) {
+                if(result){
+                    /* eliminar capa */
+                    $.post(siteUrl + 'capas/eliminarSubCapa',{subcapa:id_capa},function(response){
                         if(response.estado == true){
                             bootbox.alert(response.mensaje,function(){
                                 Layer.initList();
@@ -259,6 +295,25 @@ var Layer = {};
         });
         
     };
+
+
+    this.eliminarItemSubcapa = function(id_item){
+        bootbox.confirm('Desea eliminar este item?',function(result){
+            if(result){
+                $.post(siteUrl + 'capas/eliminarItemSubcapa',{item:id_item},function(response){
+                    if(response.estado == true){
+                        bootbox.alert(response.mensaje,function(){
+                            Layer.initList();
+                        });
+                    }else{
+                        bootbox.dialog({title:'Error', message:response.mensaje});
+                    }
+                },'json').fail(function(){
+                    bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
+                });
+            }
+        });
+    }
 
     this.editarCapa = function(id_capa){
         $("#tab-editar").fadeIn(function(){
@@ -282,7 +337,22 @@ var Layer = {};
                 $("#tab3").addClass('active').show();
             },'html');
         });
-    }
+    };
+
+
+    this.listarItemsSubCapa = function(id_subcapa){
+        $("#tab-items-subcapa").fadeIn(function(){
+            $("#ul-tabs").find('li.active').removeClass('active');
+            $("#tab-content").find('div.tab-pane.active').removeClass('active');
+            $(this).addClass('active');
+            $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
+                $("#div_tab_4").html(response);
+                $("#tab4").addClass('active').show();
+
+            },'html');
+        });
+    };
+
 
     this.initSaveEdicion = function() {
 
@@ -355,8 +425,8 @@ var Layer = {};
 
 
     this.cancelarEdicion = function(){
-        $("#tab3").fadeOut(function(){
-            $("#tab-editar").fadeOut(function(){
+        $("#tab3,#tab4").fadeOut(function(){
+            $("#tab-editar,#tab-items-subcapa").fadeOut(function(){
                 $(this).removeClass('active');
                 $(this).prev().addClass('active');    
                 $("#tab2").addClass('active').show();

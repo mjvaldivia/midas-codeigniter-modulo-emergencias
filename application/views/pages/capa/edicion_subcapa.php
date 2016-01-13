@@ -24,7 +24,11 @@
                     <div class="col-xs-1 col-md-1 text-center" id="contenedor-icono">
 
                         <?php if($capa['geometria_icono'] != ""):?>
+                            <?php if($capa['geometria_tipo'] == 1):?>
                             <img src="<?php echo base_url($capa['geometria_icono'])?>" />
+                            <?php else:?>
+                            <div class="color-capa-preview" style="background-color:<?php echo $capa['geometria_icono']?>"></div>
+                            <?php endif;?>
                         <?php else:?>
                             <?php echo getCapaPreview($capa["cap_ia_id"]);?>
                         <?php endif;?>

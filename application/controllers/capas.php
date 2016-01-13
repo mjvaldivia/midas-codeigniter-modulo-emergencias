@@ -109,6 +109,38 @@ class Capas extends MY_Controller
     }
 
 
+    function ajax_grilla_items_subcapas() {
+        $id_subcapa = $this->input->post('subcapa');
+        $this->load->helper(array("modulo/capa/capa"));
+
+        $arr_items = array();
+        $arr_cabeceras = array();
+        $subcapa = $this->capa_model->getSubCapa($id_subcapa);
+
+        $arr_cabeceras = explode(",",$subcapa['cap_c_propiedades']);
+        $lista = $this->capa_model->listarItemsSubCapas($id_subcapa);
+        if($lista){
+            foreach($lista as $item){
+                $arr_propiedades = array();
+                $propiedades = unserialize($item['poligono_propiedades']);
+                foreach($arr_cabeceras as $cabecera){
+                    $arr_propiedades[] = $propiedades[$cabecera];
+                }
+                $arr_items[] = array(
+                    'comuna' => $item['com_c_nombre'],
+                    'provincia' => $item['prov_c_nombre'],
+                    'region' => $item['reg_c_nombre'],
+                    'id' => $item['poligono_id'],
+                    'propiedades' => $arr_propiedades
+                );
+            }
+        }
+
+
+        $this->load->view("pages/capa/grilla_capas_items_subcapa", array("lista" => $arr_items, "cabeceras" => $arr_cabeceras));
+    }
+
+
     public function validarCapaEmergencia(){
         $this->load->helper(array("session", "debug"));
         $id_capa = $this->input->post('capa');
@@ -118,6 +150,24 @@ class Capas extends MY_Controller
         $json = array();
 
         if($this->CapaModel->validarCapaEmergencia($id_capa) > 0){
+            $json['estado'] = true;
+        }else{
+            $json['estado'] = false;
+        }
+
+        echo json_encode($json);
+    }
+
+
+    public function validarSubCapaEmergencia(){
+        $this->load->helper(array("session", "debug"));
+        $id_capa = $this->input->post('capa');
+
+        sessionValidation();
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->validarSubCapaEmergencia($id_capa) > 0){
             $json['estado'] = true;
         }else{
             $json['estado'] = false;
@@ -142,6 +192,49 @@ class Capas extends MY_Controller
         }else{
             $json['estado'] = false;
             $json['mensaje'] = 'Hubo un problema al eliminar la capa. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+    }
+
+
+    public function eliminarSubCapa(){
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+
+        $id_subcapa = $this->input->post('subcapa');
+
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->eliminarSubCapa($id_subcapa)){
+            $json['estado'] = true;
+            $json['mensaje'] = 'La subcapa ha sido eliminada';
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Hubo un problema al eliminar la subcapa. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+    }
+
+
+
+    public function eliminarItemSubcapa(){
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+
+        $id_item = $this->input->post('item');
+
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->eliminarItemSubCapa($id_item)){
+            $json['estado'] = true;
+            $json['mensaje'] = 'Item eliminado correctametne';
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Hubo un problema al eliminar el item. Intente nuevamente';
         }
 
         echo json_encode($json);
