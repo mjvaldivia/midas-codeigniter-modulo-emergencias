@@ -13,8 +13,8 @@ $(document).ready(function() {
     
     //capas
     var capas = new MapaCapa();
-    capas.capasPorEmergencia(id);
-    visor.addOnReadyFunction("capas asociadas a la emergencia", capas.cargaCapas);
+    capas.emergencia(id);
+    visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia);
     visor.addCapa(capas);
     
     //poligonos

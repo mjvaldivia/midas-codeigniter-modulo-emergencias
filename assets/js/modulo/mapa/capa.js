@@ -1,6 +1,7 @@
 var MapaCapa = Class({
     
     capas : {},
+    bo_capas_cargadas : false,
     class_marcador : null,
     class_poligono : null,
     class_multipoligono : null,
@@ -93,9 +94,12 @@ var MapaCapa = Class({
         this.class_multipoligono.seteaMapa(mapa);
         
         var yo = this;
+        
         $.each(this.capas, function(id_capa, capa){
             yo.cargaCapa(id_capa, capa);
         });
+        
+        this.bo_capas_cargadas = true;
     },
     
     /**
@@ -110,7 +114,7 @@ var MapaCapa = Class({
         
         $.each(capa.json, function(id, data){
             
-            yo.elemento(data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
+            yo.elemento(data.id, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
             i++;
             
         });
@@ -124,7 +128,7 @@ var MapaCapa = Class({
      * @param {string} color
      * @returns {void}
      */
-    elemento : function(geometry, propiedades, subcapa, zona, icono, color){
+    elemento : function(id, geometry, propiedades, subcapa, zona, icono, color){
        
         var yo = this;
         switch (geometry.type) {
@@ -137,10 +141,10 @@ var MapaCapa = Class({
                                                      icono);
                 break;
             case "Polygon":
-                yo.class_poligono.dibujarPoligono(subcapa, geometry.coordinates, propiedades, zona, color);
+                yo.class_poligono.dibujarPoligono(id, subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
             case "MultiPolygon":
-                yo.class_multipoligono.dibujarPoligono(subcapa, geometry.coordinates, propiedades, zona, color);
+                yo.class_multipoligono.dibujarPoligono(id, subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
         }
     },
@@ -150,14 +154,14 @@ var MapaCapa = Class({
      * @param {int} id_emergencia
      * @returns {void}
      */
-    capasPorEmergencia : function(id_emergencia){
+    capasPorEmergencia : function(map){
         console.log("Cargando informacion de capas asociadas a emergencia");
         var yo = this;
         $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
-            data: "id=" + id_emergencia,
+            data: "id=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa/ajax_capas_emergencia", 
             error: function(xhr, textStatus, errorThrown){
@@ -167,6 +171,7 @@ var MapaCapa = Class({
                 if(data.correcto){
                     //if(data.resultado.capas.lenght > 0){
                         yo.capas = data.resultado.capas;
+                        yo.cargaCapas(map);
                     //}
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);

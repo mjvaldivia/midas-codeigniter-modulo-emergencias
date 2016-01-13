@@ -50,12 +50,13 @@ var MapaPoligono = Class({
      * @param {string} color
      * @returns {void}
      */
-    dibujarPoligono : function(capa, geometry, propiedades, zona, color){
+    dibujarPoligono : function(id, capa, geometry, propiedades, zona, color){
 
         var yo = this;
         
         var poligono = new google.maps.Polygon({
             paths: yo.coordenadas(geometry, zona),
+            identificador: id,
             capa: capa,
             informacion: propiedades,
             strokeColor: '#000',
@@ -88,7 +89,7 @@ var MapaPoligono = Class({
             var seleccion;
             if(poligono.capa != null){
                 seleccion = jQuery.grep(lista_poligonos, function( a ) {
-                    if(a["capa"] == poligono.capa){
+                    if(a["identificador"] == poligono.identificador){
                         return true;
                     }
                 });

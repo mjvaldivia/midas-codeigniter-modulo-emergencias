@@ -38,7 +38,6 @@ var Visor = Class({
      */
     addCapa : function(capa){
         this.capa = capa;
-        this.capa.emergencia(this.id_emergencia);
     },
     
     /**
@@ -254,43 +253,6 @@ var Visor = Class({
         		}
         }
         var button1 = new buttonControl(buttonOptions, "button-map button-success");
-        /*
-        var yo = this;
-        var controlDiv = document.createElement('div');
-        
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = '#5cb85c';
-        
-        controlUI.style.border = '2px solid #4cae4c';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '3px';
-        controlUI.style.marginRight = '5px';
-        controlUI.style.marginTop = '10px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Guarda los cambios en el mapa';
-        controlDiv.appendChild(controlUI);
-
-  
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = '#FFF';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '11px';
-        controlText.style.lineHeight = '28px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = '<i class=\"fa fa-save\"></i> Guardar';
-        controlUI.appendChild(controlText);
-        
-        controlUI.addEventListener('click', function() {
-            yo.guardar();
-        });
-        
-        controlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);*/
-
     },
     
     controlInstalaciones : function (map) {
@@ -304,10 +266,6 @@ var Visor = Class({
         		}
         }
         var button1 = new buttonControl(buttonOptions, "button-map");
-        
-        
-       
-
     },
 
 

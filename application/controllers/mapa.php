@@ -74,7 +74,6 @@ class Mapa extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
-        
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("emergencia_capas_geometria_model", "_emergencia_capas_model");
         $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
@@ -105,6 +104,7 @@ class Mapa extends MY_Controller {
      * Guarda configuracion del mapa
      */
     public function save(){
+        header('Content-type: application/json');
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
@@ -157,6 +157,9 @@ class Mapa extends MY_Controller {
         }
     }
     
+    /**
+     * Muestra información del poligono
+     */
     public function popup_poligono_informacion(){
         $this->load->helper(array("modulo/visor/visor"));
         
@@ -194,6 +197,7 @@ class Mapa extends MY_Controller {
      * Carga datos de una capa
      */
     public function ajax_capa(){
+        header('Content-type: application/json');
         $data = array("correcto" => false,
                       "error" => "La capa no existe o no pudo ser cargada");
         
@@ -215,6 +219,7 @@ class Mapa extends MY_Controller {
      * Retorna las capas asociadas a una emergencia
      */
     public function ajax_capas_emergencia(){
+        header('Content-type: application/json');
         $data = array("correcto" => true,
                       "resultado" => array("capas" => array()));
         
@@ -246,6 +251,7 @@ class Mapa extends MY_Controller {
      * @throws Exception
      */
     public function ajax_marcador_lugar_alarma(){
+        header('Content-type: application/json');
         $data = array("correcto" => false);
         
         $params = $this->input->post(null, true);
@@ -269,6 +275,22 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    protected function _limpiarUnserialize($string){
+
+        $filter = New Zend_Filter_Alnum();
+        
+        $nuevo = array();
+        
+        $array = unserialize($string);
+        if(count($array)>0){
+            foreach($array as $nombre => $valor){
+              
+                $nuevo[$filter->filter($nombre)] = htmlentities($valor);
+            }    
+        }
+         return $nuevo;
+    }
+    
     /**
      * Carga datos de una capa
      * @param int $id_capa
@@ -287,7 +309,7 @@ class Mapa extends MY_Controller {
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
                         $json[] = array("id" => $poligono["poligono_id"],
-                                        "propiedades" => unserialize($poligono["poligono_propiedades"]),
+                                        "propiedades" => $this->_limpiarUnserialize($poligono["poligono_propiedades"]),
                                         "geojson"     => unserialize($poligono["poligono_geometria"]));
                     }
                 }
