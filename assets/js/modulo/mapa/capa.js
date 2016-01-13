@@ -4,6 +4,7 @@ var MapaCapa = Class({
     class_marcador : null,
     class_poligono : null,
     class_multipoligono : null,
+    id_emergencia : null,
     
     /**
     * Carga de dependencias
@@ -13,6 +14,10 @@ var MapaCapa = Class({
         this.class_marcador = new MapaMarcador();
         this.class_poligono = new MapaPoligono();
         this.class_multipoligono = new MapaPoligonoMulti();
+    },
+    
+    emergencia : function(id){
+        this.id_emergencia = id;
     },
     
     /**
@@ -47,7 +52,7 @@ var MapaCapa = Class({
             dataType: "json",
             cache: false,
             async: true,
-            data: "id=" + id_subcapa,
+            data: "id=" + id_subcapa + "&id_emergencia=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa/ajax_capa", 
             error: function(xhr, textStatus, errorThrown){},

@@ -38,6 +38,7 @@ var Visor = Class({
      */
     addCapa : function(capa){
         this.capa = capa;
+        this.capa.emergencia(this.id_emergencia);
     },
     
     /**
@@ -120,6 +121,7 @@ var Visor = Class({
         this.controlInstalaciones(map);
         this.controlSave(map);
         
+        
         map.addListener('click', function(event) {
             console.log(event);
         });
@@ -131,34 +133,40 @@ var Visor = Class({
     },
     
     controlEditar : function (map) {
-        var controlDiv = document.createElement('div');
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '3px';
-        controlUI.style.marginRight = '50px';
-        controlUI.style.marginTop = '10px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Agregar elementos al mapa';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '11px';
-        controlText.style.lineHeight = '28px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = '<i class=\"fa fa-edit\"></i> Editar';
-        controlUI.appendChild(controlText);
-
-        controlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
+        
+         var divOptions = {
+        		gmap: map,
+        		name: 'Ubicación emergencia',
+        		title: "This acts like a button or click event",
+        		id: "mapUbicacionEmergencia",
+        		action: function(){
+        			
+        		}
+        }
+        var optionDiv1 = new optionDiv(divOptions);
+        
+        
+        //put them all together to create the drop down       
+        var ddDivOptions = {
+        	items: [optionDiv1],
+        	id: "myddOptsDiv"        		
+        }
+        //alert(ddDivOptions.items[1]);
+        var dropDownDiv = new dropDownOptionsDiv(ddDivOptions);               
+                
+        var dropDownOptions = {
+        		gmap: map,
+        		name: '<i class="fa fa-edit"> Editar </i>',
+        		id: 'ddControl',
+        		title: 'A custom drop down select with mixed elements',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		dropDown: dropDownDiv 
+        }
+        
+        var dropDown1 = new dropDownControl(dropDownOptions);          
+        
+        
+       
 
     },
         
@@ -224,46 +232,32 @@ var Visor = Class({
      */
     controlCapas : function (map) {
         var yo = this;
-        var controlDiv = document.createElement('div');
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '3px';
-        controlUI.style.marginRight = '5px';
-        controlUI.style.marginTop = '10px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Muestra capas';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '11px';
-        controlText.style.lineHeight = '28px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = '<i class=\"fa fa-clone\"></i> Capas';
-        controlUI.appendChild(controlText);
-
-        controlUI.addEventListener('click', function() {
-            yo.popupCapas();
-        });
-
-
-        controlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
-
+        var buttonOptions = {
+        		gmap: map,
+        		name: '<i class=\"fa fa-clone\"></i> Capas',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		action: function(){
+        			yo.popupCapas(); 
+        		}
+        }
+        var button1 = new buttonControl(buttonOptions, "button-map");
     },
     
     controlSave : function (map) {
         var yo = this;
+        var buttonOptions = {
+        		gmap: map,
+        		name: '<i class=\"fa fa-save\"></i> Guardar',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		action: function(){
+        			yo.guardar();
+        		}
+        }
+        var button1 = new buttonControl(buttonOptions, "button-map button-success");
+        /*
+        var yo = this;
         var controlDiv = document.createElement('div');
-        // Set CSS for the control border.
+        
         var controlUI = document.createElement('div');
         controlUI.style.backgroundColor = '#5cb85c';
         
@@ -295,39 +289,24 @@ var Visor = Class({
         });
         
         controlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);*/
 
     },
     
     controlInstalaciones : function (map) {
-        var controlDiv = document.createElement('div');
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = '#fff';
-        controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '3px';
-        controlUI.style.marginRight = '5px';
-        controlUI.style.marginTop = '10px';
-        controlUI.style.textAlign = 'center';
-        controlUI.title = 'Muestra instalaciones para cargar';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'rgb(25,25,25)';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '11px';
-        controlText.style.lineHeight = '28px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = '<i class=\"fa fa-building\"></i> Instalaciones';
-        controlUI.appendChild(controlText);
-
-        controlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
+        var yo = this;
+        var buttonOptions = {
+        		gmap: map,
+        		name: '<i class=\"fa fa-building\"></i> Instalaciones',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		action: function(){
+        			
+        		}
+        }
+        var button1 = new buttonControl(buttonOptions, "button-map");
+        
+        
+       
 
     },
 
