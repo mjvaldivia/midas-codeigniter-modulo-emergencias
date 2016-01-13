@@ -43,7 +43,7 @@
                 <?php } ?>
                 
                 <?php if (puedeEliminar("capas")) { ?>
-                <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarCapa(<?php echo $row['cap_ia_id']; ?>)'>
+                <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarSubCapa(<?php echo $row['geometria_id']; ?>)'>
                     <i class='fa fa-trash'></i>
                 </a>
                 <?php } ?>

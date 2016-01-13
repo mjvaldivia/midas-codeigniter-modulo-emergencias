@@ -172,7 +172,7 @@ class Capas extends MY_Controller
         }else{
             $json['estado'] = false;
         }
-        die();
+
         echo json_encode($json);
     }
 
@@ -192,6 +192,27 @@ class Capas extends MY_Controller
         }else{
             $json['estado'] = false;
             $json['mensaje'] = 'Hubo un problema al eliminar la capa. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+    }
+
+
+    public function eliminarSubCapa(){
+        $this->load->helper(array("session", "debug"));
+        sessionValidation();
+
+        $id_subcapa = $this->input->post('subcapa');
+
+        $this->load->model("capa_model", "CapaModel");
+        $json = array();
+
+        if($this->CapaModel->eliminarSubCapa($id_subcapa)){
+            $json['estado'] = true;
+            $json['mensaje'] = 'La subcapa ha sido eliminada';
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Hubo un problema al eliminar la subcapa. Intente nuevamente';
         }
 
         echo json_encode($json);

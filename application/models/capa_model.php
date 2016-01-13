@@ -416,11 +416,6 @@ class Capa_Model extends MY_Model {
 
 
     public function validarSubCapaEmergencia($id_subcapa){
-        /*$query = "select count(*) as total from emergencias
-                where eme_c_capas like '$id_capa'
-                or eme_c_capas like '$id_capa,%'
-                or eme_c_capas like '%,$id_capa'
-                or eme_c_capas like '%,$id_capa,%'";*/
 
         $query = "select count(*) as total from emergencias_capas_geometria where id_geometria = ".$id_subcapa;
 
@@ -468,6 +463,33 @@ class Capa_Model extends MY_Model {
         } else {
             $this->db->trans_commit();
             return true;
+        }
+
+
+    }
+
+
+    public function eliminarSubCapa($id_subcapa){
+
+        $this->db->trans_begin();
+
+        $query = "delete from capas_poligonos_informacion where poligono_capitem = " . $id_subcapa;
+        if($this->db->query($query)){
+            $query = "delete from emergencias_capas_geometria where id_geometria = " . $id_subcapa;
+            $delete = $this->db->query($query);
+
+            /* eliminar registro de subcapa de la tabla de capas_geometria */
+            $query = "delete from capas_geometria where geometria_id = " . $id_subcapa;
+            if($this->db->query($query)){
+                $this->db->trans_commit();
+                return true;
+            }else{
+                $this->db->trans_rollback();
+                return false;
+            }
+        }else{
+            $this->db->trans_rollback();
+            return false;
         }
 
 
