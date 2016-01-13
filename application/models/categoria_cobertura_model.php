@@ -2,6 +2,9 @@
 
 class Categoria_Cobertura_Model extends MY_Model {
 
+    public $PUNTO = 1;
+    public $LINEA = 2;
+    public $POLIGONO = 3;
     
     /**
      * Nombre de tabla
@@ -29,8 +32,7 @@ class Categoria_Cobertura_Model extends MY_Model {
             return NULL;
         }
     }
-    
-    
+
     public function obtenerTodos() {
         $sql = "
         select
@@ -48,5 +50,19 @@ class Categoria_Cobertura_Model extends MY_Model {
             $resultados = $query->result_array();
 
         return $resultados;
+    }
+
+
+    public function getById($id){
+        $query = "select * from categorias_capas_coberturas where ccb_ia_categoria = ? limit 1";
+        $resultado = $this->db->query($query,array($id));
+        if($resultado->num_rows > 0){
+            $resultado = $resultado->result_array();
+            return $resultado[0];
+        }else{
+            return null;
+        }
+
+
     }
 }

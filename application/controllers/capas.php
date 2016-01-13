@@ -102,9 +102,9 @@ class Capas extends MY_Controller
     }
 
     function ajax_grilla_capas() {
-        $nombre_capa = $this->input->post('nombre_capa');
+        $id_capa = $this->input->post('id_capa');
         $this->load->helper(array("modulo/capa/capa","file"));
-        $lista = $this->capa_model->listarCapas($nombre_capa);
+        $lista = $this->capa_model->listarCapas($id_capa);
         $this->load->view("pages/capa/grilla_capas_detalle", array("lista" => $lista));
     }
 
@@ -199,5 +199,115 @@ class Capas extends MY_Controller
             );
         echo $this->load->view("pages/capa/edicion",$data);
     }
+
+
+    public function editarSubCapa(){
+        $id_capa = $this->input->post('capa');
+        $this->load->model("capa_model", "CapaModel");
+
+        /*$this->load->model("categoria_cobertura_model", "CategoriaCobertura");
+
+        $CategoriaCobertura = $this->CategoriaCobertura->obtenerTodos();
+
+        $categorias = array();
+
+        foreach ($CategoriaCobertura as $c) {
+            $categorias[] = array(
+                'categoria_id' => $c["ccb_ia_categoria"],
+                'categoria_nombre' => $c["ccb_c_categoria"]
+            );
+        }
+
+        $this->load->model('comuna_model','ComunaModel');
+        $comunas = $this->ComunaModel->getComunasPorRegion($this->session->userdata['session_region_codigo']);*/
+
+        $capa = $this->CapaModel->getSubCapa($id_capa);
+
+        /** leer geojson asociado **/
+        /*$properties = array();
+        $tmp_prop_array = array();
+
+
+        $fp = file_get_contents(base_url($capa->capa,'r'));
+
+        $arr_properties = json_decode($fp,true);
+
+        foreach ($arr_properties['features'][0]['properties'] as $k => $v) {
+
+            if (in_array($k, $tmp_prop_array)) { // reviso que no se me repitan las propiedades
+                continue;
+            }
+            $properties[] = $k;
+            $tmp_prop_array[] = $k;
+        }*/
+        $this->load->helper(array("modulo/capa/capa"));
+        $data = array(
+            'id_capa' => $id_subcapa,
+            'capa' => $capa
+        );
+        echo $this->load->view("pages/capa/edicion_subcapa",$data);
+    }
+
+
+    public function subir_CapaIconTemp(){
+        $error = false;
+        $this->load->helper(array("session", "debug"));
+        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        sessionValidation();
+        if (!isset($_FILES)) {
+            show_error("No se han detectado archivos", 500, "Error interno");
+        }
+
+        $tmp_name = $_FILES['input_icono_subcapa']['tmp_name'];
+        $nombres = $_FILES['input_icono_subcapa']['name'];
+        $size = $_FILES['input_icono_subcapa']['size'];
+        $type = $_FILES['input_icono_subcapa']['type'];
+
+        $fp = file_get_contents($tmp_name, 'r');
+
+
+        $nombre_cache_id = 'icon_subcapa_temp_'.  uniqid();
+        $binary_path = ('media/tmp/'.$nombre_cache_id);
+        $ftmp = fopen($binary_path, 'w');
+        fwrite($ftmp, $fp);
+
+        $arr_cache= array(
+            'filename' => $nombres,
+            'nombre_cache_id' => $nombre_cache_id,
+            'content' => $fp,
+            'size'=> $size,
+            'type'=> $type
+
+        );
+        $this->cache->save($nombre_cache_id, $arr_cache, 28800);
+
+        echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>base_url($binary_path)));
+    }
+
+
+
+    public function guardarSubCapa(){
+        $params = $this->input->post();
+        $this->load->model('capa_model','CapaModel');
+
+        $this->load->helper(array("session", "debug"));
+        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        sessionValidation();
+
+        $guardar = $this->CapaModel->guardarSubCapa($params);
+        $json = array();
+        if($guardar){
+            $json['estado'] = true;
+            $json['mensaje'] = 'Subcapa guardada';
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Hubo un problema al guardar la subcapa. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+
+
+    }
+
     
 }
