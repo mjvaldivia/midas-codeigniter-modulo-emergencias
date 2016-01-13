@@ -166,29 +166,27 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $informacion = $params["informacion"];
         
-        $capa = $this->_capa_model->getById($params["capa"]);
+        $geometria = $this->_capa_poligono_informacion_model->getById($params["capa"]);
         
-        if(is_null($capa)){
-            
-            if(isset($informacion["NAME"])){
-                $nombre = $informacion["NAME"];
-                unset($informacion["NAME"]);
-            }
-            
-            if(isset($informacion["NOMBRE"])){
-                $nombre = $informacion["NOMBRE"];
-                unset($informacion["NOMBRE"]);
-            }
-            
-            $id_capa = NULL;
-            
+        if(is_null($geometria)){
+            $nombre_subcapa = "";
+            $nombre_capa    = "";
+            $nombre_tipo    = "";
         } else {
-            $id_capa = $capa->cap_ia_id;
-            $nombre = $capa->cap_c_nombre;
+            $subcapa = $this->_capa_geometria_model->getById($geometria->poligono_capitem);
+            $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
+            $tipo    = $this->_tipo_capa_model->getById($capa->ccb_ia_categoria);
+            $nombre_subcapa  = $subcapa->geometria_nombre;
+            $nombre_capa     = $capa->cap_c_nombre;
+            $nombre_tipo     = $tipo["ccb_c_categoria"];
         }        
         
+
+        
         $this->load->view("pages/mapa/popup-poligono-informacion", 
-                          array("nombre" => $nombre,
+                          array("nombre_subcapa" => $nombre_subcapa,
+                                "nombre_capa"    => $nombre_capa,
+                                "nombre_tipo"   => $nombre_tipo,
                                 "informacion" => $informacion,
                                 "lista_marcadores"  => $params["marcadores"]));
     }
@@ -275,22 +273,6 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
-    protected function _limpiarUnserialize($string){
-
-        $filter = New Zend_Filter_Alnum();
-        
-        $nuevo = array();
-        
-        $array = unserialize($string);
-        if(count($array)>0){
-            foreach($array as $nombre => $valor){
-              
-                $nuevo[$filter->filter($nombre)] = htmlentities($valor);
-            }    
-        }
-         return $nuevo;
-    }
-    
     /**
      * Carga datos de una capa
      * @param int $id_capa
@@ -331,5 +313,27 @@ class Mapa extends MY_Controller {
             }
         }
         return $retorno;
+    }
+    
+    /**
+     * Limpia datos de caracteres extraños
+     * para envio como parametros
+     * @param string $string
+     * @return array
+     */
+    protected function _limpiarUnserialize($string){
+
+        $filter = New Zend_Filter_Alnum();
+        
+        $nuevo = array();
+        
+        $array = unserialize($string);
+        if(count($array)>0){
+            foreach($array as $nombre => $valor){
+              
+                $nuevo[$filter->filter($nombre)] = htmlentities($valor);
+            }    
+        }
+         return $nuevo;
     }
 }

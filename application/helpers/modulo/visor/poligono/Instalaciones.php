@@ -13,6 +13,18 @@ Class Visor_Poligono_Instalaciones{
     
     /**
      *
+     * @var Capa_Geometria_Model 
+     */
+    protected $_capa_geometria_model;
+    
+    /**
+     *
+     * @var Capa_Poligono_Informacion_Model 
+     */
+    protected $_capa_poligono_informacion_model;
+    
+    /**
+     *
      * @var CI_Controller
      */
     protected $_ci;
@@ -24,14 +36,20 @@ Class Visor_Poligono_Instalaciones{
     public function __construct($lista) {
         $this->_ci =& get_instance();
         $this->_ci->load->model("capa_model");
+        $this->_ci->load->helper("modulo/capa/capa");
+        $this->_ci->load->model("capa_geometria_model");
+        $this->_ci->load->model("capa_poligono_informacion_model");
         $this->_capa_model = New Capa_Model();
+        $this->_capa_geometria_model = New Capa_Geometria_Model();
+        $this->_capa_poligono_informacion_model = New Capa_Poligono_Informacion_Model();
         
         if(count($lista)>0){
             foreach($lista as $key => $marcador){
-                $capa_marcador = $this->_capa_model->getById($marcador["CAPA"]);
-                if(!is_null($capa_marcador)){
+                $subcapa = $this->_capa_geometria_model->getById($marcador["CAPA"]);
+                if(!is_null($subcapa)){
                     unset($marcador["CAPA"]);
-                    $lista_marcadores["CAPA: " . $capa_marcador->cap_c_nombre][$key] = $marcador;
+                    
+                    $lista_marcadores[getSubCapaPreview($subcapa->geometria_id) . " CAPA: " . $subcapa->geometria_nombre][$key] = $marcador;
                 } else {
                     $lista_marcadores["Otros"][$key] = $marcador;
                 }
