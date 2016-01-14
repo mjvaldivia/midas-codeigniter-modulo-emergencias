@@ -40,7 +40,7 @@
                                   
                                   <?php if(puedeAbrirVisorEmergencia("emergencia")) { ?>
                                   <li>
-                                      <a onclick="window.open(siteUrl + 'visor/index/id/<?php echo $row["eme_ia_id"]; ?>', '_blank');" href="#">
+                                      <a onclick="window.open(siteUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
                                           <i class="fa fa-globe"></i> Abrir visor
                                       </a>
                                   </li>

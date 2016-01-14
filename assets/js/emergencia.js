@@ -202,7 +202,7 @@ var Emergencia = {};
 //                html += "           <a title=\"Reporte\" class=\"btn btn-default\" onclick=Emergencia.openIframe(" + row.eme_ia_id + "); >";
                // html += "               <i class=\"fa fa-fa2x fa-file-text-o\"></i>";
                // html += "           </a>";
-                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Visor\" class=\"btn btn-primary\" href='" + siteUrl + "visor/index/id/" + row.eme_ia_id + "' target='_blank'>";
+                html += "           <a data-toggle=\"tooltip\" data-toogle-param=\"arriba\" title=\"Visor\" class=\"btn btn-primary\" href='" + siteUrl + "mapa/index/id/" + row.eme_ia_id + "' target='_blank'>";
                 html += "               <i class=\"fa fa-fa2x fa-globe\"></i>";
                 html += "           </a>";
                 

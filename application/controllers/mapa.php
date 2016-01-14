@@ -166,14 +166,14 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $informacion = $params["informacion"];
         
-        $geometria = $this->_capa_poligono_informacion_model->getById($params["capa"]);
+        $subcapa = $this->_capa_geometria_model->getById($params["capa"]);
         
-        if(is_null($geometria)){
+        if(is_null($subcapa)){
             $nombre_subcapa = "";
             $nombre_capa    = "";
             $nombre_tipo    = "";
         } else {
-            $subcapa = $this->_capa_geometria_model->getById($geometria->poligono_capitem);
+           
             $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
             $tipo    = $this->_tipo_capa_model->getById($capa->ccb_ia_categoria);
             $nombre_subcapa  = $subcapa->geometria_nombre;
