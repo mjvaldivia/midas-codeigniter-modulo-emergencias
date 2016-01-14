@@ -29,7 +29,7 @@ var MapaCapa = Class({
     retornaIdCapas : function(){
         var lista_capas = {};
         var i = 0;
-        console.log(this.capas);
+        
         $.each(this.capas, function(id_capa, capa){
             if(!($.isEmptyObject(capa))){
                 lista_capas[i] = id_capa;

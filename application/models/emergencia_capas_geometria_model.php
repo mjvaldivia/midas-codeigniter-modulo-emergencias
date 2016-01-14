@@ -10,7 +10,7 @@ class Emergencia_Capas_Geometria_Model extends MY_Model
      *
      * @var string 
      */
-    protected $_tabla = "emergencias_capas_geometria";
+    protected $_tabla = "emergencias_capa";
     
     /**
      * Lista de comunas por emergencia

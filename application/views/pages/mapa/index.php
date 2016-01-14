@@ -1,7 +1,7 @@
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
 
 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
-<div class="row">
+<div class="row row-mapa">
     <div id="mapa" style="height: 1000px"></div>
 </div>
 
@@ -19,7 +19,10 @@
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.buttons.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/circulo/click_listener.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/rectangulo/click_listener.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
 

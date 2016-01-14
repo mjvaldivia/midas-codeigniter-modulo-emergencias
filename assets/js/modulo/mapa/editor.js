@@ -34,12 +34,13 @@ var MapaEditor = Class({
                 google.maps.drawing.OverlayType.MARKER,
                 google.maps.drawing.OverlayType.CIRCLE,
                 google.maps.drawing.OverlayType.POLYGON,
-                google.maps.drawing.OverlayType.POLYLINE,
+               // google.maps.drawing.OverlayType.POLYLINE,
                 google.maps.drawing.OverlayType.RECTANGLE
               ]
             },
             markerOptions: {icon: 'images/beachflag.png'},
             circleOptions: {
+                custom : true,
                 tipo : "CIRCULO",
                 identificador:null,
                 capa : null,
@@ -53,6 +54,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             },
             polygonOptions: {
+                custom : true,
                 tipo : "POLIGONO",
                 identificador:null,
                 capa : null,
@@ -66,6 +68,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             },
             rectangleOptions: {
+                custom : true,
                 tipo : "RECTANGULO",
                 identificador:null,
                 capa : null,
@@ -81,9 +84,10 @@ var MapaEditor = Class({
         });
         drawingManager.setMap(mapa);
         
-        google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(polygon) {
-            yo.class_poligono.addClickListener(polygon);
-            lista_poligonos.push(polygon);
+        google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
+            var rectanguloClickListener = new  MapaRectanguloClickListener();
+            rectanguloClickListener.addClickListener(rectangle);
+            lista_poligonos.push(rectangle);
         });
         
          google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {

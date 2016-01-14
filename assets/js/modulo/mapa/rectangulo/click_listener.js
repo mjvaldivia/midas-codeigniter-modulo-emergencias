@@ -11,8 +11,7 @@ var MapaRectanguloClickListener = Class({
             var marcadores = {};
             //se recorren marcadores, y se buscan los dentro del poligono
             $.each(lista_markers, function(i, marker){
-                
-                var bo_marcador_dentro_de_poligono = yo.pointInCircle(marker.getPosition(), circulo.getRadius(), circulo.getCenter())
+                var bo_marcador_dentro_de_poligono = rectangulo.getBounds().contains(marker.getPosition());
                 
                 if(bo_marcador_dentro_de_poligono){
                     marcadores[i] = marker.informacion;

@@ -103,11 +103,8 @@ var MapaPoligono = Class({
             $.each(lista_markers, function(i, marker){
                $.each(seleccion, function(j, poligono_seleccionado){
                    
-                    if(typeof poligono_seleccionado.containsLatLng === "function"){
-                        var bo_marcador_dentro_de_poligono = poligono_seleccionado.containsLatLng(marker.getPosition()); 
-                    } else {
-                        google.maps.geometry.poly.containsLocation(marker.getPosition(), poligono_seleccionado);
-                    }
+                    var bo_marcador_dentro_de_poligono = poligono_seleccionado.containsLatLng(marker.getPosition()); 
+                    
                     if(bo_marcador_dentro_de_poligono){
                         marcadores[i] = marker.informacion;
                         

@@ -50,6 +50,10 @@ var Visor = Class({
      * @returns {void}
      */
     bindMapa : function(){
+        
+        var height = $(window).height();
+        $("#mapa").css("height", height - 65);
+        
         google.maps.event.addDomListener(window, 'load', this.initialize());
         google.maps.event.addDomListener(window, "resize", this.resizeMap());
     },
@@ -61,12 +65,42 @@ var Visor = Class({
         return this.mapa;
     },
     
+    listCustomElements : function(){
+        
+        var parametro = {};
+        
+        var custom = jQuery.grep(lista_poligonos, function( a ) {
+            if(a.custom){
+                return true;
+            }
+        });
+        
+        $.each(custom, function(i, elemento){
+            var data = {};
+            
+            if(elemento.tipo == "POLIGONO"){
+                data = {"tipo" : "POLIGONO",
+                        "coordenadas" : elemento.getPath().getArray()};
+            }
+            
+            if(elemento.tipo == "RECTANGULO"){
+                data = {"tipo" : "RECTANGULO",
+                        "coordenadas" : elemento.getBounds()};
+            }
+            
+            parametro[i] = data;
+        });
+        return JSON.stringify(parametro);
+    },
+    
     /**
      * Guardar
      * @returns {void}
      */
     guardar : function(){
+
         var parametros = {"capas" : this.capa.retornaIdCapas(),
+                          "elementos" : this.listCustomElements(),
                           "id" : this.id_emergencia};
         $.ajax({         
             dataType: "json",
