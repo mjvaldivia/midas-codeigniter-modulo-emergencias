@@ -12,6 +12,11 @@ $(document).ready(function() {
     var editor = new MapaEditor();
     visor.addOnReadyFunction("editor", editor.iniciarEditor);
     
+    //custom
+    var custom = new MapaElementoCustom();
+    custom.emergencia(id);
+    visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements);
+    
     //marcadores
     var lugar_emergencia = new MapaMarcadorLugarEmergencia();
     visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_emergencia.marcador);

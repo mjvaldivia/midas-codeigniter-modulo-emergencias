@@ -23,6 +23,8 @@
 <?= loadJS("assets/js/modulo/mapa/circulo/click_listener.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/rectangulo/click_listener.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/elemento_custom.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
 

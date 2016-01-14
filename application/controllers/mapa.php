@@ -46,6 +46,12 @@ class Mapa extends MY_Controller {
     
     /**
      *
+     * @var Emergencia_Elemento_Model 
+     */
+    public $_emergencia_elementos_model;
+    
+    /**
+     *
      * @var Capa_Poligono_Informacion_Model
      */
     public $_capa_poligono_informacion_model;
@@ -75,7 +81,8 @@ class Mapa extends MY_Controller {
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
         $this->load->model("emergencia_model", "_emergencia_model");
-        $this->load->model("emergencia_capas_geometria_model", "_emergencia_capas_model");
+        $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
+        $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
         $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
@@ -104,10 +111,18 @@ class Mapa extends MY_Controller {
      * Guarda configuracion del mapa
      */
     public function save(){
+        $this->load->library("visor/guardar/visor_guardar_elemento");
+        
         header('Content-type: application/json');
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
+            
+            $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
+                                         ->guardar($params["elementos"]);
+            
+            
+            
             $this->_emergencia_capas_model->query()
                                           ->insertOneToMany("id_emergencia", 
                                                             "id_geometria", 
@@ -208,6 +223,32 @@ class Mapa extends MY_Controller {
                 $data = array("correcto" => true,
                               "capa" => $resultado);
             }
+        }
+        
+        echo json_encode($data);
+    }
+    
+    public function ajax_elementos_emergencia(){
+        header('Content-type: application/json');
+        $data = array("correcto" => true,
+                      "resultado" => array("elemento" => array()));
+        
+        $params = $this->input->post(null, true);
+        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            $lista_elementos = $this->_emergencia_elementos_model->listaPorEmergencia($emergencia->eme_ia_id);
+            if(count($lista_elementos)>0){
+                foreach($lista_elementos as $elemento){
+
+                    $data["correcto"] = true;
+                    $data["resultado"]["elemento"][$elemento["id"]] = array("tipo" => $elemento["tipo"],
+                                                                            "propiedades" => json_decode($elemento["propiedades"]),
+                                                                            "coordenadas" => json_decode($elemento["coordenadas"]));
+                    
+                }
+            }
+        } else {
+            $data["info"] = "La emergencia no tiene elementos asociadados";
         }
         
         echo json_encode($data);

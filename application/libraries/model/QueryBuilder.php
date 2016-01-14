@@ -377,7 +377,7 @@ class QueryBuilder{
      * @param int $id_primary
      * @param array $array_id_secondary
      */
-    public function insertOneToMany($primary, $secondary, $id_primary, $array_id_secondary){
+    public function insertOneToMany($primary, $secondary, $id_primary, $array_id_secondary, $params = array()){
         
         
         if(is_array($array_id_secondary)){
@@ -392,6 +392,19 @@ class QueryBuilder{
                         $query = $this->_db->query("DELETE FROM " . $this->_table . " WHERE " . $primary . " = ? AND ". $secondary . " = ?", array($id_primary, $row[$secondary]));
                     } else {
                         $guardados[] = $row[$secondary];
+                        
+                        if(count($params)>0){
+                            $set = "";
+                            $coma = "";
+                            foreach($params as $campo => $valor){
+                                $set .= $coma. $campo . " = ?";
+                                $coma = ",";
+                            }
+                            
+                            $sql = "UPDATE " . $this->_table. " SET " . $set . " WHERE " . $primary . " = " . $id_primary . " AND " . $secondary . "=" . $row[$secondary];
+                        
+                            $this->_db->query($sql, array_values($parametros));
+                        }
                     }
                 }
             }
@@ -401,6 +414,11 @@ class QueryBuilder{
                     if(!in_array($id_secondary, $guardados)){
                         $insert = array($primary => $id_primary,
                                         $secondary => $id_secondary);
+                        
+                        if(count($params)>0){
+                            $insert = array_merge($insert, $params);
+                        }
+                        
                         $this->insert($insert);
                     }
                 }

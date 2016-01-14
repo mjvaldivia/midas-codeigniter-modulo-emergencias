@@ -65,42 +65,20 @@ var Visor = Class({
         return this.mapa;
     },
     
-    listCustomElements : function(){
-        
-        var parametro = {};
-        
-        var custom = jQuery.grep(lista_poligonos, function( a ) {
-            if(a.custom){
-                return true;
-            }
-        });
-        
-        $.each(custom, function(i, elemento){
-            var data = {};
-            
-            if(elemento.tipo == "POLIGONO"){
-                data = {"tipo" : "POLIGONO",
-                        "coordenadas" : elemento.getPath().getArray()};
-            }
-            
-            if(elemento.tipo == "RECTANGULO"){
-                data = {"tipo" : "RECTANGULO",
-                        "coordenadas" : elemento.getBounds()};
-            }
-            
-            parametro[i] = data;
-        });
-        return JSON.stringify(parametro);
-    },
+    
+    
     
     /**
      * Guardar
      * @returns {void}
      */
     guardar : function(){
-
+        
+        var custom = new MapaElementoCustom();
+        
+        var yo = this;
         var parametros = {"capas" : this.capa.retornaIdCapas(),
-                          "elementos" : this.listCustomElements(),
+                          "elementos" : custom.listCustomElements(),
                           "id" : this.id_emergencia};
         $.ajax({         
             dataType: "json",
@@ -114,7 +92,11 @@ var Visor = Class({
             },
             success:function(data){
                 if(data.correcto){
-                    notificacionCorrecto("Guardado","Se ha guardado correctamente la configuración del mapa")
+                    notificacionCorrecto("Guardado","Se ha guardado correctamente la configuración del mapa");
+                    var elemento_custom = new MapaElementoCustom();
+                    elemento_custom.emergencia(yo.id_emergencia);
+                    elemento_custom.removeCustomElements();
+                    elemento_custom.loadCustomElements(yo.mapa);
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -152,12 +134,14 @@ var Visor = Class({
                 console.log("Carga de " + i);
                 funcion(map);
             });
+            
+            yo.controlSave(map);
+            yo.controlEditar(map);
+            yo.controlCapas(map);
+            yo.controlInstalaciones(map);
         });
 
-        this.controlSave(map);
-        this.controlEditar(map);
-        this.controlCapas(map);
-        this.controlInstalaciones(map);
+        
         
         map.addListener('click', function(event) {
             console.log(event);

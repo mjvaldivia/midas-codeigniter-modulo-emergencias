@@ -40,6 +40,7 @@ var MapaEditor = Class({
             },
             markerOptions: {icon: 'images/beachflag.png'},
             circleOptions: {
+                id : null,
                 custom : true,
                 tipo : "CIRCULO",
                 identificador:null,
@@ -54,6 +55,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             },
             polygonOptions: {
+                id : null,
                 custom : true,
                 tipo : "POLIGONO",
                 identificador:null,
@@ -68,6 +70,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             },
             rectangleOptions: {
+                id : null,
                 custom : true,
                 tipo : "RECTANGULO",
                 identificador:null,
