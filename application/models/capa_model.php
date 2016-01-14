@@ -568,4 +568,31 @@ class Capa_Model extends MY_Model {
     }
 
 
+    public function getItemSubCapa($id_item){
+        $query = "select * from capas_poligonos_informacion cpi
+                    left join capas_geometria cg on cg.geometria_id = cpi.poligono_capitem
+                    left join capas cp on cp.cap_ia_id = cg.geometria_capa
+                    LEFT join comunas c on c.com_ia_id = cpi.poligono_comuna
+                    where cpi.poligono_id = ?";
+        $result = $this->db->query($query,array($id_item));
+
+        if($result->num_rows() > 0){
+            $resultado = $result->result_array();
+            return $resultado[0];
+        }else{
+            return null;
+        }
+    }
+
+
+    public function guardarItemSubcapa($id_item,$propiedades){
+        $query = "update capas_poligonos_informacion set poligono_propiedades = ? where poligono_id = ?";
+        if($this->db->query($query,array($propiedades,$id_item))){
+            return true;
+        }else{
+            return null;
+        }
+    }
+
+
 }

@@ -36,11 +36,12 @@
     </li>
     <?php } ?>
     
-    <li class="<?= tabActive("listado", $tab_activo, "header") ?>">
+    <li class="<?= tabActive("listado", $tab_activo, "header") ?>" id="tab-listado">
         <a href="#tab2" data-toggle="tab">Listado</a>
     </li>
     <li style="display:none" id="tab-editar"><a href="#tab3" data-toggle="tab">Edición</a></li>
     <li style="display:none" id="tab-items-subcapa"><a href="#tab4" data-toggle="tab">Items Subcapa</a></li>
+    <li style="display:none" id="tab-items-editar"><a href="#tab5" data-toggle="tab">Edición de Item</a></li>
 </ul>
 
 
@@ -194,18 +195,25 @@
 
     </div>
 
-    <div class='tab-pane' id='tab3' style='overflow:hidden;display:none'>
+    <div class='tab-pane' id='tab3' style='overflow:hidden;'>
         <div id='div_tab_3' class='col-xs-12 top-spaced'>
 
         </div>
 
     </div>
 
-    <div class='tab-pane' id='tab4' style='overflow:hidden;display:none'>
+    <div class='tab-pane' id='tab4' style='overflow:hidden;'>
         <div class="col-xs-12 text-right top-spaced">
-            <button type="button" class="btn btn-success" onclick="Layer.cancelarEdicion();">Volver</button>
+            <button type="button" class="btn btn-default btn-square" onclick="Layer.volverTabListado();">Volver</button>
         </div>
         <div id='div_tab_4' class='col-xs-12 table-responsive small'>
+
+        </div>
+
+    </div>
+
+    <div class='tab-pane' id='tab5' style='overflow:hidden;'>
+        <div id='div_tab_5' class='col-xs-12 table-responsive small'>
 
         </div>
 
