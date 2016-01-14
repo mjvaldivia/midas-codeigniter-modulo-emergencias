@@ -104,7 +104,7 @@ var Visor = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
 
         var mapOptions = {
-          zoom: 13,
+          zoom: 10,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -120,19 +120,17 @@ var Visor = Class({
             });
         });
 
+        this.controlSave(map);
         this.controlEditar(map);
         this.controlCapas(map);
         this.controlInstalaciones(map);
-        this.controlSave(map);
-        
         
         map.addListener('click', function(event) {
             console.log(event);
         });
         
         
-        
-        
+
         this.mapa = map;
     },
     
@@ -142,37 +140,16 @@ var Visor = Class({
      * @returns {void}
      */
     controlEditar : function (map) {
-        
-         var divOptions = {
+        var yo = this;
+        var buttonOptions = {
         		gmap: map,
-        		name: 'Ubicación emergencia',
-        		title: "This acts like a button or click event",
-        		id: "mapUbicacionEmergencia",
+        		name: '<i class=\"fa fa-bullhorn\"></i> Ubicación emergencia',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
         		action: function(){
-        			
+        		    
         		}
         }
-        var optionDiv1 = new optionDiv(divOptions);
-        
-        
-        //put them all together to create the drop down       
-        var ddDivOptions = {
-        	items: [optionDiv1],
-        	id: "myddOptsDiv"        		
-        }
-        //alert(ddDivOptions.items[1]);
-        var dropDownDiv = new dropDownOptionsDiv(ddDivOptions);               
-                
-        var dropDownOptions = {
-        		gmap: map,
-        		name: '<i class="fa fa-edit"> Editar </i>',
-        		id: 'ddControl',
-        		title: 'A custom drop down select with mixed elements',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
-        		dropDown: dropDownDiv 
-        }
-        
-        var dropDown1 = new dropDownControl(dropDownOptions);          
+        var button1 = new buttonControl(buttonOptions, "button-map");    
     },
         
     /**

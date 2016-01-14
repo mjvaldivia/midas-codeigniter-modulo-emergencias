@@ -1,6 +1,7 @@
-var MapaMarcadorLugarEmergencia = Class({  
+var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
     
-    mapa : null,
+
+    draggable : true,
     
     /**
     * Carga de dependencias
@@ -29,9 +30,15 @@ var MapaMarcadorLugarEmergencia = Class({
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
-                    yo.posicionarMarcador(data.resultado.lon, 
+                    yo.posicionarMarcador(null, 
+                                          data.resultado.lon, 
                                           data.resultado.lat, 
-                                          data.resultado.zona);
+                                          {"TIPO" : "LUGAR ALARMA",
+                                           "NOMBRE" : data.resultado.nombre}, 
+                                          data.resultado.zona, 
+                                          baseUrl + 'assets/img/referencia.png');
+                    yo.centrarMapa(mapa, data.resultado.lon, data.resultado.lat, data.resultado.zona);
+
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -39,33 +46,14 @@ var MapaMarcadorLugarEmergencia = Class({
         }); 
     },
     
-    /**
-     * Posiciona un marcador
-     * @param {float} lon
-     * @param {float} lat
-     * @param {string} zona
-     * @returns {void}
-     */
-    posicionarMarcador : function(lon, lat, zona){
-        var yo = this;
-        
+    centrarMapa : function (mapa, lon, lat, zona){
         var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(lon), 
                                                    parseFloat(lat), 
                                                    zona);
-
-
         var posicion = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
-
-        marker = new google.maps.Marker({
-            position: posicion,
-            draggable:true,
-            map: yo.mapa,
-            icon: baseUrl + 'assets/img/referencia.png'
-        });  
-
-        this.mapa.setCenter(posicion); 
+        mapa.setCenter(posicion);
     }
-
+    
 });
 
 

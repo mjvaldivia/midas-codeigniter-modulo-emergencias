@@ -7,6 +7,11 @@ $(document).ready(function() {
     
     var visor = new Visor("mapa");
     visor.emergencia(id);
+    
+    //editor
+    var editor = new MapaEditor();
+    visor.addOnReadyFunction("editor", editor.iniciarEditor);
+    
     //marcadores
     var lugar_emergencia = new MapaMarcadorLugarEmergencia();
     visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_emergencia.marcador);
@@ -17,7 +22,6 @@ $(document).ready(function() {
     visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia);
     visor.addCapa(capas);
     
-    //poligonos
     
     visor.bindMapa();
     

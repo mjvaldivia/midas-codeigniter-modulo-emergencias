@@ -88,10 +88,7 @@
     	  options.gmap.controls[options.position].push(container);
     	  google.maps.event.addDomListener(container,'click',function(){
     		(document.getElementById('myddOptsDiv').style.display == 'block') ? document.getElementById('myddOptsDiv').style.display = 'none' : document.getElementById('myddOptsDiv').style.display = 'block';
-    		setTimeout( function(){
-    			document.getElementById('myddOptsDiv').style.display = 'none';
-    		}, 2500);
-    	  })      	  
+    	  });      	  
       }
      
      function buttonControl(options, clase) {

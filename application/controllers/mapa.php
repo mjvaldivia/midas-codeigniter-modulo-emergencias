@@ -261,6 +261,7 @@ class Mapa extends MY_Controller {
                 $data = array("correcto"  => true,
                               "resultado" => array("lat" => $alarma->ala_c_utm_lat,
                                                    "lon" => $alarma->ala_c_utm_lng,
+                                                   "nombre" => $alarma->ala_c_nombre_informante,
                                                    "zona" => $alarma->ala_c_geozone));
             } else {
                 $data["error"] = "La alarma no existe";
