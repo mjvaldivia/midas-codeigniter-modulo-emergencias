@@ -165,11 +165,11 @@ var Layer = {};
         
         var params = $(form).serialize();
         
-        if(form.capa_edicion === undefined){
+        /*if(form.capa_edicion === undefined){
             params += "&items="+parseInt($('#tabla_comunas tr').length-1); 
         }else{
             params += "&items="+parseInt($('#tabla_comunas_editar tr').length-1); 
-        }
+        }*/
         
         $.post(siteUrl+"visor/guardarCapa", params, function (data) {
             if(data==1)//bien
@@ -444,7 +444,8 @@ var Layer = {};
 
 
            if(data.response.filenames.length==0) return; // no se subio ningun archivo valido
-           
+
+            $("#tmp_file_editar").val(data.response.nombre_cache_id);
            var properties = data.response.properties.data;
            var filename = data.response.filenames.data;
            $("#nombre_geojson").html('');

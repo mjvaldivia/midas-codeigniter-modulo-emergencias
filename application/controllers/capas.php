@@ -266,28 +266,14 @@ class Capas extends MY_Controller
         $capa = $this->CapaModel->getCapa($id_capa);
 
         /** leer geojson asociado **/
-        $properties = array();
+        $properties = explode(",",$capa->cap_c_propiedades);
         $tmp_prop_array = array();
 
         
-        $fp = file_get_contents(base_url($capa->capa,'r'));
-        
-        $arr_properties = json_decode($fp,true);
-        
-        foreach ($arr_properties['features'][0]['properties'] as $k => $v) {
-
-            if (in_array($k, $tmp_prop_array)) { // reviso que no se me repitan las propiedades
-                continue;
-            }
-            $properties[] = $k;
-            $tmp_prop_array[] = $k;
-        }
-         
         $data = array(
             'id_capa' => $id_capa,
             'capa' => $capa,
             'categorias' => $categorias,
-            'comunas' => $comunas,
             'geojson' => $properties
             );
         echo $this->load->view("pages/capa/edicion",$data);
