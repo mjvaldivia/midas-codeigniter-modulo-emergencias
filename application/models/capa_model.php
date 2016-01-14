@@ -140,7 +140,7 @@ class Capa_Model extends MY_Model {
             } 
 
             if(isset($params["icono_editar"])){
-                $icono_color = explode(base_url(),$params["icono_color"]);
+                $icono_color = explode(base_url(),$params["icono_editar"]);
                 $update["icon_path"] = trim($icono_color[1],"/");
             }
 
