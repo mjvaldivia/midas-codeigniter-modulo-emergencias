@@ -12,6 +12,15 @@ class Capa_Poligono_Informacion_Model extends MY_Model {
     protected $_tabla = "capas_poligonos_informacion";
     
     /**
+     * Retorna la alarma por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("poligono_id", $id);
+    }
+    
+    /**
      * 
      * @param int $id_capa
      * @param array $lista_comunas

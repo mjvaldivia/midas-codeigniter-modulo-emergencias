@@ -19,6 +19,11 @@ var Visor = Class({
         this.id_div_mapa = id_mapa;
     },
     
+    /**
+     * 
+     * @param {int} id identificador emergencias
+     * @returns {undefined}
+     */
     emergencia : function(id){
         this.id_emergencia = id;
     },
@@ -131,6 +136,11 @@ var Visor = Class({
         this.mapa = map;
     },
     
+    /**
+     * Boton editar
+     * @param {googleMaps} map
+     * @returns {void}
+     */
     controlEditar : function (map) {
         
          var divOptions = {
@@ -163,10 +173,6 @@ var Visor = Class({
         }
         
         var dropDown1 = new dropDownControl(dropDownOptions);          
-        
-        
-       
-
     },
         
     /**
@@ -225,7 +231,7 @@ var Visor = Class({
     },
     
     /**
-     * Boton para capas
+     * Boton para seleccionar capas
      * @param {google_map} map
      * @returns {void}
      */
@@ -242,6 +248,11 @@ var Visor = Class({
         var button1 = new buttonControl(buttonOptions, "button-map");
     },
     
+    /**
+     * Boton para guardar
+     * @param {type} map
+     * @returns {undefined}
+     */
     controlSave : function (map) {
         var yo = this;
         var buttonOptions = {
@@ -255,6 +266,11 @@ var Visor = Class({
         var button1 = new buttonControl(buttonOptions, "button-map button-success");
     },
     
+    /**
+     * Boton para mostrar instalaciones
+     * @param {type} map
+     * @returns {undefined}
+     */
     controlInstalaciones : function (map) {
         var yo = this;
         var buttonOptions = {
