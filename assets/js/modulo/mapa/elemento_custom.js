@@ -12,6 +12,41 @@ var MapaElementoCustom = Class({
         this.id_emergencia = id;
     },
     
+    dibujarPoligono : function(id, propiedades, coordenadas){
+        var poligono = new google.maps.Polygon({
+            paths: coordenadas,
+            id : id,
+            custom : true,
+            tipo : "POLIGONO",
+            identificador: null,
+            capa: null,
+            informacion: propiedades,
+            clickable: true,
+            editable: true,
+            strokeColor: '#000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#ffff00',
+            fillOpacity: 0.35
+        });
+        
+        poligono.setMap(this.mapa);
+        
+        //se agrega evento de click para ver instalaciones
+        //dentro de poligono
+        var poligonoClickListener = new MapaPoligono();
+        poligonoClickListener.addClickListener(poligono);
+        
+        lista_poligonos.push(poligono);
+    },
+    
+    /**
+     * 
+     * @param {int} id
+     * @param {object} propiedades
+     * @param {object} coordenadas
+     * @returns {void}
+     */
     dibujarRectangulo : function (id, propiedades, coordenadas){
         var rectangle = new google.maps.Rectangle({
             id : id,
@@ -36,6 +71,14 @@ var MapaElementoCustom = Class({
         lista_poligonos.push(rectangle);
     },
     
+    /**
+     * 
+     * @param {int} id
+     * @param {object} propiedades
+     * @param {object} centro
+     * @param {string} radio
+     * @returns {void}
+     */
     dibujarCirculo : function(id, propiedades, centro, radio){
         var circulo = new google.maps.Circle({
             id : id,
@@ -61,6 +104,11 @@ var MapaElementoCustom = Class({
         lista_poligonos.push(circulo);
     },
     
+    /**
+     * Carga los elementos personalizados
+     * @param {googleMaps} mapa
+     * @returns {void}
+     */
     loadCustomElements : function(mapa){
         this.mapa = mapa;
         var yo = this;
@@ -77,12 +125,17 @@ var MapaElementoCustom = Class({
             success:function(data){
                 if(data.correcto){
                     $.each(data.resultado.elemento, function(id, elemento){
+                        
                         if(elemento.tipo == "CIRCULO"){
                             yo.dibujarCirculo(id, elemento.propiedades,elemento.coordenadas.center,elemento.coordenadas.radio);
                         }
                         
                         if(elemento.tipo == "RECTANGULO"){
                             yo.dibujarRectangulo(id, elemento.propiedades, elemento.coordenadas);
+                        }
+                        
+                        if(elemento.tipo == "POLIGONO"){
+                            yo.dibujarPoligono(id, elemento.propiedades, elemento.coordenadas);
                         }
                     });
                 } else {
