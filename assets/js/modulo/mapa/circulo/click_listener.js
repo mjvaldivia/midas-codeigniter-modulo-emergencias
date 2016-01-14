@@ -4,7 +4,7 @@ var MapaCirculoClickListener = Class({
      * @param {google.maps.Cyrcle} poligono
      * @returns {void}
      */
-    addClickListener : function(circulo){
+    addClickListener : function(circulo, mapa){
         var yo = this;
         circulo.addListener('click', function(event) {
                         
@@ -27,6 +27,9 @@ var MapaCirculoClickListener = Class({
             var popup = new MapaInformacionElemento();
             popup.popupInformacion(marcadores, circulo);
         });
+        
+        var eliminar = new MapaElementoEliminar();
+        eliminar.eliminar(circulo, mapa);
     }, 
     
     /**

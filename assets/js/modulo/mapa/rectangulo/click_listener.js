@@ -4,7 +4,7 @@ var MapaRectanguloClickListener = Class({
      * @param {google.maps.Cyrcle} poligono
      * @returns {void}
      */
-    addClickListener : function(rectangulo){
+    addClickListener : function(rectangulo, mapa){
         var yo = this;
         rectangulo.addListener('click', function(event) {
                         
@@ -26,6 +26,9 @@ var MapaRectanguloClickListener = Class({
             var popup = new MapaInformacionElemento();
             popup.popupInformacion(marcadores, rectangulo);
         });
+        
+        var eliminar = new MapaElementoEliminar();
+        eliminar.eliminar(rectangulo, mapa);
     }
 });
 

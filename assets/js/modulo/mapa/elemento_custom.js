@@ -19,6 +19,7 @@ var MapaElementoCustom = Class({
             custom : true,
             tipo : "POLIGONO",
             identificador: null,
+            clave : "elemento_" + id,
             capa: null,
             informacion: propiedades,
             clickable: true,
@@ -35,7 +36,7 @@ var MapaElementoCustom = Class({
         //se agrega evento de click para ver instalaciones
         //dentro de poligono
         var poligonoClickListener = new MapaPoligono();
-        poligonoClickListener.addClickListener(poligono);
+        poligonoClickListener.addClickListener(poligono, this.mapa);
         
         lista_poligonos.push(poligono);
     },
@@ -53,6 +54,7 @@ var MapaElementoCustom = Class({
             custom : true,
             tipo : "RECTANGULO",
             identificador:null,
+            clave : "elemento_" + id,
             capa : null,
             informacion: propiedades,
             clickable: true,
@@ -67,7 +69,7 @@ var MapaElementoCustom = Class({
         });
 
         var rectanguloClickListener = new MapaRectanguloClickListener();
-        rectanguloClickListener.addClickListener(rectangle);
+        rectanguloClickListener.addClickListener(rectangle, this.mapa);
         lista_poligonos.push(rectangle);
     },
     
@@ -87,6 +89,7 @@ var MapaElementoCustom = Class({
             identificador:null,
             capa : null,
             informacion: propiedades,
+            clave : "elemento_" + id,
             clickable: true,
             editable: true,
             strokeColor: '#000',
@@ -100,7 +103,7 @@ var MapaElementoCustom = Class({
         });
 
         var circuloClickListener = new MapaCirculoClickListener();
-        circuloClickListener.addClickListener(circulo);
+        circuloClickListener.addClickListener(circulo, this.mapa);
         lista_poligonos.push(circulo);
     },
     

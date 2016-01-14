@@ -35,8 +35,9 @@ Class Visor_guardar_elemento{
     }
     
     public function guardar($lista_elementos){
+        $guardados = array();
         if(count($lista_elementos)>0){
-            $guardados = array();
+            
             foreach($lista_elementos as $elemento_json){
                 $elemento = json_decode($elemento_json);
                 if(is_object($elemento)){
@@ -56,8 +57,9 @@ Class Visor_guardar_elemento{
                 }
             }
             
-            $this->_emergencia_elemento_model->deleteNotIn($this->_id_emergencia, $guardados);
+            
         }
+        $this->_emergencia_elemento_model->deleteNotIn($this->_id_emergencia, $guardados);
     }
 }
 

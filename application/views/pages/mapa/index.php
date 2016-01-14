@@ -5,6 +5,13 @@
     <div id="mapa" style="height: 1000px"></div>
 </div>
 
+<div id="menu-contexto">
+    
+    <a href="#" class="btn btn-warning" id="eliminar-elemento"> <i class="fa fa-remove"></i> Borrar elemento</li> </a>
+   
+</div>
+
+
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
 
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
@@ -24,6 +31,7 @@
 <?= loadJS("assets/js/modulo/mapa/rectangulo/click_listener.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/elemento_custom.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elemento/eliminar.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>

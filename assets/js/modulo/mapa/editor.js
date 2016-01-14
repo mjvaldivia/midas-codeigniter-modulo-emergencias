@@ -38,12 +38,13 @@ var MapaEditor = Class({
                 google.maps.drawing.OverlayType.RECTANGLE
               ]
             },
-            markerOptions: {icon: 'images/beachflag.png'},
+            markerOptions: {icon: baseUrl + 'assets/img/markers/spotlight-poi-black.png'},
             circleOptions: {
                 id : null,
                 custom : true,
                 tipo : "CIRCULO",
                 identificador:null,
+                clave : uniqID(20),
                 capa : null,
                 informacion: {"NOMBRE" : "Circulo agregado"},
                 clickable: true,
@@ -59,6 +60,7 @@ var MapaEditor = Class({
                 custom : true,
                 tipo : "POLIGONO",
                 identificador:null,
+                clave : uniqID(20),
                 capa : null,
                 informacion: {"NOMBRE" : "Poligono agregado"},
                 clickable: true,
@@ -74,6 +76,7 @@ var MapaEditor = Class({
                 custom : true,
                 tipo : "RECTANGULO",
                 identificador:null,
+                clave : uniqID(20),
                 capa : null,
                 informacion: {"NOMBRE" : "Rectangulo agregado"},
                 clickable: true,
@@ -91,17 +94,21 @@ var MapaEditor = Class({
             var rectanguloClickListener = new  MapaRectanguloClickListener();
             rectanguloClickListener.addClickListener(rectangle);
             lista_poligonos.push(rectangle);
+            console.log(rectangle);
         });
         
          google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
             yo.class_poligono.addClickListener(polygon);
             lista_poligonos.push(polygon);
+            console.log(polygon);
         });
         
         google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
             var circuloClickListener = new MapaCirculoClickListener();
-            circuloClickListener.addClickListener(circle);
+            circuloClickListener.addClickListener(circle, mapa);
             lista_poligonos.push(circle);
+            
+            console.log(circle);
         });
 
     }

@@ -10,3 +10,13 @@
     margin-right: -20px;
 }
 
+#menu-contexto{
+    display:none;
+    background-color: #FFF;
+    border: 1px solid #000;
+    position:absolute;
+}
+
+#menu-contexto li{
+    padding: 5px;
+}

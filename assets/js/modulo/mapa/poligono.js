@@ -57,6 +57,7 @@ var MapaPoligono = Class({
         var poligono = new google.maps.Polygon({
             paths: yo.coordenadas(geometry, zona),
             identificador: id,
+            clave : "poligono_" + id,
             capa: capa,
             informacion: propiedades,
             strokeColor: '#000',
@@ -70,7 +71,7 @@ var MapaPoligono = Class({
         
         //se agrega evento de click para ver instalaciones
         //dentro de poligono
-        this.addClickListener(poligono);
+        this.addClickListener(poligono, this.mapa);
         
         lista_poligonos.push(poligono);
     },
@@ -80,7 +81,7 @@ var MapaPoligono = Class({
      * @param {google.maps.Polygon} poligono
      * @returns {void}
      */
-    addClickListener : function(poligono){
+    addClickListener : function(poligono, mapa){
         var yo = this;
         poligono.addListener('click', function(event) {
             
@@ -118,6 +119,9 @@ var MapaPoligono = Class({
             var popup = new MapaInformacionElemento();
             popup.popupInformacion(marcadores, poligono);
         });
+        
+        var eliminar = new MapaElementoEliminar();
+        eliminar.eliminar(poligono, mapa);
     },
     
     
