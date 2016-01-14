@@ -203,11 +203,23 @@
     </div>
 
     <div class='tab-pane' id='tab4' style='overflow:hidden;'>
-        <div class="col-xs-12 text-right top-spaced">
-            <button type="button" class="btn btn-default btn-square" onclick="Layer.volverTabListado();">Volver</button>
+        <div class="col-xs-12 text-center" id="tab4-cargando">
+            <i class="fa fa-spin fa-spinner fa-5x"></i>
         </div>
-        <div id='div_tab_4' class='col-xs-12 table-responsive small'>
-
+        <div id="tab4-contenido" style="display:none">
+            <div class="col-xs-12 text-right top-spaced">
+                <button type="button" class="btn btn-default btn-square" onclick="Layer.volverTabListado();">Volver</button>
+            </div>
+            <div class="col-xs-12 top-spaced">
+                <div class="portlet portlet-default">
+                    <div class="portlet-heading">
+                        <h4 class="portlet-title">Listado de Items</h4>
+                    </div>
+                    <div class="portlet-body">
+                        <div id='div_tab_4' class='col-xs-12 table-responsive small'></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

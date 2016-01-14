@@ -358,11 +358,15 @@ var Layer = {};
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
-            $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
-                $("#div_tab_4").html(response);
-                $("#tab4").addClass('active').show();
+            $("#tab4").addClass('active').fadeIn(function(){
+                $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
+                    $("#tab4-cargando").fadeOut(function(){
+                        $("#div_tab_4").html(response);
+                        $("#tab4-contenido").fadeIn();
+                    });
+                },'html');
+            });
 
-            },'html');
         });
     };
 
@@ -539,6 +543,9 @@ var Layer = {};
 
     this.volverTabListado = function(){
         $("#tab-items-subcapa,#tab4").fadeOut(function(){
+            $("#tab4-contenido").fadeOut(function(){
+                $("#tab4-cargando").show();
+            })
             $(this).removeClass('active');
             $("#tab-listado, #tab2").addClass('active').fadeIn(function(){
 
