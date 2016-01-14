@@ -18,12 +18,16 @@
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.polygon.containsLatLng.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.buttons.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/circulo/click_listener.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/marcador.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/marcador/lugar_emergencia.js"); ?>
 
+
+<?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>

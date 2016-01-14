@@ -86,7 +86,7 @@ var MapaPoligono = Class({
             
             //si el poligono pertenece a una capa
             //se buscan todos los poligonos que pertenecen a esta
-            var seleccion;
+            var seleccion = {};
             if(poligono.capa != null){
                 seleccion = jQuery.grep(lista_poligonos, function( a ) {
                     if(a["identificador"] == poligono.identificador){
@@ -102,7 +102,12 @@ var MapaPoligono = Class({
             //se recorren marcadores, y se buscan los dentro del poligono
             $.each(lista_markers, function(i, marker){
                $.each(seleccion, function(j, poligono_seleccionado){
-                    var bo_marcador_dentro_de_poligono = poligono_seleccionado.containsLatLng(marker.getPosition()); 
+                   
+                    if(typeof poligono_seleccionado.containsLatLng === "function"){
+                        var bo_marcador_dentro_de_poligono = poligono_seleccionado.containsLatLng(marker.getPosition()); 
+                    } else {
+                        google.maps.geometry.poly.containsLocation(marker.getPosition(), poligono_seleccionado);
+                    }
                     if(bo_marcador_dentro_de_poligono){
                         marcadores[i] = marker.informacion;
                         
@@ -113,52 +118,12 @@ var MapaPoligono = Class({
                });
             });
             
-            yo.popupInformacionPoligono(marcadores, poligono);
+            var popup = new MapaInformacionElemento();
+            popup.popupInformacion(marcadores, poligono);
         });
     },
     
-    /**
-     * Levanta popup con la informacion del poligono
-     * @param {object} marcadores
-     * @returns {void}
-     */
-    popupInformacionPoligono : function(marcadores, poligono){
-        var parametros = {"marcadores" : marcadores,
-                          "informacion" : poligono.informacion};
-            
-        if(poligono.capa != null){
-            parametros["capa"] = poligono.capa;
-        }    
-            
-            
-        bootbox.dialog({
-                message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
-                title: "<i class=\"fa fa-arrow-right\"></i> Datos del poligono",
-                className: "modal90",
-                buttons: {
-                    cerrar: {
-                        label: " Cerrar ventana",
-                        className: "btn-white fa fa-close",
-                        callback: function() {}
-                    }
-                }
-        });
-
-        $.ajax({         
-            dataType: "html",
-            cache: false,
-            async: true,
-            data: parametros,
-            type: "post",
-            url: siteUrl + "mapa/popup_poligono_informacion", 
-            error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
-            },
-            success:function(data){
-                $("#contenido-popup-informacion-capas").html(data);
-            }
-        }); 
-    },
+    
     
     /**
      * Retorna coordenadas del poligono

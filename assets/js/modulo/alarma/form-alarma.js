@@ -218,8 +218,33 @@ var FormAlarma = Class({
         mapa.cargaMapa(); 
     } ,
     
-    getParametros : function(form){
+    /**
+     * Parche para datos seleccionados del picklist
+     * @param {string} form
+     * @returns {Array}
+     */
+    getParametrosFix : function(form){
         var parametros = $("#" + form).serializeArray();
+      
+        //parche para el picklist
+        parametros = jQuery.grep(parametros, function( a ) {
+            if(a["name"] != "comunas[]"){
+                return true;
+            }
+        });
+        
+        $("#comunas_seleccionados > option").each(function(i, opcion){
+            parametros.push({"name" : "comunas[]",
+                             "value" : $(opcion).attr("value")});
+        });
+        //************************
+        
+        return parametros;
+    },
+    
+    getParametros : function(form){
+        var parametros = this.getParametrosFix(form);
+
         
         $("#form-tipos-emergencia").find(".form-control , input[type='radio'], input[type='checkbox']").each(function(){
             
@@ -245,7 +270,7 @@ var FormAlarma = Class({
     guardar : function(){
         var yo = this;
         
-        var parametros = this.getParametros("form_nueva");
+        var parametros = this.getParametrosFix("form_nueva");
 
         var salida = false;
         
@@ -281,7 +306,9 @@ var FormAlarma = Class({
     
     showPaso2 : function(form){
         var yo = this;
+        
         var parametros = $("#" + form).serializeArray();
+        
         $.ajax({         
             dataType: "json",
             cache: false,

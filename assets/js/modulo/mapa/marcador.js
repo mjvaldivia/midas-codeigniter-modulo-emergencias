@@ -3,6 +3,7 @@ var lista_markers = [];
 var MapaMarcador = Class({
     
     mapa : null,
+    draggable : false,
     
     /**
      * Setea mapa
@@ -62,14 +63,13 @@ var MapaMarcador = Class({
             latLon[1] = lon;
         }
 
-        
         var posicion = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
 
         marker = new google.maps.Marker({
             position: posicion,
             capa: capa,
             informacion : propiedades,
-            draggable:true,
+            draggable: yo.draggable,
             map: yo.mapa,
             icon: imagen
         });  
@@ -80,6 +80,11 @@ var MapaMarcador = Class({
 
     },
     
+    /**
+     * Popup con informacion
+     * @param {marker} marker
+     * @returns {void}
+     */
     informacionMarcador : function(marker){
         var yo = this;
         var markerContent = '<div class="info_content">';
