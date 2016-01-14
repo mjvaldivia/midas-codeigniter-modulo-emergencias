@@ -342,6 +342,50 @@ class Capas extends MY_Controller
     }
 
 
+    public function editarItemSubcapa(){
+        $this->load->helper(array("session", "debug"));
+        $id_item = $this->input->post('item');
+
+        $this->load->model('capa_model','CapaModel');
+
+        $item = $this->CapaModel->getItemSubCapa($id_item);
+        $data = array();
+
+        $data['id_item'] = $item['poligono_id'];
+        $data['id_subcapa'] = $item['poligono_capitem'];
+        $data['subcapa'] = $item['geometria_nombre'];
+        $data['comuna'] = $item['com_c_nombre'];
+        $data['capa'] = $item['cap_c_nombre'];
+        $data['propiedades'] = unserialize($item['poligono_propiedades']);
+
+
+
+        $this->load->view("pages/capa/edicion_item_subcapa",$data);
+    }
+
+
+
+    public function guardarItemSubcapa(){
+        $item = $this->uri->uri_to_assoc();
+        $id_item = $item['item'];
+        $params = $this->input->post();
+
+        $propiedades = serialize($params);
+
+        $this->load->model('capa_model','CapaModel');
+        $json = array();
+        if($this->CapaModel->guardarItemSubcapa($id_item,$propiedades)){
+            $json['estado'] = true;
+            $json['mensaje'] = "Datos guardados correctamente";
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = "Hubo un problema al guardar los datos. Intente nuevamente";
+        }
+
+        echo json_encode($json);
+    }
+
+
     public function subir_CapaIconTemp(){
         $error = false;
         $this->load->helper(array("session", "debug"));

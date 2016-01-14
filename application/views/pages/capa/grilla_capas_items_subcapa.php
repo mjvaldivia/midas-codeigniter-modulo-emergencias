@@ -22,7 +22,7 @@
             <?php endforeach;?>
             <td class="text-center">
                 <?php if (puedeEditar("capas")) { ?>
-                <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarItemSubCapa(<?php echo $row['id']; ?>);' >
+                <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarItemSubcapa(<?php echo $row['id']; ?>);' >
                     <i class='fa fa-edit'></i>
                 </a>
                 <?php } ?>

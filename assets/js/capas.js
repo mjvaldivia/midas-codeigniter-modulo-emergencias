@@ -340,6 +340,19 @@ var Layer = {};
     };
 
 
+    this.editarItemSubcapa = function(item){
+        $("#tab-items-editar").fadeIn(function(){
+            $("#tab-items-subcapa").removeClass('active').addClass('disabled');
+            $("#tab4").removeClass('active').fadeOut();
+            $(this).addClass('active');
+            $.post(siteUrl + 'capas/editarItemSubCapa',{item:item},function(response){
+                $("#div_tab_5").html(response);
+                $("#tab5").addClass('active').fadeIn();
+            },'html');
+        });
+    };
+
+
     this.listarItemsSubCapa = function(id_subcapa){
         $("#tab-items-subcapa").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');
@@ -353,6 +366,46 @@ var Layer = {};
         });
     };
 
+
+    this.guardarItemSubcapa = function(form,btn,item){
+        var btnText = $(btn).html();
+        $(btn).attr('disabled',true).html('Guardando... <i class="fa fa-spin fa-spinner"></i>');
+
+        var params = $(form).serialize();
+        $.post(siteUrl + 'capas/guardarItemSubcapa/item/'+item,params,function(response){
+            if(response.estado == true){
+                bootbox.alert("Operación Exitosa: "+response.mensaje,function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                    var subcapa = $("#id_subcapa").val();
+                    Layer.cancelarEdicionItem(subcapa)
+                });
+            }else{
+                bootbox.alert("Error en la operación: "+response.mensaje,function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                });
+            }
+        },'json').fail(function(){
+            bootbox.alert("Error en sistema. Intente nuevamente o comuníquese con Soporte",function(){
+                $(btn).html(btnText).attr('disabled',false);
+            });
+        });
+    };
+
+
+
+
+    this.cancelarEdicionItem = function(subcapa){
+        $("#tab5").fadeOut(function(){
+            $("#tab-items-editar").fadeOut(function(){
+                $(this).removeClass('active');
+                Layer.listarItemsSubCapa(subcapa);
+                /*$(this).prev().addClass('active');
+                $("#tab4").addClass('active').show(function(){
+                    Layer.listarItemsSubCapa(subcapa);
+                });*/
+            });
+        });
+    }
 
     this.initSaveEdicion = function() {
 
@@ -483,6 +536,16 @@ var Layer = {};
         });
     };
 
+
+    this.volverTabListado = function(){
+        $("#tab-items-subcapa,#tab4").fadeOut(function(){
+            $(this).removeClass('active');
+            $("#tab-listado, #tab2").addClass('active').fadeIn(function(){
+
+            });
+
+        });
+    }
 
     this.guardarSubCapa = function(form, btn){
         btn.disabled = true;
