@@ -165,11 +165,11 @@ var Layer = {};
         
         var params = $(form).serialize();
         
-        if(form.capa_edicion === undefined){
+        /*if(form.capa_edicion === undefined){
             params += "&items="+parseInt($('#tabla_comunas tr').length-1); 
         }else{
             params += "&items="+parseInt($('#tabla_comunas_editar tr').length-1); 
-        }
+        }*/
         
         $.post(siteUrl+"visor/guardarCapa", params, function (data) {
             if(data==1)//bien
@@ -358,11 +358,15 @@ var Layer = {};
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
-            $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
-                $("#div_tab_4").html(response);
-                $("#tab4").addClass('active').show();
+            $("#tab4").addClass('active').fadeIn(function(){
+                $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
+                    $("#tab4-cargando").fadeOut(function(){
+                        $("#div_tab_4").html(response);
+                        $("#tab4-contenido").fadeIn();
+                    });
+                },'html');
+            });
 
-            },'html');
         });
     };
 
@@ -440,7 +444,8 @@ var Layer = {};
 
 
            if(data.response.filenames.length==0) return; // no se subio ningun archivo valido
-           
+
+            $("#tmp_file_editar").val(data.response.nombre_cache_id);
            var properties = data.response.properties.data;
            var filename = data.response.filenames.data;
            $("#nombre_geojson").html('');
@@ -539,6 +544,9 @@ var Layer = {};
 
     this.volverTabListado = function(){
         $("#tab-items-subcapa,#tab4").fadeOut(function(){
+            $("#tab4-contenido").fadeOut(function(){
+                $("#tab4-cargando").show();
+            })
             $(this).removeClass('active');
             $("#tab-listado, #tab2").addClass('active').fadeIn(function(){
 

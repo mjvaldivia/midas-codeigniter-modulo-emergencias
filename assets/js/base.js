@@ -99,6 +99,7 @@ $(document).ready(function() {
             "pageLength": filas,
             "destroy" : true,
             "aaSorting": [],
+            "deferRender": true,
             language: 
             {
                 "sProcessing":     "Procesando...",

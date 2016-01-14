@@ -22,17 +22,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Comuna (*)</label>
-                <div class="col-md-7">
-                    <select id="comuna_editar" name="comuna_editar" class="form-control required" placeholder="Comuna Capa">
-                        <?php foreach($comunas as $comuna):?>
-                        <option value="<?php echo $comuna->com_ia_id?>" <?php if($capa->com_ia_id == $comuna->com_ia_id):?> selected <?php endif;?> ><?php echo $comuna->com_c_nombre?></option>
-                        <?php endforeach;?>
-                    </select>
-                </div>
-            </div>
-            
+
             <?php if($capa->color != ""){ ?>
             <div class="form-group">
                 <label class="col-md-3 control-label">Color (*)</label>
@@ -48,12 +38,12 @@
                 <div class="col-md-7">
                     <select name="icono_editar" id="icono_editar" style="width: 300px" placeholder="Icono de los marcadores" class="select2-images required">
                         <option value=""></option>
-                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi.png") ?>">Rojo</option>
-                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-yellow.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-yellow.png") ?>">Amarillo</option>
-                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-blue.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-blue.png") ?>">Azul</option>
-                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-green.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-green.png") ?>">Verde</option>
-                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-pink.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-pink.png") ?>">Rosado</option>
-                        <option <?php if($capa->icon_path == base_url("assets/img/markers/spotlight-poi-black.png")):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-black.png") ?>">Negro</option>
+                        <option <?php if($capa->icon_path == "assets/img/markers/spotlight-poi.png"):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi.png") ?>">Rojo</option>
+                        <option <?php if($capa->icon_path == "assets/img/markers/spotlight-poi-yellow.png"):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-yellow.png") ?>">Amarillo</option>
+                        <option <?php if($capa->icon_path == "assets/img/markers/spotlight-poi-blue.png"):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-blue.png") ?>">Azul</option>
+                        <option <?php if($capa->icon_path == "assets/img/markers/spotlight-poi-green.png"):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-green.png") ?>">Verde</option>
+                        <option <?php if($capa->icon_path == "assets/img/markers/spotlight-poi-pink.png"):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-pink.png") ?>">Rosado</option>
+                        <option <?php if($capa->icon_path == "assets/img/markers/spotlight-poi-black.png"):?> selected <?php endif;?> value="<?php echo base_url("assets/img/markers/spotlight-poi-black.png") ?>">Negro</option>
                     </select>
                 </div>
             </div>
@@ -115,24 +105,8 @@
                     <p class="form-control-static" id="nombre_geojson"><?php echo $capa_file?></p>
                 </div>
             </div>
-            
-            <div class="form-group" id="div_comunas_editar" style="display:none;">
-                <label class="col-md-3 control-label">Comuna de la capa</label>
-                <div class="col-md-9">
-                    <table id="tabla_comunas_editar" class="table table-bordered table-striped required" placeholder="Archivo de capa válido">
-                        <thead>
-                        <tr>
-                            <th>
-                                Archivo
-                            </th>
-                            <th>
-                                Comuna
-                            </th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
+
+            <input name="tmp_file_editar" id="tmp_file_editar" type="hidden"/>
             
             <div class="form-group" id="div_properties_editar">
                 <label class="col-md-3 control-label">Propiedades de la capa</label>
