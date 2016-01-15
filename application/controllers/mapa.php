@@ -145,6 +145,10 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    public function popup_lugar_emergencia(){
+        $this->load->view("pages/mapa/popup-lugar-emergencia", array());
+    }
+    
     /**
      * Popup que muestra capas
      * @throws Exception
@@ -210,6 +214,31 @@ class Mapa extends MY_Controller {
                                 "nombre_tipo"   => $nombre_tipo,
                                 "informacion" => $informacion,
                                 "lista_marcadores"  => json_decode($params["marcadores"])));
+    }
+    
+    public function ajax_guardar_lugar_emergencia(){
+        header('Content-type: application/json');
+        
+        $retorno = array("correcto" => false);
+        
+        $params = $this->input->post(null, true);
+        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            
+            $filter = New Zend_Filter_Digits();
+            $metros = $filter->filter($params["metros"]);
+            if($metros == ""){
+                $retorno["error"] = array("metros" => "Debe ingresar un valor numerico");
+            } else {
+                $data = array("eme_radio" => $metros,
+                              "eme_c_utm_lat" => $params["lat"],
+                              "eme_c_utm_lng" => $params["lon"]);
+                $this->_emergencia_model->update($data, $emergencia->eme_ia_id);
+                $retorno = array("correcto" => true,
+                                 "error" => array("metros" => ""));
+            }
+        }
+        echo json_encode($retorno);
     }
     
     public function ajax_elemento(){

@@ -18,8 +18,8 @@ $(document).ready(function() {
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, null);
     
     //marcadores
-    var lugar_emergencia = new MapaMarcadorLugarEmergencia();
-    visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_emergencia.marcador, null);
+    var lugar_alarma = new MapaMarcadorLugarAlarma();
+    visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_alarma.marcador, null);
     
     //capas
     var capas = new MapaCapa();

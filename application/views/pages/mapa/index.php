@@ -36,8 +36,8 @@
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/marcador.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/marcador/lugar_alarma.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/marcador/lugar_emergencia.js"); ?>
-
 
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>

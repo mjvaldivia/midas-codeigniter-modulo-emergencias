@@ -163,7 +163,9 @@ var Visor = Class({
         		name: '<i class=\"fa fa-bullhorn\"></i> Ubicación emergencia',
         		position: google.maps.ControlPosition.TOP_RIGHT,
         		action: function(){
-        		    
+        		    var marcador = new MapaMarcadorLugarEmergencia();
+                            marcador.setEmergencia(yo.id_emergencia);
+                            marcador.addMarcador(map);
         		}
         }
         var button1 = new buttonControl(buttonOptions, "button-map");    
