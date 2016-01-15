@@ -200,12 +200,14 @@ class Capa_Model extends MY_Model {
 
             $cap_ia_id = $this->db->insert_id();
 
-            $capa = $this->cache->get($params['tmp_file']);
+            /*$capa = $this->cache->get($params['tmp_file']);*/
+            $capa = unserialize(file_get_contents('media/tmp/'.$params['tmp_file']));
             $capa_content = json_decode($capa['content']);
 
-            $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre']);
 
-            $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
+            /*$capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre']);
+
+            $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;*/
 
             $update = array();
 
@@ -286,6 +288,7 @@ class Capa_Model extends MY_Model {
 
 
             }
+            @unlink('media/tmp/'.$params['tmp_file']);
 
             /*$this->db->query("
                     UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id, icon_arch_ia_id = $icon_arch_ia_id
@@ -296,6 +299,7 @@ class Capa_Model extends MY_Model {
                 $error = true;
                 $this->db->trans_rollback();
             } else {
+
                 $this->db->trans_commit();
             }
 

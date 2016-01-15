@@ -118,8 +118,10 @@ class Archivo_Model extends MY_Model {
                             }
                         } else
                         if ($tipo == $this->TIPO_CAPA) {
-                            $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-                            $cache_file = $this->cache->get($cache_id);
+                            $error = 0;
+                            /*$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+                            //$cache_file = $this->cache->get($cache_id);
+                            $cache_file = unserialize(file_get_contents('media/tmp/'.$cache_id));
                             $arr_properties = json_decode($cache_file['content'], true);
                             foreach ($arr_properties['features'] as $key => $value) {
                                 $arr_properties['features'][$key]['properties']['TYPE'] = $id_entidad; // le agrego el tipo como feature
@@ -129,7 +131,7 @@ class Archivo_Model extends MY_Model {
                                 $error = 0;
                             } else {
                                 $error = 'Err 1: No se pudo copiar temporal al destino';
-                            }
+                            }*/
                         } else
                         if ($tipo == $this->TIPO_ICONO_DE_CAPA || $tipo == $this->TIPO_MAPA_REPORTE) {
 
