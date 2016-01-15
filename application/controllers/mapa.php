@@ -175,11 +175,11 @@ class Mapa extends MY_Controller {
     /**
      * Muestra información del poligono
      */
-    public function popup_poligono_informacion(){
+    public function popup_informacion(){
         $this->load->helper(array("modulo/visor/visor"));
         
         $params = $this->input->post(null, true);
-        $informacion = $params["informacion"];
+        $informacion = json_decode($params["informacion"]);
         
         $subcapa = $this->_capa_geometria_model->getById($params["capa"]);
         
@@ -195,15 +195,15 @@ class Mapa extends MY_Controller {
             $nombre_capa     = $capa->cap_c_nombre;
             $nombre_tipo     = $tipo["ccb_c_categoria"];
         }        
-        
 
-        
-        $this->load->view("pages/mapa/popup-poligono-informacion", 
+        $this->load->view("pages/mapa/popup-informacion", 
                           array("nombre_subcapa" => $nombre_subcapa,
+                                "tipo" => $params["tipo"],
+                                "color" => $params["color"],
                                 "nombre_capa"    => $nombre_capa,
                                 "nombre_tipo"   => $nombre_tipo,
                                 "informacion" => $informacion,
-                                "lista_marcadores"  => $params["marcadores"]));
+                                "lista_marcadores"  => json_decode($params["marcadores"])));
     }
     
     /**

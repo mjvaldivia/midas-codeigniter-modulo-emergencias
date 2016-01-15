@@ -1,6 +1,6 @@
 <?php
 
-Class Visor_Poligono_Instalaciones{
+Class Visor_Elemento_Instalaciones{
     
     
     protected $_lista_marcadores = array();
@@ -45,9 +45,9 @@ Class Visor_Poligono_Instalaciones{
         
         if(count($lista)>0){
             foreach($lista as $key => $marcador){
-                $subcapa = $this->_capa_geometria_model->getById($marcador["CAPA"]);
+                $subcapa = $this->_capa_geometria_model->getById($marcador->CAPA);
                 if(!is_null($subcapa)){
-                    unset($marcador["CAPA"]);
+                    unset($marcador->CAPA);
                     
                     $lista_marcadores[getSubCapaPreview($subcapa->geometria_id) . " CAPA: " . $subcapa->geometria_nombre][$key] = $marcador;
                 } else {
@@ -87,7 +87,7 @@ Class Visor_Poligono_Instalaciones{
 
                 $id = md5($grupo);
 
-                $html .= "<div role=\"tabpanel\" class=\"tab-pane top-spaced ".$class."\" id=\"" . $id . "\">";
+                $html .= "<div role=\"tabpanel\" class=\"tab-pane ".$class."\" id=\"" . $id . "\">";
 
                 $html .= $this->_htmlTableInstalaciones($instalaciones);
 
@@ -111,14 +111,15 @@ Class Visor_Poligono_Instalaciones{
      */
     protected function _htmlTableInstalaciones($instalaciones){
         if(count($instalaciones)>0){
-            $html = "<table class=\"table table-hover datatable paginada\">"
+            $html = "<div class=\"table-responsive\" data-row=\"5\">"
+                  . "<table class=\"table table-hover table-letra-pequena datatable paginada\">"
                    ."<thead>"
                    ."<tr>";
             
             $columnas = reset($instalaciones);
-            if(isset($columnas["NOMBRE"])){
+            if(isset($columnas->NOMBRE)){
                 $html .= "<th>NOMBRE</th>";
-                unset($columnas["NOMBRE"]);
+                unset($columnas->NOMBRE);
             }
             
             foreach($columnas as $key => $void){
@@ -131,9 +132,9 @@ Class Visor_Poligono_Instalaciones{
       
             foreach($instalaciones as $key => $datos){ 
                 $html .= "<tr>";
-                if(isset($datos["NOMBRE"])){
-                    $html .= "<td>" . $datos["NOMBRE"] . "</td>";
-                    unset($datos["NOMBRE"]);
+                if(isset($datos->NOMBRE)){
+                    $html .= "<td>" . $datos->NOMBRE . "</td>";
+                    unset($datos->NOMBRE);
                 }
                 
                 foreach($datos as $nombre => $valor){
@@ -142,7 +143,8 @@ Class Visor_Poligono_Instalaciones{
                 $html .= "</tr>";
             }
             $html .= "</tbody>"
-                    ."</table>";
+                    ."</table>"
+                    . "</div>";
         } else {
             $html = "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
         }
@@ -155,7 +157,7 @@ Class Visor_Poligono_Instalaciones{
      * @return string
      */
     protected function _htmlTabHeader(){
-        $html = "<ul class=\"nav nav-tabs\" role=\"tablist\">";
+        $html = "<ul class=\"nav nav-tabs nav-capas\" role=\"tablist\">";
         
         $primero = true;
         foreach($this->_lista_marcadores as $grupo => $instalaciones){

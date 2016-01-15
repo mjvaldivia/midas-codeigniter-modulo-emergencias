@@ -26,9 +26,6 @@ var MapaRectanguloClickListener = Class({
             var popup = new MapaInformacionElemento();
             popup.popupInformacion(marcadores, rectangulo);
         });
-        
-        var eliminar = new MapaElementoEliminar();
-        eliminar.eliminar(rectangulo, mapa);
     }
 });
 

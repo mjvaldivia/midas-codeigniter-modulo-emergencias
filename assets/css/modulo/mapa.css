@@ -20,3 +20,17 @@
 #menu-contexto li{
     padding: 5px;
 }
+
+.table-letra-pequena > tbody{
+    font-size: 10px;
+}
+
+.table-letra-pequena > thead > tr > th{
+    font-size: 10px;
+}
+
+.nav-capas > li > a {
+    display: block;
+    padding: 5px 15px;
+    position: relative;
+}

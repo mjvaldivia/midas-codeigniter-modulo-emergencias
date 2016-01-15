@@ -26,13 +26,18 @@
                         <div class="col-lg-4">SUB-CAPA:</div>
                         <div class="col-lg-8"><?php echo $nombre_subcapa ?></div>
                     </div>
+                    <div class="top-spaced"></div>
                     <?php } ?>
                     
-                    <div class="row top-spaced">
-                        <legend style="font-size: 12px; font-weight: bold; margin-bottom: 10px;"> Datos de poligono </legend>
+                    <div class="row">
+                        <legend style="font-size: 12px; font-weight: bold; margin-bottom: 10px;"> Datos del elemento </legend>
                     </div>
                     
+                    <?php if($nombre_subcapa != "") { ?>
                     <?php  echo visorInformacion($informacion); ?>
+                    <?php } else { ?>
+                    <?php echo visorEdicionElemento($tipo, $informacion, $color, $img); ?>
+                    <?php } ?>
                 </div>
             </div>
         </div>

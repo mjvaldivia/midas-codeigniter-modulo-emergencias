@@ -119,12 +119,7 @@ var MapaPoligono = Class({
             var popup = new MapaInformacionElemento();
             popup.popupInformacion(marcadores, poligono);
         });
-        
-        var eliminar = new MapaElementoEliminar();
-        eliminar.eliminar(poligono, mapa);
     },
-    
-    
     
     /**
      * Retorna coordenadas del poligono

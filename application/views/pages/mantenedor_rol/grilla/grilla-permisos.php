@@ -28,11 +28,11 @@
                                                 <i class="fa fa-edit"></i> Editar rol
                                             </a>
                                         </li>
-                                        <!--<li>
+                                        <li>
                                             <a data="<?php echo $row["rol_ia_id"]; ?>" class="eliminar-rol" href="#">
                                                 <i class="fa fa-remove"></i> Eliminar rol
                                             </a>
-                                        </li>-->
+                                        </li>
                                         <li class="divider"></li>
                                         <li>
                                             <a data="<?php echo $row["rol_ia_id"]; ?>" class="editar-permiso" href="#">
