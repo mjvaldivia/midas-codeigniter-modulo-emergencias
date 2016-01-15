@@ -47,6 +47,8 @@ var MapaInformacionElemento = Class({
      */
     popupInformacion : function(marcadores, elemento){
         var parametros = {"marcadores" : JSON.stringify(marcadores),
+                          "tipo" : elemento.tipo,
+                          "color" : elemento.fillColor,
                           "informacion" : JSON.stringify(elemento.informacion)};
             
         if(elemento.capa != null){

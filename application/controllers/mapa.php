@@ -198,6 +198,8 @@ class Mapa extends MY_Controller {
 
         $this->load->view("pages/mapa/popup-informacion", 
                           array("nombre_subcapa" => $nombre_subcapa,
+                                "tipo" => $params["tipo"],
+                                "color" => $params["color"],
                                 "nombre_capa"    => $nombre_capa,
                                 "nombre_tipo"   => $nombre_tipo,
                                 "informacion" => $informacion,
