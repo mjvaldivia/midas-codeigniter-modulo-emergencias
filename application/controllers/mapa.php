@@ -212,6 +212,37 @@ class Mapa extends MY_Controller {
                                 "lista_marcadores"  => json_decode($params["marcadores"])));
     }
     
+    public function ajax_elemento(){
+        $this->load->helper(array("modulo/capa/capa"));
+        $json = array();
+        header('Content-type: application/json');
+        $data = array("correcto" => false,
+                      "error" => "");
+        $params = $this->input->post(null, true);
+        $elemento = $this->_capa_poligono_informacion_model->getById($params["id"]);
+        if(!is_null($elemento)){
+            $subcapa = $this->_capa_geometria_model->getById($elemento->poligono_capitem);
+            $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
+            
+            if($subcapa->geometria_icono!=""){
+                $icono = base_url($subcapa->geometria_icono);
+            } else {
+                $icono = base_url($capa->icon_path);
+            }
+            
+            $json = array("id" => $elemento->poligono_id,
+                           "id_subcapa" => $elemento->poligono_capitem,
+                           "propiedades" => $this->_limpiarUnserialize($elemento->poligono_propiedades),
+                           "geojson"     => unserialize($elemento->poligono_geometria),
+                           "zona" => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
+                           "color" => getSubCapaPreview($elemento->poligono_capitem),
+                           "icono" => $icono);
+        }
+        $data["correcto"] = true;
+        $data["resultado"] = $json;
+        echo json_encode($data);
+    }
+    
     /**
      * Carga datos de una capa
      */
