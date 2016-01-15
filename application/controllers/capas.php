@@ -343,8 +343,7 @@ class Capas extends MY_Controller
         $data['comuna'] = $item['com_c_nombre'];
         $data['capa'] = $item['cap_c_nombre'];
         $data['propiedades'] = unserialize($item['poligono_propiedades']);
-
-
+        $data['geometria'] = unserialize($item['poligono_geometria']);
 
         $this->load->view("pages/capa/edicion_item_subcapa",$data);
     }

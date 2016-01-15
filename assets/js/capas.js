@@ -205,7 +205,7 @@ var Layer = {};
             }else{
                 bootbox.dialog({
                     title: "Resultado de la operacion",
-                    message: 'Una o más capas no se han guardado',
+                    message: 'Una o más capas no se han guardado <br/> Error: '+data,
                     buttons: {
                         danger: {
                             label: "Cerrar",
