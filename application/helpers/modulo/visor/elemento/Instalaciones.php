@@ -160,20 +160,21 @@ Class Visor_Elemento_Instalaciones{
         $html = "<ul class=\"nav nav-tabs nav-capas\" role=\"tablist\">";
         
         $primero = true;
-        foreach($this->_lista_marcadores as $grupo => $instalaciones){
-            $class = "";
-            if($primero){
-                $class = "active";
+        if(count($this->_lista_marcadores)>0){
+            foreach($this->_lista_marcadores as $grupo => $instalaciones){
+                $class = "";
+                if($primero){
+                    $class = "active";
+                }
+
+                $id = md5($grupo);
+                $html .= "<li role=\"presentation\" class=\"" . $class . "\">"
+                       . "<a href=\"#" . $id . "\" aria-controls=\"".$id."\" role=\"tab\" data-toggle=\"tab\">".$grupo."</a>"
+                       . "</li>";
+
+                 $primero = false;
             }
-            
-            $id = md5($grupo);
-            $html .= "<li role=\"presentation\" class=\"" . $class . "\">"
-                   . "<a href=\"#" . $id . "\" aria-controls=\"".$id."\" role=\"tab\" data-toggle=\"tab\">".$grupo."</a>"
-                   . "</li>";
-            
-             $primero = false;
         }
-        
         
         
         $html .= "</ul>";
