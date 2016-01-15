@@ -294,3 +294,23 @@ function notificacionError(titulo, texto){
         stack: stack_bottomright });
 }
 
+function notificacionEspera(titulo){
+    var permanotice = new PNotify({
+        title: titulo,
+        hide: false,
+        type: 'info',
+        icon: false,
+        width : "150px",
+        buttons: {
+            closer: false,
+            sticker: false
+        },
+        mobile: {
+            swipe_dismiss: false
+        },
+        addclass: "stack-bottomrightinfo",
+        stack: stack_bottomright 
+    });
+    return permanotice;
+}
+

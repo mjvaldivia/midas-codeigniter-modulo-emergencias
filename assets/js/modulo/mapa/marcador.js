@@ -77,7 +77,7 @@ var MapaMarcador = Class({
         this.informacionMarcador(marker);
 
         lista_markers.push(marker);
-
+        console.log(marker);
     },
     
     /**

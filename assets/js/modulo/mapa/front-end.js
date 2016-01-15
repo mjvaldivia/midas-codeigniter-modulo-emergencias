@@ -26,8 +26,7 @@ $(document).ready(function() {
     capas.emergencia(id);
     visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
     visor.addCapa(capas);
-    
-    
+
     visor.bindMapa();
     
     //recargar mapa al abrir o cerrar menu

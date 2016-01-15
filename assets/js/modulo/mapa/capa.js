@@ -44,6 +44,32 @@ var MapaCapa = Class({
         return lista_capas;
     },
     
+    addElemento : function(mapa, id_elemento){
+        var yo = this;
+        this.class_marcador.seteaMapa(mapa);
+        this.class_poligono.seteaMapa(mapa);
+        this.class_multipoligono.seteaMapa(mapa);
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: "id=" + id_elemento,
+            type: "post",
+            url: siteUrl + "mapa/ajax_elemento", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                if(data.correcto){
+                    yo.elemento(data.resultado.id, data.resultado.geojson, data.resultado.propiedades, data.resultado.id_subcapa, data.resultado.zona, data.resultado.icono, data.resultado.color);
+                } else {
+                    notificacionError("Ha ocurrido un problema", data.error);
+                }
+            }
+        });
+    },
+    
     addCapaPorId : function(mapa, id_subcapa){
         this.class_marcador.seteaMapa(mapa);
         this.class_poligono.seteaMapa(mapa);
@@ -59,8 +85,8 @@ var MapaCapa = Class({
     addCapa : function(id_subcapa){
         var yo = this;
         
-        console.log(yo.capas);
         console.log("Agregando Sub-Capa " + id_subcapa);
+        var notificacion = notificacionEspera("<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa");
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -77,6 +103,8 @@ var MapaCapa = Class({
                         yo.cargaCapa(id_subcapa, data.capa);
                     }
                 }
+                
+                if (notificacion.remove) notificacion.remove();
                 console.log(yo.capas);
             }
         });
@@ -141,7 +169,7 @@ var MapaCapa = Class({
      * @returns {void}
      */
     elemento : function(id, geometry, propiedades, subcapa, zona, icono, color){
-       
+        
         var yo = this;
         switch (geometry.type) {
             case "Point":
