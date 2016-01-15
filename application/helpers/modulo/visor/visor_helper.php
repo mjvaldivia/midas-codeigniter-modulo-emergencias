@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__ . "/propiedades/Informacion.php");
-require_once(__DIR__ . "/poligono/Instalaciones.php");
+require_once(__DIR__ . "/elemento/Instalaciones.php");
 require_once(__DIR__ . "/capa/Disponibles.php");
 
 /**
@@ -37,7 +37,7 @@ function visorInformacion($propiedades){
  * @return type
  */
 function visorPoligonoInstalaciones($lista){
-    $html = New Visor_Poligono_Instalaciones($lista);
+    $html = New Visor_Elemento_Instalaciones($lista);
     return $html->render();
 }
 

@@ -92,13 +92,13 @@ var MapaEditor = Class({
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
             var rectanguloClickListener = new  MapaRectanguloClickListener();
-            rectanguloClickListener.addClickListener(rectangle);
+            rectanguloClickListener.addClickListener(rectangle, mapa);
             lista_poligonos.push(rectangle);
             console.log(rectangle);
         });
         
          google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-            yo.class_poligono.addClickListener(polygon);
+            yo.class_poligono.addClickListener(polygon, mapa);
             lista_poligonos.push(polygon);
             console.log(polygon);
         });

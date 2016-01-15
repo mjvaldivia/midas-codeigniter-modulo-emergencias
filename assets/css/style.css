@@ -2219,3 +2219,11 @@ label {
 .help-block {
     font-size:10px;
 }
+
+.modal-header {
+    padding: 5px;
+}
+
+.portlet {
+    margin-bottom: 5px;
+}

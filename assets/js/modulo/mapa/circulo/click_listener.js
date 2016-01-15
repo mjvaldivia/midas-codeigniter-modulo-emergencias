@@ -28,8 +28,6 @@ var MapaCirculoClickListener = Class({
             popup.popupInformacion(marcadores, circulo);
         });
         
-        var eliminar = new MapaElementoEliminar();
-        eliminar.eliminar(circulo, mapa);
     }, 
     
     /**

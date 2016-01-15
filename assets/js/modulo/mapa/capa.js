@@ -17,6 +17,11 @@ var MapaCapa = Class({
         this.class_multipoligono = new MapaPoligonoMulti();
     },
     
+    /**
+     * 
+     * @param {type} id
+     * @returns {undefined}
+     */
     emergencia : function(id){
         this.id_emergencia = id;
     },

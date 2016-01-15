@@ -146,8 +146,6 @@ var Visor = Class({
         map.addListener('click', function(event) {
             console.log(event);
         });
-        
-        
 
         this.mapa = map;
     },
