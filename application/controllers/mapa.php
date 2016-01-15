@@ -394,7 +394,7 @@ class Mapa extends MY_Controller {
         $array = unserialize($string);
         if(count($array)>0){
             foreach($array as $nombre => $valor){
-                $nuevo[$filter->filter($nombre)] = $filter->filter($valor);
+                $nuevo[$filter->filter($nombre)] = $valor;
             }    
         }
          return $nuevo;

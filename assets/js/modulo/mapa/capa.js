@@ -61,6 +61,7 @@ var MapaCapa = Class({
         
         console.log(yo.capas);
         console.log("Agregando Sub-Capa " + id_subcapa);
+        var notificacion = notificacionEspera("<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa");
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -77,6 +78,8 @@ var MapaCapa = Class({
                         yo.cargaCapa(id_subcapa, data.capa);
                     }
                 }
+                
+                if (notificacion.remove) notificacion.remove();
                 console.log(yo.capas);
             }
         });
