@@ -241,9 +241,7 @@ class Capa_Model extends MY_Model {
                 $tipo = '';
                 if(!isset($item->properties->TIPO)){
                     $item->properties->TIPO = $tipo = mb_strtoupper($params['nombre']);
-                    echo "3333";
                 }else{
-                    echo "4444";
                     if(is_null($item->properties->TIPO) or empty($item->properties->TIPO)){
                         $tipo = mb_strtoupper($params['nombre']);
                     }else{
@@ -261,7 +259,6 @@ class Capa_Model extends MY_Model {
                 if(!isset($propiedades['TIPO'])){
                     $arr_propiedades['TIPO'] = $tipo;
                 }
-                print_r($arr_propiedades);die();
                 $properties = addslashes(serialize($arr_propiedades));
 
                 /* obtener comuna */
@@ -277,7 +274,6 @@ class Capa_Model extends MY_Model {
                 $query = "select geometria_id,count(geometria_nombre) as existe_tipo from capas_geometria where geometria_nombre like '$tipo' and geometria_tipo = $geometria_capa and geometria_capa = $cap_ia_id";
                 $result = $this->db->query($query);
                 $result = $result->result_array();
-                error_log($query);
                 if($result[0]['existe_tipo'] == 0){
                     $query = "insert into capas_geometria(geometria_capa,geometria_tipo,geometria_nombre) value($cap_ia_id,$geometria_capa,'$tipo')";
 
