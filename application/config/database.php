@@ -66,10 +66,10 @@ $db['production']['autoinit'] = TRUE;
 $db['production']['stricton'] = FALSE;
 
 
-$db['testing']['hostname'] = '10.8.43.145';
-$db['testing']['username'] = 'sipresamelo';
-$db['testing']['password'] = 'InfoSeremi05';
-$db['testing']['database'] = 'sipresa_camilo';
+$db['testing']['hostname'] = 'localhost';
+$db['testing']['username'] = 'sipresa_usr';
+$db['testing']['password'] = 'sipresa2014';
+$db['testing']['database'] = 'emergencias';
 $db['testing']['dbdriver'] = 'mysql';
 $db['testing']['dbprefix'] = '';
 $db['testing']['pconnect'] = TRUE;

@@ -13,6 +13,7 @@
         </tr>
     </thead>
     <tbody>
+        <?php if($lista):?>
         <?php foreach($lista as $row){ ?>
         <?php // echo BASEPATH . $row['capa']; ?>
         <tr>
@@ -50,7 +51,7 @@
             </td>
         </tr>
         <?php } ?>
-        
+        <?php endif;?>
     </tbody>
 </table> 
 

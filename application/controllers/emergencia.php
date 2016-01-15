@@ -485,7 +485,10 @@ class Emergencia extends MY_Controller {
                     'type'=> $type[$i]
                     
                 );
-                $this->cache->save($nombre_cache_id, $arr_cache, 28800);
+                /*$this->cache->save($nombre_cache_id, $arr_cache, 28800);*/
+                $file = fopen('media/tmp/'.$nombre_cache_id,'w+b');
+                fwrite($file,serialize($arr_cache));
+                fclose($file);
                 
                 foreach ($arr_properties['features'][0]['properties'] as $k => $v) {
 
