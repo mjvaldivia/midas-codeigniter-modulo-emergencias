@@ -294,18 +294,3 @@ function notificacionError(titulo, texto){
         stack: stack_bottomright });
 }
 
-function uniqID(idlength) {
-            var charstoformid = '_0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
-            if (! idlength) {
-                idlength = Math.floor(Math.random() * charstoformid.length);
-            }
-            var uniqid = '';
-            for (var i = 0; i < length; i++) {
-                uniqid += charstoformid[Math.floor(Math.random() * charstoformid.length)];
-            }
-            // one last step is to check if this ID is already taken by an element before 
-            if(jQuery("#"+uniqid).length == 0)
-                return uniqid;
-            else
-                return uniqID(20)
-}

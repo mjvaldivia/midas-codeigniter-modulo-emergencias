@@ -12,7 +12,7 @@ var MapaElementoCustom = Class({
         this.id_emergencia = id;
     },
     
-    dibujarPoligono : function(id, propiedades, coordenadas){
+    dibujarPoligono : function(id, propiedades, coordenadas, color){
         var poligono = new google.maps.Polygon({
             paths: coordenadas,
             id : id,
@@ -27,7 +27,7 @@ var MapaElementoCustom = Class({
             strokeColor: '#000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: '#ffff00',
+            fillColor: color,
             fillOpacity: 0.35
         });
         
@@ -48,7 +48,7 @@ var MapaElementoCustom = Class({
      * @param {object} coordenadas
      * @returns {void}
      */
-    dibujarRectangulo : function (id, propiedades, coordenadas){
+    dibujarRectangulo : function (id, propiedades, coordenadas, color){
         var rectangle = new google.maps.Rectangle({
             id : id,
             custom : true,
@@ -62,7 +62,7 @@ var MapaElementoCustom = Class({
             strokeColor: '#000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: '#ffff00',
+            fillColor: color,
             fillOpacity: 0.35,
             map: this.mapa,
             bounds: coordenadas
@@ -81,7 +81,7 @@ var MapaElementoCustom = Class({
      * @param {string} radio
      * @returns {void}
      */
-    dibujarCirculo : function(id, propiedades, centro, radio){
+    dibujarCirculo : function(id, propiedades, centro, radio, color){
         var circulo = new google.maps.Circle({
             id : id,
             custom : true,
@@ -95,7 +95,7 @@ var MapaElementoCustom = Class({
             strokeColor: '#000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: '#ffff00',
+            fillColor: color,
             fillOpacity: 0.35,
             map: this.mapa,
             center: centro,
@@ -130,15 +130,15 @@ var MapaElementoCustom = Class({
                     $.each(data.resultado.elemento, function(id, elemento){
                         
                         if(elemento.tipo == "CIRCULO"){
-                            yo.dibujarCirculo(id, elemento.propiedades,elemento.coordenadas.center,elemento.coordenadas.radio);
+                            yo.dibujarCirculo(id, elemento.propiedades,elemento.coordenadas.center,elemento.coordenadas.radio, elemento.color);
                         }
                         
                         if(elemento.tipo == "RECTANGULO"){
-                            yo.dibujarRectangulo(id, elemento.propiedades, elemento.coordenadas);
+                            yo.dibujarRectangulo(id, elemento.propiedades, elemento.coordenadas, elemento.color);
                         }
                         
                         if(elemento.tipo == "POLIGONO"){
-                            yo.dibujarPoligono(id, elemento.propiedades, elemento.coordenadas);
+                            yo.dibujarPoligono(id, elemento.propiedades, elemento.coordenadas, elemento.color);
                         }
                     });
                 } else {
@@ -191,6 +191,7 @@ var MapaElementoCustom = Class({
             
             if(elemento.tipo == "POLIGONO"){
                 data = {"tipo" : "POLIGONO",
+                        "color" : elemento.fillColor,
                         "id" : elemento.id,
                         "propiedades" : elemento.informacion,
                         "coordenadas" : elemento.getPath().getArray()};
@@ -198,6 +199,7 @@ var MapaElementoCustom = Class({
             
             if(elemento.tipo == "RECTANGULO"){
                 data = {"tipo" : "RECTANGULO",
+                        "color" : elemento.fillColor,
                         "id" : elemento.id,
                         "propiedades" : elemento.informacion,
                         "coordenadas" : elemento.getBounds()};
@@ -205,6 +207,7 @@ var MapaElementoCustom = Class({
             
             if(elemento.tipo == "CIRCULO"){
                 data = {"tipo" : "CIRCULO",
+                        "color" : elemento.fillColor,
                         "id" : elemento.id,
                         "propiedades" : elemento.informacion,
                         "coordenadas" : {"center" : elemento.getCenter(),

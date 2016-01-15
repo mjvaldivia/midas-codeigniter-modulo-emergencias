@@ -9,7 +9,21 @@ var MapaInformacionElemento = Class({
                     guardar: {
                         label: " Guardar cambios",
                         className: "btn-success fa fa-save",
-                        callback: function() {}
+                        callback: function() {
+                            var elementos = jQuery.grep(lista_poligonos, function( a ) {
+                                if(a.clave == clave){
+                                    return true;
+                                }
+                            });
+                            
+                            $.each(lista_poligonos, function(i, elem){
+                                if(elem.clave == clave){
+                                    if(elem.tipo == "CIRCULO" || elem.tipo == "RECTANGULO" || elem.tipo== "POLIGONO"){
+                                        elem.setOptions({fillColor : $("#color_editar").val()})
+                                    }
+                                }
+                            });
+                        }
                     },
                     eliminar: {
                         label: " Eliminar elemento",
@@ -89,7 +103,7 @@ var MapaInformacionElemento = Class({
                 $("#contenido-popup-informacion-capas").html(data);
             }
         }); 
-    },
+    }
 });
 
 

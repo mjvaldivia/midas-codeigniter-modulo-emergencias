@@ -45,6 +45,7 @@ function visorInformacion($propiedades){
 function visorEdicionElemento($tipo, $propiedades, $color = null, $imagen = null){
     $html = New Visor_Elemento_Editar($tipo);
     $html->setPropiedades($propiedades);
+    $html->setColor($color);
     return $html->render();
 }
 

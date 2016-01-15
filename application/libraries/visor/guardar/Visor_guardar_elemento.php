@@ -45,6 +45,7 @@ Class Visor_guardar_elemento{
                     
                     $data = array("id_emergencia" => $this->_id_emergencia,
                                   "tipo" => $elemento->tipo,
+                                  "color" => $elemento->color,
                                   "propiedades" => json_encode($elemento->propiedades),
                                   "coordenadas" => json_encode($elemento->coordenadas));
                     
