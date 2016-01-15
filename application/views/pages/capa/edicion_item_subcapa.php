@@ -11,6 +11,7 @@
                     <dt>Comuna</dt><dd><?php echo $comuna?></dd>
                 </dl>
             </div>
+            <div id="mapa" class="top-spaced mapa-alarma" style="height: 400px !important;"></div>
         </div>
         <div class="col-xs-12 col-md-8">
             <input type="hidden" name="id_subcapa" id="id_subcapa" value="<?php echo $id_subcapa?>" />
@@ -47,3 +48,27 @@
         </div>
     </div>
 </div>
+
+
+<?= loadJS("assets/js/geo-encoder.js") ?>
+<?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/marcador.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var visor = new Visor("mapa");
+
+        var capas = new MapaCapa();
+        visor.addOnReadyFunction("capas asociadas a la emergencia", capas.addCapaPorId, 105);
+        visor.addCapa(capas);
+
+        visor.bindMapa();
+        //recargar mapa al abrir o cerrar menu
+        $("#sidebar-toggle").click(function(){
+            visor.resizeMap();
+        });
+    });
+
+</script>

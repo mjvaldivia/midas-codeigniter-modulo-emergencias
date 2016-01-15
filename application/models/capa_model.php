@@ -42,6 +42,11 @@ class Capa_Model extends MY_Model {
 
         $propiedades = explode(",",$lista_propiedades);
 
+
+        if(!in_array('COMUNA',$propiedades)){
+            return 0;
+        }
+
         if(isset($params['capa_edicion']) and $params['capa_edicion'] > 0){
             $cap_ia_id = $params['capa_edicion'];
 
@@ -176,6 +181,8 @@ class Capa_Model extends MY_Model {
                 
         }else{
 
+
+
             $this->load->model('categoria_cobertura_model','CategoriaCapa');
             $categoria_capa = $this->CategoriaCapa->getById($params['iCategoria']);
             $geometria_capa = $categoria_capa['ccb_n_tipo'];
@@ -226,6 +233,7 @@ class Capa_Model extends MY_Model {
             $this->_query->update($update, "cap_ia_id", $cap_ia_id);
 
             $items_capa = $capa_content->features;
+
             foreach($items_capa as $item){
 
                 $geometria = serialize((array)$item->geometry);
@@ -233,8 +241,6 @@ class Capa_Model extends MY_Model {
                 $tipo = '';
                 if(!isset($item->properties->TIPO)){
                     $item->properties->TIPO = $tipo = mb_strtoupper($params['nombre']);
-                    $properties = (array)$item->properties;
-                    $properties = addslashes(serialize($properties));
                 }else{
                     if(is_null($item->properties->TIPO) or empty($item->properties->TIPO)){
                         $tipo = mb_strtoupper($params['nombre']);
@@ -253,11 +259,11 @@ class Capa_Model extends MY_Model {
                 if(!isset($propiedades['TIPO'])){
                     $arr_propiedades['TIPO'] = $tipo;
                 }
-
                 $properties = addslashes(serialize($arr_propiedades));
 
                 /* obtener comuna */
                 $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
+
                 if(is_null($comuna)){
                     continue;
                 }
@@ -268,7 +274,6 @@ class Capa_Model extends MY_Model {
                 $query = "select geometria_id,count(geometria_nombre) as existe_tipo from capas_geometria where geometria_nombre like '$tipo' and geometria_tipo = $geometria_capa and geometria_capa = $cap_ia_id";
                 $result = $this->db->query($query);
                 $result = $result->result_array();
-
                 if($result[0]['existe_tipo'] == 0){
                     $query = "insert into capas_geometria(geometria_capa,geometria_tipo,geometria_nombre) value($cap_ia_id,$geometria_capa,'$tipo')";
 
