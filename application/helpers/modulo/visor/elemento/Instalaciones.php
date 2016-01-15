@@ -48,7 +48,6 @@ Class Visor_Elemento_Instalaciones{
                 $subcapa = $this->_capa_geometria_model->getById($marcador->CAPA);
                 if(!is_null($subcapa)){
                     unset($marcador->CAPA);
-                    
                     $lista_marcadores[getSubCapaPreview($subcapa->geometria_id) . " CAPA: " . $subcapa->geometria_nombre][$key] = $marcador;
                 } else {
                     $lista_marcadores["Otros"][$key] = $marcador;
@@ -116,11 +115,9 @@ Class Visor_Elemento_Instalaciones{
                    ."<thead>"
                    ."<tr>";
             
-            $columnas = reset($instalaciones);
-            if(isset($columnas->NOMBRE)){
-                $html .= "<th>NOMBRE</th>";
-                unset($columnas->NOMBRE);
-            }
+            $aux = $instalaciones;
+            $columnas = reset($aux);
+
             
             foreach($columnas as $key => $void){
                 $html .= "<th>" . $key . "</th>";
@@ -132,10 +129,6 @@ Class Visor_Elemento_Instalaciones{
       
             foreach($instalaciones as $key => $datos){ 
                 $html .= "<tr>";
-                if(isset($datos->NOMBRE)){
-                    $html .= "<td>" . $datos->NOMBRE . "</td>";
-                    unset($datos->NOMBRE);
-                }
                 
                 foreach($datos as $nombre => $valor){
                     $html .= "<td>" . $valor . "</td>";

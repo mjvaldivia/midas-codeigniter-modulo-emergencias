@@ -195,7 +195,6 @@ class Mapa extends MY_Controller {
             $nombre_capa    = "";
             $nombre_tipo    = "";
         } else {
-           
             $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
             $tipo    = $this->_tipo_capa_model->getById($capa->ccb_ia_categoria);
             $nombre_subcapa  = $subcapa->geometria_nombre;
@@ -265,7 +264,8 @@ class Mapa extends MY_Controller {
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array("tipo" => $elemento["tipo"],
                                                                             "propiedades" => json_decode($elemento["propiedades"]),
-                                                                            "coordenadas" => json_decode($elemento["coordenadas"]));
+                                                                            "coordenadas" => json_decode($elemento["coordenadas"]),
+                                                                            "color" => $elemento["color"]);
                     
                 }
             }
@@ -394,8 +394,7 @@ class Mapa extends MY_Controller {
         $array = unserialize($string);
         if(count($array)>0){
             foreach($array as $nombre => $valor){
-              
-                $nuevo[$filter->filter($nombre)] = htmlentities($valor);
+                $nuevo[$filter->filter($nombre)] = $filter->filter($valor);
             }    
         }
          return $nuevo;

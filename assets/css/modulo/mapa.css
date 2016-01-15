@@ -29,8 +29,7 @@
     font-size: 10px;
 }
 
-.nav-capas > li > a {
-    display: block;
-    padding: 5px 15px;
-    position: relative;
+#contenido-popup-informacion-capas > .fa-spinner{
+    text-align: center;
+    width: 100%;
 }
