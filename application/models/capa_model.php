@@ -43,8 +43,9 @@ class Capa_Model extends MY_Model {
         $propiedades = explode(",",$lista_propiedades);
 
 
+
         if(!in_array('COMUNA',$propiedades)){
-            return 0;
+            return 'No existe propiedad COMUNA';
         }
 
         if(isset($params['capa_edicion']) and $params['capa_edicion'] > 0){
@@ -208,7 +209,14 @@ class Capa_Model extends MY_Model {
             $cap_ia_id = $this->db->insert_id();
 
             /*$capa = $this->cache->get($params['tmp_file']);*/
-            $capa = unserialize(file_get_contents('media/tmp/'.$params['tmp_file']));
+            $capa = unserialize(file_get_contents(fopen('media/tmp/'.$params['tmp_file'])));
+            if(empty($capa) or is_null($capa)){
+                return "Error en lectura de geojson";
+            }
+
+
+            //$capa = unserialize(file_get_contents('media/tmp/'.$params['tmp_file']));
+
             $capa_content = json_decode($capa['content']);
 
 
@@ -233,6 +241,12 @@ class Capa_Model extends MY_Model {
             $this->_query->update($update, "cap_ia_id", $cap_ia_id);
 
             $items_capa = $capa_content->features;
+
+            if(is_null($items_capa) or empty($items_capa)){
+
+                $this->db->trans_rollback();
+                return 'Error en lectura de items ';
+            }
 
             foreach($items_capa as $item){
 
@@ -293,7 +307,7 @@ class Capa_Model extends MY_Model {
 
 
             }
-            @unlink('media/tmp/'.$params['tmp_file']);
+
 
             /*$this->db->query("
                     UPDATE capas SET capa_arch_ia_id = $capa_arch_ia_id, icon_arch_ia_id = $icon_arch_ia_id
@@ -304,7 +318,7 @@ class Capa_Model extends MY_Model {
                 $error = true;
                 $this->db->trans_rollback();
             } else {
-
+                @unlink('media/tmp/'.$params['tmp_file']);
                 $this->db->trans_commit();
             }
 

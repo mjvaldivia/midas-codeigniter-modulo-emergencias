@@ -66,14 +66,9 @@
 
 
         var capas = new MapaCapa();
-        //visor.addOnReadyFunction("capas asociadas a la emergencia", capas.addCapaPorId, 105);
+        visor.addOnReadyFunction("capas asociadas a la emergencia", capas.addElemento, <?php echo $id_item?>);
         visor.addCapa(capas);
-
         visor.bindMapa();
-    <?php if($geometria['type'] == 'Point'):?>
-        var marcador = new MapaMarcador();
-        marcador.posicionarMarcador(capas,<?php echo $geometria['coordinates'][0]?>,<?php echo $geometria['coordinates'][1]?>,'','19H','');
-    <?php endif;?>
 
         //recargar mapa al abrir o cerrar menu
         $("#sidebar-toggle").click(function(){
