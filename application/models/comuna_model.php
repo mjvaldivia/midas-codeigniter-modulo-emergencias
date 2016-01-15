@@ -23,6 +23,22 @@ class Comuna_Model extends MY_Model
         return $this->_query->getById("com_ia_id", $id);
     }
     
+    /**
+     * 
+     * @return array
+     */
+    public function listar(){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->orderBy("com_c_nombre", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
 
     public function getComunasPorRegion($id_region){
         $query = "select c.* from ".$this->_tabla." c

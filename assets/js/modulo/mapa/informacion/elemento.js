@@ -1,6 +1,6 @@
 var MapaInformacionElemento = Class({ 
     
-    dialogoEdicion : function(){
+    dialogoEdicion : function(clave){
         bootbox.dialog({
                 message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
                 title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
@@ -14,7 +14,23 @@ var MapaInformacionElemento = Class({
                     eliminar: {
                         label: " Eliminar elemento",
                         className: "btn-danger fa fa-remove",
-                        callback: function() {}
+                        callback: function() {
+                            var elementos = jQuery.grep(lista_poligonos, function( a ) {
+                                if(a.clave == clave){
+                                    return true;
+                                }
+                            });
+                            
+                            $.each(elementos, function(i, elem){
+                                elem.setMap(null); 
+                            });
+                            
+                            lista_poligonos = jQuery.grep(lista_poligonos, function( a ) {
+                                if(a.clave != clave){
+                                    return true;
+                                }
+                            });
+                        }
                     },
                     cerrar: {
                         label: " Cerrar ventana",
@@ -46,6 +62,7 @@ var MapaInformacionElemento = Class({
      * @returns {void}
      */
     popupInformacion : function(marcadores, elemento){
+        console.log(elemento);
         var parametros = {"marcadores" : JSON.stringify(marcadores),
                           "tipo" : elemento.tipo,
                           "color" : elemento.fillColor,
@@ -55,7 +72,7 @@ var MapaInformacionElemento = Class({
             parametros["capa"] = elemento.capa;
             this.dialogo();
         }  else {  
-            this.dialogoEdicion();
+            this.dialogoEdicion(elemento.clave);
         }
 
         $.ajax({         

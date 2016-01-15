@@ -47,6 +47,16 @@ Class Visor_Elemento_Editar{
     
     /**
      * 
+     * @param string $color
+     */
+    public function setColor($color){
+        if(!is_null($color)){
+            $this->_color = $color;
+        }
+    }
+    
+    /**
+     * 
      * @param string $propiedades
      */
     public function setPropiedades($propiedades){
@@ -59,7 +69,11 @@ Class Visor_Elemento_Editar{
      * @return string html
      */
     public function render(){
-        return $this->_ci->load->view("pages/mapa/form-editar-elemento", array("propiedades" => $this->_propiedades), true);
+        return $this->_ci->load->view("pages/mapa/form-editar-elemento", 
+                                      array("tipo" => $this->_tipo,
+                                            "color" => $this->_color,
+                                            "propiedades" => $this->_propiedades), 
+                                      true);
     }
     
 }

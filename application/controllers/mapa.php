@@ -70,6 +70,12 @@ class Mapa extends MY_Controller {
     
     /**
      *
+     * @var Comuna_Model
+     */
+    public $_comuna_model;
+    
+    /**
+     *
      * @var Emergencia_Comuna 
      */
     public $emergencia_comuna;
@@ -86,6 +92,7 @@ class Mapa extends MY_Controller {
         $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
+        $this->load->model("comuna_model", "_comuna_model");
         $this->load->model("capa_poligono_informacion_model", "_capa_poligono_informacion_model");
         $this->load->model("capa_geometria_model", "_capa_geometria_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
@@ -216,7 +223,22 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         
-        $lista_comunas = $this->emergencia_comuna->listComunas($params["id_emergencia"]);
+        if($params["id_emergencia"] != "" AND $params["id_emergencia"] != "null"){
+            $lista_comunas = $this->emergencia_comuna->listComunas($params["id_emergencia"]);
+        } else {
+            $comunas = array();
+            $lista_comunas_all = $this->_comuna_model->listar();
+            fb($lista_comunas_all);
+            if(count($lista_comunas_all)>0){
+                foreach($lista_comunas_all as $comuna){
+                    $comunas[] = $comuna["com_ia_id"];
+                }
+            }
+            $lista_comunas = $comunas;
+        }
+        
+        fb($lista_comunas);
+        
         if(count($lista_comunas)>0){
             $resultado = $this->_cargaCapa($params["id"], $lista_comunas);
             if(!is_null($resultado)){

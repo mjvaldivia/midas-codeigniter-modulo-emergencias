@@ -10,21 +10,21 @@ $(document).ready(function() {
     
     //editor
     var editor = new MapaEditor();
-    visor.addOnReadyFunction("editor", editor.iniciarEditor);
+    visor.addOnReadyFunction("editor", editor.iniciarEditor, null);
     
     //custom
     var custom = new MapaElementoCustom();
     custom.emergencia(id);
-    visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements);
+    visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, null);
     
     //marcadores
     var lugar_emergencia = new MapaMarcadorLugarEmergencia();
-    visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_emergencia.marcador);
+    visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_emergencia.marcador, null);
     
     //capas
     var capas = new MapaCapa();
     capas.emergencia(id);
-    visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia);
+    visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
     visor.addCapa(capas);
     
     

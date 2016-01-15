@@ -34,8 +34,9 @@ var Visor = Class({
      * @param {function} funcion funcion a ejecutar
      * @returns {void}
      */
-    addOnReadyFunction : function(index, funcion){
-        this.on_ready_functions[index] = funcion;
+    addOnReadyFunction : function(index, funcion, parametros){
+        this.on_ready_functions[index] = {"funcion" : funcion,
+                                          "parametros" : parametros};
     },
     
     /**
@@ -132,7 +133,7 @@ var Visor = Class({
             console.log("Iniciando carga de elementos");
             $.each(yo.on_ready_functions, function(i, funcion){
                 console.log("Carga de " + i);
-                funcion(map);
+                funcion.funcion(map, funcion.parametros);
             });
             
             yo.controlSave(map);

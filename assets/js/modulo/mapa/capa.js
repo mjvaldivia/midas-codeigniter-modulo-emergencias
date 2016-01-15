@@ -44,6 +44,13 @@ var MapaCapa = Class({
         return lista_capas;
     },
     
+    addCapaPorId : function(mapa, id_subcapa){
+        this.class_marcador.seteaMapa(mapa);
+        this.class_poligono.seteaMapa(mapa);
+        this.class_multipoligono.seteaMapa(mapa);
+        this.addCapa(id_subcapa);
+    },
+    
     /**
      * Añade una capa al visor
      * @param {int} id_capa
