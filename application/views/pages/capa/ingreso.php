@@ -230,7 +230,9 @@
         </div>
 
     </div>
-</div> 
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
 
 <?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
