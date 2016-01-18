@@ -3,6 +3,7 @@
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Permiso.php");
+require_once(APPPATH . "helpers/modulo/layout/usuario/Regiones.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Roles.php");
 require_once(APPPATH . "helpers/modulo/layout/sistema/Simulacion.php");
 require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
@@ -31,6 +32,15 @@ function menuCollapsed($html_object){
  */
 function headerRoles(){
     $html = New Layout_Usuario_Roles();
+    return $html->render();
+}
+
+/**
+ * 
+ * @return string
+ */
+function headerRegiones(){
+    $html = New Layout_Usuario_Regiones();
     return $html->render();
 }
 

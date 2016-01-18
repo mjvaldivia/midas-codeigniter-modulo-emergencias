@@ -23,45 +23,6 @@ class Session_Model extends MY_Model
         return $resultados;
     }
 
-    public function obtenerUsuariosImpersonables() {
-        $sql = "
-          select * from (
-              select
-                usu_ia_id,
-                CONCAT_WS(' - ', UPPER(CONCAT_WS(' ',usu_c_nombre,usu_c_apellido_paterno,usu_c_apellido_materno)), UPPER(crg_c_nombre), UPPER(reg_c_nombre)) as usu_c_cargo,
-                (
-                    select
-                      count(*)
-                    from
-                      usuarios u2
-                      inner join usuarios_vs_roles uvr on u2.usu_ia_id = uvr.usu_ia_id
-                      inner join roles_vs_permisos rvp on uvr.rol_ia_id = rvp.rol_ia_id
-                      inner join permisos p on rvp.per_ia_id = p.per_ia_id
-                    where
-                      u2.usu_ia_id = u.usu_ia_id and p.per_c_id_modulo = 2
-                  ) as habilitado_emergencias
-              from
-                usuarios u
-                LEFT JOIN cargos c ON c.crg_ia_id=u.crg_ia_id
-                LEFT JOIN regiones r ON r.reg_ia_id=u.reg_ia_id
-              where
-                usu_ia_id <> ?
-              order by usu_c_login asc
-            ) t where habilitado_emergencias > 0
-          ";
-
-        $query = $this->db->query($sql, array(
-            $this->session->userdata("session_idUsuario")
-        ));
-
-        $resultados = array();
-
-        if ($query->num_rows() > 0)
-            $resultados = $query->result_array();
-
-        return $resultados;
-    }
-
     public function obtenerDatosMIDAS($rut) {
         $sql = "
         select rut,nombres,apellidos,email from (
@@ -107,8 +68,6 @@ class Session_Model extends MY_Model
             select * from (
               select
               u.*,
-             
-              r.reg_c_nombre,
               (
                 select
                   group_concat(uvo.ofi_ia_id)
@@ -156,8 +115,6 @@ class Session_Model extends MY_Model
               ) as habilitado_emergencias
             from
               usuarios u
-
-              inner join regiones r on r.reg_ia_id = u.reg_ia_id
               where u.usu_c_rut = ?
             ) t
             where habilitado_emergencias > 0
@@ -203,7 +160,6 @@ class Session_Model extends MY_Model
               select
               u.*,
               
-              r.reg_c_nombre,
               (
                 select
                   group_concat(uvo.ofi_ia_id)
@@ -251,8 +207,6 @@ class Session_Model extends MY_Model
               ) as habilitado_emergencias
             from
               usuarios u
-              
-              inner join regiones r on r.reg_ia_id = u.reg_ia_id
               where u.usu_ia_id = ?
             ) t
             where habilitado_emergencias > 0
@@ -266,12 +220,11 @@ class Session_Model extends MY_Model
 
         if ($query->num_rows() > 0) {
             $resultados = $query->result_array();
-
             foreach ($resultados as $r) {
                 $this->session->set_userdata("session_idUsuario", $r["usu_ia_id"]);
                 $this->session->set_userdata("session_nombres", $r["usu_c_nombre"] . " " . $r["usu_c_apellido_paterno"] . " " . $r["usu_c_apellido_materno"]);
                 $this->session->set_userdata("session_usuario", $r["usu_c_login"]);
-                $this->session->set_userdata("session_region", $r["reg_c_nombre"]);
+                //$this->session->set_userdata("session_region", $r["reg_c_nombre"]);
                 $this->session->set_userdata("session_cargo", $r["crg_c_nombre"]);
                 $this->session->set_userdata("session_idCargo", $r["crg_ia_id"]);
                 $this->session->set_userdata("session_ambitos", $r["ambitos"]);
@@ -285,7 +238,6 @@ class Session_Model extends MY_Model
                 $resultadoOperacion = true;
                 break;
             }
-//            dump($this->session->all_userdata());die;
         }
         return $resultadoOperacion;
     }

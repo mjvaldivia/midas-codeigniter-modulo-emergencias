@@ -493,14 +493,12 @@ class Alarma_Model extends MY_Model {
      * @param QueryBuilder $query
      */
     protected function _addQueryComunas(&$query){
-        
-        $query->addWhere("a.ala_ia_id IN (SELECT ac.ala_ia_id FROM alertas_vs_comunas ac WHERE ac.com_ia_id IN(".$this->_session->userdata('session_comunas').") )");
-       
-        
-        /*$comunas = explode(",", $this->_session->userdata('session_comunas'));
+        $comunas = explode(",", $this->_session->userdata('session_comunas'));
         if(count($comunas)>0){
-            $query->join("alertas_vs_comunas ac", "ac.ala_ia_id = a.ala_ia_id", "INNER")
-                  ->whereAND("ac.com_ia_id", $comunas, "IN");
-        }*/
+            $query->addWhere("a.ala_ia_id IN (SELECT ac.ala_ia_id FROM alertas_vs_comunas ac WHERE ac.com_ia_id IN(".$this->_session->userdata('session_comunas').") )");
+        } else {
+            $query->addWhere("1=0");
+        }
+        
     }
 }

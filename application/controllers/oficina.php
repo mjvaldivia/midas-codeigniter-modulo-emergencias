@@ -32,14 +32,19 @@ class Oficina extends MY_Controller {
     {
         header('Content-type: application/json');
         $params = $this->uri->uri_to_assoc();
+        $lista_oficinas = array();
         
-        $region = NULL;
-        if(!empty($params["region"])){
-            $region = $this->region_model->getById($params["region"]);
+        
+        $regiones = array();
+        if(!empty($params["region"]) and $params["region"]!="null"){
+            $regiones = explode(",",$params["region"]);
         }
         
-        if(!is_null($region)){
-            $lista_oficinas = $this->oficina_model->listarPorRegion($region->reg_ia_id);
+        if(count($regiones)>0){
+            $lista_oficinas = $this->oficina_model->listarPorRegiones($regiones);
+            if(is_null($lista_oficinas)){
+                $lista_oficinas = array();
+            }
         } else {
             $lista_oficinas = $this->oficina_model->listar();
         }

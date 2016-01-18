@@ -1,7 +1,7 @@
 <?php
 
-require_once( __DIR__ . "/Nombre/Base.php");
-require_once( __DIR__ . "/Nombre/Regiones.php");
+require_once( __DIR__ . "/nombre/Base.php");
+require_once( __DIR__ . "/nombre/Regiones.php");
 
 /**
  * Retorna el nombre del usuario

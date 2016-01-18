@@ -44,3 +44,5 @@ ALTER TABLE `emergencias`.`usuarios` DROP COLUMN `com_ia_id` , DROP COLUMN `prov
 , DROP INDEX `com_ia_id` 
 , DROP INDEX `prov_ia_id` 
 , DROP INDEX `reg_ia_id` ;
+
+ALTER TABLE `emergencias`.`usuarios` CHANGE COLUMN `usuarioscol` `bo_nacional` TINYINT(1) NOT NULL DEFAULT 1  ;
