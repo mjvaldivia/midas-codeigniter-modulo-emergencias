@@ -2,7 +2,7 @@
     <table id="grilla-alarmas" class="table table-hover datatable paginada hidden">
         <thead>
             <tr>
-                <?php if (puedeEditar("emergencia") && puedeEliminar("alarma")) { ?>
+                <?php if (puedeActivarAlarma("alarma") || puedeEliminar("alarma")) { ?>
                 <th></th>
                 <?php } ?>
                 <!--<th></th>-->
