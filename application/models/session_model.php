@@ -68,8 +68,6 @@ class Session_Model extends MY_Model
             select * from (
               select
               u.*,
-             
-              r.reg_c_nombre,
               (
                 select
                   group_concat(uvo.ofi_ia_id)
@@ -117,8 +115,6 @@ class Session_Model extends MY_Model
               ) as habilitado_emergencias
             from
               usuarios u
-
-              inner join regiones r on r.reg_ia_id = u.reg_ia_id
               where u.usu_c_rut = ?
             ) t
             where habilitado_emergencias > 0
