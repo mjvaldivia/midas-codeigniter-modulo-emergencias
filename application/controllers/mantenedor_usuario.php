@@ -32,7 +32,8 @@ class Mantenedor_usuario extends MY_Controller {
     public function __construct() 
     {
         parent::__construct();
-        $this->load->helper(array("modulo/direccion/region"));
+        $this->load->helper(array("modulo/direccion/region",
+                                  "modulo/usuario/usuario"));
         $this->load->model("usuario_model", "usuario_model");
         $this->load->model("usuario_oficina_model", "usuario_oficina_model");
         $this->load->model("usuario_rol_model", "usuario_rol_model");

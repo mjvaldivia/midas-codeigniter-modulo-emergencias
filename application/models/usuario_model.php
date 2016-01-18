@@ -36,7 +36,27 @@ class Usuario_Model extends MY_Model {
      * @return object
      */
     public function getById($id){
-        return $this->_query->getById("usu_ia_id", $id);
+        $clave = $this->_tabla . "_getid_" . $id;
+        if(!Zend_Registry::isRegistered($clave)){
+            Zend_Registry::set($clave, $this->_query->getById("usu_ia_id", $id));
+        }
+        return Zend_Registry::get($clave);
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function listar(){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->orderBy("usu_ia_id", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
     
     /**

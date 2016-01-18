@@ -54,7 +54,7 @@
                     <?php echo $row["usu_c_email"]; ?>
                 </td>
                 <td>
-                    <?php echo nombreRegion($row["reg_ia_id"]); ?>
+                    <?php echo nombreRegionesUsuario($row["usu_ia_id"]); ?>
                 </td>
             </tr>
             <?php } ?>

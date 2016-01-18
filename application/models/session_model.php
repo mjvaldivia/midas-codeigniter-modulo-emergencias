@@ -121,7 +121,7 @@ class Session_Model extends MY_Model
                 select
                   group_concat(uva.amb_ia_id)
                 from
-                  usuarios_vs_ambitos uva
+                  usuarios_ambitos uva
                 where
                   uva.usu_ia_id = u.usu_ia_id
               ) as ambitos,
@@ -216,7 +216,7 @@ class Session_Model extends MY_Model
                 select
                   group_concat(uva.amb_ia_id)
                 from
-                  usuarios_vs_ambitos uva
+                  usuarios_ambitos uva
                 where
                   uva.usu_ia_id = u.usu_ia_id
               ) as ambitos,

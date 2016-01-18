@@ -6,7 +6,7 @@ class Usuario_Ambito_Model extends MY_Model
      *
      * @var string 
      */
-    protected $_tabla = "usuarios_vs_ambitos";
+    protected $_tabla = "usuarios_ambitos";
                
     /**
      * 

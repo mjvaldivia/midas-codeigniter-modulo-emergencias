@@ -100,7 +100,7 @@ class Sendmail_Model extends MY_Model {
                 
                 UNION 
                     SELECT distinct(usu_c_email) usu_c_email from usuarios u 
-                    join usuarios_vs_ambitos uva on uva.usu_ia_id = u.usu_ia_id
+                    join usuarios_ambitos uva on uva.usu_ia_id = u.usu_ia_id
                     join tipo_emergencia_vs_ambitos teva on teva.amb_ia_id=uva.amb_ia_id
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id
@@ -110,7 +110,7 @@ class Sendmail_Model extends MY_Model {
                     AND u.est_ia_id = 1 $excluir_str
                 UNION
                     SELECT distinct(usu_c_email) usu_c_email from usuarios u 
-                    join usuarios_vs_ambitos uva on uva.usu_ia_id = u.usu_ia_id
+                    join usuarios_ambitos uva on uva.usu_ia_id = u.usu_ia_id
                     join tipo_emergencia_vs_ambitos teva on teva.amb_ia_id=uva.amb_ia_id
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id

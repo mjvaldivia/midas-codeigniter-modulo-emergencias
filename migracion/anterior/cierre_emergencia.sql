@@ -1,1 +1,0 @@
-ALTER TABLE `sipresa_dev`.`emergencias` ADD COLUMN `eme_d_fecha_cierre` DATETIME NULL DEFAULT NULL  AFTER `eme_c_capas` , ADD COLUMN `eme_c_comentario_cierre` TEXT NULL DEFAULT NULL  AFTER `eme_d_fecha_cierre` ;
