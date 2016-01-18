@@ -367,6 +367,33 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    public function ajax_marcador_lugar_emergencia(){
+        header('Content-type: application/json');
+        $data = array("correcto" => false);
+        
+        $params = $this->input->post(null, true);
+        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            
+            $alarma = $this->_alarma_model->getById($emergencia->ala_ia_id);
+            if(!is_null($alarma)){
+                $data = array("correcto"  => true,
+                              "resultado" => array("lat" => $emergencia->eme_c_utm_lat,
+                                                   "lon" => $emergencia->eme_c_utm_lng,
+                                                   "radio" => $emergencia->eme_radio,
+                                                   "nombre" => $emergencia->eme_c_nombre_emergencia,
+                                                   "zona" => $alarma->ala_c_geozone));
+            } else {
+                $data["error"] = "La alarma no existe";
+            }
+            
+        } else {
+            $data["error"] = "La emergencia no existe";
+        }
+        
+        echo json_encode($data);
+    }
+    
     /**
      * Retorna datos de ubicacion de la alarma
      * @throws Exception

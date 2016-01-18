@@ -62,7 +62,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                                 $.ajax({         
                                     dataType: "json",
                                     cache: false,
-                                    async: true,
+                                    async: false,
                                     data: parametros,
                                     type: "post",
                                     url: siteUrl + "mapa/ajax_guardar_lugar_emergencia", 
@@ -73,13 +73,24 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                                         if(data.correcto == true){
                                             procesaErrores(data.error);
                                             salida = true;
+                                            
+                                            var circulo = new MapaCirculoDibujar();
+                                            circulo.seteaMapa(map);
+                                            circulo.seteaIdentificador("LUGAR_EMERGENCIA");
+                                            circulo.dibujarCirculo("lugar_emergencia", 
+                                                                    {"TIPO" : "LUGAR EMERGENCIA",
+                                                                     "NOMBRE" : ""}, 
+                                                                    marker.getPosition(), 
+                                                                    parametros.metros, 
+                                                                    "red");
+                                            
                                         } else {
                                             $("#form_error").removeClass("hidden");
                                             procesaErrores(data.error);
                                         }
                                     }
                                 });
-                                
+                                drawingManager.setMap(null);
                                 return salida;
                             }
                         },
@@ -129,13 +140,25 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
+                    var posicion = new google.maps.LatLng(parseFloat(data.resultado.lon), parseFloat(data.resultado.lat));
+                    var circulo = new MapaCirculoDibujar();
+                    circulo.seteaMapa(mapa);
+                    circulo.seteaIdentificador("LUGAR_EMERGENCIA");
+                    circulo.dibujarCirculo("lugar_emergencia", 
+                                            {"TIPO" : "LUGAR EMERGENCIA",
+                                             "NOMBRE" : data.resultado.nombre}, 
+                                            posicion, 
+                                            data.resultado.radio, 
+                                            "red");
+                    
+                    
                     yo.posicionarMarcador(null, 
                                           data.resultado.lon, 
                                           data.resultado.lat, 
                                           {"TIPO" : "LUGAR EMERGENCIA",
                                            "NOMBRE" : data.resultado.nombre}, 
                                           data.resultado.zona, 
-                                          baseUrl + 'assets/img/referencia.png');
+                                           baseUrl + "assets/img/emergencia.png");
                     yo.centrarMapa(mapa, data.resultado.lon, data.resultado.lat, data.resultado.zona);
 
                 } else {
