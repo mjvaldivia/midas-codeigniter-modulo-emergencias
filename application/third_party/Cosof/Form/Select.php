@@ -80,25 +80,29 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
         $html = "<select name=\"" . $this->_nombre . "\" id=\"" . $this->_limpiaId($id) . "\" ".$atributos.">";
         if(!isset($this->_atributos['multiple']))
             $html.= "<option value=\"\">-- Seleccione un valor --</option>";
-        foreach($this->_valores as $row){
-            $selected = "";
+        
+        if(count($this->_valores)>0){
+        
+            foreach($this->_valores as $row){
+                $selected = "";
 
-            if(!is_array($default)){
-                if($default == $row[$this->_option_val]){
-                    $selected = "selected=\"selected\"";
-                }
-            } else {
-                $existe = array_search($row[$this->_option_val], $default);
-                if($existe === false){
-                    //void
+                if(!is_array($default)){
+                    if($default == $row[$this->_option_val]){
+                        $selected = "selected=\"selected\"";
+                    }
                 } else {
-                    $selected = "selected=\"selected\"";
+                    $existe = array_search($row[$this->_option_val], $default);
+                    if($existe === false){
+                        //void
+                    } else {
+                        $selected = "selected=\"selected\"";
+                    }
                 }
-            }
 
-            $html .= "<option value=\"".$row[$this->_option_val]."\" " . $selected . ">"
-                    . $row[$this->_option_name]
-                   . "</option>";
+                $html .= "<option value=\"".$row[$this->_option_val]."\" " . $selected . ">"
+                        . $row[$this->_option_name]
+                       . "</option>";
+            }
         }
         $html .= "</select>";
 

@@ -149,9 +149,13 @@
                             
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-globe"></i> {session_region}
+                                    <i class="fa fa-globe"></i> Regiones
                                 </a>
                             </li>
+                            
+                            <?php echo headerRegiones(); ?>
+                            
+                            <li class="divider"></li>
                             
                             <?php if (isAdmin()): ?>
                                 <li>
@@ -296,7 +300,14 @@
                             <label>Seleccione usuario:</label>
                         </div>
                     </div>
-                    <div class="row">
+                    
+                    <div class="row" id="cargando-cambio-usuario">
+                        <div class="col-sm-12 clearfix">
+                            <i class="fa fa-spin fa-spinner"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="row hidden" id="select-cambio-usuario">
                         <div class="col-sm-12 clearfix">
                             <select id="users" name="users" class="form-control"></select>
                         </div>

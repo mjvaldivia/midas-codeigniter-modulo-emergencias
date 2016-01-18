@@ -21,6 +21,26 @@ class Oficina_Model extends MY_Model
      * 
      * @return array
      */
+    public function listarPorRegiones($lista_region){
+        $result = $this->_query->select("DISTINCT o.*")
+                               ->from($this->_tabla . " o")
+                               ->join("oficinas_vs_comunas oc", "oc.ofi_ia_id = o.ofi_ia_id", "INNER")
+                               ->join("comunas c", "c.com_ia_id = oc.com_ia_id", "INNER")
+                               ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                               ->whereAND("p.reg_ia_id", $lista_region, "IN")
+                               ->orderBy("o.ofi_c_nombre", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @return array
+     */
     public function listarPorRegion($id_region){
         $result = $this->_query->select("DISTINCT o.*")
                                ->from($this->_tabla . " o")

@@ -120,16 +120,18 @@ class Session extends MY_Controller {
     }
 
     public function obtenerJsonUsuariosImpersonables() {
-        $this->load->model("session_model", "Sesion");
+        $this->load->helper(array("modulo/direccion/region",
+                                  "modulo/usuario/usuario"));
+        $this->load->model("usuario_model", "usuario_model");
 
-        $usuarios = $this->Sesion->obtenerUsuariosImpersonables();
+        $lista = $this->usuario_model->listar();
 
         $json = array();
 
-        foreach($usuarios as $u)
+        foreach($lista as $usuario)
             $json[] = array(
-                $u["usu_ia_id"],
-                $u["usu_c_cargo"]
+                $usuario["usu_ia_id"],
+                nombreUsuario($usuario["usu_ia_id"]) . " - " . nombreRegionesUsuario($usuario["usu_ia_id"])
             );
 
         echo json_encode($json);

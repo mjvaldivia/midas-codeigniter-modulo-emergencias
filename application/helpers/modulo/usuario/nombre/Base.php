@@ -35,7 +35,7 @@ Class Usuario_Nombre_Base{
      */
     public function __toString() {
         if(!is_null($this->_usuario)){
-            return $this->_usuario->usu_c_nombre . " " . $this->_usuario->usu_c_apellido_paterno . " " . $this->_usuario->usu_c_apellido_materno;
+            return strtoupper($this->_usuario->usu_c_nombre . " " . $this->_usuario->usu_c_apellido_paterno . " " . $this->_usuario->usu_c_apellido_materno);
         }
     }
     

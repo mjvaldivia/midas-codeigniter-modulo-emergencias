@@ -26,6 +26,24 @@ class Mantenedor_usuario extends MY_Controller {
      */
     public $usuario_ambito_model;
     
+     /**
+     *
+     * @var Usuario_Region_Model
+     */
+    public $usuario_region_model;
+    
+    /**
+     *
+     * @var Region_Model
+     */
+    public $region_model;
+    
+    /**
+     *
+     * @var Oficina_Model
+     */
+    public $oficina_model;
+    
     /**
      * Constructor
      */
@@ -36,8 +54,11 @@ class Mantenedor_usuario extends MY_Controller {
                                   "modulo/usuario/usuario"));
         $this->load->model("usuario_model", "usuario_model");
         $this->load->model("usuario_oficina_model", "usuario_oficina_model");
+        $this->load->model("usuario_region_model", "usuario_region_model");
         $this->load->model("usuario_rol_model", "usuario_rol_model");
         $this->load->model("usuario_ambito_model", "usuario_ambito_model");
+        $this->load->model("region_model", "region_model");
+        $this->load->model("oficina_model", "oficina_model");
     }
     
     /**
@@ -53,7 +74,8 @@ class Mantenedor_usuario extends MY_Controller {
      */
     public function save()
     {
-        $this->load->library(array("mantenedor/usuario/mantenedor_usuario_validar"));
+        $this->load->library(array("mantenedor/usuario/mantenedor_usuario_validar",
+                                   "form/form_select"));
         
         $params = $this->input->post(null, true);
 
@@ -65,10 +87,10 @@ class Mantenedor_usuario extends MY_Controller {
                           "usu_c_apellido_paterno" => $params["apellido_paterno"],
                           "usu_c_apellido_materno" => $params["apellido_materno"],
                           "sex_ia_id" => $params["sexo"],
+                          "bo_nacional" => $params["nacional"],
                           "usu_c_email" => $params["email"],
                           "usu_c_telefono" => $params["telefono_fijo"],
                           "usu_c_celular" => $params["telefono_celular"],
-                          "reg_ia_id" => $params["region"],
                           "crg_ia_id" => $params["cargo"],
                           "est_ia_id" => $params["activo"]
                           );
@@ -81,9 +103,30 @@ class Mantenedor_usuario extends MY_Controller {
                 $id_usuario = $this->usuario_model->insert($data);
             }
             
-            $this->usuario_oficina_model->query()->insertOneToMany("usu_ia_id", "ofi_ia_id", $id_usuario, $params['oficinas']);
-            $this->usuario_rol_model->query()->insertOneToMany("usu_ia_id", "rol_ia_id", $id_usuario, $params["roles"]);
-            $this->usuario_ambito_model->query()->insertOneToMany("usu_ia_id", "amb_ia_id", $id_usuario, $params["ambitos"]);
+            if($params["nacional"] == 1){
+                
+                $lista_regiones = $this->form_select->populateMultiselect($this->region_model->listar(), "reg_ia_id");
+                $this->usuario_region_model->query()
+                                           ->insertOneToMany("id_usuario", "id_region", $id_usuario, $lista_regiones);
+                
+                $lista_oficinas = $this->form_select->populateMultiselect($this->oficina_model->listar(), "ofi_ia_id");
+                $this->usuario_oficina_model->query()
+                                            ->insertOneToMany("usu_ia_id", "ofi_ia_id", $id_usuario, $lista_oficinas);
+                
+            } else {
+                $this->usuario_region_model->query()
+                                           ->insertOneToMany("id_usuario", "id_region", $id_usuario, $params["region"]);
+
+                $this->usuario_oficina_model->query()
+                                            ->insertOneToMany("usu_ia_id", "ofi_ia_id", $id_usuario, $params['oficinas']);
+            }
+            
+            
+            $this->usuario_rol_model->query()
+                                    ->insertOneToMany("usu_ia_id", "rol_ia_id", $id_usuario, $params["roles"]);
+            
+            $this->usuario_ambito_model->query()
+                                       ->insertOneToMany("usu_ia_id", "amb_ia_id", $id_usuario, $params["ambitos"]);
         }
         
         $respuesta = array("correcto" => $correcto,
@@ -101,10 +144,11 @@ class Mantenedor_usuario extends MY_Controller {
                                   "modulo/direccion/region"));
         $this->load->library(array("form/form_select")); 
         
-        $data = array();
+        $data = array("nacional" => 0);
         
         $params = $this->input->post(null, true);
         $usuario = $this->usuario_model->getById($params["id"]);
+        
         
         if(!is_null($usuario)){
             $data = array("id"  => $usuario->usu_ia_id,
@@ -116,9 +160,12 @@ class Mantenedor_usuario extends MY_Controller {
                           "telefono_fijo"    => $usuario->usu_c_telefono,
                           "telefono_celular" => $usuario->usu_c_celular,
                           "email" => $usuario->usu_c_email,
-                          "region" => $usuario->reg_ia_id,
                           "cargo" => $usuario->crg_ia_id,
-                          "activo" => $usuario->est_ia_id);
+                          "activo" => $usuario->est_ia_id,
+                          "nacional" => $usuario->bo_nacional);
+            
+            $lista_regiones = $this->usuario_region_model->listarPorUsuario($usuario->usu_ia_id);
+            $data["lista_regiones"] = $this->form_select->populateMultiselect($lista_regiones, "id_region");
             
             $lista_oficinas = $this->usuario_oficina_model->listarOficinasPorUsuario($usuario->usu_ia_id);
             $data["lista_oficinas"] = $this->form_select->populateMultiselect($lista_oficinas, "ofi_ia_id");

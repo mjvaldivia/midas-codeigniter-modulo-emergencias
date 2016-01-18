@@ -92,6 +92,13 @@ Class Mantenedor_usuario_validar{
             $this->_error["cargo"] = "";
         }
         
+        if(!$this->validar->validarVacio($params["nacional"])){
+            $this->_correcto = false;
+            $this->_error["nacional"] = "Debe seleccionar un valor";
+        } else {
+            $this->_error["nacional"] = "";
+        }
+        
         /*
         if(!$this->validar->validarVacio($params["perfil"])){
             $this->_correcto = false;

@@ -8,6 +8,12 @@ var MantenedorUsuarios = Class({
         
         this.loadGridUsuario();
         
+        $("#nacional").livequery(function(){
+            $(this).change(function(){
+                yo.perfilNacional();
+            });
+        });
+        
         $("#region").livequery(function(){
             $(this).change(function(){
                     $.ajax({         
@@ -21,10 +27,11 @@ var MantenedorUsuarios = Class({
                     success:function(json){
                         
                         $("#oficinas").html("");
-                        
-                        $.each(json, function(i, oficina){
-                           $("#oficinas").append("<option value=\"" + oficina.ofi_ia_id + "\">" + oficina.ofi_c_nombre + "</option>"); 
-                        });
+                        if(json.lenght>0){
+                            $.each(json, function(i, oficina){
+                                $("#oficinas").append("<option value=\"" + oficina.ofi_ia_id + "\">" + oficina.ofi_c_nombre + "</option>"); 
+                            });
+                        }
                         
                         $("#oficinas").val("");
                         
@@ -69,6 +76,8 @@ var MantenedorUsuarios = Class({
                             }
                         }
                     });
+                    
+                    yo.perfilNacional();
                 }
             }); 
             
@@ -109,11 +118,25 @@ var MantenedorUsuarios = Class({
                                 }
                             }
                         });
+                        
+                        yo.perfilNacional();
                     }
                 }); 
            });
         });
+        
+        
     },
+    
+    perfilNacional : function(){
+        if($("#nacional").val() == 1){
+            $("#perfil-nacional").addClass("hidden");
+        } else {
+            $("#perfil-nacional").removeClass("hidden");
+        }
+    },
+    
+    
     
     /**
      * 

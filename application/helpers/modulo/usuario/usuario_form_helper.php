@@ -2,6 +2,7 @@
 
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectActivo.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectSexo.php");
+require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectNacional.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectCargo.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectRoles.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectAmbito.php");
@@ -59,6 +60,20 @@ function formElementSelectPerfil($input_nombre, $input_valor = "", $atributos){
  */
 function formElementSelectSexo($input_nombre, $input_valor = "", $atributos){
     $select = New Usuario_Form_Element_SelectSexo();
+    $select->setAtributos($atributos);
+    $select->setNombre($input_nombre);
+    return $select->render($input_valor);
+}
+
+/**
+ * 
+ * @param string $input_nombre
+ * @param int $input_valor
+ * @param array $atributos
+ * @return string html
+ */
+function formElementSelectNacional($input_nombre, $input_valor = "", $atributos){
+    $select = New Usuario_Form_Element_SelectNacional();
     $select->setAtributos($atributos);
     $select->setNombre($input_nombre);
     return $select->render($input_valor);

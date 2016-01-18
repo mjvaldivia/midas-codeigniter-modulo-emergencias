@@ -32,15 +32,7 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-4 text-left">
-                            <div class="form-group clearfix">
-                                <label for="region" class="control-label">Región (*):</label>
-                                <div class="input-group col-sm-12">
-                                <?php echo formElementSelectRegion("region", $region, array("class" => "form-control")) ?>
-                                </div>
-                                <span class="help-block hidden"></span>
-                            </div>
-                        </div>
+                        
                         
                     </div>
                     <div class="row">
@@ -137,15 +129,6 @@
             
             
                     <div class="row">
-                        <!--<div class="col-md-4 text-left">
-                            <div class="form-group clearfix">
-                                <label for="sexo" class="control-label">Perfil (*):</label>
-                                <div class="input-group col-sm-12">
-                                    <?php echo formElementSelectPerfil("perfil", $perfil, array("class" => "form-control")) ?>
-                                </div>
-                                <span class="help-block hidden"></span>
-                            </div>
-                        </div>-->
                         <div class="col-md-5 text-left">
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Cargo (*):</label>
@@ -159,33 +142,57 @@
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Activo (*):</label>
                                 <div class="input-group col-sm-12">
-                                    
                                     <?php echo formElementSelectActivo("activo", $activo, array("class" => "form-control")) ?>
-                      
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 text-left">
+                        <div class="col-md-3 text-left">
                             <div class="form-group clearfix">
-                                <label for="email" class="control-label">Oficinas:</label>
+                                <label for="sexo" class="control-label">Nacional:</label>
                                 <div class="input-group col-sm-12">
-                                    <?php echo formElementSelectOficinas("oficinas[]", $lista_oficinas, $region, array("class"    => "form-control select2-tags", 
-                                                                                                                       "multiple" => "multiple")) ?>
+                                    <?php echo formElementSelectNacional("nacional", $nacional, array("class" => "form-control")) ?>
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
                     </div>
-
+                    <div id="perfil-nacional">
+                        <div class="row">
+                            <div class="col-md-12 text-left">
+                                <div class="form-group clearfix">
+                                    <label for="region" class="control-label">Región (*):</label>
+                                    <div class="input-group col-sm-12">
+                                    <?php echo formElementSelectRegion("region[]", $lista_regiones, array("width" => "100%",
+                                                                                                          "data-placeholder" => "Seleccione",
+                                                                                                          "class"    => "form-control select2-tags", 
+                                                                                                          "multiple" => "multiple")) ?>
+                                    </div>
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-left">
+                                <div class="form-group clearfix">
+                                    <label for="email" class="control-label">Oficinas:</label>
+                                    <div class="input-group col-sm-12">
+                                        <?php echo formElementSelectOficinas("oficinas[]", $lista_oficinas, $lista_regiones, array("data-placeholder" => "Seleccione",
+                                                                                                                           "class"    => "form-control select2-tags", 
+                                                                                                                           "multiple" => "multiple")) ?>
+                                    </div>
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12 text-left">
                             <div class="form-group clearfix">
                                 <label for="email" class="control-label">Roles:</label>
                                 <div class="input-group col-sm-12">
-                                    <?php echo formElementSelectRoles("roles[]", $lista_roles, array("class"    => "form-control select2-tags", 
+                                    <?php echo formElementSelectRoles("roles[]", $lista_roles, array("data-placeholder" => "Seleccione",
+                                                                                                     "class"    => "form-control select2-tags", 
                                                                                                      "multiple" => "multiple")) ?>
                                 </div>
                                 <span class="help-block hidden"></span>
@@ -198,7 +205,8 @@
                             <div class="form-group clearfix">
                                 <label for="email" class="control-label">Ambito:</label>
                                 <div class="input-group col-sm-12">
-                                    <?php echo formElementSelectAmbito("ambitos[]", $lista_ambitos, array("class"    => "form-control select2-tags", 
+                                    <?php echo formElementSelectAmbito("ambitos[]", $lista_ambitos, array("data-placeholder" => "Seleccione",
+                                                                                                          "class"    => "form-control select2-tags", 
                                                                                                           "multiple" => "multiple")) ?>
                                 </div>
                                 <span class="help-block hidden"></span>

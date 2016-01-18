@@ -20,9 +20,15 @@ var Utils = {};
 
     this.listenerCambioRapido = function () {
         $('#pCambioRapido').on('shown.bs.modal', function () {
+            
+            $("#cargando-cambio-usuario").removeClass("hidden");
+            $("#select-cambio-usuario").addClass("hidden");
+            
             $("#users").jCombo(siteUrl + "session/obtenerJsonUsuariosImpersonables", {
                 handlerLoad: function() {
                     $('#users').chosen({width: "100%"});
+                    $("#cargando-cambio-usuario").addClass("hidden");
+                    $("#select-cambio-usuario").removeClass("hidden");
                 }
             });
         });
