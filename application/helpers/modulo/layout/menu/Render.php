@@ -40,7 +40,7 @@ Class Layout_Menu_Render{
      * Paginas del menu
      * @var array 
      */
-       protected $_paginas = array("Dashboard" => array("icon_class" => "fa-dashboard",
+       protected $_paginas = array("Inicio" => array("icon_class" => "fa-dashboard",
                                                         "controller" => "home",
                                                         "action" => "index",
                                                         "child" => array()),   
