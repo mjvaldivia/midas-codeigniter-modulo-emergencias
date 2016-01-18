@@ -101,6 +101,11 @@
                 <div class="col-md-4">
                     <input id="input-capa-editar" value="<?php echo $capa_file?>" name="input-capa-editar[]" class="form-control" type="file" data-show-preview="false" />
                 </div>
+                <div class="col-md-3" style="display:none" id="cargando_geojson_edicion">
+                    <div class="alert alert-info text-center">
+                        Procesando GeoJSON... <i class="fa fa-spin fa-spinner"></i>
+                    </div>
+                </div>
                 <div class="col-md-5">
                     <p class="form-control-static" id="nombre_geojson"><?php echo $capa_file?></p>
                 </div>
@@ -156,6 +161,7 @@
         Layer.initSaveEdicion();
     });
     $('#input-capa-editar').on('fileloaded', function(event, file){
+        $("#cargando_geojson_edicion").fadeIn();
        $(this).fileinput("upload");
     });
 </script>

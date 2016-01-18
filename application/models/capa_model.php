@@ -237,7 +237,7 @@ class Capa_Model extends MY_Model {
             $cap_ia_id = $this->db->insert_id();
 
             /*$capa = $this->cache->get($params['tmp_file']);*/
-            $capa = unserialize(file_get_contents(fopen('media/tmp/'.$params['tmp_file'])));
+            $capa = unserialize(file_get_contents('media/tmp/'.$params['tmp_file']));
             if(empty($capa) or is_null($capa)){
                 $this->db->trans_rollback();
                 return "Error en lectura de geojson";
