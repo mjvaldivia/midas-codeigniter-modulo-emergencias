@@ -51,6 +51,10 @@ class Capa_Model extends MY_Model {
         if(isset($params['capa_edicion']) and $params['capa_edicion'] > 0){
             $cap_ia_id = $params['capa_edicion'];
 
+            $this->load->model('categoria_cobertura_model','CategoriaCapa');
+            $categoria_capa = $this->CategoriaCapa->getById($params['iCategoria_editar']);
+            $geometria_capa = $categoria_capa['ccb_n_tipo'];
+
             $query = "UPDATE capas set cap_c_nombre = ?, cap_c_geozone_number = ?, cap_c_geozone_letter = ?,  ccb_ia_categoria = ?, cap_c_propiedades = ? where cap_ia_id = ?";
             $parametros = array($params['nombre_editar'],$params['gznumber_editar'],$params['gzletter'],$params['iCategoria_editar'],$lista_propiedades,$params['capa_edicion']);
 
@@ -79,7 +83,6 @@ class Capa_Model extends MY_Model {
                 }
                 
 
-                $capa = $this->cache->get($params['tmp_file_editar']);   //capa
                 $capa_content = json_decode($capa['content']);
                     
                 $update = array();
