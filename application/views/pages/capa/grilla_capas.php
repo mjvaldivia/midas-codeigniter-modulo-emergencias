@@ -1,16 +1,16 @@
 <table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden">
     <thead>
         <tr>
-            <td>Nombre</td>
-            <td>Categoría</td>
-            <td>Zona Geográfica</td>
-            <td>Ícono</td>
-            <td>Propiedades</td>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Zona Geográfica</th>
+            <th>Ícono</th>
+            <th>Propiedades</th>
             <!--<td>Región</td>
             <td># GeoJSON cargados</td>-->
             <!--<td>Nombre Archivo</td>-->
             <!--<td>Archivo</td>-->
-            <td></td>
+            <th></th>
         </tr>
     </thead>
     <tbody>

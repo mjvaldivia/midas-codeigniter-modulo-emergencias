@@ -51,10 +51,6 @@ class Capa_Model extends MY_Model {
         if(isset($params['capa_edicion']) and $params['capa_edicion'] > 0){
             $cap_ia_id = $params['capa_edicion'];
 
-
-
-
-
             $query = "UPDATE capas set cap_c_nombre = ?, cap_c_geozone_number = ?, cap_c_geozone_letter = ?,  ccb_ia_categoria = ?, cap_c_propiedades = ? where cap_ia_id = ?";
             $parametros = array($params['nombre_editar'],$params['gznumber_editar'],$params['gzletter'],$params['iCategoria_editar'],$lista_propiedades,$params['capa_edicion']);
 
@@ -70,40 +66,67 @@ class Capa_Model extends MY_Model {
             /* si existe nueva capa */
             if(isset($params['tmp_file_editar']) and !empty($params['tmp_file_editar'])){
 
-                foreach($subcapas as $subcapa){
-                    $borrar_subcapa = $this->eliminarSubCapa($subcapa['geometria_id']);
+                $capa = unserialize(file_get_contents('media/tmp/'.$params['tmp_file_editar']));
+                if(empty($capa) or is_null($capa)){
+                    $this->db->trans_rollback();
+                    return "Error en lectura de geojson";
                 }
+
+                if($subcapas){
+                    foreach($subcapas as $subcapa){
+                        $borrar_subcapa = $this->eliminarSubCapa($subcapa['geometria_id']);
+                    }    
+                }
+                
 
                 $capa = $this->cache->get($params['tmp_file_editar']);   //capa
                 $capa_content = json_decode($capa['content']);
                     
-                $capa_obj_arch_json = $this->ArchivoModel->upload_to_site($capa['filename'], $capa['type'], null, $cap_ia_id, $this->ArchivoModel->TIPO_CAPA, $capa['size'], $capa['nombre_cache_id'], $params['nombre_editar']);
+                $update = array();
 
-                $capa_arch_ia_id = json_decode($capa_obj_arch_json)->id;
+
+                //$update["capa_arch_ia_id"] = $capa_arch_ia_id;
+
+            
 
                 $items_capa = $capa_content->features;
+
+                if(is_null($items_capa) or empty($items_capa)){
+
+                    $this->db->trans_rollback();
+                    return 'Error en lectura de items ';
+                }
+
                 foreach($items_capa as $item){
 
                     $geometria = serialize((array)$item->geometry);
 
                     $tipo = '';
                     if(!isset($item->properties->TIPO)){
-                        $item->properties->TIPO = $tipo = mb_strtoupper($params['nombre']);
-                        $properties = (array)$item->properties;
-                        $properties = addslashes(serialize($properties));
+                        $item->properties->TIPO = $tipo = mb_strtoupper($params['nombre_editar']);
                     }else{
                         if(is_null($item->properties->TIPO) or empty($item->properties->TIPO)){
-                            $tipo = mb_strtoupper($params['nombre']);
+                            $tipo = mb_strtoupper($params['nombre_editar']);
                         }else{
                             $tipo = $item->properties->TIPO;
                         }
                     }
 
                     $properties = (array)$item->properties;
-                    $properties = addslashes(serialize($properties));
+                    foreach($properties as $key=>$value){
+                        if(in_array($key,$propiedades)){
+                            $arr_propiedades[$key] = $value;
+                        }
+                    }
+
+                    if(!isset($propiedades['TIPO'])){
+                        $arr_propiedades['TIPO'] = $tipo;
+                    }
+                    $properties = addslashes(serialize($arr_propiedades));
 
                     /* obtener comuna */
                     $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
+
                     if(is_null($comuna)){
                         continue;
                     }
@@ -114,7 +137,6 @@ class Capa_Model extends MY_Model {
                     $query = "select geometria_id,count(geometria_nombre) as existe_tipo from capas_geometria where geometria_nombre like '$tipo' and geometria_tipo = $geometria_capa and geometria_capa = $cap_ia_id";
                     $result = $this->db->query($query);
                     $result = $result->result_array();
-
                     if($result[0]['existe_tipo'] == 0){
                         $query = "insert into capas_geometria(geometria_capa,geometria_tipo,geometria_nombre) value($cap_ia_id,$geometria_capa,'$tipo')";
 
@@ -133,10 +155,9 @@ class Capa_Model extends MY_Model {
                     $insertar = $this->db->query($query);
 
 
-
                 }
 
-
+                @unlink('media/tmp/'.$params['tmp_file_editar']);
 
             }
             
@@ -211,6 +232,7 @@ class Capa_Model extends MY_Model {
             /*$capa = $this->cache->get($params['tmp_file']);*/
             $capa = unserialize(file_get_contents(fopen('media/tmp/'.$params['tmp_file'])));
             if(empty($capa) or is_null($capa)){
+                $this->db->trans_rollback();
                 return "Error en lectura de geojson";
             }
 
