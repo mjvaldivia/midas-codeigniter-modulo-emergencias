@@ -104,7 +104,10 @@ var Layer = {};
                 },
                 bPaginate : false,
                 order: [[0, "desc"]],
-                initComplete: function(){$('#div_properties').slideDown('slow');}
+                initComplete: function(){
+                    $("#cargando_geojson").fadeOut();
+                    $('#div_properties').slideDown('slow');
+                }
                 
             }); 
             
@@ -460,7 +463,10 @@ var Layer = {};
                 },
                 bPaginate : false,
                 order: [[0, "desc"]],
-                initComplete: function(){$('#div_properties-editar').slideDown('slow');}
+                initComplete: function(){
+                    $("#cargando_geojson_edicion").fadeOut();
+                    $('#div_properties-editar').slideDown('slow');
+                }
                 
             }); 
             $('#tabla_comunas_editar').DataTable({

@@ -121,7 +121,11 @@
                         <div class="col-md-4">
                             <input id="input-capa" name="input-capa[]" class="form-control"  type="file" data-show-preview="false" />
                         </div>
-                        
+                        <div class="col-md-3" style="display:none" id="cargando_geojson">
+                            <div class="alert alert-info text-center">
+                                Procesando GeoJSON... <i class="fa fa-spin fa-spinner"></i>
+                            </div>
+                        </div>
                     </div>
                     
                     <div id="div_color" class="hidden">
@@ -253,6 +257,7 @@
         $('#div_tab_2').load(siteUrl+'capas/listado');
     });
     $('#input-capa').on('fileloaded', function(event, file){
+        $("#cargando_geojson").fadeIn();
        $(this).fileinput("upload");
     });
 </script>
