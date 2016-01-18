@@ -296,7 +296,7 @@ class Mapa extends MY_Controller {
             $lista_comunas = $comunas;
         }
         
-        fb($lista_comunas);
+        
         
         if(count($lista_comunas)>0){
             $resultado = $this->_cargaCapa($params["id"], $lista_comunas);
@@ -306,7 +306,7 @@ class Mapa extends MY_Controller {
             }
         }
         
-        echo json_encode($data);
+        echo Zend_Json_Encoder::encode($data);
     }
     
     public function ajax_elementos_emergencia(){
