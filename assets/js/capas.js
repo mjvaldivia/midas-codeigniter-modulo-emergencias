@@ -594,6 +594,11 @@ var Layer = {};
                 });
             });
         }
+    };
+
+
+    this.revisarErrores = function(capa){
+        xModal.open(siteUrl + 'capas/mostrarErroresCargaCapas/capa/'+capa,'Errores con Comunas','lg');
     }
     
 }).apply(Layer);

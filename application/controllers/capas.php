@@ -431,5 +431,19 @@ class Capas extends MY_Controller
 
     }
 
+
+    public function mostrarErroresCargaCapas(){
+        $params = $this->uri->uri_to_assoc();
+
+        if(is_file('media/tmp/comunas_'.$params['capa'])){
+            $capa = unserialize(file_get_contents('media/tmp/comunas_'.$params['capa']));
+            $data = array('comunas' => $capa);
+            $this->load->view("pages/capa/errores_comunas", $data);
+        }else{
+            echo "No existe el registro relacionado con la capa";
+        }
+        
+    }
+
     
 }

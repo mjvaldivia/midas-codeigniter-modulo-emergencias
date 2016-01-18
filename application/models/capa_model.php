@@ -42,6 +42,7 @@ class Capa_Model extends MY_Model {
 
         $propiedades = explode(",",$lista_propiedades);
 
+        $tmp_comunas = array();
 
 
         if(!in_array('COMUNA',$propiedades)){
@@ -131,6 +132,7 @@ class Capa_Model extends MY_Model {
                     $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
                     if(is_null($comuna)){
+                        $tmp_comunas[] = $item->properties->COMUNA;
                         continue;
                     }
                     $comuna = $comuna[0];
@@ -158,6 +160,12 @@ class Capa_Model extends MY_Model {
                     $insertar = $this->db->query($query);
 
 
+                }
+
+                if(count($tmp_comunas) > 0){
+                    $fp_comunas = fopen('media/tmp/comunas_'.$cap_ia_id,'w');
+                    fwrite($fp_comunas,serialize($tmp_comunas));
+                    fclose($fp_comunas);
                 }
 
                 @unlink('media/tmp/'.$params['tmp_file_editar']);
@@ -205,7 +213,6 @@ class Capa_Model extends MY_Model {
             }
                 
         }else{
-
 
 
             $this->load->model('categoria_cobertura_model','CategoriaCapa');
@@ -304,6 +311,7 @@ class Capa_Model extends MY_Model {
                 $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
                 if(is_null($comuna)){
+                    $tmp_comunas[] = $item->properties->COMUNA;
                     continue;
                 }
                 $comuna = $comuna[0];
@@ -344,6 +352,12 @@ class Capa_Model extends MY_Model {
                 $this->db->trans_rollback();
             } else {
                 @unlink('media/tmp/'.$params['tmp_file']);
+
+                if(count($tmp_comunas) > 0){
+                    $fp_comunas = fopen('media/tmp/comunas_'.$cap_ia_id,'w');
+                    fwrite($fp_comunas,serialize($tmp_comunas));
+                    fclose($fp_comunas);
+                }
                 $this->db->trans_commit();
             }
 
@@ -483,7 +497,17 @@ class Capa_Model extends MY_Model {
             join categorias_capas_coberturas cc on cc.ccb_ia_categoria = c.ccb_ia_categoria GROUP BY cap_c_nombre";
         $result = $this->db->query($sql);
         if($result->num_rows() > 0){
-            return $result->result_array();
+            $arr_capas = array();
+            $resultados = $result->result_array();
+            foreach($resultados as $item){
+                if(is_file('media/tmp/comunas_'.$item['cap_ia_id'])){
+                    $item['existen_errores'] = true;
+                }else{
+                    $item['existen_errores'] = false;
+                }
+                $arr_capas[] = $item;
+            }
+            return $arr_capas;
         } else{
             return null;
         }
