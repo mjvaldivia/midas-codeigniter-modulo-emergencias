@@ -599,6 +599,28 @@ var Layer = {};
 
     this.revisarErrores = function(capa){
         xModal.open(siteUrl + 'capas/mostrarErroresCargaCapas/capa/'+capa,'Errores con Comunas','lg');
+    };
+
+    this.eliminarInformacionComunas = function(capa,btn){
+        $(btn).attr('disabled',true);
+        var btnText = $(btn).html();
+        $(btn).html('Eliminando... <i class="fa fa-spin fa-spinner"></i>');
+        $.post(siteUrl + 'capas/eliminarErroresCargaCapas',{capa:capa},function(){
+            if(response.estado == true){
+                xModal.success(response.mensaje,function(){
+                    xModal.closeAll();
+                    Layer.initList();
+                });
+            }else{
+                xModal.danger(response.mensaje,function(){
+                    $(btn).html(btnText).attr('disabled',false);    
+                });
+            }
+        },'json').fail(function(){
+            xModal.danger('Error en sistema. Intente nuevamente o comuníquese con Soporte',function(response){
+                $(btn).html(btnText).attr('disabled',false);
+            });
+        });
     }
     
 }).apply(Layer);

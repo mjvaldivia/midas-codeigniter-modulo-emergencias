@@ -437,12 +437,28 @@ class Capas extends MY_Controller
 
         if(is_file('media/tmp/comunas_'.$params['capa'])){
             $capa = unserialize(file_get_contents('media/tmp/comunas_'.$params['capa']));
-            $data = array('comunas' => $capa);
+            $data = array('comunas' => $capa, 'capa' => $params['capa']);
             $this->load->view("pages/capa/errores_comunas", $data);
         }else{
             echo "No existe el registro relacionado con la capa";
         }
         
+    }
+
+
+    public function eliminarErroresCargaCapas(){
+        $capa = $this->input->post('capa');
+
+        $response = array();
+        if(unlink('media/tmp/comunas_'.$capa)){
+            $response['estado'] = true;
+            $response['mensaje'] = 'Información eliminada';
+        }else{
+            $response['estado'] = false;
+            $response['mensaje'] = 'Problemas al eliminar la información. Intente nuevamente';
+        }
+
+        echo json_encode($json);
     }
 
     
