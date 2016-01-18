@@ -17,7 +17,11 @@ class Capa_Model extends MY_Model {
      * @return object
      */
     public function getById($id){
-        return $this->_query->getById("cap_ia_id", $id);
+        $clave = $this->_tabla . "_getid_" . $id;
+        if(!Zend_Registry::isRegistered($clave)){
+            Zend_Registry::set($clave, $this->_query->getById("cap_ia_id", $id));
+        }
+        return Zend_Registry::get($clave);
     }
     
     public function guardarCapa($params) {

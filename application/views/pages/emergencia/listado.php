@@ -88,7 +88,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', end
                 <small><i class="fa fa-arrow-right"></i> Listado de emergencias</small>
             </h1>
             <ol class="breadcrumb">
-                <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Dashboard</a></li>
+                <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Inicio</a></li>
                 <li> Emergencias</li>
                 <li class="active" > Listado</li>
             </ol>

@@ -7,7 +7,7 @@
 ?>
 
 <ol class="breadcrumb">
-    <li><a href="<?= site_url() ?>">Dashboard</a></li>
+    <li><a href="<?= site_url() ?>">Inicio</a></li>
     <li class="active">Listado Capas</li>
 </ol>
 

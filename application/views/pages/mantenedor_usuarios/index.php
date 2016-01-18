@@ -13,7 +13,7 @@
 
             </h1>
             <ol class="breadcrumb">
-                <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Dashboard </a></li>
+                <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Inicio </a></li>
                 <li class="active"><i class="fa fa-bell"></i> Usuarios </li>
             </ol>
         </div>

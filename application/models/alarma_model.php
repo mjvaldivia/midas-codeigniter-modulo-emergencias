@@ -370,7 +370,12 @@ class Alarma_Model extends MY_Model {
         // mando mail al resto
         $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
         $to = $this->SendmailModel->get_destinatariosCorreo($params["id_tipo_emergencia"], $params['lista_id_comunas'], $id_usuario_excluir);
+        
+        if(count($to)>0){
         if (!$this->SendmailModel->emailSend($to, null, null, $subject, $mensaje)) {
+            $error++;
+        }
+        } else {
             $error++;
         }
         

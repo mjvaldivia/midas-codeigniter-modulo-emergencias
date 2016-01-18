@@ -8,7 +8,7 @@
                 <small><i class="fa fa-arrow-right"></i> Librer&iacute;a de documentos</small>
             </h1>
             <ol class="breadcrumb">
-                <li><i class="fa fa-dashboard"></i> <a href="<?= site_url() ?>"> Dashboard </a></li>
+                <li><i class="fa fa-dashboard"></i> <a href="<?= site_url() ?>"> Inicio </a></li>
                 <li class="active">Librer&iacute;a de documentos</li>
             </ol>
         </div>
