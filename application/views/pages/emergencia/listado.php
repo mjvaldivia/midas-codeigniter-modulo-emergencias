@@ -14,14 +14,8 @@
 <?= loadJS("assets/lib/picklist/picklist.js") ?>
 
 <?= loadJS("assets/js/bootbox.min.js") ?>
-
-<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
-<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
-
-<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
-
 <?= loadJS("assets/js/geo-encoder.js") ?>
-<?= loadJS("assets/js/MapReport.js") ?>
+<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
 
 <?= loadJS("assets/js/modulo/alarma/mapa.js") ?>
 <?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>

@@ -107,6 +107,10 @@ Class Emergencia_edit{
         return $data;
     }
     
+    /**
+     * Retorna data de emergencia para editar
+     * @return array
+     */
     public function getEditData(){
         $data = array();
         if(!is_null($this->_emergencia)){

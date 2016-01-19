@@ -18,7 +18,7 @@
     <?= loadJS("assets/lib/pace/pace.js", true) ?>
     
     <?= loadCSS("assets/lib/pnotify/pnotify.custom.min.css", true) ?>
-    
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
     <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
     <?= loadJS("assets/lib/joii/joii.min.js", true) ?>
     

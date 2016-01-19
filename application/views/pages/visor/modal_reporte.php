@@ -1,7 +1,3 @@
-
-<?= loadJS("assets/js/MapReport.js") ?>
-
-
 <style>
     .ui-autocomplete {
         z-index: 5000;
@@ -34,7 +30,6 @@
                             <div class="col-md-6 col-xs-12">
                                 <div class="text-center"><b>Puede ajustar la vista del mapa para el reporte</b></div>
                                 <div id='dvMap' style="height: 350px;" class="col-md-12"></div>
-
                             </div>
                             <div class="col-md-6 col-xs-12">
                                 <?php if (puedeEditar("emergencia")) { ?>
@@ -182,20 +177,7 @@
             </div>
             </form>
         </div>
-
-
     </div>
-
-
 </div>
-
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        MapReport.dibujaTablaDocs();
-        MapReport.LoadMap();
-    });
-</script>
 
 

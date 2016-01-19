@@ -211,9 +211,7 @@
                 uploadUrl: siteUrl + "emergencia/subir_AdjuntoEmergenciaTmp/id/"+emergencia
             });
         }
-
     });
-
 </script>
 
 

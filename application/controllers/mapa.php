@@ -107,7 +107,8 @@ class Mapa extends MY_Controller {
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
-            $data = array("id" => $emergencia->eme_ia_id);
+            $data = array("id" => $emergencia->eme_ia_id,
+                          "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
             $this->template->parse("default", "pages/mapa/index", $data);
         } else {
             throw new Exception(__METHOD__ . " - La emergencia no existe");

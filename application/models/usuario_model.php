@@ -164,19 +164,14 @@ class Usuario_Model extends MY_Model {
     public function get_mails($id_region = null) {
         $result = $this->db->query("select CONCAT(TRIM(u.usu_c_nombre),' ',TRIM(u.usu_c_apellido_paterno)) nombre, u.usu_c_email from usuarios u
                    where u.reg_ia_id = $id_region
-                    AND u.est_ia_id = 1                
-
-
-");
+                    AND u.est_ia_id = 1");
         $res = array();
 
         foreach ($result->result_array() as $row) {
             $res[] = '('.$row['nombre'].') '.$row['usu_c_email'];
-           
         }
 
-
-         echo json_encode($res);
+        echo json_encode($res);
     }
 
 }
