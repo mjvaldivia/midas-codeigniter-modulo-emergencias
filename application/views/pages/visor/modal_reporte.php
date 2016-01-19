@@ -1,3 +1,5 @@
+<?php echo $js; ?>
+
 <style>
     .ui-autocomplete {
         z-index: 5000;
@@ -14,8 +16,8 @@
         <div class="col-md-12">
             <form id="form_reporte" >
 
-            <input type="hidden" id='eme_ia_id' name="eme_ia_id" value='{id}'>
-            <input type="hidden" id='ala_ia_id' name="ala_ia_id" value='{ala_ia_id}'>
+            <input type="hidden" id='eme_ia_id' name="eme_ia_id" value='<?php echo $id; ?>'>
+            <input type="hidden" id='ala_ia_id' name="ala_ia_id" value='<?php echo $ala_ia_id; ?>'>
 
             <ul id="ul-tabs" class="nav nav-tabs">
                 <li class='active'>
@@ -180,4 +182,4 @@
     </div>
 </div>
 
-
+<?= loadJS("assets/js/modulo/emergencia_reporte/front-end.js"); ?>

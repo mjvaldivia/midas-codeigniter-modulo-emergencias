@@ -367,9 +367,10 @@ class Visor extends MY_Controller {
         $data = array(  'id' => $params['id'],
                         'ala_ia_id' => $params['ala_ia_id'],
                         'lista' => $lista,
-                        'nombre_emergencia' =>$eme['eme_c_nombre_emergencia']
+                        'nombre_emergencia' =>$eme['eme_c_nombre_emergencia'],
+                        "js" => $this->load->view("pages/mapa/js-plugins", array(), true)
                 );
-        $this->template->parse("alone", "pages/visor/modal_reporte", $data);
+        $this->load->view("pages/visor/modal_reporte", $data);
     }
 
     public function getMapImage() {

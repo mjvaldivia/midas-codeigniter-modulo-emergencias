@@ -11,18 +11,15 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
     dibujarPoligono : function(id, capa, geometry, propiedades, zona, color){
 
         var yo = this;
-        
-        
 
         $.each(geometry, function(i, multipoligono){
-           
            $.each(multipoligono, function(j, coordenadas){
+               
                 var coord = [];
                 $.each(coordenadas, function(k, valores){
                     var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(valores[0]), parseFloat(valores[1]), zona);
                     coord.push(new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1])));
                 });
-           
            
                 var poligono = new google.maps.Polygon({
                      paths: coord,

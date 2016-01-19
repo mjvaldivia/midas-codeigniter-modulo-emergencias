@@ -56,7 +56,7 @@
                                   
                                   <?php if(puedeVerReporteEmergencia("emergencia")) { ?>
                                   <li>
-                                      <a data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-reporte" href="#">
+                                      <a data="<?php echo $row["eme_ia_id"] ?>" data-rel="<?php echo $row["ala_ia_id"] ?>" class="emergencia-reporte" href="#">
                                           <i class="fa fa-file-text-o"></i> Reporte
                                       </a>
                                   </li>
