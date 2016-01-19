@@ -1,11 +1,11 @@
-<table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden">
+<table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden small">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Categoría</th>
-            <th>Zona Geográfica</th>
-            <th>Ícono</th>
-            <th>Propiedades</th>
+            <th class="text-center">Nombre</th>
+            <th class="text-center">Categoría</th>
+            <th class="text-center">Zona Geográfica</th>
+            <th class="text-center">Ícono</th>
+            <th class="text-center">Propiedades</th>
             <!--<td>Región</td>
             <td># GeoJSON cargados</td>-->
             <!--<td>Nombre Archivo</td>-->
@@ -18,8 +18,8 @@
         <?php // echo BASEPATH . $row['capa']; ?>
         <tr>
             <td><?php echo $row['cap_c_nombre']; ?></td>
-            <td><?php echo $row['ccb_c_categoria']; ?></td>
-            <td><?php echo $row['geozone']; ?></td>
+            <td class="text-center"><?php echo $row['ccb_c_categoria']; ?></td>
+            <td class="text-center"><?php echo $row['geozone']; ?></td>
             <td align="center"><?php echo getCapaPreview($row["cap_ia_id"]); ?></td>
             <td><?php echo textMoreLess($row['cap_c_propiedades'])?></td>
            <!-- <td><?php /*echo $row['nombre_region']; */?></td>-->

@@ -336,9 +336,17 @@ class Capas extends MY_Controller
         $data['subcapa'] = $item['geometria_nombre'];
         $data['comuna'] = $item['com_c_nombre'];
         $data['capa'] = $item['cap_c_nombre'];
+        $data['id_region'] = $item['reg_ia_id'];
+        $data['geozone'] = $item['reg_geozone'];
         $data['propiedades'] = unserialize($item['poligono_propiedades']);
         $data['geometria'] = unserialize($item['poligono_geometria']);
-
+        
+        if($data['geometria']['type'] == 'Point'){
+            $data['center'] = array('lon'=>$data['geometria']['coordinates'][0], 'lat' => $data['geometria']['coordinates'][1]);    
+        }else{
+            $data['center'] = array('lon'=>$item['lon'],'lat'=>$item['lat']);
+        }
+        
         $this->load->view("pages/capa/edicion_item_subcapa",$data);
     }
 

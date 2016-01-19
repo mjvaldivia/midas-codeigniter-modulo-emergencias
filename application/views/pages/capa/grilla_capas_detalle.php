@@ -1,4 +1,4 @@
-<table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden">
+<table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden small">
     <thead>
         <tr>
             <th class="text-center">Nombre</th>
@@ -18,8 +18,8 @@
         <?php // echo BASEPATH . $row['capa']; ?>
         <tr>
             <td><?php echo $row['geometria_nombre']; ?></td>
-            <td><?php echo $row['ccb_c_categoria']; ?></td>
-            <td class="text-center"><a href="javascript:void(0);" onclick="Layer.listarItemsSubCapa(<?php echo $row['geometria_id']?>)"><?php echo $row['total_items']?></a></td>
+            <td class="text-center"><?php echo $row['ccb_c_categoria']; ?></td>
+            <td class="text-center"><a href="javascript:void(0);" onclick="Layer.listarItemsSubCapa(<?php echo $row['geometria_id']?>)"><span class="badge"><?php echo $row['total_items']?></span></a></td>
             <!--<td><?php /*echo $row['geozone']; */?></td>-->
             <td align="center">
                 <?php if(is_null($row['geometria_icono']) or empty($row['geometria_icono'])):?>
@@ -38,13 +38,13 @@
             <!--<td><?php /*echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); */?> </td>-->
             <td class="text-center">
                 <?php if (puedeEditar("capas")) { ?>
-                <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarSubCapa(<?php echo $row['geometria_id']; ?>);' >
+                <a class='btn btn-sm btn-default btn-square' onclick='Layer.editarSubCapa(<?php echo $row['geometria_id']; ?>);' >
                     <i class='fa fa-edit'></i>
                 </a>
                 <?php } ?>
                 
                 <?php if (puedeEliminar("capas")) { ?>
-                <a class='btn btn-xs btn-danger btn-square' onclick='Layer.eliminarSubCapa(<?php echo $row['geometria_id']; ?>)'>
+                <a class='btn btn-sm btn-danger btn-square' onclick='Layer.eliminarSubCapa(<?php echo $row['geometria_id']; ?>)'>
                     <i class='fa fa-trash'></i>
                 </a>
                 <?php } ?>
