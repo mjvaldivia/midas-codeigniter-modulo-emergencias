@@ -19,6 +19,7 @@ var Dashboard = Class({
         this.bindBtnEmergenciaFinalizar();
         this.bindBtnEmergenciaEditar();
         this.bindBtnEmergenciaNueva();
+        this.bindBtnEmergenciaReporte();
         this.bindBtnAlarmaEliminar();
         this.bindBtnEmergenciaEliminar();
         
@@ -189,6 +190,66 @@ var Dashboard = Class({
                     });
                 }
             }
+        });
+    },
+    
+    bindBtnEmergenciaReporte : function(){
+        var yo = this;
+        $(".emergencia-reporte").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(e){  
+                e.preventDefault();
+                var id = $(this).attr("data");
+                $.ajax({         
+                    dataType: "html",
+                    cache: false,
+                    async: true,
+                    data: "",
+                    type: "post",
+                    url: siteUrl + "emergencia_reporte/index/id/" + id, 
+                    error: function(xhr, textStatus, errorThrown){
+
+                    },
+                    success:function(html){
+                        bootbox.dialog({
+                            title: "Reporte de emergencia",
+                            className: "modal90",
+                            message: html,
+                            buttons: {
+                                correo: {
+                                    label: "<i class=\"fa fa-envelope-o\"></i> Enviar correo",
+                                    className: "btn-success",
+                                    callback: function () {
+
+                                    }
+                                },
+                                reporte: {
+                                    label: "<i class=\"fa fa-envelope-o\"></i> Ver reporte",
+                                    className: "btn-warning",
+                                    callback: function () {
+
+html2canvas($('#mapa'),
+{
+  proxy : "/emergencias/html2canvas.proxy.php",
+  useCORS: true,
+  onrendered: function(canvas)
+  {
+    var img = canvas.toDataURL()
+    window.open(img);
+  }
+});
+                                    }
+                                },
+                                danger: {
+                                    label: "<i class=\"fa fa-close\"></i> Cerrar",
+                                    className: "btn-white"
+                                }
+                            }
+
+                        });
+                    }
+                });
+            });
         });
     },
     

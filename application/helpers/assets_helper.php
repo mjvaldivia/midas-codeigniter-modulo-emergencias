@@ -11,7 +11,7 @@ function loadJS($path, $cacheEnabled = false)
     $ci->config->load("config");
     
     $finallyPath = $path;
-    $cache = !$ci->config->item("assets_cache") && !$cacheEnabled ? "?" . microtime() : "";
+    //$cache = !$ci->config->item("assets_cache") && !$cacheEnabled ? "?" . microtime() : "";
     
     if (ENVIRONMENT == "production") {
         $pos = strpos($path, ".js");
@@ -20,7 +20,7 @@ function loadJS($path, $cacheEnabled = false)
         if (!file_exists(FCPATH . $finallyPath)) $finallyPath = $path;
     }
 
-    $finallyPath = base_url($finallyPath) . $cache;
+    $finallyPath = base_url($finallyPath);// . $cache;
 
     return "<script type='text/javascript' src='$finallyPath'></script>";
 }
@@ -31,7 +31,7 @@ function loadCSS($path, $cacheEnabled = false)
     $ci->config->load("config");
     
     $finallyPath = $path;
-    $cache = !$ci->config->item("assets_cache") && !$cacheEnabled ? "?" . microtime() : "";
+    //$cache = !$ci->config->item("assets_cache") && !$cacheEnabled ? "?" . microtime() : "";
     
     if (ENVIRONMENT == "production") {
         $pos = strpos($path, ".css");
@@ -40,7 +40,7 @@ function loadCSS($path, $cacheEnabled = false)
         if (!file_exists(FCPATH . $finallyPath)) $finallyPath = $path;
     }
 
-    $finallyPath = base_url($finallyPath) . $cache;
+    $finallyPath = base_url($finallyPath); //. $cache;
 
     return "<link rel='stylesheet' href='$finallyPath' type='text/css'/>";
 }
