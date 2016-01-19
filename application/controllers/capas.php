@@ -461,5 +461,11 @@ class Capas extends MY_Controller
         echo json_encode($json);
     }
 
+
+    public function verComunas(){
+        $this->load->model('comuna_model','ComunaModel');
+        $comunas = $this->ComunaModel->listar();
+        $this->load->view('pages/capa/listado_comunas',array('comunas' => $comunas));
+    }
     
 }
