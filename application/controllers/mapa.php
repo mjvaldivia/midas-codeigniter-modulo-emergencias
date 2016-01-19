@@ -265,7 +265,8 @@ class Mapa extends MY_Controller {
                            "propiedades" => $this->_limpiarUnserialize($elemento->poligono_propiedades),
                            "geojson"     => unserialize($elemento->poligono_geometria),
                            "zona" => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
-                           "color" => getSubCapaPreview($elemento->poligono_capitem),
+                           /*"color" => getSubCapaPreview($elemento->poligono_capitem),*/
+                           "color" => $capa->color,
                            "icono" => $icono);
         }
         $data["correcto"] = true;

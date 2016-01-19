@@ -15,8 +15,10 @@ var Visor = Class({
      * Carga de dependencias
      * @returns void
      */
-    __construct : function(id_mapa) {
+    __construct : function(id_mapa,geozone) {
         this.id_div_mapa = id_mapa;
+        if(geozone !== undefined)
+            this.geozone = geozone;
     },
     
     /**
@@ -57,6 +59,12 @@ var Visor = Class({
         google.maps.event.addDomListener(window, "resize", this.resizeMap());
     },
 
+
+    setCenter : function(lat,lon){
+        this.latitud = lat;
+        this.longitud = lon;
+    },
+
     /**
      * Retorna mapa
      */
@@ -71,11 +79,17 @@ var Visor = Class({
     initialize : function(){
         
         var yo = this;
-
         var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(yo.longitud), 
                                                    parseFloat(yo.latitud), 
                                                    yo.geozone);
 
+        if(!(latLon[0] >= -90 && latLon[0] <= 90)){
+           latLon[0] = yo.latitud;
+        }
+       
+        if(!(latLon[1] >= -90 && latLon[1] <= 90)){
+           latLon[1] = yo.longitud;
+        }
 
         var myLatlng = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
 

@@ -64,11 +64,13 @@
     $(document).ready(function(){
         var visor = new Visor("mapa");
 
+        visor.setCenter(<?php echo $center['lat']?>,<?php echo $center['lon']?>);
 
         var capas = new MapaCapa();
         visor.addOnReadyFunction("capas asociadas a la emergencia", capas.addElemento, <?php echo $id_item?>);
-        visor.addCapa(capas);
+        //visor.addCapa(capas);
         visor.bindMapa();
+
 
         //recargar mapa al abrir o cerrar menu
         $("#sidebar-toggle").click(function(){
