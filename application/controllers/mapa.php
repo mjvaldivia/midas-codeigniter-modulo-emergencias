@@ -254,7 +254,7 @@ class Mapa extends MY_Controller {
             $subcapa = $this->_capa_geometria_model->getById($elemento->poligono_capitem);
             $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
             
-            if($subcapa->geometria_icono!=""){
+            if($subcapa->geometria_icono != ""){
                 $icono = base_url($subcapa->geometria_icono);
             } else {
                 $icono = base_url($capa->icon_path);

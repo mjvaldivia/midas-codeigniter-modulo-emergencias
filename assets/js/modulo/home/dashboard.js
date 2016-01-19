@@ -227,24 +227,15 @@ var Dashboard = Class({
                                     label: "<i class=\"fa fa-envelope-o\"></i> Ver reporte",
                                     className: "btn-warning",
                                     callback: function () {
-                                        //get transform value
-var transform=$(".gm-style>div:first>div").css("transform")
-var comp=transform.split(",") //split up the transform matrix
-var mapleft=parseFloat(comp[4]) //get left value
-var maptop=parseFloat(comp[5])  //get top value
-$(".gm-style>div:first>div").css({ //get the map container. not sure if stable
-  "transform":"none",
-  "left":mapleft,
-  "top":maptop,
-})
+
 html2canvas($('#mapa'),
 {
   proxy : "/emergencias/html2canvas.proxy.php",
   useCORS: true,
-  allowTaint:true,
   onrendered: function(canvas)
   {
-    console.log(canvas);
+    var img = canvas.toDataURL()
+    window.open(img);
   }
 });
                                     }
