@@ -240,7 +240,8 @@ $(".gm-style>div:first>div").css({ //get the map container. not sure if stable
 html2canvas($('#mapa'),
 {
   proxy : "/emergencias/html2canvas.proxy.php",
-
+  useCORS: true,
+  allowTaint:true,
   onrendered: function(canvas)
   {
     console.log(canvas);
