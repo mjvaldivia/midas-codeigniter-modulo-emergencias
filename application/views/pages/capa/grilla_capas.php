@@ -27,6 +27,9 @@
             <!--<td><?php echo basename(FCPATH . $row['capa']); ?></td>-->
             <!--<td><?php echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); ?> </td>-->
             <td class="text-center">
+                <?php if($row['existen_errores']):?>
+                <button type="button" class="btn btn-sm btn-warning btn-square" onclick="Layer.revisarErrores(<?php echo $row['cap_ia_id']?>);"><i class="fa fa-question"></i></button>
+                <?php endif;?>
                 <button class="btn btn-sm btn-success btn-square" type="button" title="Ver Detalle" onclick="Layer.listarCapasDetalle(<?php echo $row['cap_ia_id']?>,'<?php echo $row['cap_c_nombre']?>')" ><i class="fa fa-arrow-right"></i></button>
                 <button class="btn btn-sm btn-primary btn-square" type="button" title="Ver Detalle" onclick="Layer.editarCapa(<?php echo $row['cap_ia_id']?>,'<?php echo $row['cap_c_nombre']?>')" ><i class="fa fa-edit"></i></button>
                 <button class="btn btn-sm btn-danger btn-square" type="button" title="Ver Detalle" onclick="Layer.eliminarCapa(<?php echo $row['cap_ia_id']?>,'<?php echo $row['cap_c_nombre']?>')" ><i class="fa fa-trash-o"></i></button>

@@ -28,14 +28,20 @@ class Comuna_Model extends MY_Model
      * @return array
      */
     public function listar(){
-        $result = $this->_query->select("*")
+        /*$result = $this->_query->select("*")
                                ->from()
                                ->orderBy("com_c_nombre", "ASC")
-                               ->getAllResult();
-        if(!is_null($result)){
-            return $result;
-        } else {
-            return NULL;
+                               ->getAllResult();*/
+        $query = 'select c.*,p.*,r.* from '.$this->_tabla.' c
+                left join provincias p on p.prov_ia_id = c.prov_ia_id
+                left join regiones r on r.reg_ia_id = p.reg_ia_id
+                order by com_c_nombre ASC';
+        $result = $this->db->query($query);
+
+        if($result->num_rows() > 0){
+            return $result->result_array();
+        }else{
+            return null;
         }
     }
     
