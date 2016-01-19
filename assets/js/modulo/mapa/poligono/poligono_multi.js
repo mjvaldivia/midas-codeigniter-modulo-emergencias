@@ -23,7 +23,6 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                     coord.push(new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1])));
                 });
            
-           
                 var poligono = new google.maps.Polygon({
                      paths: coord,
                      identificador: id,
@@ -36,7 +35,6 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                      fillColor: color,
                      fillOpacity: 0.35
                  });
-
                  poligono.setMap(yo.mapa);
 
                  //se agrega evento de click para ver instalaciones
