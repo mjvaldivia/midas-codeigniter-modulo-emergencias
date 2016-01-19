@@ -1,11 +1,5 @@
 <?php
 if (!defined("BASEPATH")) exit("No direct script access allowed");
-/**
- * User: claudio
- * Date: 15-09-15
- * Time: 10:55 AM
- */
-
 
 class Capas extends MY_Controller 
 {

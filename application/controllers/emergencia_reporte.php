@@ -1,6 +1,6 @@
 <?php
 
-Class Emergencia_finalizar extends MY_Controller {
+Class Emergencia_reporte extends MY_Controller {
     
     /**
     *
@@ -21,7 +21,9 @@ Class Emergencia_finalizar extends MY_Controller {
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
-            
+            $data = array("id" => $emergencia->eme_ia_id,
+                          "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
+            $this->load->view("pages/emergencia_reporte/index.php", $data);
         }
     }
 }

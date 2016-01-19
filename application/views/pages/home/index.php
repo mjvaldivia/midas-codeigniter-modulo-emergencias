@@ -1,5 +1,3 @@
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
