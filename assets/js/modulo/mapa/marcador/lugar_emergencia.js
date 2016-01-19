@@ -12,12 +12,12 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
 
     },
     
-    /**
+        /**
      * 
-     * @param {type} id
+     * @param {int} id
      * @returns {undefined}
      */
-    setEmergencia : function(id){
+    seteaEmergencia : function(id){
         this.id_emergencia = id;
     },
     
@@ -129,12 +129,12 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
     marcador : function(mapa){
         this.mapa = mapa;
         var yo = this;
-        var id = $("#id").val();
+        
         $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
-            data: "id=" + id,
+            data: "id=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa/ajax_marcador_lugar_emergencia", 
             error: function(xhr, textStatus, errorThrown){},

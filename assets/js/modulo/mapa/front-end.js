@@ -18,10 +18,12 @@ $(document).ready(function() {
     
     //marcadores
     var lugar_alarma = new MapaMarcadorLugarAlarma();
+    lugar_alarma.seteaEmergencia(id);
     visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_alarma.marcador, null);
     
      //marcadores
     var lugar_emergencia = new  MapaMarcadorLugarEmergencia();
+    lugar_emergencia.seteaEmergencia(id);
     visor.addOnReadyFunction("marcador del lugar de la emergencia", lugar_emergencia.marcador, null);
     
     //capas

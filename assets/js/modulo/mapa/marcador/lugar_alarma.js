@@ -1,7 +1,7 @@
 var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
     
-
     draggable : true,
+    id_emergencia : null,
     
     /**
     * Carga de dependencias
@@ -9,6 +9,15 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
     */
     __construct : function() {
 
+    },
+    
+        /**
+     * 
+     * @param {int} id
+     * @returns {undefined}
+     */
+    seteaEmergencia : function(id){
+        this.id_emergencia = id;
     },
     
     /**
@@ -19,12 +28,12 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
     marcador : function(mapa){
         this.mapa = mapa;
         var yo = this;
-        var id = $("#id").val();
+       
         $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
-            data: "id=" + id,
+            data: "id=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa/ajax_marcador_lugar_alarma", 
             error: function(xhr, textStatus, errorThrown){},

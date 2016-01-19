@@ -107,6 +107,6 @@ INFORMACIÓN DE LA EMERGENCIA
         <td>Mapa del lugar de la emergencia</td>
     </tr>
     <tr>
-        <td><img src="<?php echo base_url($imagename) ?>"/></td>
+        <td><img src="var:imagen_mapa"/></td>
     </tr>  
 </table>

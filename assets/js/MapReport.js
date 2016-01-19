@@ -39,22 +39,9 @@ var MapReport = {
     };
 
     this.LoadMapCloned = function (modo) {
-        $('#modal_' + $("#eme_ia_id").val()).scrollTop(0);
-        Emergencia.cargando();
-        self.B = new google.maps.Map(document.getElementById('clon'),
-                {
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoomControl: false,
-                    streetViewControl: false,
-                    mapTypeControl: false
-                });
-        self.loadObjects(self.B);
-        google.maps.event.addListenerOnce(self.B, 'tilesloaded', function () {
 
-            setTimeout(function () {
                 self.renderImage(modo);
-            }, 4000);
-        });
+
 
 
     };
@@ -376,6 +363,7 @@ var MapReport = {
     this.renderImage = function (modo) {
 
         html2canvas($('#clon'), {
+            proxy : "/emergencias/html2canvas.proxy.php",
             useCORS: true,
             onrendered: function (canvas) {
                 var dataUrl = canvas.toDataURL("image/jpg");

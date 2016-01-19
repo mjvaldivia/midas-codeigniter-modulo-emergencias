@@ -253,7 +253,7 @@
 <?= loadCSS("assets/lib/picklist/picklist.css") ?>
 <?= loadJS("assets/lib/picklist/picklist.js") ?>
 
-<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
+<?= loadJS("assets/js/modulo/emergencia_reporte/form.js"); ?>
 
 <?= loadJS("assets/js/geo-encoder.js") ?>
 
