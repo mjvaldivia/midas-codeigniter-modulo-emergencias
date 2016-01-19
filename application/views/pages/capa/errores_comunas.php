@@ -1,5 +1,6 @@
 <p>Los items relacionados con estas comunas no han sido guardados por no coincidencia del nombre de las comunas entre el geojson y la base de datos</p>
 
+<p>Este listado de comunas son obtenidas desde el geoJSON cargado</p>
 <ul>
     <?php foreach($comunas as $comuna):?>
     <li><?php echo $comuna?>

@@ -136,7 +136,8 @@ class Capa_Model extends MY_Model {
                     $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
                     if(is_null($comuna)){
-                        $tmp_comunas[] = $item->properties->COMUNA;
+                        if(!in_array($item->properties->COMUNA,$tmp_comunas))
+                            $tmp_comunas[] = $item->properties->COMUNA;
                         continue;
                     }
                     $comuna = $comuna[0];
@@ -315,7 +316,8 @@ class Capa_Model extends MY_Model {
                 $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
                 if(is_null($comuna)){
-                    $tmp_comunas[] = $item->properties->COMUNA;
+                    if(!in_array($item->properties->COMUNA,$tmp_comunas))
+                        $tmp_comunas[] = $item->properties->COMUNA;
                     continue;
                 }
                 $comuna = $comuna[0];
