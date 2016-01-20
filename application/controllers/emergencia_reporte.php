@@ -34,6 +34,8 @@ Class Emergencia_reporte extends MY_Controller {
      * 
      */
     public function index(){
+        $this->load->helper(array("modulo/emergencia/emergencia_form"));
+        
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){

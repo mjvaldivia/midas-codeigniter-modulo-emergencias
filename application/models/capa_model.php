@@ -12,6 +12,12 @@ class Capa_Model extends MY_Model {
     protected $_tabla = "capas";
     
     /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
+    /**
      * Retorna registro por el identificador
      * @param int $id clave primaria
      * @return object

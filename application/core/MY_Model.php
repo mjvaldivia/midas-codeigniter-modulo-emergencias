@@ -19,6 +19,12 @@ Class MY_Model extends CI_Model {
      * @var Enviroment 
      */
     protected $_enviroment;
+    
+    /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = true;
      
     /**
      * Constructor
@@ -28,11 +34,20 @@ Class MY_Model extends CI_Model {
         $this->load->library('model/QueryBuilder');
         $this->load->library('Enviroment');
         
-        $this->_enviroment = New Enviroment();
-        $this->db = $this->load->database($this->_enviroment->getDatabase(), true);
+        
+        $this->db = $this->getDb();
         
         $this->_query = New QueryBuilder($this->db);
         $this->_query->setTable($this->_tabla);
+    }
+    
+    public function getDb(){
+        if($this->_bo_simulacion){
+            $this->_enviroment = New Enviroment();
+            return $this->load->database($this->_enviroment->getDatabase(), true);
+        } else {
+            return $this->load->database(ENVIRONMENT, true);
+        }
     }
     
     /**

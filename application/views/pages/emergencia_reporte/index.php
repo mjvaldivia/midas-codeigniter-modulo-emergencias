@@ -15,13 +15,16 @@
                     <div class="form-group">
                         <label class="col-xs-12">Seleccione destinatarios (*)</label>
                         <div class="col-xs-12">
-                            <textarea id="tokenfield" class="form-control required" placeholder="ingrese destinatario(s)...">vladimir@cosof.cl</textarea>
+                            <?php echo formElementSelectDestinatarios($id, "destinatario[]", array(), array("width" => "100%",
+                                                                                                            "data-placeholder" => "Seleccione",
+                                                                                                            "class"    => "form-control select2-tags", 
+                                                                                                            "multiple" => "multiple")); ?>
                         </div>
                     </div>
                 </div>
                 <div class="row top-spaced">
                     <div class="form-group">
-                        <label class="col-xs-12">Asunto</label>
+                        <label class="col-xs-12">Asunto (*)</label>
                         <div class="col-xs-12">
                             <input id="asunto" class="form-control" type="text" placeholder="ingrese asunto..." value="Emergencia: <?php echo $nombre; ?>" name="asunto">
                         </div>
@@ -29,7 +32,7 @@
                 </div>
                 <div class="row top-spaced">
                     <div class="form-group">
-                        <label class="col-xs-12">Mensaje</label>
+                        <label class="col-xs-12">Mensaje (*)</label>
                         <div class="col-xs-12">
                             <textarea id="mensaje" class="form-control" placeholder="ingrese mensaje..." name="mensaje" style="resize: none;" rows="5"></textarea>
                         </div>

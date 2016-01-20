@@ -99,10 +99,10 @@ $db['development']['swap_pre'] = '';
 $db['development']['autoinit'] = TRUE;
 $db['development']['stricton'] = FALSE;
 
-$db['simulacion']['hostname'] = '10.8.43.145';
-$db['simulacion']['username'] = 'sipresamelo';
-$db['simulacion']['password'] = 'InfoSeremi05';
-$db['simulacion']['database'] = 'sipresa_simulacion';
+$db['simulacion']['hostname'] = 'localhost';
+$db['simulacion']['username'] = 'root';
+$db['simulacion']['password'] = '';
+$db['simulacion']['database'] = 'emergencias_simulacion';
 $db['simulacion']['dbdriver'] = 'mysql';
 $db['simulacion']['dbprefix'] = '';
 $db['simulacion']['pconnect'] = TRUE;

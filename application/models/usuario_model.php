@@ -16,6 +16,12 @@ class Usuario_Model extends MY_Model {
     protected $_tabla = "usuarios";
     
     /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
+    /**
      *
      * @var Modulo_Model 
      */
@@ -27,6 +33,7 @@ class Usuario_Model extends MY_Model {
     public function __construct(){
         parent::__construct();
         $this->load->model("modulo_model");
+        $this->load->model("cargo_model");
         $this->_modulo_model = New Modulo_Model();
     }
     
@@ -138,25 +145,25 @@ class Usuario_Model extends MY_Model {
         $excluir_str = ($id_usuario_excluir == null) ? "" : " AND u.usu_ia_id <> $id_usuario_excluir";
 
         $qry = "
-                    SELECT group_concat(distinct(a.usu_c_email) SEPARATOR ',') lista FROM (
+                    SELECT distinct(a.usu_c_email) as usu_c_email FROM (
                     SELECT distinct(usu_c_email) usu_c_email FROM usuarios u
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id
-                    WHERE crg_ia_id IN ($this->SEREMI,$this->JEFE_DAS,$this->JEFE_SP)
+                    WHERE crg_ia_id IN (".Cargo_Model::SEREMI.",".Cargo_Model::JEFE_DAS.",".Cargo_Model::JEFE_SP.")
                     AND ovc.com_ia_id IN ($comunas) 
                     AND u.est_ia_id = 1 $excluir_str
                 UNION 
                     SELECT distinct(usu_c_email) usu_c_email from usuarios u 
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id
-                    WHERE u.crg_ia_id = $this->CRE AND usu_b_cre_activo = 1 
+                    WHERE u.crg_ia_id = ".Cargo_Model::CRE." AND usu_b_cre_activo = 1 
                     AND ovc.com_ia_id IN ($comunas)
                     AND u.est_ia_id = 1 $excluir_str limit 1
                 UNION 
                     SELECT distinct(usu_c_email) usu_c_email from usuarios u 
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id
-                    WHERE u.crg_ia_id = $this->JEFE_OFICINA
+                    WHERE u.crg_ia_id = ".Cargo_Model::JEFE_OFICINA."
                     AND ovc.com_ia_id IN ($comunas)
                     AND u.est_ia_id = 1 $excluir_str
                 
@@ -166,7 +173,7 @@ class Usuario_Model extends MY_Model {
                     join tipo_emergencia_vs_ambitos teva on teva.amb_ia_id=uva.amb_ia_id
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id
-                    WHERE u.crg_ia_id = $this->EAT_REGIONAL
+                    WHERE u.crg_ia_id = ".Cargo_Model::EAT_REGIONAL."
                     AND teva.aux_ia_id = $tipo_emergencia 
                     AND ovc.com_ia_id IN ($comunas)
                     AND u.est_ia_id = 1 $excluir_str
@@ -176,7 +183,7 @@ class Usuario_Model extends MY_Model {
                     join tipo_emergencia_vs_ambitos teva on teva.amb_ia_id=uva.amb_ia_id
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id
-                    WHERE u.crg_ia_id = $this->EAT_OFICINA
+                    WHERE u.crg_ia_id = ".Cargo_Model::EAT_OFICINA."
                     AND teva.aux_ia_id = $tipo_emergencia
                     AND ovc.com_ia_id IN ($comunas) $excluir_str
                     AND u.est_ia_id = 1) a
@@ -184,7 +191,7 @@ class Usuario_Model extends MY_Model {
         $row = array();
         if ($result = $this->db->query($qry))
             $row = $result->result_array();
-        return $row[0]['lista'];
+        return $row;
     }
     
     

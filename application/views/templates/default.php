@@ -11,15 +11,15 @@
 
 
     <title>Emergencias::MIDAS</title>
-
-    <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
+    <script type='text/javascript' src="<?= base_url("/assets/lib/jquery-2.1.4/jquery.min.js") ?>"></script>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
+    
     <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
     <?= loadCSS("assets/lib/pace/pace.css", true) ?>
     <?= loadJS("assets/lib/pace/pace.js", true) ?>    
     <?= loadCSS("assets/lib/pnotify/pnotify.custom.min.css", true) ?>
-
-    <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
     <?= loadJS("assets/lib/joii/joii.min.js", true) ?>
     
     <!-- GLOBAL STYLES - Include these on every page. -->
@@ -231,28 +231,28 @@
     <!-- /#wrapper -->
 
     <!-- GLOBAL SCRIPTS -->
-    
-    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
-    <?= loadJS("assets/lib/popupoverlay/jquery.popupoverlay.js", true) ?>
-    <?= loadJS("assets/lib/livequery/jquery.livequery.min.js", true) ?>
-    <?= loadJS("assets/lib/popupoverlay/defaults.js", true) ?>
-    <?= loadJS("assets/lib/popupoverlay/logout.js", true) ?>
-    <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
-    <?= loadJS("assets/lib/qtip/jquery.qtip.min.js", true) ?>
-    
-    <?= loadCSS("assets/lib/chosen_v1.4.2/chosen.min.css") ?>
-    <?= loadJS("assets/lib/chosen_v1.4.2/chosen.jquery.min.js") ?>
-    <?= loadCSS("assets/lib/select2-4.0.0/css/select2.css", true) ?>
-    <?= loadCSS("assets/lib/select2-4.0.0/css/select2-bootstrap.css", true) ?>
-    <?= loadJS("assets/lib/select2-4.0.0/js/select2.js", true) ?>
-    
-    <?= loadJS("assets/js/moment.min.js") ?>
-    <?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
-    <?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
-    <?= loadJS("assets/lib/pnotify/pnotify.custom.min.js", true) ?>
-    <?= loadJS("assets/lib/spectrum-colorpicker/spectrum.js") ?>
-    <?= loadJS("assets/js/base.js") ?>
-    <?= loadJS("assets/js/utils.js") ?>
+    <div id="footer-js">
+        <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
+        <?= loadJS("assets/lib/popupoverlay/jquery.popupoverlay.js", true) ?>
+        <?= loadJS("assets/lib/livequery/jquery.livequery.min.js", true) ?>
+        <?= loadJS("assets/lib/popupoverlay/defaults.js", true) ?>
+        <?= loadJS("assets/lib/popupoverlay/logout.js", true) ?>
+        <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
+        <?= loadJS("assets/lib/qtip/jquery.qtip.min.js", true) ?>
+
+        <?= loadCSS("assets/lib/chosen_v1.4.2/chosen.min.css") ?>
+        <?= loadJS("assets/lib/chosen_v1.4.2/chosen.jquery.min.js") ?>
+        <?= loadCSS("assets/lib/select2-4.0.0/css/select2.css", true) ?>
+        <?= loadCSS("assets/lib/select2-4.0.0/css/select2-bootstrap.css", true) ?>
+        <?= loadJS("assets/lib/select2-4.0.0/js/select2.js", true) ?>
+
+        <?= loadJS("assets/js/moment.min.js") ?>
+        <?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
+        <?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
+        <?= loadJS("assets/lib/pnotify/pnotify.custom.min.js", true) ?>
+        <?= loadJS("assets/lib/spectrum-colorpicker/spectrum.js") ?>
+        <?= loadJS("assets/js/base.js") ?>
+        <?= loadJS("assets/js/utils.js") ?>
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -262,6 +262,7 @@
                 $(window).resize(Utils.toggleNavbarMethod);
             });
         </script>
+    </div>
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">

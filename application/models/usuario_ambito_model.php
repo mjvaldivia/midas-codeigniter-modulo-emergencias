@@ -7,6 +7,12 @@ class Usuario_Ambito_Model extends MY_Model
      * @var string 
      */
     protected $_tabla = "usuarios_ambitos";
+    
+    /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
                
     /**
      * 

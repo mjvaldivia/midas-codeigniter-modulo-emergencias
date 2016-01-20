@@ -6,6 +6,12 @@ if (!defined('BASEPATH'))
 class Capa_Poligono_Informacion_Model extends MY_Model {
     
     /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
+    /**
      * Nombre de tabla
      * @var string 
      */

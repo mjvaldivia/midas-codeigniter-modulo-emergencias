@@ -102,7 +102,7 @@ Class Emergencia_Form_Element_SelectDestinatarios{
         $comunas = implode(",", $this->_ci->emergencia_comuna->listComunas($this->_emergencia->eme_ia_id));
         return $this->_usuario_model->listarDestinatariosCorreo($this->_emergencia->tip_ia_id, 
                                                                 $comunas, 
-                                                                $id_usuario_excluir);
+                                                                $this->_ci->session->userdata('session_idUsuario'));
     }
 }
 
