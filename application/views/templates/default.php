@@ -13,26 +13,22 @@
     <title>Emergencias::MIDAS</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
     <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
     <?= loadCSS("assets/lib/pace/pace.css", true) ?>
-    <?= loadJS("assets/lib/pace/pace.js", true) ?>
-    
+    <?= loadJS("assets/lib/pace/pace.js", true) ?>    
     <?= loadCSS("assets/lib/pnotify/pnotify.custom.min.css", true) ?>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
+
     <?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
     <?= loadJS("assets/lib/joii/joii.min.js", true) ?>
     
     <!-- GLOBAL STYLES - Include these on every page. -->
-    <?= loadCSS("assets/lib/bootstrap-3.3.2-dist/css/bootstrap.css", true) ?>
+    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
     <?= loadCSS("assets/css/bootstrap.vertical-tabs.css", true) ?>
     <?= loadCSS("assets/lib/qtip/jquery.qtip.min.css", true) ?>
-    
-    <!--<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
-    -->
+
     <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
     <?= loadCSS("assets/lib/spectrum-colorpicker/spectrum.css") ?>
-
 
     <!-- THEME STYLES - Include these on every page. -->
     <?= loadCSS("assets/css/style.css", true) ?>
@@ -236,7 +232,7 @@
 
     <!-- GLOBAL SCRIPTS -->
     
-    <?= loadJS("assets/lib/bootstrap-3.3.2-dist/js/bootstrap.js", true) ?>
+    <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
     <?= loadJS("assets/lib/popupoverlay/jquery.popupoverlay.js", true) ?>
     <?= loadJS("assets/lib/livequery/jquery.livequery.min.js", true) ?>
     <?= loadJS("assets/lib/popupoverlay/defaults.js", true) ?>

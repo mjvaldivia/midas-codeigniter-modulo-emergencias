@@ -2247,4 +2247,4 @@ label {
 }
 
 table>tbody>tr>td{vertical-align: middle !important}
-table>thead>tr>th{vertical-align: middle !important, text-align: center;}
+table>thead>tr>th{vertical-align: middle !important; text-align: center;}

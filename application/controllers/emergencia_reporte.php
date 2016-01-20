@@ -13,6 +13,12 @@ Class Emergencia_reporte extends MY_Controller {
      * @var Cache 
      */
     public $cache;
+    
+    /**
+     *
+     * @var Emergencia_pdf 
+     */
+    public $emergencia_pdf;
         
     /**
     * Constructor
@@ -20,10 +26,13 @@ Class Emergencia_reporte extends MY_Controller {
     public function __construct() 
     {
         parent::__construct();
-        $this->load->library("cache");
+        $this->load->library(array("cache", "emergencia/emergencia_pdf"));
         $this->load->model("emergencia_model", "_emergencia_model");
     }
     
+    /**
+     * 
+     */
     public function index(){
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->_emergencia_model->getById($params["id"]);
@@ -35,48 +44,23 @@ Class Emergencia_reporte extends MY_Controller {
         }
     }
     
-    
+    /**
+     * 
+     */
     public function pdf(){
-        ini_set('memory_limit', '64M');
-        
-        $this->load->helper(array("modulo/usuario/usuario", 
-                                  "modulo/emergencia/emergencia",
-                                  "modulo/emergencia/emergencia_reporte"));
-        
-        $this->load->model("emergencia_model", "EmergenciaModel");
-        $this->load->model("usuario_model", "usuario_model");
+        header("Content-Type: application/pdf");
+        header("Content-Disposition: inline;filename=reporte.pdf"); 
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public'); 
         
         $params = $this->uri->uri_to_assoc();
-  
-        $emergencia = $this->EmergenciaModel->getById($params["id"]);
-        if(!is_null($emergencia)){
-                        
-            $data = array("eme_ia_id" => $emergencia->eme_ia_id,
-                          "eme_c_nombre_emergencia" => $emergencia->eme_c_nombre_emergencia,
-                          "eme_d_fecha_emergencia"  => ISODateTospanish($emergencia->eme_d_fecha_emergencia),
-                          "hora_emergencia" => ISOTimeTospanish($emergencia->eme_d_fecha_emergencia),
-                          "hora_recepcion"  => ISOTimeTospanish($emergencia->eme_d_fecha_recepcion),
-                          "eme_c_lugar_emergencia" => $emergencia->eme_c_lugar_emergencia,
-                          "emisor" => $this->session->userdata('session_nombres'),
-                          "id_usuario_encargado" => $emergencia->usu_ia_id,
-                          "eme_c_observacion"    => $emergencia->eme_c_observacion);
-        }
-
-        $html = $this->load->view('pages/emergencia_reporte/pdf', $data, true); 
-        
-        $this->load->library('pdf');
-        $pdf = $this->pdf->load();
-        
-        $cache = Cache::iniciar();
-
-        $pdf->imagen_mapa = $cache->load($params["hash"]);
-        $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
-        $pdf->WriteHTML($html);
-        $pdf->Output('acta.pdf', 'I');
+        $this->emergencia_pdf->setHashImagen($params["hash"]);
+        echo $this->emergencia_pdf->generar($params["id"]);
     }
     
     /**
-     * 
+     * Guarda la imagen del mapa de forma temporal
      */
     public function ajax_mapa_imagen(){
         header('Content-type: application/json');
