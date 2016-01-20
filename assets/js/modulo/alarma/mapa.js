@@ -1,5 +1,27 @@
 var marker;
 
+var regiones = {"Región de Tarapacá" : "19K",
+               "Región de Antofagasta" : "19K",
+               "III Región" : "19J",
+               "Región de Atacama" : "19J",
+               "Región de Coquimbo" : "19J",
+               "Región de Valparaíso" : "19H",
+               "VI Región" : "19H",
+               "Región del libertador General Bernardo O'Higgins" : "19H",
+               "VII Región" : "19H",
+               "Región del Maule" : "19H",
+               "Región del Bío Bío" : "18H",
+               "IX Región" : "18H",
+               "Región de la Araucania" : "18H",
+               "X Región" : "18G",
+               "Región de los lagos" : "18G",
+               "XI Región" : "18G",
+               "Región de Aysen" : "18G",
+               "Región de Magallanes y de la Antártica Chilena" : "19K",
+               "Región Metropolitana" : "19H",
+               "Región de los Ríos" : "18H",
+               "Región de Arica y Parinacota" : "19K"};
+
 var AlarmaMapa = Class({
     
     mapa : null,
@@ -73,7 +95,7 @@ var AlarmaMapa = Class({
     initialize : function(){
         
         var yo = this;
-
+        console.log(yo.geozone);
         var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(yo.longitud), 
                                                    parseFloat(yo.latitud), 
                                                    yo.geozone);
@@ -120,7 +142,12 @@ var AlarmaMapa = Class({
                 if (place.length === 0) {
                     return;
                 }
+                var index = place.address_components.length - 2;
+                var region = place.address_components[index].long_name;  
 
+                yo.geozone = regiones[region];
+                console.log(yo.geozone);
+                
                 var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
                 $('#longitud').val(punto[0]);
                 $('#latitud').val(punto[1]);
