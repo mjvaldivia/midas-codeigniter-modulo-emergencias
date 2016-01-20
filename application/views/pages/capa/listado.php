@@ -7,7 +7,8 @@
         </div>
     </div>
     <div class='portlet-body'>
-        <div id="contenedor-grilla-capas" class="table-responsive">
+        <div class="table-responsive">
+            <div class="col-xs-12" id="contenedor-grilla-capas"></div>
 
         </div>
     </div>
