@@ -7,6 +7,12 @@ class Categoria_Cobertura_Model extends MY_Model {
     public $POLIGONO = 3;
     
     /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
+    /**
      * Nombre de tabla
      * @var string 
      */

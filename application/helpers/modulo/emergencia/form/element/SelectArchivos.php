@@ -5,7 +5,7 @@ require_once(APPPATH . 'third_party/Cosof/Form/Select.php');
 /**
  * Elemento select para comuna
  */
-Class Emergencia_Form_Element_SelectDestinatarios{
+Class Emergencia_Form_Element_SelectArchivos{
     
     /**
      *
@@ -33,15 +33,15 @@ Class Emergencia_Form_Element_SelectDestinatarios{
     
     /**
      *
-     * @var Usuario_Model
-     */
-    protected $_usuario_model;
-    
-    /**
-     *
      * @var Emergencia_model 
      */
     protected $_emergencia_model;
+    
+    /**
+     *
+     * @var Archivo_Alarma_Model 
+     */
+    protected $_archivo_alarma_model;
 
     /**
      * 
@@ -51,9 +51,9 @@ Class Emergencia_Form_Element_SelectDestinatarios{
         $this->_ci =& get_instance();
         $this->_element = New Cosof_Form_Select();
         $this->_ci->load->library("emergencia/emergencia_comuna");
-        $this->_ci->load->model("usuario_model");
+        $this->_ci->load->model("archivo_alarma_model");
         $this->_ci->load->model("emergencia_model");
-        $this->_usuario_model = $this->_ci->usuario_model;
+        $this->_archivo_alarma_model = $this->_ci->archivo_alarma_model;
         $this->_emergencia_model = $this->_ci->emergencia_model;
     }
     
@@ -87,11 +87,17 @@ Class Emergencia_Form_Element_SelectDestinatarios{
      * @return string html
      */
     public function render($default = ""){
-        $this->_element->setNombre($this->_nombre);
-        $this->_element->populate($this->_listar());
-        $this->_element->setOptionId("usu_c_email");
-        $this->_element->setOptionName("usu_c_email");
-        return $this->_element->render($this->_nombre, $default);
+        
+        $lista = $this->_listar();
+        if(count($lista)>0){
+            $this->_element->setNombre($this->_nombre);
+            $this->_element->populate($lista);
+            $this->_element->setOptionId("arch_ia_id");
+            $this->_element->setOptionName("nombre");
+            return $this->_element->render($this->_nombre, $default);
+        } else {
+            return "<div class=\"alert alert-warning\"> No hay archivos asociados a la emergencia </div>";
+        }
     }
     
     /**
@@ -99,10 +105,13 @@ Class Emergencia_Form_Element_SelectDestinatarios{
      * @return array
      */
     protected function _listar(){
-        $comunas = implode(",", $this->_ci->emergencia_comuna->listComunas($this->_emergencia->eme_ia_id));
-        return $this->_usuario_model->listarDestinatariosCorreo($this->_emergencia->tip_ia_id, 
-                                                                $comunas, 
-                                                                $this->_ci->session->userdata('session_idUsuario'));
+        $lista = $this->_archivo_alarma_model->listaPorAlarma($this->_emergencia->ala_ia_id);
+        if(count($lista)>0){
+            foreach($lista as $key => $row){
+                $lista[$key]["nombre"] = basename(BASEPATH . $row["arch_c_nombre"]);
+            }
+        }
+        return $lista;
     }
 }
 

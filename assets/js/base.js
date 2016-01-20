@@ -40,6 +40,13 @@ $(document).ready(function() {
             tags: true,
             allowClear: true
         });
+        
+       /* var parent = $(this).parent().parent(".form-group");
+ 
+        var label = $(parent).find("label");
+        $(label).css("width", "100%");
+        $(label).append("<div style=\"float:right\"><input type=\"checkbox\">Seleccionar todos</div>");*/
+        
     });
     
     $(".colorpicker").livequery(function(){

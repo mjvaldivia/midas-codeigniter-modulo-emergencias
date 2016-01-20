@@ -14,6 +14,46 @@ var EmergenciaReporteForm = Class({
         this.id_emergencia = id;
     },
     
+    
+    enviarCorreo : function(){
+        var imagen = new EmergenciaReporteMapaImagen("mapa");
+        imagen.addOnReadyFunction("carga pdf", this.correo, this.id_emergencia);
+        imagen.crearImagen();
+        return false;
+    },
+    
+    correo : function(hash, id){
+        var parametros = $("#form_reporte_emergencia").serializeArray();
+        
+        var add = {"value" : hash,
+                   "name"  : "hash"};
+               
+        parametros.push(add);
+        
+        console.log(parametros);
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "emergencia_reporte/ajax_enviar_correo", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                if(data.correcto == true){
+                    procesaErrores(data.error);
+                    
+                } else {
+                    $("#form_error").removeClass("hidden");
+                    procesaErrores(data.error);
+                }
+            }
+        });
+    },
+    
     /**
      * Carga el reporte
      * @returns {Boolean}
@@ -51,15 +91,26 @@ var EmergenciaReporteForm = Class({
                     label: "<i class=\"fa fa-envelope-o\"></i> Enviar email",
                     className: "btn-success",
                     callback: function (e) {
-                        
+                        var boton = e.currentTarget;
+                        $(boton).children("i").removeClass("fa-file");
+                        $(boton).children("i").addClass("fa-spin fa-spinner");
+                        var retorno = yo.enviarCorreo();
+                        $(boton).children("i").addClass("fa-file");
+                        $(boton).children("i").removeClass("fa-spin fa-spinner");
+                        return retorno;
                     }
                 },
                 reporte: {
                     label: "<i class=\"fa fa-file\"></i> Ver reporte",
                     className: "btn-warning",
                     callback: function (e) {
-                        console.log(e);
-                        return yo.mostrarReporte();
+                        var boton = e.currentTarget;
+                        $(boton).children("i").removeClass("fa-file");
+                        $(boton).children("i").addClass("fa-spin fa-spinner");
+                        var retorno = yo.mostrarReporte();
+                        $(boton).children("i").addClass("fa-file");
+                        $(boton).children("i").removeClass("fa-spin fa-spinner");
+                        return retorno;
                     }
                 },
                 danger: {

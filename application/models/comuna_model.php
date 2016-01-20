@@ -9,6 +9,12 @@ class Comuna_Model extends MY_Model
 {    
     
     /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
+    /**
      *
      * @var string 
      */

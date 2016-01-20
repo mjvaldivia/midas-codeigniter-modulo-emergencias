@@ -8,6 +8,11 @@ class Usuario_Region_Model extends MY_Model{
      */
     protected $_tabla = "usuarios_region";
     
+    /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
     
     /**
      * 

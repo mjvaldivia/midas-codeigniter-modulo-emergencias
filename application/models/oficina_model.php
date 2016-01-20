@@ -7,7 +7,14 @@ class Oficina_Model extends MY_Model
      * @var string 
      */
     protected $_tabla = "oficinas";
-               
+         
+    
+    /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
     /**
      * 
      * @param int $id
