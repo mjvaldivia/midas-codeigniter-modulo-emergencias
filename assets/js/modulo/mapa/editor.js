@@ -209,7 +209,7 @@ var MapaEditor = Class({
         		position: google.maps.ControlPosition.TOP_RIGHT,
         		action: function(){
         		    var marcador = new MapaMarcadorLugarEmergencia();
-                            marcador.setEmergencia(yo.id_emergencia);
+                            marcador.seteaEmergencia(yo.id_emergencia);
                             marcador.addMarcador(map);
         		}
         }

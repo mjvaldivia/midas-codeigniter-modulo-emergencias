@@ -48,9 +48,9 @@ Class Visor_Elemento_Instalaciones{
                 $subcapa = $this->_capa_geometria_model->getById($marcador->CAPA);
                 if(!is_null($subcapa)){
                     unset($marcador->CAPA);
-                    $lista_marcadores[getSubCapaPreview($subcapa->geometria_id) . " CAPA: " . $subcapa->geometria_nombre][$key] = $marcador;
+                    $lista_marcadores[getSubCapaPreview($subcapa->geometria_id) . " " . $subcapa->geometria_nombre][$key] = $marcador;
                 } else {
-                    $lista_marcadores["Otros"][$key] = $marcador;
+                    $lista_marcadores["<i class=\"fa fa-2x fa-question-circle\"></i> Otros"][$key] = $marcador;
                 }
             }
             
@@ -63,8 +63,13 @@ Class Visor_Elemento_Instalaciones{
      * @return string html
      */
     public function render(){
+        if(count($this->_lista_marcadores)>0){
         $html = $this->_htmlTabHeader()
                .$this->_htmlTabContent();
+        } else {
+                 $html .= "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
+       
+        }
         
         return $html;
     }
@@ -73,7 +78,8 @@ Class Visor_Elemento_Instalaciones{
      * Contenido de tabs
      */
     protected function _htmlTabContent(){
-        $html = "<div class=\"tab-content\">";
+        $html = "<div class=\"col-xs-9\">"
+                . "<div class=\"tab-content\">";
         
         if(count($this->_lista_marcadores)>0){
             $primero = true;
@@ -98,7 +104,8 @@ Class Visor_Elemento_Instalaciones{
             $html .= "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
         }
         
-        $html .= "</div>";
+        $html .= "</div>"
+                . "</div>";
         
         return $html;
     }
@@ -111,7 +118,7 @@ Class Visor_Elemento_Instalaciones{
     protected function _htmlTableInstalaciones($instalaciones){
         if(count($instalaciones)>0){
             $html = "<div class=\"table-responsive\" data-row=\"5\">"
-                  . "<table class=\"table table-hover table-letra-pequena datatable paginada\">"
+                  . "<table class=\"table table-hover table-letra-pequena datatable paginada\" style=\"width:95%\">"
                    ."<thead>"
                    ."<tr>";
             
@@ -150,7 +157,8 @@ Class Visor_Elemento_Instalaciones{
      * @return string
      */
     protected function _htmlTabHeader(){
-        $html = "<ul class=\"nav nav-tabs nav-capas\" role=\"tablist\">";
+        $html = "<div class=\"col-xs-3\">"
+                . "<ul class=\"nav nav-pills tabs-left\" role=\"tablist\">";
         
         $primero = true;
         if(count($this->_lista_marcadores)>0){
@@ -170,7 +178,8 @@ Class Visor_Elemento_Instalaciones{
         }
         
         
-        $html .= "</ul>";
+        $html .= "</ul>"
+                . "</div>";
         
         return $html;
     }

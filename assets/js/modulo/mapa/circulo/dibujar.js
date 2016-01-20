@@ -36,11 +36,12 @@ var MapaCirculoDibujar = Class({
             strokeWeight: 2,
             fillColor: color,
             fillOpacity: 0.35,
-            map: this.mapa,
+            map: yo.mapa,
             center: centro,
             radius: parseInt(radio)
         });
 
+        console.log(circulo);
         var circuloClickListener = new MapaCirculoClickListener();
         circuloClickListener.addClickListener(circulo, this.mapa);
         lista_poligonos.push(circulo);

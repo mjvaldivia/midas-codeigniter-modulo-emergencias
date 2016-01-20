@@ -140,7 +140,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
-                    var posicion = new google.maps.LatLng(parseFloat(data.resultado.lon), parseFloat(data.resultado.lat));
+                    var posicion = new google.maps.LatLng(parseFloat(data.resultado.lat), parseFloat(data.resultado.lon));
+                    
                     var circulo = new MapaCirculoDibujar();
                     circulo.seteaMapa(mapa);
                     circulo.seteaIdentificador("LUGAR_EMERGENCIA");
