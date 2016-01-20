@@ -91,14 +91,26 @@ var EmergenciaReporteForm = Class({
                     label: "<i class=\"fa fa-envelope-o\"></i> Enviar email",
                     className: "btn-success",
                     callback: function (e) {
-                        return yo.enviarCorreo();
+                        var boton = e.currentTarget;
+                        $(boton).children("i").removeClass("fa-file");
+                        $(boton).children("i").addClass("fa-spin fa-spinner");
+                        var retorno = yo.enviarCorreo();
+                        $(boton).children("i").addClass("fa-file");
+                        $(boton).children("i").removeClass("fa-spin fa-spinner");
+                        return retorno;
                     }
                 },
                 reporte: {
                     label: "<i class=\"fa fa-file\"></i> Ver reporte",
                     className: "btn-warning",
                     callback: function (e) {
-                        return yo.mostrarReporte();
+                        var boton = e.currentTarget;
+                        $(boton).children("i").removeClass("fa-file");
+                        $(boton).children("i").addClass("fa-spin fa-spinner");
+                        var retorno = yo.mostrarReporte();
+                        $(boton).children("i").addClass("fa-file");
+                        $(boton).children("i").removeClass("fa-spin fa-spinner");
+                        return retorno;
                     }
                 },
                 danger: {
