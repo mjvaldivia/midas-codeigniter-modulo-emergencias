@@ -9,6 +9,24 @@ class Archivo_Alarma_Model extends MY_Model {
     protected $_tabla = "archivo_vs_alarma";
     
     /**
+     * Lista por alarma
+     * @param int $id_alarma
+     * @return array
+     */
+    public function listaPorAlarma($id_alarma){
+        $result = $this->_query->select("a.*")
+                               ->from($this->_tabla . " aa")
+                               ->join("archivo a", "a.arch_ia_id = aa.arch_ia_id")
+                               ->whereAND("aa.ala_ia_id", $id_alarma)
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Borra registros relacionados a archivo
      * @param int $id_archivo
      */

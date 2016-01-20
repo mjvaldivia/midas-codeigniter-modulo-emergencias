@@ -7,7 +7,7 @@ $(document).ready(function() {
     
     var visor = new Visor("mapa");
 
-    visor.seteaHeight(400);
+    visor.seteaHeight(500);
     visor.seteaEmergencia(id);
     
     //custom

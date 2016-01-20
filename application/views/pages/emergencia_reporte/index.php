@@ -38,6 +38,19 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="row top-spaced">
+                    <div class="form-group">
+                        <label class="col-xs-12">Adjuntar archivos</label>
+                        <div class="col-xs-12">
+                            <?php echo formElementSelectArchivos($id, "archivos[]", array(), array("width" => "100%",
+                                                                                                    "data-placeholder" => "Seleccione",
+                                                                                                    "class"    => "form-control select2-tags", 
+                                                                                                    "multiple" => "multiple")); ?>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="top-spaced">
                     <div class="col-xs-6">
                         <div class="form-group clearfix">
