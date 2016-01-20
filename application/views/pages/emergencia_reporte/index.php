@@ -73,6 +73,14 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="form_error" class="alert alert-danger hidden">
+                    <strong> Existen problemas con los datos ingresados </strong> <br>
+                    Revise y corrija los campos iluminados en rojo.
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 <div class="clearfix"></div>

@@ -1,6 +1,6 @@
 <?php
 
-Class Emergencia_email{
+Class Emergencia_email_confirmacion{
     
     /**
      *

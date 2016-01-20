@@ -263,7 +263,7 @@ class Emergencia extends MY_Controller {
     public function save_nuevo(){
         $this->load->library(array("alarma/alarmavalidar", 
                                    "emergencia/emergencia_guardar",
-                                   "emergencia/emergencia_email"));
+                                   "emergencia/email/emergencia_email_confirmacion"));
 
         $correcto = true;
         
@@ -305,8 +305,8 @@ class Emergencia extends MY_Controller {
                                             $alarma->ala_ia_id);
                 
                 //envio de email
-                $this->emergencia_email->setEmergencia($id);
-                $respuesta["res_mail"] = $this->emergencia_email->enviar();
+                $this->emergencia_email_confirmacion->setEmergencia($id);
+                $respuesta["res_mail"] = $this->emergencia_email_confirmacion->enviar();
             }
             
             $respuesta["correcto"] = $correcto;
