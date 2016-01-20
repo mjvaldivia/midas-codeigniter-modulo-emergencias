@@ -23,7 +23,7 @@ var MapaCirculoDibujar = Class({
         var yo = this;
         var circulo = new google.maps.Circle({
             id : id,
-            custom : false,
+            custom : true,
             tipo : "CIRCULO",
             identificador: yo.identificador,
             capa : null,

@@ -39,7 +39,8 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
-                    yo.posicionarMarcador(null, 
+                    yo.posicionarMarcador("lugar_alarma",
+                                          null, 
                                           data.resultado.lon, 
                                           data.resultado.lat, 
                                           {"TIPO" : "LUGAR ALARMA",
