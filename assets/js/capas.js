@@ -518,7 +518,7 @@ var Layer = {};
                 },
                 success:function(html){
                     $("#contenedor-grilla-capas").html(html);
-                    $("#resultados_capa").html(' para capa <strong>'+nombre_capa+'</strong>  <button type="button" class="btn btn-sm btn-success" title="Volver a Listado de Capas" onclick="Layer.volverListadoCapas();"><i class="fa fa-arrow-left"></i></button>');
+                    $("#resultados_capa").html(' para capa <strong>'+nombre_capa+'</strong>  <button type="button" class="btn btn-sm btn-square btn-success" title="Volver a Listado de Capas" onclick="Layer.volverListadoCapas();"><i class="fa fa-arrow-left"></i></button>');
                     $("#tab2 > #div_tab_2").fadeIn(function(){
 
                     });
