@@ -25,19 +25,21 @@
                             <div class="col-md-12">
                                     <input type="hidden" id="geozone" name="geozone" value="<?= $geozone ?>" /> 
                                     <div id="mapa" class="col-md-12 mapa-alarma" style="height: 400px !important;"></div>
+                                    <div class="col-xs-12 alert alert-info help-block">
+                                        <p><strong>Puede mover el pin si es necesario para una ubicación más exacta</strong></p></div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <br>
-                                            <label>Lon:</label>
-                                            <input id="longitud" name="longitud" type="number" value="<?= $longitud_utm ?>"
+                                            <!-- <label>Lon:</label> -->
+                                            <input id="longitud" name="longitud" type="hidden" value="<?= $longitud_utm ?>"
                                                    class="form-control required mapa-coordenadas" placeholder="longitud (e)">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group ">
                                             <br>
-                                            <label>Lat:</label>
-                                            <input id="latitud" name="latitud" type="number" value="<?= $latitud_utm ?>"
+                                            <!-- <label>Lat:</label> -->
+                                            <input id="latitud" name="latitud" type="hidden" value="<?= $latitud_utm ?>"
                                                    class="form-control required mapa-coordenadas" placeholder="latitud (n)">
                                         </div>
                                     </div>
