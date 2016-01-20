@@ -58,11 +58,11 @@ Class Emergencia_reporte extends MY_Controller {
      * 
      */
     public function pdf(){
-        /*header("Content-Type: application/pdf");
+        header("Content-Type: application/pdf");
         header("Content-Disposition: inline;filename=reporte.pdf"); 
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
-        header('Pragma: public'); */
+        header('Pragma: public'); 
         
         $params = $this->uri->uri_to_assoc();
         $this->emergencia_pdf->setHashImagen($params["hash"]);
