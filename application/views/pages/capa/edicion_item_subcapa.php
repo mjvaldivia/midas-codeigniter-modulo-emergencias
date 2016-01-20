@@ -62,7 +62,7 @@
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
 <script type="text/javascript">
     $(document).ready(function(){
-        var visor = new Visor("mapa");
+        var visor = new Visor("mapa","<?php echo $geozone?>");
 
         visor.setCenter(<?php echo $center['lat']?>,<?php echo $center['lon']?>);
 

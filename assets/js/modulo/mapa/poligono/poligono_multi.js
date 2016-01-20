@@ -33,7 +33,6 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                      fillColor: color,
                      fillOpacity: 0.35
                  });
-
                  poligono.setMap(yo.mapa);
 
                  //se agrega evento de click para ver instalaciones

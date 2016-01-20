@@ -112,7 +112,7 @@ class Capas extends MY_Controller
         $subcapa = $this->capa_model->getSubCapa($id_subcapa);
 
         $arr_cabeceras = explode(",",$subcapa['cap_c_propiedades']);
-        $lista = $this->capa_model->listarItemsSubCapas($id_subcapa);
+        /*$lista = $this->capa_model->listarItemsSubCapas($id_subcapa);
         if($lista){
             foreach($lista as $item){
                 $arr_propiedades = array();
@@ -128,10 +128,140 @@ class Capas extends MY_Controller
                     'propiedades' => $arr_propiedades
                 );
             }
+        }*/
+
+        $data = array(
+            /*"lista" => $arr_items, */
+            "cabeceras" => $arr_cabeceras,
+            "subcapa" => $id_subcapa);
+        $this->load->view("pages/capa/grilla_capas_items_subcapa", $data);
+    }
+
+
+    public function ajax_grilla_items_subcapas_server(){
+        
+
+        $this->load->database();
+        $params = $this->uri->uri_to_assoc();
+        $subcapa = $params['subcapa'];
+
+        $this->load->model('capa_model','capa_model');
+        $sub_capa = $this->capa_model->getSubCapa($subcapa);
+        $arr_cabeceras = explode(",",$sub_capa['cap_c_propiedades']);
+
+        $aColumns = array('com_c_nombre', 'prov_c_nombre', 'reg_c_nombre','poligono_propiedades','poligono_id');
+                
+                // DB table to use
+        $sTable = 'capas_poligonos_informacion';
+        //
+    
+        $iDisplayStart = $this->input->get_post('iDisplayStart', true);
+        $iDisplayLength = $this->input->get_post('iDisplayLength', true);
+        $iSortCol_0 = $this->input->get_post('iSortCol_0', true);
+        $iSortingCols = $this->input->get_post('iSortingCols', true);
+        $sSearch = $this->input->get_post('sSearch', true);
+        $sEcho = $this->input->get_post('sEcho', true);
+    
+        // Paging
+        if(isset($iDisplayStart) && $iDisplayLength != '-1')
+        {
+            $this->db->limit($this->db->escape_str($iDisplayLength), $this->db->escape_str($iDisplayStart));
+        }
+        
+        // Ordering
+        if(isset($iSortCol_0))
+        {
+            for($i=0; $i<intval($iSortingCols); $i++)
+            {
+                $iSortCol = $this->input->get_post('iSortCol_'.$i, true);
+                $bSortable = $this->input->get_post('bSortable_'.intval($iSortCol), true);
+                $sSortDir = $this->input->get_post('sSortDir_'.$i, true);
+    
+                if($bSortable == 'true')
+                {
+                    $this->db->order_by($aColumns[intval($this->db->escape_str($iSortCol))], $this->db->escape_str($sSortDir));
+                }
+            }
+        }
+        
+        /* 
+         * Filtering
+         * NOTE this does not match the built-in DataTables filtering which does it
+         * word by word on any field. It's possible to do here, but concerned about efficiency
+         * on very large tables, and MySQL's regex functionality is very limited
+         */
+        if(isset($sSearch) && !empty($sSearch))
+        {
+            for($i=0; $i<count($aColumns); $i++)
+            {
+                $bSearchable = $this->input->get_post('bSearchable_'.$i, true);
+                
+                // Individual column filtering
+                if(isset($bSearchable) && $bSearchable == 'true')
+                {
+                    $this->db->or_like($aColumns[$i], $this->db->escape_like_str($sSearch));
+                }
+            }
         }
 
-
-        $this->load->view("pages/capa/grilla_capas_items_subcapa", array("lista" => $arr_items, "cabeceras" => $arr_cabeceras));
+        $this->db->where('poligono_capitem',$subcapa);
+        $this->db->join('comunas c','c.com_ia_id = capas_poligonos_informacion.poligono_comuna','inner');
+        $this->db->join('provincias p','p.prov_ia_id = c.prov_ia_id','inner');
+        $this->db->join('regiones r','r.reg_ia_id = p.reg_ia_id','inner');
+        
+        // Select Data
+        $this->db->select('SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)), false);
+        $rResult = $this->db->get($sTable);
+    
+        // Data set length after filtering
+        $this->db->select('FOUND_ROWS() AS found_rows');
+        
+        $iFilteredTotal = $this->db->get()->row()->found_rows;
+    
+        // Total data set length
+        $iTotal = $this->db->count_all($sTable);
+    
+        // Output
+        $output = array(
+            'sEcho' => intval($sEcho),
+            'iTotalRecords' => $iFilteredTotal,
+            'iTotalDisplayRecords' => $iFilteredTotal,
+            'aaData' => array()
+        );
+        
+        foreach($rResult->result_array() as $aRow)
+        {
+            $row = array();
+            
+            foreach($aColumns as $col)
+            {
+                if($col == 'poligono_propiedades'){
+                    
+                    $arr_propiedades = array();
+                    $propiedades = unserialize($aRow['poligono_propiedades']);
+                    
+                    foreach($arr_cabeceras as $cabecera){
+                        $row[] = $propiedades[$cabecera];
+                    }
+                    
+                }elseif($col == 'poligono_id'){
+                    $buttons = '<a class="btn btn-xs btn-default btn-square" onclick="Layer.editarItemSubcapa('.$aRow[$col].');" >
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn btn-xs btn-danger btn-square" onclick="Layer.eliminarItemSubcapa('.$aRow[$col].')">
+                                    <i class="fa fa-trash"></i>
+                                </a>';
+                    $row[] = $buttons;
+                }else{
+                    $row[] = $aRow[$col];    
+                }
+                
+            }
+    
+            $output['aaData'][] = $row;
+        }
+    
+        echo json_encode($output);
     }
 
 

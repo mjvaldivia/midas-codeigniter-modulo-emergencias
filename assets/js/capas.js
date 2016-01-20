@@ -365,7 +365,11 @@ var Layer = {};
                 $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
                     $("#tab4-cargando").fadeOut(function(){
                         $("#div_tab_4").html(response);
-                        $("#tab4-contenido").fadeIn();
+                        
+                        $("#tab4-contenido").fadeIn(function(){
+
+                        });
+                        
                     });
                 },'html');
             });
