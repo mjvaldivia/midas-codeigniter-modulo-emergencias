@@ -99,6 +99,7 @@ Class Emergencia_reporte extends MY_Controller {
         }
         
         $respuesta = array("correcto" => $correcto);
+        echo json_encode($respuesta);
     }
     
     /**

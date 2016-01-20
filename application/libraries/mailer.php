@@ -11,7 +11,7 @@ class mailer {
     function load($exceptions=false)
     {
         include_once APPPATH.'/third_party/phpmailer/class.phpmailer.php';
-         
+         include_once APPPATH.'/third_party/phpmailer/class.smtp.php';
        
          
         return new PHPMailer($exceptions);
