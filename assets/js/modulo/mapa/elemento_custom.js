@@ -12,6 +12,44 @@ var MapaElementoCustom = Class({
         this.id_emergencia = id;
     },
     
+    /**
+     * 
+     * @param {type} id
+     * @param {type} clave
+     * @param {type} propiedades
+     * @param {type} coordenadas
+     * @param {type} icono
+     * @returns {undefined}
+     */
+    dibujarMarcador : function(id, clave, propiedades, coordenadas, icono){
+        var yo = this;
+        var posicion = new google.maps.LatLng(parseFloat(coordenadas.lat), parseFloat(coordenadas.lng));
+
+        marker = new google.maps.Marker({
+            id : id,
+            tipo : "PUNTO",
+            position: posicion,
+            identificador: id,
+            clave : clave,
+            capa: null,
+            custom: true,
+            informacion : propiedades,
+            draggable: true,
+            map: yo.mapa,
+            icon: icono
+        });  
+        
+        lista_markers.push(marker);
+    },
+    
+    /**
+     * Dibuja poligono
+     * @param {type} id
+     * @param {type} propiedades
+     * @param {type} coordenadas
+     * @param {type} color
+     * @returns {undefined}
+     */
     dibujarPoligono : function(id, propiedades, coordenadas, color){
         var poligono = new google.maps.Polygon({
             paths: coordenadas,
@@ -104,6 +142,9 @@ var MapaElementoCustom = Class({
 
         var circuloClickListener = new MapaCirculoClickListener();
         circuloClickListener.addClickListener(circulo, this.mapa);
+        
+        var circuloClickListener = new MapaCirculoMoveListener();
+        circuloClickListener.addMoveListener(circulo, this.mapa); 
         lista_poligonos.push(circulo);
     },
     
@@ -128,6 +169,9 @@ var MapaElementoCustom = Class({
             success:function(data){
                 if(data.correcto){
                     $.each(data.resultado.elemento, function(id, elemento){
+                        if(elemento.tipo == "PUNTO"){
+                            yo.dibujarMarcador(id, elemento.clave, elemento.propiedades, elemento.coordenadas, elemento.icono);
+                        }
                         
                         if(elemento.tipo == "CIRCULO"){
                             yo.dibujarCirculo(id, elemento.propiedades,elemento.coordenadas.center,elemento.coordenadas.radio, elemento.color);
@@ -148,12 +192,50 @@ var MapaElementoCustom = Class({
         });
     },
     
+    removeOneCustomElements : function(atributo, valor){
+        console.log("Quitando elemento " + atributo + " " + valor);
+        var custom = jQuery.grep(lista_poligonos, function( a ) {
+            if(a.custom){
+                if(a[atributo] == valor){
+                    return true;
+                }
+            }
+        });
+        
+        $.each(custom, function(i, elemento){
+           elemento.setMap(null); 
+        });
+        
+        lista_poligonos = jQuery.grep(lista_poligonos, function( a ) {
+            if(a[atributo] != valor){
+                return true;
+            }
+        });
+        
+        var custom = jQuery.grep(lista_markers, function( a ) {
+            if(a.custom){
+                if(a[atributo] == valor){
+                    return true;
+                }
+            }
+        });
+        
+        $.each(custom, function(i, elemento){
+           elemento.setMap(null); 
+        });
+        
+        lista_markers = jQuery.grep(lista_markers, function( a ) {
+            if(a[atributo] != valor){
+                return true;
+            }
+        });
+    },
+    
     /**
      * Quita todos los elementos custom
      * @returns {undefined}
      */
     removeCustomElements : function(){
-        
         var custom = jQuery.grep(lista_poligonos, function( a ) {
             if(a.custom){
                 return true;
@@ -170,6 +252,23 @@ var MapaElementoCustom = Class({
                 return true;
             }
         });
+        
+        var custom = jQuery.grep(lista_markers, function( a ) {
+            if(a.custom){
+                return true;
+            }
+        });
+        
+        $.each(custom, function(i, elemento){
+           elemento.setMap(null); 
+        });
+        
+        
+        lista_markers = jQuery.grep(lista_markers, function( a ) {
+            if(!a.custom){
+                return true;
+            }
+        });
     },
     
     /**
@@ -180,17 +279,50 @@ var MapaElementoCustom = Class({
         
         var parametro = {};
         
-        var custom = jQuery.grep(lista_poligonos, function( a ) {
+        var custom_element = jQuery.grep(lista_poligonos, function( a ) {
             if(a.custom){
                 return true;
             }
         });
         
+        var custom_markers = jQuery.grep(lista_markers, function( a ) {
+            if(a.custom){
+                return true;
+            }
+        });
+        
+        var custom = $.merge(custom_element, custom_markers);
+        
         $.each(custom, function(i, elemento){
             var data = {};
             
+            
+            
+            if(elemento.tipo == "PUNTO"){
+                
+                var contenedor = jQuery.grep(lista_poligonos, function( a ) {
+                    if(a.clave == elemento.clave){
+                        return true;
+                    }
+                });
+
+                var relacion = false;
+                if(contenedor.length>0){
+                    relacion = true;
+                }
+                
+                data = {"tipo" : "PUNTO",
+                        "clave" : elemento.clave,
+                        "icono" : elemento.getIcon(),
+                        "id" : elemento.id,
+                        "propiedades" : elemento.informacion,
+                        "coordenadas" : elemento.getPosition(),
+                        "contenedor" : relacion};
+            }
+            
             if(elemento.tipo == "POLIGONO"){
                 data = {"tipo" : "POLIGONO",
+                        "clave" : elemento.clave,
                         "color" : elemento.fillColor,
                         "id" : elemento.id,
                         "propiedades" : elemento.informacion,
@@ -199,6 +331,7 @@ var MapaElementoCustom = Class({
             
             if(elemento.tipo == "RECTANGULO"){
                 data = {"tipo" : "RECTANGULO",
+                        "clave" : elemento.clave,
                         "color" : elemento.fillColor,
                         "id" : elemento.id,
                         "propiedades" : elemento.informacion,
@@ -207,6 +340,7 @@ var MapaElementoCustom = Class({
             
             if(elemento.tipo == "CIRCULO"){
                 data = {"tipo" : "CIRCULO",
+                        "clave" : elemento.clave,
                         "color" : elemento.fillColor,
                         "id" : elemento.id,
                         "propiedades" : elemento.informacion,

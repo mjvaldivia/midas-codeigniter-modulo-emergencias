@@ -1,3 +1,8 @@
+var tipo_marcador_lugar_emergencia = 1;
+var tipo_marcador_lugar_alarma     = 2;
+var tipo_marcador_capa             = 3;
+var tipo_marcador_otros            = 4;
+
 var Visor = Class({    
     
     mapa : null,

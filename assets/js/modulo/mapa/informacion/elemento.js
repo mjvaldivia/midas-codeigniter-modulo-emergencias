@@ -29,21 +29,8 @@ var MapaInformacionElemento = Class({
                         label: " Quitar elemento",
                         className: "btn-danger fa fa-remove",
                         callback: function() {
-                            var elementos = jQuery.grep(lista_poligonos, function( a ) {
-                                if(a.clave == clave){
-                                    return true;
-                                }
-                            });
-                            
-                            $.each(elementos, function(i, elem){
-                                elem.setMap(null); 
-                            });
-                            
-                            lista_poligonos = jQuery.grep(lista_poligonos, function( a ) {
-                                if(a.clave != clave){
-                                    return true;
-                                }
-                            });
+                            var custom = new MapaElementoCustom();
+                            custom.removeOneCustomElements("clave", clave);
                         }
                     },
                     cerrar: {
@@ -57,16 +44,16 @@ var MapaInformacionElemento = Class({
     
     dialogo : function(){
         bootbox.dialog({
-                message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
-                title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
-                className: "modal90",
-                buttons: {
-                    cerrar: {
-                        label: " Cerrar ventana",
-                        className: "btn-white fa fa-close",
-                        callback: function() {}
-                    }
+            message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+            title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
+            className: "modal90",
+            buttons: {
+                cerrar: {
+                    label: " Cerrar ventana",
+                    className: "btn-white fa fa-close",
+                    callback: function() {}
                 }
+            }
         });
     },
     

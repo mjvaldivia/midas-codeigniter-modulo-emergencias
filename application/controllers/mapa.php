@@ -322,12 +322,21 @@ class Mapa extends MY_Controller {
             $lista_elementos = $this->_emergencia_elementos_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_elementos)>0){
                 foreach($lista_elementos as $elemento){
-
+                    
+                   
+                    if($elemento["tipo"] == "PUNTO" && $elemento["id_contenedor_marcador_centro"]!=""){
+                        $clave = "elemento_" . $elemento["id_contenedor_marcador_centro"];
+                    } else {
+                        $clave = "elemento_" . $elemento["id"];
+                    }
+                    
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array("tipo" => $elemento["tipo"],
                                                                             "propiedades" => json_decode($elemento["propiedades"]),
                                                                             "coordenadas" => json_decode($elemento["coordenadas"]),
-                                                                            "color" => $elemento["color"]);
+                                                                            "color" => $elemento["color"],
+                                                                            "icono" => $elemento["icono"],
+                                                                            "clave" => $clave);
                     
                 }
             }

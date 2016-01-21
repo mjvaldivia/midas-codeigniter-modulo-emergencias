@@ -31,6 +31,7 @@ var MapaPoligono = Class({
         });
         
         $.each(arr, function(i, poligono){
+           
            poligono.setMap(null); 
         });
         

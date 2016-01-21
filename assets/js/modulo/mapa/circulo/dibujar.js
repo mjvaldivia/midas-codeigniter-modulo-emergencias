@@ -3,6 +3,33 @@ var MapaCirculoDibujar = Class({
     mapa : null,
     identificador : null,
     editable : false,
+    unique_id : null,
+    
+    /**
+    * Carga de dependencias
+    * @returns void
+    */
+    __construct : function() {
+        this.reloadUniqueId();
+    },
+    
+    /**
+     * Regenera el id unico
+     * @returns {undefined}
+     */
+    reloadUniqueId : function(){
+        var editor = new MapaEditor();
+        this.unique_id = editor.uniqID(20);
+    },
+    
+    /**
+     * Setea un nuevo id unico
+     * @param {type} unique_id
+     * @returns {undefined}
+     */
+    seteaUniqueId : function(unique_id){
+        this.unique_id = unique_id;
+    },
     
     /**
      * 
@@ -10,6 +37,8 @@ var MapaCirculoDibujar = Class({
     seteaIdentificador : function(identificador){
         this.identificador = identificador;
     },
+    
+    
     
     seteaMapa : function(mapa){
         this.mapa = mapa;
@@ -20,6 +49,7 @@ var MapaCirculoDibujar = Class({
     },
     
     dibujarCirculo : function(id, propiedades, centro, radio, color){
+        var editor = new MapaEditor();
         var yo = this;
         var circulo = new google.maps.Circle({
             id : id,
@@ -28,7 +58,7 @@ var MapaCirculoDibujar = Class({
             identificador: yo.identificador,
             capa : null,
             informacion: propiedades,
-            clave : "elemento_" + id,
+            clave : yo.unique_id,
             clickable: true,
             editable: yo.editable,
             strokeColor: '#000',
@@ -41,9 +71,13 @@ var MapaCirculoDibujar = Class({
             radius: parseInt(radio)
         });
 
-        console.log(circulo);
+        
         var circuloClickListener = new MapaCirculoClickListener();
         circuloClickListener.addClickListener(circulo, this.mapa);
+        
+        var circuloClickListener = new MapaCirculoMoveListener();
+        circuloClickListener.addMoveListener(circulo, this.mapa);
+        
         lista_poligonos.push(circulo);
     }
     

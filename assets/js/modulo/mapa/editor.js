@@ -54,14 +54,20 @@ var MapaEditor = Class({
             drawingControlOptions: {
               position: google.maps.ControlPosition.TOP_CENTER,
               drawingModes: [
-                //google.maps.drawing.OverlayType.MARKER,
+                google.maps.drawing.OverlayType.MARKER,
                 google.maps.drawing.OverlayType.CIRCLE,
                 google.maps.drawing.OverlayType.POLYGON,
                // google.maps.drawing.OverlayType.POLYLINE,
                 google.maps.drawing.OverlayType.RECTANGLE
               ]
             },
-            markerOptions: {icon: baseUrl + 'assets/img/markers/spotlight-poi-black.png'},
+            markerOptions: {"id" : null,
+                            icon: baseUrl + 'assets/img/markers/spotlight-poi-black.png',
+                            tipo : "PUNTO",
+                            capa: null,
+                            draggable: true,
+                            custom: true,
+                            clave: ""},
             circleOptions: {
                 clickable: true,
                 editable: true,
@@ -91,6 +97,10 @@ var MapaEditor = Class({
             }
         });
         drawingManager.setMap(mapa);
+        
+        google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+            lista_markers.push(marker);
+        });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
             rectangle.setOptions({
@@ -201,6 +211,24 @@ var MapaEditor = Class({
      * @param {googleMaps} map
      * @returns {void}
      */
+    controlImportar : function (map) {
+        var yo = this;
+        var buttonOptions = {
+        		gmap: map,
+        		name: '<i class=\"fa fa-bullhorn\"></i> Importar KML',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		action: function(){
+        		    
+        		}
+        }
+        var button1 = new buttonControl(buttonOptions, "button-map");    
+    },
+    
+    /**
+     * Boton editar
+     * @param {googleMaps} map
+     * @returns {void}
+     */
     controlEditar : function (map) {
         var yo = this;
         var buttonOptions = {
@@ -209,8 +237,9 @@ var MapaEditor = Class({
         		position: google.maps.ControlPosition.TOP_RIGHT,
         		action: function(){
         		    var marcador = new MapaMarcadorLugarEmergencia();
+                            marcador.seteaMapa(map);
                             marcador.seteaEmergencia(yo.id_emergencia);
-                            marcador.addMarcador(map);
+                            marcador.addMarcador();
         		}
         }
         var button1 = new buttonControl(buttonOptions, "button-map");    
@@ -348,7 +377,24 @@ var MapaEditor = Class({
         if(elementos.length > 0){
             return this.uniqID(20);
         } else {
-            return randomString;
+            
+            var poligonos = jQuery.grep(lista_poligonos, function( a ) {
+                if(a["clave"] == randomString){
+                    return true;
+                }
+            });
+            
+            var marcadores = jQuery.grep(lista_markers, function( a ) {
+                if(a["clave"] == randomString){
+                    return true;
+                }
+            });
+            
+            if(marcadores.lenght > 0 || poligonos.lenght > 0){
+                return this.uniqID(20);
+            } else {
+                return randomString;
+            }
         }
     },
     

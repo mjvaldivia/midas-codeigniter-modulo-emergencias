@@ -20,6 +20,10 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
         this.id_emergencia = id;
     },
     
+    removerAlarma : function(){
+        this.removerMarcadores("identificador","lugar_alarma");
+    },
+        
     /**
      * Posiciona marcador en el mapa
      * @param {google.maps} mapa

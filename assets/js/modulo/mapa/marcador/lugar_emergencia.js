@@ -3,6 +3,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
 
     draggable : true,
     id_emergencia : null,
+    drawing_manager : null,
+    unique_id : null,
     
     /**
     * Carga de dependencias
@@ -12,36 +14,15 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
 
     },
     
-        /**
-     * 
-     * @param {int} id
+    /**
+     * Inicia dibujador de marcador
+     * @param {googleMap} map
      * @returns {undefined}
      */
-    seteaEmergencia : function(id){
-        this.id_emergencia = id;
-    },
-    
-    quitarLugarAlarma : function(){
-        var arr = jQuery.grep(lista_markers, function( a ) {
-            if(a["identificador"] == "lugar_alarma"){
-                return true;
-            }
-        });
-        
-        $.each(arr, function(i, marker){
-           marker.setMap(null); 
-        });
-        
-        //se quita el poligono de la lista
-        lista_markers = jQuery.grep(lista_markers, function( a ) {
-            if(a["identificador"] != "lugar_alarma"){
-                return true;
-            }
-        });
-    },
-    
-    addMarcador : function(map){
+    drawingManager : function(map){
         var yo = this;
+        var editor = new MapaEditor();
+        this.unique_id = editor.uniqID(20);
         
         var drawingManager = new google.maps.drawing.DrawingManager({
             drawingMode: google.maps.drawing.OverlayType.MARKER,
@@ -52,147 +33,159 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                     google.maps.drawing.OverlayType.MARKER
                 ]
             },
-            markerOptions: {icon: baseUrl + "assets/img/emergencia.png",
-                            informacion: {"NOMBRE" : "LUGAR EMERGENCIA"}},
+            markerOptions: {
+                            tipo : "PUNTO",
+                            identificador: null,
+                            draggable: false,
+                            clave : yo.unique_id,
+                            tipo_marcador : tipo_marcador_lugar_emergencia,
+                            custom : true,
+                            icon: baseUrl + "assets/img/emergencia.png",
+                            informacion: {"TIPO" : "LUGAR EMERGENCIA",
+                                          "NOMBRE" : ""}
+            },
         });
 
-        drawingManager.setMap(map);
+        drawingManager.setMap(this.mapa);
         
-        google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
-            yo.quitarLugarAlarma();
-            var latLon = marker.getPosition();            
-            bootbox.dialog({
-                    message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
-                    title: "<i class=\"fa fa-arrow-right\"></i> Ingrese la cantidad de metros del radio de la alarma",
-                    buttons: {
-                        guardar: {
-                            label: " Guardar",
-                            className: "btn-success fa fa-save",
-                            callback: function() {
-                                var salida = false;
-                                var parametros = {"id" : yo.id_emergencia,
-                                                  "metros" : $("#metros").val(),
-                                                  "lat" : latLon.lat,
-                                                  "lon" : latLon.lng};
-                                
-                                $.ajax({         
-                                    dataType: "json",
-                                    cache: false,
-                                    async: false,
-                                    data: parametros,
-                                    type: "post",
-                                    url: siteUrl + "mapa/ajax_guardar_lugar_emergencia", 
-                                    error: function(xhr, textStatus, errorThrown){
-                                        notificacionError("Ha ocurrido un problema", errorThrown);
-                                    },
-                                    success:function(data){
-                                        if(data.correcto == true){
-                                            procesaErrores(data.error);
-                                            salida = true;
-                                            
-                                            var circulo = new MapaCirculoDibujar();
-                                            circulo.seteaMapa(map);
-                                            circulo.seteaEditable(true);
-                                            circulo.seteaIdentificador("LUGAR_EMERGENCIA");
-                                            circulo.dibujarCirculo("lugar_emergencia", 
-                                                                    {"TIPO" : "LUGAR EMERGENCIA",
-                                                                     "NOMBRE" : ""}, 
-                                                                    marker.getPosition(), 
-                                                                    parametros.metros, 
-                                                                    "red");
-                                            
-                                        } else {
-                                            $("#form_error").removeClass("hidden");
-                                            procesaErrores(data.error);
-                                        }
-                                    }
-                                });
-                                drawingManager.setMap(null);
-                                return salida;
-                            }
-                        },
-                        cerrar: {
-                            label: " Cerrar ventana",
-                            className: "btn-white fa fa-close",
-                            callback: function() {}
-                        }
-                    }
-            });
-            
-            var parametros = {};
-            
-            $.ajax({         
-                dataType: "html",
-                cache: false,
-                async: true,
-                data: parametros,
-                type: "post",
-                url: siteUrl + "mapa/popup_lugar_emergencia", 
-                error: function(xhr, textStatus, errorThrown){
-                    notificacionError("Ha ocurrido un problema", errorThrown);
-                },
-                success:function(data){
-                    $("#contenido-popup-capas").html(data);
-                }
-            });
-        });
+        this.drawing_manager = drawingManager;
     },
     
     /**
-     * Posiciona marcador en el mapa
-     * @param {google.maps} mapa
-     * @returns {void}
+     * Quita la alarma
+     * @returns {undefined}
      */
-    marcador : function(mapa){
-        this.mapa = mapa;
+    quitarLugarAlarma : function(){
+        var alarma = new MapaMarcadorLugarAlarma();
+        alarma.removerAlarma();
+    },
+    
+    /**
+     * 
+     * @param {int} id
+     * @returns {undefined}
+     */
+    seteaEmergencia : function(id){
+        this.id_emergencia = id;
+    },
+    
+    /**
+     * Valida y dibuja circulo 
+     * @param {marker} marker
+     * @returns {Boolean}
+     */
+    dibujaCirculo : function(marker){
         var yo = this;
-        
+        var salida = false;
+        var latLon = marker.getPosition();  
+        var parametros = {"id" : yo.id_emergencia,
+                          "metros" : $("#metros").val(),
+                          "lat" : latLon.lat,
+                          "lon" : latLon.lng};
         $.ajax({         
             dataType: "json",
             cache: false,
-            async: true,
-            data: "id=" + yo.id_emergencia,
+            async: false,
+            data: parametros,
             type: "post",
-            url: siteUrl + "mapa/ajax_marcador_lugar_emergencia", 
-            error: function(xhr, textStatus, errorThrown){},
+            url: siteUrl + "mapa/ajax_guardar_lugar_emergencia", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
             success:function(data){
-                if(data.correcto){
-                    var posicion = new google.maps.LatLng(parseFloat(data.resultado.lat), parseFloat(data.resultado.lon));
+                if(data.correcto == true){
+                    procesaErrores(data.error);
+                    salida = true;
                     
-                    var circulo = new MapaCirculoDibujar();
-                    circulo.seteaMapa(mapa);
-                    circulo.seteaIdentificador("LUGAR_EMERGENCIA");
-                    circulo.dibujarCirculo("lugar_emergencia", 
-                                            {"TIPO" : "LUGAR EMERGENCIA",
-                                             "NOMBRE" : data.resultado.nombre}, 
-                                            posicion, 
-                                            data.resultado.radio, 
-                                            "red");
+                    if(parametros.metros > 0){
+                        var circulo = new MapaCirculoDibujar();
+                        circulo.seteaMapa(yo.mapa);
+                        circulo.seteaUniqueId(yo.unique_id);
+                        circulo.seteaEditable(true);
+                        circulo.seteaIdentificador(null);
+                        circulo.dibujarCirculo(null, 
+                                                {"TIPO" : "LUGAR EMERGENCIA",
+                                                 "NOMBRE" : ""}, 
+                                                marker.getPosition(), 
+                                                parametros.metros, 
+                                                "red");
+                       
+                    } else {
+                        marker.setDraggable(true);
+                    }
                     
-                    
-                    yo.posicionarMarcador("lugar_emergencia",
-                                          null, 
-                                          data.resultado.lon, 
-                                          data.resultado.lat, 
-                                          {"TIPO" : "LUGAR EMERGENCIA",
-                                           "NOMBRE" : data.resultado.nombre}, 
-                                          data.resultado.zona, 
-                                           baseUrl + "assets/img/emergencia.png");
-                    //yo.centrarMapa(mapa, data.resultado.lon, data.resultado.lat, data.resultado.zona);
+                    yo.informacionMarcador(marker);
+
+                    lista_markers.push(marker);
 
                 } else {
-                    notificacionError("Ha ocurrido un problema", data.error);
+                    $("#form_error").removeClass("hidden");
+                    procesaErrores(data.error);
                 }
             }
-        }); 
+        });
+        this.drawing_manager.setMap(null);
+        return salida;  
     },
     
-    centrarMapa : function (mapa, lon, lat, zona){
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(lon), 
-                                                   parseFloat(lat), 
-                                                   zona);
-        var posicion = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
-        mapa.setCenter(posicion);
-    }
+    /**
+     * Popup para ingresar metros
+     * @param {marker} marker
+     * @returns {undefined}
+     */
+    popupMetros : function(marker){
+        var yo = this;
+        var latLon = marker.getPosition();            
+        bootbox.dialog({
+                message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+                title: "<i class=\"fa fa-arrow-right\"></i> Ingrese la cantidad de metros del radio de la alarma",
+                buttons: {
+                    guardar: {
+                        label: " Guardar",
+                        className: "btn-success fa fa-save",
+                        callback: function() {
+                            return yo.dibujaCirculo(marker);
+                        }
+                    },
+                    cerrar: {
+                        label: " Cerrar ventana",
+                        className: "btn-white fa fa-close",
+                        callback: function() {}
+                    }
+                }
+        });
+
+        var parametros = {};
+
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "mapa/popup_lugar_emergencia", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                $("#contenido-popup-capas").html(data);
+            }
+        });
+   
+    },
     
+    /**
+     * Añade marcador de lugar emergencia
+     * @param {googleMap} map
+     * @returns {undefined}
+     */
+    addMarcador : function(){
+        var yo = this;
+        this.drawingManager();
+        google.maps.event.addListener(yo.drawing_manager, 'markercomplete', function(marker) {
+            yo.quitarLugarAlarma();
+            yo.popupMetros(marker);
+        });
+    },
+
 });

@@ -8,6 +8,7 @@
 
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/circulo/move_listener.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/circulo/click_listener.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/circulo/dibujar.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/rectangulo/click_listener.js"); ?>
