@@ -123,16 +123,29 @@ class Session extends MY_Controller {
         $this->load->helper(array("modulo/direccion/region",
                                   "modulo/usuario/usuario"));
         $this->load->model("usuario_model", "usuario_model");
+        $this->load->model("usuario_region_model", 'usuario_region_model');
 
         $lista = $this->usuario_model->listar();
 
         $json = array();
 
-        foreach($lista as $usuario)
+        foreach($lista as $usuario){
+            $lista_regiones = '';
+            $regiones = $this->usuario_region_model->listarPorUsuario($usuario['usu_ia_id']);
+            foreach($regiones as $region){
+                if($region['id_region'] == 13){
+                    $lista_regiones .= 'Región Metropolitana, ';    
+                }else{
+                    $lista_regiones .= $region['id_region'].'º, ';    
+                }
+                
+            }
+            $lista_regiones = trim($lista_regiones,', ');
             $json[] = array(
                 $usuario["usu_ia_id"],
-                nombreUsuario($usuario["usu_ia_id"]) . " - " . nombreRegionesUsuario($usuario["usu_ia_id"])
+                nombreUsuario($usuario["usu_ia_id"]) . " - " . $lista_regiones
             );
+        }
 
         echo json_encode($json);
     }

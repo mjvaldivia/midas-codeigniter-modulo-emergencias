@@ -128,6 +128,10 @@ var xModal = {
 			$('.modal-backdrop').last().fadeOut('fast',function(){
 				$(this).remove();
 			});
+
+			if($(".modal").length == 0){
+				$('body').removeClass('modal-open');
+			}
 		});	
 		/*if(modalIndex === undefined){
 			$(".modal").last().modal('hide').fadeOut(function(){
@@ -157,6 +161,7 @@ var xModal = {
 			$('.modal-backdrop').fadeOut(function(){
 				$(this).remove();
 			});
+			$('body').removeClass('modal-open');
 		});
 	},
 
