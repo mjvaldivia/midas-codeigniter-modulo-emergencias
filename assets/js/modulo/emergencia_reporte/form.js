@@ -15,14 +15,14 @@ var EmergenciaReporteForm = Class({
     },
     
     
-    enviarCorreo : function(){
+    enviarCorreo : function(boton){
         var imagen = new EmergenciaReporteMapaImagen("mapa");
-        imagen.addOnReadyFunction("carga pdf", this.correo, this.id_emergencia);
+        imagen.addOnReadyFunction("carga pdf", this.correo, boton);
         imagen.crearImagen();
         return false;
     },
     
-    correo : function(hash, id){
+    correo : function(hash, boton){
         var parametros = $("#form_reporte_emergencia").serializeArray();
         
         var add = {"value" : hash,
@@ -44,11 +44,15 @@ var EmergenciaReporteForm = Class({
             },
             success:function(data){
                 if(data.correcto == true){
-                    procesaErrores(data.error);
-                    
+                    //procesaErrores(data.error);
+                    notificacionCorrecto("Envío de reporte", "El correo se ha enviado correctamente");
+                    bootbox.hideAll()
                 } else {
                     $("#form_error").removeClass("hidden");
                     procesaErrores(data.error);
+                    
+                    $(boton).children("i").addClass("fa-envelope-o");
+                    $(boton).children("i").removeClass("fa-spin fa-spinner");
                 }
             }
         });
@@ -92,11 +96,10 @@ var EmergenciaReporteForm = Class({
                     className: "btn-success",
                     callback: function (e) {
                         var boton = e.currentTarget;
-                        $(boton).children("i").removeClass("fa-file");
+                        $(boton).children("i").removeClass("fa-envelope-o");
                         $(boton).children("i").addClass("fa-spin fa-spinner");
-                        var retorno = yo.enviarCorreo();
-                        $(boton).children("i").addClass("fa-file");
-                        $(boton).children("i").removeClass("fa-spin fa-spinner");
+                        var retorno = yo.enviarCorreo(boton);
+                        
                         return retorno;
                     }
                 },

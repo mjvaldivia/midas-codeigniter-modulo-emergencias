@@ -22,9 +22,9 @@ $(document).ready(function() {
     visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_alarma.marcador, null);
     
      //marcadores
-    var lugar_emergencia = new  MapaMarcadorLugarEmergencia();
+   /* var lugar_emergencia = new  MapaMarcadorLugarEmergencia();
     lugar_emergencia.seteaEmergencia(id);
-    visor.addOnReadyFunction("marcador del lugar de la emergencia", lugar_emergencia.marcador, null);
+    visor.addOnReadyFunction("marcador del lugar de la emergencia", lugar_emergencia.marcador, null);*/
     
     //capas
     var capas = new MapaCapa();

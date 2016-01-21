@@ -98,7 +98,8 @@ Class Emergencia_reporte extends MY_Controller {
             $correcto = $this->emergencia_email_reporte->send();
         }
         
-        $respuesta = array("correcto" => $correcto);
+        $respuesta = array("correcto" => $correcto,
+                           "error" => array());
         echo json_encode($respuesta);
     }
     

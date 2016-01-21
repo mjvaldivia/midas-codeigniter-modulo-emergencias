@@ -36,7 +36,7 @@
 <table class="">
     <tr>
         <th  style="padding:10px; width: 0px;">
-            <img src="<?php echo base_url("/assets/img/top_logo.png") ?>" width="140px"/>
+            <img src="var:imagen_logo" width="140px"/>
         </th>
         <th style="padding:10px;" id="detalle_cabecera" valign='top'>
             <div id="texto_cabecera">

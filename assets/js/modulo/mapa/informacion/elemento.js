@@ -7,8 +7,8 @@ var MapaInformacionElemento = Class({
                 className: "modal90",
                 buttons: {
                     guardar: {
-                        label: " Guardar cambios",
-                        className: "btn-success fa fa-save",
+                        label: " Efectuar cambios",
+                        className: "btn-success fa fa-check",
                         callback: function() {
                             var elementos = jQuery.grep(lista_poligonos, function( a ) {
                                 if(a.clave == clave){
@@ -26,7 +26,7 @@ var MapaInformacionElemento = Class({
                         }
                     },
                     eliminar: {
-                        label: " Eliminar elemento",
+                        label: " Quitar elemento",
                         className: "btn-danger fa fa-remove",
                         callback: function() {
                             var elementos = jQuery.grep(lista_poligonos, function( a ) {

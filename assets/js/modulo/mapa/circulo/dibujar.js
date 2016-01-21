@@ -23,7 +23,7 @@ var MapaCirculoDibujar = Class({
         var yo = this;
         var circulo = new google.maps.Circle({
             id : id,
-            custom : false,
+            custom : true,
             tipo : "CIRCULO",
             identificador: yo.identificador,
             capa : null,
@@ -36,11 +36,12 @@ var MapaCirculoDibujar = Class({
             strokeWeight: 2,
             fillColor: color,
             fillOpacity: 0.35,
-            map: this.mapa,
+            map: yo.mapa,
             center: centro,
             radius: parseInt(radio)
         });
 
+        console.log(circulo);
         var circuloClickListener = new MapaCirculoClickListener();
         circuloClickListener.addClickListener(circulo, this.mapa);
         lista_poligonos.push(circulo);

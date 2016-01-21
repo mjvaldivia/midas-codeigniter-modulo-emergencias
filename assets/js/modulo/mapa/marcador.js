@@ -49,7 +49,7 @@ var MapaMarcador = Class({
      * @param {string} zona
      * @returns {void}
      */
-    posicionarMarcador : function(capa, lon, lat, propiedades, zona, imagen){
+    posicionarMarcador : function(id, capa, lon, lat, propiedades, zona, imagen){
         var yo = this;
         
         var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(lon), 
@@ -67,6 +67,8 @@ var MapaMarcador = Class({
 
         marker = new google.maps.Marker({
             position: posicion,
+            identificador: id,
+            clave : "marcador_" + id,
             capa: capa,
             informacion : propiedades,
             draggable: yo.draggable,

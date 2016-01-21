@@ -173,7 +173,8 @@ var MapaCapa = Class({
         var yo = this;
         switch (geometry.type) {
             case "Point":
-                yo.class_marcador.posicionarMarcador(subcapa,
+                yo.class_marcador.posicionarMarcador(id,
+                                                     subcapa,
                                                      geometry.coordinates[0], 
                                                      geometry.coordinates[1], 
                                                      propiedades,

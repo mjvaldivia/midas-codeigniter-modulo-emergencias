@@ -234,7 +234,7 @@ class Mapa extends MY_Controller {
                 $data = array("eme_radio" => $metros,
                               "eme_c_utm_lat" => $params["lat"],
                               "eme_c_utm_lng" => $params["lon"]);
-                $this->_emergencia_model->update($data, $emergencia->eme_ia_id);
+                //$this->_emergencia_model->update($data, $emergencia->eme_ia_id);
                 $retorno = array("correcto" => true,
                                  "error" => array("metros" => ""));
             }

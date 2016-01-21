@@ -21,6 +21,25 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         this.id_emergencia = id;
     },
     
+    quitarLugarAlarma : function(){
+        var arr = jQuery.grep(lista_markers, function( a ) {
+            if(a["identificador"] == "lugar_alarma"){
+                return true;
+            }
+        });
+        
+        $.each(arr, function(i, marker){
+           marker.setMap(null); 
+        });
+        
+        //se quita el poligono de la lista
+        lista_markers = jQuery.grep(lista_markers, function( a ) {
+            if(a["identificador"] != "lugar_alarma"){
+                return true;
+            }
+        });
+    },
+    
     addMarcador : function(map){
         var yo = this;
         
@@ -40,11 +59,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         drawingManager.setMap(map);
         
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
-            
-            var latLon = marker.getPosition();
-            
-            console.log(latLon);
-            
+            yo.quitarLugarAlarma();
+            var latLon = marker.getPosition();            
             bootbox.dialog({
                     message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
                     title: "<i class=\"fa fa-arrow-right\"></i> Ingrese la cantidad de metros del radio de la alarma",
@@ -76,6 +92,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                                             
                                             var circulo = new MapaCirculoDibujar();
                                             circulo.seteaMapa(map);
+                                            circulo.seteaEditable(true);
                                             circulo.seteaIdentificador("LUGAR_EMERGENCIA");
                                             circulo.dibujarCirculo("lugar_emergencia", 
                                                                     {"TIPO" : "LUGAR EMERGENCIA",
@@ -140,7 +157,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
-                    var posicion = new google.maps.LatLng(parseFloat(data.resultado.lon), parseFloat(data.resultado.lat));
+                    var posicion = new google.maps.LatLng(parseFloat(data.resultado.lat), parseFloat(data.resultado.lon));
+                    
                     var circulo = new MapaCirculoDibujar();
                     circulo.seteaMapa(mapa);
                     circulo.seteaIdentificador("LUGAR_EMERGENCIA");
@@ -152,7 +170,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                                             "red");
                     
                     
-                    yo.posicionarMarcador(null, 
+                    yo.posicionarMarcador("lugar_emergencia",
+                                          null, 
                                           data.resultado.lon, 
                                           data.resultado.lat, 
                                           {"TIPO" : "LUGAR EMERGENCIA",
