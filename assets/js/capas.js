@@ -609,7 +609,7 @@ var Layer = {};
         $(btn).attr('disabled',true);
         var btnText = $(btn).html();
         $(btn).html('Eliminando... <i class="fa fa-spin fa-spinner"></i>');
-        $.post(siteUrl + 'capas/eliminarErroresCargaCapas',{capa:capa},function(){
+        $.post(siteUrl + 'capas/eliminarErroresCargaCapas',{capa:capa},function(response){
             if(response.estado == true){
                 xModal.success(response.mensaje,function(){
                     xModal.closeAll();
