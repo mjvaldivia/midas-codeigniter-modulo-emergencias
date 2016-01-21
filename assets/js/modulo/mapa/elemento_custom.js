@@ -168,7 +168,25 @@ var MapaElementoCustom = Class({
             },
             success:function(data){
                 if(data.correcto){
+                    
+                    var bo_lugar_emergencia = false;
+                    
                     $.each(data.resultado.elemento, function(id, elemento){
+                        if(elemento.tipo == "PUNTO LUGAR EMERGENCIA"){
+                            var lugar_emergencia = new MapaMarcadorLugarEmergencia();
+                            lugar_emergencia.seteaMapa(mapa);
+                            lugar_emergencia.posicionarMarcador(
+                                    id, 
+                                    elemento.coordenadas.center.lng, 
+                                    elemento.coordenadas.center.lat, 
+                                    elemento.coordenadas.radio, 
+                                    elemento.propiedades, 
+                                    elemento.icono
+                            );
+                            
+                            bo_lugar_emergencia = true;
+                        }
+                        
                         if(elemento.tipo == "PUNTO"){
                             yo.dibujarMarcador(id, elemento.clave, elemento.propiedades, elemento.coordenadas, elemento.icono);
                         }
@@ -185,6 +203,14 @@ var MapaElementoCustom = Class({
                             yo.dibujarPoligono(id, elemento.propiedades, elemento.coordenadas, elemento.color);
                         }
                     });
+                    
+                    if(!bo_lugar_emergencia){
+                        var lugar_alarma = new MapaMarcadorLugarAlarma();
+                        lugar_alarma.seteaEmergencia(yo.id_emergencia);
+                        lugar_alarma.marcador(yo.mapa);
+                    }
+                    
+                    
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -294,61 +320,74 @@ var MapaElementoCustom = Class({
         var custom = $.merge(custom_element, custom_markers);
         
         $.each(custom, function(i, elemento){
-            var data = {};
+            var data = null;
             
-            
-            
-            if(elemento.tipo == "PUNTO"){
-                
-                var contenedor = jQuery.grep(lista_poligonos, function( a ) {
-                    if(a.clave == elemento.clave){
-                        return true;
-                    }
-                });
+            switch(elemento.tipo){
+                case "PUNTO":
+                    data = {"tipo" : "PUNTO",
+                            "clave" : elemento.clave,
+                            "icono" : elemento.getIcon(),
+                            "id" : elemento.id,
+                            "propiedades" : elemento.informacion,
+                            "coordenadas" : elemento.getPosition()};
+                    break;
+                case "PUNTO LUGAR EMERGENCIA":
+                    
+                    var radio = 0;
+                    var color  = "";
+                    var arr = jQuery.grep(lista_poligonos, function( a ) {
+                        if(a.tipo == "CIRCULO LUGAR EMERGENCIA"){
+                            if(a.clave == elemento.clave){
+                                return true;
+                            }
+                        }
+                    });
 
-                var relacion = false;
-                if(contenedor.length>0){
-                    relacion = true;
-                }
+                    $.each(arr, function(i, circulo){
+                       radio = circulo.getRadius();
+                       color = circulo.fillColor;
+                    });
+                    
+                    data = {"tipo" : "PUNTO LUGAR EMERGENCIA",
+                            "clave" : elemento.clave,
+                            "icono" : elemento.getIcon(),
+                            "color" : color,
+                            "id" : elemento.id,
+                            "propiedades" : elemento.informacion,
+                            "coordenadas" : {"center" : elemento.getPosition(),
+                                             "radio"  : radio}};
+                    break;
+                case "POLIGONO":
+                    data = {"tipo" : "POLIGONO",
+                            "clave" : elemento.clave,
+                            "color" : elemento.fillColor,
+                            "id" : elemento.id,
+                            "propiedades" : elemento.informacion,
+                            "coordenadas" : elemento.getPath().getArray()};
+                    break;
+                case "RECTANGULO":
+                    data = {"tipo" : "RECTANGULO",
+                            "clave" : elemento.clave,
+                            "color" : elemento.fillColor,
+                            "id" : elemento.id,
+                            "propiedades" : elemento.informacion,
+                            "coordenadas" : elemento.getBounds()};
+                    break;
+                case "CIRCULO":
+                    data = {"tipo" : "CIRCULO",
+                            "clave" : elemento.clave,
+                            "color" : elemento.fillColor,
+                            "id" : elemento.id,
+                            "propiedades" : elemento.informacion,
+                            "coordenadas" : {"center" : elemento.getCenter(),
+                                             "radio"  : elemento.getRadius()}};
+                    break;
                 
-                data = {"tipo" : "PUNTO",
-                        "clave" : elemento.clave,
-                        "icono" : elemento.getIcon(),
-                        "id" : elemento.id,
-                        "propiedades" : elemento.informacion,
-                        "coordenadas" : elemento.getPosition(),
-                        "contenedor" : relacion};
             }
-            
-            if(elemento.tipo == "POLIGONO"){
-                data = {"tipo" : "POLIGONO",
-                        "clave" : elemento.clave,
-                        "color" : elemento.fillColor,
-                        "id" : elemento.id,
-                        "propiedades" : elemento.informacion,
-                        "coordenadas" : elemento.getPath().getArray()};
+
+            if(data != null){
+                parametro[i] = JSON.stringify(data);
             }
-            
-            if(elemento.tipo == "RECTANGULO"){
-                data = {"tipo" : "RECTANGULO",
-                        "clave" : elemento.clave,
-                        "color" : elemento.fillColor,
-                        "id" : elemento.id,
-                        "propiedades" : elemento.informacion,
-                        "coordenadas" : elemento.getBounds()};
-            }
-            
-            if(elemento.tipo == "CIRCULO"){
-                data = {"tipo" : "CIRCULO",
-                        "clave" : elemento.clave,
-                        "color" : elemento.fillColor,
-                        "id" : elemento.id,
-                        "propiedades" : elemento.informacion,
-                        "coordenadas" : {"center" : elemento.getCenter(),
-                                         "radio"  : elemento.getRadius()}};
-            }
-            
-            parametro[i] = JSON.stringify(data);
         });
         return parametro;
     }

@@ -2,6 +2,9 @@ var MapaCirculoDibujar = Class({
     
     mapa : null,
     identificador : null,
+    
+    tipo : "CIRCULO",
+    
     editable : false,
     unique_id : null,
     
@@ -11,6 +14,15 @@ var MapaCirculoDibujar = Class({
     */
     __construct : function() {
         this.reloadUniqueId();
+    },
+    
+    /**
+     * Setea el tipo de circulo
+     * @param {string} tipo
+     * @returns {undefined}
+     */
+    seteaTipo : function(tipo){
+        this.tipo = tipo;
     },
     
     /**
@@ -54,7 +66,7 @@ var MapaCirculoDibujar = Class({
         var circulo = new google.maps.Circle({
             id : id,
             custom : true,
-            tipo : "CIRCULO",
+            tipo : yo.tipo,
             identificador: yo.identificador,
             capa : null,
             informacion: propiedades,

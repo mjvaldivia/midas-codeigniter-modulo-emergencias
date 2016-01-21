@@ -1,5 +1,6 @@
 var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
     
+    mapa : null,
 
     draggable : true,
     id_emergencia : null,
@@ -12,6 +13,67 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
     */
     __construct : function() {
 
+    },
+    
+    setearMapa : function(mapa) {
+        this.mapa = mapa;
+    },
+    
+    
+    dibujarCirculo : function(id, lon, lat, radio, propiedades){
+        if(radio > 0){
+            var yo = this;
+
+            var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+
+            var circulo = new MapaCirculoDibujar();
+            circulo.seteaTipo("CIRCULO LUGAR EMERGENCIA");
+            circulo.seteaMapa(yo.mapa);
+            circulo.seteaUniqueId(yo.unique_id);
+            circulo.seteaEditable(true);
+            circulo.seteaIdentificador(id);
+            circulo.dibujarCirculo(id, 
+                                   propiedades, 
+                                   posicion, 
+                                   radio, 
+                                   "red");
+        }
+    },
+    
+    
+    posicionarMarcador : function(id, lon, lat, radio, propiedades, imagen){
+        var yo = this;
+        this.quitarLugarAlarma();
+        
+        var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+
+        var draggable = true;
+        if(radio > 0){
+            draggable = false;
+        }
+        
+        var editor = new MapaEditor();
+        this.unique_id = editor.uniqID(20);
+
+        var marker = new google.maps.Marker({
+            id : id,
+            tipo : "PUNTO LUGAR EMERGENCIA",
+            position: posicion,
+            identificador: id,
+            clave : yo.unique_id,
+            capa: null,
+            custom: true,
+            informacion : propiedades,
+            draggable: draggable,
+            map: yo.mapa,
+            icon: imagen
+        });  
+
+        this.informacionMarcador(marker);
+        
+        this.dibujarCirculo(id, lon, lat, radio, propiedades);
+
+        lista_markers.push(marker);
     },
     
     /**
@@ -34,11 +96,11 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                 ]
             },
             markerOptions: {
-                            tipo : "PUNTO",
+                            id : null,
+                            tipo : "PUNTO LUGAR EMERGENCIA",
                             identificador: null,
                             draggable: false,
                             clave : yo.unique_id,
-                            tipo_marcador : tipo_marcador_lugar_emergencia,
                             custom : true,
                             icon: baseUrl + "assets/img/emergencia.png",
                             informacion: {"TIPO" : "LUGAR EMERGENCIA",
@@ -97,27 +159,21 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                     procesaErrores(data.error);
                     salida = true;
                     
-                    if(parametros.metros > 0){
-                        var circulo = new MapaCirculoDibujar();
-                        circulo.seteaMapa(yo.mapa);
-                        circulo.seteaUniqueId(yo.unique_id);
-                        circulo.seteaEditable(true);
-                        circulo.seteaIdentificador(null);
-                        circulo.dibujarCirculo(null, 
-                                                {"TIPO" : "LUGAR EMERGENCIA",
-                                                 "NOMBRE" : ""}, 
-                                                marker.getPosition(), 
-                                                parametros.metros, 
-                                                "red");
-                       
-                    } else {
+                    var posicion = marker.getPosition();
+                    yo.dibujarCirculo(
+                            null, 
+                            posicion.lng, 
+                            posicion.lat, 
+                            parametros.metros, 
+                            {"TIPO" : "LUGAR EMERGENCIA",
+                            "NOMBRE" : ""}
+                    );
+                    
+                    if(parametros.metros == 0){
                         marker.setDraggable(true);
                     }
-                    
                     yo.informacionMarcador(marker);
-
                     lista_markers.push(marker);
-
                 } else {
                     $("#form_error").removeClass("hidden");
                     procesaErrores(data.error);

@@ -16,7 +16,7 @@ function nombreUsuario($id_usuario){
 
 
 /**
- * Retorna el nombre del usuario
+ * Retorna el nombre de las regiones asociadas al usuario
  * @param int $id_tipo_emergencia
  * @return string
  */
