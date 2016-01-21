@@ -590,7 +590,7 @@ class Capas extends MY_Controller
             $response['mensaje'] = 'Problemas al eliminar la información. Intente nuevamente';
         }
 
-        echo json_encode($json);
+        echo json_encode($response);
     }
 
 
