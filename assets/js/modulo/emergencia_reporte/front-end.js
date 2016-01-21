@@ -15,16 +15,6 @@ $(document).ready(function() {
     custom.emergencia(id);
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, null);
     
-    //marcadores
-    var lugar_alarma = new MapaMarcadorLugarAlarma();
-    lugar_alarma.seteaEmergencia(id);
-    visor.addOnReadyFunction("marcador del lugar de la alarma", lugar_alarma.marcador, null);
-    
-     //marcadores
-    var lugar_emergencia = new  MapaMarcadorLugarEmergencia();
-    lugar_emergencia.seteaEmergencia(id);
-    visor.addOnReadyFunction("marcador del lugar de la emergencia", lugar_emergencia.marcador, null);
-    
     //capas
     var capas = new MapaCapa();
     capas.emergencia(id);
