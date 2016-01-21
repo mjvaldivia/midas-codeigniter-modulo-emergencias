@@ -223,13 +223,6 @@
     </div>
 
 </div>
-
-<?= loadCSS("assets/lib/jquery-ui-1.11.4/jquery-ui.css") ?>
-<?= loadJS("assets/lib/jquery-ui-1.11.4/jquery-ui.js") ?>
-
-<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
-<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
-
 <?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>

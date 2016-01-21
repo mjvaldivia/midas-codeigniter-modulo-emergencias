@@ -6,9 +6,6 @@
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
 <?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
-<?= loadJS("assets/lib/bootstrap-tokenfield/dist/bootstrap-tokenfield.js") ?>
-<?= loadCSS("assets/lib/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css") ?>
-
 <?= loadCSS("assets/lib/picklist/picklist.css") ?>
 <?= loadJS("assets/lib/picklist/picklist.js") ?>
 
