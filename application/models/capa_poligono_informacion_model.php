@@ -33,7 +33,6 @@ class Capa_Poligono_Informacion_Model extends MY_Model {
     public function getById($id){
         $cache = Cache::iniciar();
         if(!($row = $cache->load("capa_poligono_" . $id))){
-            fb(__METHOD__ . " - No hay cache para " . $id);
            $row = $this->_query->getById("poligono_id", $id);
            $cache->save($row, "capa_poligono_" . $id);
         }

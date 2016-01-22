@@ -15,17 +15,30 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
 
     },
     
+    /**
+     * 
+     * @param {googleMap} mapa
+     * @returns {undefined}
+     */
     setearMapa : function(mapa) {
         this.mapa = mapa;
     },
     
-    
+    /**
+     * Dibuja circulo con la zona de la emergencia
+     * @param {int} id
+     * @param {string} lon
+     * @param {string} lat
+     * @param {int} radio
+     * @param {object} propiedades
+     * @returns {undefined}
+     */
     dibujarCirculo : function(id, lon, lat, radio, propiedades){
         if(radio > 0){
             var yo = this;
 
             var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
-
+            
             var circulo = new MapaCirculoDibujar();
             circulo.seteaTipo("CIRCULO LUGAR EMERGENCIA");
             circulo.seteaMapa(yo.mapa);
@@ -40,7 +53,16 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         }
     },
     
-    
+    /**
+     * Posiciona el marcador de emergencia
+     * @param {int} id
+     * @param {string} lon
+     * @param {string} lat
+     * @param {int} radio
+     * @param {object} propiedades
+     * @param {string} imagen
+     * @returns {undefined}
+     */
     posicionarMarcador : function(id, lon, lat, radio, propiedades, imagen){
         var yo = this;
         this.quitarLugarAlarma();
@@ -81,7 +103,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @param {googleMap} map
      * @returns {undefined}
      */
-    drawingManager : function(map){
+    drawingManager : function(){
         var yo = this;
         var editor = new MapaEditor();
         this.unique_id = editor.uniqID(20);
@@ -136,7 +158,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @param {marker} marker
      * @returns {Boolean}
      */
-    dibujaCirculo : function(marker){
+    addCirculo : function(marker){
         var yo = this;
         var salida = false;
         var latLon = marker.getPosition();  
@@ -160,13 +182,14 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                     salida = true;
                     
                     var posicion = marker.getPosition();
+                    
                     yo.dibujarCirculo(
-                            null, 
-                            posicion.lng, 
-                            posicion.lat, 
-                            parametros.metros, 
-                            {"TIPO" : "LUGAR EMERGENCIA",
-                            "NOMBRE" : ""}
+                        null, 
+                        posicion.lng(), 
+                        posicion.lat(), 
+                        parametros.metros, 
+                        {"TIPO" : "LUGAR EMERGENCIA",
+                         "NOMBRE" : ""}
                     );
                     
                     if(parametros.metros == 0){
@@ -189,7 +212,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @param {marker} marker
      * @returns {undefined}
      */
-    popupMetros : function(marker){
+    popupMetros : function(mapa, marker){
+        this.mapa = mapa;
         var yo = this;
         var latLon = marker.getPosition();            
         bootbox.dialog({
@@ -200,7 +224,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                         label: " Guardar",
                         className: "btn-success fa fa-save",
                         callback: function() {
-                            return yo.dibujaCirculo(marker);
+                            return yo.addCirculo(marker);
                         }
                     },
                     cerrar: {
@@ -240,8 +264,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         this.drawingManager();
         google.maps.event.addListener(yo.drawing_manager, 'markercomplete', function(marker) {
             yo.quitarLugarAlarma();
-            yo.popupMetros(marker);
+            yo.popupMetros(yo.mapa, marker);
         });
-    },
+    }
 
 });
