@@ -26,12 +26,20 @@ class Emergencia_Model extends MY_Model {
     protected $_session;
     
     /**
+     *
+     * @var Usuario_comunas 
+     */
+    public $usuario_comunas;
+    
+    /**
      * Constructor
      */
     public function __construct() {
         parent::__construct();
         $this->load->library("session");
         $this->_session = New CI_Session();
+        $this->load->library("usuario/usuario_comunas");
+        $this->usuario_comunas = New Usuario_comunas();
     }
     
     /**
@@ -599,9 +607,10 @@ class Emergencia_Model extends MY_Model {
                             ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
                             ->whereAND("p.reg_ia_id", $id_region);
         
-        $comunas = explode(",", $this->_session->userdata('session_comunas'));
-        if(count($comunas)>0){
-            $query->whereAND("ec.com_ia_id", $comunas, "IN");
+        $lista_comunas = $this->usuario_comunas->listaIdComunas($this->_session->userdata("session_idUsuario"));
+
+        if(count($lista_comunas )>0){
+            $query->whereAND("ec.com_ia_id", $lista_comunas , "IN");
         }
         
         return $query;
@@ -612,9 +621,12 @@ class Emergencia_Model extends MY_Model {
      * @param QueryBuilder $query
      */
     protected function _addQueryComunas(&$query){
-        $comunas = explode(",", $this->_session->userdata('session_comunas'));
-        if(count($comunas)>0){
-            $query->addWhere("e.eme_ia_id IN (SELECT ec.eme_ia_id FROM emergencias_vs_comunas ec WHERE ec.com_ia_id IN(".$this->_session->userdata('session_comunas').") )");
+        
+        $lista_comunas = $this->usuario_comunas->listaIdComunas($this->_session->userdata("session_idUsuario"));
+
+        if(count($lista_comunas)>0){
+            $con_coma = implode(",",$lista_comunas);
+            $query->addWhere("e.eme_ia_id IN (SELECT ec.eme_ia_id FROM emergencias_vs_comunas ec WHERE ec.com_ia_id IN(".$con_coma.") )");
         } else {
             $query->addWhere("1=0");
         }

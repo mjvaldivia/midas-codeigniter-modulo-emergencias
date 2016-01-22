@@ -7,22 +7,7 @@
  */
 class Session_Model extends MY_Model
 {
-    public function obtenerComunas() {
-        $this->load->helper("debug");
-//        dump($this->session->all_userdata());die;
-
-        $sql = "select c.com_ia_id, c.com_c_nombre from comunas c where c.com_ia_id in (" . $this->session->userdata("session_comunas") . ") order by c.com_c_nombre";
-
-        $query = $this->db->query($sql);
-
-        $resultados = array();
-
-        if ($query->num_rows() > 0)
-            $resultados = $query->result_array();
-
-        return $resultados;
-    }
-
+    
     public function obtenerDatosMIDAS($rut) {
         $sql = "
         select rut,nombres,apellidos,email from (
@@ -92,16 +77,7 @@ class Session_Model extends MY_Model
                 where
                   uvr.usu_ia_id = u.usu_ia_id
               ) as roles,
-              (
-                select
-                  group_concat(DISTINCT c.com_ia_id)
-                from
-                  comunas c
-                  inner join oficinas_vs_comunas ovc on ovc.com_ia_id = c.com_ia_id
-                  inner join usuarios_vs_oficinas uvo on ovc.ofi_ia_id = uvo.ofi_ia_id
-                where
-                  uvo.usu_ia_id = u.usu_ia_id
-              ) as comunas,
+              
               (
                 select
                   count(*)
@@ -141,7 +117,6 @@ class Session_Model extends MY_Model
                 $this->session->set_userdata("session_idCargo", $r["crg_ia_id"]);
                 $this->session->set_userdata("session_ambitos", $r["ambitos"]);
                 $this->session->set_userdata("session_oficinas", $r["oficinas"]);
-                $this->session->set_userdata("session_comunas", $r["comunas"]);
                 $this->session->set_userdata("session_roles", $r["roles"]);
                 $this->session->set_userdata("session_cre_activo", $r["usu_b_cre_activo"]); // es CRE y está activo
                 $this->session->set_userdata("session_email", $r["usu_c_email"]); 
@@ -186,16 +161,6 @@ class Session_Model extends MY_Model
               ) as roles,
               (
                 select
-                  group_concat(DISTINCT c.com_ia_id)
-                from
-                  comunas c
-                  inner join oficinas_vs_comunas ovc on ovc.com_ia_id = c.com_ia_id
-                  inner join usuarios_vs_oficinas uvo on ovc.ofi_ia_id = uvo.ofi_ia_id
-                where
-                  uvo.usu_ia_id = u.usu_ia_id
-              ) as comunas,
-              (
-                select
                   count(*)
                 from
                   usuarios u2
@@ -229,7 +194,6 @@ class Session_Model extends MY_Model
                 $this->session->set_userdata("session_idCargo", $r["crg_ia_id"]);
                 $this->session->set_userdata("session_ambitos", $r["ambitos"]);
                 $this->session->set_userdata("session_oficinas", $r["oficinas"]);
-                $this->session->set_userdata("session_comunas", $r["comunas"]);
                 $this->session->set_userdata("session_roles", $r["roles"]);
                 $this->session->set_userdata("session_cre_activo", $r["usu_b_cre_activo"]); // es CRE y está activo
                 $this->session->set_userdata("session_cambioRapido", 1);

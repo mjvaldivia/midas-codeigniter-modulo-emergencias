@@ -31,6 +31,27 @@ class Comuna_Model extends MY_Model
     
     /**
      * 
+     * @param int $id_usuario
+     * @return array
+     */
+    public function listarComunasPorUsuario($id_usuario){
+        $result = $this->_query
+                      ->select("DISTINCT c.*")
+                      ->from($this->_tabla . " c")
+                      ->join("oficinas_vs_comunas oc", "oc.com_ia_id = c.com_ia_id", "INNER")
+                      ->join("usuarios_vs_oficinas uo", "uo.ofi_ia_id = oc.ofi_ia_id", "INNER")
+                      ->whereAND("uo.usu_ia_id", $id_usuario)
+                      ->getAllResult();
+
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
      * @return array
      */
     public function listar(){

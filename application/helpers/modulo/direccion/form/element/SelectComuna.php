@@ -30,21 +30,16 @@ Class Direccion_Form_Element_SelectComuna{
      * @var string 
      */
     protected $_nombre;
-    
-    /**
-     *
-     * @var Session_Model 
-     */
-    public $sesion;
-    
+        
     /**
      * 
      */
     public function __construct() {
         $this->ci =& get_instance();
         $this->_element = New Cosof_Form_Select();
-        $this->ci->load->model("session_model");
-        $this->sesion = New Session_Model();
+        $this->ci->load->model("comuna_model");
+        $this->ci->load->library("session");
+ 
     }
     
     /**
@@ -74,7 +69,7 @@ Class Direccion_Form_Element_SelectComuna{
      * @return array
      */
     protected function _listar(){
-        return $this->sesion->obtenerComunas();
+        return $this->ci->comuna_model->listarComunasPorUsuario($this->ci->session->userdata("session_idUsuario"));
     }
 }
 

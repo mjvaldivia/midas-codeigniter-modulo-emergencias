@@ -119,7 +119,7 @@ var Layer = {};
                 order: [[0, "desc"]],
                 bPaginate: false,
                 initComplete: function(){
-                    $(".iComunas").jCombo(siteUrl + "session/obtenerJsonComunas");
+                    $(".iComunas").jCombo(siteUrl + "comuna/json_comunas_usuario");
                    
                     
                     $('#div_comunas').slideDown('slow');
@@ -480,7 +480,7 @@ var Layer = {};
                 },
                 order: [[0, "desc"]],
                 initComplete: function(){
-                    $(".iComunas").jCombo(siteUrl + "session/obtenerJsonComunas");
+                    $(".iComunas").jCombo(siteUrl + "comuna/json_comunas_usuario");
                    
                     
                     $('#div_comunas_editar').slideDown('slow');
