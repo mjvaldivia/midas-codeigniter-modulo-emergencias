@@ -18,12 +18,25 @@ class Capa_Poligono_Informacion_Model extends MY_Model {
     protected $_tabla = "capas_poligonos_informacion";
     
     /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->library(array("cache"));
+    }
+    
+    /**
      * Retorna la alarma por el identificador
      * @param int $id clave primaria
      * @return object
      */
     public function getById($id){
-        return $this->_query->getById("poligono_id", $id);
+        $cache = Cache::iniciar();
+        if(!($row = $cache->load("capa_poligono_" . $id))){
+           $row = $this->_query->getById("poligono_id", $id);
+           $cache->save($row, "capa_poligono_" . $id);
+        }
+        return $row;
     }
     
     /**
@@ -51,7 +64,7 @@ class Capa_Poligono_Informacion_Model extends MY_Model {
      * @return array
      */
     public function listarPorSubcapaComuna($id_subcapa, $lista_comunas){
-        $result = $this->_query->select("p.*")
+        $result = $this->_query->select("p.poligono_id, p.poligono_propiedades")
                                ->from($this->_tabla . " p")
                                ->whereAND("p.poligono_capitem", $id_subcapa, "=")
                                ->whereAND("p.poligono_comuna", $lista_comunas, "IN")

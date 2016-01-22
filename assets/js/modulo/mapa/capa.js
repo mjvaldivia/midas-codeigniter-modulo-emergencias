@@ -44,6 +44,12 @@ var MapaCapa = Class({
         return lista_capas;
     },
     
+    /**
+     * Añade elemento al mapa
+     * @param {googleMap} mapa
+     * @param {int} id_elemento
+     * @returns {undefined}
+     */
     addElemento : function(mapa, id_elemento){
         var yo = this;
         this.class_marcador.seteaMapa(mapa);
@@ -70,6 +76,12 @@ var MapaCapa = Class({
         });
     },
     
+    /**
+     * Añade una capa por el identificador
+     * @param {type} mapa
+     * @param {type} id_subcapa
+     * @returns {undefined}
+     */
     addCapaPorId : function(mapa, id_subcapa){
         this.class_marcador.seteaMapa(mapa);
         this.class_poligono.seteaMapa(mapa);
@@ -105,7 +117,6 @@ var MapaCapa = Class({
                 }
                 
                 if (notificacion.remove) notificacion.remove();
-                console.log(yo.capas);
             }
         });
     },
@@ -153,10 +164,8 @@ var MapaCapa = Class({
         var i = 0;
         
         $.each(capa.json, function(id, data){
-            
             yo.elemento(data.id, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
             i++;
-            
         });
     },
     

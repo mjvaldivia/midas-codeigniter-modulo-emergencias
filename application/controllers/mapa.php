@@ -40,7 +40,7 @@ class Mapa extends MY_Controller {
     
     /**
      *
-     * @var Emergencia_Capas_Geometria_Model 
+     * @var Emergencia_Capa_Model 
      */
     public $_emergencia_capas_model;
     
@@ -146,6 +146,9 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    /**
+     * 
+     */
     public function popup_lugar_emergencia(){
         $this->load->view("pages/mapa/popup-lugar-emergencia", array());
     }
@@ -217,6 +220,9 @@ class Mapa extends MY_Controller {
                                 "lista_marcadores"  => json_decode($params["marcadores"])));
     }
     
+    /**
+     * Valida el lugar de la emergencia
+     */
     public function ajax_guardar_lugar_emergencia(){
         header('Content-type: application/json');
         
@@ -242,6 +248,9 @@ class Mapa extends MY_Controller {
         echo json_encode($retorno);
     }
     
+    /**
+     * 
+     */
     public function ajax_elemento(){
         $this->load->helper(array("modulo/capa/capa"));
         $json = array();
@@ -265,7 +274,6 @@ class Mapa extends MY_Controller {
                            "propiedades" => $this->_limpiarUnserialize($elemento->poligono_propiedades),
                            "geojson"     => unserialize($elemento->poligono_geometria),
                            "zona" => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
-                           /*"color" => getSubCapaPreview($elemento->poligono_capitem),*/
                            "color" => $capa->color,
                            "icono" => $icono);
         }
@@ -311,6 +319,9 @@ class Mapa extends MY_Controller {
         echo Zend_Json_Encoder::encode($data);
     }
     
+    /**
+     * Carga elementos custom
+     */
     public function ajax_elementos_emergencia(){
         header('Content-type: application/json');
         $data = array("correcto" => true,
@@ -322,13 +333,9 @@ class Mapa extends MY_Controller {
             $lista_elementos = $this->_emergencia_elementos_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_elementos)>0){
                 foreach($lista_elementos as $elemento){
+
+                    $clave = "elemento_" . $elemento["id"];
                     
-                   
-                    if($elemento["tipo"] == "PUNTO" && $elemento["id_contenedor_marcador_centro"]!=""){
-                        $clave = "elemento_" . $elemento["id_contenedor_marcador_centro"];
-                    } else {
-                        $clave = "elemento_" . $elemento["id"];
-                    }
                     
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array("tipo" => $elemento["tipo"],
@@ -378,6 +385,9 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    /**
+     * 
+     */
     public function ajax_marcador_lugar_emergencia(){
         header('Content-type: application/json');
         $data = array("correcto" => false);
@@ -440,7 +450,10 @@ class Mapa extends MY_Controller {
      * @param int $id_capa
      * @return array
      */
-    protected function _cargaCapa($id_subcapa, $comunas = array()){
+    protected function _cargaCapa(
+        $id_subcapa, 
+        array $comunas = array()
+    ){
         fb("Cargando capa " . $id_subcapa);
         $retorno = null;
         
@@ -452,9 +465,12 @@ class Mapa extends MY_Controller {
                 $lista_poligonos = $this->_capa_poligono_informacion_model->listarPorSubcapaComuna($subcapa->geometria_id, $comunas);
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
-                        $json[] = array("id" => $poligono["poligono_id"],
-                                        "propiedades" => $this->_limpiarUnserialize($poligono["poligono_propiedades"]),
-                                        "geojson"     => unserialize($poligono["poligono_geometria"]));
+                        $geometria = $this->_capa_poligono_informacion_model->getById($poligono["poligono_id"]);
+                        $json[] = array(
+                            "id" => $poligono["poligono_id"],
+                            "propiedades" => $this->_limpiarUnserialize($poligono["poligono_propiedades"]),
+                            "geojson"     => unserialize($geometria->poligono_geometria)
+                            );
                     }
                 }
                 
