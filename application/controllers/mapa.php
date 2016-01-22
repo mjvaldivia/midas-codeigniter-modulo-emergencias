@@ -468,7 +468,7 @@ class Mapa extends MY_Controller {
                         $geometria = $this->_capa_poligono_informacion_model->getById($poligono["poligono_id"]);
                         $json[] = array(
                             "id" => $poligono["poligono_id"],
-                            "propiedades" => $this->_limpiarUnserialize($poligono["poligono_propiedades"]),
+                            "propiedades" => $this->_limpiarUnserialize($geometria->poligono_propiedades),
                             "geojson"     => unserialize($geometria->poligono_geometria)
                             );
                     }

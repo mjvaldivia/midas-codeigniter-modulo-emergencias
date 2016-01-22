@@ -33,6 +33,7 @@ class Capa_Poligono_Informacion_Model extends MY_Model {
     public function getById($id){
         $cache = Cache::iniciar();
         if(!($row = $cache->load("capa_poligono_" . $id))){
+            fb(__METHOD__ . " - No hay cache para " . $id);
            $row = $this->_query->getById("poligono_id", $id);
            $cache->save($row, "capa_poligono_" . $id);
         }
@@ -64,7 +65,7 @@ class Capa_Poligono_Informacion_Model extends MY_Model {
      * @return array
      */
     public function listarPorSubcapaComuna($id_subcapa, $lista_comunas){
-        $result = $this->_query->select("p.poligono_id, p.poligono_propiedades")
+        $result = $this->_query->select("p.poligono_id")
                                ->from($this->_tabla . " p")
                                ->whereAND("p.poligono_capitem", $id_subcapa, "=")
                                ->whereAND("p.poligono_comuna", $lista_comunas, "IN")
