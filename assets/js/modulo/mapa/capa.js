@@ -2,6 +2,8 @@ var MapaCapa = Class({
     
     capas : {},
     bo_capas_cargadas : false,
+    class_linea : null,
+    class_multilinea : null,
     class_marcador : null,
     class_poligono : null,
     class_multipoligono : null,
@@ -12,6 +14,8 @@ var MapaCapa = Class({
     * @returns void
     */
     __construct : function() {
+        this.class_linea = new MapaLinea();
+        this.class_multilinea = new MapaLineaMulti();
         this.class_marcador = new MapaMarcador();
         this.class_poligono = new MapaPoligono();
         this.class_multipoligono = new MapaPoligonoMulti();
@@ -139,7 +143,8 @@ var MapaCapa = Class({
      * @returns {void}
      */
     cargaCapas : function(mapa){
-        
+        this.class_linea.seteaMapa(mapa);
+        this.class_multilinea.seteaMapa(mapa);
         this.class_marcador.seteaMapa(mapa);
         this.class_poligono.seteaMapa(mapa);
         this.class_multipoligono.seteaMapa(mapa);
@@ -181,6 +186,12 @@ var MapaCapa = Class({
         
         var yo = this;
         switch (geometry.type) {
+            case "LineString":
+                yo.class_linea.dibujarLinea(id, subcapa, geometry.coordinates, propiedades, zona, color);
+                break;
+            case "MultiLineString":
+                yo.class_multilinea.dibujarLinea(id, subcapa, geometry.coordinates, propiedades, zona, color);
+                break;
             case "Point":
                 yo.class_marcador.posicionarMarcador(id,
                                                      subcapa,
@@ -207,6 +218,7 @@ var MapaCapa = Class({
     capasPorEmergencia : function(map){
         console.log("Cargando informacion de capas asociadas a emergencia");
         var yo = this;
+        var notificacion = notificacionEspera("<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas");
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -226,6 +238,7 @@ var MapaCapa = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
+                if (notificacion.remove) notificacion.remove();
             }
         });
     }

@@ -465,11 +465,10 @@ class Mapa extends MY_Controller {
                 $lista_poligonos = $this->_capa_poligono_informacion_model->listarPorSubcapaComuna($subcapa->geometria_id, $comunas);
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
-                        $geometria = $this->_capa_poligono_informacion_model->getById($poligono["poligono_id"]);
                         $json[] = array(
                             "id" => $poligono["poligono_id"],
-                            "propiedades" => unserialize($geometria->poligono_propiedades),
-                            "geojson"     => unserialize($geometria->poligono_geometria)
+                            "propiedades" => unserialize($poligono["poligono_propiedades"]),
+                            "geojson"     => unserialize($poligono["poligono_geometria"])
                             );
                     }
                 }

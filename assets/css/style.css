@@ -2176,7 +2176,8 @@ input[type="checkbox"]:checked::after,
 
 .ui-pnotify.stack-bottomrightinfo > .ui-pnotify-container > .ui-pnotify-title{
     font-size: 12px;
-    margin-bottom: 0px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .ui-pnotify.stack-bar-bottom {

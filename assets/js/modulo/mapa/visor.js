@@ -110,13 +110,33 @@ var Visor = Class({
             });
         });
 
-        
+        this.contextMenu(map);
         
         map.addListener('click', function(event) {
             console.log(event);
         });
 
         this.mapa = map;
+    },
+    
+    contextMenu : function(map){
+      /*
+      var contextMenuOptions={}; 
+      contextMenuOptions.classNames={menu:'context_menu', menuSeparator:'context_menu_separator'}; 
+      
+      var menuItems=[]; 
+      menuItems.push({className:'context_menu_item', eventName:'zoom_in_click', label:'Zoom in'});
+      menuItems.push({className:'context_menu_item', eventName:'zoom_out_click', label:'Zoom out'}); 
+      
+      menuItems.push({}); 
+      menuItems.push({className:'context_menu_item', eventName:'center_map_click', label:'Center map here'}); 
+      contextMenuOptions.menuItems=menuItems; 
+      
+      var contextMenu=new ContextMenu(map, contextMenuOptions); 
+      
+      google.maps.event.addListener(map, 'rightclick', function(mouseEvent){ 
+          contextMenu.show(mouseEvent.latLng); 
+      });  */
     },
     
     /**

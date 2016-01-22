@@ -4,6 +4,7 @@
 
 <?= loadCSS("assets/js/modulo/mapa/extencion/maps.google.buttons.css") ?>
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.polygon.containsLatLng.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/extencion/maps.google.contextmenu.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.buttons.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
@@ -14,6 +15,9 @@
 <?= loadJS("assets/js/modulo/mapa/rectangulo/click_listener.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/elemento_custom.js"); ?>
+
+<?= loadJS("assets/js/modulo/mapa/linea.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/linea/linea_multi.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>

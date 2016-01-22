@@ -156,6 +156,7 @@ var MapaElementoCustom = Class({
     loadCustomElements : function(mapa){
         this.mapa = mapa;
         var yo = this;
+        var notificacion = notificacionEspera("<i class=\"fa fa-spin fa-spinner\"></i> Cargando elementos");
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -214,6 +215,7 @@ var MapaElementoCustom = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
+                if (notificacion.remove) notificacion.remove();
             }
         });
     },
