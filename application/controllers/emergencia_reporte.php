@@ -84,7 +84,7 @@ Class Emergencia_reporte extends MY_Controller {
             if(isset($params["adjuntar_reporte"]) && $params["adjuntar_reporte"] == 1){
                 $this->emergencia_pdf->setHashImagen($params["hash"]);
                 $pdf = $this->emergencia_pdf->generar($emergencia->eme_ia_id);
-                $this->emergencia_email_reporte->setReporte($pdf);
+                $reporte = $this->emergencia_email_reporte->setReporte($pdf);
             }
             
             foreach($params["destinatario"] as $email){
@@ -103,11 +103,15 @@ Class Emergencia_reporte extends MY_Controller {
             $this->emergencia_email_reporte->setMessage($params["mensaje"]);
             
             $correcto = $this->emergencia_email_reporte->send($emergencia->eme_ia_id);
-            $reporte = explode('/',$correcto);
+            $dir_reporte = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$reporte;
+            $file = '';
+            if(is_file($dir_reporte)){
+                $file = '<a href="'.$correcto.'" target="_blank"><strong>'.$reporte.'</strong></a>';
+            }
 
             $usuario = $this->session->userdata('session_idUsuario');
             $this->load->model('alarma_historial_model','AlarmaHistorialModel');
-            $historial_comentario = 'Se ha enviado el reporte <a href="'.$correcto.'"><strong>'.$reporte[count($reporte)-1].'</strong></a> de la emergencia a los siguientes usuarios: ' . implode(',',$destinatarios);
+            $historial_comentario = 'Se ha enviado el reporte '.$file.' de la emergencia a los siguientes usuarios: ' . implode(',',$destinatarios);
             $data = array(
                 'historial_alerta' => $emergencia->ala_ia_id,
                 'historial_usuario' => $usuario,
