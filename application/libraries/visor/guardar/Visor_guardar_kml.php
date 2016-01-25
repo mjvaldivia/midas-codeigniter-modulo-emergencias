@@ -55,7 +55,7 @@ Class Visor_guardar_kml{
                     $file = $cache->load($kml_seleccionado["hash"]);
                     $data = array("id_emergencia" => $this->_id_emergencia,
                                   "nombre" => $kml_seleccionado["nombre"],
-                                  "kml"    => file_get_contents($file["archivo"]));
+                                  "kml"    =>$file["archivo"]);
                     $guardados[] = $this->_emergencia_kml_model->query()->insert($data);
                 } else {
                     $guardados[] = $kml->id;
