@@ -3,8 +3,13 @@
     <div class="row top-spaced">
         <div class="col-lg-12">
             <div class="form-group clearfix">
-                <label for="metros" class="control-label">Seleccionar archivo kml (*):</label>
-                <input value="" class="form-control" name="metros" id="metros">
+                <label for="nombre" class="control-label">Nombre descriptivo (*):</label>
+                <input value="" class="form-control" name="nombre" id="nombre">
+                <span class="help-block hidden"></span>
+            </div>
+            <div class="form-group clearfix">
+                <label for="input_kml" class="control-label">Seleccionar archivo kml (*):</label>
+                <input id="input_kml" name="input_kml" class="form-control"  type="file" data-show-preview="false">
                 <span class="help-block hidden"></span>
             </div>
         </div>

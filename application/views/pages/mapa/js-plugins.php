@@ -2,6 +2,10 @@
 
 <?= loadJS("assets/js/geo-encoder.js"); ?>
 
+<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
+<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+
 <?= loadCSS("assets/js/modulo/mapa/extencion/maps.google.buttons.css") ?>
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.polygon.containsLatLng.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.contextmenu.js"); ?>

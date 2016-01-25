@@ -56,6 +56,18 @@ var MapaKmlImportar = Class({
             },
             success:function(html){
                 $("#contenido-popup").html(html);
+                
+                $("#input_kml").fileinput({
+                    language: "es",
+                    multiple: false,
+                    uploadAsync: true,
+                    initialCaption: "",
+                    uploadUrl: siteUrl + "mapa/upload_kml"
+                }).on("filebatchselected", function(event, files) {
+                    $("#input_kml").fileinput("upload");
+                }).on('filebatchuploadsuccess', function(event, data) {
+                    
+                });
             }
         });
     }

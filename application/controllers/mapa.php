@@ -151,6 +151,67 @@ class Mapa extends MY_Controller {
         $this->load->view("pages/mapa/popup-importar-kml", array());
     }
     
+    public function upload_kml(){
+        $this->load->library(array("string", "cache"));
+        $params = $this->input->post(null, true);
+        $retorno = array("correcto" => true);
+        
+        header('Content-type: application/json');
+        
+        $dir = FCPATH . "media/tmp/";
+        
+        try{
+            $upload = New Zend_File_Transfer();
+            $upload->addValidator('Extension', false, array('kml','kmz'));
+            //$upload->addValidator('MimeType',  false, $this->_mime_types);
+            $upload->addValidator('FilesSize', false, array('min' => '0.001kB', 'max' => '100MB'));
+            $file = $upload->getFileInfo();
+            foreach($file as $field_name => $file_data){
+
+                if (!$upload->isUploaded($field_name)) {
+                    $retorno = array("correcto" => false,
+                                     "mensaje" => "No se subio ning&uacute;n archivo o estaba vac&iacute;o");
+                }
+
+                if (!$upload->isValid($field_name)) { 
+                    $texto = "</br>";
+                    $mensajes = $upload->getMessages();
+                    foreach($mensajes as $key => $txt){
+                        $texto .= $txt . "</br>";
+                    }
+                    $retorno = array("correcto" => false,
+                                     "mensaje" => "<b>El archivo es inv&aacute;lido</b>." . $texto);
+                }
+
+                $nombre = explode(".",$file_data["name"]);
+                
+                $codigo = $this->string->rand_string(20);
+                $target = $dir . $codigo . "." . $nombre[count($nombre)-1];
+                $upload->addFilter('Rename', array('target' => $target, 'overwrite' => true));
+            }
+
+            $upload->receive();
+            
+            
+            if($retorno["correcto"]){
+                $cache = Cache::iniciar();
+                $cache->save(array("archivo" => file_get_contents($target),
+                                   "archivo_nombre" => $file_data["name"],
+                                   "nombre" => $params["nombre"] ) , $codigo);
+                $retorno = array("correcto" => true,
+                                 "hash" => $codigo);
+
+                unlink($target);
+            }
+            
+        } catch (Exception $e){
+            $retorno = array("correcto" => false,
+                             "mensaje" => "Ocurrio un error al subir el archivo: " . $e->getMessage());
+        }
+        
+        echo json_encode($retorno);
+    }
+    
     /**
      * 
      */

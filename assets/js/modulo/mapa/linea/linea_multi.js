@@ -19,7 +19,7 @@ var MapaLineaMulti = Class({ extends : MapaLinea}, {
                 coord.push({"lat" : parseFloat(LatLng[0]), "lng" : parseFloat(LatLng[1])});
             });
             
-            console.log(coord);
+           
             
             var linea = new google.maps.Polyline({
                     path: coord,
@@ -35,7 +35,6 @@ var MapaLineaMulti = Class({ extends : MapaLinea}, {
                 });
 
                 linea.setMap(yo.mapa);
-                console.log(linea);
 
                 lista_poligonos.push(linea);
         });    
