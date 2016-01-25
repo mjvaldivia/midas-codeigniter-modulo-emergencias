@@ -217,8 +217,10 @@ class Alarma extends MY_Controller {
         $correcto = $this->alarmavalidar->esValido($params);
         
         if($correcto){
-        
-        
+
+            $usuario = $this->session->userdata('session_idUsuario');
+            $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+
             $data = array(
                             "ala_c_nombre_informante"   => $params['nombre_informante'],
                             "ala_c_telefono_informante" => $params['telefono_informante'],
@@ -243,6 +245,16 @@ class Alarma extends MY_Controller {
                 $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
                 $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['comunas']);
                 $respuesta_email = "";
+
+                $historial_comentario = 'La alarma ha sido editada';
+                $data = array(
+                    'historial_alerta' => $id,
+                    'historial_usuario' => $usuario,
+                    'historial_fecha' => date('Y-m-d H:i:s'),
+                    'historial_comentario' => $historial_comentario
+                );
+                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+
             //la alarma no existia
             } else {
                 $data["ala_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
@@ -251,6 +263,16 @@ class Alarma extends MY_Controller {
                 $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['comunas']);
                 $params["ala_ia_id"] = $id;
                 $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
+
+                $historial_comentario = 'Se ha creado la alarma';
+                $data = array(
+                    'historial_alerta' => $id,
+                    'historial_usuario' => $usuario,
+                    'historial_fecha' => date('Y-m-d H:i:s'),
+                    'historial_comentario' => $historial_comentario
+                );
+                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+
             }
             
             $this->alarma_guardar->setAlarma($id);
