@@ -119,6 +119,9 @@ class Mapa extends MY_Controller {
      * Guarda configuracion del mapa
      */
     public function save(){
+        ini_set('error_reporting', E_ALL);
+    ini_set('display_errors', 1);
+        
         $this->load->library(
             array(
                   "visor/guardar/visor_guardar_elemento",
