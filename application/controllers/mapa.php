@@ -204,6 +204,7 @@ class Mapa extends MY_Controller {
         }  
         
         $retorno = array("correcto" => $correcto,
+                         "nombre" => $params["nombre"],
                          "tipo" => $retorno_archivo["tipo"],
                          "hash" => $retorno_archivo["hash"],
                          "errores" => $error);

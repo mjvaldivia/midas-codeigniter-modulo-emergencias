@@ -1,5 +1,3 @@
-var lista_kml = [];
-
 var MapaKmlImportar = Class({  
     
     /**
@@ -24,13 +22,13 @@ var MapaKmlImportar = Class({
 
     },
     
-    cargarKmlTemporal : function(hash, tipo){
+    cargarKmlTemporal : function(hash, tipo, nombre){
         var kmzLayer = new google.maps.KmlLayer( siteUrl + 'mapa/kml_temporal/hash/' + hash + "/file." + tipo);
 
         kmzLayer.setMap(this.mapa);
-        
-        console.log(kmzLayer);
-        
+        kmzLayer.id = null;
+        kmzLayer.nombre = nombre;
+       
         lista_kml.push(kmzLayer);
     },
     
@@ -101,7 +99,7 @@ var MapaKmlImportar = Class({
                     
                     if(data.response.correcto){
                         bootbox.hideAll();
-                        yo.cargarKmlTemporal(data.response.hash, data.response.tipo);
+                        yo.cargarKmlTemporal(data.response.hash, data.response.tipo, data.response.nombre);
                     } else {
                         procesaErrores(data.response.errores);
                        /* $(".file-input > .input-group").show();
