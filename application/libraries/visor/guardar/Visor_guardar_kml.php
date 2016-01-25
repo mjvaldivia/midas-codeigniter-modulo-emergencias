@@ -51,7 +51,7 @@ Class Visor_guardar_elemento{
                 if(is_null($kml)){
                     $data = array("id_emergencia" => $this->_id_emergencia,
                                   "nombre" => $kml_seleccionado["nombre"],
-                                  "kml"    => file_get_contents($kml["url"]));
+                                  "kml"    => file_get_contents($kml_seleccionado["url"]));
                     $guardados[] = $this->_emergencia_kml_model->query()->insert($data);
                 } else {
                     $guardados[] = $kml->id;
