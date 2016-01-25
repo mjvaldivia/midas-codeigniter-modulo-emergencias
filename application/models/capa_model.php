@@ -56,7 +56,8 @@ class Capa_Model extends MY_Model {
 
 
         if(!in_array('COMUNA',$propiedades)){
-            return 'No existe propiedad COMUNA';
+            /*return 'No existe propiedad COMUNA';*/
+            $poligono_comuna = 0;
         }
 
         if(isset($params['capa_edicion']) and $params['capa_edicion'] > 0){
@@ -319,14 +320,19 @@ class Capa_Model extends MY_Model {
                 $properties = addslashes(serialize($arr_propiedades));
 
                 /* obtener comuna */
-                $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
+                if(isset($item->properties->COMUNA)){
+                    $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
-                if(is_null($comuna)){
-                    if(!in_array($item->properties->COMUNA,$tmp_comunas))
-                        $tmp_comunas[] = $item->properties->COMUNA;
-                    continue;
+                    if(is_null($comuna)){
+                        if(!in_array($item->properties->COMUNA,$tmp_comunas))
+                            $tmp_comunas[] = $item->properties->COMUNA;
+                        continue;
+                    }
+                    $comuna = $comuna[0];
+
+                    $poligono_comuna = $comuna->com_ia_id;
                 }
-                $comuna = $comuna[0];
+
 
                 $tipo = mb_strtoupper($tipo);
 
@@ -347,7 +353,7 @@ class Capa_Model extends MY_Model {
                     $id_tipo = $result[0]['geometria_id'];
                 }
 
-                $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_comuna,poligono_propiedades,poligono_geometria) value($id_tipo,$comuna->com_ia_id,'$properties','$geometria')";
+                $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_comuna,poligono_propiedades,poligono_geometria) value($id_tipo,$poligono_comuna,'$properties','$geometria')";
                 $insertar = $this->db->query($query);
 
 
