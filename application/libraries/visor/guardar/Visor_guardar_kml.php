@@ -1,6 +1,6 @@
 <?php
 
-Class Visor_kml_elemento{
+Class Visor_guardar_kml{
     
     /**
      *
