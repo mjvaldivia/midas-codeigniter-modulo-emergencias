@@ -19,7 +19,13 @@
             <?php endforeach;?>
             </tbody>
         </table>
+
+    <?php else:?>
+        <div class="alert alert-warning">
+            <p>Alarma sin registros de expediente</p>
+        </div>
     <?php endif;?>
+
 </div>
 
 <div class="col-xs-12 text-right">
