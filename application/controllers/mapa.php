@@ -126,8 +126,6 @@ class Mapa extends MY_Controller {
      * Guarda configuracion del mapa
      */
     public function save(){
-        ini_set('error_reporting', E_ALL);
-    ini_set('display_errors', 1);
         
         $this->load->library(
             array(
@@ -152,8 +150,10 @@ class Mapa extends MY_Controller {
                                                             $emergencia->eme_ia_id, 
                                                             $params["capas"]);
             
-            $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
-                                    ->guardar($params["kmls"]);
+            if(isset($params["kmls"])){
+                $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
+                                        ->guardar($params["kmls"]);
+            }
             
             $data = array("correcto" => true,
                           "error" => "");

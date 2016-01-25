@@ -18,7 +18,7 @@ $(document).ready(function() {
     
     var kml = new MapaKml();
     kml.seteaEmergencia(id);
-    visor.addOnReadyFunction("elementos personalizados", kml.loadKml, true);
+    visor.addOnReadyFunction("Carga kml", kml.loadKml, true);
 
     //capas
     var capas = new MapaCapa();
