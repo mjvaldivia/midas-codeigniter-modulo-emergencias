@@ -247,7 +247,7 @@ class Usuario_Model extends MY_Model {
         $query = "select * from usuarios where usu_c_email = ? limit 1";
         $resultado = $this->db->query($query,array($email));
         if($resultado->num_rows() > 0){
-            foreach ($result->result_array() as $row) {
+            foreach ($resultado->result_array() as $row) {
                 $usuario = $row;
             }
             return $usuario;
