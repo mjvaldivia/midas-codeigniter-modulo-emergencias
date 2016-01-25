@@ -103,7 +103,7 @@ Class Emergencia_email_reporte{
      * 
      * @return boolean
      */
-    public function send(){
+    public function send($id_emergencia){
          if(count($this->_adjuntos) > 0){
             $adjuntos = '<p>Enlaces a adjuntos complementarios</p>';
             foreach($this->_adjuntos as $item){
@@ -115,8 +115,11 @@ Class Emergencia_email_reporte{
         
         $respuesta = $this->_sendmail_model->emailSend($this->_to, null, null, $this->_subject, $this->_message, false, array($this->_reporte) );
         if(is_file($this->_reporte)){
-            unlink($this->_reporte);
-            rmdir($this->_dir);
+            $file = explode("/",$this->_reporte);
+            rename($this->_reporte,'media/doc/emergencia/'.$id_emergencia.'/'.$file[count($file)-1]);
+            $respuesta = 'media/doc/emergencia/'.$id_emergencia.'/'.$file[count($file)-1];
+            /*unlink($this->_reporte);
+            rmdir($this->_dir);*/
         }
         return $respuesta;
     }

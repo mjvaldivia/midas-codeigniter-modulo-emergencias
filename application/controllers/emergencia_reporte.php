@@ -102,12 +102,12 @@ Class Emergencia_reporte extends MY_Controller {
             $this->emergencia_email_reporte->setSubject($params["asunto"]);
             $this->emergencia_email_reporte->setMessage($params["mensaje"]);
             
-            $correcto = $this->emergencia_email_reporte->send();
-
+            $correcto = $this->emergencia_email_reporte->send($emergencia->eme_ia_id);
+            $reporte = explode('/',$correcto);
 
             $usuario = $this->session->userdata('session_idUsuario');
             $this->load->model('alarma_historial_model','AlarmaHistorialModel');
-            $historial_comentario = 'Se ha enviado un reporte de la emergencia a los siguientes usuarios: ' . implode(',',$destinatarios);
+            $historial_comentario = 'Se ha enviado el reporte <a href="'.$correcto.'"><strong>'.$reporte[count($reporte)-1].'</strong></a> de la emergencia a los siguientes usuarios: ' . implode(',',$destinatarios);
             $data = array(
                 'historial_alerta' => $emergencia->ala_ia_id,
                 'historial_usuario' => $usuario,
