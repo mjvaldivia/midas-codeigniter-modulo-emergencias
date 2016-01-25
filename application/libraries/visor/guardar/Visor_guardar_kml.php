@@ -1,6 +1,6 @@
 <?php
 
-Class Visor_guardar_elemento{
+Class Visor_guardar_kml{
     
     /**
      *
@@ -25,6 +25,7 @@ Class Visor_guardar_elemento{
      */
     public function __construct() {
         $this->_ci =& get_instance();
+        $this->_ci->load->library(array("cache"));
         $this->_ci->load->model("emergencia_kml_model");
         $this->_emergencia_kml_model = $this->_ci->emergencia_kml_model;
     }
@@ -49,9 +50,12 @@ Class Visor_guardar_elemento{
             foreach($lista_kml as $kml_seleccionado){
                 $kml = $this->_emergencia_kml_model->getById($kml_seleccionado["id"]);
                 if(is_null($kml)){
+                    
+                    $cache = Cache::iniciar();
+                    $file = $cache->load($kml_seleccionado["hash"]);
                     $data = array("id_emergencia" => $this->_id_emergencia,
                                   "nombre" => $kml_seleccionado["nombre"],
-                                  "kml"    => file_get_contents($kml["url"]));
+                                  "kml"    =>$file["archivo"]);
                     $guardados[] = $this->_emergencia_kml_model->query()->insert($data);
                 } else {
                     $guardados[] = $kml->id;

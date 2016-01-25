@@ -134,8 +134,10 @@ class Mapa extends MY_Controller {
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
             
-            $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
-                                         ->guardar($params["elementos"]);
+            if(isset($params["elementos"])){
+                $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
+                                             ->guardar($params["elementos"]);
+            }
             
             $this->_emergencia_capas_model->query()
                                           ->insertOneToMany("id_emergencia", 
