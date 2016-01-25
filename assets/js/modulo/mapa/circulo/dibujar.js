@@ -89,7 +89,7 @@ var MapaCirculoDibujar = Class({
         
         var circuloClickListener = new MapaCirculoMoveListener();
         circuloClickListener.addMoveListener(circulo, this.mapa);
-        console.log(circulo);
+        
         lista_poligonos.push(circulo);
     }
     

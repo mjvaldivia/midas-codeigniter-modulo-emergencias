@@ -129,8 +129,6 @@ class Mapa extends MY_Controller {
             $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
                                          ->guardar($params["elementos"]);
             
-            
-            
             $this->_emergencia_capas_model->query()
                                           ->insertOneToMany("id_emergencia", 
                                                             "id_geometria", 

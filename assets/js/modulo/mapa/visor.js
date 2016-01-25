@@ -95,6 +95,7 @@ var Visor = Class({
 
         var mapOptions = {
           zoom: 10,
+          scaleControl: true,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
