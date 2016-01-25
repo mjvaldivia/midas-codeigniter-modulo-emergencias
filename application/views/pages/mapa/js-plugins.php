@@ -30,7 +30,9 @@
 <?= loadJS("assets/js/modulo/mapa/marcador/lugar_alarma.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/marcador/lugar_emergencia.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/kml.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/kml/importar.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
 

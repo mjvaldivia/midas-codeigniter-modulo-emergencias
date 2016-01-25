@@ -5,6 +5,7 @@ var MapaEditor = Class({
     class_poligono : null,
     class_marcador : null,
     class_capa     : null,
+    class_kml      : null,
     
     /**
      * Setea mapa
@@ -38,6 +39,7 @@ var MapaEditor = Class({
     __construct : function() {
         this.class_marcador = new MapaMarcador();
         this.class_poligono = new MapaPoligono();
+        this.class_kml = new MapaKml();
     },
     
     /**
@@ -181,6 +183,7 @@ var MapaEditor = Class({
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                           "elementos" : custom.listCustomElements(),
+                          "kmls" : this.class_kml.listKml(),
                           "id" : this.id_emergencia};
         Messenger().run({
             action: $.ajax,

@@ -1,5 +1,3 @@
-var lista_kml = [];
-
 var MapaKmlImportar = Class({  
     
     /**
@@ -24,13 +22,13 @@ var MapaKmlImportar = Class({
 
     },
     
-    cargarKmlTemporal : function(hash, tipo){
+    cargarKmlTemporal : function(hash, tipo, nombre){
         var kmzLayer = new google.maps.KmlLayer( siteUrl + 'mapa/kml_temporal/hash/' + hash + "/file." + tipo);
 
         kmzLayer.setMap(this.mapa);
-        
-        console.log(kmzLayer);
-        
+        kmzLayer.id = null;
+        kmzLayer.nombre = nombre;
+       
         lista_kml.push(kmzLayer);
     },
     
@@ -53,9 +51,9 @@ var MapaKmlImportar = Class({
                     label: " Cargar archivo",
                     className: "btn-success fa fa-check",
                     callback: function() {
-                        $(".ocultar-al-subir").hide();
+                       /* $(".ocultar-al-subir").hide();
                         $(".mostrar-al-subir").show();
-                        $(".file-input > .input-group").hide();
+                        $(".file-input > .input-group").hide();*/
                         $("#input_kml").fileinput("upload");
                         return false;
                     }
@@ -67,6 +65,8 @@ var MapaKmlImportar = Class({
                 }
             }
         });
+        
+        $(".modal-footer > .btn-success").attr("disabled",true);
         
          $.ajax({         
             dataType: "html",
@@ -81,24 +81,35 @@ var MapaKmlImportar = Class({
             success:function(html){
                 $("#contenido-popup").html(html);
                 $(".mostrar-al-subir").hide();
+                
+                
                 $("#input_kml").fileinput({
                     language: "es",
                     multiple: false,
-                    uploadAsync: true,
+                    uploadAsync: false,
                     initialCaption: "",
                     showUpload : false,
-                    uploadUrl: siteUrl + "mapa/upload_kml"
+                    uploadUrl: siteUrl + "mapa/upload_kml",
+                    uploadExtraData : function(previewId, index){
+                        return {"nombre" : $("#nombre").val()}
+                    }
                 }).on("filebatchselected", function(event, files) {
-                    
+                    $(".modal-footer > .btn-success").attr("disabled",false);
                 }).on('filebatchuploadsuccess', function(event, data) {
-                    console.log(data);
+                    
                     if(data.response.correcto){
                         bootbox.hideAll();
-                        yo.cargarKmlTemporal(data.response.hash, data.response.tipo);
+                        yo.cargarKmlTemporal(data.response.hash, data.response.tipo, data.response.nombre);
                     } else {
-                        $(".file-input > .input-group").show();
+                        procesaErrores(data.response.errores);
+                       /* $(".file-input > .input-group").show();
                         $(".mostrar-al-subir").hide();
-                        $(".ocultar-al-subir").show();
+                        $(".ocultar-al-subir").show();*/
+                        $("#form_error").removeClass("hidden");
+                        
+                        $(".modal-footer > .btn-success").attr("disabled",true);
+                        $('#input_kml').attr('disabled', false);
+                        $('#input_kml').fileinput('refresh');
                     }
                 });
             }

@@ -119,7 +119,12 @@ class Mapa extends MY_Controller {
      * Guarda configuracion del mapa
      */
     public function save(){
-        $this->load->library("visor/guardar/visor_guardar_elemento");
+        $this->load->library(
+            array(
+                  "visor/guardar/visor_guardar_elemento",
+                  "visor/guardar/visor_guardar_kml" 
+                 )
+        );
         
         header('Content-type: application/json');
         $params = $this->input->post(null, true);
@@ -134,6 +139,10 @@ class Mapa extends MY_Controller {
                                                             "id_geometria", 
                                                             $emergencia->eme_ia_id, 
                                                             $params["capas"]);
+            
+            $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
+                                    ->guardar($params["kmls"]);
+            
             $data = array("correcto" => true,
                           "error" => "");
         } else {
@@ -151,6 +160,10 @@ class Mapa extends MY_Controller {
         $this->load->view("pages/mapa/popup-importar-kml", array());
     }
     
+    /**
+     * Muestra KML temporal
+     * @throws Exception
+     */
     public function kml_temporal(){
         $this->load->library(array("cache"));
         $params = $this->uri->uri_to_assoc();
@@ -178,64 +191,40 @@ class Mapa extends MY_Controller {
         }
     }
     
+    /**
+     * Sube KML a archivo temporal
+     */
     public function upload_kml(){
-        $this->load->library(array("string", "cache"));
-        $params = $this->input->post(null, true);
-        $retorno = array("correcto" => true);
-        
         header('Content-type: application/json');
         
-        $dir = FCPATH . "media/tmp/";
+        $this->load->library(array(
+            "visor/upload/visor_upload_temp_kml")
+        );
         
-        try{
-            $upload = New Zend_File_Transfer();
-            $upload->addValidator('Extension', false, array('kml','kmz'));
-            //$upload->addValidator('MimeType',  false, $this->_mime_types);
-            $upload->addValidator('FilesSize', false, array('min' => '0.001kB', 'max' => '100MB'));
-            $file = $upload->getFileInfo();
-            foreach($file as $field_name => $file_data){
-
-                if (!$upload->isUploaded($field_name)) {
-                    $retorno = array("correcto" => false,
-                                     "mensaje" => "No se subio ning&uacute;n archivo o estaba vac&iacute;o");
-                }
-
-                if (!$upload->isValid($field_name)) { 
-                    $texto = "</br>";
-                    $mensajes = $upload->getMessages();
-                    foreach($mensajes as $key => $txt){
-                        $texto .= $txt . "</br>";
-                    }
-                    $retorno = array("correcto" => false,
-                                     "mensaje" => "<b>El archivo es inv&aacute;lido</b>." . $texto);
-                }
-
-                $nombre = explode(".",$file_data["name"]);
-                
-                $codigo = $this->string->rand_string(20);
-                $target = $dir . $codigo . "." . $nombre[count($nombre)-1];
-                $upload->addFilter('Rename', array('target' => $target, 'overwrite' => true));
-            }
-
-            $upload->receive();
-            
-            
-            if($retorno["correcto"]){
-                $cache = Cache::iniciar();
-                $cache->save(array("archivo" => file_get_contents($target),
-                                   "archivo_nombre" => $file_data["name"],
-                                   "tipo" => strtolower($nombre[count($nombre)-1]),
-                                   "nombre" => $params["nombre"] ) , $codigo);
-                $retorno = array("correcto" => true,
-                                 "hash" => $codigo);
-
-                unlink($target);
-            }
-            
-        } catch (Exception $e){
-            $retorno = array("correcto" => false,
-                             "mensaje" => "Ocurrio un error al subir el archivo: " . $e->getMessage());
+        $params = $this->input->post(null, true);
+        
+        $correcto = true;
+        $error    = array("nombre" => "",
+                          "archivo" => "");
+        
+        if(trim($params["nombre"])== ""){
+            $correcto = false;
+            $error["nombre"] = "Debe ingresar un nombre";
         }
+        
+        
+        $retorno_archivo = $this->visor_upload_temp_kml->upload(); 
+        if(!$retorno_archivo["correcto"]){
+            $correcto = false;
+            $error["archivo"] = $retorno_archivo["mensaje"];  
+        }  
+        
+        $retorno = array("correcto" => $correcto,
+                         "nombre" => $params["nombre"],
+                         "tipo" => $retorno_archivo["tipo"],
+                         "hash" => $retorno_archivo["hash"],
+                         "errores" => $error);
+        
         echo json_encode($retorno);
     }
     
