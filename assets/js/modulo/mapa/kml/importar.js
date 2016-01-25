@@ -43,6 +43,21 @@ var MapaKmlImportar = Class({
                 }
             }
         });
+        
+         $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: "",
+            type: "post",
+            url: siteUrl + "mapa/popup_importar_kml", 
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(html){
+                $("#contenido-popup").html(html);
+            }
+        });
     }
 });
 

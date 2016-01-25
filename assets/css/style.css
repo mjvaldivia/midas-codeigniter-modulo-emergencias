@@ -2161,8 +2161,8 @@ input[type="checkbox"]:checked::after,
     bottom: auto;
 }
 
+/*
 .ui-pnotify.stack-bottomrightinfo {
-    /* These are just CSS default values to reset the PNotify CSS. */
     right: auto;
     top: auto;
     left: auto;
@@ -2178,7 +2178,7 @@ input[type="checkbox"]:checked::after,
     font-size: 12px;
     margin-top: 2px;
     margin-bottom: 2px;
-}
+}*/
 
 .ui-pnotify.stack-bar-bottom {
     right: 0;

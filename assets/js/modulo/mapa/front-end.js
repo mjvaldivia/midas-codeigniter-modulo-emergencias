@@ -14,7 +14,7 @@ $(document).ready(function() {
      //custom
     var custom = new MapaElementoCustom();
     custom.emergencia(id);
-    visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, null);
+    visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, true);
 
     //capas
     var capas = new MapaCapa();
