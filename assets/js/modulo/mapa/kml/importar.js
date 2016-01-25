@@ -1,3 +1,5 @@
+var lista_kml = [];
+
 var MapaKmlImportar = Class({  
     
     /**
@@ -22,7 +24,22 @@ var MapaKmlImportar = Class({
 
     },
     
+    cargarKmlTemporal : function(hash){
+        var kmzLayer = new google.maps.KmlLayer( siteUrl + 'mapa/kml_temporal/hash/' + hash + "/file.kmz");
+        kmzLayer.setMap(this.mapa);
+        
+        console.log(kmzLayer);
+        
+        lista_kml.push(kmzLayer);
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
     popupUpload : function(){
+        var yo = this;
+        
         bootbox.dialog({
             message:  "<div id=\"contenido-popup\">\n"
                     + "<div class=\"row text-center\" style=\"height:200px; padding-top:50px\">"
@@ -32,9 +49,15 @@ var MapaKmlImportar = Class({
             title: "<i class=\"fa fa-arrow-right\"></i> Importar KML",
             buttons: {
                 ok: {
-                    label: " Importar",
+                    label: " Cargar archivo",
                     className: "btn-success fa fa-check",
-                    callback: function() {}
+                    callback: function() {
+                        $(".ocultar-al-subir").hide();
+                        $(".mostrar-al-subir").show();
+                        $(".file-input > .input-group").hide();
+                        $("#input_kml").fileinput("upload");
+                        return false;
+                    }
                 },
                 cerrar: {
                     label: " Cerrar ventana",
@@ -56,17 +79,26 @@ var MapaKmlImportar = Class({
             },
             success:function(html){
                 $("#contenido-popup").html(html);
-                
+                $(".mostrar-al-subir").hide();
                 $("#input_kml").fileinput({
                     language: "es",
                     multiple: false,
                     uploadAsync: true,
                     initialCaption: "",
+                    showUpload : false,
                     uploadUrl: siteUrl + "mapa/upload_kml"
                 }).on("filebatchselected", function(event, files) {
-                    $("#input_kml").fileinput("upload");
-                }).on('filebatchuploadsuccess', function(event, data) {
                     
+                }).on('filebatchuploadsuccess', function(event, data) {
+                    console.log(data);
+                    if(data.response.correcto){
+                        bootbox.hideAll();
+                        yo.cargarKmlTemporal(data.response.hash);
+                    } else {
+                        $(".file-input > .input-group").show();
+                        $(".mostrar-al-subir").hide();
+                        $(".ocultar-al-subir").show();
+                    }
                 });
             }
         });

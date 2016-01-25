@@ -151,6 +151,33 @@ class Mapa extends MY_Controller {
         $this->load->view("pages/mapa/popup-importar-kml", array());
     }
     
+    public function kml_temporal(){
+        $this->load->library(array("cache"));
+        $params = $this->uri->uri_to_assoc();
+        $cache = Cache::iniciar();
+        if($archivo = $cache->load($params["hash"])){
+            
+            switch ($archivo["tipo"]) {
+                case "kml":
+                    $content_type = "text/plain";  
+                    break;
+                case "kmz":
+                    $content_type = "text/plain"; 
+                    break;
+                default:
+                    throw new Exception(__METHOD__ . " - El tipo de archivo no es valido");
+                    break;
+            }
+
+            header("Content-Type: " . $content_type);
+            header("Content-Disposition: inline;filename=" . $archivo["archivo_nombre"]); 
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public'); 
+            echo $archivo["archivo"];
+        }
+    }
+    
     public function upload_kml(){
         $this->load->library(array("string", "cache"));
         $params = $this->input->post(null, true);
@@ -197,6 +224,7 @@ class Mapa extends MY_Controller {
                 $cache = Cache::iniciar();
                 $cache->save(array("archivo" => file_get_contents($target),
                                    "archivo_nombre" => $file_data["name"],
+                                   "tipo" => strtolower($nombre[count($nombre)-1]),
                                    "nombre" => $params["nombre"] ) , $codigo);
                 $retorno = array("correcto" => true,
                                  "hash" => $codigo);
@@ -208,7 +236,6 @@ class Mapa extends MY_Controller {
             $retorno = array("correcto" => false,
                              "mensaje" => "Ocurrio un error al subir el archivo: " . $e->getMessage());
         }
-        
         echo json_encode($retorno);
     }
     
