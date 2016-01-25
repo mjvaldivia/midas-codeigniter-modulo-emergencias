@@ -215,10 +215,12 @@ var MapaEditor = Class({
         var yo = this;
         var buttonOptions = {
         		gmap: map,
-        		name: '<i class=\"fa fa-bullhorn\"></i> Importar KML',
+        		name: '<i class=\"fa fa-download\"></i> Importar KML',
         		position: google.maps.ControlPosition.TOP_RIGHT,
         		action: function(){
-        		    
+        		    var kml = new MapaKmlImportar();
+                            kml.seteaMapa(map);
+                            kml.popupUpload();
         		}
         }
         var button1 = new buttonControl(buttonOptions, "button-map");    

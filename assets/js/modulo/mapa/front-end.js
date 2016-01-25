@@ -27,9 +27,11 @@ $(document).ready(function() {
     editor.seteaClaseCapa(capas);
     visor.addOnReadyFunction("editor", editor.iniciarEditor, null);
     
+    visor.addOnReadyFunction("boton para cargar kml", editor.controlImportar, null);
     visor.addOnReadyFunction("boton ubicacion emergencia", editor.controlEditar, null);
     visor.addOnReadyFunction("boton popup capas", editor.controlCapas, null);
     visor.addOnReadyFunction("boton para guardar", editor.controlSave, null);
+    
     //visor.addOnReadyFunction("boton para cargar instalaciones", editor.controlInstalaciones, null);
 
     //inicia mapa

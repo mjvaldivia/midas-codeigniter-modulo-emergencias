@@ -48,8 +48,9 @@ Class Visor_guardar_elemento{
                     
                     $icono = "";
                     $color = "";
+                    
                     if(isset($elemento->icono)){
-                        $icono = str_replace(FCPATH, "", $elemento->icono);
+                        $icono = $elemento->icono; //str_replace(FCPATH, "", $elemento->icono);
                     }
                     
                     if(isset($elemento->color)){
