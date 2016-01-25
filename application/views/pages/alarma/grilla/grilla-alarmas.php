@@ -33,7 +33,11 @@
                                 </button>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    
+                                    <li>
+                                        <a class="expediente" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['ala_ia_id'])?>','Expediente Alarma/Emergencia','lg');">
+                                            <i class="fa fa-files-o"></i> Expediente
+                                        </a>
+                                    </li>
                                   <?php if (puedeEditar("emergencia")) { ?>
                                   <li>
                                       <a data="<?php echo $row["ala_ia_id"]; ?>" class="emergencia-nueva" href="#">
@@ -50,7 +54,7 @@
                                   </li>
                                   <?php } ?>
                                   
-                                  <?php if (puedeEliminar("alarma")) { ?>
+                                  <?php if (puedeEliminar("alarma") and $row["est_ia_id"] != 1) { ?>
                                   <li class="divider"></li>
                                   <li>
                                       <a data="<?php echo $row["ala_ia_id"]; ?>" class="alarma-eliminar" href="#">

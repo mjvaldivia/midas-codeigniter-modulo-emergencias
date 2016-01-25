@@ -312,4 +312,19 @@ class Alarma extends MY_Controller {
     }
 
 
+    public function expediente(){
+        sessionValidation();
+        $params = $this->uri->uri_to_assoc();
+
+        $this->load->model('alarma_historial_model','AlarmaHistorial');
+
+        $historial = $this->AlarmaHistorial->getByAlarma($params['id']);
+
+        $data = array('historial' => $historial);
+
+        $this->load->view('pages/alarma/expediente',$data);
+
+    }
+
+
 }
