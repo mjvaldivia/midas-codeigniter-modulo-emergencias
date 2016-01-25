@@ -15,6 +15,10 @@ $(document).ready(function() {
     var custom = new MapaElementoCustom();
     custom.emergencia(id);
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, true);
+    
+    var kml = new MapaKml();
+    kml.seteaEmergencia(id);
+    visor.addOnReadyFunction("Carga kml", kml.loadKml, true);
 
     //capas
     var capas = new MapaCapa();
