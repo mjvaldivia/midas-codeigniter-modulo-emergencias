@@ -54,6 +54,7 @@ Class Visor_guardar_kml{
                     $cache = Cache::iniciar();
                     $file = $cache->load($kml_seleccionado["hash"]);
                     $data = array("id_emergencia" => $this->_id_emergencia,
+                                  "tipo" => $kml_seleccionado["tipo"],
                                   "nombre" => $kml_seleccionado["nombre"],
                                   "kml"    =>$file["archivo"]);
                     $guardados[] = $this->_emergencia_kml_model->query()->insert($data);

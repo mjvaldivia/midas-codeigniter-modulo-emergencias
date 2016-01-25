@@ -52,6 +52,12 @@ class Mapa extends MY_Controller {
     
     /**
      *
+     * @var Emergencia_Kml_Model 
+     */
+    public $_emergencia_kml_model;
+    
+    /**
+     *
      * @var Capa_Poligono_Informacion_Model
      */
     public $_capa_poligono_informacion_model;
@@ -89,6 +95,7 @@ class Mapa extends MY_Controller {
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
         $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
+        $this->load->model("emergencia_kml_model", "_emergencia_kml_model");
         $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
@@ -163,6 +170,19 @@ class Mapa extends MY_Controller {
      */
     public function popup_importar_kml(){
         $this->load->view("pages/mapa/popup-importar-kml", array());
+    }
+    
+    public function kml(){
+         $params = $this->uri->uri_to_assoc();
+         $kml = $this->_emergencia_kml_model->getById($params["id"]);
+         if(!is_null($kml)){
+            header("Content-Type: text/plain");
+            header("Content-Disposition: inline;filename=archivo." . $kml->tipo); 
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public'); 
+            echo $kml->kml;
+         }
     }
     
     /**
@@ -404,6 +424,35 @@ class Mapa extends MY_Controller {
         }
         
         echo Zend_Json_Encoder::encode($data);
+    }
+    
+    /**
+     * Carga elementos custom
+     */
+    public function ajax_kml_emergencia(){
+        header('Content-type: application/json');
+        $data = array("correcto" => true,
+                      "resultado" => array("elemento" => array()));
+        
+        $params = $this->input->post(null, true);
+        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            $lista_elementos = $this->_emergencia_kml_model->listaPorEmergencia($emergencia->eme_ia_id);
+            if(count($lista_elementos)>0){
+                foreach($lista_elementos as $elemento){
+
+                    $data["correcto"] = true;
+                    $data["resultado"]["elemento"][$elemento["id"]] = array("id" => $elemento["id"],
+                                                                            "tipo" => $elemento["tipo"],
+                                                                            "nombre" => $elemento["nombre"]);
+                    
+                }
+            }
+        } else {
+            $data["info"] = "La emergencia no tiene kml asociadados";
+        }
+        
+        echo json_encode($data);
     }
     
     /**

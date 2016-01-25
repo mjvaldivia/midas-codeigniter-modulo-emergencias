@@ -27,6 +27,7 @@ var MapaKmlImportar = Class({
         
         kmzLayer.setMap(this.mapa);
         kmzLayer.id = null;
+        kmzLayer.tipo = tipo;
         kmzLayer.hash = hash;
         kmzLayer.nombre = nombre;
        
