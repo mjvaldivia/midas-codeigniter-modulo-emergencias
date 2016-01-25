@@ -37,7 +37,7 @@ var MapaKml = Class({
      */
     loadKml : function(mapa){
         var yo = this;
-        var ajax = {         
+       $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
@@ -58,7 +58,7 @@ var MapaKml = Class({
                     });
                 }
             }
-        };
+        });
     }
 });
 
