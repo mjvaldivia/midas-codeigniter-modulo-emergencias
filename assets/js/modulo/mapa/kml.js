@@ -37,7 +37,13 @@ var MapaKml = Class({
      */
     loadKml : function(mapa){
         var yo = this;
-       $.ajax({         
+       Messenger().run({
+            action: $.ajax,
+            showCloseButton: true,
+            successMessage: 'Archivos KML cargados correctamente',
+            errorMessage: 'Ha ocurrido un error al guardar la configuración',
+            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando archivos kml asociados a la emergencia...'
+        }, {         
             dataType: "json",
             cache: false,
             async: true,
