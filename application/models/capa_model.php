@@ -58,6 +58,7 @@ class Capa_Model extends MY_Model {
         if(!in_array('COMUNA',$propiedades)){
             /*return 'No existe propiedad COMUNA';*/
             $poligono_comuna = 0;
+
         }
 
         if(isset($params['capa_edicion']) and $params['capa_edicion'] > 0){
@@ -320,7 +321,7 @@ class Capa_Model extends MY_Model {
                 $properties = addslashes(serialize($arr_propiedades));
 
                 /* obtener comuna */
-                if(isset($item->properties->COMUNA)){
+                if(isset($item->properties->COMUNA) and $poligono_comuna != 0){
                     $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
                     if(is_null($comuna)){
