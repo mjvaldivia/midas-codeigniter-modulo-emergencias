@@ -153,11 +153,12 @@ var MapaElementoCustom = Class({
      * @param {googleMaps} mapa
      * @returns {void}
      */
-    loadCustomElements : function(mapa){
+    loadCustomElements : function(mapa, mensaje_carga){
         this.mapa = mapa;
         var yo = this;
-        var notificacion = notificacionEspera("<i class=\"fa fa-spin fa-spinner\"></i> Cargando elementos");
-        $.ajax({         
+
+
+        var ajax = {         
             dataType: "json",
             cache: false,
             async: true,
@@ -215,9 +216,23 @@ var MapaElementoCustom = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
-                if (notificacion.remove) notificacion.remove();
+                
             }
-        });
+        };
+
+        if(mensaje_carga){
+            Messenger().run({
+                action: $.ajax,
+                showCloseButton: true,
+                successMessage: 'Elementos cargados correctamente',
+                errorMessage: 'Error al cargar elementos',
+                progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando elementos del mapa...'
+            },
+            ajax
+            );
+        } else {
+            $.ajax(ajax);
+        }
     },
     
     removeOneCustomElements : function(atributo, valor){

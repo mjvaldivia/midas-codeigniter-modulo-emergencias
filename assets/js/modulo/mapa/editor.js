@@ -182,7 +182,13 @@ var MapaEditor = Class({
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                           "elementos" : custom.listCustomElements(),
                           "id" : this.id_emergencia};
-        $.ajax({         
+        Messenger().run({
+            action: $.ajax,
+            showCloseButton: true,
+            successMessage: 'Mapa guardado correctamente',
+            errorMessage: 'Ha ocurrido un error al guardar la configuración',
+            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Guardando configuración de mapa...'
+        }, {         
             dataType: "json",
             cache: false,
             async: true,
@@ -194,7 +200,6 @@ var MapaEditor = Class({
             },
             success:function(data){
                 if(data.correcto){
-                    notificacionCorrecto("Guardado","Se ha guardado correctamente la configuración del mapa");
                     var elemento_custom = new MapaElementoCustom();
                     elemento_custom.emergencia(yo.id_emergencia);
                     elemento_custom.removeCustomElements();

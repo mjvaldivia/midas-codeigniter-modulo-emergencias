@@ -55,7 +55,7 @@ Class Emergencia_reporte extends MY_Controller {
     }
     
     /**
-     * 
+     * Despliega reporte en navegador
      */
     public function pdf(){
         header("Content-Type: application/pdf");
@@ -69,6 +69,9 @@ Class Emergencia_reporte extends MY_Controller {
         echo $this->emergencia_pdf->generar($params["id"]);
     }
     
+    /**
+     * Envia correo con reporte
+     */
     public function ajax_enviar_correo(){
         $correcto = false;
         

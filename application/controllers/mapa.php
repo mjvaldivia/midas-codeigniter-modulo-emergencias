@@ -147,6 +147,13 @@ class Mapa extends MY_Controller {
     /**
      * 
      */
+    public function popup_importar_kml(){
+        $this->load->view("pages/mapa/popup-importar-kml", array());
+    }
+    
+    /**
+     * 
+     */
     public function popup_lugar_emergencia(){
         $this->load->view("pages/mapa/popup-lugar-emergencia", array());
     }

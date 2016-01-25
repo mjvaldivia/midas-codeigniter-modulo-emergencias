@@ -22,6 +22,11 @@ function formatState (state) {
 
 $(document).ready(function() {
     
+    Messenger.options = {
+        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+        theme: 'flat'
+    };
+    
     $(".datepicker").livequery(function(){
         $(this).datetimepicker({
             format: "DD-MM-YYYY hh:mm"
@@ -292,32 +297,29 @@ function notificacionSimulacion(){
 }
 
 function notificacionCorrecto(titulo, texto){
-    new PNotify({ title: titulo, text: texto, type: 'success',addclass: "stack-bottomright",
-        stack: stack_bottomright});
+
+    Messenger().post({
+        message: titulo + " " + texto,
+        type: 'success',
+        showCloseButton: true
+    });
 }
 
 function notificacionError(titulo, texto){
-    new PNotify({ title: titulo, text: texto, type: 'danger',addclass: "stack-bottomright",
-        stack: stack_bottomright });
+
+    Messenger().post({
+        message: titulo + " " + texto,
+        type: 'error',
+        showCloseButton: true
+    });
 }
 
 function notificacionEspera(titulo){
-    var permanotice = new PNotify({
-        title: titulo,
-        hide: false,
+
+    Messenger().post({
+        message: titulo,
         type: 'info',
-        icon: false,
-        width : "150px",
-        buttons: {
-            closer: false,
-            sticker: false
-        },
-        mobile: {
-            swipe_dismiss: false
-        },
-        addclass: "stack-bottomrightinfo",
-        stack: stack_bottomright 
+        showCloseButton: true
     });
-    return permanotice;
 }
 

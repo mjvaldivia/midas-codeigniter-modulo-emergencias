@@ -102,15 +102,22 @@ var MapaCapa = Class({
         var yo = this;
         
         console.log("Agregando Sub-Capa " + id_subcapa);
-        var notificacion = notificacionEspera("<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa");
-        $.ajax({         
+        
+        Messenger().run({
+            action: $.ajax,
+            successMessage: 'Capa cargada correctamente',
+            errorMessage: 'Error al cargar capa',
+            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa...'
+        }, {
             dataType: "json",
             cache: false,
             async: true,
             data: "id=" + id_subcapa + "&id_emergencia=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa/ajax_capa", 
-            error: function(xhr, textStatus, errorThrown){},
+            error: function(xhr, textStatus, errorThrown){
+
+            },
             success:function(data){
                 if(data.correcto){
                     if(($.isEmptyObject(yo.capas[id_subcapa]))){
@@ -119,8 +126,6 @@ var MapaCapa = Class({
                         yo.cargaCapa(id_subcapa, data.capa);
                     }
                 }
-                
-                if (notificacion.remove) notificacion.remove();
             }
         });
     },
@@ -218,8 +223,15 @@ var MapaCapa = Class({
     capasPorEmergencia : function(map){
         console.log("Cargando informacion de capas asociadas a emergencia");
         var yo = this;
-        var notificacion = notificacionEspera("<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas");
-        $.ajax({         
+        
+        Messenger().run({
+            action: $.ajax,
+
+            successMessage: 'Capas cargadas correctamente',
+            errorMessage: 'Error al cargar capas',
+            showCloseButton: true,
+            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas del mapa...'
+        }, {        
             dataType: "json",
             cache: false,
             async: true,
@@ -238,7 +250,6 @@ var MapaCapa = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
-                if (notificacion.remove) notificacion.remove();
             }
         });
     }
