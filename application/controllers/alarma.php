@@ -264,7 +264,7 @@ class Alarma extends MY_Controller {
                 $params["ala_ia_id"] = $id;
                 $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
 
-                $historial_comentario = 'Se ha creado la alarma';
+                $historial_comentario = 'Se ha creado la alarma y se encuentra en revisión';
                 $data = array(
                     'historial_alerta' => $id,
                     'historial_usuario' => $usuario,
@@ -293,6 +293,7 @@ class Alarma extends MY_Controller {
      */
     public function eliminarAlarma() { 
         $params = $this->uri->uri_to_assoc();
+
         $res = $this->AlarmaModel->eliminarAlarma($params['id']);
         echo ($res) ? 1 : 0;
     }

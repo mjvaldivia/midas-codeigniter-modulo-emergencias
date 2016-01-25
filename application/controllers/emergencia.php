@@ -303,7 +303,18 @@ class Emergencia extends MY_Controller {
                                                   "ala_c_utm_lng" => $params["longitud"],
                                                   "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
                                             $alarma->ala_ia_id);
-                
+
+                $usuario = $this->session->userdata('session_idUsuario');
+                $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+                $historial_comentario = 'Se ha generado y activado la emergencia';
+                $data = array(
+                    'historial_alerta' => $alarma->ala_ia_id,
+                    'historial_usuario' => $usuario,
+                    'historial_fecha' => date('Y-m-d H:i:s'),
+                    'historial_comentario' => $historial_comentario
+                );
+                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+
                 //envio de email
                 $this->emergencia_email_confirmacion->setEmergencia($id);
                 $respuesta["res_mail"] = $this->emergencia_email_confirmacion->enviar();
@@ -323,9 +334,20 @@ class Emergencia extends MY_Controller {
      */
     public function json_rechaza_alarma() {
         $params = $this->input->post(null, true);
-        $alarma = $this->alarma_model->getById($params["id"]);
+        $alarma = $this->alarma_model->getById($params["ala_id"]);
         if(!is_null($alarma)){
             $this->alarma_model->update(array("est_ia_id" => Alarma_Estado_Model::RECHAZADO), $alarma->ala_ia_id);
+
+            $usuario = $this->session->userdata('session_idUsuario');
+            $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+            $historial_comentario = 'Alarma ha sido rechazada';
+            $data = array(
+                'historial_alerta' => $params["ala_id"],
+                'historial_usuario' => $usuario,
+                'historial_fecha' => date('Y-m-d H:i:s'),
+                'historial_comentario' => $historial_comentario
+            );
+            $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
             echo json_encode(array("correcto" => true));
         } else {
             show_404();
