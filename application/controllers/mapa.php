@@ -119,7 +119,12 @@ class Mapa extends MY_Controller {
      * Guarda configuracion del mapa
      */
     public function save(){
-        $this->load->library("visor/guardar/visor_guardar_elemento");
+        $this->load->library(
+            array(
+                  "visor/guardar/visor_guardar_elemento",
+                  "visor/guardar/visor_guardar_kml" 
+                 )
+        );
         
         header('Content-type: application/json');
         $params = $this->input->post(null, true);
@@ -134,6 +139,10 @@ class Mapa extends MY_Controller {
                                                             "id_geometria", 
                                                             $emergencia->eme_ia_id, 
                                                             $params["capas"]);
+            
+            $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
+                                    ->guardar($params["kmls"]);
+            
             $data = array("correcto" => true,
                           "error" => "");
         } else {
@@ -151,6 +160,10 @@ class Mapa extends MY_Controller {
         $this->load->view("pages/mapa/popup-importar-kml", array());
     }
     
+    /**
+     * Muestra KML temporal
+     * @throws Exception
+     */
     public function kml_temporal(){
         $this->load->library(array("cache"));
         $params = $this->uri->uri_to_assoc();
@@ -178,6 +191,9 @@ class Mapa extends MY_Controller {
         }
     }
     
+    /**
+     * Sube KML a archivo temporal
+     */
     public function upload_kml(){
         header('Content-type: application/json');
         

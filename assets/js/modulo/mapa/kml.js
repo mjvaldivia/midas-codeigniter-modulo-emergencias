@@ -10,6 +10,7 @@ var MapaKml = Class({
         var lista = {};
         $.each(lista_kml, function(i, kml){
             lista[i] = {"id" : kml.id,
+                        "nombre" : kml.nombre,
                         "file" : kml.url};
         });
         return lista;
