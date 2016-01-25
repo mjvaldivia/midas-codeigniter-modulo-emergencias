@@ -78,7 +78,9 @@ Class Emergencia_reporte extends MY_Controller {
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
-            
+
+            $this->load->model('usuario_model','UsuarioModel');
+            $destinatarios = array();
             if(isset($params["adjuntar_reporte"]) && $params["adjuntar_reporte"] == 1){
                 $this->emergencia_pdf->setHashImagen($params["hash"]);
                 $pdf = $this->emergencia_pdf->generar($emergencia->eme_ia_id);
@@ -87,6 +89,8 @@ Class Emergencia_reporte extends MY_Controller {
             
             foreach($params["destinatario"] as $email){
                 $this->emergencia_email_reporte->addTo($email);
+                $destinatario = $this->UsuarioModel->getByEmail($email);
+                $destinatarios[] = $destinatario['usu_c_nombre'].' '.$destinatario['usu_c_apellido_paterno'].' '.$destinatario['usu_c_apellido_materno'];
             }
             
             if(count($params["archivos"])>0){
@@ -99,6 +103,19 @@ Class Emergencia_reporte extends MY_Controller {
             $this->emergencia_email_reporte->setMessage($params["mensaje"]);
             
             $correcto = $this->emergencia_email_reporte->send();
+
+
+            $usuario = $this->session->userdata('session_idUsuario');
+            $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+            $historial_comentario = 'Se ha enviado un reporte de la emergencia a los siguientes usuarios: ' . implode(',',$destinatarios);
+            $data = array(
+                'historial_alerta' => $emergencia->ala_ia_id,
+                'historial_usuario' => $usuario,
+                'historial_fecha' => date('Y-m-d H:i:s'),
+                'historial_comentario' => $historial_comentario
+            );
+            $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+
         }
         
         $respuesta = array("correcto" => $correcto,

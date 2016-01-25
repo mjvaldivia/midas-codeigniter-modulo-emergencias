@@ -199,6 +199,18 @@ class Emergencia extends MY_Controller {
                                                   "ala_c_utm_lng" => $params["longitud"],
                                                   "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
                                             $emergencia->ala_ia_id);
+
+
+                $usuario = $this->session->userdata('session_idUsuario');
+                $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+                $historial_comentario = 'La emergencia ha sido editada';
+                $data = array(
+                    'historial_alerta' => $emergencia->ala_ia_id,
+                    'historial_usuario' => $usuario,
+                    'historial_fecha' => date('Y-m-d H:i:s'),
+                    'historial_comentario' => $historial_comentario
+                );
+                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
                 
                 
                 $id = $this->emergencia_guardar->getId();

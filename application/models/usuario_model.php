@@ -242,4 +242,16 @@ class Usuario_Model extends MY_Model {
         echo json_encode($res);
     }
 
+
+    public function getByEmail($email){
+        $query = "select * from usuarios where usu_c_email = ? limit 1";
+        $resultado = $this->db->query($query,array($email));
+        if($resultado->num_rows() > 0){
+            $usuario = $resultado[0];
+            return $usuario->result_array();
+        }else{
+            return null;
+        }
+    }
+
 }
