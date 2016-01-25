@@ -26,7 +26,7 @@ Class Visor_guardar_elemento{
     public function __construct() {
         $this->_ci =& get_instance();
         $this->_ci->load->model("emergencia_kml_model");
-        $this->_emergencia_elemento_model = $this->_ci->emergencia_kml_model;
+        $this->_emergencia_kml_model = $this->_ci->emergencia_kml_model;
     }
     
     /**
