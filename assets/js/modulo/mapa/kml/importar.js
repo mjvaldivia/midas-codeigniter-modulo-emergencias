@@ -24,8 +24,9 @@ var MapaKmlImportar = Class({
 
     },
     
-    cargarKmlTemporal : function(hash){
-        var kmzLayer = new google.maps.KmlLayer( siteUrl + 'mapa/kml_temporal/hash/' + hash + "/file.kmz");
+    cargarKmlTemporal : function(hash, tipo){
+        var kmzLayer = new google.maps.KmlLayer( siteUrl + 'mapa/kml_temporal/hash/' + hash + "/file." + tipo);
+
         kmzLayer.setMap(this.mapa);
         
         console.log(kmzLayer);
@@ -93,7 +94,7 @@ var MapaKmlImportar = Class({
                     console.log(data);
                     if(data.response.correcto){
                         bootbox.hideAll();
-                        yo.cargarKmlTemporal(data.response.hash);
+                        yo.cargarKmlTemporal(data.response.hash, data.response.tipo);
                     } else {
                         $(".file-input > .input-group").show();
                         $(".mostrar-al-subir").hide();
