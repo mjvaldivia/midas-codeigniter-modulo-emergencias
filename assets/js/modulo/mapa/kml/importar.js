@@ -24,9 +24,10 @@ var MapaKmlImportar = Class({
     
     cargarKmlTemporal : function(hash, tipo, nombre){
         var kmzLayer = new google.maps.KmlLayer( siteUrl + 'mapa/kml_temporal/hash/' + hash + "/file." + tipo);
-
+        
         kmzLayer.setMap(this.mapa);
         kmzLayer.id = null;
+        kmzLayer.hash = hash;
         kmzLayer.nombre = nombre;
        
         lista_kml.push(kmzLayer);

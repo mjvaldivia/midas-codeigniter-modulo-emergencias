@@ -46,7 +46,7 @@ Class Visor_upload_temp_kml{
      */
     public function __construct() {
         $this->_ci =& get_instance();
-        $this->_ci->load->library("string");
+        $this->_ci->load->library(array("string", "cache"));
         $this->_dir_temp = FCPATH . "media/tmp/";
     }
     
