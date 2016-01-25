@@ -54,7 +54,7 @@ class Capa_Model extends MY_Model {
 
         $tmp_comunas = array();
 
-
+        $poligono_comuna = -1;
         if(!in_array('COMUNA',$propiedades)){
             /*return 'No existe propiedad COMUNA';*/
             $poligono_comuna = 0;
