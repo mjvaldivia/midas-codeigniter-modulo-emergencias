@@ -93,9 +93,9 @@
 	}
 	
 	.dropDownItemDiv{
-		font-family: Arial, sans-serif; 
+		font-family: Arial,sans-serif; 
 		-webkit-user-select: none; 
-		font-size: 13px; 
+		font-size: 11px; 
 		padding-top: 2px; 
 		padding-right: 5px; 
 		padding-bottom: 3px; 

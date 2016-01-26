@@ -100,7 +100,7 @@ class Mapa extends MY_Controller {
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
         $this->load->model("comuna_model", "_comuna_model");
-        $this->load->model("capa_poligono_comuna_model", "_capa_poligono_informacion_model");
+        $this->load->model("capa_poligono_informacion_model", "_capa_poligono_informacion_model");
         $this->load->model("capa_geometria_model", "_capa_geometria_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
         $this->load->model("archivo_model", "_archivo_model");
@@ -368,44 +368,7 @@ class Mapa extends MY_Controller {
         $data["resultado"] = $json;
         echo json_encode($data);
     }
-    
-    /**
-     * Carga datos de una capa
-     */
-    public function ajax_capa(){
-        header('Content-type: application/json');
-        $data = array("correcto" => false,
-                      "error" => "La capa no existe o no pudo ser cargada");
         
-        $params = $this->input->post(null, true);
-        
-        if($params["id_emergencia"] != "" AND $params["id_emergencia"] != "null"){
-            $lista_comunas = $this->emergencia_comuna->listComunas($params["id_emergencia"]);
-        } else {
-            $comunas = array();
-            $lista_comunas_all = $this->_comuna_model->listar();
-            fb($lista_comunas_all);
-            if(count($lista_comunas_all)>0){
-                foreach($lista_comunas_all as $comuna){
-                    $comunas[] = $comuna["com_ia_id"];
-                }
-            }
-            $lista_comunas = $comunas;
-        }
-        
-        
-        
-        if(count($lista_comunas)>0){
-            $resultado = $this->_cargaCapa($params["id"], $lista_comunas);
-            if(!is_null($resultado)){
-                $data = array("correcto" => true,
-                              "capa" => $resultado);
-            }
-        }
-        
-        echo Zend_Json_Encoder::encode($data);
-    }
-    
     /**
      * Carga elementos custom
      */
@@ -530,28 +493,5 @@ class Mapa extends MY_Controller {
         }
         
         echo json_encode($data);
-    }
-    
-    
-    
-    /**
-     * Limpia datos de caracteres extraños
-     * para envio como parametros
-     * @param string $string
-     * @return array
-     */
-    protected function _limpiarUnserialize($string){
-
-        $filter = New Zend_Filter_Alnum();
-        
-        $nuevo = array();
-        
-        $array = unserialize($string);
-        if(count($array)>0){
-            foreach($array as $nombre => $valor){
-                $nuevo[$filter->filter($nombre)] = $valor;
-            }    
-        }
-         return $nuevo;
     }
 }

@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Capa_Poligono_Comuna_Model extends MY_Model {
+class Capa_Poligono_Informacion_Model extends MY_Model {
     
     /**
      * Se utiliza emergencias_simulacion o no
@@ -26,7 +26,7 @@ class Capa_Poligono_Comuna_Model extends MY_Model {
     }
     
     /**
-     * Retorna la alarma por el identificador
+     * Retorna por el identificador
      * @param int $id clave primaria
      * @return object
      */

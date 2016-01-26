@@ -271,7 +271,6 @@
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">
-            
             <h3>
                 <i class="fa fa-sign-out text-green"></i> ¿Realmente desea salir?
             </h3>

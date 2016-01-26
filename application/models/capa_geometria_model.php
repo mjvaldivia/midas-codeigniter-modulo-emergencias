@@ -27,6 +27,38 @@ class Capa_Geometria_Model extends MY_Model {
     }
     
     /**
+     * Lista las subcapas de region
+     * @return array
+     */
+    public function listarGeometriaRegion(){
+        $result = $this->_query->select("DISTINCT g.*")
+                               ->from($this->_tabla . " g")
+                               ->join("capas_poligonos_regiones p", "g.geometria_id = p.poliregion_capitem", "INNER")
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Lista las subcapas de provincia
+     * @return array
+     */
+    public function listarGeometriaProvincias(){
+        $result = $this->_query->select("DISTINCT g.*")
+                               ->from($this->_tabla . " g")
+                               ->join("capas_poligonos_provincias p", "g.geometria_id = p.poliprovincias_capitem", "INNER")
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param int $id_capa
      * @param array $lista_comunas

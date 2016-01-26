@@ -52,7 +52,7 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
                                           data.resultado.zona, 
                                           baseUrl + 'assets/img/referencia.png');
 
-                   // yo.centrarMapa(mapa, data.resultado.lon, data.resultado.lat, data.resultado.zona);
+                    yo.centrarMapa(mapa, data.resultado.lon, data.resultado.lat, data.resultado.zona);
 
 
                 } else {
