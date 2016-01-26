@@ -39,8 +39,8 @@ var Layer = {};
         $("#input-capa").fileinput({
             language: "es",
             multiple: false,
-            uploadAsync: true,
-            initialCaption: "Seleccione una o varias capas GeoJson",
+            uploadAsync: false,
+            initialCaption: "Seleccione una capa GeoJson",
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
         
@@ -53,7 +53,7 @@ var Layer = {};
          $("#iCategoria").jCombo(siteUrl + "visor/obtenerJsonCatCoberturas");
         
         $('#input-capa').on('filebatchuploadsuccess', function(event, data) {
-
+            console.log(data);
            if(data.response.uploaded==0)//error
            {
                var error_filenames = 'El (los) siguiente(s) archivos no son válidos:<br>';
@@ -80,7 +80,7 @@ var Layer = {};
            var geometry = data.response.geometry.data;
 
             $('#tabla_propiedades').DataTable().destroy();
-            $('#tabla_comunas').DataTable().destroy();
+            /*$('#tabla_comunas').DataTable().destroy();*/
             $('#tabla_colores').DataTable().destroy();
             
             $('#tabla_colores').DataTable({
