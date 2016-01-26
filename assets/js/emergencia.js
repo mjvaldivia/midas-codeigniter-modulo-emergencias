@@ -226,6 +226,8 @@ var Emergencia = {};
                         html += "           </a>";
                     }
                 }
+
+                html += "     <a class='btn btn-primary' onclick=\"xModal.open('" + siteUrl + "alarma/expediente/id/"+row.ala_ia_id + "', 'Expediente Alarma/Emergencia','lg');\" title='Expediente' ><i class='fa fa-fa2x fa-files-o'></i></a>";
                 
                 html += "       </div>";
                 html += "    </div>";
