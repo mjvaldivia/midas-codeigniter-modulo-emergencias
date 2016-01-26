@@ -631,4 +631,11 @@ class Emergencia_Model extends MY_Model {
             $query->addWhere("1=0");
         }
     }
+
+
+
+    public function getByAlarma($id_alarma){
+        return $this->_query->getById("ala_ia_id", $id_alarma);
+    }
+
 }
