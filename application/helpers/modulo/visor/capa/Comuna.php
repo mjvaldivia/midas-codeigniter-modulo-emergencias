@@ -1,6 +1,6 @@
 <?php
 
-Class Visor_Capa_Disponibles{
+Class Visor_Capa_Comuna{
     
     /**
      *
@@ -46,10 +46,10 @@ Class Visor_Capa_Disponibles{
         $this->_ci =& get_instance();
         $this->_ci->load->model("capa_model");
         $this->_ci->load->model("capa_geometria_model");
-        $this->_ci->load->model("capa_poligono_informacion_model");
+        $this->_ci->load->model("capa_poligono_comuna_model");
         $this->_capa_model = New Capa_Model();
         $this->_capa_geometria_model = New Capa_Geometria_Model();
-        $this->_capa_poligono_model = New Capa_Poligono_Informacion_Model();
+        $this->_capa_poligono_model = New Capa_Poligono_Comuna_Model();
         $this->_comunas = $comunas;
         $this->_categorias = $lista_categorias;
     }
@@ -112,7 +112,16 @@ Class Visor_Capa_Disponibles{
             
             $subcapas = $this->_capa_geometria_model->listarPorCapaComuna($capa["cap_ia_id"], $this->_comunas);
             
-            $html .= "<div class=\"col-lg-12\">".$this->_ci->load->view("pages/mapa/grilla-subcapas", array("subcapas" => $subcapas, "id_capa" => $capa["cap_ia_id"]), true)."</div>";
+            $html .= "<div class=\"col-lg-12\">" 
+                     . $this->_ci->load->view(
+                             "pages/mapa/grilla-subcapas", 
+                             array(
+                                 "sufijo"   => "comuna",
+                                 "subcapas" => $subcapas, 
+                                 "id_capa" => $capa["cap_ia_id"]
+                                 ), 
+                             true)
+                    ."</div>";
             
             $html .= "</div>";
             

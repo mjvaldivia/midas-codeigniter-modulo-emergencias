@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/propiedades/Informacion.php");
 require_once(__DIR__ . "/elemento/Editar.php");
 require_once(__DIR__ . "/elemento/Instalaciones.php");
-require_once(__DIR__ . "/capa/Disponibles.php");
+require_once(__DIR__ . "/capa/Comuna.php");
 
 /**
  * 
@@ -22,8 +22,8 @@ function visorCapasSeleccionadasChecked($valor, $seleccionados){
     }
 }
 
-function visorHtmlCapasDisponibles($lista_categorias, $comunas){
-    $html = New Visor_Capa_Disponibles($lista_categorias, $comunas);
+function visorHtmlCapasComuna($lista_categorias, $comunas){
+    $html = New Visor_Capa_Comuna($lista_categorias, $comunas);
     return $html->render();
 }
 
