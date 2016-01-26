@@ -114,7 +114,7 @@ var MapaCapa = Class({
             async: true,
             data: "id=" + id_subcapa + "&id_emergencia=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_capa", 
+            url: siteUrl + "mapa_capas/ajax_carga_capa", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -237,7 +237,7 @@ var MapaCapa = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_capas_emergencia", 
+            url: siteUrl + "mapa_capas/ajax_capas_comuna_emergencia", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },

@@ -283,8 +283,8 @@ var MapaEditor = Class({
         
         var divOptions = {
         		gmap: map,
-        		name: 'Comuna',
-        		title: "Capas pertenecientes a comunas",
+        		name: 'Ver capas',
+        		title: "",
         		id: "capas_comuna",
         		action: function(){
         			yo.popupCapasComuna(); 
@@ -395,7 +395,7 @@ var MapaEditor = Class({
                 async: true,
                 data: parametros,
                 type: "post",
-                url: siteUrl + "mapa/popup_capas", 
+                url: siteUrl + "mapa_capas/popup_capas_comuna", 
                 error: function(xhr, textStatus, errorThrown){
                     notificacionError("Ha ocurrido un problema", errorThrown);
                 },

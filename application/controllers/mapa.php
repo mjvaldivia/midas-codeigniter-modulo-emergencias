@@ -100,7 +100,7 @@ class Mapa extends MY_Controller {
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
         $this->load->model("comuna_model", "_comuna_model");
-        $this->load->model("capa_poligono_informacion_model", "_capa_poligono_informacion_model");
+        $this->load->model("capa_poligono_comuna_model", "_capa_poligono_informacion_model");
         $this->load->model("capa_geometria_model", "_capa_geometria_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
         $this->load->model("archivo_model", "_archivo_model");
@@ -272,40 +272,6 @@ class Mapa extends MY_Controller {
      */
     public function popup_lugar_emergencia(){
         $this->load->view("pages/mapa/popup-lugar-emergencia", array());
-    }
-    
-    /**
-     * Popup que muestra capas
-     * @throws Exception
-     */
-    public function popup_capas(){
-        $this->load->helper(array("modulo/capa/capa",
-                                  "modulo/visor/visor"));
-        $params = $this->input->post(null, true);
-        $emergencia = $this->_emergencia_model->getById($params["id"]);
-        if(!is_null($emergencia)){
-            
-            $lista_comunas = $this->emergencia_comuna->listComunas($emergencia->eme_ia_id);
-            
-            if(count($lista_comunas)>0){
-                $lista_capas = array();
-                
-                $lista_tipos = $this->_tipo_capa_model->listarCategoriasPorComunas($lista_comunas);
-                if(count($lista_tipos)>0){
-                    foreach($lista_tipos as $tipo){
-                        $lista_capas[] = array("id_categoria" => $tipo["ccb_ia_categoria"],
-                                               "nombre_categoria" => $tipo["ccb_c_categoria"]);
-                    }
-                }
-                
-                $this->load->view("pages/mapa/popup-capas", 
-                                   array("capas" => $lista_capas,
-                                         "seleccionadas" => $params["capas"],
-                                         "comunas" => $lista_comunas));
-            }
-        } else {
-            throw new Exception("La emergencia no existe");
-        }
     }
     
     /**
@@ -504,36 +470,7 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
-    /**
-     * Retorna las capas asociadas a una emergencia
-     */
-    public function ajax_capas_emergencia(){
-        header('Content-type: application/json');
-        $data = array("correcto" => true,
-                      "resultado" => array("capas" => array()));
-        
-        $params = $this->input->post(null, true);
-        $emergencia = $this->_emergencia_model->getById($params["id"]);
-        if(!is_null($emergencia)){
-            
-            $lista_comunas = $this->emergencia_comuna->listComunas($emergencia->eme_ia_id);
-
-            $lista_capas = $this->_emergencia_capas_model->listaPorEmergencia($emergencia->eme_ia_id);
-            if(count($lista_capas)>0){
-                foreach($lista_capas as $capa){
-                    $resultado = $this->_cargaCapa($capa["id_geometria"], $lista_comunas);
-                    if(!is_null($resultado)){
-                        $data["correcto"] = true;
-                        $data["resultado"]["capas"][$capa["id_geometria"]] = $resultado;
-                    }
-                }
-            }
-        } else {
-            $data["info"] = "La emergencia no tiene capas asociadas";
-        }
-        
-        echo json_encode($data);
-    }
+    
     
     /**
      * 
@@ -595,52 +532,7 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
-    /**
-     * Carga datos de una capa
-     * @param int $id_capa
-     * @return array
-     */
-    protected function _cargaCapa(
-        $id_subcapa, 
-        array $comunas = array()
-    ){
-        fb("Cargando capa " . $id_subcapa);
-        $retorno = null;
-        
-        $subcapa = $this->_capa_geometria_model->getById($id_subcapa);
-        if(!is_null($subcapa)){
-            $capa = $this->_capa_model->getById($subcapa->geometria_capa);
-            if(!is_null($capa)){
-                $json = array();
-                $lista_poligonos = $this->_capa_poligono_informacion_model->listarPorSubcapaComuna($subcapa->geometria_id, $comunas);
-                if(count($lista_poligonos)>0){
-                    foreach($lista_poligonos as $poligono){
-                        $json[] = array(
-                            "id" => $poligono["poligono_id"],
-                            "propiedades" => unserialize($poligono["poligono_propiedades"]),
-                            "geojson"     => unserialize($poligono["poligono_geometria"])
-                            );
-                    }
-                }
-                
-                $icono = "";
-                if(!empty($subcapa->geometria_icono)){
-                    $icono = base_url($subcapa->geometria_icono);
-                } else {
-                    if(!empty($capa->icon_path)){
-                        $icono = base_url($capa->icon_path);
-                    }
-                }
-                
-                $retorno = array("zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
-                                 "icono" => $icono,
-                                 "color" => $capa->color,
-                                 "json"  => $json);
-
-            }
-        }
-        return $retorno;
-    }
+    
     
     /**
      * Limpia datos de caracteres extraños

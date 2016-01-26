@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <?php echo visorHtmlCapasDisponibles($capas, $comunas); ?>
+        <?php echo visorHtmlCapasComuna($capas, $comunas); ?>
     </div>
 </div>
     
