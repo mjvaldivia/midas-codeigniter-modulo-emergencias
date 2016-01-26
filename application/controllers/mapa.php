@@ -139,21 +139,35 @@ class Mapa extends MY_Controller {
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
             
+            $elementos = array();
             if(isset($params["elementos"])){
-                $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
-                                             ->guardar($params["elementos"]);
+                $elementos = $params["elementos"];
+            }
+            
+            $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
+                                         ->guardar($elementos);
+            
+            
+            $capas = array();
+            if(isset($params["capas"])){
+                $capas = $params["capas"];
             }
             
             $this->_emergencia_capas_model->query()
                                           ->insertOneToMany("id_emergencia", 
                                                             "id_geometria", 
                                                             $emergencia->eme_ia_id, 
-                                                            $params["capas"]);
+                                                            $capas);
             
+            $kml = array();
             if(isset($params["kmls"])){
-                $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
-                                        ->guardar($params["kmls"]);
+                $kml = $params["kmls"];
             }
+            
+            
+            $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
+                                    ->guardar($kml);
+            
             
             $data = array("correcto" => true,
                           "error" => "");

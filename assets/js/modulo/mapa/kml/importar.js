@@ -84,7 +84,6 @@ var MapaKmlImportar = Class({
                 $("#contenido-popup").html(html);
                 $(".mostrar-al-subir").hide();
                 
-                
                 $("#input_kml").fileinput({
                     language: "es",
                     multiple: false,
@@ -104,9 +103,7 @@ var MapaKmlImportar = Class({
                         yo.cargarKmlTemporal(data.response.hash, data.response.tipo, data.response.nombre);
                     } else {
                         procesaErrores(data.response.errores);
-                       /* $(".file-input > .input-group").show();
-                        $(".mostrar-al-subir").hide();
-                        $(".ocultar-al-subir").show();*/
+
                         $("#form_error").removeClass("hidden");
                         
                         $(".modal-footer > .btn-success").attr("disabled",true);
