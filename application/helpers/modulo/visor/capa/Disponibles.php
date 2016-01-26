@@ -67,8 +67,7 @@ Class Visor_Capa_Disponibles{
     }
     
     protected function _htmlTabCapaHeader($id_categoria){
-        $html = "<div class=\"col-xs-3\">"
-              . "<ul class=\"nav nav-pills tabs-left\" role=\"tablist\">";
+        $html = "<ul class=\"nav nav-tabs\" role=\"tablist\">";
         
         $lista_capas = $this->_capa_model->listarCapasPorComunasYCategoria($id_categoria, $this->_comunas);
         
@@ -89,8 +88,7 @@ Class Visor_Capa_Disponibles{
         
         
         
-        $html .= "</ul>"
-               . "</div>";
+        $html .= "</ul>";
         
         return $html;
     }
@@ -99,8 +97,7 @@ Class Visor_Capa_Disponibles{
      * Contenido de tabs
      */
     protected function _htmlTabCapaContent($id_categoria){
-        $html = "<div class=\"col-xs-9\">"
-              . "<div class=\"tab-content\">";
+        $html = "<div class=\"tab-content\">";
         $primero = true;
         
         $lista_capas = $this->_capa_model->listarCapasPorComunasYCategoria($id_categoria, $this->_comunas);
@@ -122,8 +119,7 @@ Class Visor_Capa_Disponibles{
             $primero = false;
         }
         
-        $html .= "</div>"
-               . "</div>";
+        $html .= "</div>";
         
         return $html;
     }
@@ -132,7 +128,8 @@ Class Visor_Capa_Disponibles{
      * Contenido de tabs
      */
     protected function _htmlTabCategoriaContent(){
-        $html = "<div class=\"tab-content\">";
+        $html =   "<div class=\"col-xs-9\">"
+                . "<div class=\"tab-content\">";
         $primero = true;
         foreach($this->_categorias as $grupo => $categoria){
             
@@ -142,7 +139,7 @@ Class Visor_Capa_Disponibles{
             }
             
             
-            $html .= "<div role=\"tabpanel\" class=\"tab-pane top-spaced ".$class."\" id=\"categoria_" . $categoria["id_categoria"] . "\">";
+            $html .= "<div role=\"tabpanel\" class=\"tab-pane ".$class."\" id=\"categoria_" . $categoria["id_categoria"] . "\">";
             
             $html .= "<div class=\"col-lg-12\">" . $this->_renderCapa($categoria["id_categoria"]) . "</div>";
             
@@ -151,13 +148,15 @@ Class Visor_Capa_Disponibles{
             $primero = false;
         }
         
-        $html .= "</div>";
+        $html .= "</div>"
+               . "</div>";
         
         return $html;
     }
     
     protected function _htmlTabCategoriaHeader(){
-        $html = "<ul class=\"nav nav-tabs\" role=\"tablist\">";
+        $html = "<div class=\"col-xs-3\">"
+              . "<ul class=\"nav nav-pills tabs-left\" role=\"tablist\">";
         fb($this->_categorias);
         $primero = true;
         foreach($this->_categorias as $key => $categoria){
@@ -168,7 +167,7 @@ Class Visor_Capa_Disponibles{
             }
             
             $html  .= "<li role=\"presentation\" class=\"" . $class . "\">"
-                   . "<a style=\"font-size:10px\" href=\"#categoria_" . $categoria["id_categoria"] . "\" aria-controls=\"".$categoria["id_categoria"]."\" role=\"tab\" data-toggle=\"tab\">".textMoreLess($categoria["nombre_categoria"], 12)."</a>"
+                   . "<a style=\"font-size:10px\" href=\"#categoria_" . $categoria["id_categoria"] . "\" aria-controls=\"".$categoria["id_categoria"]."\" role=\"tab\" data-toggle=\"tab\">".$categoria["nombre_categoria"]."</a>"
                    . "</li>";
             
             $primero = false;
@@ -176,7 +175,8 @@ Class Visor_Capa_Disponibles{
         
         
         
-        $html .= "</ul>";
+        $html .= "</ul>"
+               . "</div>";
         
         return $html;
     }

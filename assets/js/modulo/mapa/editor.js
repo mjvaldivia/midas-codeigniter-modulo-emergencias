@@ -280,15 +280,68 @@ var MapaEditor = Class({
      */
     controlCapas : function (map) {
         var yo = this;
-        var buttonOptions = {
+        
+        var divOptions = {
         		gmap: map,
-        		name: '<i class=\"fa fa-clone\"></i> Capas',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		name: 'Comuna',
+        		title: "Capas pertenecientes a comunas",
+        		id: "capas_comuna",
         		action: function(){
-        			yo.popupCapas(); 
+        			yo.popupCapasComuna(); 
         		}
         }
-        var button1 = new buttonControl(buttonOptions, "button-map");
+        var optionDiv1 = new optionDiv(divOptions);
+        
+        var divOptions2 = {
+        		gmap: map,
+        		name: 'Provincia',
+        		title: "Capas pertenecientes a provincias",
+        		id: "capas_provincias",
+        		action: function(){
+        			alert('option2');
+        		}
+        }
+       
+        var optionDiv2 = new optionDiv(divOptions2);
+        
+        var divOptions3 = {
+        		gmap: map,
+        		name: 'Region',
+        		title: "Capas pertenecientes a provincias",
+        		id: "capas_regiones",
+        		action: function(){
+        			alert('option2');
+        		}
+        }
+       
+        var optionDiv3 = new optionDiv(divOptions3);
+        
+        //create the input box items
+        
+        //possibly add a separator between controls        
+        var sep1 = new separator();
+        var sep2 = new separator();
+        
+        //put them all together to create the drop down       
+        var ddDivOptions = {
+        	items: [optionDiv1, sep1, optionDiv2, sep2, optionDiv3],
+        	id: "myddOptsDiv"        		
+        }
+        //alert(ddDivOptions.items[1]);
+        var dropDownDiv = new dropDownOptionsDiv(ddDivOptions);               
+                
+        var dropDownOptions = {
+        		gmap: map,
+        		name: '<i class=\"fa fa-clone\"></i> Capas',
+        		id: 'ddControl',
+        		title: 'Seleccion de capas',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		dropDown: dropDownDiv 
+        }
+        
+        var dropDown1 = new dropDownControl(dropDownOptions);   
+        
+ 
     },
     
     /**
@@ -314,14 +367,14 @@ var MapaEditor = Class({
      * disponibles
      * @returns {void}
      */
-    popupCapas : function(){
+    popupCapasComuna : function(){
         var yo = this;
         if(this.class_capa != null){
             
             bootbox.dialog({
                     message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
                     className: "modal90",
-                    title: "<i class=\"fa fa-arrow-right\"></i> Capas disponibles",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Capas de comuna",
                     buttons: {
                         cerrar: {
                             label: " Cerrar ventana",
