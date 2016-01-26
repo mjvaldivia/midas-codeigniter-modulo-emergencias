@@ -30,12 +30,11 @@ var xModal = {
 
 		if(_size !== undefined){
 			if(isNaN(_size)){
+                var width = '';
 				if(_size == 'lg'){
 					var size = ' modal-lg';
 				}else if(_size == 'sm'){
 					var size = ' modal-sm';
-				}else if(_size == 'xlg'){
-					var size = ' modal-xlg';
 				}
 			}else{
 				if(_size > 0){

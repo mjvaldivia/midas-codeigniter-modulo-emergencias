@@ -317,10 +317,36 @@ class Alarma extends MY_Controller {
         $params = $this->uri->uri_to_assoc();
 
         $this->load->model('alarma_historial_model','AlarmaHistorial');
+        $this->load->model('alarma_model','AlarmaModel');
+        $this->load->model('emergencia_model','EmergenciaModel');
+        $this->load->model('tipo_emergencia_model','TipoEmergenciaModel');
+        $this->load->model('alarma_comuna_model','AlarmaComunaModel');
+        $this->load->model('comuna_model','ComunaModel');
+        $this->load->model('alarma_estado_model','AlarmaEstadoModel');
 
+        $alarma = $this->AlarmaModel->getById($params['id']);
+        $tipo_emergencia = $this->TipoEmergenciaModel->getById($alarma->tip_ia_id);
+        $estado_alarma = $this->AlarmaEstadoModel->getById($alarma->est_ia_id);
+        $comunas_alarma = $this->AlarmaComunaModel->listaComunasPorAlarma($alarma->ala_ia_id);
+
+        $arr_comunas = array();
+        foreach($comunas_alarma as $comuna){
+            $com = $this->ComunaModel->getById($comuna['com_ia_id']);
+            $arr_comunas[] = $com->com_c_nombre;
+        }
+
+
+        $datos = unserialize($alarma->ala_c_datos_tipo_emergencia);
         $historial = $this->AlarmaHistorial->getByAlarma($params['id']);
 
-        $data = array('historial' => $historial);
+        $data = array(
+            'historial' => $historial,
+            'alarma' => $alarma,
+            'tipo_emergencia' => $tipo_emergencia,
+            'estado_alarma' => $estado_alarma,
+            'comunas' => implode(', ',$arr_comunas),
+            'datos' => $datos
+        );
 
         $this->load->view('pages/alarma/expediente',$data);
 
