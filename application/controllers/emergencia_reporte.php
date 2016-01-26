@@ -109,8 +109,9 @@ Class Emergencia_reporte extends MY_Controller {
                 $this->load->model('archivo_model','ArchivoModel');
                 $url = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/';
                 $id_reporte = $this->ArchivoModel->file_to_bd($url, $reporte, 'application/pdf', $this->ArchivoModel->TIPO_EMERGENCIA, $emergencia->ala_ia_id, filesize($dir_reporte));
+                rename('media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$reporte,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$id_reporte.'_'.$reporte);
                 $reporte = $this->ArchivoModel->getById($id_reporte);
-                $file = '<a href="'.site_url("archivo/download_file/k/" . $reporte['arch_c_hash']).'" target="_blank"><strong>'.$reporte['arch_c_nombre'].'</strong></a>';
+                $file = '<a href="'.site_url("archivo/download_file/k/" . $reporte->arch_c_hash).'" target="_blank"><strong>'.$reporte->arch_c_nombre.'</strong></a>';
             }
 
             $usuario = $this->session->userdata('session_idUsuario');
