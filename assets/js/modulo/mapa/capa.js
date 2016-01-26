@@ -93,6 +93,70 @@ var MapaCapa = Class({
         this.addCapa(id_subcapa);
     },
     
+    addRegion : function(){
+        var yo = this;
+        
+        console.log("Agregando region");
+        
+        Messenger().run({
+            action: $.ajax,
+            successMessage: 'Capa de region cargada correctamente',
+            errorMessage: 'Error al cargar capa',
+            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa de region...'
+        }, {
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: "id_emergencia=" + yo.id_emergencia,
+            type: "post",
+            url: siteUrl + "mapa_capas/ajax_carga_capa_region", 
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(data){
+                if(data.correcto){
+                    if(($.isEmptyObject(yo.capas["regiones"]))){
+                        console.log("Cargando capa regiones ");
+                        yo.capas["regiones"] = data.capa;
+                        yo.cargaCapa("regiones", data.capa);
+                    }
+                }
+            }
+        });
+    },
+    
+    addProvincia : function(){
+        var yo = this;
+        
+        console.log("Agregando provincia");
+        
+        Messenger().run({
+            action: $.ajax,
+            successMessage: 'Capa de provincia cargada correctamente',
+            errorMessage: 'Error al cargar capa',
+            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa de provincia...'
+        }, {
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: "id_emergencia=" + yo.id_emergencia,
+            type: "post",
+            url: siteUrl + "mapa_capas/ajax_carga_capa_provincia", 
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(data){
+                if(data.correcto){
+                    if(($.isEmptyObject(yo.capas["provincias"]))){
+                        console.log("Cargando capa provincias ");
+                        yo.capas["provincias"] = data.capa;
+                        yo.cargaCapa("provincias", data.capa);
+                    }
+                }
+            }
+        });
+    },
+    
     /**
      * Añade una capa al visor
      * @param {int} id_capa

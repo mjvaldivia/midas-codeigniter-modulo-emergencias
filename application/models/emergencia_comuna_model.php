@@ -9,7 +9,7 @@ class Emergencia_Comuna_Model extends MY_Model
      * @var string 
      */
     protected $_tabla = "emergencias_vs_comunas";
-    
+        
     /**
      * Lista de comunas por emergencia
      * @param int $id_emergencia

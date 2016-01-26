@@ -39,7 +39,7 @@ var Layer = {};
         $("#input-capa").fileinput({
             language: "es",
             multiple: false,
-            uploadAsync: true,
+            uploadAsync: false,
             initialCaption: "Seleccione una o varias capas GeoJson",
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });

@@ -283,7 +283,7 @@ var MapaEditor = Class({
         
         var divOptions = {
         		gmap: map,
-        		name: 'Ver capas',
+        		name: '<i class="fa fa-eye"></i> &nbsp;Gestionar capas',
         		title: "",
         		id: "capas_comuna",
         		action: function(){
@@ -294,37 +294,46 @@ var MapaEditor = Class({
         
         var divOptions2 = {
         		gmap: map,
-        		name: 'Provincia',
+        		label: 'Provincia',
         		title: "Capas pertenecientes a provincias",
         		id: "capas_provincias",
         		action: function(){
-        			alert('option2');
+                            if($("#capas_provincias").css("display") == "none"){
+                                yo.class_capa.removeCapa("provincias");
+                            } else {
+        			yo.class_capa.addProvincia();
+                            }
         		}
         }
        
-        var optionDiv2 = new optionDiv(divOptions2);
+        var optionDiv2 = new checkBox(divOptions2);
         
         var divOptions3 = {
         		gmap: map,
-        		name: 'Region',
+        		label: 'Region',
         		title: "Capas pertenecientes a provincias",
         		id: "capas_regiones",
         		action: function(){
-        			alert('option2');
+                            if($("#capas_regiones").css("display") == "none"){
+                                yo.class_capa.removeCapa("regiones");
+                            } else {
+        			yo.class_capa.addRegion();
+                            }
         		}
         }
        
-        var optionDiv3 = new optionDiv(divOptions3);
+        var optionDiv3 = new checkBox(divOptions3);
         
         //create the input box items
         
-        //possibly add a separator between controls        
+        //possibly add a separator between controls    
+        var sep0 = new separator();
         var sep1 = new separator();
         var sep2 = new separator();
         
         //put them all together to create the drop down       
         var ddDivOptions = {
-        	items: [optionDiv1, sep1, optionDiv2, sep2, optionDiv3],
+        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3],
         	id: "myddOptsDiv"        		
         }
         //alert(ddDivOptions.items[1]);

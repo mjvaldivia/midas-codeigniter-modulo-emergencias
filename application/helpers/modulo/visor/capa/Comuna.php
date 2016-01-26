@@ -46,10 +46,10 @@ Class Visor_Capa_Comuna{
         $this->_ci =& get_instance();
         $this->_ci->load->model("capa_model");
         $this->_ci->load->model("capa_geometria_model");
-        $this->_ci->load->model("capa_poligono_comuna_model");
+        $this->_ci->load->model("capa_poligono_informacion_model");
         $this->_capa_model = New Capa_Model();
         $this->_capa_geometria_model = New Capa_Geometria_Model();
-        $this->_capa_poligono_model = New Capa_Poligono_Comuna_Model();
+        $this->_capa_poligono_model = New Capa_Poligono_Informacion_Model();
         $this->_comunas = $comunas;
         $this->_categorias = $lista_categorias;
     }
