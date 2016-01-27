@@ -1,6 +1,5 @@
 var marker_search = null;
 
-
 var Visor = Class({    
     
     mapa : null,
@@ -114,6 +113,9 @@ var Visor = Class({
             });
         });
         
+        
+        
+        this.slideupMenu(map);
         this.searchBox(map);
         this.contextMenu(map);
         
@@ -125,11 +127,24 @@ var Visor = Class({
     },
     
     /**
+     * Menu inferior con elementos cargados en mapa
+     * @param {googleMap} map
+     * @returns {void}
+     */
+    slideupMenu : function(map){
+        $(".top-menu").parent().removeClass("hidden");
+        
+        $(".top-menu").slideupmenu({slideUpSpeed: 150, slideDownSpeed: 200, ease: "easeOutQuad", stopQueue: true});  
+        map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById('slideup-menu'));  
+    },
+    
+    /**
      * Caja de busqueda
      * @param {googleMap} map
      * @returns {void}
      */
     searchBox : function(map){
+        $("#busqueda").parent().removeClass("hidden");
         var input = document.getElementById('pac-input');
         
         ac = new google.maps.places.Autocomplete(input, {

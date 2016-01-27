@@ -179,6 +179,15 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    public function ajax_contar_elementos(){
+        header('Content-type: application/json');        
+        $params = $this->input->post(null, true);
+        
+        $cantidad = $this->_emergencia_elementos_model->contarPorEmergencia($params["id"]);
+        
+        echo json_encode(array("cantidad" => $cantidad));
+    }
+    
     /**
      * 
      */
@@ -186,6 +195,9 @@ class Mapa extends MY_Controller {
         $this->load->view("pages/mapa/popup-importar-kml", array());
     }
     
+    /**
+     * 
+     */
     public function kml(){
          $params = $this->uri->uri_to_assoc();
          $kml = $this->_emergencia_kml_model->getById($params["id"]);

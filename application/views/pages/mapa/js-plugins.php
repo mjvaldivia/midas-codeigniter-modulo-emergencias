@@ -1,5 +1,8 @@
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
 
+<?= loadCSS("assets/lib/slideupmenu/style.css"); ?>
+<?= loadJS("assets/lib/slideupmenu/jquery.slideup.menu.1.0.js"); ?>
+
 <?= loadJS("assets/js/geo-encoder.js"); ?>
 
 <?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>

@@ -94,7 +94,11 @@ var MapaCapa = Class({
         this.addCapa(id_subcapa);
     },
     
-    addProvincia : function(){
+    addProvincia : function(mapa){
+        this.class_marcador.seteaMapa(mapa);
+        this.class_poligono.seteaMapa(mapa);
+        this.class_multipoligono.seteaMapa(mapa);
+        this.class_multilinea.seteaMapa(mapa);
         var yo = this;
         
         console.log("Agregando provincia");
@@ -118,6 +122,7 @@ var MapaCapa = Class({
                 if(data.correcto){
                     if(($.isEmptyObject(yo.capas["provincias"]))){
                         console.log("Cargando capa provincias ");
+                        
                         yo.capas["provincias"] = data.capa;
                         yo.cargaCapa("provincias", data.capa);
                     }
@@ -210,6 +215,8 @@ var MapaCapa = Class({
             yo.elemento(data.id, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
             i++;
         });
+        
+        
     },
     
     /**
@@ -246,6 +253,8 @@ var MapaCapa = Class({
                 yo.class_multipoligono.dibujarPoligono(id, subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
         }
+        
+        
     },
     
     /**
@@ -257,34 +266,47 @@ var MapaCapa = Class({
         console.log("Cargando informacion de capas asociadas a emergencia");
         var yo = this;
         
-        Messenger().run({
-            action: $.ajax,
-
-            successMessage: 'Capas cargadas correctamente',
-            errorMessage: 'Error al cargar capas',
-            showCloseButton: true,
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas del mapa...'
-        }, {        
+        $.ajax({         
             dataType: "json",
             cache: false,
-            async: true,
+            async: false,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa_capas/ajax_capas_comuna_emergencia", 
-            error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
-            },
+            url: siteUrl + "mapa_capas/ajax_contar_capas_comuna", 
+            error: function(xhr, textStatus, errorThrown){},
             success:function(data){
-                if(data.correcto){
-                    //if(data.resultado.capas.lenght > 0){
-                        yo.capas = data.resultado.capas;
-                        yo.cargaCapas(map);
-                    //}
-                } else {
-                    notificacionError("Ha ocurrido un problema", data.error);
+                if(data.cantidad > 0){
+                    Messenger().run({
+                        action: $.ajax,
+                        successMessage: 'Capas cargadas correctamente',
+                        errorMessage: 'Error al cargar capas',
+                        showCloseButton: true,
+                        progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas del mapa...'
+                    }, {        
+                        dataType: "json",
+                        cache: false,
+                        async: true,
+                        data: "id=" + yo.id_emergencia,
+                        type: "post",
+                        url: siteUrl + "mapa_capas/ajax_capas_comuna_emergencia", 
+                        error: function(xhr, textStatus, errorThrown){
+                            notificacionError("Ha ocurrido un problema", errorThrown);
+                        },
+                        success:function(data){
+                            if(data.correcto){
+                                yo.capas = data.resultado.capas;
+                                yo.cargaCapas(map);
+                            } else {
+                                notificacionError("Ha ocurrido un problema", data.error);
+                            }
+                        }
+                    });
                 }
             }
         });
+        
+        
+        
     }
 });
 

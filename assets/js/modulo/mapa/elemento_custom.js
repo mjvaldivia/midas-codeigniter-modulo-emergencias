@@ -229,19 +229,32 @@ var MapaElementoCustom = Class({
             }
         };
 
-        if(mensaje_carga){
-            Messenger().run({
-                action: $.ajax,
-                showCloseButton: true,
-                successMessage: 'Elementos cargados correctamente',
-                errorMessage: 'Error al cargar elementos',
-                progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando elementos del mapa...'
-            },
-            ajax
-            );
-        } else {
-            $.ajax(ajax);
-        }
+         $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: "id=" + yo.id_emergencia,
+            type: "post",
+            url: siteUrl + "mapa/ajax_contar_elementos", 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+                if(data.cantidad > 0){
+                    if(mensaje_carga){
+                        Messenger().run({
+                            action: $.ajax,
+                            showCloseButton: true,
+                            successMessage: 'Elementos cargados correctamente',
+                            errorMessage: 'Error al cargar elementos',
+                            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando elementos del mapa...'
+                        },
+                        ajax
+                        );
+                    } else {
+                        $.ajax(ajax);
+                    }
+                }
+            }
+        });
     },
     
     removeOneCustomElements : function(atributo, valor){

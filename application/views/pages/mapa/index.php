@@ -1,19 +1,57 @@
 <?php echo $js; ?>
 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
 
-<div id="busqueda" class="input-group">
-    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-    <input id="pac-input" class="form-control" type="text" placeholder="Buscar dirección">
+<!-- Input para buscar direcciones -->
+<div class="row hidden">
+    <div id="busqueda" class="input-group">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <input id="pac-input" class="form-control" type="text" placeholder="Buscar dirección">
+    </div>
 </div>
 
-
-
-
-<div class="row row-mapa">
-    <div id="mapa">
-        <div class="col-lg-12 text-center" style="padding-top: 200px">
-        <i class="fa fa-4x fa-spin fa-spinner"></i>
+<!-- Menu slideup para mostrar elementos cargados en el mapa -->
+<div class="row hidden">
+    <div id="slideup-menu" class="top-menu">
+        <div class="top-menu-main">
+            <ul class="demo-menu">
+                <li class="first">Item 1</li>
+                <li class="">Item 2</li>
+                <li class="">Item 3</li>
+                <li class="">Item 4</li>
+                <li class="last">Item 5</li>
+              </ul>
+            <a href="#" class="menu-item-text">Capas <span class="badge">0</span></a> 
+        </div>
+        <div class="top-menu-main">
+            <ul class="demo-menu">
+                <li class="first">Item 1</li>
+                <li class="">Item 2</li>
+                <li class="">Item 3</li>
+                <li class="">Item 4</li>
+                <li class="last">Item 5</li>
+              </ul>
+            <a href="#" class="menu-item-text">Elementos <span class="badge">0</span></a> 
+        </div>
+        <div class="top-menu-main">
+            <ul class="demo-menu">
+                <li class="first">Item 1</li>
+                <li class="">Item 2</li>
+                <li class="">Item 3</li>
+                <li class="">Item 4</li>
+                <li class="last">Item 5</li>
+              </ul>
+            <a href="#" class="menu-item-text">Archivos importados <span class="badge">0</span></a> 
         </div>
     </div>
 </div>
+
+<!-- Mapa -->
+<div class="row row-mapa">
+    <div id="mapa">
+        <div class="col-lg-12 text-center" style="padding-top: 200px">
+            <i class="fa fa-4x fa-spin fa-spinner"></i>
+        </div>
+    </div>
+</div>
+
 <?= loadJS("assets/js/modulo/mapa/front-end.js"); ?>

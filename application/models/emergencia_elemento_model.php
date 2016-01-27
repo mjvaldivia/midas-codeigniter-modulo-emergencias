@@ -67,15 +67,41 @@ class Emergencia_Elemento_Model extends MY_Model
      * @return array
      */
     public function listaPorEmergencia($id_emergencia){
-        $result = $this->_query->select("*")
-                               ->from($this->_tabla . "")
-                               ->whereAND("id_emergencia", $id_emergencia)
-                               ->getAllResult();
+        $result = $this->_queryPorEmergencia($id_emergencia)
+                       ->select("*")
+                       ->getAllResult();
         if (!is_null($result)){
            return $result; 
         } else {
             return NULL;
         }
+    }
+    
+    /**
+     * 
+     * @param int $id_emergencia
+     * @return int
+     */
+    public function contarPorEmergencia($id_emergencia){
+        $result = $this->_queryPorEmergencia($id_emergencia)
+                       ->select("count(*) as cantidad")
+                       ->getOneResult();
+        if (!is_null($result)){
+           return $result->cantidad; 
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_emergencia
+     * @return QueryBuilder
+     */
+    protected function _queryPorEmergencia($id_emergencia){
+        $query = $this->_query->from($this->_tabla . "")
+                               ->whereAND("id_emergencia", $id_emergencia);
+        return $query;
     }
 }
 
