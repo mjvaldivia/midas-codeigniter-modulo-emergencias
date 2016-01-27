@@ -94,7 +94,11 @@ var MapaCapa = Class({
         this.addCapa(id_subcapa);
     },
     
-    addProvincia : function(){
+    addProvincia : function(mapa){
+        this.class_marcador.seteaMapa(mapa);
+        this.class_poligono.seteaMapa(mapa);
+        this.class_multipoligono.seteaMapa(mapa);
+        this.class_multilinea.seteaMapa(mapa);
         var yo = this;
         
         console.log("Agregando provincia");
@@ -118,6 +122,7 @@ var MapaCapa = Class({
                 if(data.correcto){
                     if(($.isEmptyObject(yo.capas["provincias"]))){
                         console.log("Cargando capa provincias ");
+                        
                         yo.capas["provincias"] = data.capa;
                         yo.cargaCapa("provincias", data.capa);
                     }
@@ -210,6 +215,8 @@ var MapaCapa = Class({
             yo.elemento(data.id, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
             i++;
         });
+        
+        
     },
     
     /**
@@ -246,6 +253,8 @@ var MapaCapa = Class({
                 yo.class_multipoligono.dibujarPoligono(id, subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
         }
+        
+        
     },
     
     /**

@@ -301,7 +301,7 @@ var MapaEditor = Class({
                             if($("#capas_provincias").css("display") == "none"){
                                 yo.class_capa.removeCapa("provincias");
                             } else {
-        			yo.class_capa.addProvincia();
+        			yo.class_capa.addProvincia(map);
                             }
         		}
         }
