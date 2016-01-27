@@ -134,7 +134,7 @@
         <!-- TAB CONTENT -->
         <div class="tab-content">
             <div class="active tab-pane fade in small" id="tab1">
-                <div class="col-xs-12">
+                <div class="col-xs-12 top-spaced">
                 <?php if($historial):?>
                     <table class="table table-hover table-condensed table-bordered tabla-expediente" style="margin-bottom: 0;">
                         <thead>
@@ -163,8 +163,8 @@
                 <?php endif;?>
                 </div>
             </div>
-            <div class="tab-pane fade" id="tab2">
-                <div class="col-xs-12">
+            <div class="tab-pane fade small" id="tab2">
+                <div class="col-xs-12 top-spaced">
                 <?php if($documentos):?>
                     <table class="table table-hover table-condensed table-bordered tabla-expediente" style="margin-bottom: 0;">
                         <thead>
