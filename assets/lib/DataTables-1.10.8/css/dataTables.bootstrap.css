@@ -58,7 +58,23 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 table.dataTable thead > tr > th,
 table.dataTable thead > tr > td {
  /* padding-right: 30px;*/
+ padding:5px;
+ background-color: #3F73A0 ;
+ color: white;
+ font-size: 12px;
+ border: 1px solid #ddd;
 }
+
+table.dataTable tbody > tr > td {
+ /* padding-right: 30px;*/
+ margin: 1px black ;
+ padding:5px;
+ background-color: white   ;
+ color: black;
+ font-size: 12px;
+ border: 1px solid #ddd;
+}
+
 table.dataTable thead > tr > th:active,
 table.dataTable thead > tr > td:active {
   outline: none;
@@ -88,6 +104,13 @@ table.dataTable thead .sorting:after {
   content: "\e150";
   /* sort */
 }
+
+table.dataTable .sorting_asc ,
+table.dataTable .sorting_desc {
+	background-color: #DD4700
+	
+}
+
 table.dataTable thead .sorting_asc:after {
   content: "\e155";
   /* sort-by-attributes */
