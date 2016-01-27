@@ -32,9 +32,22 @@ class Mapa_capas extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
+        $this->load->model("emergencia_capa_model", "_emergencia_capa_model");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("capa_geometria_model", "_capa_geometria_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
+    }
+    
+    /**
+     * Retorna cantidad de capas por emergencia
+     */
+    public function ajax_contar_capas_comuna(){
+        header('Content-type: application/json');        
+        $params = $this->input->post(null, true);
+        
+        $cantidad = $this->_emergencia_capa_model->contarPorEmergencia($params["id"]);
+        
+        echo json_encode(array("cantidad" => $cantidad));
     }
     
     /**

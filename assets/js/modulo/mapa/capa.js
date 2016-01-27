@@ -257,34 +257,47 @@ var MapaCapa = Class({
         console.log("Cargando informacion de capas asociadas a emergencia");
         var yo = this;
         
-        Messenger().run({
-            action: $.ajax,
-
-            successMessage: 'Capas cargadas correctamente',
-            errorMessage: 'Error al cargar capas',
-            showCloseButton: true,
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas del mapa...'
-        }, {        
+        $.ajax({         
             dataType: "json",
             cache: false,
-            async: true,
+            async: false,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa_capas/ajax_capas_comuna_emergencia", 
-            error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
-            },
+            url: siteUrl + "mapa_capas/ajax_contar_capas_comuna", 
+            error: function(xhr, textStatus, errorThrown){},
             success:function(data){
-                if(data.correcto){
-                    //if(data.resultado.capas.lenght > 0){
-                        yo.capas = data.resultado.capas;
-                        yo.cargaCapas(map);
-                    //}
-                } else {
-                    notificacionError("Ha ocurrido un problema", data.error);
+                if(data.cantidad > 0){
+                    Messenger().run({
+                        action: $.ajax,
+                        successMessage: 'Capas cargadas correctamente',
+                        errorMessage: 'Error al cargar capas',
+                        showCloseButton: true,
+                        progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas del mapa...'
+                    }, {        
+                        dataType: "json",
+                        cache: false,
+                        async: true,
+                        data: "id=" + yo.id_emergencia,
+                        type: "post",
+                        url: siteUrl + "mapa_capas/ajax_capas_comuna_emergencia", 
+                        error: function(xhr, textStatus, errorThrown){
+                            notificacionError("Ha ocurrido un problema", errorThrown);
+                        },
+                        success:function(data){
+                            if(data.correcto){
+                                yo.capas = data.resultado.capas;
+                                yo.cargaCapas(map);
+                            } else {
+                                notificacionError("Ha ocurrido un problema", data.error);
+                            }
+                        }
+                    });
                 }
             }
         });
+        
+        
+        
     }
 });
 
