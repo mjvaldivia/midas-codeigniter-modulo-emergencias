@@ -61,7 +61,7 @@
         $("#input_icono_subcapa").fileinput({
             language: "es",
             multiple: false,
-            uploadAsync: true,
+            uploadAsync: false,
             initialCaption: "Seleccione icono para la subcapa",
             uploadUrl: siteUrl + "capas/subir_CapaIconTemp"
         });
