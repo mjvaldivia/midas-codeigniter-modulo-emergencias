@@ -502,8 +502,8 @@ class Emergencia extends MY_Controller {
 
 
         for ($i = 0; $i < sizeof($tmp_name); $i++) {
-            $nombre_geojson = 'media/tmp/geojson_'.unique().$nombres[$i];
-            $tmp_geojson = 'media/tmp/tmp_'.unique().$nombres[$i];
+            $nombre_geojson = 'media/tmp/geojson_'.uniqid().$nombres[$i];
+            $tmp_geojson = 'media/tmp/tmp_'.uniqid().$nombres[$i];
             $geojson = fopen($nombre_geojson, 'w');
             fwrite($geojson,file_get_contents($tmp_name[$i]));
             fclose($geojson);
