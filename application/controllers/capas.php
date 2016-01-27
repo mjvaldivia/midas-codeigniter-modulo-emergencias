@@ -476,7 +476,7 @@ class Capas extends MY_Controller
         }else{
             $data['center'] = array('lon'=>$item['lon'],'lat'=>$item['lat']);
         }
-        
+        $data['js'] = $this->load->view('pages/mapa/js-plugins',array());
         $this->load->view("pages/capa/edicion_item_subcapa",$data);
     }
 

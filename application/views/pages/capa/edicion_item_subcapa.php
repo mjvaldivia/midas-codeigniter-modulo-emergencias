@@ -54,12 +54,13 @@
 </div>
 
 
-<?= loadJS("assets/js/geo-encoder.js") ?>
-<?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/marcador.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
+<?php echo $js?>
+<?/*= loadJS("assets/js/geo-encoder.js") */?><!--
+<?/*= loadJS("assets/js/modulo/mapa/visor.js"); */?>
+<?/*= loadJS("assets/js/modulo/mapa/capa.js"); */?>
+<?/*= loadJS("assets/js/modulo/mapa/marcador.js"); */?>
+<?/*= loadJS("assets/js/modulo/mapa/poligono.js"); */?>
+--><?/*= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); */?>
 <script type="text/javascript">
     $(document).ready(function(){
         var visor = new Visor("mapa","<?php echo $geozone?>");
