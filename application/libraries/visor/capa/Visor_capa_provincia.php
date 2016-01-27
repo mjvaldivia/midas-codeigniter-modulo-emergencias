@@ -70,6 +70,7 @@ Class Visor_capa_provincia{
             $capa = $this->_ci->_capa_model->getById($subcapa->geometria_capa);
             if(!is_null($capa)){
                 $json = array();
+                
                 $lista_poligonos = $this->_ci->_capa_poligono_provincia_model->listarPorSubcapaProvincia($subcapa->geometria_id, $lista_provincias);
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
