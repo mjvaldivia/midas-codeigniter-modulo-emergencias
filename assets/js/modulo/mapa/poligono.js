@@ -68,6 +68,7 @@ var MapaPoligono = Class({
                 identificador: id,
                 clave : "poligono_" + id,
                 capa: capa,
+                custom: false,
                 informacion: propiedades,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,

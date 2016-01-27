@@ -358,7 +358,7 @@ class Mapa extends MY_Controller {
             
             $json = array("id" => $elemento->poligono_id,
                            "id_subcapa" => $elemento->poligono_capitem,
-                           "propiedades" => $this->_limpiarUnserialize($elemento->poligono_propiedades),
+                           "propiedades" => unserialize($elemento->poligono_propiedades),
                            "geojson"     => unserialize($elemento->poligono_geometria),
                            "zona" => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
                            "color" => $capa->color,

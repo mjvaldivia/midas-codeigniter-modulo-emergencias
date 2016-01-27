@@ -30,11 +30,17 @@ class Capa_Geometria_Model extends MY_Model {
      * Lista las subcapas de region
      * @return array
      */
-    public function listarGeometriaRegion(){
-        $result = $this->_query->select("DISTINCT g.*")
+    public function listarGeometriaRegion($regiones = array()){
+        $query = $this->_query->select("DISTINCT g.*")
                                ->from($this->_tabla . " g")
-                               ->join("capas_poligonos_regiones p", "g.geometria_id = p.poliregion_capitem", "INNER")
-                               ->getAllResult();
+                               ->join("capas_poligonos_regiones p", "g.geometria_id = p.poliregion_capitem", "INNER");
+        
+        if(count($regiones)>0){
+            $query->whereAND("p.poliregion_region", $regiones, "IN");
+        }
+        
+        
+        $result = $query->getAllResult();
         if (!is_null($result)){
            return $result; 
         } else {

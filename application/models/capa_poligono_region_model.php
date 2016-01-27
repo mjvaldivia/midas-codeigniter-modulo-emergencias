@@ -18,6 +18,15 @@ class Capa_Poligono_Region_Model extends MY_Model {
     protected $_tabla = "capas_poligonos_regiones";
     
     /**
+     * Retorna por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("poliregion_id", $id);
+    }
+    
+    /**
      * 
      * @param int $id_subcapa
      * @param array $lista_regiones
@@ -25,7 +34,7 @@ class Capa_Poligono_Region_Model extends MY_Model {
      */
     public function listarPorSubcapaRegion($id_subcapa, $lista_regiones){
 
-        $query = $this->_query->select("p.*")
+        $query = $this->_query->select("p.poliregion_id, p.poliregion_capitem, p.poliregion_region")
                                ->from($this->_tabla . " p")
                                ->whereAND("p.poliregion_capitem", $id_subcapa, "=")
                                ->whereAND("p.poliregion_region", $lista_regiones, "IN");

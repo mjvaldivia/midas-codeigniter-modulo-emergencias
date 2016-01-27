@@ -34,7 +34,9 @@
 <?= loadJS("assets/js/modulo/mapa/kml/importar.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/capa/region.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 
