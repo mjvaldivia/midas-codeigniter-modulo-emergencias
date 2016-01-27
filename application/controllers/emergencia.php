@@ -508,7 +508,7 @@ class Emergencia extends MY_Controller {
             fwrite($geojson,file_get_contents($tmp_name[$i]));
             fclose($geojson);
             error_log('mapshaper -i '.$nombre_geojson.' -simplify 5% -o format=geojson '.$tmp_geojson);
-            exec('mapshaper -i '.$nombre_geojson.' -simplify 5% -o format=geojson '.$tmp_geojson);
+            echo exec('mapshaper -i '.$nombre_geojson.' -simplify 5% -o format=geojson '.$tmp_geojson);
 
             $error = false;
             $fp = file_get_contents($tmp_geojson, 'r');
