@@ -502,9 +502,9 @@ class Emergencia extends MY_Controller {
 
 
         for ($i = 0; $i < sizeof($tmp_name); $i++) {
-            $nombre_geojson = 'media/tmp/geojson_'.$nombres[$i];
-            $tmp_geojson = 'media/tmp/tmp_'.$nombres[$i];
-            $geojson = fopen('media/tmp/geojson_'.$nombres[$i], 'w');
+            $nombre_geojson = 'media/tmp/geojson_'.unique().$nombres[$i];
+            $tmp_geojson = 'media/tmp/tmp_'.unique().$nombres[$i];
+            $geojson = fopen($nombre_geojson, 'w');
             fwrite($geojson,file_get_contents($tmp_name[$i]));
             fclose($geojson);
             error_log('mapshaper -i '.$nombre_geojson.' -simplify 5% -o format=geojson '.$tmp_geojson);
