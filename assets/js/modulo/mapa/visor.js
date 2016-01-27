@@ -1,3 +1,6 @@
+var marker_search = null;
+
+
 var Visor = Class({    
     
     mapa : null,
@@ -110,7 +113,8 @@ var Visor = Class({
                 funcion.funcion(map, funcion.parametros);
             });
         });
-
+        
+        this.searchBox(map);
         this.contextMenu(map);
         
         map.addListener('click', function(event) {
@@ -120,6 +124,64 @@ var Visor = Class({
         this.mapa = map;
     },
     
+    /**
+     * Caja de busqueda
+     * @param {googleMap} map
+     * @returns {void}
+     */
+    searchBox : function(map){
+        var input = document.getElementById('pac-input');
+        
+        ac = new google.maps.places.Autocomplete(input, {
+            componentRestrictions: {country: 'cl'}
+        });
+        
+        ac.addListener('place_changed', function () {
+            var place = ac.getPlace();
+            if (place.length === 0) {
+                return;
+            }
+            
+            map.setCenter(place.geometry.location);
+            
+            //se borra marcador de busqueda si ya existia
+            if(!(marker_search == null)){
+                marker_search.setMap(null);
+                marker_search = null;
+            }
+            
+            //se agrega marcador
+            var marker = new google.maps.Marker({
+                position: place.geometry.location,
+                icon: {
+                  path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                  scale: 3
+                },
+                draggable: true,
+                map: map
+            });
+            
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            
+            marker_search = marker;
+            
+            map.addListener('center_changed', function(event) {
+                marker_search.setMap(null);
+                marker_search = null;
+                google.maps.event.clearInstanceListeners(this);
+            });
+  
+        });
+        
+        
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('busqueda'));
+    },
+    
+    /**
+     * 
+     * @param {googleMap} map
+     * @returns {void}
+     */
     contextMenu : function(map){
       /*
       var contextMenuOptions={}; 

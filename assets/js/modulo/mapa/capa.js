@@ -59,7 +59,7 @@ var MapaCapa = Class({
         this.class_marcador.seteaMapa(mapa);
         this.class_poligono.seteaMapa(mapa);
         this.class_multipoligono.seteaMapa(mapa);
-        
+        this.class_multilinea.seteaMapa(mapa);
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -90,39 +90,8 @@ var MapaCapa = Class({
         this.class_marcador.seteaMapa(mapa);
         this.class_poligono.seteaMapa(mapa);
         this.class_multipoligono.seteaMapa(mapa);
+        this.class_multilinea.seteaMapa(mapa);
         this.addCapa(id_subcapa);
-    },
-    
-    addRegion : function(){
-        var yo = this;
-        
-        console.log("Agregando region");
-        
-        Messenger().run({
-            action: $.ajax,
-            successMessage: 'Capa de region cargada correctamente',
-            errorMessage: 'Error al cargar capa',
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa de region...'
-        }, {
-            dataType: "json",
-            cache: false,
-            async: true,
-            data: "id_emergencia=" + yo.id_emergencia,
-            type: "post",
-            url: siteUrl + "mapa_capas/ajax_carga_capa_region", 
-            error: function(xhr, textStatus, errorThrown){
-
-            },
-            success:function(data){
-                if(data.correcto){
-                    if(($.isEmptyObject(yo.capas["regiones"]))){
-                        console.log("Cargando capa regiones ");
-                        yo.capas["regiones"] = data.capa;
-                        yo.cargaCapa("regiones", data.capa);
-                    }
-                }
-            }
-        });
     },
     
     addProvincia : function(){

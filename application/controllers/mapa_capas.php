@@ -58,15 +58,8 @@ class Mapa_capas extends MY_Controller {
         $this->load->library("visor/capa/visor_capa_region");
         $params = $this->input->post(null, true);
         
-        $carga = array();
-        
-        $lista_subcapa = $this->_capa_geometria_model->listarGeometriaRegion();
-        if(!is_null($lista_subcapa)){
-            foreach($lista_subcapa as $subcapa){
-                 $carga = array_merge($carga , $this->visor_capa_region->cargaCapa($subcapa["geometria_id"], $params["id_emergencia"]));
-            }
-        }
-        
+        $carga = $this->visor_capa_region->cargaCapa($params["id_emergencia"]);
+
         $data = array("correcto" => true,
                       "capa" => $carga);
         
