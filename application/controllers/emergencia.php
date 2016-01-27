@@ -498,10 +498,20 @@ class Emergencia extends MY_Controller {
 
         $poligono = null;
         $icono = null;
+
+
+
         for ($i = 0; $i < sizeof($tmp_name); $i++) {
+            $nombre_geojson = 'media/tmp/geojson_'.unique().$nombres[$i];
+            $tmp_geojson = 'media/tmp/tmp_'.unique().$nombres[$i];
+            $geojson = fopen($nombre_geojson, 'w');
+            fwrite($geojson,file_get_contents($tmp_name[$i]));
+            fclose($geojson);
+            error_log('mapshaper -i '.$nombre_geojson.' -simplify 5% -o format=geojson '.$tmp_geojson);
+            exec('mapshaper -i '.$nombre_geojson.' -simplify 5% -o format=geojson '.$tmp_geojson);
 
             $error = false;
-            $fp = file_get_contents($tmp_name[$i], 'r');
+            $fp = file_get_contents($tmp_geojson, 'r');
             
             $arr_properties = json_decode(utf8_encode($fp),true);
             
@@ -524,6 +534,9 @@ class Emergencia extends MY_Controller {
                 $file = fopen('media/tmp/'.$nombre_cache_id,'w+b');
                 fwrite($file,serialize($arr_cache));
                 fclose($file);
+
+                /* ejecutar script para reducir geojson */
+
                 
                 foreach ($arr_properties['features'][0]['properties'] as $k => $v) {
 
@@ -562,6 +575,9 @@ class Emergencia extends MY_Controller {
                 }
                 
             }
+
+            unlink($nombre_geojson);
+            unlink($tmp_geojson);
         }
 
         if(!is_null($poligono))
