@@ -223,7 +223,7 @@ var MapaEditor = Class({
         var yo = this;
         var buttonOptions = {
         		gmap: map,
-        		name: '<i class=\"fa fa-download\"></i> Importar KML',
+        		name: '<i class=\"fa fa-download\"></i> Importar KML/KMZ',
         		position: google.maps.ControlPosition.TOP_RIGHT,
         		action: function(){
         		    var kml = new MapaKmlImportar();
