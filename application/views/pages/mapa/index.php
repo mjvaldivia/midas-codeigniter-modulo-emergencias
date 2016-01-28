@@ -49,4 +49,4 @@
         <div class="clearfix"></div>
 </div>
 <div class="clearfix"></div>
-<?= loadJS("assets/js/modulo/mapa/front-end.js"); ?>
+<?= loadJS("assets/js/mapa-visor.js"); ?>
