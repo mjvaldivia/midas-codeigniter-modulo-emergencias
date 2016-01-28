@@ -3,7 +3,7 @@
 <?= loadCSS("assets/js/library/slideupmenu/style.css"); ?>
 <?= loadJS("assets/js/library/slideupmenu/jquery.slideup.menu.1.0.js"); ?>
 
-<?= loadJS("assets/js/library/mapa/extencion/geo-encoder.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/extencion/geo-encoder.js"); ?>
 
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
