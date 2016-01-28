@@ -8,7 +8,7 @@ var getBaseDir = function(file) {
 };
 
 gulp.task("js", function() {
-    gulp.src(["assets/**/*.js", "!assets/**/*.min.js", "!assets/lib/**/*"])
+    gulp.src(["assets/**/*.js", "!assets/**/*.min.js", "!assets/js/library/**/*"])
         .pipe(uglify())
         .pipe(rename({
             extname: ".min.js"
@@ -17,7 +17,7 @@ gulp.task("js", function() {
 });
 
 gulp.task("css", function() {
-    gulp.src(["assets/**/*.css", "!assets/**/*.min.css", "!assets/lib/**/*"])
+    gulp.src(["assets/**/*.css", "!assets/**/*.min.css", "!assets/js/library/**/*"])
         .pipe(css())
         .pipe(rename({
             extname: ".min.css"
@@ -26,7 +26,7 @@ gulp.task("css", function() {
 });
 
 gulp.task("watch", function () {
-    gulp.watch(["assets/**/*.js", "!assets/**/*.min.js", "!assets/lib/**/*"], ["js"]);
+    gulp.watch(["assets/**/*.js", "!assets/**/*.min.js", "!assets/js/library/**/*"], ["js"]);
     gulp.watch(["assets/**/*.css", "!assets/**/*.min.css"], ["css"]);
 });
 

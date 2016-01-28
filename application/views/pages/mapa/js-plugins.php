@@ -1,13 +1,13 @@
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
 
-<?= loadCSS("assets/lib/slideupmenu/style.css"); ?>
-<?= loadJS("assets/lib/slideupmenu/jquery.slideup.menu.1.0.js"); ?>
+<?= loadCSS("assets/js/library/slideupmenu/style.css"); ?>
+<?= loadJS("assets/js/library/slideupmenu/jquery.slideup.menu.1.0.js"); ?>
 
-<?= loadJS("assets/js/geo-encoder.js"); ?>
+<?= loadJS("assets/js/library/mapa/extencion/geo-encoder.js"); ?>
 
-<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
 <?= loadCSS("assets/js/modulo/mapa/extencion/maps.google.buttons.css") ?>
 <?= loadJS("assets/js/modulo/mapa/extencion/maps.google.polygon.containsLatLng.js"); ?>
@@ -43,7 +43,7 @@
 
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/bootbox.min.js") ?>

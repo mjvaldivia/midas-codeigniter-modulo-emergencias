@@ -1,4 +1,4 @@
-var MapaCapaRegion = Class({ extends : MapaCapa}, {
+var MapaCapaProvincia = Class({ extends : MapaCapa}, {
     
     addCapa : function(mapa){
         var yo = this;
@@ -48,5 +48,4 @@ var MapaCapaRegion = Class({ extends : MapaCapa}, {
         this.super("removeCapa", "region");
     }
 });
-
 

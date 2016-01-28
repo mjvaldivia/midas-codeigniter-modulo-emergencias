@@ -33,10 +33,10 @@
         </div>
     </div>
 </div>
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/extensions/Insensitive/dataTables.insensitive.js") ?>
+<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/extensions/Insensitive/dataTables.insensitive.js") ?>
 
 <?= loadJS("assets/js/capas.js") ?>
 

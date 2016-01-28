@@ -1,17 +1,17 @@
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
-<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.min.css") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.min.js") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
-<?= loadCSS("assets/lib/picklist/picklist.css") ?>
-<?= loadJS("assets/lib/picklist/picklist.js") ?>
+<?= loadCSS("assets/js/library/picklist/picklist.css") ?>
+<?= loadJS("assets/js/library/picklist/picklist.js") ?>
 
 <?= loadJS("assets/js/bootbox.min.js") ?>
-<?= loadJS("assets/js/geo-encoder.js") ?>
-<?= loadJS("assets/lib/html2canvas/build/html2canvas.js") ?>
+<?= loadJS("assets/js/library/mapa/extencion/geo-encoder.js"); ?>
+<?= loadJS("assets/js/library/html2canvas/build/html2canvas.js") ?>
 
 <?= loadJS("assets/js/modulo/alarma/mapa.js") ?>
 <?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>

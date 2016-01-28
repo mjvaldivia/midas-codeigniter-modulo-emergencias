@@ -12,26 +12,26 @@
 
     <title>Emergencias::MIDAS</title>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
-    <script type='text/javascript' src="<?= base_url("/assets/lib/jquery-2.1.4/jquery.min.js") ?>"></script>
+    <script type='text/javascript' src="<?= base_url("/assets/js/library/jquery-2.1.4/jquery.min.js") ?>"></script>
     
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
     
     <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
-    <?= loadCSS("assets/lib/pace/pace.css", true) ?>
-    <?= loadJS("assets/lib/pace/pace.js", true) ?>    
+    <?= loadCSS("assets/js/library/pace/pace.css", true) ?>
+    <?= loadJS("assets/js/library/pace/pace.js", true) ?>    
     
-    <?= loadCSS("assets/lib/messenger/messenger.css", true) ?>
-    <?= loadCSS("assets/lib/messenger/messenger-theme-flat.css", true) ?>
+    <?= loadCSS("assets/js/library/messenger/messenger.css", true) ?>
+    <?= loadCSS("assets/js/library/messenger/messenger-theme-flat.css", true) ?>
     
-    <?= loadJS("assets/lib/joii/joii.min.js", true) ?>
+    <?= loadJS("assets/js/library/joii-3.1.3/joii.min.js", true) ?>
     
     <!-- GLOBAL STYLES - Include these on every page. -->
-    <?= loadCSS("assets/lib/bootstrap-3.3.5/css/bootstrap.css", true) ?>
+    <?= loadCSS("assets/js/library/bootstrap-3.3.5/css/bootstrap.css", true) ?>
     <?= loadCSS("assets/css/bootstrap.vertical-tabs.css", true) ?>
-    <?= loadCSS("assets/lib/qtip/jquery.qtip.min.css", true) ?>
+    <?= loadCSS("assets/js/library/qtip/jquery.qtip.min.css", true) ?>
 
-    <?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
-    <?= loadCSS("assets/lib/spectrum-colorpicker/spectrum.css") ?>
+    <?= loadCSS("assets/js/library/font-awesome-4.4.0/css/font-awesome.css", true) ?>
+    <?= loadCSS("assets/js/library/spectrum-colorpicker/spectrum.css") ?>
 
     <!-- THEME STYLES - Include these on every page. -->
     <?= loadCSS("assets/css/style.css", true) ?>
@@ -235,27 +235,27 @@
 
     <!-- GLOBAL SCRIPTS -->
     <div id="footer-js">
-        <?= loadJS("assets/lib/bootstrap-3.3.5/js/bootstrap.js", true) ?>
-        <?= loadJS("assets/lib/popupoverlay/jquery.popupoverlay.js", true) ?>
-        <?= loadJS("assets/lib/livequery/jquery.livequery.min.js", true) ?>
-        <?= loadJS("assets/lib/popupoverlay/defaults.js", true) ?>
-        <?= loadJS("assets/lib/popupoverlay/logout.js", true) ?>
-        <?= loadJS("assets/js/jquery.jcombo.js", true) ?>
-        <?= loadJS("assets/lib/qtip/jquery.qtip.min.js", true) ?>
+        <?= loadJS("assets/js/library/bootstrap-3.3.5/js/bootstrap.js", true) ?>
+        <?= loadJS("assets/js/library/popupoverlay/jquery.popupoverlay.js", true) ?>
+        <?= loadJS("assets/js/library/livequery/jquery.livequery.min.js", true) ?>
+        <?= loadJS("assets/js/library/popupoverlay/defaults.js", true) ?>
+        <?= loadJS("assets/js/library/popupoverlay/logout.js", true) ?>
+        <?= loadJS("assets/js/library/jquery.jcombo/jquery.jcombo.js", true) ?>
+        <?= loadJS("assets/js/library/qtip/jquery.qtip.min.js", true) ?>
 
-        <?= loadCSS("assets/lib/chosen_v1.4.2/chosen.min.css") ?>
-        <?= loadJS("assets/lib/chosen_v1.4.2/chosen.jquery.min.js") ?>
-        <?= loadCSS("assets/lib/select2-4.0.0/css/select2.css", true) ?>
-        <?= loadCSS("assets/lib/select2-4.0.0/css/select2-bootstrap.css", true) ?>
-        <?= loadJS("assets/lib/select2-4.0.0/js/select2.js", true) ?>
+        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.min.css") ?>
+        <?= loadJS("assets/js/library/chosen_v1.4.2/chosen.jquery.min.js") ?>
+        <?= loadCSS("assets/js/library/select2-4.0.0/css/select2.css", true) ?>
+        <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>
+        <?= loadJS("assets/js/library/select2-4.0.0/js/select2.js", true) ?>
 
         <?= loadJS("assets/js/moment.min.js") ?>
-        <?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
-        <?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
+        <?= loadCSS("assets/js/library/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
+        <?= loadJS("assets/js/library/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
         
-        <?= loadJS("assets/lib/messenger/messenger.min.js", true) ?>
-        <?= loadJS("assets/lib/messenger/messenger-theme-flat.js", true) ?>
-        <?= loadJS("assets/lib/spectrum-colorpicker/spectrum.js") ?>
+        <?= loadJS("assets/js/library/messenger/messenger.min.js", true) ?>
+        <?= loadJS("assets/js/library/messenger/messenger-theme-flat.js", true) ?>
+        <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
 
