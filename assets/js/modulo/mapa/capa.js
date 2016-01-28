@@ -1,5 +1,5 @@
 var MapaCapa = Class({
-    
+    mapa : null,
     capas : {},
     bo_capas_cargadas : false,
     class_linea : null,
@@ -19,6 +19,21 @@ var MapaCapa = Class({
         this.class_marcador = new MapaMarcador();
         this.class_poligono = new MapaPoligono();
         this.class_multipoligono = new MapaPoligonoMulti();
+    },
+    
+    /**
+     * Setea mapa
+     * @param {googleMap} mapa
+     * @returns {undefined}
+     */
+    seteaMapa : function(mapa){
+        this.mapa = mapa;
+        
+        this.class_marcador.seteaMapa(mapa);
+        this.class_poligono.seteaMapa(mapa);
+        this.class_multipoligono.seteaMapa(mapa);
+        this.class_linea.seteaMapa(mapa);
+        this.class_multilinea.seteaMapa(mapa);
     },
     
     /**

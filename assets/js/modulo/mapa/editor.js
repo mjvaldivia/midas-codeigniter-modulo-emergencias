@@ -50,6 +50,11 @@ var MapaEditor = Class({
     iniciarEditor : function (mapa){
         var yo = this;
         this.mapa = mapa;
+        
+        if(this.class_capa != null){
+            yo.class_capa.seteaMapa(yo.mapa);
+        }
+
         var drawingManager = new google.maps.drawing.DrawingManager({
             drawingMode: null,
             drawingControl: true,
