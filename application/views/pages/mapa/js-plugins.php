@@ -1,7 +1,7 @@
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
 
-<?= loadCSS("assets/js/library/slideupmenu/style.css"); ?>
-<?= loadJS("assets/js/library/slideupmenu/jquery.slideup.menu.1.0.js"); ?>
+<?= loadCSS("assets/js/library/slideupmenu-1.0/style.css"); ?>
+<?= loadJS("assets/js/library/slideupmenu-1.0/jquery.slideup.menu.1.0.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/extencion/geo-encoder.js"); ?>
 
