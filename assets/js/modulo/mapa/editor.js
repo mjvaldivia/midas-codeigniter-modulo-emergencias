@@ -365,16 +365,37 @@ var MapaEditor = Class({
        
         var optionDiv3 = new checkBox(divOptions3);
         
+        var divOptions4 = {
+        		gmap: map,
+        		label: 'Sidco - Conaf',
+        		title: "Incendios en el pais",
+        		id: "sidco_conaf",
+        		action: function(){
+                            var kmzLayer = new google.maps.KmlLayer("http://sidco.conaf.cl/mapa/earth-data.php?key=2gTkrf%2FkZkN4pvHtRclb7c%2FUobAO57i0o8AdyhFdAwA%3D",{
+                                suppressInfoWindows: false,
+                                preserveViewport: true
+                            });
+                            kmzLayer.setMap(map);
+
+                            kmzLayer.addListener('click', function(kmlEvent) {
+                                console.log(kmlEvent)
+                            });
+        		}
+        }
+       
+        var optionDiv4 = new checkBox(divOptions4);
+        
         //create the input box items
         
         //possibly add a separator between controls    
         var sep0 = new separator();
         var sep1 = new separator();
         var sep2 = new separator();
+        var sep3 = new separator();
         
         //put them all together to create the drop down       
         var ddDivOptions = {
-        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3],
+        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3, sep3, optionDiv4],
         	id: "myddOptsDiv"        		
         }
         //alert(ddDivOptions.items[1]);
