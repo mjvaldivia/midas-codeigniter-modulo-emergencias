@@ -102,6 +102,7 @@ Class Visor_capa_provincia{
                 
                 $retorno = array("zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
                                  "icono" => $icono,
+                                 "nombre" => $subcapa->geometria_nombre,
                                  "color" => $color,
                                  "json"  => $json);
 

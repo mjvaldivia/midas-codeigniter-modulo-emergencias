@@ -3,16 +3,16 @@
 <?= loadCSS("assets/js/library/slideupmenu-1.0/style.css"); ?>
 <?= loadJS("assets/js/library/slideupmenu-1.0/jquery.slideup.menu.1.0.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/extencion/geo-encoder.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/extension/geo-encoder.js"); ?>
 
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
-<?= loadCSS("assets/js/modulo/mapa/extencion/maps.google.buttons.css") ?>
-<?= loadJS("assets/js/modulo/mapa/extencion/maps.google.polygon.containsLatLng.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/extencion/maps.google.contextmenu.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/extencion/maps.google.buttons.js"); ?>
+<?= loadCSS("assets/js/modulo/mapa/extension/maps.google.buttons.css") ?>
+<?= loadJS("assets/js/modulo/mapa/extension/maps.google.polygon.containsLatLng.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/extension/maps.google.contextmenu.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/extension/maps.google.buttons.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
 
@@ -40,6 +40,7 @@
 
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/capa/region.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/capa/provincia.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 

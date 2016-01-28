@@ -8,32 +8,30 @@ var MapaCapaProvincia = Class({ extends : MapaCapa}, {
         this.class_multipoligono.seteaMapa(mapa);
         this.class_multilinea.seteaMapa(mapa);
         
-        console.log("Agregando region");
+        console.log("Agregando provincia");
         
         Messenger().run({
             action: $.ajax,
-            successMessage: 'Capa de region cargada correctamente',
+            successMessage: 'Capa de provincia cargada correctamente',
             errorMessage: 'Error al cargar capa',
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa de region...'
+            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa de provincia...'
         }, {
             dataType: "json",
             cache: false,
             async: true,
             data: "id_emergencia=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa_capas/ajax_carga_capa_region", 
+            url: siteUrl + "mapa_capas/ajax_carga_capa_provincia", 
             error: function(xhr, textStatus, errorThrown){
 
             },
             success:function(data){
                 if(data.correcto){
-                
-                    $.each(data.capa, function(i, capa){
-                        console.log("Cargando capa regiones ");
-                        yo.cargaCapa("region", capa);
+                    if(($.isEmptyObject(yo.capas["provincia"]))){
+                        console.log("Cargando capa provincias ");
+                        yo.cargaCapa("provincia", data.capa);
                         yo.listaCapasVisor();
-                    });
-                    
+                    }
                 }
             }
         });
@@ -45,7 +43,7 @@ var MapaCapaProvincia = Class({ extends : MapaCapa}, {
      * @returns {void}
      */
     removeCapa : function(){
-        this.super("removeCapa", "region");
+        this.super("removeCapa", "provincia");
     }
 });
 

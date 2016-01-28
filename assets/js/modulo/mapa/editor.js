@@ -322,10 +322,12 @@ var MapaEditor = Class({
         		title: "Capas pertenecientes a provincias",
         		id: "capas_provincias",
         		action: function(){
+                            var capa_provincia = new MapaCapaProvincia();
+                            capa_provincia.emergencia(yo.id_emergencia);
                             if($("#capas_provincias").css("display") == "none"){
-                                yo.class_capa.removeCapa("provincias");
+                                capa_provincia.removeCapa();
                             } else {
-        			yo.class_capa.addProvincia(map);
+        			capa_provincia.addCapa(map);
                             }
         		}
         }
