@@ -24,10 +24,10 @@
                         <a href="#" class="menu-item-text">Capas <span id="cantidad_capas_agregadas" class="badge">0</span></a> 
                     </div>
                     <div class="top-menu-main">
-                        <ul class="demo-menu">
+                        <ul id="lista_elementos_agregados" class="demo-menu">
 
                         </ul>
-                        <a href="#" class="menu-item-text">Elementos <span class="badge">0</span></a> 
+                        <a href="#" class="menu-item-text">Elementos <span id="cantidad_elementos_agregados" class="badge">0</span></a> 
                     </div>
                     <div class="top-menu-main">
                         <ul class="demo-menu">

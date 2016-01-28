@@ -23,6 +23,9 @@ var MapaInformacionElemento = Class({
                                     }
                                 }
                             });
+                            
+                            var elemento = new MapaElementoCustom();
+                            elemento.listaElementosVisor();
                         }
                     },
                     eliminar: {

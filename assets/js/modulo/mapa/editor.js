@@ -105,8 +105,12 @@ var MapaEditor = Class({
         });
         drawingManager.setMap(mapa);
         
+        
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
             lista_markers.push(marker);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
@@ -130,6 +134,9 @@ var MapaEditor = Class({
             var rectanguloClickListener = new  MapaRectanguloClickListener();
             rectanguloClickListener.addClickListener(rectangle, mapa);
             lista_poligonos.push(rectangle);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
         
         google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
@@ -151,6 +158,9 @@ var MapaEditor = Class({
             });
             yo.class_poligono.addClickListener(polygon, mapa);
             lista_poligonos.push(polygon);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
         
         google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
@@ -173,6 +183,9 @@ var MapaEditor = Class({
             var circuloClickListener = new MapaCirculoClickListener();
             circuloClickListener.addClickListener(circle, mapa);
             lista_poligonos.push(circle);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
 
     },
