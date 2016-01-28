@@ -223,36 +223,36 @@
     </div>
 
 </div>
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
-<?= loadCSS("assets/lib/daterangepicker/daterangepicker.css", true) ?>
-<?= loadCSS("assets/lib/fullcalendar/fullcalendar.css", true) ?>
-<?= loadCSS("assets/lib/morris/morris.css", true) ?>
+<?= loadCSS("assets/js/library/daterangepicker/daterangepicker.css", true) ?>
+<?= loadCSS("assets/js/library/fullcalendar/fullcalendar.css", true) ?>
+<?= loadCSS("assets/js/library/morris/morris.css", true) ?>
 
-<?= loadJS("assets/lib/daterangepicker/moment.js", true) ?>
-<?= loadJS("assets/lib/daterangepicker/daterangepicker.js", true) ?>
+<?= loadJS("assets/js/library/daterangepicker/moment.js", true) ?>
+<?= loadJS("assets/js/library/daterangepicker/daterangepicker.js", true) ?>
 
-<?= loadJS("assets/lib/moment/moment.min.js", true) ?>
-<?= loadJS("assets/lib/fullcalendar/fullcalendar.min.js", true) ?>
-<?= loadJS("assets/lib/fullcalendar/lang-all.js", true) ?>
+<?= loadJS("assets/js/library/moment/moment.min.js", true) ?>
+<?= loadJS("assets/js/library/fullcalendar/fullcalendar.min.js", true) ?>
+<?= loadJS("assets/js/library/fullcalendar/lang-all.js", true) ?>
 
-<?= loadJS("assets/lib/morris/raphael-2.1.0.min.js", true) ?>
-<?= loadJS("assets/lib/morris/morris.js", true) ?>
+<?= loadJS("assets/js/library/morris/raphael-2.1.0.min.js", true) ?>
+<?= loadJS("assets/js/library/morris/morris.js", true) ?>
 
-<?= loadJS("assets/js/bootbox.min.js", true) ?>
+<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js", true) ?>
 
-<?= loadCSS("assets/lib/picklist/picklist.css") ?>
-<?= loadJS("assets/lib/picklist/picklist.js") ?>
+<?= loadCSS("assets/js/library/picklist/picklist.css") ?>
+<?= loadJS("assets/js/library/picklist/picklist.js") ?>
 
 <?= loadJS("assets/js/modulo/emergencia_reporte/form.js"); ?>
 
-<?= loadJS("assets/js/geo-encoder.js") ?>
+<?= loadJS("assets/js/modulo/mapa/extension/geo-encoder.js"); ?>
 
-<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.min.css") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.min.js") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.min.css") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.min.js") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js"); ?>

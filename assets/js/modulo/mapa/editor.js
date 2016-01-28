@@ -105,8 +105,12 @@ var MapaEditor = Class({
         });
         drawingManager.setMap(mapa);
         
+        
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
             lista_markers.push(marker);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
@@ -130,6 +134,9 @@ var MapaEditor = Class({
             var rectanguloClickListener = new  MapaRectanguloClickListener();
             rectanguloClickListener.addClickListener(rectangle, mapa);
             lista_poligonos.push(rectangle);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
         
         google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
@@ -151,6 +158,9 @@ var MapaEditor = Class({
             });
             yo.class_poligono.addClickListener(polygon, mapa);
             lista_poligonos.push(polygon);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
         
         google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
@@ -173,6 +183,9 @@ var MapaEditor = Class({
             var circuloClickListener = new MapaCirculoClickListener();
             circuloClickListener.addClickListener(circle, mapa);
             lista_poligonos.push(circle);
+            
+            var elemento = new MapaElementoCustom();
+            elemento.listaElementosVisor();
         });
 
     },
@@ -322,10 +335,12 @@ var MapaEditor = Class({
         		title: "Capas pertenecientes a provincias",
         		id: "capas_provincias",
         		action: function(){
+                            var capa_provincia = new MapaCapaProvincia();
+                            capa_provincia.emergencia(yo.id_emergencia);
                             if($("#capas_provincias").css("display") == "none"){
-                                yo.class_capa.removeCapa("provincias");
+                                capa_provincia.removeCapa();
                             } else {
-        			yo.class_capa.addProvincia(map);
+        			capa_provincia.addCapa(map);
                             }
         		}
         }
@@ -350,16 +365,37 @@ var MapaEditor = Class({
        
         var optionDiv3 = new checkBox(divOptions3);
         
+        var divOptions4 = {
+        		gmap: map,
+        		label: 'Sidco - Conaf',
+        		title: "Incendios en el pais",
+        		id: "sidco_conaf",
+        		action: function(){
+                            var kmzLayer = new google.maps.KmlLayer("http://sidco.conaf.cl/mapa/earth-data.php?key=2gTkrf%2FkZkN4pvHtRclb7c%2FUobAO57i0o8AdyhFdAwA%3D",{
+                                suppressInfoWindows: false,
+                                preserveViewport: true
+                            });
+                            kmzLayer.setMap(map);
+
+                            kmzLayer.addListener('click', function(kmlEvent) {
+                                console.log(kmlEvent)
+                            });
+        		}
+        }
+       
+        var optionDiv4 = new checkBox(divOptions4);
+        
         //create the input box items
         
         //possibly add a separator between controls    
         var sep0 = new separator();
         var sep1 = new separator();
         var sep2 = new separator();
+        var sep3 = new separator();
         
         //put them all together to create the drop down       
         var ddDivOptions = {
-        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3],
+        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3, sep3, optionDiv4],
         	id: "myddOptsDiv"        		
         }
         //alert(ddDivOptions.items[1]);

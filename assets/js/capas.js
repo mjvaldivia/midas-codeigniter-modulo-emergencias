@@ -86,7 +86,7 @@ var Layer = {};
             $('#tabla_colores').DataTable({
                 data: geometry,
                 language: {
-                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                 },
                 bPaginate : false,
                 order: [[0, "desc"]],
@@ -100,7 +100,7 @@ var Layer = {};
             $('#tabla_propiedades').DataTable({
                 data: properties,
                 language: {
-                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                 },
                 bPaginate : false,
                 order: [[0, "desc"]],
@@ -114,7 +114,7 @@ var Layer = {};
             $('#tabla_comunas').DataTable({
                 data: filename,
                 language: {
-                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                 },
                 order: [[0, "desc"]],
                 bPaginate: false,
@@ -463,7 +463,7 @@ var Layer = {};
             $('#tabla_propiedades-editar').DataTable({
                 data: properties,
                 language: {
-                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                 },
                 bPaginate : false,
                 order: [[0, "desc"]],
@@ -476,7 +476,7 @@ var Layer = {};
             $('#tabla_comunas_editar').DataTable({
                 data: filename,
                 language: {
-                    url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                 },
                 order: [[0, "desc"]],
                 initComplete: function(){

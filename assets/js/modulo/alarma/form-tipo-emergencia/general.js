@@ -29,7 +29,7 @@ var FormTipoEmergenciaGeneral = Class({
                 async: true
             },
             language: {
-                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
             },
              "aoColumns": [
                 null,

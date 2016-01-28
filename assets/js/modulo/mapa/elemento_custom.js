@@ -148,6 +148,51 @@ var MapaElementoCustom = Class({
         lista_poligonos.push(circulo);
     },
     
+    listaElementosVisor : function(){
+        
+        var lista = this.listCustomElements();
+        
+        var html = "";
+        var cantidad = 0;
+       
+        $.each(lista, function(i, json){
+           var data = jQuery.parseJSON(json);
+           var preview = "";
+           switch(data.tipo){
+               case "POLIGONO":
+               case "RECTANGULO":
+               case "CIRCULO":
+                   preview = "<div class=\"color-capa-preview\" style=\"background-color:" + data.color + "; height: 20px;width: 20px;\"></div>";
+                   break;
+               default:
+                   preview = "<img style=\"height:20px\" src=\"" + data.icono + "\" >";
+                   break;
+           }
+           
+                    
+           html += "<li data=\"" + data.id + "\" class=\"\">\n"
+                 + "<div class=\"row\"><div class=\"col-xs-2\">" + preview + "</div><div class=\"col-xs-10\"> " + data.tipo + "</div>"
+                 + "</div>\n"
+                 + "</li>";
+           
+           
+           cantidad++;
+        });
+        
+        
+        $("#cantidad_elementos_agregados").html(cantidad);
+ 
+        if(cantidad > 0){
+            $("#cantidad_elementos_agregados").addClass("alert-success");
+        } else {
+            $("#cantidad_elementos_agregados").removeClass("alert-success");
+        }
+        
+        
+        
+        $("#lista_elementos_agregados").html(html);
+    },
+    
     /**
      * Carga los elementos personalizados
      * @param {googleMaps} mapa
@@ -221,7 +266,7 @@ var MapaElementoCustom = Class({
                         }
                     }
                     
-                    
+                    yo.listaElementosVisor();
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -249,6 +294,8 @@ var MapaElementoCustom = Class({
                         },
                         ajax
                         );
+                
+                        
                     } else {
                         $.ajax(ajax);
                     }
@@ -294,6 +341,8 @@ var MapaElementoCustom = Class({
                 return true;
             }
         });
+        
+        this.listaElementosVisor();
     },
     
     /**

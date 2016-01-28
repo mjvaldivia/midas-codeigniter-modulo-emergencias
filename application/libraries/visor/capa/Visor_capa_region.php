@@ -127,6 +127,7 @@ Class Visor_capa_region{
                     $retorno[] = array("id"    => $subcapa["geometria_id"],
                                        "zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
                                        "icono" => $icono,
+                                       "nombre" => $subcapa["geometria_nombre"],
                                        "color" => $color,
                                        "json"  => $json);
 

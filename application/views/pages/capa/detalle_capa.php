@@ -200,14 +200,14 @@
     </div>
 </div> 
 
-<?= loadCSS("assets/lib/bootstrap-fileinput/css/fileinput.css") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput.js") ?>
-<?= loadJS("assets/lib/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
-<?= loadJS("assets/js/bootbox.min.js") ?>
+<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
 
 
 

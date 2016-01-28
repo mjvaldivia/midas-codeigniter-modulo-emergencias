@@ -1,3 +1,6 @@
+capas_visor = [];
+
+
 var MapaCapa = Class({
     mapa : null,
     capas : {},
@@ -108,44 +111,7 @@ var MapaCapa = Class({
         this.class_multilinea.seteaMapa(mapa);
         this.addCapa(id_subcapa);
     },
-    
-    addProvincia : function(mapa){
-        this.class_marcador.seteaMapa(mapa);
-        this.class_poligono.seteaMapa(mapa);
-        this.class_multipoligono.seteaMapa(mapa);
-        this.class_multilinea.seteaMapa(mapa);
-        var yo = this;
         
-        console.log("Agregando provincia");
-        
-        Messenger().run({
-            action: $.ajax,
-            successMessage: 'Capa de provincia cargada correctamente',
-            errorMessage: 'Error al cargar capa',
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa de provincia...'
-        }, {
-            dataType: "json",
-            cache: false,
-            async: true,
-            data: "id_emergencia=" + yo.id_emergencia,
-            type: "post",
-            url: siteUrl + "mapa_capas/ajax_carga_capa_provincia", 
-            error: function(xhr, textStatus, errorThrown){
-
-            },
-            success:function(data){
-                if(data.correcto){
-                    if(($.isEmptyObject(yo.capas["provincias"]))){
-                        console.log("Cargando capa provincias ");
-                        
-                        yo.capas["provincias"] = data.capa;
-                        yo.cargaCapa("provincias", data.capa);
-                    }
-                }
-            }
-        });
-    },
-    
     /**
      * Añade una capa al visor
      * @param {int} id_capa
@@ -177,6 +143,7 @@ var MapaCapa = Class({
                         console.log("Cargando nueva capa " + id_subcapa);
                         yo.capas[id_subcapa] = data.capa;
                         yo.cargaCapa(id_subcapa, data.capa);
+                        yo.listaCapasVisor();
                     }
                 }
             }
@@ -193,6 +160,14 @@ var MapaCapa = Class({
         this.class_marcador.removerMarcadores("capa", id_capa);
         this.class_poligono.removerPoligono("capa", id_capa);
         delete(this.capas[id_capa]);
+        
+        capas_visor = jQuery.grep(capas_visor, function( a ) {
+            if(a["id"] != id_capa){
+                return true;
+            }
+        });
+        
+        this.listaCapasVisor();
     },
     
     /**
@@ -230,7 +205,59 @@ var MapaCapa = Class({
             yo.elemento(data.id, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
             i++;
         });
+                
+        var arr = jQuery.grep(capas_visor, function( a ) {
+            if(a["id"] == id_subcapa){
+                return true;
+            }
+        });
+        
+        if(arr.length == 0){
+            
+            var preview = "";
+            if(capa.icono != ""){
+                preview = "<img style=\"height:20px\" src=\"" + capa.icono + "\" >";
+            } else {
+                if(capa.color != ""){
+                    preview = "<div class=\"color-capa-preview\" style=\"background-color:" + capa.color + "; height: 20px;width: 20px;\"></div>";
+                }
+            }
+            
+            capas_visor.push({"id" : id_subcapa ,
+                              "nombre" : capa.nombre,
+                              "preview" : preview});
+        }
+        
     },
+    
+    listaCapasVisor : function(){
+        var html = "";
+        var cantidad = 0;
+       
+        $.each(capas_visor, function(i, data){
+           
+           html += "<li data=\"" + data.id + "\" class=\"\">\n"
+                 + "<div class=\"row\"><div class=\"col-xs-2\">" + data.preview + "</div><div class=\"col-xs-10\"> " + data.nombre + "</div>"
+                 + "</div>\n"
+                 + "</li>";
+           
+           
+           cantidad++;
+        });
+        
+        
+        $("#cantidad_capas_agregadas").html(cantidad);
+ 
+        if(cantidad > 0){
+            $("#cantidad_capas_agregadas").addClass("alert-success");
+        } else {
+            $("#cantidad_capas_agregadas").removeClass("alert-success");
+        }
+        
+        $("#lista_capas_agregadas").html(html);
+    },
+    
+    
     
     /**
      * Añade elemento
@@ -309,6 +336,7 @@ var MapaCapa = Class({
                             if(data.correcto){
                                 yo.capas = data.resultado.capas;
                                 yo.cargaCapas(map);
+                                yo.listaCapasVisor();
                             } else {
                                 notificacionError("Ha ocurrido un problema", data.error);
                             }
@@ -317,9 +345,6 @@ var MapaCapa = Class({
                 }
             }
         });
-        
-        
-        
     }
 });
 

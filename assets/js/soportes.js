@@ -6,7 +6,7 @@ var Soportes = {};
         var tablaSoportes = $("#tabla_soportes").DataTable({
             destroy : true,
             language: {
-                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
             },
             order: [[0, "desc"]]
         });
@@ -14,7 +14,7 @@ var Soportes = {};
         var tablaSoportes = $("#tabla_soportes_cerrados").DataTable({
             destroy : true,
             language: {
-                url: baseUrl + "assets/lib/DataTables-1.10.8/Spanish.json"
+                url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
             },
             order: [[0, "desc"]]
         });

@@ -1,7 +1,7 @@
-<?= loadJS("assets/lib/jquery-2.1.4/jquery.min.js", true) ?>
+<?= loadJS("assets/js/library/jquery-2.1.4/jquery.min.js", true) ?>
 <!-- GLOBAL STYLES - Include these on every page. -->
-<?= loadCSS("assets/lib/bootstrap-3.3.2-dist/css/bootstrap.css", true) ?>
-<?= loadCSS("assets/lib/font-awesome-4.4.0/css/font-awesome.css", true) ?>
+<?= loadCSS("assets/js/library/bootstrap-3.3.2-dist/css/bootstrap.css", true) ?>
+<?= loadCSS("assets/js/library/font-awesome-4.4.0/css/font-awesome.css", true) ?>
 
 <?= loadCSS("assets/css/style.css", true) ?>
 

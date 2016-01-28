@@ -38,6 +38,8 @@ var MapaKml = Class({
     loadKml : function(mapa){
         var yo = this;
         
+        
+    
          $.ajax({         
             dataType: "json",
             cache: false,

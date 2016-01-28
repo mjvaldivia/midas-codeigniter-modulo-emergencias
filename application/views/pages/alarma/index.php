@@ -65,19 +65,19 @@
     </div>
 </div>
 
-<?= loadCSS("assets/lib/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/lib/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
+<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
+<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
-<?= loadCSS("assets/lib/picklist/picklist.css") ?>
-<?= loadJS("assets/lib/picklist/picklist.js") ?>
+<?= loadCSS("assets/js/library/picklist/picklist.css") ?>
+<?= loadJS("assets/js/library/picklist/picklist.js") ?>
 
 <?= loadJS("assets/js/moment.min.js") ?>
-<?= loadCSS("assets/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
-<?= loadJS("assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
+<?= loadCSS("assets/js/library/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
+<?= loadJS("assets/js/library/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
 
-<?= loadJS("assets/js/bootbox.min.js") ?>
-<?= loadJS("assets/js/geo-encoder.js") ?>
+<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
+<?= loadJS("assets/js/modulo/mapa/extension/geo-encoder.js"); ?>
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
 

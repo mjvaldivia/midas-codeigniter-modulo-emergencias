@@ -28,14 +28,14 @@
 }
 
 ul.demo-menu {
-  bottom: 30px;
+  bottom: 29px;
   cursor: pointer;
   display: none;
-  min-width: 100%;
+  min-width: 500%;
   position: absolute;
   padding: 0px;
   margin: 0px;
-  white-space: nowrap;
+  white-space: wrap;
   -moz-box-shadow: 0 0 8px #333;
   -webkit-box-shadow: 0 0 8px #333;
   box-shadow: 0 0 8px #333;
@@ -46,11 +46,12 @@ ul.demo-menu > li {
   padding: 10px 30px;
   background: #FFF;
   color: #000;
-  white-space: nowrap;
+  white-space: wrap;
   list-style: none;
 }
 
-ul.demo-menu > li.hover {
-  background: #cfcfcf;
-  color: #333;
+ul.demo-menu > li:hover {
+    background-color: rgb(235, 235, 235);	
+    color: #333;
 }
+
