@@ -241,7 +241,7 @@
 <?= loadJS("assets/js/library/morris/raphael-2.1.0.min.js", true) ?>
 <?= loadJS("assets/js/library/morris/morris.js", true) ?>
 
-<?= loadJS("assets/js/bootbox.min.js", true) ?>
+<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js", true) ?>
 
 <?= loadCSS("assets/js/library/picklist/picklist.css") ?>
 <?= loadJS("assets/js/library/picklist/picklist.js") ?>

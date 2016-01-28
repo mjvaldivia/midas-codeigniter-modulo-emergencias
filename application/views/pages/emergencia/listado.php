@@ -9,7 +9,7 @@
 <?= loadCSS("assets/js/library/picklist/picklist.css") ?>
 <?= loadJS("assets/js/library/picklist/picklist.js") ?>
 
-<?= loadJS("assets/js/bootbox.min.js") ?>
+<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
 <?= loadJS("assets/js/library/mapa/extencion/geo-encoder.js"); ?>
 <?= loadJS("assets/js/library/html2canvas/build/html2canvas.js") ?>
 

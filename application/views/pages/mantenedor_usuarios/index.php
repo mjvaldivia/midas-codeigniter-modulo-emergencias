@@ -69,6 +69,6 @@
 <?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
-<?= loadJS("assets/js/bootbox.min.js") ?>
+<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
 <?= loadJS("assets/js/modulo/mantenedor/usuarios.js") ?>

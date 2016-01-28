@@ -76,7 +76,7 @@
 <?= loadCSS("assets/js/library/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
 <?= loadJS("assets/js/library/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
 
-<?= loadJS("assets/js/bootbox.min.js") ?>
+<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
 <?= loadJS("assets/js/library/mapa/extencion/geo-encoder.js"); ?>
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
