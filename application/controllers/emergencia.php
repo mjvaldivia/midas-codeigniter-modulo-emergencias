@@ -511,8 +511,14 @@ class Emergencia extends MY_Controller {
             $mapsharper = shell_exec('mapshaper -i '.$nombre_geojson.' -simplify 5% -o format=geojson '.$tmp_geojson);
             error_log($mapsharper);
 
+            if(is_file($tmp_geojson)){
+                $fp = file_get_contents($tmp_geojson, 'r');
+            }else{
+                $fp = file_get_contents($tmp_name[$i], 'r');
+            }
+
             $error = false;
-            $fp = file_get_contents($tmp_geojson, 'r');
+            /*$fp = file_get_contents($tmp_geojson, 'r');*/
             
             $arr_properties = json_decode(utf8_encode($fp),true);
             
@@ -578,7 +584,8 @@ class Emergencia extends MY_Controller {
             }
 
             unlink($nombre_geojson);
-            unlink($tmp_geojson);
+            if(is_file($tmp_geojson))
+                unlink($tmp_geojson);
         }
 
         if(!is_null($poligono))
