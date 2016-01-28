@@ -202,7 +202,7 @@ class Emergencia extends MY_Controller {
 
 
                 $usuario = $this->session->userdata('session_idUsuario');
-                $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+                /*$this->load->model('alarma_historial_model','AlarmaHistorialModel');
                 $historial_comentario = 'La emergencia ha sido editada';
                 $data = array(
                     'historial_alerta' => $emergencia->ala_ia_id,
@@ -210,7 +210,7 @@ class Emergencia extends MY_Controller {
                     'historial_fecha' => date('Y-m-d H:i:s'),
                     'historial_comentario' => $historial_comentario
                 );
-                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);*/
                 
                 
                 $id = $this->emergencia_guardar->getId();

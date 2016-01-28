@@ -246,7 +246,7 @@ class Capas extends MY_Controller
         $iFilteredTotal = $foundRows[0]['found_rows'];
     
         // Total data set length
-        //$iTotal = $this->db->count_all($sTable);
+        //$iTotal = $this->db->count_all($sTable);ex
     
         // Output
         $output = array(
