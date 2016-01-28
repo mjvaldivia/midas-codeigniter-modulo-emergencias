@@ -34,6 +34,7 @@ var MapaCapaRegion = Class({ extends : MapaCapa}, {
                     $.each(data.capa, function(i, capa){
                         console.log("Cargando capa regiones ");
                         yo.cargaCapa("region", capa);
+                        yo.listaCapasVisor();
                     });
                     
                 }

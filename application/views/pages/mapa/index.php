@@ -13,33 +13,21 @@
 <div class="row hidden">
     <div id="slideup-menu" class="top-menu">
         <div class="top-menu-main">
-            <ul class="demo-menu">
-                <li class="first">Item 1</li>
-                <li class="">Item 2</li>
-                <li class="">Item 3</li>
-                <li class="">Item 4</li>
-                <li class="last">Item 5</li>
-              </ul>
-            <a href="#" class="menu-item-text">Capas <span class="badge">0</span></a> 
+            <ul id="lista_capas_agregadas" class="demo-menu">
+                
+            </ul>
+            <a href="#" class="menu-item-text">Capas <span id="cantidad_capas_agregadas" class="badge">0</span></a> 
         </div>
         <div class="top-menu-main">
             <ul class="demo-menu">
-                <li class="first">Item 1</li>
-                <li class="">Item 2</li>
-                <li class="">Item 3</li>
-                <li class="">Item 4</li>
-                <li class="last">Item 5</li>
-              </ul>
+                
+            </ul>
             <a href="#" class="menu-item-text">Elementos <span class="badge">0</span></a> 
         </div>
         <div class="top-menu-main">
             <ul class="demo-menu">
-                <li class="first">Item 1</li>
-                <li class="">Item 2</li>
-                <li class="">Item 3</li>
-                <li class="">Item 4</li>
-                <li class="last">Item 5</li>
-              </ul>
+                
+            </ul>
             <a href="#" class="menu-item-text">Archivos importados <span class="badge">0</span></a> 
         </div>
     </div>
