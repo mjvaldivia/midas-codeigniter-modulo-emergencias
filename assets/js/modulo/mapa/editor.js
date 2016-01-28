@@ -225,18 +225,37 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlImportar : function (map) {
-        var yo = this;
-        var buttonOptions = {
+        var divOptions = {
         		gmap: map,
-        		name: '<i class=\"fa fa-download\"></i> Importar KML/KMZ',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		name: 'KML/KMZ',
+        		title: "",
+        		id: "opcion_importar_kml_kmz",
         		action: function(){
-        		    var kml = new MapaKmlImportar();
+                            var kml = new MapaKmlImportar();
                             kml.seteaMapa(map);
                             kml.popupUpload();
         		}
         }
-        var button1 = new buttonControl(buttonOptions, "button-map");    
+        var optionDiv1 = new optionDiv(divOptions);
+
+        var ddDivOptions = {
+        	items: [optionDiv1],
+        	id: "opcionesImportar"        		
+        };
+        
+        var dropDownDiv = new dropDownOptionsDiv(ddDivOptions);               
+                
+        var dropDownOptions = {
+        		gmap: map,
+        		name: '<i class=\"fa fa-download\"></i> Importar',
+        		id: 'botonDropdownImportar',
+        		title: 'Importar',
+        		position: google.maps.ControlPosition.TOP_RIGHT,
+        		dropDown: dropDownDiv 
+        }
+        
+        var dropDown1 = new dropDownControl(dropDownOptions);   
+
     },
     
     /**
@@ -386,7 +405,7 @@ var MapaEditor = Class({
     popupCapasComuna : function(){
         var yo = this;
         if(this.class_capa != null){
-            
+            yo.class_capa.seteaMapa(yo.mapa);
             bootbox.dialog({
                     message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
                     className: "modal90",
