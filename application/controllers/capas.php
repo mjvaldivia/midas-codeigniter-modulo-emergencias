@@ -147,6 +147,7 @@ class Capas extends MY_Controller
 
         $this->load->model('capa_model','capa_model');
         $sub_capa = $this->capa_model->getSubCapa($subcapa);
+
         $arr_cabeceras = explode(",",$sub_capa['cap_c_propiedades']);
 
         $aColumns = array('com_c_nombre', 'prov_c_nombre', 'reg_c_nombre','poligono_propiedades','poligono_id');
@@ -161,16 +162,21 @@ class Capas extends MY_Controller
         $iSortingCols = $this->input->get_post('iSortingCols', true);
         $sSearch = $this->input->get_post('sSearch', true);
         $sEcho = $this->input->get_post('sEcho', true);
-    
+
+        $where = ' WHERE poligono_capitem = '.$subcapa;
+        $limit = '';
         // Paging
         if(isset($iDisplayStart) && $iDisplayLength != '-1')
         {
-            $this->db->limit($this->db->escape_str($iDisplayLength), $this->db->escape_str($iDisplayStart));
+            $limit .= ' LIMIT '.$iDisplayStart.','.$iDisplayLength;
+            //$this->db->limit($this->db->escape_str($iDisplayLength), $this->db->escape_str($iDisplayStart));
         }
         
         // Ordering
+        $order = '';
         if(isset($iSortCol_0))
         {
+
             for($i=0; $i<intval($iSortingCols); $i++)
             {
                 $iSortCol = $this->input->get_post('iSortCol_'.$i, true);
@@ -179,7 +185,11 @@ class Capas extends MY_Controller
     
                 if($bSortable == 'true')
                 {
-                    $this->db->order_by($aColumns[intval($this->db->escape_str($iSortCol))], $this->db->escape_str($sSortDir));
+                    if(empty($order)){
+                        $order .= ' ORDER BY ';
+                    }
+                    $order .= $aColumns[intval($this->db->escape_str($iSortCol))].' '.$sSortDir;
+                    //$this->db->order_by($aColumns[intval($this->db->escape_str($iSortCol))], $this->db->escape_str($sSortDir));
                 }
             }
         }
@@ -192,34 +202,51 @@ class Capas extends MY_Controller
          */
         if(isset($sSearch) && !empty($sSearch))
         {
+            $like = '';
             for($i=0; $i<count($aColumns); $i++)
             {
                 $bSearchable = $this->input->get_post('bSearchable_'.$i, true);
                 
                 // Individual column filtering
+
                 if(isset($bSearchable) && $bSearchable == 'true')
                 {
-                    $this->db->or_like($aColumns[$i], $this->db->escape_like_str($sSearch));
+                    if(!empty($like)){
+                        $like .= ' OR ';
+                    }
+                    $like .= $aColumns[$i].' LIKE "%'.$sSearch.'%"';
+                    //$this->db->or_like($aColumns[$i], $this->db->escape_like_str($sSearch));
                 }
             }
+
+            $where .= ' AND ('.$like.') ';
         }
 
-        $this->db->where('poligono_capitem',$subcapa);
+
+        $query = 'select SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)). ' from '.$sTable.' ';
+        $query .= 'INNER JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
+                    INNER JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
+                    INNER JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
+        $query = $query . $where . $order . $limit;
+        /*$this->db->where('poligono_capitem',$subcapa);
         $this->db->join('comunas c','c.com_ia_id = capas_poligonos_informacion.poligono_comuna','inner');
         $this->db->join('provincias p','p.prov_ia_id = c.prov_ia_id','inner');
-        $this->db->join('regiones r','r.reg_ia_id = p.reg_ia_id','inner');
+        $this->db->join('regiones r','r.reg_ia_id = p.reg_ia_id','inner');*/
         
         // Select Data
-        $this->db->select('SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)), false);
-        $rResult = $this->db->get($sTable);
-    
+        //$this->db->select('SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)), false);
+
+        //$rResult = $this->db->get($sTable);
+        $rResult = $this->db->query($query);
+
+
         // Data set length after filtering
-        $this->db->select('FOUND_ROWS() AS found_rows');
-        
-        $iFilteredTotal = $this->db->get()->row()->found_rows;
+        $foundRows = $this->db->query('select FOUND_ROWS() AS found_rows');
+        $foundRows = $foundRows->result_array();
+        $iFilteredTotal = $foundRows[0]['found_rows'];
     
         // Total data set length
-        $iTotal = $this->db->count_all($sTable);
+        //$iTotal = $this->db->count_all($sTable);
     
         // Output
         $output = array(
