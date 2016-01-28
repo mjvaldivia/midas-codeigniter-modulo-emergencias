@@ -139,7 +139,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="portlet-body">
-                            <div id="contendor-grilla-emergencia" class="table-responsive" style="min-height: 450px; padding-bottom:70px">
+                            <div id="contendor-grilla-emergencia" class="table-responsive">
                                 <div class="col-lg-12 text-center">
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>
@@ -152,7 +152,7 @@
             <?php } ?>
             
             <?php if(puedeVer("alarma")) { ?>
-                <div class="row">
+                <div class="row top-spaced">
                     <div class="col-lg-12">
                         <div class="portlet portlet-default">
                             <div class="portlet-heading">
@@ -162,7 +162,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="portlet-body" >
-                                <div id="contendor-grilla-alarma" class="table-responsive" style="min-height: 400px">
+                                <div id="contendor-grilla-alarma" class="table-responsive">
                                     <div class="col-lg-12 text-center">
                                         <i class="fa fa-4x fa-spin fa-spinner"></i>
                                     </div>
@@ -173,7 +173,7 @@
                 </div>  
             <?php } ?>
              
-            <div class="row">
+            <div class="row top-spaced">
                 
                 <div class="col-lg-12">
                     <div class="portlet portlet-default">

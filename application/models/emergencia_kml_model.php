@@ -21,18 +21,31 @@ class Emergencia_Kml_Model extends MY_Model
         return $this->_query->getById("id", $id);
     }
     
-    
-    
+    /**
+     * 
+     * @param int $id_emergencia
+     * @return int
+     */
+    public function contarPorEmergencia($id_emergencia){
+        $result = $this->_queryPorEmergencia($id_emergencia)
+                       ->select("count(*) as cantidad")
+                       ->getOneResult();
+        if (!is_null($result)){
+           return $result->cantidad; 
+        } else {
+            return 0;
+        }
+    }
+
     /**
      * Lista por emergencia
      * @param int $id_emergencia
      * @return array
      */
     public function listaPorEmergencia($id_emergencia){
-        $result = $this->_query->select("k.*")
-                               ->from($this->_tabla . " k")
-                               ->whereAND("k.id_emergencia", $id_emergencia)
-                               ->getAllResult();
+        $result = $this->_queryPorEmergencia($id_emergencia)
+                       ->select("k.*")
+                       ->getAllResult();
         if (!is_null($result)){
            return $result; 
         } else {
@@ -59,6 +72,17 @@ class Emergencia_Kml_Model extends MY_Model
                 $this->_query->delete("id", $row["id"]);
             }
         }
+    }
+    
+    /**
+     * 
+     * @param int $id_emergencia
+     * @return QueryBuilder
+     */
+    protected function _queryPorEmergencia($id_emergencia){
+        $query = $this->_query->from($this->_tabla . " k")
+                              ->whereAND("k.id_emergencia", $id_emergencia);
+        return $query;
     }
 }
 

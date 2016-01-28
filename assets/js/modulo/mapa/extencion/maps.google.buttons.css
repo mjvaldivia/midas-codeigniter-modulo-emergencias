@@ -69,7 +69,7 @@
 	
 	.dropDownOptionsDiv{
 		background-color: white; 
-                width:300px;
+                width:200px;
 		z-index: 0; /*need this to make the box look cool, but this stops the hover and title from working on items in the box! */ 
 		padding-top: 2px; 
 		border-right-width: 1px; 

@@ -23,7 +23,13 @@ var MapaKmlImportar = Class({
     },
     
     cargarKmlTemporal : function(hash, tipo, nombre){
-        var kmzLayer = new google.maps.KmlLayer( siteUrl + 'mapa/kml_temporal/hash/' + hash + "/file." + tipo);
+        var kmzLayer = new google.maps.KmlLayer( 
+            siteUrl + 'mapa_kml/kml_temporal/hash/' + hash + "/file." + tipo,
+            {
+                suppressInfoWindows: false,
+                preserveViewport: true
+            }
+        );
         
         kmzLayer.setMap(this.mapa);
         kmzLayer.id = null;
@@ -32,6 +38,8 @@ var MapaKmlImportar = Class({
         kmzLayer.nombre = nombre;
        
         lista_kml.push(kmzLayer);
+        
+        notificacionCorrecto("", "El archivo kml ha sido cargado correctamente");
     },
     
     /**
@@ -76,7 +84,7 @@ var MapaKmlImportar = Class({
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "mapa/popup_importar_kml", 
+            url: siteUrl + "mapa_kml/popup_importar_kml", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -90,7 +98,7 @@ var MapaKmlImportar = Class({
                     uploadAsync: false,
                     initialCaption: "",
                     showUpload : false,
-                    uploadUrl: siteUrl + "mapa/upload_kml",
+                    uploadUrl: siteUrl + "mapa_kml/upload_kml",
                     uploadExtraData : function(previewId, index){
                         return {"nombre" : $("#nombre").val()}
                     }

@@ -230,8 +230,6 @@ var MapaCapa = Class({
             yo.elemento(data.id, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
             i++;
         });
-        
-        
     },
     
     /**

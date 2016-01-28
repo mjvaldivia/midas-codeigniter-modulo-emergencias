@@ -27,7 +27,8 @@ Class Visor_capa_comuna{
      * @param int $id_emergencia
      * @return boolean
      */
-    public function cargaCapa($id_subcapa, $id_emergencia){
+    public function cargaCapa($id_subcapa, $id_emergencia)
+    {
         $data = array("correcto" => false,
                       "capa" => array());
         $lista_comunas = $this->_ci->emergencia_comuna->listComunas($id_emergencia);

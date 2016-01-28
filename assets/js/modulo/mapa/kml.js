@@ -37,37 +37,57 @@ var MapaKml = Class({
      */
     loadKml : function(mapa){
         var yo = this;
-       Messenger().run({
-            action: $.ajax,
-            showCloseButton: true,
-            successMessage: 'Archivos KML cargados correctamente',
-            errorMessage: 'Ha ocurrido un error al guardar la configuración',
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando archivos kml asociados a la emergencia...'
-        }, {         
+        
+         $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_kml_emergencia", 
+            url: siteUrl + "mapa_kml/ajax_contar_kml_emergencia", 
             error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
+                notificacionError("Ha ocurrido un problema - ", errorThrown);
             },
             success:function(data){
-                if(data.correcto){
-                    $.each(data.resultado.elemento, function(id, elemento){
-                        var kmzLayer = new google.maps.KmlLayer( siteUrl + "mapa/kml/id/" + elemento.id + "/file." + elemento.tipo,{
-                            suppressInfoWindows: false,
-                            preserveViewport: true
-                        });
-                        kmzLayer.setMap(mapa);
-                        kmzLayer.id = elemento.id;
-                        kmzLayer.nombre = elemento.nombre;
-                        lista_kml.push(kmzLayer);
+                if(data.cantidad>0){
+                    Messenger().run({
+                        action: $.ajax,
+                        showCloseButton: true,
+                        successMessage: 'Archivos KML cargados correctamente',
+                        errorMessage: 'Ha ocurrido un error al guardar la configuración',
+                        progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando archivos kml asociados a la emergencia...'
+                    }, {         
+                        dataType: "json",
+                        cache: false,
+                        async: true,
+                        data: "id=" + yo.id_emergencia,
+                        type: "post",
+                        url: siteUrl + "mapa_kml/ajax_kml_emergencia", 
+                        error: function(xhr, textStatus, errorThrown){
+                            notificacionError("Ha ocurrido un problema", errorThrown);
+                        },
+                        success:function(data){
+                            if(data.correcto){
+                                $.each(data.resultado.elemento, function(id, elemento){
+                                    var kmzLayer = new google.maps.KmlLayer( siteUrl + "mapa/kml/id/" + elemento.id + "/file." + elemento.tipo,{
+                                        suppressInfoWindows: false,
+                                        preserveViewport: true
+                                    });
+                                    kmzLayer.setMap(mapa);
+                                    kmzLayer.id = elemento.id;
+                                    kmzLayer.nombre = elemento.nombre;
+                                    lista_kml.push(kmzLayer);
+                                });
+                            }
+                        }
                     });
                 }
             }
         });
+        
+        
+        
+       
     }
 });
 

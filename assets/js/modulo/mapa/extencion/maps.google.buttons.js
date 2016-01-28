@@ -52,22 +52,14 @@
      }
      
      function dropDownOptionsDiv(options){
-    	//alert(options.items[1]);
       	var container = document.createElement('DIV');
       	container.className = "dropDownOptionsDiv";
       	container.id = options.id;
       	
-      	
       	for(i=0; i<options.items.length; i++){
-      		//alert(options.items[i]);
-      		container.appendChild(options.items[i]);
+            container.appendChild(options.items[i]);
       	}
-      	
-      	//for(item in options.items){
-      		//container.appendChild(item);
-      		//alert(item);
-      	//}        
- 		return container;        	
+        return container;        	
       }
      
      function dropDownControl(options){
@@ -77,7 +69,7 @@
     	  var control = document.createElement('DIV');
     	  control.className = 'dropDownControl';
     	  control.innerHTML = options.name;
-    	  control.id = options.name;
+    	  control.id = options.id;
     	  var arrow = document.createElement('IMG');
     	  arrow.src = "http://maps.gstatic.com/mapfiles/arrow-down.png";
     	  arrow.className = 'dropDownArrow';
@@ -87,7 +79,7 @@
     	  
     	  options.gmap.controls[options.position].push(container);
     	  google.maps.event.addDomListener(container,'click',function(){
-    		(document.getElementById('myddOptsDiv').style.display == 'block') ? document.getElementById('myddOptsDiv').style.display = 'none' : document.getElementById('myddOptsDiv').style.display = 'block';
+    		(document.getElementById(options.dropDown.id).style.display == 'block') ? document.getElementById(options.dropDown.id).style.display = 'none' : document.getElementById(options.dropDown.id).style.display = 'block';
     	  });      	  
       }
      
