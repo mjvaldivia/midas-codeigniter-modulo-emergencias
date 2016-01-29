@@ -57,6 +57,48 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
         }
     }
     
+     /**
+     * 
+     * @param int $id_subcapa
+     * @param array $lista_regiones
+     * @return array
+     */
+    public function listarPorSubcapaRegion($id_subcapa, $lista_regiones){
+        $query = $this->_query->select("p.*")
+                               ->from($this->_tabla . " p")
+                               ->whereAND("p.poligono_capitem", $id_subcapa, "=")
+                               ->whereAND("p.poligono_region", $lista_regiones, "IN")
+                               ->whereAND("p.poligono_comuna", 0)
+                               ->whereAND("p.poligono_provincia", 0);
+        $result = $query->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_subcapa
+     * @param array $lista_provincias
+     * @return array
+     */
+    public function listarPorSubcapaProvincia($id_subcapa, $lista_provincias){
+        $result = $this->_query->select("p.*")
+                               ->from($this->_tabla . " p")
+                               ->whereAND("p.poligono_capitem", $id_subcapa, "=")
+                               ->whereAND("p.poligono_provincia", $lista_provincias, "IN")
+                               ->whereAND("p.poligono_comuna", 0)
+                               ->whereAND("p.poligono_region", 0)
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
     /**
      * 
      * @param int $id_capa

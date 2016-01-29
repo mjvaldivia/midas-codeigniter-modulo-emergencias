@@ -304,6 +304,12 @@ var MapaElementoCustom = Class({
         });
     },
     
+    /**
+     * 
+     * @param {string} atributo
+     * @param {string} valor
+     * @returns {undefined}}
+     */
     removeOneCustomElements : function(atributo, valor){
         console.log("Quitando elemento " + atributo + " " + valor);
         var custom = jQuery.grep(lista_poligonos, function( a ) {

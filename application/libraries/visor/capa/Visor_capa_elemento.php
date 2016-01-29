@@ -1,6 +1,6 @@
 <?php
 
-Class Visor_capa_comuna{
+Class Visor_capa_elemento{
     
     /**
      *
@@ -59,7 +59,6 @@ Class Visor_capa_comuna{
             $lista_capas = $this->_ci->_emergencia_capa_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_capas)>0){
                 foreach($lista_capas as $capa){
-                    fb(__METHOD__ . " - Carga capa " . $capa["id_geometria"]);
                     $resultado = $this->_cargaCapa($capa["id_geometria"], $lista_comunas);
                     if(!is_null($resultado)){
                         $data["correcto"] = true;
@@ -80,7 +79,7 @@ Class Visor_capa_comuna{
      * @param type $lista_comunas
      * @return string
      */
-    protected function _cargaCapa($id_geometria, $lista_comunas = array()){
+    protected function _cargaCapa($id_geometria, $lista = array()){
         $retorno = null;
         
         $subcapa = $this->_ci->_capa_detalle_model->getById($id_geometria);
@@ -88,9 +87,10 @@ Class Visor_capa_comuna{
             $capa = $this->_ci->_capa_model->getById($subcapa->geometria_capa);
             if(!is_null($capa)){
                 $json = array();
-                $lista_poligonos = $this->_ci->_capa_detalle_elemento_model->listarPorSubcapaComuna($subcapa->geometria_id, $lista_comunas);
+                $lista_poligonos = $this->_listElementos($subcapa->geometria_id, $lista);
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
+                        fb($poligono["poligono_geometria"]);
                         $json[] = array(
                             "id" => $poligono["poligono_id"],
                             "propiedades" => unserialize($poligono["poligono_propiedades"]),
@@ -126,6 +126,16 @@ Class Visor_capa_comuna{
             }
         }
         return $retorno;
+    }
+    
+    /**
+     * 
+     * @param int $id_capa_detalle
+     * @param array $lista
+     * @return array
+     */
+    protected function _listElementos($id_capa_detalle, $lista){
+        return $this->_ci->_capa_detalle_elemento_model->listarPorSubcapaComuna($id_capa_detalle, $lista);
     }
 }
 

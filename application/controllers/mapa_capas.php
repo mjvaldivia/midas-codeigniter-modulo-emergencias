@@ -55,10 +55,10 @@ class Mapa_capas extends MY_Controller {
      */
     public function ajax_carga_capa_comuna(){
         header('Content-type: application/json');
-        $this->load->library("visor/capa/visor_capa_comuna");
+        $this->load->library("visor/capa/visor_capa_elemento");
         
         $params = $this->input->post(null, true);
-        $data = $this->visor_capa_comuna->cargaCapa($params["id"], $params["id_emergencia"]);
+        $data = $this->visor_capa_elemento->cargaCapa($params["id"], $params["id_emergencia"]);
         
         echo json_encode($data);
     }

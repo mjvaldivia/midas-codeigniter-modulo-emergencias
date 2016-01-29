@@ -36,10 +36,10 @@ class Capa_Detalle_Model extends MY_Model {
     public function listarGeometriaRegion($regiones = array()){
         $query = $this->_query->select("DISTINCT g.*")
                                ->from($this->_tabla . " g")
-                               ->join("capas_poligonos_regiones p", "g.geometria_id = p.poliregion_capitem", "INNER");
+                               ->join("capas_poligonos_informacion p", "g.geometria_id = p.poliregion_capitem", "INNER");
         
         if(count($regiones)>0){
-            $query->whereAND("p.poliregion_region", $regiones, "IN");
+            $query->whereAND("p.poligono_region", $regiones, "IN");
         }
         
         
@@ -58,7 +58,7 @@ class Capa_Detalle_Model extends MY_Model {
     public function listarGeometriaProvincias(){
         $result = $this->_query->select("DISTINCT g.*")
                                ->from($this->_tabla . " g")
-                               ->join("capas_poligonos_provincias p", "g.geometria_id = p.poliprovincias_capitem", "INNER")
+                               ->join("capas_poligonos_informacion p", "g.geometria_id = p.poliprovincias_capitem", "INNER")
                                ->getAllResult();
         if (!is_null($result)){
            return $result; 

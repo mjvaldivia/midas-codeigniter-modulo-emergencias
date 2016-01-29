@@ -1,27 +1,17 @@
 <?php
 
-Class Visor_capa_region{
-        
-    /**
-     *
-     * @var CI_Controller 
-     */
-    protected $_ci;
+require_once(__DIR__ . "/Visor_capa_elemento.php");
+
+Class Visor_capa_region extends Visor_capa_elemento{
     
     /**
      * 
      */
     public function __construct() {
-        $this->_ci =& get_instance();
-        $this->_ci->load->library("cache");
-        $this->_ci->load->model("emergencia_model", "_emergencia_model");
-        $this->_ci->load->model("emergencia_capa_model", "_emergencia_capa_model");
-        $this->_ci->load->model("capa_detalle_model", "_capa_detalle_model");
-        $this->_ci->load->model("capa_model", "_capa_model");
-        $this->_ci->load->model("capa_poligono_region_model", "_capa_poligono_region_model");
+        parent::__construct();
         $this->_ci->load->model("region_model", "_region_model");
     }
-    
+            
     /**
      * 
      * @param int $id_subcapa
@@ -31,7 +21,6 @@ Class Visor_capa_region{
     public function cargaCapa($id_emergencia){
         $data = array();
         $lista_regiones = $this->_listaRegiones($id_emergencia);
-        fb($lista_regiones);
         if(count($lista_regiones)>0){
             $resultado = $this->_cargaCapa($lista_regiones);
             if(!is_null($resultado)){
@@ -57,83 +46,14 @@ Class Visor_capa_region{
         return $arr;
     }
     
-    /**
-     * 
-     * @param int $geometria_id
-     * @param array $lista_regiones
-     * @return string
-     */
-    protected function _getGeojson($geometria_id, $lista_regiones){
-        $json = array();
-        $lista_poligonos = $this->_ci->_capa_poligono_region_model->listarPorSubcapaRegion($geometria_id, $lista_regiones);
-        if(!is_null($lista_poligonos)){
-            foreach($lista_poligonos as $poligono){
-
-                $hash = "poligono_region_serialize" . $poligono["poliregion_id"];
-                $cache = Cache::iniciar();
-                if(!($geometria = $cache->load($hash))){
-                    $geojson = $this->_ci->_capa_poligono_region_model->getById($poligono["poliregion_id"]);
-                    $geometria = array(
-                        "id" => "region-" . $poligono["poliregion_id"],
-                        "propiedades" => unserialize($geojson->poliregion_propiedades),
-                        "geojson"     => unserialize($geojson->poliregion_geometria)
-                    );
-                    $cache->save($geometria, $hash);
-                }
-                $json[] = $geometria;
-                
-            }
-        }
-        
-        return $json;
-    }
     
     /**
-     * Carga la capa 
-     * @param type $id_geometria
-     * @param type $lista_regiones
-     * @return string
+     * 
+     * @param int $id_capa_detalle
+     * @param array $lista
+     * @return array
      */
-    protected function _cargaCapa($lista_regiones = array()){
-        $retorno = null;
-        
-        $lista_subcapa = $this->_ci->_capa_detalle_model->listarGeometriaRegion($lista_regiones);
-        if(!is_null($lista_subcapa)){
-
-            foreach($lista_subcapa as $subcapa){
-                $capa = $this->_ci->_capa_model->getById($subcapa["geometria_capa"]);
-                if(!is_null($capa)){
-
-                    $json = $this->_getGeojson($subcapa["geometria_id"], $lista_regiones);
-
-                    $icono = "";
-                    if(!empty($subcapa->geometria_icono)){
-                        $icono = base_url($subcapa->geometria_icono);
-                    } else {
-                        if(!empty($capa->icon_path)){
-                            $icono = base_url($capa->icon_path);
-                        }
-                    }
-
-                    $color = "";
-                    if(!empty($subcapa->geometria_icono)){
-                        $color = $subcapa->geometria_icono;
-                    } else {
-                        if(!empty($capa->color)){
-                            $color = $capa->color;
-                        }
-                    }
-
-                    $retorno[] = array("id"    => $subcapa["geometria_id"],
-                                       "zona"  => $capa->cap_c_geozone_number . $capa->cap_c_geozone_letter,
-                                       "icono" => $icono,
-                                       "nombre" => $subcapa["geometria_nombre"],
-                                       "color" => $color,
-                                       "json"  => $json);
-
-                }
-            }
-        }
-        return $retorno;
+    protected function _listElementos($id_capa_detalle, $lista){
+        return $this->_ci->_capa_detalle_elemento_model->listarPorSubcapaRegion($id_capa_detalle, $lista);
     }
 }
