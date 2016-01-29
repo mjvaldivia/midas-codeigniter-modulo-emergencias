@@ -31,35 +31,44 @@ var MapaKmlSidcoConaf = Class({
 
         kmzLayer.addListener('click', function(kmlEvent) {
             var parametros = {"nombre" : kmlEvent.featureData.name}
-            $.ajax({         
-                dataType: "json",
-                cache: false,
-                async: true,
-                data: parametros,
-                type: "post",
-                url: siteUrl + "mapa_sidco/info", 
-                error: function(xhr, textStatus, errorThrown){
-                    notificacionError("", "No se pudo recuperar la información del incendio");
-                },
-                success:function(json){
-                    if(json.correcto){
-                        
-                        if(yo.infoWindow != null){
-                            yo.infoWindow.setMap(null);
-                        }
-                        
-                        yo.infoWindow = new google.maps.InfoWindow({
-                            content: "<iframe scrolling=\"no\" frameborder=\"0\" style=\"overflow:hidden\" src=\""+json.url+"\"></iframe>",
-                            position: kmlEvent.latLng
-                        });
-                        
-                        yo.infoWindow.open(yo.mapa);
+            
+            
+            Messenger().run({
+                        action: $.ajax,
+                        successMessage: 'Información del incendio cargada correctamente',
+                        errorMessage: 'No se pudo recuperar la información de incendio. <br/> Espere para reintentar',
+                        showCloseButton: true,
+                        progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando información del incendio...'
+                    }, {        
+                        dataType: "json",
+                        cache: false,
+                        async: true,
+                        data: parametros,
+                        type: "post",
+                        url: siteUrl + "mapa_sidco/info", 
+                        success:function(json){
+                            if(json.correcto){
 
-                    } else {
-                        notificacionError("", "No se pudo recuperar la información del incendio");
-                    }
-                }
-            }); 
+                                if(yo.infoWindow != null){
+                                    yo.infoWindow.setMap(null);
+                                }
+
+                                yo.infoWindow = new google.maps.InfoWindow({
+                                    content: "<iframe scrolling=\"no\" frameborder=\"0\" style=\"overflow:hidden\" src=\""+json.url+"\"></iframe>",
+                                    position: kmlEvent.latLng
+                                });
+
+                                yo.infoWindow.open(yo.mapa);
+
+                            } else {
+                                notificacionError("", "No es posible encontrar la información del incendio.");
+                            }
+                        }
+                    });
+            
+            
+            
+            
         });
     }
 });
