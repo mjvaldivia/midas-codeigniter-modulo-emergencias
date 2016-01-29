@@ -6,25 +6,28 @@ class Mapa_sidco extends MY_Controller {
         
     public function info(){
         header('Content-type: application/json');    
-        
-        $correcto = false;
-         
-        $params = $this->input->post(null, true);
-        
-        $kml = $this->_loadKml();
-        $identificador = $this->_searchIdentificador($kml, $params["nombre"]);
-        
-        if($identificador != null){
-            $correcto = true;
-            $url = "http://sidco.conaf.cl/mapa/popup.php?id=" . $identificador . "&key=2gTkrf%2FkZkN4pvHtRclb7c%2FUobAO57i0o8AdyhFdAwA%3D";
-        } else {
-            $url = "";
+        try{
+            $correcto = false;
+
+            $params = $this->input->post(null, true);
+
+            $kml = $this->_loadKml();
+            $identificador = $this->_searchIdentificador($kml, $params["nombre"]);
+
+            if($identificador != null){
+                $correcto = true;
+                $url = "http://sidco.conaf.cl/mapa/popup.php?id=" . $identificador . "&key=2gTkrf%2FkZkN4pvHtRclb7c%2FUobAO57i0o8AdyhFdAwA%3D";
+            } else {
+                $url = "";
+            }
+
+            echo json_encode(
+                    array("correcto" => $correcto,
+                          "url" => $url)
+                    );
+        } catch (Exception $e){
+            header("HTTP/1.1 404 Not Found");
         }
-        
-        echo json_encode(
-                array("correcto" => $correcto,
-                      "url" => $url)
-                );
          
     }
     
