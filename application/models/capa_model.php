@@ -35,6 +35,9 @@ class Capa_Model extends MY_Model {
         $this->load->helper('utils');
         $this->load->model("archivo_model", "ArchivoModel");
         $this->load->model("comuna_model", "ComunaModel");
+        $this->load->model('provincia_model', 'ProvinciaModel');
+        $this->load->model('region_model', 'RegionModel');
+
         $error = false;
         $lista_propiedades = '';
 
@@ -55,9 +58,9 @@ class Capa_Model extends MY_Model {
         $tmp_comunas = array();
 
         $poligono_comuna = -1;
-        if(!in_array('COMUNA',$propiedades)){
+        if(!in_array('COMUNA',$propiedades) and !in_array('PROVINCIA',$propiedades) and !in_array('REGION',$propiedades)){
             /*return 'No existe propiedad COMUNA';*/
-            $poligono_comuna = 0;
+            return 'La capa no trae atributos como REGION, PROVINCIA o COMUNA';
 
         }
 
@@ -321,17 +324,41 @@ class Capa_Model extends MY_Model {
                 $properties = addslashes(serialize($arr_propiedades));
 
                 /* obtener comuna */
-                if(isset($item->properties->COMUNA) and $poligono_comuna != 0){
+                $poligono_comuna = 0;
+                if(isset($item->properties->COMUNA)){
                     $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
-                    if(is_null($comuna)){
-                        if(!in_array($item->properties->COMUNA,$tmp_comunas))
-                            $tmp_comunas[] = $item->properties->COMUNA;
-                        continue;
+                    if($comuna){
+                        $comuna = $comuna[0];
+                        $poligono_comuna = $comuna->com_ia_id;
                     }
-                    $comuna = $comuna[0];
 
-                    $poligono_comuna = $comuna->com_ia_id;
+                }
+
+                /** obtener provincia */
+                $poligono_provincia = 0;
+                if(isset($item->properties->PROVINCIA)){
+                    $provincia = $this->ProvinciaModel->getByNombre($item->properties->PROVINCIA);
+
+                    if($provincia){
+                        $provincia = $provincia[0];
+                        $poligono_provincia = $provincia->prov_ia_id;
+                    }
+
+                }
+
+
+
+                /** obtener provincia */
+                $poligono_region = 0;
+                if(isset($item->properties->REGION)){
+                    $region = $this->RegionModel->getByNombre($item->properties->REGION);
+
+                    if($region){
+                        $region = $region[0];
+                        $poligono_region = $region->reg_ia_id;
+                    }
+
                 }
 
 
@@ -354,7 +381,7 @@ class Capa_Model extends MY_Model {
                     $id_tipo = $result[0]['geometria_id'];
                 }
 
-                $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_comuna,poligono_propiedades,poligono_geometria) value($id_tipo,$poligono_comuna,'$properties','$geometria')";
+                $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_comuna,poligono_propiedades,poligono_geometria,poligono_provincia,poligono_region) value($id_tipo,$poligono_comuna,'$properties','$geometria',$poligono_provincia,$poligono_region)";
                 $insertar = $this->db->query($query);
 
 
