@@ -285,11 +285,26 @@ var Layer = {};
     };
 
 
+    this.cargarDetalleCapa = function(id_capa){
+        $.ajax({
+            dataType: "html",
+            cache: false,
+            async: false,
+            data: {id_capa:id_capa},
+            type: "post",
+            url: siteUrl + "capas/ajax_grilla_capas",
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(html){
+                $("#contenedor-grilla-detalle-capa").html(html);
+            }
+        });
+    };
 
 
-
-    this.eliminarSubCapa = function(id_capa){
-        $.post(siteUrl + 'capas/validarSubCapaEmergencia',{capa:id_capa},function(response){
+    this.eliminarSubCapa = function(id_subcapa, id_capa){
+        $.post(siteUrl + 'capas/validarSubCapaEmergencia',{capa:id_subcapa},function(response){
             if(response.estado == true){
                 var mensaje = 'La subcapa a eliminar se encuentra asociada a una Emergencia. Desea eliminarla de todas formas?';
             }else{
@@ -298,10 +313,10 @@ var Layer = {};
             bootbox.confirm(mensaje, function(result) {
                 if(result){
                     /* eliminar capa */
-                    $.post(siteUrl + 'capas/eliminarSubCapa',{subcapa:id_capa},function(response){
+                    $.post(siteUrl + 'capas/eliminarSubCapa',{subcapa:id_subcapa},function(response){
                         if(response.estado == true){
                             bootbox.alert(response.mensaje,function(){
-                                Layer.initList();
+                                Layer.cargarDetalleCapa(id_capa);
                             });                
                         }else{
                             bootbox.dialog({title:'Error', message:response.mensaje});                

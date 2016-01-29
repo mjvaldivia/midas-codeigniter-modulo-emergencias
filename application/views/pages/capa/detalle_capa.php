@@ -8,19 +8,6 @@
 
 <script>
     $(document).ready(function(){
-        $.ajax({
-            dataType: "html",
-            cache: false,
-            async: true,
-            data: {id_capa:<?php echo $capa?>},
-            type: "post",
-            url: siteUrl + "capas/ajax_grilla_capas",
-            error: function(xhr, textStatus, errorThrown){
-
-            },
-            success:function(html){
-                $("#contenedor-grilla-detalle-capa").html(html);
-            }
-        });
+        Layer.cargarDetalleCapa(<?php echo $capa?>);
     });
 </script>
