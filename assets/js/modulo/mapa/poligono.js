@@ -59,8 +59,7 @@ var MapaPoligono = Class({
         $.each(geometry, function(i, coordenadas){
             var puntos = [];
             $.each(coordenadas, function(j, valores){
-                LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(valores[0]), parseFloat(valores[1]), zona);
-                puntos.push(new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1])));
+                puntos.push(new google.maps.LatLng(parseFloat(valores[1]), parseFloat(valores[0])));
             });
            
             var poligono = new google.maps.Polygon({
@@ -133,24 +132,6 @@ var MapaPoligono = Class({
         });
     },
     
-    /**
-     * Retorna coordenadas del poligono
-     * @param {object} geometry
-     * @param {string} zona
-     * @returns {Array}
-     */
-    coordenadas : function(geometry, zona){
-        var poligono = [];
-        var i;
-        $.each(geometry, function(i, coordenadas){
-           $.each(coordenadas, function(j, valores){
-               LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(valores[0]), parseFloat(valores[1]), zona);
-               poligono.push(new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1])));
-           });
-        });
-        
-        return poligono;
-    }
 });
 
 

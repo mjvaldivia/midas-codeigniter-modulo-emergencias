@@ -10,15 +10,9 @@ Class Visor_Capa_Comuna{
     
     /**
      *
-     * @var Capa_Geometria_Model 
+     * @var Capa_Detalle_Model 
      */
-    protected $_capa_geometria_model;
-    
-    /**
-     *
-     * @var Capa_Poligono_Informacion_Model
-     */
-    protected $_capa_poligono_model;
+    protected $_capa_detalle_model;
     
     /**
      *
@@ -44,28 +38,44 @@ Class Visor_Capa_Comuna{
      */
     public function __construct($lista_categorias, $comunas) {
         $this->_ci =& get_instance();
+        
         $this->_ci->load->model("capa_model");
-        $this->_ci->load->model("capa_geometria_model");
-        $this->_ci->load->model("capa_poligono_informacion_model");
-        $this->_capa_model = New Capa_Model();
-        $this->_capa_geometria_model = New Capa_Geometria_Model();
-        $this->_capa_poligono_model = New Capa_Poligono_Informacion_Model();
+        $this->_ci->load->model("capa_detalle_model");
+        $this->_ci->load->model("capa_detalle_elemento_model");
+        
+        $this->_capa_model = $this->_ci->capa_model;
+        $this->_capa_detalle_model = $this->_ci->capa_detalle_model;
+        
         $this->_comunas = $comunas;
         $this->_categorias = $lista_categorias;
     }
     
+    /**
+     * 
+     * @return string
+     */
     public function render(){
         $html = $this->_htmlTabCategoriaHeader()
                .$this->_htmlTabCategoriaContent();
         return $html;
     }
     
+    /**
+     * 
+     * @param type $id_categoria
+     * @return type
+     */
     public function _renderCapa($id_categoria){
         $html = $this->_htmlTabCapaHeader($id_categoria);
         $html .= $this->_htmlTabCapaContent($id_categoria);
         return $html;
     }
     
+    /**
+     * 
+     * @param type $id_categoria
+     * @return string
+     */
     protected function _htmlTabCapaHeader($id_categoria){
         $html = "<ul class=\"nav nav-tabs\" role=\"tablist\">";
         
@@ -110,7 +120,7 @@ Class Visor_Capa_Comuna{
             
             $html .= "<div role=\"tabpanel\" class=\"tab-pane top-spaced ".$class."\" id=\"capa_" . $capa["cap_ia_id"] . "\">";
             
-            $subcapas = $this->_capa_geometria_model->listarPorCapaComuna($capa["cap_ia_id"], $this->_comunas);
+            $subcapas = $this->_capa_detalle_model->listarPorCapaComuna($capa["cap_ia_id"], $this->_comunas);
             
             $html .= "<div class=\"col-lg-12\">" 
                      . $this->_ci->load->view(
@@ -163,10 +173,14 @@ Class Visor_Capa_Comuna{
         return $html;
     }
     
+    /**
+     * 
+     * @return string
+     */
     protected function _htmlTabCategoriaHeader(){
         $html = "<div class=\"col-xs-3\">"
               . "<ul class=\"nav nav-pills tabs-left\" role=\"tablist\">";
-        fb($this->_categorias);
+
         $primero = true;
         foreach($this->_categorias as $key => $categoria){
             

@@ -53,15 +53,15 @@ class Mapa extends MY_Controller {
     
     /**
      *
-     * @var Capa_Poligono_Informacion_Model
+     * @var Capa_Detalle_Elemento_Model
      */
-    public $_capa_poligono_informacion_model;
+    public $_capa_detalle_elemento_model;
     
     /**
      *
-     * @var Capa_Geometria_Model 
+     * @var Capa_Detalle_Model 
      */
-    public $_capa_geometria_model;
+    public $_capa_detalle_model;
     
     /**
      *
@@ -95,8 +95,8 @@ class Mapa extends MY_Controller {
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
         $this->load->model("comuna_model", "_comuna_model");
-        $this->load->model("capa_poligono_informacion_model", "_capa_poligono_informacion_model");
-        $this->load->model("capa_geometria_model", "_capa_geometria_model");
+        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
+        $this->load->model("capa_detalle_model", "_capa_detalle_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
         $this->load->model("archivo_model", "_archivo_model");
     }
@@ -202,7 +202,7 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
         
-        $subcapa = $this->_capa_geometria_model->getById($params["capa"]);
+        $subcapa = $this->_capa_detalle_model->getById($params["capa"]);
         
         if(is_null($subcapa)){
             $nombre_subcapa = "";
@@ -264,9 +264,9 @@ class Mapa extends MY_Controller {
         $data = array("correcto" => false,
                       "error" => "");
         $params = $this->input->post(null, true);
-        $elemento = $this->_capa_poligono_informacion_model->getById($params["id"]);
+        $elemento = $this->_capa_detalle_elemento_model->getById($params["id"]);
         if(!is_null($elemento)){
-            $subcapa = $this->_capa_geometria_model->getById($elemento->poligono_capitem);
+            $subcapa = $this->_capa_detalle_model->getById($elemento->poligono_capitem);
             $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
             
             if($subcapa->geometria_icono != ""){

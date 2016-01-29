@@ -368,18 +368,12 @@ var MapaEditor = Class({
         var divOptions4 = {
         		gmap: map,
         		label: 'Sidco - Conaf',
-        		title: "Incendios en el pais",
+        		title: "Incendios en el país",
         		id: "sidco_conaf",
         		action: function(){
-                            var kmzLayer = new google.maps.KmlLayer("http://sidco.conaf.cl/mapa/earth-data.php?key=2gTkrf%2FkZkN4pvHtRclb7c%2FUobAO57i0o8AdyhFdAwA%3D",{
-                                suppressInfoWindows: false,
-                                preserveViewport: true
-                            });
-                            kmzLayer.setMap(map);
-
-                            kmzLayer.addListener('click', function(kmlEvent) {
-                                console.log(kmlEvent)
-                            });
+                            var sidco = new MapaKmlSidcoConaf();
+                            sidco.seteaMapa(map);
+                            sidco.loadKml();
         		}
         }
        

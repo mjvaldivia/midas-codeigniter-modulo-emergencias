@@ -215,24 +215,28 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
     popupMetros : function(mapa, marker){
         this.mapa = mapa;
         var yo = this;
-        var latLon = marker.getPosition();            
+        var latLon = marker.getPosition();    
+        
         bootbox.dialog({
-                message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
-                title: "<i class=\"fa fa-arrow-right\"></i> Ingrese la cantidad de metros del radio de la alarma",
-                buttons: {
-                    guardar: {
-                        label: " Guardar",
-                        className: "btn-success fa fa-save",
-                        callback: function() {
-                            return yo.addCirculo(marker);
-                        }
-                    },
-                    cerrar: {
-                        label: " Cerrar ventana",
-                        className: "btn-white fa fa-close",
-                        callback: function() {}
+            message: "<div id=\"contenido-popup-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+            title: "<i class=\"fa fa-arrow-right\"></i> Ingrese la cantidad de metros del radio de la alarma",
+            buttons: {
+                guardar: {
+                    label: " Guardar",
+                    className: "btn-success fa fa-save",
+                    callback: function() {
+                        return yo.addCirculo(marker);
+                    }
+                },
+                cerrar: {
+                    label: " Cerrar ventana",
+                    className: "btn-white fa fa-close",
+                    callback: function() {
+                        yo.drawing_manager.setMap(null);
+                        yo.drawing_manager = null;
                     }
                 }
+            }
         });
 
         var parametros = {};

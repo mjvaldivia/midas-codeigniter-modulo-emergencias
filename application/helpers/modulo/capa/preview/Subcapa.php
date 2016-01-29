@@ -35,11 +35,11 @@ Class Capa_Preview_Subcapa{
      */
     public function __construct() {
         $this->_ci =& get_instance();
-        $this->_ci->load->model("capa_geometria_model");
+        $this->_ci->load->model("capa_detalle_model");
         $this->_ci->load->model("capa_model");
         
-        $this->_capa_model = New Capa_Model();
-        $this->_subcapa_model = New Capa_Geometria_Model();
+        $this->_capa_model = $this->_ci->capa_model;
+        $this->_subcapa_model = $this->_ci->capa_detalle_model;
     }
     
     /**
@@ -49,13 +49,11 @@ Class Capa_Preview_Subcapa{
     public function render(){
         $capa = $this->_capa_model->getById($this->_subcapa->geometria_capa);
         if($capa->color != ""){
-            
             if(!empty($this->_subcapa->geometria_icono)){
                 $color = $this->_subcapa->geometria_icono;
             } else {
                 $color = $capa->color;
             }
-            
             return "<div class=\"color-capa-preview\" style=\"background-color:".$color."\"></div>";
         } elseif($capa->icon_path != ""){
             if(!empty($this->_subcapa->geometria_icono)){

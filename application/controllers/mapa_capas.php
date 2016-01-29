@@ -10,9 +10,9 @@ class Mapa_capas extends MY_Controller {
     
     /**
      *
-     * @var Capa_Geometria_Model
+     * @var Capa_Detalle_Model
      */
-    public $_capa_geometria_model;
+    public $_capa_detalle_model;
     
     /**
      *
@@ -34,7 +34,7 @@ class Mapa_capas extends MY_Controller {
         $this->load->library("emergencia/emergencia_comuna");
         $this->load->model("emergencia_capa_model", "_emergencia_capa_model");
         $this->load->model("emergencia_model", "_emergencia_model");
-        $this->load->model("capa_geometria_model", "_capa_geometria_model");
+        $this->load->model("capa_detalle_model", "_capa_detalle_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
     }
     
@@ -89,7 +89,7 @@ class Mapa_capas extends MY_Controller {
         
         $carga = array();
         
-        $lista_subcapa = $this->_capa_geometria_model->listarGeometriaProvincias();
+        $lista_subcapa = $this->_capa_detalle_model->listarGeometriaProvincias();
         if(!is_null($lista_subcapa)){
             foreach($lista_subcapa as $subcapa){
                  $carga = array_merge($carga , $this->visor_capa_provincia->cargaCapa($subcapa["geometria_id"], $params["id_emergencia"]));
