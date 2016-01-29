@@ -17,8 +17,7 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                
                 var coord = [];
                 $.each(coordenadas, function(k, valores){
-                    var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(valores[0]), parseFloat(valores[1]), zona);
-                    coord.push(new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1])));
+                    coord.push(new google.maps.LatLng(parseFloat(valores[1]), parseFloat(valores[0])));
                 });
            
                 var poligono = new google.maps.Polygon({

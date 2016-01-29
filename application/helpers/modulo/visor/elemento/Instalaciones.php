@@ -13,15 +13,15 @@ Class Visor_Elemento_Instalaciones{
     
     /**
      *
-     * @var Capa_Geometria_Model 
+     * @var Capa_Detalle_Model 
      */
-    protected $_capa_geometria_model;
+    protected $_capa_detalle_model;
     
     /**
      *
-     * @var Capa_Poligono_Informacion_Model 
+     * @var Capa_Detalle_Elemento_Model 
      */
-    protected $_capa_poligono_informacion_model;
+    protected $_capa_detalle_elemento_model;
     
     /**
      *
@@ -37,15 +37,16 @@ Class Visor_Elemento_Instalaciones{
         $this->_ci =& get_instance();
         $this->_ci->load->model("capa_model");
         $this->_ci->load->helper("modulo/capa/capa");
-        $this->_ci->load->model("capa_geometria_model");
-        $this->_ci->load->model("capa_poligono_informacion_model");
-        $this->_capa_model = New Capa_Model();
-        $this->_capa_geometria_model = New Capa_Geometria_Model();
-        $this->_capa_poligono_informacion_model = New Capa_Poligono_Informacion_Model();
+        $this->_ci->load->model("capa_detalle_model");
+        $this->_ci->load->model("capa_detalle_elemento_model");
+        
+        $this->_capa_model           = $this->_ci->capa_model;
+        $this->_capa_detalle_model = $this->_ci->capa_detalle_model;
+        $this->_capa_detalle_elemento_model = $this->_ci->capa_detalle_elemento_model;
         
         if(count($lista)>0){
             foreach($lista as $key => $marcador){
-                $subcapa = $this->_capa_geometria_model->getById($marcador->CAPA);
+                $subcapa = $this->_capa_detalle_model->getById($marcador->CAPA);
                 if(!is_null($subcapa)){
                     unset($marcador->CAPA);
                     $lista_marcadores[getSubCapaPreview($subcapa->geometria_id) . " " . $subcapa->geometria_nombre][$key] = $marcador;

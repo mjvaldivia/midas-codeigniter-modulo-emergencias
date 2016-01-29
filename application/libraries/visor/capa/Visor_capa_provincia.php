@@ -16,7 +16,7 @@ Class Visor_capa_provincia{
 
         $this->_ci->load->model("emergencia_model", "_emergencia_model");
         $this->_ci->load->model("emergencia_capa_model", "_emergencia_capa_model");
-        $this->_ci->load->model("capa_geometria_model", "_capa_geometria_model");
+        $this->_ci->load->model("capa_detalle_model", "_capa_detalle_model");
         $this->_ci->load->model("capa_model", "_capa_model");
         $this->_ci->load->model("capa_poligono_provincia_model", "_capa_poligono_provincia_model");
         $this->_ci->load->model("provincia_model", "_provincia_model");
@@ -65,7 +65,7 @@ Class Visor_capa_provincia{
     protected function _cargaCapa($id_geometria, $lista_provincias = array()){
         $retorno = null;
         
-        $subcapa = $this->_ci->_capa_geometria_model->getById($id_geometria);
+        $subcapa = $this->_ci->_capa_detalle_model->getById($id_geometria);
         if(!is_null($subcapa)){
             $capa = $this->_ci->_capa_model->getById($subcapa->geometria_capa);
             if(!is_null($capa)){

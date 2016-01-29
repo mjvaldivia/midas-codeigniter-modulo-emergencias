@@ -3,7 +3,10 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Capa_Geometria_Model extends MY_Model {
+/**
+ * 
+ */
+class Capa_Detalle_Model extends MY_Model {
     
     /**
      * Se utiliza emergencias_simulacion o no

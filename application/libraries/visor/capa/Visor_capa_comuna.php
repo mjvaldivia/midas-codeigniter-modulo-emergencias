@@ -16,9 +16,9 @@ Class Visor_capa_comuna{
         $this->_ci->load->library("emergencia/emergencia_comuna");
         $this->_ci->load->model("emergencia_model", "_emergencia_model");
         $this->_ci->load->model("emergencia_capa_model", "_emergencia_capa_model");
-        $this->_ci->load->model("capa_geometria_model", "_capa_geometria_model");
+        $this->_ci->load->model("capa_detalle_model", "_capa_detalle_model");
         $this->_ci->load->model("capa_model", "_capa_model");
-        $this->_ci->load->model("capa_poligono_informacion_model", "_capa_poligono_informacion_model");
+        $this->_ci->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
     }
     
     /**
@@ -83,12 +83,12 @@ Class Visor_capa_comuna{
     protected function _cargaCapa($id_geometria, $lista_comunas = array()){
         $retorno = null;
         
-        $subcapa = $this->_ci->_capa_geometria_model->getById($id_geometria);
+        $subcapa = $this->_ci->_capa_detalle_model->getById($id_geometria);
         if(!is_null($subcapa)){
             $capa = $this->_ci->_capa_model->getById($subcapa->geometria_capa);
             if(!is_null($capa)){
                 $json = array();
-                $lista_poligonos = $this->_ci->_capa_poligono_informacion_model->listarPorSubcapaComuna($subcapa->geometria_id, $lista_comunas);
+                $lista_poligonos = $this->_ci->_capa_detalle_elemento_model->listarPorSubcapaComuna($subcapa->geometria_id, $lista_comunas);
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
                         $json[] = array(

@@ -1,15 +1,20 @@
+//lista de capas cargadas en el visor
 capas_visor = [];
 
-
 var MapaCapa = Class({
+    
     mapa : null,
     capas : {},
     bo_capas_cargadas : false,
+    
+    //elementos
     class_linea : null,
     class_multilinea : null,
     class_marcador : null,
     class_poligono : null,
     class_multipoligono : null,
+    
+    //identificador de la emergencia
     id_emergencia : null,
     
     /**
@@ -73,11 +78,8 @@ var MapaCapa = Class({
      * @returns {undefined}
      */
     addElemento : function(mapa, id_elemento){
-        var yo = this;
-        this.class_marcador.seteaMapa(mapa);
-        this.class_poligono.seteaMapa(mapa);
-        this.class_multipoligono.seteaMapa(mapa);
-        this.class_multilinea.seteaMapa(mapa);
+        this.seteaMapa(mapa);
+        var yo = this;        
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -90,7 +92,15 @@ var MapaCapa = Class({
             },
             success:function(data){
                 if(data.correcto){
-                    yo.elemento(data.resultado.id, data.resultado.geojson, data.resultado.propiedades, data.resultado.id_subcapa, data.resultado.zona, data.resultado.icono, data.resultado.color);
+                    yo.elemento(
+                            data.resultado.id, 
+                            data.resultado.geojson, 
+                            data.resultado.propiedades, 
+                            data.resultado.id_subcapa, 
+                            data.resultado.zona, 
+                            data.resultado.icono, 
+                            data.resultado.color
+                    );
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -119,9 +129,6 @@ var MapaCapa = Class({
      */
     addCapa : function(id_subcapa){
         var yo = this;
-        
-        console.log("Agregando Sub-Capa " + id_subcapa);
-        
         Messenger().run({
             action: $.ajax,
             successMessage: 'Capa cargada correctamente',
@@ -134,13 +141,9 @@ var MapaCapa = Class({
             data: "id=" + id_subcapa + "&id_emergencia=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa_capas/ajax_carga_capa_comuna", 
-            error: function(xhr, textStatus, errorThrown){
-
-            },
             success:function(data){
                 if(data.correcto){
                     if(($.isEmptyObject(yo.capas[id_subcapa]))){
-                        console.log("Cargando nueva capa " + id_subcapa);
                         yo.capas[id_subcapa] = data.capa;
                         yo.cargaCapa(id_subcapa, data.capa);
                         yo.listaCapasVisor();
@@ -230,6 +233,10 @@ var MapaCapa = Class({
         
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     listaCapasVisor : function(){
         var html = "";
         var cantidad = 0;

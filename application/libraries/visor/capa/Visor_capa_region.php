@@ -16,7 +16,7 @@ Class Visor_capa_region{
         $this->_ci->load->library("cache");
         $this->_ci->load->model("emergencia_model", "_emergencia_model");
         $this->_ci->load->model("emergencia_capa_model", "_emergencia_capa_model");
-        $this->_ci->load->model("capa_geometria_model", "_capa_geometria_model");
+        $this->_ci->load->model("capa_detalle_model", "_capa_detalle_model");
         $this->_ci->load->model("capa_model", "_capa_model");
         $this->_ci->load->model("capa_poligono_region_model", "_capa_poligono_region_model");
         $this->_ci->load->model("region_model", "_region_model");
@@ -97,7 +97,7 @@ Class Visor_capa_region{
     protected function _cargaCapa($lista_regiones = array()){
         $retorno = null;
         
-        $lista_subcapa = $this->_ci->_capa_geometria_model->listarGeometriaRegion($lista_regiones);
+        $lista_subcapa = $this->_ci->_capa_detalle_model->listarGeometriaRegion($lista_regiones);
         if(!is_null($lista_subcapa)){
 
             foreach($lista_subcapa as $subcapa){

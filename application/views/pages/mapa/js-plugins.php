@@ -35,6 +35,7 @@
 
 <?= loadJS("assets/js/modulo/mapa/kml.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/kml/importar.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/kml/sidco-conaf.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
 
