@@ -109,8 +109,12 @@ var Layer = {};
                    language: {
                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                    },
+                   bFilter: true,
                    bPaginate : false,
-                   order: [[0, "desc"]],
+                   paging:   false,
+                   ordering: false,
+                   info:     false,
+                   sDom: 't',
                    initComplete: function(){
                        $('#div_color').removeClass("hidden");
                    }
@@ -124,29 +128,20 @@ var Layer = {};
                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                    },
                    bPaginate : false,
-                   order: [[0, "desc"]],
+                   paging:   false,
+                   ordering: false,
+                   info:     false,
+                   bSearchBox: false,
+                   sDom: 't',
                    initComplete: function(){
-                       $("#cargando_geojson").fadeOut();
+                       $("#cargando_geojson").fadeOut(function(){
+                           $("#btn-guardar-capa").attr('disabled',false);
+                       });
                        $('#div_properties').slideDown('slow');
                    }
 
                });
 
-               $('#tabla_comunas').DataTable({
-                   data: filename,
-                   language: {
-                       url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
-                   },
-                   order: [[0, "desc"]],
-                   bPaginate: false,
-                   initComplete: function(){
-                       $(".iComunas").jCombo(siteUrl + "comuna/json_comunas_usuario");
-
-
-                       $('#div_comunas').slideDown('slow');
-
-                   }
-               });
            }
 
             
@@ -210,7 +205,8 @@ var Layer = {};
                             callback: function(){
                                 if(form.capa_edicion === undefined){
                                     $(btn).attr('disabled',false);
-                                    location.reload();    
+                                    Layer.initList();
+                                    xModal.closeAll();
                                 }else{
                                     $("#tab3").fadeOut(function(){
                                         $("#tab-editar").fadeOut(function(){
@@ -236,7 +232,7 @@ var Layer = {};
                         danger: {
                             label: "Cerrar",
                             className: "btn-danger",
-                           callback : function(){
+                            callback : function(){
                             $(btn).attr('disabled',false).html(btnText);
                            }
                         }

@@ -796,8 +796,8 @@ class Capa_Model extends MY_Model {
                     left join capas_geometria cg on cg.geometria_id = cpi.poligono_capitem
                     left join capas cp on cp.cap_ia_id = cg.geometria_capa
                     LEFT join comunas c on c.com_ia_id = cpi.poligono_comuna
-                    inner join provincias p on p.prov_ia_id = c.prov_ia_id 
-                    inner join regiones r on r.reg_ia_id = p.reg_ia_id 
+                    LEFT join provincias p on p.prov_ia_id = c.prov_ia_id
+                    LEFT join regiones r on r.reg_ia_id = p.reg_ia_id
                     where cpi.poligono_id = ?";
         $result = $this->db->query($query,array($id_item));
 

@@ -492,6 +492,8 @@ class Capas extends MY_Controller
         $data['id_subcapa'] = $item['poligono_capitem'];
         $data['subcapa'] = $item['geometria_nombre'];
         $data['comuna'] = $item['com_c_nombre'];
+        $data['provincia'] = $item['prov_c_nombre'];
+        $data['region'] = $item['reg_c_nombre'];
         $data['capa'] = $item['cap_c_nombre'];
         $data['id_region'] = $item['reg_ia_id'];
         $data['geozone'] = $item['reg_geozone'];
@@ -626,5 +628,13 @@ class Capas extends MY_Controller
         $comunas = $this->ComunaModel->listar();
         $this->load->view('pages/capa/listado_comunas',array('comunas' => $comunas));
     }
-    
+
+
+    public function nuevaCapa(){
+
+        $this->load->view('pages/capa/nueva_capa');
+
+    }
+
+
 }
