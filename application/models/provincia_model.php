@@ -34,4 +34,19 @@ class Provincia_Model extends MY_Model{
         }
     }
 
+
+
+    public function getByNombre($nombre){
+        $query = 'select p.* from '.$this->_tabla.' p
+                left join regiones r on r.reg_ia_id = p.reg_ia_id
+                where p.prov_c_nombre like "%'.$nombre.'%" limit 1';
+        $result = $this->db->query($query);
+
+        if($result->num_rows() > 0){
+            return $result->result_object();
+        }else{
+            return null;
+        }
+    }
+
 }

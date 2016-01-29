@@ -92,7 +92,7 @@ class Comuna_Model extends MY_Model
         $query = 'select c.* from '.$this->_tabla.' c
                 left join provincias p on p.prov_ia_id = c.prov_ia_id
                 left join regiones r on r.reg_ia_id = p.reg_ia_id
-                where c.com_c_nombre like "'.$nombre.'"';
+                where c.com_c_nombre like "%'.$nombre.'%" limit 1';
         $result = $this->db->query($query);
 
         if($result->num_rows() > 0){

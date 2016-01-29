@@ -62,5 +62,18 @@ class Region_Model extends MY_Model{
             return NULL;
         }
     }
+
+
+
+    public function getByNombre($nombre){
+        $query = 'select r.* from '.$this->_tabla.' r where r.reg_c_nombre like "%'.$nombre.'%" limit 1';
+        $result = $this->db->query($query);
+
+        if($result->num_rows() > 0){
+            return $result->result_object();
+        }else{
+            return null;
+        }
+    }
 }
 
