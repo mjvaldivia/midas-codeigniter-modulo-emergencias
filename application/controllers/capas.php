@@ -637,4 +637,12 @@ class Capas extends MY_Controller
     }
 
 
+    public function verDetalleCapa(){
+        $params = $this->uri->uri_to_assoc();
+        $data = array();
+        $data['capa'] = $params['capa'];
+        $this->load->view('pages/capa/detalle_capa',$data);
+    }
+
+
 }

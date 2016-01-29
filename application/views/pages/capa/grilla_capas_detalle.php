@@ -1,4 +1,4 @@
-<table id="tblCapas" class="table table-bordered table-striped datatable paginada hidden small">
+<table id="tblCapas" class="table table-bordered table-striped datatable paginada">
     <thead>
         <tr>
             <th class="text-center">Nombre</th>

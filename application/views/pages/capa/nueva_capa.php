@@ -17,51 +17,6 @@
                     <select id="iCategoria" name="iCategoria" class="form-control required" placeholder="Categoría de la(s) Capa(s)"></select>
                 </div>
             </div>
-            <!--                    <div class="form-group">-->
-            <!--                        <label class="col-md-3 control-label">Zona Geográfica (*)</label>-->
-            <!--                        <div class="col-md-7 row">-->
-            <!--                            <div class="col-md-2" style="min-width:10%">-->
-            <!--                            -->
-            <!--                           <select id="gznumber" name="gznumber" class="form-control">-->
-            <!--                                <option value="12">12</option>-->
-            <!--                                <option value="13">13</option>-->
-            <!--                                <option value="14">14</option>-->
-            <!--                                <option value="15">15</option>-->
-            <!--                                <option value="16">16</option>-->
-            <!--                                <option value="17">17</option>-->
-            <!--                                <option value="18">18</option>-->
-            <!--                                <option selected value="19">19</option>-->
-            <!--                                <option value="20">20</option>-->
-            <!--                            </select>-->
-            <!--                        </div>-->
-            <!--                          <div class="col-md-1" style="min-width:15%">  -->
-            <!--                            <select id="gzletter" name="gzletter" class="form-control">-->
-            <!--                                <option value="C">C</option>-->
-            <!--                                <option value="D">D</option>-->
-            <!--                                <option value="E">E</option>-->
-            <!--                                <option value="F">F</option>-->
-            <!--                                <option value="G">G</option>-->
-            <!--                                <option  selected value="H">H</option>-->
-            <!--                                <option value="J">J</option>-->
-            <!--                                <option value="K">K</option>-->
-            <!--                                <option value="L">L</option>-->
-            <!--                                <option value="M">M</option>-->
-            <!--                                <option value="N">N</option>-->
-            <!--                                <option value="P">P</option>-->
-            <!--                                <option value="Q">Q</option>-->
-            <!--                                <option value="R">R</option>-->
-            <!--                                <option value="S">S</option>-->
-            <!--                                <option value="T">T</option>-->
-            <!--                                <option value="U">U</option>-->
-            <!--                                <option value="V">V</option>-->
-            <!--                                <option value="W">W</option>-->
-            <!--                                <option value="X">X</option>-->
-            <!--                                <option value="Z">Z</option>-->
-            <!--                            </select>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-
 
             <div class="form-group">
                 <label class="col-md-3 col-xs-12 control-label">Capa (*)</label>

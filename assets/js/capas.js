@@ -524,26 +524,9 @@ var Layer = {};
 
 
     this.listarCapasDetalle = function(id_capa,nombre_capa){
-        $("#tab2 > #div_tab_2").fadeOut(function(){
-            $.ajax({
-                dataType: "html",
-                cache: false,
-                async: true,
-                data: {id_capa:id_capa},
-                type: "post",
-                url: siteUrl + "capas/ajax_grilla_capas",
-                error: function(xhr, textStatus, errorThrown){
+        xModal.open(siteUrl + 'capas/verDetalleCapa/capa/'+id_capa,nombre_capa + ' :: Subcapas', 'lg');
+        console.log($("#contenedor-grilla-detalle-capa").length);
 
-                },
-                success:function(html){
-                    $("#contenedor-grilla-capas").html(html);
-                    $("#resultados_capa").html(' para capa <strong>'+nombre_capa+'</strong>  <button type="button" class="btn btn-sm btn-square btn-success" title="Volver a Listado de Capas" onclick="Layer.volverListadoCapas();"><i class="fa fa-arrow-left"></i></button>');
-                    $("#tab2 > #div_tab_2").fadeIn(function(){
-
-                    });
-                }
-            });
-        });
     } ;
 
 
