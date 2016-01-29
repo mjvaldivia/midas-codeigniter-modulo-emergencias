@@ -381,7 +381,7 @@ class Capa_Model extends MY_Model {
                     $id_tipo = $result[0]['geometria_id'];
                 }
 
-                $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_comuna,poligono_propiedades,poligono_geometria,poligono_provincia,poligono_region) value($id_tipo,$poligono_comuna,'$properties','$geometria',$poligono_provincia,$poligono_region)";
+                $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_region,poligono_provincia,poligono_comuna,poligono_propiedades,poligono_geometria) value($id_tipo,$poligono_region,$poligono_provincia,$poligono_comuna,'$properties','$geometria')";
                 $insertar = $this->db->query($query);
 
 
