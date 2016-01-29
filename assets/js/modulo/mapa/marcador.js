@@ -52,18 +52,7 @@ var MapaMarcador = Class({
     posicionarMarcador : function(id, capa, lon, lat, propiedades, zona, imagen){
         var yo = this;
         
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(lon), 
-                                                   parseFloat(lat), 
-                                                   zona);
-        if(!(latLon[0] >= -90 && latLon[0] <= 90)){
-            latLon[0] = lat;
-        }
-        
-         if(!(latLon[1] >= -90 && latLon[1] <= 90)){
-            latLon[1] = lon;
-        }
-
-        var posicion = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
+        var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
 
         marker = new google.maps.Marker({
             position: posicion,

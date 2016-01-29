@@ -91,11 +91,67 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             icon: imagen
         });  
 
+        this.listenerRightClick(marker);
         this.informacionMarcador(marker);
         
         this.dibujarCirculo(id, lon, lat, radio, propiedades);
 
         lista_markers.push(marker);
+    },
+    
+    /**
+     * Menu al hacer click con boton derecho
+     * @param {google.maps.Marker} marker
+     * @returns {void}
+     */
+    listenerRightClick : function(marker){
+        var contextMenuOptions={}; 
+        
+        contextMenuOptions.classNames = {
+            menu:'context_menu', 
+            menuSeparator:'context_menu_separator'
+        }; 
+
+        var menuItems=[]; 
+       
+        menuItems.push({
+            className:'context_menu_item', 
+            eventName:'agregar_zona_lugar_emergencia', 
+            label:'<i class=\"fa fa-plus\"></i> Agregar zona '
+        });
+        
+        menuItems.push({});
+        
+        menuItems.push({
+            className:'context_menu_item', 
+            eventName:'eliminar_lugar_emergencia_click', 
+            label:'<i class=\"fa fa-remove\"></i> Eliminar lugar de la emergencia'
+        });
+         
+        contextMenuOptions.menuItems=menuItems; 
+
+        var contextMenu = new ContextMenu(
+            this.mapa , 
+            contextMenuOptions
+        ); 
+
+        google.maps.event.addListener(marker, 'rightclick', function(mouseEvent){ 
+            contextMenu.show(mouseEvent.latLng); 
+        }); 
+        
+        
+        google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
+            switch(eventName){
+                case 'agregar_zona_lugar_emergencia':
+                    
+                break;
+                case 'eliminar_lugar_emergencia_click':
+                    var elemento = new MapaElementoCustom();
+                    elemento.removeOneCustomElements("clave", marker.clave);
+                break;
+
+            }
+	});
     },
     
     /**

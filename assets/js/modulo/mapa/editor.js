@@ -389,7 +389,8 @@ var MapaEditor = Class({
         
         //put them all together to create the drop down       
         var ddDivOptions = {
-        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3, sep3, optionDiv4],
+        	//items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3, sep3, optionDiv4],
+                items: [sep0, optionDiv1, sep3, optionDiv4],
         	id: "myddOptsDiv"        		
         }
         //alert(ddDivOptions.items[1]);
