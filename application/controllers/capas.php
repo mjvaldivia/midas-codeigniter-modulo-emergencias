@@ -224,9 +224,9 @@ class Capas extends MY_Controller
 
 
         $query = 'select SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)). ' from '.$sTable.' ';
-        $query .= 'INNER JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
-                    INNER JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
-                    INNER JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
+        $query .= 'LEFT JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
+                    LEFT JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
+                    LEFT JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
         $query = $query . $where . $order . $limit;
         /*$this->db->where('poligono_capitem',$subcapa);
         $this->db->join('comunas c','c.com_ia_id = capas_poligonos_informacion.poligono_comuna','inner');
