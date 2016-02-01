@@ -28,8 +28,8 @@ var AlarmaMapa = Class({
     marker : null,
     geozone : "19H",
     id_div_mapa : "",
-    latitud : 6340442,
-    longitud : 256029,
+    latitud : -33.04864,
+    longitud : -71.613353,
     callback : null,
     
     /**
@@ -95,13 +95,13 @@ var AlarmaMapa = Class({
     initialize : function(){
         
         var yo = this;
-        console.log(yo.geozone);
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(yo.longitud), 
+
+        /*var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(yo.longitud),
                                                    parseFloat(yo.latitud), 
-                                                   yo.geozone);
+                                                   yo.geozone);*/
 
 
-        var myLatlng = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
+        var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud),parseFloat(yo.longitud));
 
         var mapOptions = {
           zoom: 15,
@@ -146,11 +146,10 @@ var AlarmaMapa = Class({
                 var region = place.address_components[index].long_name;  
 
                 yo.geozone = regiones[region];
-                console.log(yo.geozone);
                 
-                var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
-                $('#longitud').val(punto[0]);
-                $('#latitud').val(punto[1]);
+                //var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
+                $('#longitud').val(parseFloat(place.geometry.location.lng()));
+                $('#latitud').val(parseFloat(place.geometry.location.lat()));
                 $('.mapa-coordenadas').trigger("change");
             });
         });
@@ -164,16 +163,16 @@ var AlarmaMapa = Class({
      * @returns {void}
      */
     setInputs : function(posicion){
-        var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(posicion.lng()), parseFloat(posicion.lat()));
+        //var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(posicion.lng()), parseFloat(posicion.lat()));
         //console.log(results[0].geometry.location.lat());
-        $('#longitud').val(punto[0]);
-        $('#latitud').val(punto[1]);
+        $('#longitud').val(parseFloat(posicion.lng()));
+        $('#latitud').val(parseFloat(posicion.lat()));
     },
     
     setMarkerInputs : function(){
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat($('#longitud').val()), parseFloat($('#latitud').val()), this.geozone);
-        this.marker.setPosition( new google.maps.LatLng( parseFloat(latLon[0]), parseFloat(latLon[1]) ) );
-        this.mapa.panTo( new google.maps.LatLng( parseFloat(latLon[0]), parseFloat(latLon[1]) ) );
+        //var latLon = GeoEncoder.utmToDecimalDegree(parseFloat($('#longitud').val()), parseFloat($('#latitud').val()), this.geozone);
+        this.marker.setPosition( new google.maps.LatLng( parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
+        this.mapa.panTo( new google.maps.LatLng(parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
     },
     
     /**

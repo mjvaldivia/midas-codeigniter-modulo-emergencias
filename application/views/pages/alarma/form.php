@@ -54,7 +54,7 @@
                                     <div class="row">
                                         <div class="col-md-7">
                                             <div class="form-group clearfix">
-                                                <label for="nombre-informante" class="control-label">Nombre del informante (*):</label>
+                                                <label for="nombre-informante" class="control-label">Origen de la información (*):</label>
                                                 <input value="<?php echo $nombre_informante; ?>" class="form-control" name="nombre_informante" id="nombre_informante">
                                                 <span class="help-block hidden"></span>
                                             </div>
@@ -102,9 +102,22 @@
                             <div class="row">
                                 <div class="col-md-7 text-left">
                                     <div class="form-group clearfix">
-                                        <label for="nombre_lugar" class="control-label">Lugar o dirección de la emergencia (*):</label>
+                                        <label for="nombre_lugar" class="control-label">Dirección/Ubicación del evento (*):</label>
                                         <input  class="form-control" name="nombre_lugar" id="nombre_lugar" value="<?php echo $nombre_lugar; ?>" />
                                         <span class="help-block hidden"></span>
+                                    </div>
+                                    <div class="col-md-12 text-center">
+                                        <div class="form-group clearfix">
+                                            <label for="nombre_lugar" class="control-label col-sm-12">Comuna(s) afectada(s) (*):</label>
+                                            <div class="input-group col-sm-12">
+                                                <?php echo formElementSelectComunaUsuario("comunas[]", $lista_comunas); ?>
+                                            </div>
+
+                                            <div class="clearfix"></div>
+
+                                            <div class="col-sm-4"></div>
+                                            <span class="help-block hidden col-sm-8"></span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -115,6 +128,8 @@
                                         <span class="help-block hidden col-sm-8"></span>
                                     </div>
                                 </div>
+
+
                             </div>
 
                             <div class="row">
@@ -123,7 +138,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group clearfix">
-                                                    <label for="fecha_emergencia" class="control-label">Fecha/Hora de la emergencia:</label>
+                                                    <label for="fecha_emergencia" class="control-label">Ocurrencia del evento:</label>
                                                     <div class="input-group col-sm-12" id="div-fecha">
                                                         <input value="<?php echo $fecha_emergencia; ?>" class="form-control datepicker" placeholder="Fecha / Hora" name="fecha_emergencia" id="fecha_emergencia">
                                                         <div class="input-group-addon" style="cursor: pointer">
@@ -139,21 +154,6 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-12 text-left">
-                                    <div class="form-group clearfix">
-                                        <label for="nombre_lugar" class="control-label col-sm-4">Comuna(s) afectada(s) (*):</label>
-                                        <div class="input-group col-sm-8">
-                                            <?php echo formElementSelectComunaUsuario("comunas[]", $lista_comunas); ?>
-                                        </div>
-
-                                        <div class="clearfix"></div>
-
-                                        <div class="col-sm-4"></div>
-                                        <span class="help-block hidden col-sm-8"></span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
