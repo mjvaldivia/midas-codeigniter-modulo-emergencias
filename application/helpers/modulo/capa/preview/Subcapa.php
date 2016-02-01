@@ -61,7 +61,7 @@ Class Capa_Preview_Subcapa{
             } else {
                 $icono = base_url($capa->icon_path);
             }
-            return "<img src=\"" . $icono . "\" title=\"Icono de capa\" style=\"height: 30px;\"  >";
+            return "<img src=\"" . $icono . "\" title=\"Icono de capa\" style=\"height: 15px;\"  >";
         }
     }
     

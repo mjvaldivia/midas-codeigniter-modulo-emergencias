@@ -9,6 +9,12 @@ Class Visor_capa_elemento{
     protected $_ci;
     
     /**
+     *
+     * @var array 
+     */
+    protected $_emergencia;
+    
+    /**
      * 
      */
     public function __construct() {
@@ -23,22 +29,32 @@ Class Visor_capa_elemento{
     
     /**
      * 
+     * @param int $id_emergencia
+     */
+    public function setEmergencia($id_emergencia){
+        $emergencia = $this->_ci->_emergencia_model->getById($id_emergencia);
+        if(!is_null($emergencia)){
+            $this->_emergencia = $emergencia;
+        }
+    }
+    
+    /**
+     * 
      * @param int $id_subcapa
      * @param int $id_emergencia
      * @return boolean
      */
-    public function cargaCapa($id_subcapa, $id_emergencia)
+    public function cargaCapa($id_subcapa)
     {
         $data = array("correcto" => false,
                       "capa" => array());
-        $lista_comunas = $this->_ci->emergencia_comuna->listComunas($id_emergencia);
-        if(count($lista_comunas)>0){
-            $resultado = $this->_cargaCapa($id_subcapa, $lista_comunas);
-            if(!is_null($resultado)){
-                $data = array("correcto" => true,
-                              "capa" => $resultado);
-            }
+
+        $resultado = $this->_cargaCapa($id_subcapa);
+        if(!is_null($resultado)){
+            $data = array("correcto" => true,
+                          "capa" => $resultado);
         }
+        
         return $data;
     }
     
@@ -51,24 +67,19 @@ Class Visor_capa_elemento{
         $data = array("correcto" => true,
                       "resultado" => array("capas" => array()));
         
-        $emergencia = $this->_ci->_emergencia_model->getById($id_emergencia);
-        if(!is_null($emergencia)){
-            
-            $lista_comunas = $this->_ci->emergencia_comuna->listComunas($emergencia->eme_ia_id);
+        $this->setEmergencia($id_emergencia);
 
-            $lista_capas = $this->_ci->_emergencia_capa_model->listaPorEmergencia($emergencia->eme_ia_id);
-            if(count($lista_capas)>0){
-                foreach($lista_capas as $capa){
-                    $resultado = $this->_cargaCapa($capa["id_geometria"], $lista_comunas);
-                    if(!is_null($resultado)){
-                        $data["correcto"] = true;
-                        $data["resultado"]["capas"][$capa["id_geometria"]] = $resultado;
-                    }
+        $lista_capas = $this->_ci->_emergencia_capa_model->listaPorEmergencia($this->_emergencia->eme_ia_id);
+        if(count($lista_capas)>0){
+            foreach($lista_capas as $capa){
+                $resultado = $this->_cargaCapa($capa["id_geometria"], $lista_comunas);
+                if(!is_null($resultado)){
+                    $data["correcto"] = true;
+                    $data["resultado"]["capas"][$capa["id_geometria"]] = $resultado;
                 }
             }
-        } else {
-            $data["info"] = "La emergencia no existe";
         }
+
         
         return $data;
     }
@@ -79,18 +90,16 @@ Class Visor_capa_elemento{
      * @param type $lista_comunas
      * @return string
      */
-    protected function _cargaCapa($id_geometria, $lista = array()){
+    protected function _cargaCapa($id_geometria){
         $retorno = null;
-        
         $subcapa = $this->_ci->_capa_detalle_model->getById($id_geometria);
         if(!is_null($subcapa)){
             $capa = $this->_ci->_capa_model->getById($subcapa->geometria_capa);
             if(!is_null($capa)){
                 $json = array();
-                $lista_poligonos = $this->_listElementos($subcapa->geometria_id, $lista);
+                $lista_poligonos = $this->_listElementos($subcapa->geometria_id);
                 if(count($lista_poligonos)>0){
                     foreach($lista_poligonos as $poligono){
-                        fb($poligono["poligono_geometria"]);
                         $json[] = array(
                             "id" => $poligono["poligono_id"],
                             "propiedades" => unserialize($poligono["poligono_propiedades"]),
@@ -134,8 +143,13 @@ Class Visor_capa_elemento{
      * @param array $lista
      * @return array
      */
-    protected function _listElementos($id_capa_detalle, $lista){
-        return $this->_ci->_capa_detalle_elemento_model->listarPorSubcapaComuna($id_capa_detalle, $lista);
+    protected function _listElementos($id_capa_detalle){
+        return $this->_ci->_capa_detalle_elemento_model->listarPorSubcapa(
+                $id_capa_detalle, 
+                $this->_ci->emergencia_comuna->listComunas($this->_emergencia->eme_ia_id),
+                $this->_ci->emergencia_comuna->listProvincias($this->_emergencia->eme_ia_id),
+                $this->_ci->emergencia_comuna->listRegiones($this->_emergencia->eme_ia_id)
+        );
     }
 }
 

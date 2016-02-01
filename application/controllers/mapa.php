@@ -106,6 +106,7 @@ class Mapa extends MY_Controller {
      * @throws Exception
      */
     public function index(){
+        $this->load->helper("modulo/visor/visor");
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){

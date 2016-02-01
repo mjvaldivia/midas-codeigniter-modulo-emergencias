@@ -439,6 +439,69 @@ class Capa_Model extends MY_Model {
     }
     
     /**
+     * Cantidad de capas por categoria
+     * @param int $id_categoria
+     * @return int
+     */
+    public function cantidadCapasPorCategoria(
+            $id_categoria,
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query = $this->_queryPorCategoria($id_categoria)
+                       ->select("count(DISTINCT c.cap_ia_id) as cantidad")
+                       ->join("capas_geometria g", "g.geometria_capa = c.cap_ia_id", "INNER")
+                       ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id", "INNER");
+        
+        $this->_addWhereUbicacion($query, $lista_comunas, $lista_provincias, $lista_regiones);
+        
+        $result = $query->getOneResult();
+        if (!is_null($result)){
+           return $result->cantidad; 
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     * Agrega query para filtrar por ubicacion
+     * @param type $query
+     * @param type $lista_comunas
+     * @param type $lista_provincias
+     * @param type $lista_regiones
+     */
+    protected function _addWhereUbicacion(
+            &$query,
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query->addWhere("("
+                       . "(p.poligono_comuna IN (".  implode(",", $lista_comunas).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia IN (".  implode(",", $lista_provincias).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia = 0 AND p.poligono_region IN (".  implode(",", $lista_regiones)."))"
+                       . ")");
+    }
+    
+    /**
+     * Lista capas por categoria
+     * @param int $id_categoria
+     * @return array
+     */
+    public function listarCapasPorCategoria($id_categoria){
+        $result = $this->_queryPorCategoria($id_categoria)
+                       ->select("c.*")
+                       ->orderBy("cap_c_nombre", "ASC")
+                       ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Retorna capas por comuna
      * @param array $lista_comunas
      * @return array
@@ -450,6 +513,27 @@ class Capa_Model extends MY_Model {
                                ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id")
                                ->whereAND("p.poligono_comuna", $lista_comunas, "IN")
                                ->whereAND("c.ccb_ia_categoria", $id_categoria, "=")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Retorna capas por comuna
+     * @param array $lista_comunas
+     * @return array
+     */
+    public function listarCapasSinComunasYCategoria($id_categoria){
+        $result = $this->_query->select("DISTINCT c.*")
+                               ->from("capas c")
+                               ->join("capas_geometria g", "g.geometria_capa = c.cap_ia_id", "INNER")
+                               ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id", "INNER")
+                               ->whereAND("p.poligono_comuna", 0)
+                               ->whereAND("c.ccb_ia_categoria", $id_categoria, "=")
+                               ->orderBy("cap_c_nombre", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -475,6 +559,17 @@ class Capa_Model extends MY_Model {
         } else {
             return NULL;
         }
+    }
+    
+    /**
+     * 
+     * @param int $id_categoria
+     * @return queryBuilder
+     */
+    protected function _queryPorCategoria($id_categoria){
+        return $this->_query
+                    ->from("capas c")
+                    ->whereAND("c.ccb_ia_categoria", $id_categoria, "=");
     }
 
     public function obtenerTodos($eme_ia_id, $ids = null) {

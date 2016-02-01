@@ -33,7 +33,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @param {object} propiedades
      * @returns {undefined}
      */
-    dibujarCirculo : function(id, lon, lat, radio, propiedades){
+    dibujarCirculo : function(id, lon, lat, radio, propiedades, color){
         if(radio > 0){
             var yo = this;
 
@@ -49,7 +49,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                                    propiedades, 
                                    posicion, 
                                    radio, 
-                                   "red");
+                                   color);
         }
     },
     
@@ -220,6 +220,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         var latLon = marker.getPosition();  
         var parametros = {"id" : yo.id_emergencia,
                           "metros" : $("#metros").val(),
+                          "color" : $("#color").val(),
                           "lat" : latLon.lat,
                           "lon" : latLon.lng};
         $.ajax({         
@@ -245,14 +246,14 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                         posicion.lat(), 
                         parametros.metros, 
                         {"TIPO" : "LUGAR EMERGENCIA",
-                         "NOMBRE" : ""}
+                         "NOMBRE" : ""},
+                        $("#color").val()
                     );
                     
                     if(parametros.metros == 0){
                         marker.setDraggable(true);
                     }
-                    yo.informacionMarcador(marker);
-                    lista_markers.push(marker);
+                    
                 } else {
                     $("#form_error").removeClass("hidden");
                     procesaErrores(data.error);
@@ -324,6 +325,9 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         this.drawingManager();
         google.maps.event.addListener(yo.drawing_manager, 'markercomplete', function(marker) {
             yo.quitarLugarAlarma();
+            yo.informacionMarcador(marker);
+            yo.listenerRightClick(marker);
+            lista_markers.push(marker);
             yo.popupMetros(yo.mapa, marker);
         });
     }

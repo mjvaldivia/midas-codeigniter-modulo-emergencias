@@ -45,11 +45,19 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
      * @param array $lista_comunas
      * @return array
      */
-    public function listarPorSubcapa($id_subcapa){
-        $result = $this->_query->select("p.*")
+    public function listarPorSubcapa(
+        $id_subcapa,
+        $lista_comunas = array(),
+        $lista_provincias = array(),
+        $lista_regiones = array()
+    ){
+        $query = $this->_query->select("p.*")
                                ->from($this->_tabla . " p")
-                               ->whereAND("p.poligono_capitem", $id_subcapa, "=")
-                               ->getAllResult();
+                               ->whereAND("p.poligono_capitem", $id_subcapa, "=");
+        
+        $this->_addWhereUbicacion($query, $lista_comunas, $lista_provincias, $lista_regiones);
+        
+        $result = $query->getAllResult();
         if (!is_null($result)){
            return $result; 
         } else {
@@ -109,7 +117,9 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
         $result = $this->_query->select("p.*")
                                ->from($this->_tabla . " p")
                                ->whereAND("p.poligono_capitem", $id_subcapa, "=")
-                               ->whereAND("p.poligono_comuna", $lista_comunas, "IN")
+                              // ->whereCondOr(array(array()""))
+                               //
+                               //->whereAND("p.poligono_comuna", $lista_comunas, "IN")
                                ->getAllResult();
         if (!is_null($result)){
            return $result; 
@@ -155,6 +165,26 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
         } else {
             return NULL;
         }
+    }
+    
+    /**
+     * Agrega query para filtrar por ubicacion
+     * @param type $query
+     * @param type $lista_comunas
+     * @param type $lista_provincias
+     * @param type $lista_regiones
+     */
+    protected function _addWhereUbicacion(
+            &$query,
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query->addWhere("("
+                       . "(p.poligono_comuna IN (".  implode(",", $lista_comunas).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia IN (".  implode(",", $lista_provincias).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia = 0 AND p.poligono_region IN (".  implode(",", $lista_regiones)."))"
+                       . ")");
     }
     
 }

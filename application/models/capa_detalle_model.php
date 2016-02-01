@@ -68,6 +68,107 @@ class Capa_Detalle_Model extends MY_Model {
     }
     
     /**
+     * Cantidad de detalles por capa
+     * @param int $id_capa
+     * @return int
+     */
+    public function cantidadPorCapa(
+            $id_capa,
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query = $this->_queryPorCapa($id_capa)
+                       ->select("count(DISTINCT g.geometria_id) as cantidad")
+                       ->join("capas_poligonos_informacion p", "g.geometria_id = p.poligono_capitem", "INNER");;
+        
+        $this->_addWhereUbicacion($query, $lista_comunas, $lista_provincias, $lista_regiones);
+        
+        $result= $query->getOneResult();
+        if (!is_null($result)){
+           return $result->cantidad; 
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     * Retorna solo un detalle de la capa
+     * @param int $id_capa
+     * @return object
+     */
+    public function primerDetallePorCapa(
+            $id_capa, 
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query = $this->_queryPorCapa($id_capa)
+                       ->select("DISTINCT g.*") 
+                       ->join("capas_poligonos_informacion p", "g.geometria_id = p.poligono_capitem", "INNER");
+        
+        $this->_addWhereUbicacion($query, $lista_comunas, $lista_provincias, $lista_regiones);
+        
+        $result = $query->limit(1)
+                        ->getOneResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+           return null;
+        }
+    }
+    
+    /**
+     * Agrega query para filtrar por ubicacion
+     * @param type $query
+     * @param type $lista_comunas
+     * @param type $lista_provincias
+     * @param type $lista_regiones
+     */
+    protected function _addWhereUbicacion(
+            &$query,
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query->addWhere("("
+                       . "(p.poligono_comuna IN (".  implode(",", $lista_comunas).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia IN (".  implode(",", $lista_provincias).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia = 0 AND p.poligono_region IN (".  implode(",", $lista_regiones)."))"
+                       . ")");
+    }
+    
+    /**
+     * 
+     * @param int $id_capa
+     * @return array
+     */
+    public function listarPorCapa(
+        $id_capa, 
+        $lista_comunas = array(),
+        $lista_provincias = array(),
+        $lista_regiones = array()
+    ){
+        $query = $this->_queryPorCapa($id_capa)
+                       ->select("DISTINCT g.*")    
+                       ->join("capas_poligonos_informacion p", "g.geometria_id = p.poligono_capitem", "INNER");
+        
+        $this->_addWhereUbicacion(
+            $query, 
+            $lista_comunas, 
+            $lista_provincias, 
+            $lista_regiones
+        );
+        
+        $result = $query->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param int $id_capa
      * @param array $lista_comunas
@@ -85,6 +186,17 @@ class Capa_Detalle_Model extends MY_Model {
         } else {
             return NULL;
         }
+    }
+    
+    /**
+     * 
+     * @param int $id_capa
+     * @return queryBuilder
+     */
+    protected function _queryPorCapa($id_capa){
+        return $this->_query
+                    ->from($this->_tabla . " g")
+                    ->whereAND("g.geometria_capa", $id_capa);
     }
 }
 

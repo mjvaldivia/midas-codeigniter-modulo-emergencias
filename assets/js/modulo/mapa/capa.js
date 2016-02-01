@@ -140,7 +140,7 @@ var MapaCapa = Class({
             async: true,
             data: "id=" + id_subcapa + "&id_emergencia=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa_capas/ajax_carga_capa_comuna", 
+            url: siteUrl + "mapa_capas/ajax_carga_capa", 
             success:function(data){
                 if(data.correcto){
                     if(($.isEmptyObject(yo.capas[id_subcapa]))){
