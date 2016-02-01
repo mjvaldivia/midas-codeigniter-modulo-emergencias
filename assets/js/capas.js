@@ -168,18 +168,11 @@ var Layer = {};
                 message += '- Debe seleccionar por lo menos una propiedad de la capa<br/>';
             }
             if(message != ""){
-                bootbox.dialog({
-                    title: "Error",
-                    message: message,
-                    buttons: {
-                        danger: {
-                            label: "Cerrar",
-                            className: "btn-danger"
-                        }
-                    }
+                xModal.danger(message,function(){
+                    $(btn).attr('disabled',false).html(btnText);
                 });
-                $(btn).attr('disabled',false).html(btnText);
                 return;
+
             }
             
         }
@@ -195,7 +188,11 @@ var Layer = {};
         $.post(siteUrl+"visor/guardarCapa", params, function (data) {
             if(data==1)//bien
             {
-                bootbox.dialog({
+                xModal.success('Se han guardado con éxito los datos',function(){
+                    Layer.initList();
+                    xModal.closeAll();
+                });
+                /*bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Se ha guardado con éxito.',
                     buttons: {
@@ -221,11 +218,14 @@ var Layer = {};
                             }
                         }
                     }
-                });
+                });*/
                 
                 
             }else{
-                bootbox.dialog({
+                xModal.danger('Problemas al guardar los datos <br/> Error: '+data,function(){
+                    $(btn).attr('disabled',false).html(btnText);
+                });
+                /*bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Una o más capas no se han guardado <br/> Error: '+data,
                     buttons: {
@@ -238,12 +238,15 @@ var Layer = {};
                         }
                     }
                 });
-                
+                */
                 
             }
             
         }).fail(function(){
-            $(btn).attr('disabled',false).html(btnText);
+            xModal.danger("Error en el sistema. Intente nuevamente o comuníquese con Soporte",function(){
+                $(btn).attr('disabled',false).html(btnText);
+            });
+
         });
         
         
@@ -366,7 +369,8 @@ var Layer = {};
     }
 
     this.editarCapa = function(id_capa){
-        $("#tab-editar").fadeIn(function(){
+        xModal.open(siteUrl + 'capas/editarCapa/capa/'+id_capa,'Editar capa','lg');
+        /*$("#tab-editar").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
@@ -374,7 +378,7 @@ var Layer = {};
                 $("#div_tab_3").html(response);
                 $("#tab3").addClass('active').show();
             },'html');
-        });
+        });*/
     };
 
     this.editarSubCapa = function(id_subcapa){
@@ -495,26 +499,51 @@ var Layer = {};
 
     this.initSaveEdicion = function() {
 
-        $("#input-capa-editar").fileinput({
+        $("#input-capa-geojson").fileinput({
             language: "es",
             multiple: false,
-            uploadAsync: true,
+            uploadAsync: false,
+            maxFileCount: 1,
             initialCaption: "Seleccione una capa GeoJson",
+            allowedFileExtensions : ['geojson'],
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
 
-        $('#input-capa-editar').on('filebatchuploadsuccess', function(event, data) {
-           
-           if(data.response.uploaded==0)//error
-           {
-               var error_filenames = 'El (los) siguiente(s) archivos no son válidos:<br>';
-               $.each(data.response.error_filenames,function(k,v){
-                  error_filenames += '-'+v+'<br>'; 
-               });
+        $("#input-capa-shape").fileinput({
+            language: "es",
+            multiple: true,
+            uploadAsync: false,
+            maxFileCount: 2,
+            msgFilesTooMany: 'Sólo se permite cargar 2 archivos',
+            initialCaption: "Seleccione archivos Shape .shp y .dbf",
+            showUpload: true,
+            allowedFileExtensions : ['shp','dbf'],
+            uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
+        });
+
+
+
+        /* $('#input-icon').on('filebatchuploadsuccess', function(event, data) {
+         $('#icon').val(data.response.nombre_cache_id);
+         $('#img_icon').attr('src',baseUrl+''+data.response.ruta);
+
+         });*/
+
+        $("#iCategoria").jCombo(siteUrl + "visor/obtenerJsonCatCoberturas");
+
+        $('#input-capa-geojson, #input-capa-shape').on('filebatchuploadsuccess', function(event, data) {
+
+            if(data.response.uploaded==0)//error
+            {
+                var error_mensaje = data.response.error_mensaje;
+                //var error_filenames = 'El (los) siguiente(s) archivos no son válidos:<br>';
+                /*$.each(data.response.error_filenames,function(k,v){
+                 error_filenames += '-'+v+'<br>';
+                 });*/
 
                 bootbox.dialog({
                     title: "Resultado de la operacion",
-                    message: error_filenames,
+                    message: error_mensaje,
                     buttons: {
                         danger: {
                             label: "Cerrar",
@@ -522,47 +551,63 @@ var Layer = {};
                         }
                     }
                 });
-           }
-
-
-           if(data.response.filenames.length==0) return; // no se subio ningun archivo valido
-
-            $("#tmp_file_editar").val(data.response.nombre_cache_id);
-           var properties = data.response.properties.data;
-           var filename = data.response.filenames.data;
-           $("#nombre_geojson").html('');
-           
-            $('#tabla_propiedades-editar').DataTable().destroy();
-            $('#tabla_comunas_editar').DataTable().destroy();
-            
-            $('#tabla_propiedades-editar').DataTable({
-                data: properties,
-                language: {
-                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
-                },
-                bPaginate : false,
-                order: [[0, "desc"]],
-                initComplete: function(){
-                    $("#cargando_geojson_edicion").fadeOut();
-                    $('#div_properties-editar').slideDown('slow');
+                $("#cargando_geojson").fadeOut();
+            }else{
+                if(data.response.filenames.length==0){
+                    $("#cargando_geojson").fadeOut();
+                    return; // no se subio ningun archivo valido
                 }
-                
-            }); 
-            $('#tabla_comunas_editar').DataTable({
-                data: filename,
-                language: {
-                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
-                },
-                order: [[0, "desc"]],
-                initComplete: function(){
-                    $(".iComunas").jCombo(siteUrl + "comuna/json_comunas_usuario");
-                   
-                    
-                    $('#div_comunas_editar').slideDown('slow');
 
-                }
-            });
-            
+                $("#tmp_file").val(data.response.nombre_cache_id);
+                var properties = data.response.properties.data;
+                var filename = data.response.filenames.data;
+                var geometry = data.response.geometry.data;
+
+                $('#tabla_propiedades').DataTable().destroy();
+                /*$('#tabla_comunas').DataTable().destroy();*/
+                $('#tabla_colores').DataTable().destroy();
+
+                $('#tabla_colores').DataTable({
+                    data: geometry,
+                    language: {
+                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
+                    },
+                    bFilter: true,
+                    bPaginate : false,
+                    paging:   false,
+                    ordering: false,
+                    info:     false,
+                    sDom: 't',
+                    initComplete: function(){
+                        $('#div_color').removeClass("hidden");
+                    }
+
+                });
+
+
+                $('#tabla_propiedades').DataTable({
+                    data: properties,
+                    language: {
+                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
+                    },
+                    bPaginate : false,
+                    paging:   false,
+                    ordering: false,
+                    info:     false,
+                    bSearchBox: false,
+                    sDom: 't',
+                    initComplete: function(){
+                        $("#cargando_geojson").fadeOut(function(){
+                            $("#btn-guardar-capa").attr('disabled',false);
+                        });
+                        $('#div_properties').slideDown('slow');
+                    }
+
+                });
+
+            }
+
+
         });
     };   
 

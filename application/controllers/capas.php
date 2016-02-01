@@ -396,7 +396,9 @@ class Capas extends MY_Controller
     public function editarCapa(){
 
 
-        $id_capa = $this->input->post('capa');
+        /*$id_capa = $this->input->post('capa');*/
+        $params = $this->uri->uri_to_assoc();
+        $id_capa = $params['capa'];
         $this->load->model("capa_model", "CapaModel");
 
         $this->load->model("categoria_cobertura_model", "CategoriaCobertura");
@@ -428,7 +430,7 @@ class Capas extends MY_Controller
             'categorias' => $categorias,
             'geojson' => $properties
             );
-        echo $this->load->view("pages/capa/edicion",$data);
+        $this->load->view("pages/capa/edicion",$data);
     }
 
 

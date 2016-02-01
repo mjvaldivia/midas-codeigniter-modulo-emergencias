@@ -71,8 +71,8 @@ class Capa_Model extends MY_Model {
             $categoria_capa = $this->CategoriaCapa->getById($params['iCategoria_editar']);
             $geometria_capa = $categoria_capa['ccb_n_tipo'];
 
-            $query = "UPDATE capas set cap_c_nombre = ?, cap_c_geozone_number = ?, cap_c_geozone_letter = ?,  ccb_ia_categoria = ?, cap_c_propiedades = ? where cap_ia_id = ?";
-            $parametros = array($params['nombre_editar'],$params['gznumber_editar'],$params['gzletter'],$params['iCategoria_editar'],$lista_propiedades,$params['capa_edicion']);
+            $query = "UPDATE capas set cap_c_nombre = ?, ccb_ia_categoria = ?, cap_c_propiedades = ? where cap_ia_id = ?";
+            $parametros = array($params['nombre_editar'],$params['iCategoria_editar'],$lista_propiedades,$params['capa_edicion']);
 
             $this->db->trans_begin();
             $this->db->query($query,$parametros);
@@ -84,9 +84,9 @@ class Capa_Model extends MY_Model {
 
 
             /* si existe nueva capa */
-            if(isset($params['tmp_file_editar']) and !empty($params['tmp_file_editar'])){
+            if(isset($params['tmp_file']) and !empty($params['tmp_file'])){
 
-                $capa = unserialize(file_get_contents('media/tmp/'.$params['tmp_file_editar']));
+                $capa = unserialize(file_get_contents('media/tmp/'.$params['tmp_file']));
                 if(empty($capa) or is_null($capa)){
                     $this->db->trans_rollback();
                     return "Error en lectura de geojson";
@@ -106,7 +106,7 @@ class Capa_Model extends MY_Model {
 
                 //$update["capa_arch_ia_id"] = $capa_arch_ia_id;
 
-            
+
 
                 $items_capa = $capa_content->features;
 
@@ -122,10 +122,10 @@ class Capa_Model extends MY_Model {
 
                     $tipo = '';
                     if(!isset($item->properties->TIPO)){
-                        $item->properties->TIPO = $tipo = mb_strtoupper($params['nombre_editar']);
+                        $item->properties->TIPO = $tipo = mb_strtoupper($params['nombre']);
                     }else{
                         if(is_null($item->properties->TIPO) or empty($item->properties->TIPO)){
-                            $tipo = mb_strtoupper($params['nombre_editar']);
+                            $tipo = mb_strtoupper($params['nombre']);
                         }else{
                             $tipo = $item->properties->TIPO;
                         }
@@ -144,14 +144,43 @@ class Capa_Model extends MY_Model {
                     $properties = addslashes(serialize($arr_propiedades));
 
                     /* obtener comuna */
-                    $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
+                    $poligono_comuna = 0;
+                    if(isset($item->properties->COMUNA)){
+                        $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
-                    if(is_null($comuna)){
-                        if(!in_array($item->properties->COMUNA,$tmp_comunas))
-                            $tmp_comunas[] = $item->properties->COMUNA;
-                        continue;
+                        if($comuna){
+                            $comuna = $comuna[0];
+                            $poligono_comuna = $comuna->com_ia_id;
+                        }
+
                     }
-                    $comuna = $comuna[0];
+
+                    /** obtener provincia */
+                    $poligono_provincia = 0;
+                    if(isset($item->properties->PROVINCIA)){
+                        $provincia = $this->ProvinciaModel->getByNombre($item->properties->PROVINCIA);
+
+                        if($provincia){
+                            $provincia = $provincia[0];
+                            $poligono_provincia = $provincia->prov_ia_id;
+                        }
+
+                    }
+
+
+
+                    /** obtener provincia */
+                    $poligono_region = 0;
+                    if(isset($item->properties->REGION)){
+                        $region = $this->RegionModel->getByNombre($item->properties->REGION);
+
+                        if($region){
+                            $region = $region[0];
+                            $poligono_region = $region->reg_ia_id;
+                        }
+
+                    }
+
 
                     $tipo = mb_strtoupper($tipo);
 
@@ -172,19 +201,13 @@ class Capa_Model extends MY_Model {
                         $id_tipo = $result[0]['geometria_id'];
                     }
 
-                    $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_comuna,poligono_propiedades,poligono_geometria) value($id_tipo,$comuna->com_ia_id,'$properties','$geometria')";
+                    $query = "insert into capas_poligonos_informacion(poligono_capitem,poligono_region,poligono_provincia,poligono_comuna,poligono_propiedades,poligono_geometria) value($id_tipo,$poligono_region,$poligono_provincia,$poligono_comuna,'$properties','$geometria')";
                     $insertar = $this->db->query($query);
 
 
                 }
 
-                if(count($tmp_comunas) > 0){
-                    $fp_comunas = fopen('media/tmp/comunas_'.$cap_ia_id,'w');
-                    fwrite($fp_comunas,serialize($tmp_comunas));
-                    fclose($fp_comunas);
-                }
-
-                @unlink('media/tmp/'.$params['tmp_file_editar']);
+                @unlink('media/tmp/'.$params['tmp_file']);
 
             }
             
