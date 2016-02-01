@@ -84,6 +84,30 @@ class QueryBuilder{
     }
     
     /**
+     * Genera condicion OR entre N operaciones
+     * @param array $array array(array("campo","condicion","valor"), array("campo","condicion","valor"),...)
+     * @return \Database
+     */
+    public function whereCondOr($array){
+        if(empty($this->where)){
+            $this->where = " WHERE ";
+        }else{
+            $this->where .= " AND ";
+        }
+        
+        $sql = " (";
+        $or = "";
+        foreach($array as $where){
+             $sql.= $or . $this->_condiciones($where["campo"], $where["condicion"], $where["valor"]);
+             $or = " OR ";
+             $this->_valores($where["condicion"], $where["valor"]);
+        }
+        $sql .=") ";
+        $this->where .= $sql;
+        return $this;
+    }
+    
+    /**
      * Campos a rescatar
      * @param array $campos
      * @param boolean $append

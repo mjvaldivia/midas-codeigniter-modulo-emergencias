@@ -238,36 +238,18 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlImportar : function (map) {
-        var divOptions = {
-        		gmap: map,
-        		name: 'KML/KMZ',
-        		title: "",
-        		id: "opcion_importar_kml_kmz",
-        		action: function(){
-                            var kml = new MapaKmlImportar();
-                            kml.seteaMapa(map);
-                            kml.popupUpload();
-        		}
-        }
-        var optionDiv1 = new optionDiv(divOptions);
-
-        var ddDivOptions = {
-        	items: [optionDiv1],
-        	id: "opcionesImportar"        		
-        };
         
-        var dropDownDiv = new dropDownOptionsDiv(ddDivOptions);               
-                
-        var dropDownOptions = {
-        		gmap: map,
-        		name: '<i class=\"fa fa-download\"></i> Importar',
-        		id: 'botonDropdownImportar',
-        		title: 'Importar',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
-        		dropDown: dropDownDiv 
-        }
+        $("#btn-importar-kml").click(function(){
+            var kml = new MapaKmlImportar();
+            kml.seteaMapa(map);
+            kml.popupUpload();
+        });
         
-        var dropDown1 = new dropDownControl(dropDownOptions);   
+        $("#btn-importar-sidco").click(function(){
+            var sidco = new MapaKmlSidcoConaf();
+            sidco.seteaMapa(map);
+            sidco.loadKml();
+        });
 
     },
     
@@ -278,18 +260,13 @@ var MapaEditor = Class({
      */
     controlEditar : function (map) {
         var yo = this;
-        var buttonOptions = {
-        		gmap: map,
-        		name: '<i class=\"fa fa-bullhorn\"></i> Ubicación emergencia',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
-        		action: function(){
-        		    var marcador = new MapaMarcadorLugarEmergencia();
-                            marcador.seteaMapa(map);
-                            marcador.seteaEmergencia(yo.id_emergencia);
-                            marcador.addMarcador();
-        		}
-        }
-        var button1 = new buttonControl(buttonOptions, "button-map");    
+        
+        $("#btn-ubicacion-emergencia").click(function(){
+            var marcador = new MapaMarcadorLugarEmergencia();
+            marcador.seteaMapa(map);
+            marcador.seteaEmergencia(yo.id_emergencia);
+            marcador.addMarcador();
+        });
     },
     
     /**
@@ -299,15 +276,10 @@ var MapaEditor = Class({
      */
     controlSave : function (map) {
         var yo = this;
-        var buttonOptions = {
-        		gmap: map,
-        		name: '<i class=\"fa fa-save\"></i> Guardar',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
-        		action: function(){
-        			yo.guardar();
-        		}
-        }
-        var button1 = new buttonControl(buttonOptions, "button-map button-success");
+        
+        $("#btn-guardar").click(function(){
+            yo.guardar();
+        });
     },
     
     /**
@@ -318,6 +290,11 @@ var MapaEditor = Class({
     controlCapas : function (map) {
         var yo = this;
         
+        $("#btn-capas-gestionar").click(function(){
+            yo.popupCapasComuna(); 
+        });
+        
+        /*
         var divOptions = {
         		gmap: map,
         		name: '<i class="fa fa-eye"></i> &nbsp;Gestionar capas',
@@ -365,19 +342,7 @@ var MapaEditor = Class({
        
         var optionDiv3 = new checkBox(divOptions3);
         
-        var divOptions4 = {
-        		gmap: map,
-        		label: 'Sidco - Conaf',
-        		title: "Incendios en el país",
-        		id: "sidco_conaf",
-        		action: function(){
-                            var sidco = new MapaKmlSidcoConaf();
-                            sidco.seteaMapa(map);
-                            sidco.loadKml();
-        		}
-        }
-       
-        var optionDiv4 = new checkBox(divOptions4);
+        
         
         //create the input box items
         
@@ -385,12 +350,12 @@ var MapaEditor = Class({
         var sep0 = new separator();
         var sep1 = new separator();
         var sep2 = new separator();
-        var sep3 = new separator();
+        
         
         //put them all together to create the drop down       
         var ddDivOptions = {
-        	//items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3, sep3, optionDiv4],
-                items: [sep0, optionDiv1, sep3, optionDiv4],
+        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3],
+                //items: [sep0, optionDiv1, sep3, optionDiv4],
         	id: "myddOptsDiv"        		
         }
         //alert(ddDivOptions.items[1]);
@@ -407,7 +372,7 @@ var MapaEditor = Class({
         
         var dropDown1 = new dropDownControl(dropDownOptions);   
         
- 
+        */
     },
     
     /**

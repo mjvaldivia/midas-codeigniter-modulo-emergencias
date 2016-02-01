@@ -416,6 +416,39 @@ class Capa_Model extends MY_Model {
     }
     
     /**
+     * Cantidad de capas por categoria
+     * @param int $id_categoria
+     * @return int
+     */
+    public function cantidadCapasPorCategoria($id_categoria){
+        $result = $this->_queryPorCategoria($id_categoria)
+                       ->select("count(*) as cantidad")
+                       ->getOneResult();
+        if (!is_null($result)){
+           return $result->cantidad; 
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     * Lista capas por categoria
+     * @param int $id_categoria
+     * @return array
+     */
+    public function listarCapasPorCategoria($id_categoria){
+        $result = $this->_queryPorCategoria($id_categoria)
+                       ->select("c.*")
+                       ->orderBy("cap_c_nombre", "ASC")
+                       ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Retorna capas por comuna
      * @param array $lista_comunas
      * @return array
@@ -427,6 +460,27 @@ class Capa_Model extends MY_Model {
                                ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id")
                                ->whereAND("p.poligono_comuna", $lista_comunas, "IN")
                                ->whereAND("c.ccb_ia_categoria", $id_categoria, "=")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Retorna capas por comuna
+     * @param array $lista_comunas
+     * @return array
+     */
+    public function listarCapasSinComunasYCategoria($id_categoria){
+        $result = $this->_query->select("DISTINCT c.*")
+                               ->from("capas c")
+                               ->join("capas_geometria g", "g.geometria_capa = c.cap_ia_id", "INNER")
+                               ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id", "INNER")
+                               ->whereAND("p.poligono_comuna", 0)
+                               ->whereAND("c.ccb_ia_categoria", $id_categoria, "=")
+                               ->orderBy("cap_c_nombre", "DESC")
                                ->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -452,6 +506,17 @@ class Capa_Model extends MY_Model {
         } else {
             return NULL;
         }
+    }
+    
+    /**
+     * 
+     * @param int $id_categoria
+     * @return queryBuilder
+     */
+    protected function _queryPorCategoria($id_categoria){
+        return $this->_query
+                    ->from("capas c")
+                    ->whereAND("c.ccb_ia_categoria", $id_categoria, "=");
     }
 
     public function obtenerTodos($eme_ia_id, $ids = null) {

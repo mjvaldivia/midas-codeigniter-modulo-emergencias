@@ -53,51 +53,13 @@ class Mapa_capas extends MY_Controller {
     /**
      * 
      */
-    public function ajax_carga_capa_comuna(){
+    public function ajax_carga_capa(){
         header('Content-type: application/json');
         $this->load->library("visor/capa/visor_capa_elemento");
         
         $params = $this->input->post(null, true);
-        $data = $this->visor_capa_elemento->cargaCapa($params["id"], $params["id_emergencia"]);
-        
-        echo json_encode($data);
-    }
-    
-    /**
-    * 
-    */
-    public function ajax_carga_capa_region(){
-        header('Content-type: application/json');
-        $this->load->library("visor/capa/visor_capa_region");
-        $params = $this->input->post(null, true);
-        
-        $carga = $this->visor_capa_region->cargaCapa($params["id_emergencia"]);
-
-        $data = array("correcto" => true,
-                      "capa" => $carga);
-        
-        echo json_encode($data);
-    }
-    
-    /**
-    * 
-    */
-    public function ajax_carga_capa_provincia(){
-        header('Content-type: application/json');
-        $this->load->library("visor/capa/visor_capa_provincia");
-        $params = $this->input->post(null, true);
-        
-        $carga = array();
-        
-        $lista_subcapa = $this->_capa_detalle_model->listarGeometriaProvincias();
-        if(!is_null($lista_subcapa)){
-            foreach($lista_subcapa as $subcapa){
-                 $carga = array_merge($carga , $this->visor_capa_provincia->cargaCapa($subcapa["geometria_id"], $params["id_emergencia"]));
-            }
-        }
-        
-        $data = array("correcto" => true,
-                      "capa" => $carga);
+        $this->visor_capa_elemento->setEmergencia($params["id_emergencia"]);
+        $data = $this->visor_capa_elemento->cargaCapa($params["id"]);
         
         echo json_encode($data);
     }

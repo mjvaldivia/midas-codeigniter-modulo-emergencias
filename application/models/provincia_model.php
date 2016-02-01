@@ -15,6 +15,15 @@ class Provincia_Model extends MY_Model{
      */
     protected $_bo_simulacion = false;
     
+    /**
+     * 
+     * @param int $id
+     * @return int
+     */
+    public function getById($id){
+        return $this->_query->getById("prov_ia_id", $id);
+    }
+    
         /**
      * Lista regiones por emergencia
      * @param int $id_emergencia

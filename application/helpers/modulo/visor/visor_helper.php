@@ -1,5 +1,9 @@
 <?php
-
+require_once(__DIR__ . "/menu/Categorias.php");
+require_once(__DIR__ . "/menu/Categorias/CantidadCapas.php");
+require_once(__DIR__ . "/menu/CapaDetalleItem.php");
+require_once(__DIR__ . "/menu/CapaDetalle.php");
+require_once(__DIR__ . "/menu/Capa.php");
 require_once(__DIR__ . "/propiedades/Informacion.php");
 require_once(__DIR__ . "/elemento/Editar.php");
 require_once(__DIR__ . "/elemento/Instalaciones.php");
@@ -22,6 +26,58 @@ function visorCapasSeleccionadasChecked($valor, $seleccionados){
     }
 }
 
+/**
+ * 
+ * @return html
+ */
+function visorMenuCapasCategoria($id_emergencia){
+    $html = New Visor_Menu_Categorias($id_emergencia);
+    return $html->render();
+}
+
+/**
+ * 
+ * @param int $id_categoria
+ * @return int
+ */
+function cantidadCapasCategoria($id_categoria){
+    $cantidad = New Visor_Menu_Categorias_CantidadCapas();
+    return $cantidad->cantidad($id_categoria);
+}
+
+/**
+ * 
+ * @return html
+ */
+function visorMenuCapas($id_emergencia, $id_categoria){
+    $html = New Visor_Menu_Capa($id_emergencia);
+    return $html->render($id_categoria);
+}
+
+/**
+ * 
+ * @return html
+ */
+function visorMenuCapasDetalleItem($id_detalle){
+    $html = New Visor_Menu_CapaDetalleItem($id_detalle);
+    return $html->render();
+}
+
+/**
+ * 
+ * @return html
+ */
+function visorMenuCapasDetalle($id_capa, $id_emergencia){
+    $html = New Visor_Menu_CapaDetalle($id_emergencia);
+    return $html->render($id_capa);
+}
+
+/**
+ * 
+ * @param array $lista_categorias
+ * @param array $comunas
+ * @return string
+ */
 function visorHtmlCapasComuna($lista_categorias, $comunas){
     $html = New Visor_Capa_Comuna($lista_categorias, $comunas);
     return $html->render();
