@@ -63,14 +63,14 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @param {string} imagen
      * @returns {undefined}
      */
-    posicionarMarcador : function(id, lon, lat, radio, propiedades, imagen){
+    posicionarMarcador : function(id, lon, lat, zonas, propiedades, imagen){
         var yo = this;
         this.quitarLugarAlarma();
         
         var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
 
         var draggable = true;
-        if(radio > 0){
+        if(zonas.lenght > 0){
             draggable = false;
         }
         
@@ -91,12 +91,17 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             icon: imagen
         });  
 
-        this.listenerRightClick(marker);
+        
         this.informacionMarcador(marker);
         
-        this.dibujarCirculo(id, lon, lat, radio, propiedades);
+        $.each(zonas, function(i, datos){
+            yo.dibujarCirculo(id, lon, lat, datos.radio, propiedades, datos.color);
+        });
+        
 
         lista_markers.push(marker);
+        
+        this.listenerRightClick(marker);
     },
     
     /**
@@ -105,6 +110,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @returns {void}
      */
     listenerRightClick : function(marker){
+        var yo = this;
+        
         var contextMenuOptions={}; 
         
         contextMenuOptions.classNames = {
@@ -122,13 +129,28 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         
         menuItems.push({});
         
+        var zonas = jQuery.grep(lista_poligonos, function( a ) {
+            if(a["clave"] == marker.clave){
+                return true;
+            }
+        });
+        
+        $.each(zonas, function(i, circulo){
+            menuItems.push({
+                className:'context_menu_item', 
+                eventName:'eliminar_zona_emergencia_click_' + i, 
+                label:'<div class=\"row\"><div class=\"col-xs-9\"><i class=\"fa fa-remove\"></i> Eliminar zona </div><div class=\"col-xs-3\"><div class="color-capa-preview" style="background-color:' + circulo.fillColor + '"></div></div></div>'
+            });
+        });
+        
+        
         menuItems.push({
             className:'context_menu_item', 
             eventName:'eliminar_lugar_emergencia_click', 
             label:'<i class=\"fa fa-remove\"></i> Eliminar lugar de la emergencia'
         });
          
-        contextMenuOptions.menuItems=menuItems; 
+        contextMenuOptions.menuItems = menuItems; 
 
         var contextMenu = new ContextMenu(
             this.mapa , 
@@ -143,7 +165,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
             switch(eventName){
                 case 'agregar_zona_lugar_emergencia':
-                    
+                    yo.popupMetros(yo.mapa, marker, contextMenu);
                 break;
                 case 'eliminar_lugar_emergencia_click':
                     var elemento = new MapaElementoCustom();
@@ -229,7 +251,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/ajax_guardar_lugar_emergencia", 
+            url: siteUrl + "mapa/ajax_valida_lugar_emergencia", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -260,7 +282,10 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                 }
             }
         });
-        this.drawing_manager.setMap(null);
+        
+        if(this.drawing_manager != null){
+            this.drawing_manager.setMap(null);
+        }
         return salida;  
     },
     
@@ -269,7 +294,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @param {marker} marker
      * @returns {undefined}
      */
-    popupMetros : function(mapa, marker){
+    popupMetros : function(mapa, marker, contextMenu){
         this.mapa = mapa;
         var yo = this;
         var latLon = marker.getPosition();    
@@ -282,15 +307,30 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                     label: " Guardar",
                     className: "btn-success fa fa-save",
                     callback: function() {
-                        return yo.addCirculo(marker);
+                        if(contextMenu != null){
+                            contextMenu.hide();
+                        }
+                        
+                        
+                        
+                        var salida = yo.addCirculo(marker);
+                        yo.listenerRightClick(marker);
+                        return salida;
                     }
                 },
                 cerrar: {
                     label: " Cerrar ventana",
                     className: "btn-white fa fa-close",
                     callback: function() {
-                        yo.drawing_manager.setMap(null);
-                        yo.drawing_manager = null;
+                        
+                        yo.listenerRightClick(marker);
+                        if(contextMenu != null){
+                            contextMenu.hide();
+                        }
+                        if(yo.drawing_manager != null){
+                            yo.drawing_manager.setMap(null);
+                            yo.drawing_manager = null;
+                        }
                     }
                 }
             }
@@ -326,9 +366,8 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         google.maps.event.addListener(yo.drawing_manager, 'markercomplete', function(marker) {
             yo.quitarLugarAlarma();
             yo.informacionMarcador(marker);
-            yo.listenerRightClick(marker);
             lista_markers.push(marker);
-            yo.popupMetros(yo.mapa, marker);
+            yo.popupMetros(yo.mapa, marker, null);
         });
     }
 

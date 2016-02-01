@@ -230,28 +230,27 @@ class Mapa extends MY_Controller {
     /**
      * Valida el lugar de la emergencia
      */
-    public function ajax_guardar_lugar_emergencia(){
+    public function ajax_valida_lugar_emergencia(){
         header('Content-type: application/json');
         
         $retorno = array("correcto" => false);
         
         $params = $this->input->post(null, true);
-        $emergencia = $this->_emergencia_model->getById($params["id"]);
-        if(!is_null($emergencia)){
+
             
-            $filter = New Zend_Filter_Digits();
-            $metros = $filter->filter($params["metros"]);
-            if($metros == ""){
-                $retorno["error"] = array("metros" => "Debe ingresar un valor numerico");
-            } else {
-                $data = array("eme_radio" => $metros,
-                              "eme_c_utm_lat" => $params["lat"],
-                              "eme_c_utm_lng" => $params["lon"]);
-                //$this->_emergencia_model->update($data, $emergencia->eme_ia_id);
-                $retorno = array("correcto" => true,
-                                 "error" => array("metros" => ""));
-            }
+        $filter = New Zend_Filter_Digits();
+        $metros = $filter->filter($params["metros"]);
+        if($metros == ""){
+            $retorno["error"] = array("metros" => "Debe ingresar un valor numerico");
+        } else {
+            $data = array("eme_radio" => $metros,
+                          "eme_c_utm_lat" => $params["lat"],
+                          "eme_c_utm_lng" => $params["lon"]);
+            //$this->_emergencia_model->update($data, $emergencia->eme_ia_id);
+            $retorno = array("correcto" => true,
+                             "error" => array("metros" => ""));
         }
+        
         echo json_encode($retorno);
     }
     

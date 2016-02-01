@@ -61,6 +61,17 @@ $(document).ready(function() {
                 capas.removeCapa(id);
             }
         });
+        
+        /*
+        $(".capas-seleccionar-todo").click(function(e){
+            var padre = $(this).parents().get(6);
+            if($(this).is(":checked")){
+                $(padre).find(".capas-borrar-todo").prop( "checked", false );
+                $(padre).find(".menu-capa-checkbox").prop( "checked", true );
+            } else {
+                $(padre).find(".menu-capa-checkbox").prop( "checked", false);
+            }
+        });*/
     });
     
     // input de busqueda de direcciones
