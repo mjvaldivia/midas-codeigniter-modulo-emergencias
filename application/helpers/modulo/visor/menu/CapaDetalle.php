@@ -32,7 +32,7 @@ Class Visor_Menu_CapaDetalle extends Visor_Menu_Abstract{
         if(count($lista_detalle)>0){
             foreach($lista_detalle as $detalle){
                 fb($detalle);
-                $html .= visorMenuCapasDetalleItem($detalle["geometria_id"]);
+                $html .= visorMenuCapasDetalleItem($detalle["geometria_id"], $this->_id_emergencia);
             }
         }
         

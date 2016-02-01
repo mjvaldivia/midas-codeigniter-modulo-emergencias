@@ -8,7 +8,17 @@ Class Visor_Menu_CapaDetalleItem{
      */
     protected $_ci;
     
+    /**
+     * Valores de capa_geometria
+     * @var array 
+     */
     protected $_detalle;
+    
+    /**
+     * Identificadores de capas asociadas a la emergencia
+     * @var array
+     */
+    protected $_capas_emergencia = array();
     
     /**
      * Constructor
@@ -16,11 +26,19 @@ Class Visor_Menu_CapaDetalleItem{
     public function __construct($id_detalle) {
         $this->_ci =& get_instance();
         $this->_ci->load->model("capa_detalle_model", "_capa_detalle_model");
-        $this->_ci->load->model("comuna_model", "_comuna_model");
-        $this->_ci->load->model("provincia_model", "_provincia_model");
-        $this->_ci->load->model("region_model", "_region_model");
+        $this->_ci->load->model("emergencia_capa_model", "_emergencia_capa_model");
         
         $this->_detalle = $this->_ci->_capa_detalle_model->getById($id_detalle);
+    }
+    
+    
+    public function setEmergencia($id_emergencia){
+        $lista = $this->_ci->_emergencia_capa_model->listaPorEmergencia($id_emergencia);
+        if(!is_null($lista)){
+            foreach($lista as $capa){
+                $this->_capas_emergencia[] = $capa["id_geometria"];
+            }
+        }
     }
     
     /**
@@ -31,8 +49,9 @@ Class Visor_Menu_CapaDetalleItem{
         return $this->_ci->load->view(
                 "pages/mapa/menu/capas-detalle-item", 
                 array(
-                    "id" => $this->_detalle->geometria_id,
-                    "nombre" => $this->_detalle->geometria_nombre
+                    "id"     => $this->_detalle->geometria_id,
+                    "nombre" => $this->_detalle->geometria_nombre,
+                    "seleccionadas" => $this->_capas_emergencia
                 ), 
                 true
         );

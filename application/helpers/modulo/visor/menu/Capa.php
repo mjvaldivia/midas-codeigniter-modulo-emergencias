@@ -51,8 +51,6 @@ Class Visor_Menu_Capa extends Visor_Menu_Abstract{
                 $this->_lista_emergencia_regiones
         );
         
-        fb("Cantidad detalle " . $cantidad);
-
         if($cantidad == 1){
             $detalle = $this->_ci->_capa_detalle_model->primerDetallePorCapa(
                 $id_capa,
@@ -62,7 +60,7 @@ Class Visor_Menu_Capa extends Visor_Menu_Abstract{
             );
             
             if(!is_null($detalle)){
-                return visorMenuCapasDetalleItem($detalle->geometria_id);
+                return visorMenuCapasDetalleItem($detalle->geometria_id, $this->_id_emergencia);
             }
         } elseif($cantidad > 1) {
             return $this->_ci->load->view("pages/mapa/menu/capas", 

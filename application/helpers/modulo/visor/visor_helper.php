@@ -58,8 +58,9 @@ function visorMenuCapas($id_emergencia, $id_categoria){
  * 
  * @return html
  */
-function visorMenuCapasDetalleItem($id_detalle){
+function visorMenuCapasDetalleItem($id_detalle, $id_emergencia){
     $html = New Visor_Menu_CapaDetalleItem($id_detalle);
+    $html->setEmergencia($id_emergencia);
     return $html->render();
 }
 
