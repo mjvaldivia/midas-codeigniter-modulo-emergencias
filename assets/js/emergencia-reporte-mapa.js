@@ -4,11 +4,14 @@
 $(document).ready(function() {
     
     var id = $("#id").val();
+    var lat = $("#lat").val();
+    var lon = $("#lon").val();
     
     var visor = new Visor("mapa");
 
     visor.seteaHeight(500);
     visor.seteaEmergencia(id);
+    visor.setCenter(parseFloat(lat),parseFloat(lon));
     
     //custom
     var custom = new MapaElementoCustom();
