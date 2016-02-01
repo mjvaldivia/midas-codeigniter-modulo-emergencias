@@ -276,7 +276,7 @@ class Capas extends MY_Controller
                     $buttons = '<a class="btn btn-xs btn-default btn-square" onclick="Layer.editarItemSubcapa('.$aRow[$col].');" >
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a class="btn btn-xs btn-danger btn-square" onclick="Layer.eliminarItemSubcapa('.$aRow[$col].')">
+                                <a class="btn btn-xs btn-danger btn-square" onclick="Layer.eliminarItemSubcapa('.$aRow[$col].','.$subcapa.')">
                                     <i class="fa fa-trash"></i>
                                 </a>';
                     $row[] = $buttons;

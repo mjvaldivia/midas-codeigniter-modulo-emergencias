@@ -334,8 +334,21 @@ var Layer = {};
     };
 
 
-    this.eliminarItemSubcapa = function(id_item){
-        bootbox.confirm('Desea eliminar este item?',function(result){
+    this.eliminarItemSubcapa = function(id_item,subcapa){
+        xModal.confirm('Desea eliminar este item?',function(){
+            $.post(siteUrl + 'capas/eliminarItemSubcapa',{item:id_item},function(response){
+                if(response.estado == true){
+                    xModal.success(response.mensaje,function(){
+                        Layer.listarItemsSubCapa(subcapa);
+                    });
+                }else{
+                    xModal.danger(response.mensaje);
+                }
+            },'json').fail(function(){
+                xModal.danger('Intente nuevamente o comuníquese con Administrador');
+            });
+        });
+        /*bootbox.confirm('Desea eliminar este item?',function(result){
             if(result){
                 $.post(siteUrl + 'capas/eliminarItemSubcapa',{item:id_item},function(response){
                     if(response.estado == true){
@@ -349,7 +362,7 @@ var Layer = {};
                     bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
                 });
             }
-        });
+        });*/
     }
 
     this.editarCapa = function(id_capa){
@@ -445,12 +458,15 @@ var Layer = {};
                     Layer.cancelarEdicionItem(subcapa)
                 });*/
             }else{
-                bootbox.alert("Error en la operación: "+response.mensaje,function(){
+                xModal.danger("Error en la operación: "+response.mensaje,function(){
                     $(btn).html(btnText).attr('disabled',false);
                 });
+                /*bootbox.alert("Error en la operación: "+response.mensaje,function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                });*/
             }
         },'json').fail(function(){
-            bootbox.alert("Error en sistema. Intente nuevamente o comuníquese con Soporte",function(){
+            xModal.danger("Error en sistema. Intente nuevamente o comuníquese con Soporte",function(){
                 $(btn).html(btnText).attr('disabled',false);
             });
         });
