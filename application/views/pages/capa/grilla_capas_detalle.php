@@ -19,7 +19,7 @@
         <tr>
             <td><?php echo $row['geometria_nombre']; ?></td>
             <td class="text-center"><?php echo $row['ccb_c_categoria']; ?></td>
-            <td class="text-center"><a href="javascript:void(0);" onclick="Layer.listarItemsSubCapa(<?php echo $row['geometria_id']?>)"><span class="badge"><?php echo $row['total_items']?></span></a></td>
+            <td class="text-center"><a href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('capas/listadoItemsSubcapa/subcapa/'.$row['geometria_id'])?>','Items subcapa <?php echo $row['geometria_nombre']; ?>',95);"><span class="badge"><?php echo $row['total_items']?></span></a></td>
             <!--<td><?php /*echo $row['geozone']; */?></td>-->
             <td align="center">
                 <?php if(is_null($row['geometria_icono']) or empty($row['geometria_icono'])):?>

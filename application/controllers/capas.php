@@ -104,6 +104,7 @@ class Capas extends MY_Controller
 
 
     function ajax_grilla_items_subcapas() {
+
         $id_subcapa = $this->input->post('subcapa');
         $this->load->helper(array("modulo/capa/capa"));
 
@@ -432,7 +433,8 @@ class Capas extends MY_Controller
 
 
     public function editarSubCapa(){
-        $id_capa = $this->input->post('capa');
+        $params = $this->uri->uri_to_assoc();
+        $id_capa = $params['subcapa'];
         $this->load->model("capa_model", "CapaModel");
 
         /*$this->load->model("categoria_cobertura_model", "CategoriaCobertura");
@@ -475,7 +477,7 @@ class Capas extends MY_Controller
             'id_capa' => $id_subcapa,
             'capa' => $capa
         );
-        echo $this->load->view("pages/capa/edicion_subcapa",$data);
+        $this->load->view("pages/capa/edicion_subcapa",$data);
     }
 
 
@@ -642,6 +644,14 @@ class Capas extends MY_Controller
         $data = array();
         $data['capa'] = $params['capa'];
         $this->load->view('pages/capa/detalle_capa',$data);
+    }
+
+
+    public function listadoItemsSubcapa(){
+        $params = $this->uri->uri_to_assoc();
+        $data = array('subcapa' => $params['subcapa']);
+
+        $this->load->view('pages/capa/listado_items_subcapa',$data);
     }
 
 

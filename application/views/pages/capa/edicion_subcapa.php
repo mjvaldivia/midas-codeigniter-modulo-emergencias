@@ -1,4 +1,4 @@
-<div class="portlet portlet-default">
+<div class="portlet portlet-green">
     <div class="portlet-heading">
         <div class="portlet-title"><h4>Editando Sub Capa <?php echo $capa['geometria_nombre']?></h4></div>
     </div>
@@ -9,7 +9,7 @@
                 <input type="hidden" name="id_capa" id="id_capa" value="<?php echo $capa['geometria_capa']?>" />
                 <div class="form-group">
                     <label class="col-md-3 col-xs-12 control-label">Tipo/Nombre</label>
-                    <div class="col-md-6 col-xs-12">
+                    <div class="col-md-9 col-xs-12">
                         <input type="text" class="form-control" name="nombre_subcapa" id="nombre_subcapa" value="<?php echo $capa['geometria_nombre']?>" />
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                         <?php endif;?>
 
                     </div>
-                    <div class="col-xs-11 col-md-4">
+                    <div class="col-xs-11 col-md-6">
                         <?php if($capa['geometria_tipo'] == 1):?>
                             <input type="file" name="input_icono_subcapa" id="input_icono_subcapa" data-show-preview="false" />
                             <input type="hidden" name="tmp_file_icono" id="tmp_file_icono" />
@@ -46,9 +46,9 @@
                     </div>
                 </div>
 
-                <div class="col-md-10 text-right">
+                <div class="text-right">
+                    <button type="button" class="btn btn-default btn-square" onclick="xModal.close();">Cerrar</button>
                     <button type="button" class="btn btn-green btn-square" onclick="Layer.guardarSubCapa(this.form,this);">Guardar</button>
-                    <button type="button" class="btn btn-default btn-square" onclick="Layer.cancelarEdicion();">Cancelar</button>
                 </div>
             </form>
         </div>

@@ -365,7 +365,8 @@ var Layer = {};
     };
 
     this.editarSubCapa = function(id_subcapa){
-        $("#tab-editar").fadeIn(function(){
+        xModal.open(siteUrl + 'capas/editarSubCapa/subcapa/'+id_subcapa,'Editar Sub Capa', 'lg');
+        /*$("#tab-editar").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
@@ -373,12 +374,18 @@ var Layer = {};
                 $("#div_tab_3").html(response);
                 $("#tab3").addClass('active').show();
             },'html');
-        });
+        });*/
     };
 
 
     this.editarItemSubcapa = function(item){
-        $("#tab-items-editar").fadeIn(function(){
+        $("#contenedor-items-subcapa").fadeOut(function(){
+            $.post(siteUrl + 'capas/editarItemSubCapa',{item:item},function(response){
+                $("#contenedor-editar-item").html(response);
+                $("#contenedor-editar-item").fadeIn();
+            },'html');
+        })
+        /*$("#tab-items-editar").fadeIn(function(){
             $("#tab-items-subcapa").removeClass('active').addClass('disabled');
             $("#tab4").removeClass('active').fadeOut();
             $(this).addClass('active');
@@ -386,12 +393,15 @@ var Layer = {};
                 $("#div_tab_5").html(response);
                 $("#tab5").addClass('active').fadeIn();
             },'html');
-        });
+        });*/
     };
 
 
     this.listarItemsSubCapa = function(id_subcapa){
-        $("#tab-items-subcapa").fadeIn(function(){
+        $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
+            $("#contenedor-items-subcapa").html(response);
+        },'html');
+        /*$("#tab-items-subcapa").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
@@ -408,7 +418,7 @@ var Layer = {};
                 },'html');
             });
 
-        });
+        });*/
     };
 
 
@@ -419,11 +429,21 @@ var Layer = {};
         var params = $(form).serialize();
         $.post(siteUrl + 'capas/guardarItemSubcapa/item/'+item,params,function(response){
             if(response.estado == true){
-                bootbox.alert("Operación Exitosa: "+response.mensaje,function(){
+                xModal.success(response.mensaje,function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                    var subcapa = $("#id_subcapa").val();
+                    $("#contenedor-editar-item").fadeOut(function(){
+                        $("#contenedor-items-subcapa").fadeIn();
+                        Layer.listarItemsSubCapa(subcapa);
+                    });
+
+
+                });
+                /*bootbox.alert("Operación Exitosa: "+response.mensaje,function(){
                     $(btn).html(btnText).attr('disabled',false);
                     var subcapa = $("#id_subcapa").val();
                     Layer.cancelarEdicionItem(subcapa)
-                });
+                });*/
             }else{
                 bootbox.alert("Error en la operación: "+response.mensaje,function(){
                     $(btn).html(btnText).attr('disabled',false);
@@ -440,16 +460,21 @@ var Layer = {};
 
 
     this.cancelarEdicionItem = function(subcapa){
-        $("#tab5").fadeOut(function(){
+        $("#contenedor-editar-item").fadeOut(function(){
+            $(this).html();
+            $("#contenedor-items-subcapa").fadeIn();
+        });
+
+        /*$("#tab5").fadeOut(function(){
             $("#tab-items-editar").fadeOut(function(){
                 $(this).removeClass('active');
                 Layer.listarItemsSubCapa(subcapa);
-                /*$(this).prev().addClass('active');
+                /!*$(this).prev().addClass('active');
                 $("#tab4").addClass('active').show(function(){
                     Layer.listarItemsSubCapa(subcapa);
-                });*/
+                });*!/
             });
-        });
+        });*/
     }
 
     this.initSaveEdicion = function() {
@@ -600,19 +625,29 @@ var Layer = {};
             var params = $(form).serialize();
             $.post(siteUrl + 'capas/guardarSubCapa',params,function(response){
                 if(response.estado == true){
-                    bootbox.alert(response.mensaje,function(){
+                    xModal.success(response.mensaje,function(){
+                        Layer.cargarDetalleCapa(form.id_capa.value);
+                        $(btn).html(btnText).attr('disabled',false);
+                    });
+                    /*bootbox.alert(response.mensaje,function(){
                         $(btn).html(btnText).attr('disabled',false);
                         Layer.cancelarEdicion();
-                    });
+                    });*/
                 }else{
-                    bootbox.alert(response.mensaje,function(){
+                    xModal.danger(response.mensaje,function(){
                         $(btn).html(btnText).attr('disabled',false);
                     });
+                    /*bootbox.alert(response.mensaje,function(){
+                        $(btn).html(btnText).attr('disabled',false);
+                    });*/
                 }
             },'json').fail(function(){
-                bootbox.alert("Error en el sistema. Intente nuevamente",function(){
+                xModal.danger("Error en el sistema. Intente nuevamente",function(){
                     $(btn).html(btnText).attr('disabled',false);
                 });
+                /*bootbox.alert("Error en el sistema. Intente nuevamente",function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                });*/
             });
         }
     };
