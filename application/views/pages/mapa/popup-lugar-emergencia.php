@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-lg-12">
             <label for="metros" class="control-label">COLOR:</label>
-            <input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="red"/>
+            <input name="color" id="color" placeholder="Color del poligono" type='text' class="colorpicker required" value="red"/>
         </div>
     </div>
     <div class="row">

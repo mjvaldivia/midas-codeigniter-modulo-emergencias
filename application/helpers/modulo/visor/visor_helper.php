@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . "/menu/Categorias.php");
-require_once(__DIR__ . "/menu/Categorias/CantidadCapas.php");
+require_once(__DIR__ . "/menu/categorias/CantidadCapas.php");
 require_once(__DIR__ . "/menu/CapaDetalleItem.php");
 require_once(__DIR__ . "/menu/CapaDetalle.php");
 require_once(__DIR__ . "/menu/Capa.php");
