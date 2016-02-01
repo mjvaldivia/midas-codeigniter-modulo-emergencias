@@ -40,8 +40,8 @@ function visorMenuCapasCategoria($id_emergencia){
  * @param int $id_categoria
  * @return int
  */
-function cantidadCapasCategoria($id_categoria){
-    $cantidad = New Visor_Menu_Categorias_CantidadCapas();
+function cantidadCapasCategoria($id_categoria, $id_emergencia){
+    $cantidad = New Visor_Menu_Categorias_CantidadCapas($id_emergencia);
     return $cantidad->cantidad($id_categoria);
 }
 

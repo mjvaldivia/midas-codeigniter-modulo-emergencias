@@ -79,7 +79,7 @@ class Capa_Detalle_Model extends MY_Model {
             $lista_regiones = array()
     ){
         $query = $this->_queryPorCapa($id_capa)
-                       ->select("count(*) as cantidad")
+                       ->select("count(DISTINCT g.geometria_id) as cantidad")
                        ->join("capas_poligonos_informacion p", "g.geometria_id = p.poligono_capitem", "INNER");;
         
         $this->_addWhereUbicacion($query, $lista_comunas, $lista_provincias, $lista_regiones);

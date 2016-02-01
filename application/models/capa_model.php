@@ -443,15 +443,45 @@ class Capa_Model extends MY_Model {
      * @param int $id_categoria
      * @return int
      */
-    public function cantidadCapasPorCategoria($id_categoria){
-        $result = $this->_queryPorCategoria($id_categoria)
-                       ->select("count(*) as cantidad")
-                       ->getOneResult();
+    public function cantidadCapasPorCategoria(
+            $id_categoria,
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query = $this->_queryPorCategoria($id_categoria)
+                       ->select("count(DISTINCT c.cap_ia_id) as cantidad")
+                       ->join("capas_geometria g", "g.geometria_capa = c.cap_ia_id", "INNER")
+                       ->join("capas_poligonos_informacion p", "p.poligono_capitem = g.geometria_id", "INNER");
+        
+        $this->_addWhereUbicacion($query, $lista_comunas, $lista_provincias, $lista_regiones);
+        
+        $result = $query->getOneResult();
         if (!is_null($result)){
            return $result->cantidad; 
         } else {
             return 0;
         }
+    }
+    
+    /**
+     * Agrega query para filtrar por ubicacion
+     * @param type $query
+     * @param type $lista_comunas
+     * @param type $lista_provincias
+     * @param type $lista_regiones
+     */
+    protected function _addWhereUbicacion(
+            &$query,
+            $lista_comunas = array(),
+            $lista_provincias = array(),
+            $lista_regiones = array()
+    ){
+        $query->addWhere("("
+                       . "(p.poligono_comuna IN (".  implode(",", $lista_comunas).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia IN (".  implode(",", $lista_provincias).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia = 0 AND p.poligono_region IN (".  implode(",", $lista_regiones)."))"
+                       . ")");
     }
     
     /**
