@@ -42,9 +42,8 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-    console.log(siteUrl + "capas/ajax_grilla_items_subcapas_server/subcapa/<?php echo $subcapa?>");
     $('#tabla_items_subcapa').dataTable({
-        language: 
+        language:
         {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",

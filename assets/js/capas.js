@@ -109,8 +109,12 @@ var Layer = {};
                    language: {
                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                    },
+                   bFilter: true,
                    bPaginate : false,
-                   order: [[0, "desc"]],
+                   paging:   false,
+                   ordering: false,
+                   info:     false,
+                   sDom: 't',
                    initComplete: function(){
                        $('#div_color').removeClass("hidden");
                    }
@@ -124,29 +128,20 @@ var Layer = {};
                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
                    },
                    bPaginate : false,
-                   order: [[0, "desc"]],
+                   paging:   false,
+                   ordering: false,
+                   info:     false,
+                   bSearchBox: false,
+                   sDom: 't',
                    initComplete: function(){
-                       $("#cargando_geojson").fadeOut();
+                       $("#cargando_geojson").fadeOut(function(){
+                           $("#btn-guardar-capa").attr('disabled',false);
+                       });
                        $('#div_properties').slideDown('slow');
                    }
 
                });
 
-               $('#tabla_comunas').DataTable({
-                   data: filename,
-                   language: {
-                       url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
-                   },
-                   order: [[0, "desc"]],
-                   bPaginate: false,
-                   initComplete: function(){
-                       $(".iComunas").jCombo(siteUrl + "comuna/json_comunas_usuario");
-
-
-                       $('#div_comunas').slideDown('slow');
-
-                   }
-               });
            }
 
             
@@ -173,18 +168,11 @@ var Layer = {};
                 message += '- Debe seleccionar por lo menos una propiedad de la capa<br/>';
             }
             if(message != ""){
-                bootbox.dialog({
-                    title: "Error",
-                    message: message,
-                    buttons: {
-                        danger: {
-                            label: "Cerrar",
-                            className: "btn-danger"
-                        }
-                    }
+                xModal.danger(message,function(){
+                    $(btn).attr('disabled',false).html(btnText);
                 });
-                $(btn).attr('disabled',false).html(btnText);
                 return;
+
             }
             
         }
@@ -200,7 +188,11 @@ var Layer = {};
         $.post(siteUrl+"visor/guardarCapa", params, function (data) {
             if(data==1)//bien
             {
-                bootbox.dialog({
+                xModal.success('Se han guardado con éxito los datos',function(){
+                    Layer.initList();
+                    xModal.closeAll();
+                });
+                /*bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Se ha guardado con éxito.',
                     buttons: {
@@ -210,7 +202,8 @@ var Layer = {};
                             callback: function(){
                                 if(form.capa_edicion === undefined){
                                     $(btn).attr('disabled',false);
-                                    location.reload();    
+                                    Layer.initList();
+                                    xModal.closeAll();
                                 }else{
                                     $("#tab3").fadeOut(function(){
                                         $("#tab-editar").fadeOut(function(){
@@ -225,29 +218,35 @@ var Layer = {};
                             }
                         }
                     }
-                });
+                });*/
                 
                 
             }else{
-                bootbox.dialog({
+                xModal.danger('Problemas al guardar los datos <br/> Error: '+data,function(){
+                    $(btn).attr('disabled',false).html(btnText);
+                });
+                /*bootbox.dialog({
                     title: "Resultado de la operacion",
                     message: 'Una o más capas no se han guardado <br/> Error: '+data,
                     buttons: {
                         danger: {
                             label: "Cerrar",
                             className: "btn-danger",
-                           callback : function(){
+                            callback : function(){
                             $(btn).attr('disabled',false).html(btnText);
                            }
                         }
                     }
                 });
-                
+                */
                 
             }
             
         }).fail(function(){
-            $(btn).attr('disabled',false).html(btnText);
+            xModal.danger("Error en el sistema. Intente nuevamente o comuníquese con Soporte",function(){
+                $(btn).attr('disabled',false).html(btnText);
+            });
+
         });
         
         
@@ -289,11 +288,26 @@ var Layer = {};
     };
 
 
+    this.cargarDetalleCapa = function(id_capa){
+        $.ajax({
+            dataType: "html",
+            cache: false,
+            async: false,
+            data: {id_capa:id_capa},
+            type: "post",
+            url: siteUrl + "capas/ajax_grilla_capas",
+            error: function(xhr, textStatus, errorThrown){
+
+            },
+            success:function(html){
+                $("#contenedor-grilla-detalle-capa").html(html);
+            }
+        });
+    };
 
 
-
-    this.eliminarSubCapa = function(id_capa){
-        $.post(siteUrl + 'capas/validarSubCapaEmergencia',{capa:id_capa},function(response){
+    this.eliminarSubCapa = function(id_subcapa, id_capa){
+        $.post(siteUrl + 'capas/validarSubCapaEmergencia',{capa:id_subcapa},function(response){
             if(response.estado == true){
                 var mensaje = 'La subcapa a eliminar se encuentra asociada a una Emergencia. Desea eliminarla de todas formas?';
             }else{
@@ -302,10 +316,10 @@ var Layer = {};
             bootbox.confirm(mensaje, function(result) {
                 if(result){
                     /* eliminar capa */
-                    $.post(siteUrl + 'capas/eliminarSubCapa',{subcapa:id_capa},function(response){
+                    $.post(siteUrl + 'capas/eliminarSubCapa',{subcapa:id_subcapa},function(response){
                         if(response.estado == true){
                             bootbox.alert(response.mensaje,function(){
-                                Layer.initList();
+                                Layer.cargarDetalleCapa(id_capa);
                             });                
                         }else{
                             bootbox.dialog({title:'Error', message:response.mensaje});                
@@ -323,8 +337,21 @@ var Layer = {};
     };
 
 
-    this.eliminarItemSubcapa = function(id_item){
-        bootbox.confirm('Desea eliminar este item?',function(result){
+    this.eliminarItemSubcapa = function(id_item,subcapa){
+        xModal.confirm('Desea eliminar este item?',function(){
+            $.post(siteUrl + 'capas/eliminarItemSubcapa',{item:id_item},function(response){
+                if(response.estado == true){
+                    xModal.success(response.mensaje,function(){
+                        Layer.listarItemsSubCapa(subcapa);
+                    });
+                }else{
+                    xModal.danger(response.mensaje);
+                }
+            },'json').fail(function(){
+                xModal.danger('Intente nuevamente o comuníquese con Administrador');
+            });
+        });
+        /*bootbox.confirm('Desea eliminar este item?',function(result){
             if(result){
                 $.post(siteUrl + 'capas/eliminarItemSubcapa',{item:id_item},function(response){
                     if(response.estado == true){
@@ -338,11 +365,12 @@ var Layer = {};
                     bootbox.dialog({title:'Error en sistema', message:'Intente nuevamente o comuníquese con Administrador'});
                 });
             }
-        });
+        });*/
     }
 
     this.editarCapa = function(id_capa){
-        $("#tab-editar").fadeIn(function(){
+        xModal.open(siteUrl + 'capas/editarCapa/capa/'+id_capa,'Editar capa','lg');
+        /*$("#tab-editar").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
@@ -350,11 +378,12 @@ var Layer = {};
                 $("#div_tab_3").html(response);
                 $("#tab3").addClass('active').show();
             },'html');
-        });
+        });*/
     };
 
     this.editarSubCapa = function(id_subcapa){
-        $("#tab-editar").fadeIn(function(){
+        xModal.open(siteUrl + 'capas/editarSubCapa/subcapa/'+id_subcapa,'Editar Sub Capa', 'lg');
+        /*$("#tab-editar").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
@@ -362,12 +391,18 @@ var Layer = {};
                 $("#div_tab_3").html(response);
                 $("#tab3").addClass('active').show();
             },'html');
-        });
+        });*/
     };
 
 
     this.editarItemSubcapa = function(item){
-        $("#tab-items-editar").fadeIn(function(){
+        $("#contenedor-items-subcapa").fadeOut(function(){
+            $.post(siteUrl + 'capas/editarItemSubCapa',{item:item},function(response){
+                $("#contenedor-editar-item").html(response);
+                $("#contenedor-editar-item").fadeIn();
+            },'html');
+        })
+        /*$("#tab-items-editar").fadeIn(function(){
             $("#tab-items-subcapa").removeClass('active').addClass('disabled');
             $("#tab4").removeClass('active').fadeOut();
             $(this).addClass('active');
@@ -375,12 +410,15 @@ var Layer = {};
                 $("#div_tab_5").html(response);
                 $("#tab5").addClass('active').fadeIn();
             },'html');
-        });
+        });*/
     };
 
 
     this.listarItemsSubCapa = function(id_subcapa){
-        $("#tab-items-subcapa").fadeIn(function(){
+        $.post(siteUrl + 'capas/ajax_grilla_items_subcapas',{subcapa:id_subcapa},function(response){
+            $("#contenedor-items-subcapa").html(response);
+        },'html');
+        /*$("#tab-items-subcapa").fadeIn(function(){
             $("#ul-tabs").find('li.active').removeClass('active');
             $("#tab-content").find('div.tab-pane.active').removeClass('active');
             $(this).addClass('active');
@@ -397,7 +435,7 @@ var Layer = {};
                 },'html');
             });
 
-        });
+        });*/
     };
 
 
@@ -408,18 +446,31 @@ var Layer = {};
         var params = $(form).serialize();
         $.post(siteUrl + 'capas/guardarItemSubcapa/item/'+item,params,function(response){
             if(response.estado == true){
-                bootbox.alert("Operación Exitosa: "+response.mensaje,function(){
+                xModal.success(response.mensaje,function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                    var subcapa = $("#id_subcapa").val();
+                    $("#contenedor-editar-item").fadeOut(function(){
+                        $("#contenedor-items-subcapa").fadeIn();
+                        Layer.listarItemsSubCapa(subcapa);
+                    });
+
+
+                });
+                /*bootbox.alert("Operación Exitosa: "+response.mensaje,function(){
                     $(btn).html(btnText).attr('disabled',false);
                     var subcapa = $("#id_subcapa").val();
                     Layer.cancelarEdicionItem(subcapa)
-                });
+                });*/
             }else{
-                bootbox.alert("Error en la operación: "+response.mensaje,function(){
+                xModal.danger("Error en la operación: "+response.mensaje,function(){
                     $(btn).html(btnText).attr('disabled',false);
                 });
+                /*bootbox.alert("Error en la operación: "+response.mensaje,function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                });*/
             }
         },'json').fail(function(){
-            bootbox.alert("Error en sistema. Intente nuevamente o comuníquese con Soporte",function(){
+            xModal.danger("Error en sistema. Intente nuevamente o comuníquese con Soporte",function(){
                 $(btn).html(btnText).attr('disabled',false);
             });
         });
@@ -429,40 +480,70 @@ var Layer = {};
 
 
     this.cancelarEdicionItem = function(subcapa){
-        $("#tab5").fadeOut(function(){
+        $("#contenedor-editar-item").fadeOut(function(){
+            $(this).html();
+            $("#contenedor-items-subcapa").fadeIn();
+        });
+
+        /*$("#tab5").fadeOut(function(){
             $("#tab-items-editar").fadeOut(function(){
                 $(this).removeClass('active');
                 Layer.listarItemsSubCapa(subcapa);
-                /*$(this).prev().addClass('active');
+                /!*$(this).prev().addClass('active');
                 $("#tab4").addClass('active').show(function(){
                     Layer.listarItemsSubCapa(subcapa);
-                });*/
+                });*!/
             });
-        });
+        });*/
     }
 
     this.initSaveEdicion = function() {
 
-        $("#input-capa-editar").fileinput({
+        $("#input-capa-geojson").fileinput({
             language: "es",
             multiple: false,
-            uploadAsync: true,
+            uploadAsync: false,
+            maxFileCount: 1,
             initialCaption: "Seleccione una capa GeoJson",
+            allowedFileExtensions : ['geojson'],
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
 
-        $('#input-capa-editar').on('filebatchuploadsuccess', function(event, data) {
-           
-           if(data.response.uploaded==0)//error
-           {
-               var error_filenames = 'El (los) siguiente(s) archivos no son válidos:<br>';
-               $.each(data.response.error_filenames,function(k,v){
-                  error_filenames += '-'+v+'<br>'; 
-               });
+        $("#input-capa-shape").fileinput({
+            language: "es",
+            multiple: true,
+            uploadAsync: false,
+            maxFileCount: 2,
+            msgFilesTooMany: 'Sólo se permite cargar 2 archivos',
+            initialCaption: "Seleccione archivos Shape .shp y .dbf",
+            showUpload: true,
+            allowedFileExtensions : ['shp','dbf'],
+            uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
+        });
+
+
+
+        /* $('#input-icon').on('filebatchuploadsuccess', function(event, data) {
+         $('#icon').val(data.response.nombre_cache_id);
+         $('#img_icon').attr('src',baseUrl+''+data.response.ruta);
+
+         });*/
+
+        $("#iCategoria").jCombo(siteUrl + "visor/obtenerJsonCatCoberturas");
+
+        $('#input-capa-geojson, #input-capa-shape').on('filebatchuploadsuccess', function(event, data) {
+
+            if(data.response.uploaded==0)//error
+            {
+                var error_mensaje = data.response.error_mensaje;
+                //var error_filenames = 'El (los) siguiente(s) archivos no son válidos:<br>';
+                /*$.each(data.response.error_filenames,function(k,v){
+                 error_filenames += '-'+v+'<br>';
+                 });*/
 
                 bootbox.dialog({
                     title: "Resultado de la operacion",
-                    message: error_filenames,
+                    message: error_mensaje,
                     buttons: {
                         danger: {
                             label: "Cerrar",
@@ -470,47 +551,63 @@ var Layer = {};
                         }
                     }
                 });
-           }
-
-
-           if(data.response.filenames.length==0) return; // no se subio ningun archivo valido
-
-            $("#tmp_file_editar").val(data.response.nombre_cache_id);
-           var properties = data.response.properties.data;
-           var filename = data.response.filenames.data;
-           $("#nombre_geojson").html('');
-           
-            $('#tabla_propiedades-editar').DataTable().destroy();
-            $('#tabla_comunas_editar').DataTable().destroy();
-            
-            $('#tabla_propiedades-editar').DataTable({
-                data: properties,
-                language: {
-                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
-                },
-                bPaginate : false,
-                order: [[0, "desc"]],
-                initComplete: function(){
-                    $("#cargando_geojson_edicion").fadeOut();
-                    $('#div_properties-editar').slideDown('slow');
+                $("#cargando_geojson").fadeOut();
+            }else{
+                if(data.response.filenames.length==0){
+                    $("#cargando_geojson").fadeOut();
+                    return; // no se subio ningun archivo valido
                 }
-                
-            }); 
-            $('#tabla_comunas_editar').DataTable({
-                data: filename,
-                language: {
-                    url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
-                },
-                order: [[0, "desc"]],
-                initComplete: function(){
-                    $(".iComunas").jCombo(siteUrl + "comuna/json_comunas_usuario");
-                   
-                    
-                    $('#div_comunas_editar').slideDown('slow');
 
-                }
-            });
-            
+                $("#tmp_file").val(data.response.nombre_cache_id);
+                var properties = data.response.properties.data;
+                var filename = data.response.filenames.data;
+                var geometry = data.response.geometry.data;
+
+                $('#tabla_propiedades').DataTable().destroy();
+                /*$('#tabla_comunas').DataTable().destroy();*/
+                $('#tabla_colores').DataTable().destroy();
+
+                $('#tabla_colores').DataTable({
+                    data: geometry,
+                    language: {
+                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
+                    },
+                    bFilter: true,
+                    bPaginate : false,
+                    paging:   false,
+                    ordering: false,
+                    info:     false,
+                    sDom: 't',
+                    initComplete: function(){
+                        $('#div_color').removeClass("hidden");
+                    }
+
+                });
+
+
+                $('#tabla_propiedades').DataTable({
+                    data: properties,
+                    language: {
+                        url: baseUrl + "assets/js/library/DataTables-1.10.8/Spanish.json"
+                    },
+                    bPaginate : false,
+                    paging:   false,
+                    ordering: false,
+                    info:     false,
+                    bSearchBox: false,
+                    sDom: 't',
+                    initComplete: function(){
+                        $("#cargando_geojson").fadeOut(function(){
+                            $("#btn-guardar-capa").attr('disabled',false);
+                        });
+                        $('#div_properties').slideDown('slow');
+                    }
+
+                });
+
+            }
+
+
         });
     };   
 
@@ -528,26 +625,9 @@ var Layer = {};
 
 
     this.listarCapasDetalle = function(id_capa,nombre_capa){
-        $("#tab2 > #div_tab_2").fadeOut(function(){
-            $.ajax({
-                dataType: "html",
-                cache: false,
-                async: true,
-                data: {id_capa:id_capa},
-                type: "post",
-                url: siteUrl + "capas/ajax_grilla_capas",
-                error: function(xhr, textStatus, errorThrown){
+        xModal.open(siteUrl + 'capas/verDetalleCapa/capa/'+id_capa,nombre_capa + ' :: Subcapas', 'lg');
+        console.log($("#contenedor-grilla-detalle-capa").length);
 
-                },
-                success:function(html){
-                    $("#contenedor-grilla-capas").html(html);
-                    $("#resultados_capa").html(' para capa <strong>'+nombre_capa+'</strong>  <button type="button" class="btn btn-sm btn-square btn-success" title="Volver a Listado de Capas" onclick="Layer.volverListadoCapas();"><i class="fa fa-arrow-left"></i></button>');
-                    $("#tab2 > #div_tab_2").fadeIn(function(){
-
-                    });
-                }
-            });
-        });
     } ;
 
 
@@ -606,19 +686,29 @@ var Layer = {};
             var params = $(form).serialize();
             $.post(siteUrl + 'capas/guardarSubCapa',params,function(response){
                 if(response.estado == true){
-                    bootbox.alert(response.mensaje,function(){
+                    xModal.success(response.mensaje,function(){
+                        Layer.cargarDetalleCapa(form.id_capa.value);
+                        $(btn).html(btnText).attr('disabled',false);
+                    });
+                    /*bootbox.alert(response.mensaje,function(){
                         $(btn).html(btnText).attr('disabled',false);
                         Layer.cancelarEdicion();
-                    });
+                    });*/
                 }else{
-                    bootbox.alert(response.mensaje,function(){
+                    xModal.danger(response.mensaje,function(){
                         $(btn).html(btnText).attr('disabled',false);
                     });
+                    /*bootbox.alert(response.mensaje,function(){
+                        $(btn).html(btnText).attr('disabled',false);
+                    });*/
                 }
             },'json').fail(function(){
-                bootbox.alert("Error en el sistema. Intente nuevamente",function(){
+                xModal.danger("Error en el sistema. Intente nuevamente",function(){
                     $(btn).html(btnText).attr('disabled',false);
                 });
+                /*bootbox.alert("Error en el sistema. Intente nuevamente",function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                });*/
             });
         }
     };

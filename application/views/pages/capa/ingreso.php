@@ -27,239 +27,21 @@
 <!-- /.row -->
 <!-- end PAGE TITLE AREA -->
 
+<div class="top-spaced">
+    <h1 class="">Listado de capas
+        <button type="button" class="btn btn-square btn-lg btn-success pull-right" onclick="xModal.open('<?php echo site_url('capas/nuevaCapa');?>','Nueva Capa','lg');">Nueva Capa</button>
+    </h1>
 
-<ul id="ul-tabs" class="nav nav-tabs">
-    
-    <?php if(puedeEditar("capas")) { ?>
-    <li class='<?= tabActive("nuevo", $tab_activo, "header") ?>'>
-        <a href="#tab1" data-toggle="tab">Nueva</a>
-    </li>
-    <?php } ?>
-    
-    <li class="<?= tabActive("listado", $tab_activo, "header") ?>" id="tab-listado">
-        <a href="#tab2" data-toggle="tab">Listado</a>
-    </li>
-    <li style="display:none" id="tab-editar"><a href="#tab3" data-toggle="tab">Edición</a></li>
-    <li style="display:none" id="tab-items-subcapa"><a href="#tab4" data-toggle="tab">Items Subcapa</a></li>
-    <li style="display:none" id="tab-items-editar"><a href="#tab5" data-toggle="tab">Edición de Item</a></li>
-</ul>
-
-
-
-<div id="tab-content" class="tab-content">
-    <?php if(puedeEditar("capas")) { ?>
-    <div class='tab-pane <?= tabActive("nuevo", $tab_activo, "content") ?> top-spaced' id='tab1' style='overflow:hidden;'>
-        <div id='div_tab_1' class='col-xs-12'>
-            
-            <div class="portlet portlet-default">
-            <div class="portlet-heading">
-                <div class="portlet-title"><h4>Datos de la capa</h4></div>
-            </div>
-            <div class="portlet-body">
-                <form class="form-horizontal" id="form_capas">
-                    
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Nombre (*)</label>
-                        <div class="col-md-7">
-                            <input type="text" id="nombre" name="nombre" class="form-control required" placeholder="Nombre de la(s) Capa(s)" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Categoría (*)</label>
-                        <div class="col-md-7">
-                            <select id="iCategoria" name="iCategoria" class="form-control required" placeholder="Categoría de la(s) Capa(s)"></select>
-                        </div>
-                    </div>
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-md-3 control-label">Zona Geográfica (*)</label>-->
-<!--                        <div class="col-md-7 row">-->
-<!--                            <div class="col-md-2" style="min-width:10%">-->
-<!--                            -->
-<!--                           <select id="gznumber" name="gznumber" class="form-control">-->
-<!--                                <option value="12">12</option>-->
-<!--                                <option value="13">13</option>-->
-<!--                                <option value="14">14</option>-->
-<!--                                <option value="15">15</option>-->
-<!--                                <option value="16">16</option>-->
-<!--                                <option value="17">17</option>-->
-<!--                                <option value="18">18</option>-->
-<!--                                <option selected value="19">19</option>-->
-<!--                                <option value="20">20</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                          <div class="col-md-1" style="min-width:15%">  -->
-<!--                            <select id="gzletter" name="gzletter" class="form-control">-->
-<!--                                <option value="C">C</option>-->
-<!--                                <option value="D">D</option>-->
-<!--                                <option value="E">E</option>-->
-<!--                                <option value="F">F</option>-->
-<!--                                <option value="G">G</option>-->
-<!--                                <option  selected value="H">H</option>-->
-<!--                                <option value="J">J</option>-->
-<!--                                <option value="K">K</option>-->
-<!--                                <option value="L">L</option>-->
-<!--                                <option value="M">M</option>-->
-<!--                                <option value="N">N</option>-->
-<!--                                <option value="P">P</option>-->
-<!--                                <option value="Q">Q</option>-->
-<!--                                <option value="R">R</option>-->
-<!--                                <option value="S">S</option>-->
-<!--                                <option value="T">T</option>-->
-<!--                                <option value="U">U</option>-->
-<!--                                <option value="V">V</option>-->
-<!--                                <option value="W">W</option>-->
-<!--                                <option value="X">X</option>-->
-<!--                                <option value="Z">Z</option>-->
-<!--                            </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-                    
-                    <div class="form-group">
-                        <label class="col-md-3 col-xs-12 control-label">Capa (*)</label>
-                        <div class="col-xs-12 col-md-9">
-                            <div class="col-xs-12">
-                                <div class="radio col-xs-1">
-                                    <label><input type="radio" name="tipo_capa" value="1" onclick="Layer.mostrarContenedorCapa(this.value);" /> GeoJSON</label>
-                                </div>
-                                <div class="radio col-xs-1">
-                                    <label><input type="radio" name="tipo_capa" value="2" onclick="Layer.mostrarContenedorCapa(this.value);" /> Shape</label>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 row" style="display:none" id="contenedor_tipo_geojson">
-                                <div class="col-md-4">
-                                    <input id="input-capa-geojson" name="input-capa-geojson" class="form-control"  type="file" data-show-preview="false" />
-                                </div>
-                            </div>
-                            <div class="col-xs-12 row" style="display:none" id="contenedor_tipo_shape">
-                                <div class="col-md-4">
-                                    <input id="input-capa-shape" name="input-capa-shape[]" class="form-control"  type="file" data-show-preview="false" multiple />
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-4 col-xs-12 top-spaced" style="display:none" id="cargando_geojson">
-                                <div class="alert alert-info text-center small">
-                                    Procesando archivo... <i class="fa fa-spin fa-spinner"></i>
-                                    <br/>Esto puede demorar dependiendo del tamaño de la capa cargada
-                                </div>
-                            </div>
-                        </div>
-<!--                        <div class="col-md-4">-->
-<!--                            <input id="input-capa" name="input-capa[]" class="form-control"  type="file" data-show-preview="false" />-->
-<!--                        </div>-->
-
-                    </div>
-                    
-                    <div id="div_color" class="hidden">
-                        <label class="col-md-3 control-label">Configuración de capa</label>
-                        <div class="col-md-9">
-                            <table id="tabla_colores" class="table table-bordered table-striped required" placeholder="Archivo de capa válido">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        Tipo
-                                    </th>
-                                    <th>
-                                        Color/icono
-                                    </th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                    <input name="tmp_file" id="tmp_file" type="hidden"/>
-                    <!--<div class="form-group" id="div_comunas" style="display:none;">
-                        <label class="col-md-3 control-label">Comuna de la(s) capa(s)</label>
-                        <div class="col-md-9">
-                            <table id="tabla_comunas" class="table table-bordered table-striped required" placeholder="Archivo de capa válido">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        Archivo
-                                    </th>
-                                    <th>
-                                        Comuna
-                                    </th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>-->
-                    <div class="form-group" id="div_properties" style="display:none;">
-                        <label class="col-md-3 control-label">Propiedades de la(s) capa(s)</label>
-                        <div class="col-md-5">
-                            <table id="tabla_propiedades" class="table table-bordered table-striped dataTable">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        Propiedad
-                                    </th>
-                                    <th>
-                                        Activar
-                                    </th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="col-md-10">
-                        <button type="button" class="pull-right btn btn-default btn-square" onclick="Layer.guardar(this.form,this)">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
 </div>
 
-    </div>
-    <?php } ?>
-    <div class='tab-pane <?= tabActive("listado", $tab_activo, "content") ?>' id='tab2' style='overflow:hidden;'>
 
-            <div id='div_tab_2' class='col-xs-12 top-spaced'>
-
-            </div>
-
-    </div>
-
-    <div class='tab-pane' id='tab3' style='overflow:hidden;'>
-        <div id='div_tab_3' class='col-xs-12 top-spaced'>
+<div class="col-xs-12 top-spaced">
+    <div class="row">
+        <div id='listado_capas'>
 
         </div>
-
-    </div>
-
-    <div class='tab-pane' id='tab4' style='overflow:hidden;'>
-        <div class="col-xs-12 text-center" id="tab4-cargando">
-            <i class="fa fa-spin fa-spinner fa-5x"></i>
-        </div>
-        <div id="tab4-contenido" style="display:none">
-            <div class="col-xs-12 text-right top-spaced">
-                <button type="button" class="btn btn-default btn-square" onclick="Layer.volverTabListado();">Volver</button>
-            </div>
-            <div class="col-xs-12 top-spaced">
-                <div class="portlet portlet-default">
-                    <div class="portlet-heading">
-                        <h4 class="portlet-title">Listado de Items</h4>
-                    </div>
-                    <div class="portlet-body">
-                        <div id='div_tab_4' class='col-xs-12 table-responsive small'></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class='tab-pane' id='tab5' style='overflow:hidden;'>
-        <div id='div_tab_5' class='col-xs-12 table-responsive small'>
-
-        </div>
-
     </div>
 </div>
-
 
 
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
@@ -280,25 +62,9 @@
 
     $(document).ready(function() {
         Layer.initSave();
-        $('#div_tab_2').load(siteUrl+'capas/listado');
-    });
-    $('#input-capa-geojson').on('fileloaded', function(event, file){
-        $("#cargando_geojson").fadeIn();
-        $(this).fileinput("upload");
+        $('#listado_capas').load(siteUrl+'capas/listado');
     });
 
-    $('#input-capa-shape').on('fileuploaderror', function(event, data, previewId, index) {
-        console.log('File upload error');
-        $('#input-capa-shape').fileinput('clear');
-    });
-
-    $('#input-capa-shape').on('filebatchselected', function(event, files) {
-        if(files.length == 2){
-            $("#cargando_geojson").fadeIn();
-            $(this).fileinput('upload');
-        }
-
-    });
 
 
 

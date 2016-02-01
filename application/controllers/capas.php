@@ -104,6 +104,7 @@ class Capas extends MY_Controller
 
 
     function ajax_grilla_items_subcapas() {
+
         $id_subcapa = $this->input->post('subcapa');
         $this->load->helper(array("modulo/capa/capa"));
 
@@ -224,9 +225,9 @@ class Capas extends MY_Controller
 
 
         $query = 'select SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)). ' from '.$sTable.' ';
-        $query .= 'INNER JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
-                    INNER JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
-                    INNER JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
+        $query .= 'LEFT JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
+                    LEFT JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
+                    LEFT JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
         $query = $query . $where . $order . $limit;
         /*$this->db->where('poligono_capitem',$subcapa);
         $this->db->join('comunas c','c.com_ia_id = capas_poligonos_informacion.poligono_comuna','inner');
@@ -275,7 +276,7 @@ class Capas extends MY_Controller
                     $buttons = '<a class="btn btn-xs btn-default btn-square" onclick="Layer.editarItemSubcapa('.$aRow[$col].');" >
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a class="btn btn-xs btn-danger btn-square" onclick="Layer.eliminarItemSubcapa('.$aRow[$col].')">
+                                <a class="btn btn-xs btn-danger btn-square" onclick="Layer.eliminarItemSubcapa('.$aRow[$col].','.$subcapa.')">
                                     <i class="fa fa-trash"></i>
                                 </a>';
                     $row[] = $buttons;
@@ -395,7 +396,9 @@ class Capas extends MY_Controller
     public function editarCapa(){
 
 
-        $id_capa = $this->input->post('capa');
+        /*$id_capa = $this->input->post('capa');*/
+        $params = $this->uri->uri_to_assoc();
+        $id_capa = $params['capa'];
         $this->load->model("capa_model", "CapaModel");
 
         $this->load->model("categoria_cobertura_model", "CategoriaCobertura");
@@ -427,12 +430,13 @@ class Capas extends MY_Controller
             'categorias' => $categorias,
             'geojson' => $properties
             );
-        echo $this->load->view("pages/capa/edicion",$data);
+        $this->load->view("pages/capa/edicion",$data);
     }
 
 
     public function editarSubCapa(){
-        $id_capa = $this->input->post('capa');
+        $params = $this->uri->uri_to_assoc();
+        $id_capa = $params['subcapa'];
         $this->load->model("capa_model", "CapaModel");
 
         /*$this->load->model("categoria_cobertura_model", "CategoriaCobertura");
@@ -475,7 +479,7 @@ class Capas extends MY_Controller
             'id_capa' => $id_subcapa,
             'capa' => $capa
         );
-        echo $this->load->view("pages/capa/edicion_subcapa",$data);
+        $this->load->view("pages/capa/edicion_subcapa",$data);
     }
 
 
@@ -492,6 +496,8 @@ class Capas extends MY_Controller
         $data['id_subcapa'] = $item['poligono_capitem'];
         $data['subcapa'] = $item['geometria_nombre'];
         $data['comuna'] = $item['com_c_nombre'];
+        $data['provincia'] = $item['prov_c_nombre'];
+        $data['region'] = $item['reg_c_nombre'];
         $data['capa'] = $item['cap_c_nombre'];
         $data['id_region'] = $item['reg_ia_id'];
         $data['geozone'] = $item['reg_geozone'];
@@ -626,5 +632,29 @@ class Capas extends MY_Controller
         $comunas = $this->ComunaModel->listar();
         $this->load->view('pages/capa/listado_comunas',array('comunas' => $comunas));
     }
-    
+
+
+    public function nuevaCapa(){
+
+        $this->load->view('pages/capa/nueva_capa');
+
+    }
+
+
+    public function verDetalleCapa(){
+        $params = $this->uri->uri_to_assoc();
+        $data = array();
+        $data['capa'] = $params['capa'];
+        $this->load->view('pages/capa/detalle_capa',$data);
+    }
+
+
+    public function listadoItemsSubcapa(){
+        $params = $this->uri->uri_to_assoc();
+        $data = array('subcapa' => $params['subcapa']);
+
+        $this->load->view('pages/capa/listado_items_subcapa',$data);
+    }
+
+
 }
