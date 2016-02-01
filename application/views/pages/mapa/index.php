@@ -35,7 +35,7 @@
         <!-- Input para buscar direcciones -->
         <div class="row hidden">
             
-            <div id="busqueda" class="input-group" style="width:300px">
+            <div id="busqueda" class="input-group" style="width:250px;padding-right:30px">
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                 <input id="pac-input" class="form-control" type="text" placeholder="Buscar dirección">
             </div>

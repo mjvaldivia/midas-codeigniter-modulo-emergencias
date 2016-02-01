@@ -69,23 +69,10 @@ class Mapa_capas extends MY_Controller {
      */
     public function ajax_capas_comuna_emergencia(){
         header('Content-type: application/json');
-        $this->load->library("visor/capa/visor_capa_comuna");
+        $this->load->library("visor/capa/visor_capa_elemento");
         
         $params = $this->input->post(null, true);
-        $data = $this->visor_capa_comuna->cargaCapasEmergencia($params["id"]);
-        
-        echo json_encode($data);
-    }
-    
-    /**
-     * Retorna las capas asociadas a una emergencia
-     */
-    public function ajax_capas_provincia_emergencia(){
-        header('Content-type: application/json');
-        $this->load->library("visor/capa/visor_capa_cargar");
-        
-        $params = $this->input->post(null, true);
-        $data = $this->visor_capa_cargar->cargaEmergencia($params["id"]);
+        $data = $this->visor_capa_elemento->cargaCapasEmergencia($params["id"]);
         
         echo json_encode($data);
     }

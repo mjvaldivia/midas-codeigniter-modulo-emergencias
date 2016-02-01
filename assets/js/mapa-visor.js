@@ -50,11 +50,11 @@ $(document).ready(function() {
     // menu superior derecho
     visor.addOnReadyFunction("menu derecho",function(map){
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('menu-derecho'));
+        
         $("#menu-derecho").removeClass("hidden");
         
         $(".menu-capa-checkbox").click(function(){
             var id = $(this).val();
-            
             if($(this).is(":checked")){
                 capas.addCapa(id);
             } else {

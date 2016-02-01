@@ -10,6 +10,12 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-lg-12">
+            <label for="metros" class="control-label">COLOR:</label>
+            <input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="red"/>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             <div id="form_error" class="alert alert-danger hidden">
                 <strong> Existen problemas con los datos ingresados </strong> <br>
