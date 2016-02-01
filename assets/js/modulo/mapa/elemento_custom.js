@@ -226,7 +226,7 @@ var MapaElementoCustom = Class({
                                     id, 
                                     elemento.coordenadas.center.lng, 
                                     elemento.coordenadas.center.lat, 
-                                    elemento.coordenadas.radio, 
+                                    elemento.coordenadas.zonas, 
                                     elemento.propiedades, 
                                     elemento.icono
                             );
@@ -436,10 +436,11 @@ var MapaElementoCustom = Class({
                             }
                         }
                     });
-
+                    
+                    var zonas = {};
                     $.each(arr, function(i, circulo){
-                       radio = circulo.getRadius();
-                       color = circulo.fillColor;
+                       zonas[i] = {"radio" : circulo.getRadius(),
+                                   "color" : circulo.fillColor};
                     });
                     
                     data = {"tipo" : "PUNTO LUGAR EMERGENCIA",
@@ -449,7 +450,7 @@ var MapaElementoCustom = Class({
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
                             "coordenadas" : {"center" : elemento.getPosition(),
-                                             "radio"  : radio}};
+                                             "zonas"  : zonas}};
                     break;
                 case "POLIGONO":
                     data = {"tipo" : "POLIGONO",
