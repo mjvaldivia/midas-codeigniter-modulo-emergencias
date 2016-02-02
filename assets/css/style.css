@@ -2251,3 +2251,5 @@ table>tbody>tr>td{vertical-align: middle !important}
 table>thead>tr>th{vertical-align: middle !important; text-align: center;}
 
 #page-wrapper{overflow:hidden;padding-bottom: 15px;}
+
+.text-bold{font-weight: bold !important;}

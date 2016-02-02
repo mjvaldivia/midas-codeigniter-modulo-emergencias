@@ -12,7 +12,7 @@ $(document).ready(function() {
     visor.seteaHeight(500);
     visor.seteaEmergencia(id);
     visor.setCenter(parseFloat(lat),parseFloat(lon));
-    
+
     //custom
     var custom = new MapaElementoCustom();
     custom.emergencia(id);
