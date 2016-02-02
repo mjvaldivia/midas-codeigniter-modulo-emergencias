@@ -104,7 +104,7 @@ var AlarmaMapa = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud),parseFloat(yo.longitud));
 
         var mapOptions = {
-          zoom: 15,
+          zoom: 13,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -146,7 +146,7 @@ var AlarmaMapa = Class({
                 var region = place.address_components[index].long_name;  
 
                 yo.geozone = regiones[region];
-                
+
                 //var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
                 $('#longitud').val(parseFloat(place.geometry.location.lng()));
                 $('#latitud').val(parseFloat(place.geometry.location.lat()));

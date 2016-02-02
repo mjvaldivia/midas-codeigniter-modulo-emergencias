@@ -2,6 +2,8 @@
 <div class="col-lg-12">
     <form name="form_reporte_emergencia" id ="form_reporte_emergencia">
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"/>
+        <input type="hidden" name="lat" id="lat" value="<?php echo $lat?>"/>
+        <input type="hidden" name="lon" id="lon" value="<?php echo $lon?>"/>
         <div class="row">
             <div class="col-lg-6">
                 <div id="mapa">

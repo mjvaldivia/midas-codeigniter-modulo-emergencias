@@ -43,11 +43,16 @@ Class Emergencia_reporte extends MY_Controller {
      */
     public function index(){
         $this->load->helper(array("modulo/emergencia/emergencia_form"));
-        
+        $this->load->model('alarma_model','AlarmaModel');
+
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->_emergencia_model->getById($params["id"]);
+        $alarma = $this->AlarmaModel->getById($emergencia->ala_ia_id);
+
         if(!is_null($emergencia)){
             $data = array("id" => $emergencia->eme_ia_id,
+                            "lat" => $alarma->ala_c_utm_lat,
+                            "lon" => $alarma->ala_c_utm_lng,
                           "nombre" => strtoupper($emergencia->eme_c_nombre_emergencia),
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
             $this->load->view("pages/emergencia_reporte/index.php", $data);
