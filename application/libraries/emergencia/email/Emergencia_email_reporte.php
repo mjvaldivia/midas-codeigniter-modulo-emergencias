@@ -82,7 +82,7 @@ Class Emergencia_email_reporte{
         
         $this->_reporte = $dir . "/reporte_".$time.".pdf";
 
-        return 'reporte_'.$time.'.pdf';
+        return $this->_reporte;
     }
     
     /**

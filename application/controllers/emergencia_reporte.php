@@ -91,7 +91,7 @@ Class Emergencia_reporte extends MY_Controller {
                 $pdf = $this->emergencia_pdf->generar($emergencia->eme_ia_id);
                 $reporte = $this->emergencia_email_reporte->setReporte($pdf);
             }
-            
+
             foreach($params["destinatario"] as $email){
                 $this->emergencia_email_reporte->addTo($email);
                 $destinatario = $this->UsuarioModel->getByEmail($email);
@@ -108,16 +108,24 @@ Class Emergencia_reporte extends MY_Controller {
             $this->emergencia_email_reporte->setMessage($params["mensaje"]);
             
             $correcto = $this->emergencia_email_reporte->send($emergencia->eme_ia_id);
-            $dir_reporte = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$reporte;
+            /*$dir_reporte = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$reporte;*/
             $file = '';
-            if(is_file($dir_reporte)){
+
+            if(is_file($reporte)){
+                $reporte_file = explode("/",$reporte);
+                $nombre_reporte = end($reporte_file);
                 $this->load->model('archivo_model','ArchivoModel');
                 $url = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/';
-                $id_reporte = $this->ArchivoModel->file_to_bd($url, $reporte, 'application/pdf', $this->ArchivoModel->TIPO_EMERGENCIA, $emergencia->ala_ia_id, filesize($dir_reporte));
-                rename('media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$reporte,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$id_reporte.'_'.$reporte);
+                if(!is_dir($url)){
+                    mkdir($url,0777,true);
+                }
+                $id_reporte = $this->ArchivoModel->file_to_bd($url, $nombre_reporte, 'application/pdf', $this->ArchivoModel->TIPO_EMERGENCIA, $emergencia->ala_ia_id, filesize($reporte));
+                rename($reporte,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$id_reporte.'_'.$nombre_reporte);
+                @unlink($reporte);
                 $reporte = $this->ArchivoModel->getById($id_reporte);
                 $nombre = explode('/',$reporte->arch_c_nombre);
                 $file = '<a href="'.site_url("archivo/download_file/k/" . $reporte->arch_c_hash).'" target="_blank"><strong>'.$nombre[count($nombre)-1].'</strong></a>';
+
             }
 
             $usuario = $this->session->userdata('session_idUsuario');
