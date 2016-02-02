@@ -359,7 +359,7 @@ class Mapa extends MY_Controller {
      * Retorna datos de ubicacion de la alarma
      * @throws Exception
      */
-    public function ajax_marcador_lugar_alarma(){
+    public function ajax_lugar_alarma(){
         header('Content-type: application/json');
         $data = array("correcto" => false);
         

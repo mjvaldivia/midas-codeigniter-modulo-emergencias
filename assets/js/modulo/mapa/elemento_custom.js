@@ -252,18 +252,9 @@ var MapaElementoCustom = Class({
                     });
                     
                     if(!bo_lugar_emergencia){
-                        
-                        var arr = jQuery.grep(lista_markers, function( a ) {
-                            if(a["identificador"] == "lugar_alarma"){
-                                return true;
-                            }
-                        });
-                        console.log("Cantidad lugares alarma " + arr.length);
-                        if(arr.length == 0){
-                            var lugar_alarma = new MapaMarcadorLugarAlarma();
-                            lugar_alarma.seteaEmergencia(yo.id_emergencia);
-                            lugar_alarma.marcador(yo.mapa);
-                        }
+                        var lugar_alarma = new MapaMarcadorLugarAlarma();
+                        lugar_alarma.seteaEmergencia(yo.id_emergencia);
+                        lugar_alarma.marcador(yo.mapa);   
                     }
                     
                     yo.listaElementosVisor();

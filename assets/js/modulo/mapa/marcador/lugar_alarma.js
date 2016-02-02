@@ -20,6 +20,10 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
         this.id_emergencia = id;
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     removerAlarma : function(){
         this.removerMarcadores("identificador","lugar_alarma");
     },
@@ -39,7 +43,7 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_marcador_lugar_alarma", 
+            url: siteUrl + "mapa/ajax_lugar_alarma", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
@@ -51,25 +55,12 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
                                            "NOMBRE" : data.resultado.nombre}, 
                                           data.resultado.zona, 
                                           baseUrl + 'assets/img/referencia.png');
-
-                    yo.centrarMapa(mapa, data.resultado.lon, data.resultado.lat, data.resultado.zona);
-
-
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
             }
         }); 
-    },
-    
-    centrarMapa : function (mapa, lon, lat, zona){
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(lon), 
-                                                   parseFloat(lat), 
-                                                   zona);
-        var posicion = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
-        mapa.setCenter(posicion);
-    }
-    
+    },    
 });
 
 
