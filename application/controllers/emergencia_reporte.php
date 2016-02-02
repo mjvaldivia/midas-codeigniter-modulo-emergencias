@@ -111,6 +111,7 @@ Class Emergencia_reporte extends MY_Controller {
             /*$dir_reporte = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$reporte;*/
             $file = '';
 
+
             if(is_file($reporte)){
                 $reporte_file = explode("/",$reporte);
                 $nombre_reporte = end($reporte_file);
@@ -119,7 +120,9 @@ Class Emergencia_reporte extends MY_Controller {
                 if(!is_dir($url)){
                     mkdir($url,0777,true);
                 }
+
                 $id_reporte = $this->ArchivoModel->file_to_bd($url, $nombre_reporte, 'application/pdf', $this->ArchivoModel->TIPO_EMERGENCIA, $emergencia->ala_ia_id, filesize($reporte));
+                
                 rename($reporte,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$id_reporte.'_'.$nombre_reporte);
                 @unlink($reporte);
                 $reporte = $this->ArchivoModel->getById($id_reporte);
