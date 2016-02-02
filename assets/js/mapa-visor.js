@@ -123,7 +123,8 @@ $(document).ready(function() {
            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('busqueda'));
         }
     );
-
+    
+    visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
 
     //inicia mapa
     visor.bindMapa();

@@ -7,8 +7,8 @@ var Visor = Class({
     id_emergencia : null,
     geozone : "19H",
     id_div_mapa : "",
-    latitud : null,
-    longitud : null,
+    latitud : "-36.82013519999999",
+    longitud : "-73.0443904",
     callback : null,
     
     on_ready_functions : {},
@@ -83,7 +83,7 @@ var Visor = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_marcador_lugar_alarma", 
+            url: siteUrl + "mapa/ajax_lugar_alarma", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
@@ -123,51 +123,35 @@ var Visor = Class({
         
         var yo = this;
 
-        $.ajax({         
-            dataType: "json",
-            cache: false,
-            async: true,
-            data: "id=" + yo.id_emergencia,
-            type: "post",
-            url: siteUrl + "mapa/ajax_lugar_alarma", 
-            error: function(xhr, textStatus, errorThrown){},
-            success:function(data){
-                if(data.correcto){
                     
-                    yo.setCenter(data.resultado.lat, data.resultado.lon);
-                    
-                    var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud), parseFloat(yo.longitud));
+        var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud), parseFloat(yo.longitud));
 
-                    var mapOptions = {
-                      zoom: 10,
-                      scaleControl: true,
-                      center: myLatlng,
-                      mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
+        var mapOptions = {
+          zoom: 10,
+          scaleControl: true,
+          center: myLatlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
-                    map = new google.maps.Map(document.getElementById(yo.id_div_mapa), mapOptions);
+        map = new google.maps.Map(document.getElementById(yo.id_div_mapa), mapOptions);
 
-                    google.maps.event.addListenerOnce(map, 'idle', function(){
-                        console.log("Mapa cargado totalmente");
-                        console.log("Iniciando carga de elementos");
-                        $.each(yo.on_ready_functions, function(i, funcion){
-                            console.log("Carga de " + i);
-                            funcion.funcion(map, funcion.parametros);
-                        });
+        google.maps.event.addListenerOnce(map, 'idle', function(){
+            console.log("Mapa cargado totalmente");
+            console.log("Iniciando carga de elementos");
+            $.each(yo.on_ready_functions, function(i, funcion){
+                console.log("Carga de " + i);
+                funcion.funcion(map, funcion.parametros);
+            });
 
-                        //yo.centrarLugarEmergencia();
-                    });
+            //yo.centrarLugarEmergencia();
+        });
 
-                    yo.contextMenu(map);
+        yo.contextMenu(map);
 
-                    yo.mapa = map;
-                    
-                    google.maps.event.addDomListener(window, "resize", yo.resizeMap());
-                } else {
-                    notificacionError("Ha ocurrido un problema", data.error);
-                }
-            }
-        }); 
+        yo.mapa = map;
+
+        google.maps.event.addDomListener(window, "resize", yo.resizeMap());
+
 
 
 
