@@ -258,7 +258,7 @@ var MapaElementoCustom = Class({
                                 return true;
                             }
                         });
-                        
+                        console.log("Cantidad lugares alarma " + arr.length);
                         if(arr.length == 0){
                             var lugar_alarma = new MapaMarcadorLugarAlarma();
                             lugar_alarma.seteaEmergencia(yo.id_emergencia);
@@ -299,6 +299,10 @@ var MapaElementoCustom = Class({
                     } else {
                         $.ajax(ajax);
                     }
+                } else {
+                    var lugar_alarma = new MapaMarcadorLugarAlarma();
+                    lugar_alarma.seteaEmergencia(yo.id_emergencia);
+                    lugar_alarma.marcador(yo.mapa);
                 }
             }
         });
