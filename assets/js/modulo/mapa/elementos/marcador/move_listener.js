@@ -8,21 +8,25 @@ var MapaMarcadorMoveListener = Class({
      */
     addMoveListener : function(marker, mapa){
         var yo = this;
-        console.log(marker);
-        marker.addListener('dragend', function(event) {    
+
+        google.maps.event.addListener(marker, 'dragend', function() {
+            
+            console.log("Comenzando dragend");
             
             var marcadores = jQuery.grep(lista_poligonos, function( a ) {
-                if(a["clave"] == lista_poligonos.clave){
+                if(a["clave"] == marker.clave){
                     return true;
                 }
             });
             
+            console.log(marcadores);
+            
             $.each(marcadores, function(i, elemento){
-                if(elemento.tipo == "CIRCULO"){
-                    console.log(elemento);
+                if(elemento.tipo == "CIRCULO" || elemento.tipo == "CIRCULO LUGAR EMERGENCIA"){
+                    elemento.setCenter(marker.getPosition());
                 }
             });
-        });
+        } );
         
     } 
 

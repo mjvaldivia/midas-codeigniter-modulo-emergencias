@@ -93,7 +93,7 @@ var MapaPoligono = Class({
      */
     addClickListener : function(poligono, mapa){
         var yo = this;
-        poligono.addListener('click', function(event) {
+        poligono.addListener('rightclick', function(event) {
             
             //si el poligono pertenece a una capa
             //se buscan todos los poligonos que pertenecen a esta
