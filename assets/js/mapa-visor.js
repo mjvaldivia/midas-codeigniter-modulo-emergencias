@@ -12,7 +12,7 @@ $(document).ready(function() {
     visor.seteaEmergencia(id);
 
      //custom
-    var custom = new MapaElementoCustom();
+    var custom = new MapaElementos();
     custom.emergencia(id);
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, true);
     
@@ -75,54 +75,8 @@ $(document).ready(function() {
     });
     
     // input de busqueda de direcciones
-    visor.addOnReadyFunction("buscador de direcciones",
-        function(map){
-           $("#busqueda").parent().removeClass("hidden");
-           var input = document.getElementById('pac-input');
-
-           ac = new google.maps.places.Autocomplete(input, {
-               componentRestrictions: {country: 'cl'}
-           });
-
-           ac.addListener('place_changed', function () {
-               var place = ac.getPlace();
-               if (place.length === 0) {
-                   return;
-               }
-
-               map.setCenter(place.geometry.location);
-
-               //se borra marcador de busqueda si ya existia
-               if(!(marker_search == null)){
-                   marker_search.setMap(null);
-                   marker_search = null;
-               }
-
-               //se agrega marcador
-               var marker = new google.maps.Marker({
-                   position: place.geometry.location,
-                   icon: {
-                     path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                     scale: 3
-                   },
-                   draggable: true,
-                   map: map
-               });
-
-               marker.setAnimation(google.maps.Animation.BOUNCE);
-
-               marker_search = marker;
-
-               map.addListener('center_changed', function(event) {
-                   marker_search.setMap(null);
-                   marker_search = null;
-                   google.maps.event.clearInstanceListeners(this);
-               });
-
-           });
-           map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('busqueda'));
-        }
-    );
+    var buscador = new MapaLayoutInputBusqueda("busqueda");
+    visor.addOnReadyFunction("buscador de direcciones", buscador.addToMap);
     
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
 
@@ -133,6 +87,14 @@ $(document).ready(function() {
     $("#sidebar-toggle").click(function(){
         visor.resizeMap();
     });
+    
+    /*$(window).unload(function(){
+        saveSpace();
+    }).keypress(keypressArea);*/
+
+    window.onbeforeunload = function confirmExit() {
+        return "Se han efectuado cambios en el mapa. <br> ¿Desea guardar estos cambios antes de salir?";
+    };
 });
 
 

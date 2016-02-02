@@ -1,48 +1,68 @@
+<!-- Estilos mapa mapa -->
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
 
+<!-- Plugin para menu slider up -->
 <?= loadCSS("assets/js/library/slideupmenu-1.0/style.css"); ?>
 <?= loadJS("assets/js/library/slideupmenu-1.0/jquery.slideup.menu.1.0.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/extension/geo-encoder.js"); ?>
-
+<!-- Plugins para upload -->
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
-<?= loadCSS("assets/js/modulo/mapa/extension/maps.google.buttons.css") ?>
-<?= loadJS("assets/js/modulo/mapa/extension/maps.google.polygon.containsLatLng.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/extension/maps.google.contextmenu.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/extension/maps.google.buttons.js"); ?>
+<!-- Extensiones para el mapa -->
+<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
+<?= loadCSS("assets/js/modulo/mapa/google/extension/maps.google.buttons.css") ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.polygon.containsLatLng.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.contextmenu.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.buttons.js"); ?>
 
+<!-- Popup con informacion de un elemento -->
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/circulo/move_listener.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/circulo/click_listener.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/circulo/dibujar.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/rectangulo/click_listener.js"); ?>
+<!-- ELEMENTOS -->
+<!-- Circulo -->
+<?= loadJS("assets/js/modulo/mapa/elementos/circulo.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/circulo/move_listener.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/circulo/click_listener.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/elemento_custom.js"); ?>
+<!-- Rectangulo -->
+<?= loadJS("assets/js/modulo/mapa/elementos/rectangulo/click_listener.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/linea.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/linea/linea_multi.js"); ?>
+<!-- Lineas -->
+<?= loadJS("assets/js/modulo/mapa/elementos/linea.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/linea/linea_multi.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/poligono.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); ?>
+<!-- Poligonos -->
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/poligono_multi.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/marcador.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/marcador/lugar_alarma.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/marcador/lugar_emergencia.js"); ?>
+<!-- Marcadores -->
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_alarma.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_emergencia.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/kml.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/kml/importar.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/kml/sidco-conaf.js"); ?>
+<!-- Clase base para elementos -->
+<?= loadJS("assets/js/modulo/mapa/elementos.js"); ?>
 
+<!-- IMPORTAR ARCHIVOS -->
+<!-- Kml -->
+<?= loadJS("assets/js/modulo/mapa/formatos/kml.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
+<!-- Externos -->
+<?= loadJS("assets/js/modulo/mapa/formatos/kml/sidco-conaf.js"); ?>
+
+<!-- LAYOUT -->
+<?= loadJS("assets/js/modulo/mapa/layout/input/busqueda.js"); ?>
+
+
+<!-- Permite editar mapa -->
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
 
+<!-- Carga de capas -->
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/capa/region.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/capa/provincia.js"); ?>
 
+<!-- Base del visor-->
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 
 <?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>

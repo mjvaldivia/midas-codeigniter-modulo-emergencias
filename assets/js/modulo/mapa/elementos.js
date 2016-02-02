@@ -1,4 +1,4 @@
-var MapaElementoCustom = Class({
+var MapaElementos = Class({
     
     mapa : null,
     id_emergencia : null,
@@ -199,9 +199,12 @@ var MapaElementoCustom = Class({
      * @returns {void}
      */
     loadCustomElements : function(mapa, mensaje_carga){
+        
         this.mapa = mapa;
+        this.loadConfiguracion();
+        
         var yo = this;
-
+        
 
         var ajax = {         
             dataType: "json",
@@ -295,6 +298,35 @@ var MapaElementoCustom = Class({
                     lugar_alarma.seteaEmergencia(yo.id_emergencia);
                     lugar_alarma.marcador(yo.mapa);
                 }
+            }
+        });
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    loadConfiguracion : function(){
+        var yo = this;
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: "id=" + yo.id_emergencia,
+            type: "post",
+            url: siteUrl + "mapa/ajax_mapa_configuracion", 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+               if(data.correcto){
+                   if(data.resultado.sidco == 1){
+                        var sidco = new MapaKmlSidcoConaf();
+                        sidco.seteaMapa(yo.mapa);
+                        sidco.loadKml();
+                        $("#importar_sidco").prop("checked", true);
+                   } else {
+                       $("#importar_sidco").prop("checked", false);
+                   }
+               }
             }
         });
     },

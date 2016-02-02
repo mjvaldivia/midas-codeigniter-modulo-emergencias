@@ -39,7 +39,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
 
             var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
             
-            var circulo = new MapaCirculoDibujar();
+            var circulo = new MapaCirculo();
             circulo.seteaTipo("CIRCULO LUGAR EMERGENCIA");
             circulo.seteaMapa(yo.mapa);
             circulo.seteaUniqueId(yo.unique_id);
@@ -168,7 +168,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                     yo.popupMetros(yo.mapa, marker, contextMenu);
                 break;
                 case 'eliminar_lugar_emergencia_click':
-                    var elemento = new MapaElementoCustom();
+                    var elemento = new MapaElementos();
                     elemento.removeOneCustomElements("clave", marker.clave);
                 break;
 

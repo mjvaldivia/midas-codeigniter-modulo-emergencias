@@ -77,6 +77,12 @@ class Mapa extends MY_Controller {
     
     /**
      *
+     * @var Emergencia_Mapa_Configuracion_Model; 
+     */
+    public $_emergencia_mapa_configuracion_model;
+    
+    /**
+     *
      * @var Emergencia_Comuna 
      */
     public $emergencia_comuna;
@@ -90,7 +96,7 @@ class Mapa extends MY_Controller {
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
         $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
-        
+        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
         $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
         $this->load->model("alarma_model", "_alarma_model");
         $this->load->model("capa_model", "_capa_model");
@@ -126,7 +132,8 @@ class Mapa extends MY_Controller {
         $this->load->library(
             array(
                   "visor/guardar/visor_guardar_elemento",
-                  "visor/guardar/visor_guardar_kml" 
+                  "visor/guardar/visor_guardar_kml",
+                  "visor/guardar/visor_guardar_sidco" 
                  )
         );
         
@@ -163,6 +170,9 @@ class Mapa extends MY_Controller {
             
             $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
                                     ->guardar($kml);
+            
+            $this->visor_guardar_sidco->setEmergencia($emergencia->eme_ia_id)
+                                      ->guardar($params["sidco"]);
             
             
             $data = array("correcto" => true,
@@ -286,6 +296,23 @@ class Mapa extends MY_Controller {
         $data["correcto"] = true;
         $data["resultado"] = $json;
         echo json_encode($data);
+    }
+    
+    /**
+     * Carga configuracion de mapa
+     */
+    public function ajax_mapa_configuracion(){
+        header('Content-type: application/json');
+        $resultado = array("correcto" => true,
+                           "resultado" => array("sidco" => 0));
+        $params = $this->input->post(null, true);
+
+        $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
+        if(!is_null($configuracion)){
+            $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco);
+        }
+        
+        echo json_encode($resultado);
     }
     
     /**

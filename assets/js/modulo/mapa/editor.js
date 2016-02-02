@@ -2,6 +2,7 @@ var MapaEditor = Class({
     
     mapa : null,
     id_emergencia : null,
+    
     class_poligono : null,
     class_marcador : null,
     class_capa     : null,
@@ -109,7 +110,7 @@ var MapaEditor = Class({
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
             lista_markers.push(marker);
             
-            var elemento = new MapaElementoCustom();
+            var elemento = new MapaElementos();
             elemento.listaElementosVisor();
         });
         
@@ -135,7 +136,7 @@ var MapaEditor = Class({
             rectanguloClickListener.addClickListener(rectangle, mapa);
             lista_poligonos.push(rectangle);
             
-            var elemento = new MapaElementoCustom();
+            var elemento = new MapaElementos();
             elemento.listaElementosVisor();
         });
         
@@ -159,7 +160,7 @@ var MapaEditor = Class({
             yo.class_poligono.addClickListener(polygon, mapa);
             lista_poligonos.push(polygon);
             
-            var elemento = new MapaElementoCustom();
+            var elemento = new MapaElementos();
             elemento.listaElementosVisor();
         });
         
@@ -184,7 +185,7 @@ var MapaEditor = Class({
             circuloClickListener.addClickListener(circle, mapa);
             lista_poligonos.push(circle);
             
-            var elemento = new MapaElementoCustom();
+            var elemento = new MapaElementos();
             elemento.listaElementosVisor();
         });
 
@@ -196,11 +197,12 @@ var MapaEditor = Class({
      */
     guardar : function(){
         
-        var custom = new MapaElementoCustom();
+        var custom = new MapaElementos();
         
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                           "elementos" : custom.listCustomElements(),
+                          "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
                           "kmls" : this.class_kml.listKml(),
                           "id" : this.id_emergencia};
         Messenger().run({
@@ -221,7 +223,7 @@ var MapaEditor = Class({
             },
             success:function(data){
                 if(data.correcto){
-                    var elemento_custom = new MapaElementoCustom();
+                    var elemento_custom = new MapaElementos();
                     elemento_custom.emergencia(yo.id_emergencia);
                     elemento_custom.removeCustomElements();
                     elemento_custom.loadCustomElements(yo.mapa);
@@ -245,10 +247,15 @@ var MapaEditor = Class({
             kml.popupUpload();
         });
         
-        $("#btn-importar-sidco").click(function(){
+        $("#importar_sidco").click(function(){
             var sidco = new MapaKmlSidcoConaf();
             sidco.seteaMapa(map);
-            sidco.loadKml();
+            
+            if($(this).is(":checked")){
+                sidco.loadKml();
+            } else {
+                sidco.remove();
+            }
         });
 
     },

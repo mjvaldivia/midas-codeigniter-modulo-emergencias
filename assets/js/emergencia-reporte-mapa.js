@@ -14,7 +14,7 @@ $(document).ready(function() {
     visor.setCenter(parseFloat(lat),parseFloat(lon));
 
     //custom
-    var custom = new MapaElementoCustom();
+    var custom = new MapaElementos();
     custom.emergencia(id);
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, null);
     
@@ -22,7 +22,7 @@ $(document).ready(function() {
     var capas = new MapaCapa();
     capas.emergencia(id);
     visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
-    
+
     //inicia mapa
     visor.bindMapa();
 });

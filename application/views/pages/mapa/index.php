@@ -30,7 +30,7 @@
                             <a href="#"><i class="fa fa-cloud-download"></i> Datos externos</a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a id="btn-importar-sidco" href="#"> <i class="fa fa-fire"></i> Sidco - Conaf </a>
+                                    <a id="btn-importar-sidco" href="#"><input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> <i class="fa fa-fire"></i> Sidco - Conaf </a>
                                 </li>
                             </ul>
                         </li>
@@ -44,17 +44,7 @@
                 </ul>
              </div><!-- /.navbar-collapse -->
         </div>
-        
-        
-        
-        <!-- Input para buscar direcciones -->
-        <div class="row hidden">
-            
-            <div id="busqueda" class="input-group" style="width:250px;padding-right:30px">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input id="pac-input" class="form-control" type="text" placeholder="Buscar dirección">
-            </div>
-        </div>
+      
 
         <!-- Menu slideup para mostrar elementos cargados en el mapa -->
         <div class="row hidden">

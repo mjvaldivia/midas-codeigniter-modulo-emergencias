@@ -1,4 +1,4 @@
-var MapaCirculoDibujar = Class({  
+var MapaCirculo = Class({  
     
     mapa : null,
     identificador : null,

@@ -145,7 +145,7 @@ class Usuario_Model extends MY_Model {
         $excluir_str = ($id_usuario_excluir == null) ? "" : " AND u.usu_ia_id <> $id_usuario_excluir";
 
         $qry = "
-                    SELECT distinct(a.usu_c_email) as usu_c_email FROM (
+                SELECT distinct(a.usu_c_email) as usu_c_email FROM (
                     SELECT distinct(usu_c_email) usu_c_email FROM usuarios u
                     JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                     JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id

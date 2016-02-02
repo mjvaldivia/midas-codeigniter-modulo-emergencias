@@ -24,7 +24,7 @@ var MapaInformacionElemento = Class({
                                 }
                             });
                             
-                            var elemento = new MapaElementoCustom();
+                            var elemento = new MapaElementos();
                             elemento.listaElementosVisor();
                         }
                     },
@@ -32,7 +32,7 @@ var MapaInformacionElemento = Class({
                         label: " Quitar elemento",
                         className: "btn-danger fa fa-remove",
                         callback: function() {
-                            var custom = new MapaElementoCustom();
+                            var custom = new MapaElementos();
                             custom.removeOneCustomElements("clave", clave);
                         }
                     },

@@ -71,7 +71,7 @@ var MapaKml = Class({
                         success:function(data){
                             if(data.correcto){
                                 $.each(data.resultado.elemento, function(id, elemento){
-                                    var kmzLayer = new google.maps.KmlLayer( siteUrl + "mapa/kml/id/" + elemento.id + "/file." + elemento.tipo,{
+                                    var kmzLayer = new google.maps.KmlLayer( siteUrl + "mapa_kml/kml/id/" + elemento.id + "/file." + elemento.tipo,{
                                         suppressInfoWindows: false,
                                         preserveViewport: true
                                     });

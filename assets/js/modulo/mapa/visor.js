@@ -1,5 +1,3 @@
-var marker_search = null;
-
 var Visor = Class({    
     
     mapa : null,
