@@ -87,8 +87,8 @@ var MapaCirculo = Class({
         var circuloClickListener = new MapaCirculoClickListener();
         circuloClickListener.addClickListener(circulo, this.mapa);
         
-        var circuloClickListener = new MapaCirculoMoveListener();
-        circuloClickListener.addMoveListener(circulo, this.mapa);
+        /*var circuloClickListener = new MapaCirculoMoveListener();
+        circuloClickListener.addMoveListener(circulo, this.mapa);*/
         
         lista_poligonos.push(circulo);
     }

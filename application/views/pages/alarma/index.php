@@ -77,7 +77,7 @@
 <?= loadJS("assets/js/library/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
 
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
-<?= loadJS("assets/js/modulo/mapa/extension/geo-encoder.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
 

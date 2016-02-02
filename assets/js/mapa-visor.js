@@ -77,7 +77,6 @@ $(document).ready(function() {
     // input de busqueda de direcciones
     var buscador = new MapaLayoutInputBusqueda("busqueda");
     visor.addOnReadyFunction("buscador de direcciones", buscador.addToMap);
-    
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
 
     //inicia mapa
@@ -87,14 +86,11 @@ $(document).ready(function() {
     $("#sidebar-toggle").click(function(){
         visor.resizeMap();
     });
-    
-    /*$(window).unload(function(){
-        saveSpace();
-    }).keypress(keypressArea);*/
-
+    /*
     window.onbeforeunload = function confirmExit() {
         return "Se han efectuado cambios en el mapa. <br> ¿Desea guardar estos cambios antes de salir?";
     };
+    */
 });
 
 

@@ -43,7 +43,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             circulo.seteaTipo("CIRCULO LUGAR EMERGENCIA");
             circulo.seteaMapa(yo.mapa);
             circulo.seteaUniqueId(yo.unique_id);
-            circulo.seteaEditable(true);
+            circulo.seteaEditable(false);
             circulo.seteaIdentificador(id);
             circulo.dibujarCirculo(id, 
                                    propiedades, 
@@ -97,11 +97,13 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         $.each(zonas, function(i, datos){
             yo.dibujarCirculo(id, lon, lat, datos.radio, propiedades, datos.color);
         });
-        
 
-        lista_markers.push(marker);
+        var dragend = new MapaMarcadorMoveListener();
+        dragend.addMoveListener(marker, yo.mapa);
         
         this.listenerRightClick(marker);
+        
+        lista_markers.push(marker);
     },
     
     /**
@@ -199,7 +201,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                             id : null,
                             tipo : "PUNTO LUGAR EMERGENCIA",
                             identificador: null,
-                            draggable: false,
+                            draggable: true,
                             clave : yo.unique_id,
                             custom : true,
                             icon: baseUrl + "assets/img/emergencia.png",
@@ -271,10 +273,6 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                          "NOMBRE" : ""},
                         $("#color").val()
                     );
-                    
-                    if(parametros.metros == 0){
-                        marker.setDraggable(true);
-                    }
                     
                 } else {
                     $("#form_error").removeClass("hidden");
@@ -368,6 +366,9 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             yo.informacionMarcador(marker);
             lista_markers.push(marker);
             yo.popupMetros(yo.mapa, marker, null);
+            
+            
+            
         });
     }
 

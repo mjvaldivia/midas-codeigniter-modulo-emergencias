@@ -248,7 +248,7 @@
 
 <?= loadJS("assets/js/modulo/emergencia_reporte/form.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/extension/geo-encoder.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
 
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.min.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.min.js") ?>

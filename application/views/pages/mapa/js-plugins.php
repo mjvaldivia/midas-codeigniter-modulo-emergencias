@@ -41,6 +41,7 @@
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_alarma.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_emergencia.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/move_listener.js"); ?>
 
 <!-- Clase base para elementos -->
 <?= loadJS("assets/js/modulo/mapa/elementos.js"); ?>
