@@ -308,7 +308,7 @@ function notificacionCorrecto(titulo, texto){
 function notificacionError(titulo, texto){
 
     Messenger().post({
-        message: titulo + " " + texto,
+        message:"<strong>" + titulo + "</strong> <br> " + texto,
         type: 'error',
         showCloseButton: true
     });

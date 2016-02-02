@@ -17,9 +17,7 @@ var MapaLineaMulti = Class({ extends : MapaLinea}, {
             $.each(multipoligono, function(j, coordenadas){
                 coord.push({"lat" : parseFloat(coordenadas[0]), "lng" : parseFloat(coordenadas[1])});
             });
-            
-           
-            
+
             var linea = new google.maps.Polyline({
                     path: coord,
                     identificador: id,

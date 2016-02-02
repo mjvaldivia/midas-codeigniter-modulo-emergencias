@@ -7,8 +7,8 @@ var Visor = Class({
     id_emergencia : null,
     geozone : "19H",
     id_div_mapa : "",
-    latitud : 6340442,
-    longitud : 256029,
+    latitud : "-36.82013519999999",
+    longitud : "-73.0443904",
     callback : null,
     
     on_ready_functions : {},
@@ -58,13 +58,54 @@ var Visor = Class({
      */
     bindMapa : function(){
         google.maps.event.addDomListener(window, 'load', this.initialize());
-        google.maps.event.addDomListener(window, "resize", this.resizeMap());
     },
 
-
+    /**
+     * 
+     * @param {type} lat
+     * @param {type} lon
+     * @returns {undefined}
+     */
     setCenter : function(lat,lon){
         this.latitud = lat;
         this.longitud = lon;
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    centrarLugarEmergencia : function(){
+        var yo = this;
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: "id=" + yo.id_emergencia,
+            type: "post",
+            url: siteUrl + "mapa/ajax_lugar_alarma", 
+            error: function(xhr, textStatus, errorThrown){},
+            success:function(data){
+                if(data.correcto){
+                    yo.centrarMapa(data.resultado.lat, data.resultado.lon);
+                } else {
+                    notificacionError("Ha ocurrido un problema", data.error);
+                }
+            }
+        }); 
+    },
+    
+    /**
+     * 
+     * @param {type} lat
+     * @param {type} lon
+     * @returns {undefined}
+     */
+    centrarMapa : function (lat, lon){
+        this.latitud = lat;
+        this.longitud = lon;
+        var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+        this.mapa.setCenter(posicion);
     },
 
     /**
@@ -81,19 +122,9 @@ var Visor = Class({
     initialize : function(){
         
         var yo = this;
-        var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(yo.longitud), 
-                                                   parseFloat(yo.latitud), 
-                                                   yo.geozone);
 
-        if(!(latLon[0] >= -90 && latLon[0] <= 90)){
-           latLon[0] = yo.latitud;
-        }
-       
-        if(!(latLon[1] >= -90 && latLon[1] <= 90)){
-           latLon[1] = yo.longitud;
-        }
-
-        var myLatlng = new google.maps.LatLng(parseFloat(latLon[0]), parseFloat(latLon[1]));
+                    
+        var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud), parseFloat(yo.longitud));
 
         var mapOptions = {
           zoom: 10,
@@ -102,7 +133,7 @@ var Visor = Class({
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-        map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
+        map = new google.maps.Map(document.getElementById(yo.id_div_mapa), mapOptions);
 
         google.maps.event.addListenerOnce(map, 'idle', function(){
             console.log("Mapa cargado totalmente");
@@ -111,15 +142,21 @@ var Visor = Class({
                 console.log("Carga de " + i);
                 funcion.funcion(map, funcion.parametros);
             });
+
+            //yo.centrarLugarEmergencia();
         });
 
-        this.contextMenu(map);
+        yo.contextMenu(map);
+
+        yo.mapa = map;
+
+        google.maps.event.addDomListener(window, "resize", yo.resizeMap());
+
+
+
+
+
         
-        map.addListener('click', function(event) {
-            console.log(event);
-        });
-
-        this.mapa = map;
     },
 
     
