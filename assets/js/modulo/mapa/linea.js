@@ -44,8 +44,7 @@ var MapaLinea = Class({
         var i;
         $.each(geometry, function(i, coordenadas){
            $.each(coordenadas, function(j, valores){
-               LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(valores[0]), parseFloat(valores[1]), zona);
-               poligono.push(new google.maps.LatLng(parseFloat(LatLng[0]), parseFloat(LatLng[1])));
+               poligono.push(new google.maps.LatLng(parseFloat(valores[0]), parseFloat(valores[1])));
            });
         });
         

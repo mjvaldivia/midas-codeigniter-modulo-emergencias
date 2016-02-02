@@ -15,8 +15,7 @@ var MapaLineaMulti = Class({ extends : MapaLinea}, {
         $.each(geometry, function(i, multipoligono){
             var coord = [];
             $.each(multipoligono, function(j, coordenadas){
-                var LatLng = GeoEncoder.utmToDecimalDegree(parseFloat(coordenadas[0]), parseFloat(coordenadas[1]), zona);
-                coord.push({"lat" : parseFloat(LatLng[0]), "lng" : parseFloat(LatLng[1])});
+                coord.push({"lat" : parseFloat(coordenadas[0]), "lng" : parseFloat(coordenadas[1])});
             });
             
            
