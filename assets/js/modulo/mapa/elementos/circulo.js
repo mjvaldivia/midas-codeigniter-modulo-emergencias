@@ -2,7 +2,7 @@ var MapaCirculo = Class({
     
     mapa : null,
     identificador : null,
-    
+    custom : true,
     tipo : "CIRCULO",
     
     editable : false,
@@ -43,6 +43,10 @@ var MapaCirculo = Class({
         this.unique_id = unique_id;
     },
     
+    seteaCustom : function(boolean){
+        this.custom = boolean;
+    },
+    
     /**
      * 
      */
@@ -65,7 +69,7 @@ var MapaCirculo = Class({
         var yo = this;
         var circulo = new google.maps.Circle({
             id : id,
-            custom : true,
+            custom : yo.custom,
             tipo : yo.tipo,
             identificador: yo.identificador,
             capa : null,

@@ -5,7 +5,7 @@ var MapaInformacionElemento = Class({
      * @param {string} clave
      * @returns {undefined}
      */
-    dialogoEdicion : function(clave){
+    dialogoEdicion : function(clave, parametros){
         bootbox.dialog({
                 message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
                 title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
@@ -50,45 +50,7 @@ var MapaInformacionElemento = Class({
                     }
                 }
         });
-    },
-    
-    /**
-     * 
-     * @returns {undefined}
-     */
-    dialogo : function(){
-        bootbox.dialog({
-            message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
-            title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
-            className: "modal90",
-            buttons: {
-                cerrar: {
-                    label: " Cerrar ventana",
-                    className: "btn-white fa fa-close",
-                    callback: function() {}
-                }
-            }
-        });
-    },
-    
-    /**
-     * Levanta popup con la informacion del poligono
-     * @param {object} marcadores
-     * @returns {void}
-     */
-    popupInformacion : function(marcadores, elemento){
-        var parametros = {"marcadores"  : JSON.stringify(marcadores),
-                          "tipo"        : elemento.tipo,
-                          "color"       : elemento.fillColor,
-                          "informacion" : JSON.stringify(elemento.informacion)};
-            
-        if(elemento.capa != null){
-            parametros["capa"] = elemento.capa;
-            this.dialogo();
-        }  else {  
-            this.dialogoEdicion(elemento.clave);
-        }
-
+        
         $.ajax({         
             dataType: "html",
             cache: false,
@@ -103,6 +65,61 @@ var MapaInformacionElemento = Class({
                 $("#contenido-popup-informacion-capas").html(data);
             }
         }); 
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    dialogo : function(parametros){
+        bootbox.dialog({
+            message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+            title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
+            className: "modal90",
+            buttons: {
+                cerrar: {
+                    label: " Cerrar ventana",
+                    className: "btn-white fa fa-close",
+                    callback: function() {}
+                }
+            }
+        });
+        
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "mapa/popup_informacion", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                $("#contenido-popup-informacion-capas").html(data);
+            }
+        }); 
+    },
+    
+    /**
+     * Levanta popup con la informacion del poligono
+     * @param {object} marcadores
+     * @returns {void}
+     */
+    popupInformacion : function(marcadores, elemento){
+        var parametros = {"marcadores"  : JSON.stringify(marcadores),
+                          "tipo"        : elemento.tipo,
+                          "color"       : elemento.fillColor,
+                          "informacion" : JSON.stringify(elemento.informacion)};
+        console.log(elemento.custom);
+        if(elemento.custom != null && elemento.custom == true){
+            this.dialogoEdicion(elemento.clave, parametros);
+        }  else {  
+            if(elemento.capa != null){
+                parametros["capa"] = elemento.capa;
+            }
+            this.dialogo(parametros);
+        }
     },
     
     /**
