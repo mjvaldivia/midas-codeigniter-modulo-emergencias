@@ -8,16 +8,16 @@
                     <h4><small><i class="fa fa-info-circle"></i> Información de la capa</small></h4>
                     <div class="tile dark-blue">
                         <div class="row">
-                            <div class="col-lg-4"><strong>TIPO:</strong></div>
-                            <div class="col-lg-8"><?php echo $nombre_tipo ?></div>
+                            <div class="col-lg-4 text-right"><strong>TIPO:</strong></div>
+                            <div class="col-lg-8 text-left"><?php echo $nombre_tipo ?></div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4"><strong>CAPA:</strong></div>
-                            <div class="col-lg-8"><?php echo $nombre_capa ?></div>
+                            <div class="col-lg-4 text-right"><strong>CAPA:</strong></div>
+                            <div class="col-lg-8 text-left"><?php echo $nombre_capa ?></div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4"><strong>SUB-CAPA:</strong></div>
-                            <div class="col-lg-8"><?php echo $nombre_subcapa ?></div>
+                            <div class="col-lg-4 text-right"><strong>SUB-CAPA:</strong></div>
+                            <div class="col-lg-8 text-left"><?php echo $nombre_subcapa ?></div>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="col-lg-12">
 
-            <h4><small><i class="fa fa-home"></i> Instalaciones <small></h4>
+            <h4><small><i class="fa fa-home"></i> Instalaciones </small></h4>
     
             <div class="row">
                 <?php  echo visorElementoInstalaciones($lista_marcadores); ?>

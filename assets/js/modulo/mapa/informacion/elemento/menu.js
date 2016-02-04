@@ -40,13 +40,13 @@ var MapaInformacionElementoMenu = Class({
         var menuItems=[]; 
        
         if(lista_elementos.length > 1){
-            menuItems.push({
+          /*  menuItems.push({
                 className:'context_menu_item', 
                 eventName:'informacion_interseccion', 
                 label:'<i class=\"fa\"><strong>∩</strong></i> Ver datos intersección '
             });
             
-             menuItems.push({});
+            menuItems.push({});*/
         }
                 
         $.each(lista_elementos, function(i, elemento){

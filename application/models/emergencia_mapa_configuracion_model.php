@@ -43,6 +43,16 @@ class Emergencia_Mapa_Configuracion_Model extends MY_Model
     /**
      * 
      * @param int $id_emergencia
+     * @param array $data
+     * @return type
+     */
+    public function updatePorEmergencia($id_emergencia, $data){
+        return $this->_query->update($data, "id_emergencia", $id_emergencia );
+    }
+    
+    /**
+     * 
+     * @param int $id_emergencia
      * @return array
      */
     public function getByEmergencia($id_emergencia){

@@ -52,7 +52,7 @@ Class Visor_guardar_sidco{
         if(is_null($configuracion)){
             $this->_emergencia_mapa_configuracion_model->insert($data);
         } else {
-            $this->_emergencia_mapa_configuracion_model->update($this->_id_emergencia, $data);
+            $this->_emergencia_mapa_configuracion_model->updatePorEmergencia($this->_id_emergencia, $data);
         }
     }
 }

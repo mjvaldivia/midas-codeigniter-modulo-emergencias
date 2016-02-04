@@ -2257,5 +2257,5 @@ table>thead>tr>th{vertical-align: middle !important; text-align: center;}
 }
 
 div.dataTables_wrapper {
-    margin: 15px;
+    margin: 15px !important;
 }

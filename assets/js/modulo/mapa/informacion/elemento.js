@@ -115,10 +115,8 @@ var MapaInformacionElemento = Class({
         elemento.addListener('rightclick', function(event) {
             var seleccionado = [];
             $.each(lista_poligonos, function(j, elemento_seleccionado){
-                
                 var bo_elemento_seleccionado = false;
                 switch(elemento_seleccionado.tipo){
-                    //el circulo de la emergencia tiene tratamiento especial en circulo/click_listener.js
                     case "RECTANGULO":
                         bo_elemento_seleccionado = elemento_seleccionado.getBounds().contains(event.latLng);
                         break;
@@ -152,9 +150,13 @@ var MapaInformacionElemento = Class({
     muestraMenu : function(mapa, lista_elementos, posicion){
         var yo = this;
         var menu = new MapaInformacionElementoMenu();
-        menu.render(mapa, lista_elementos, posicion, function(lista){
-            yo.preparaPopupInformacion(lista);
-        });
+        menu.render(
+                mapa, 
+                lista_elementos, 
+                posicion, 
+                function(lista){
+                    yo.preparaPopupInformacion(lista);
+                });
     },
     
     /**
@@ -167,7 +169,7 @@ var MapaInformacionElemento = Class({
         var elemento_principal = null;
         $.each(lista_elementos, function(i, elemento){
             elemento_principal = elemento;
-            //se recorren marcadores, y se buscan los dentro del poligono
+            //se recorren marcadores, y se busca los dentro del poligono
             $.each(lista_markers, function(i, marker){
                 var bo_marcador_dentro_de_poligono = false;
                 switch(elemento.tipo){
