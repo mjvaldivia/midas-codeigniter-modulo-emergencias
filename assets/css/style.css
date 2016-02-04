@@ -2239,10 +2239,6 @@ label {
     font-size:10px;
 }
 
-.modal-header {
-    padding: 5px;
-}
-
 .portlet {
     margin-bottom: 5px;
 }
@@ -2253,3 +2249,13 @@ table>thead>tr>th{vertical-align: middle !important; text-align: center;}
 #page-wrapper{overflow:hidden;padding-bottom: 15px;min-height: 1500px}
 
 .text-bold{font-weight: bold !important;}
+
+.nav-pills.nav-pills-grey > li.active > a{
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    color: #ffffff;
+}
+
+div.dataTables_wrapper {
+    margin: 15px;
+}

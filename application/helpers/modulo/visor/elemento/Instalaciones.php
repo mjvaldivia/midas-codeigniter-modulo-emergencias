@@ -3,7 +3,9 @@
 Class Visor_Elemento_Instalaciones{
     
     
-    protected $_lista_marcadores = array();
+    protected $_lista_capas = array();
+    
+    protected $_lista_otros = array();
     
     /**
      *
@@ -48,14 +50,17 @@ Class Visor_Elemento_Instalaciones{
             foreach($lista as $key => $marcador){
                 $subcapa = $this->_capa_detalle_model->getById($marcador->CAPA);
                 if(!is_null($subcapa)){
-                    unset($marcador->CAPA);
-                    $lista_marcadores[getSubCapaPreview($subcapa->geometria_id) . " " . $subcapa->geometria_nombre][$key] = $marcador;
+                    if(!isset($this->_lista_capas[$subcapa->geometria_id])){
+                        $this->_lista_capas[$subcapa->geometria_id] = array("preview" => getSubCapaPreview($subcapa->geometria_id),
+                                                                            "nombre"  => $subcapa->geometria_nombre);
+                    }
+                    $this->_lista_capas[$subcapa->geometria_id]["marcadores"][] = $marcador;
                 } else {
-                    $lista_marcadores["<i class=\"fa fa-2x fa-question-circle\"></i> Otros"][$key] = $marcador;
+                    if(count($marcador)>0){
+                        $this->_lista_otros[] = $marcador;
+                    }
                 }
             }
-            
-            $this->_lista_marcadores = $lista_marcadores;
         }
     }
     
@@ -64,125 +69,30 @@ Class Visor_Elemento_Instalaciones{
      * @return string html
      */
     public function render(){
-        if(count($this->_lista_marcadores)>0){
-        $html = $this->_htmlTabHeader()
-               .$this->_htmlTabContent();
+        if((count($this->_lista_capas) + count($this->_lista_otros))>0){
+            $html = $this->_ci->load->view(
+                    "pages/mapa/popup-informacion/tab-header", 
+                    array("lista_capas" => $this->_lista_capas,
+                          "lista_otros" => $this->_lista_otros), 
+                    true);
+            
+            $html .= $this->_ci->load->view(
+                    "pages/mapa/popup-informacion/tab-content", 
+                    array("lista_capas" => $this->_lista_capas,
+                          "lista_otros" => $this->_lista_otros), 
+                    true);
+            
+            return $html;
+               
         } else {
-                 $html .= "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
+            return $this->_ci->load->view(
+                "pages/mapa/popup-informacion/no-existen-instalaciones", 
+                array(), 
+                true
+            );
        
         }
-        
-        return $html;
     }
-    
-    /**
-     * Contenido de tabs
-     */
-    protected function _htmlTabContent(){
-        $html = "<div class=\"col-xs-9\">"
-                . "<div class=\"tab-content\">";
-        
-        if(count($this->_lista_marcadores)>0){
-            $primero = true;
-            foreach($this->_lista_marcadores as $grupo => $instalaciones){
 
-                $class = "";
-                if($primero){
-                    $class = "active";
-                }
-
-                $id = md5($grupo);
-
-                $html .= "<div role=\"tabpanel\" class=\"tab-pane ".$class."\" id=\"" . $id . "\">";
-
-                $html .= $this->_htmlTableInstalaciones($instalaciones);
-
-                $html .= "</div>";
-
-                $primero = false;
-            }
-        } else {
-            $html .= "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
-        }
-        
-        $html .= "</div>"
-                . "</div>";
-        
-        return $html;
-    }
-    
-    /**
-     * Tabla con las instalaciones
-     * @param type $instalaciones
-     * @return string
-     */
-    protected function _htmlTableInstalaciones($instalaciones){
-        if(count($instalaciones)>0){
-            $html = "<div class=\"table-responsive\" data-row=\"5\">"
-                  . "<table class=\"table table-hover table-letra-pequena datatable paginada\" style=\"width:95%\">"
-                   ."<thead>"
-                   ."<tr>";
-            
-            $aux = $instalaciones;
-            $columnas = reset($aux);
-
-            
-            foreach($columnas as $key => $void){
-                $html .= "<th>" . $key . "</th>";
-            }
-            
-            $html .= "</tr>"
-                   . "</thead>"
-                   . "<tbody>";
-      
-            foreach($instalaciones as $key => $datos){ 
-                $html .= "<tr>";
-                
-                foreach($datos as $nombre => $valor){
-                    $html .= "<td>" . $valor . "</td>";
-                }
-                $html .= "</tr>";
-            }
-            $html .= "</tbody>"
-                    ."</table>"
-                    . "</div>";
-        } else {
-            $html = "<div class=\"col-lg-12 top-spaced\"><div class=\"alert alert-info\">No existen instalaciones ubicadas en el poligono</div></div>";
-        }
-        
-        return $html;
-    }
-    
-    /**
-     * Cabecera Tabs
-     * @return string
-     */
-    protected function _htmlTabHeader(){
-        $html = "<div class=\"col-xs-3\">"
-                . "<ul class=\"nav nav-pills tabs-left\" role=\"tablist\">";
-        
-        $primero = true;
-        if(count($this->_lista_marcadores)>0){
-            foreach($this->_lista_marcadores as $grupo => $instalaciones){
-                $class = "";
-                if($primero){
-                    $class = "active";
-                }
-
-                $id = md5($grupo);
-                $html .= "<li role=\"presentation\" class=\"" . $class . "\">"
-                       . "<a href=\"#" . $id . "\" aria-controls=\"".$id."\" role=\"tab\" data-toggle=\"tab\">".$grupo."</a>"
-                       . "</li>";
-
-                 $primero = false;
-            }
-        }
-        
-        
-        $html .= "</ul>"
-                . "</div>";
-        
-        return $html;
-    }
 }
 
