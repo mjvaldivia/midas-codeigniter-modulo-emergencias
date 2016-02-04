@@ -8,7 +8,7 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
      * @param {string} color
      * @returns {void}
      */
-    dibujarPoligono : function(id, capa, geometry, propiedades, zona, color){
+    dibujarPoligono : function(id, nombre, capa, geometry, propiedades, zona, color){
 
         var yo = this;
 
@@ -23,6 +23,7 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                 var poligono = new google.maps.Polygon({
                      paths: coord,
                      identificador: id,
+                     nombre : nombre,
                      clave : "poligono_" + id,
                      capa: capa,
                      informacion: propiedades,

@@ -105,9 +105,11 @@ var MapaElementos = Class({
             map: this.mapa,
             bounds: coordenadas
         });
+        
+        var circuloClickListener = new MapaInformacionElemento();
+        circuloClickListener.addRightClickListener(rectangle, this.mapa);
+        
 
-        var rectanguloClickListener = new MapaRectanguloClickListener();
-        rectanguloClickListener.addClickListener(rectangle, this.mapa);
         lista_poligonos.push(rectangle);
     },
     
@@ -139,12 +141,10 @@ var MapaElementos = Class({
             center: centro,
             radius: radio
         });
-
-        var circuloClickListener = new MapaCirculoClickListener();
-        circuloClickListener.addClickListener(circulo, this.mapa);
         
-        var circuloClickListener = new MapaCirculoMoveListener();
-        circuloClickListener.addMoveListener(circulo, this.mapa); 
+        var circuloClickListener = new MapaInformacionElemento();
+        circuloClickListener.addRightClickListener(circulo, this.mapa);
+        
         lista_poligonos.push(circulo);
     },
     

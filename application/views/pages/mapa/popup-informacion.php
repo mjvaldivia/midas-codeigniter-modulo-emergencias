@@ -41,7 +41,7 @@
                     <div class="row">
                         
                          
-                        <?php  echo visorPoligonoInstalaciones($lista_marcadores); ?>
+                        <?php  echo visorElementoInstalaciones($lista_marcadores); ?>
                        
                     </div>
                 </div>

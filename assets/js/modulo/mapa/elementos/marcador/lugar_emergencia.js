@@ -115,8 +115,11 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      * @returns {void}
      */
     listenerRightClick : function(marker){
-        var yo = this;
         
+        google.maps.event.clearListeners(marker, 'rightclick');
+        
+        var yo = this;
+
         var contextMenuOptions={}; 
         
         contextMenuOptions.classNames = {
@@ -172,13 +175,12 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                 case 'agregar_zona_lugar_emergencia':
                     contextMenu.hide();
                     yo.popupMetros(yo.mapa, marker, contextMenu);
-                    
                 break;
                 case 'eliminar_lugar_emergencia_click':
                     contextMenu.hide();
+                    delete contextMenu;
                     var elemento = new MapaElementos();
                     elemento.removeOneCustomElements("clave", marker.clave);
-                    
                 break;
                 default:
                     var separar = eventName.split("__");
@@ -198,11 +200,14 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                             return true;
                         }
                     });
-                    
                     contextMenu.hide();
+                    delete contextMenu;
+                    
+                    yo.listenerRightClick(marker);
                 break;
             }
 	});
+        
     },
     
     /**
@@ -335,9 +340,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                         if(contextMenu != null){
                             contextMenu.hide();
                         }
-                        
-                        
-                        
+
                         var salida = yo.addCirculo(marker);
                         yo.listenerRightClick(marker);
                         return salida;
@@ -347,7 +350,6 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                     label: " Cerrar ventana",
                     className: "btn-white fa fa-close",
                     callback: function() {
-                        
                         yo.listenerRightClick(marker);
                         if(contextMenu != null){
                             contextMenu.hide();

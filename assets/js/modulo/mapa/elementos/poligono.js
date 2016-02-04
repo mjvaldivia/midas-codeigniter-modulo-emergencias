@@ -50,7 +50,7 @@ var MapaPoligono = Class({
      * @param {string} color
      * @returns {void}
      */
-    dibujarPoligono : function(id, capa, geometry, propiedades, zona, color){
+    dibujarPoligono : function(id, nombre, capa, geometry, propiedades, zona, color){
 
         var yo = this;
         
@@ -64,6 +64,7 @@ var MapaPoligono = Class({
             var poligono = new google.maps.Polygon({
                 paths: puntos,
                 identificador: id,
+                nombre: nombre,
                 clave : "poligono_" + id,
                 capa: capa,
                 custom: false,
@@ -88,48 +89,15 @@ var MapaPoligono = Class({
     
     /**
      * 
-     * @param {google.maps.Polygon} poligono
+     * @param {google.maps.Polygon} elemento
      * @returns {void}
      */
-    addClickListener : function(poligono, mapa){
-        var yo = this;
-        poligono.addListener('rightclick', function(event) {
-            
-            //si el poligono pertenece a una capa
-            //se buscan todos los poligonos que pertenecen a esta
-            var seleccion = {};
-            if(poligono.capa != null){
-                seleccion = jQuery.grep(lista_poligonos, function( a ) {
-                    if(a["identificador"] == poligono.identificador){
-                        return true;
-                    }
-                });
-            //si no, solo se buscan marcadores en el poligono actual
-            } else {
-                seleccion[0] = poligono;
-            }
-            
-            var marcadores = {};
-            //se recorren marcadores, y se buscan los dentro del poligono
-            $.each(lista_markers, function(i, marker){
-               $.each(seleccion, function(j, poligono_seleccionado){
-                   
-                    var bo_marcador_dentro_de_poligono = poligono_seleccionado.containsLatLng(marker.getPosition()); 
-                    
-                    if(bo_marcador_dentro_de_poligono){
-                        marcadores[i] = marker.informacion;
-                        
-                        if(marker.capa != null){
-                           marcadores[i]["CAPA"] = marker.capa;
-                        }
-                    }
-               });
-            });
-            
-            var popup = new MapaInformacionElemento();
-            popup.popupInformacion(marcadores, poligono);
-        });
-    },
+    addClickListener : function(elemento, mapa){
+        
+        var informacion = new MapaInformacionElemento();
+        informacion.addRightClickListener(elemento, mapa);
+        
+    }
     
 });
 

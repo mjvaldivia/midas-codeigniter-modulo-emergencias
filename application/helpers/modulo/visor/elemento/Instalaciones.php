@@ -41,7 +41,7 @@ Class Visor_Elemento_Instalaciones{
         $this->_ci->load->model("capa_detalle_elemento_model");
         
         $this->_capa_model           = $this->_ci->capa_model;
-        $this->_capa_detalle_model = $this->_ci->capa_detalle_model;
+        $this->_capa_detalle_model   = $this->_ci->capa_detalle_model;
         $this->_capa_detalle_elemento_model = $this->_ci->capa_detalle_elemento_model;
         
         if(count($lista)>0){

@@ -102,6 +102,7 @@ Class Visor_capa_elemento{
                     foreach($lista_poligonos as $poligono){
                         $json[] = array(
                             "id" => $poligono["poligono_id"],
+                            "nombre" => $subcapa->geometria_nombre,
                             "propiedades" => unserialize($poligono["poligono_propiedades"]),
                             "geojson"     => unserialize($poligono["poligono_geometria"])
                             );
