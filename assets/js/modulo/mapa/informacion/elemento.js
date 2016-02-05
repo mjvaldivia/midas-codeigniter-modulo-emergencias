@@ -1,5 +1,98 @@
 var MapaInformacionElemento = Class({ 
     
+    
+    dialogoLugarEmergencia : function(identificador, parametros){
+        bootbox.dialog({
+                message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+                title: "<i class=\"fa fa-arrow-right\"></i> Datos del lugar de la emergencia",
+                className: "modal90",
+                buttons: {
+                    guardar: {
+                        label: " Efectuar cambios",
+                        className: "btn-success fa fa-check",
+                        callback: function() {
+                            
+                            var informacion = {};
+                                                        
+                            $('input[name^="parametro_nombre"]').each(function(i, input) {
+                                informacion[$(input).val()] = $($('input[name^="parametro_valor"]').get(i)).val(); 
+                            });
+     
+                            
+                            $.each(lista_poligonos, function(i, elem){
+                                if(elem.identificador == identificador){
+                                    if(elem.tipo == "CIRCULO LUGAR EMERGENCIA"){
+                                        elem.setOptions(
+                                            {fillColor : $("#color_editar").val()}
+                                        );
+                                        elem["informacion"] = informacion;
+                                    }
+                                }
+                            });
+                            
+                            var elemento = new MapaElementos();
+                            elemento.listaElementosVisor();
+                            
+                        }
+                    },
+                    eliminar: {
+                        label: " Quitar elemento",
+                        className: "btn-danger fa fa-remove",
+                        callback: function() {
+                            var custom = new MapaElementos();
+                            custom.removeOneCustomElements("identificador", identificador);
+                        }
+                    },
+                    cerrar: {
+                        label: " Cerrar ventana",
+                        className: "btn-white fa fa-close",
+                        callback: function() {}
+                    }
+                }
+        });
+        
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "mapa/popup_lugar_emergencia_edicion", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                $("#contenido-popup-informacion-capas").html(data);
+                
+                $("#add-propiedad").click(function(e){
+                    e.preventDefault();
+                    $("#div-propiedades").append(
+                        "<div class=\"row\">"
+                            + "<div class=\"col-lg-4 text-right\">"
+                                + "<input class=\"form-control\" type\"text\" name=\"parametro_nombre[]\" value=\"\" />"
+                            + "</div>"
+                            + "<div class=\"col-lg-1 text-left\">:</div>"
+                            + "<div class=\"col-lg-6 text-left\">"
+                                + "<input class=\"form-control propiedades\" type=\"text\" name=\"parametro_valor[]\" value=\"\">"
+                            + "</div>"
+                            + "<div class=\"col-lg-1 text-left\">"
+                                + "<button class=\"btn btn-xs btn-danger remove-propiedad\"><i class=\"fa fa-remove\"></i></button>"
+                            + "</div>"
+                    + "</div>"
+                    );
+                });
+                
+                $(".remove-propiedad").livequery(function(){
+                    $(this).unbind("click");
+                    $(this).click(function(e){
+                        e.preventDefault();
+                        $(this).parent().parent().remove();
+                    });
+                });
+            }
+        }); 
+    },
+    
     /**
      * 
      * @param {string} clave
@@ -17,27 +110,19 @@ var MapaInformacionElemento = Class({
                         callback: function() {
                             
                             var informacion = {};
-                            $(".propiedades").each(function(){
-                               informacion[$(this).attr("name")] = $(this).val(); 
+                                                        
+                            $('input[name^="parametro_nombre"]').each(function(i, input) {
+                                informacion[$(input).val()] = $($('input[name^="parametro_valor"]').get(i)).val(); 
                             });
-                            
-                            
-                            var elementos = jQuery.grep(lista_poligonos, function( a ) {
-                                if(a.clave == clave){
-                                    return true;
-                                }
-                            });
+
                             
                             $.each(lista_poligonos, function(i, elem){
                                 if(elem.clave == clave){
                                     if(elem.tipo == "CIRCULO" || elem.tipo == "RECTANGULO" || elem.tipo== "POLIGONO"){
-                                        
                                         elem.setOptions(
                                             {fillColor : $("#color_editar").val()}
                                         );
-                                        
                                         elem["informacion"] = informacion;
-                                        
                                     }
                                 }
                             });
@@ -75,6 +160,32 @@ var MapaInformacionElemento = Class({
             },
             success:function(data){
                 $("#contenido-popup-informacion-capas").html(data);
+                
+                $("#add-propiedad").click(function(e){
+                    e.preventDefault();
+                    $("#div-propiedades").append(
+                        "<div class=\"row\">"
+                            + "<div class=\"col-lg-4 text-right\">"
+                                + "<input class=\"form-control\" type\"text\" name=\"parametro_nombre[]\" value=\"\" />"
+                            + "</div>"
+                            + "<div class=\"col-lg-1 text-left\">:</div>"
+                            + "<div class=\"col-lg-6 text-left\">"
+                                + "<input class=\"form-control propiedades\" type=\"text\" name=\"parametro_valor[]\" value=\"\">"
+                            + "</div>"
+                            + "<div class=\"col-lg-1 text-left\">"
+                                + "<button class=\"btn btn-xs btn-danger remove-propiedad\"><i class=\"fa fa-remove\"></i></button>"
+                            + "</div>"
+                    + "</div>"
+                    );
+                });
+                
+                $(".remove-propiedad").livequery(function(){
+                    $(this).unbind("click");
+                    $(this).click(function(e){
+                        e.preventDefault();
+                        $(this).parent().parent().remove();
+                    });
+                });
             }
         }); 
     },
@@ -128,7 +239,7 @@ var MapaInformacionElemento = Class({
             if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
                this.dialogoEdicion(elemento.clave, parametros); 
             } else {
-               this.dialogoEdicion(elemento.clave, parametros); 
+               this.dialogoLugarEmergencia(elemento.identificador, parametros); 
             }
         }  else {  
             if(elemento.capa != null){

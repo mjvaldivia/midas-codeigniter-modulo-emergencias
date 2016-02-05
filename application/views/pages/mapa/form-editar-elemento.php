@@ -26,18 +26,36 @@
             </h4>
             </div>
         </div>
-        <div class="tile blue">
+        <div id="div-propiedades" class="tile blue">
         <?php foreach($propiedades as $nombre => $valor){ ?>
             <div class="row">
                 <div class="col-lg-4 text-right">
-                    <strong><?php echo $nombre; ?>:</strong>
+                    <?php if($nombre == "NOMBRE") { ?>
+                        <input type="hidden" class="form-control" type="text" name="parametro_nombre[]" value="<?php echo $nombre; ?>" />
+                        <strong><?php echo $nombre; ?></strong>
+                    <?php } else { ?>
+                        <?php if($tipo == "CIRCULO LUGAR EMERGENCIA" AND $nombre == "TIPO") { ?>
+                              <input type="hidden" class="form-control" type="text" name="parametro_nombre[]" value="<?php echo $nombre; ?>" />
+                              <strong><?php echo $nombre; ?></strong>
+                        <?php } else { ?>
+                            <input type="text" class="form-control" type="text" name="parametro_nombre[]" value="<?php echo $nombre; ?>" />
+                        <?php } ?>
+                    <?php } ?>
                 </div>
-                <div class="col-lg-7 text-left">
-                    <input class="form-control propiedades" type="text" name="<?php echo $nombre; ?>" value="<?php echo utf8_encode($valor); ?>">
+                <div class="col-lg-1 text-left">:</div>
+                <div class="col-lg-6 text-left">
+                    <?php if($tipo == "CIRCULO LUGAR EMERGENCIA" AND $nombre == "TIPO") { ?>
+                    <input class="form-control propiedades" type="hidden" name="parametro_valor[]" value="<?php echo $valor; ?>">
+                    <strong><?php echo $valor; ?></strong>
+                    <?php } else { ?>
+                    <input class="form-control propiedades" type="text" name="parametro_valor[]" value="<?php echo $valor; ?>">
+                    <?php } ?>
                 </div>
                 <div class="col-lg-1 text-left">
-                    <?php if($nombre != "NOMBRE") { ?>
-                    <button class="btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                    <?php if($nombre == "NOMBRE"  OR ($tipo == "CIRCULO LUGAR EMERGENCIA" AND $nombre == "TIPO")) { ?>
+                    
+                    <?php } else { ?>
+                    <button class="btn btn-xs btn-danger remove-propiedad"><i class="fa fa-remove"></i></button>
                     <?php } ?>
                 </div>
             </div>

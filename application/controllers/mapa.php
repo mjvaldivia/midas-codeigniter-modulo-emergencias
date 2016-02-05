@@ -222,6 +222,23 @@ class Mapa extends MY_Controller {
     }
     
     /**
+     * Muestra información del poligono
+     */
+    public function popup_lugar_emergencia_edicion(){
+        $this->load->helper(array("modulo/visor/visor"));
+        
+        $params = $this->input->post(null, true);
+        $informacion = json_decode($params["informacion"]);
+        
+        $this->load->view("pages/mapa/popup-lugar-emergencia-edicion", 
+                          array("tipo" => $params["tipo"],
+                                "color" => $params["color"],
+                                "informacion" => $informacion,
+                                "lista_marcadores"  => json_decode($params["marcadores"])));
+        
+    }
+    
+    /**
      * Valida el lugar de la emergencia
      */
     public function ajax_valida_lugar_emergencia(){
