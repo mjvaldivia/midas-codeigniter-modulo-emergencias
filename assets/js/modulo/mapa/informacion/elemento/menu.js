@@ -59,7 +59,7 @@ var MapaInformacionElementoMenu = Class({
             
             menuItems.push({
                 className:'context_menu_item', 
-                eventName:'informacion_elemento__' + elemento.clave, 
+                eventName:'informacion_elemento__' + elemento.tipo + "__" + elemento.clave + "__" + elemento.identificador, 
                 label:'<div class="row">'
                        + '<div class="col-xs-2"><div class="color-capa-preview" style="background-color:' + elemento.fillColor + '"></div></div>'
                        + '<div class="col-xs-10">' + nombre + '</div>'
@@ -86,7 +86,11 @@ var MapaInformacionElementoMenu = Class({
                 default:
                     var separar = eventName.split("__");
                     var mostrar = jQuery.grep(lista_poligonos, function( a ) {
-                        if(a["clave"] == separar[1]){
+                        if(separar[1] == "CIRCULO LUGAR EMERGENCIA"){
+                            if(a["identificador"] == separar[3]){
+                                return true;
+                            }
+                        } else if(a["clave"] == separar[2]){
                             return true;
                         }
                     });

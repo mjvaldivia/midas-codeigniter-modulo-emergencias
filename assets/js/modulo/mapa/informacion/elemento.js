@@ -57,7 +57,7 @@ var MapaInformacionElemento = Class({
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/popup_informacion", 
+            url: siteUrl + "mapa/popup_elemento_edicion", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -71,7 +71,7 @@ var MapaInformacionElemento = Class({
      * 
      * @returns {undefined}
      */
-    dialogo : function(parametros){
+    dialogoCapa : function(parametros){
         bootbox.dialog({
             message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
             title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
@@ -91,7 +91,7 @@ var MapaInformacionElemento = Class({
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/popup_informacion", 
+            url: siteUrl + "mapa_capas/popup_informacion", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -111,14 +111,19 @@ var MapaInformacionElemento = Class({
                           "tipo"        : elemento.tipo,
                           "color"       : elemento.fillColor,
                           "informacion" : JSON.stringify(elemento.informacion)};
-        console.log(elemento.custom);
+        
         if(elemento.custom != null && elemento.custom == true){
-            this.dialogoEdicion(elemento.clave, parametros);
+            if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
+               this.dialogoEdicion(elemento.clave, parametros); 
+            } else {
+               this.dialogoEdicion(elemento.clave, parametros); 
+            }
         }  else {  
             if(elemento.capa != null){
                 parametros["capa"] = elemento.capa;
+                this.dialogoCapa(parametros);
             }
-            this.dialogo(parametros);
+            
         }
     },
     
@@ -130,6 +135,8 @@ var MapaInformacionElemento = Class({
     addRightClickListener : function(elemento, mapa){
         var yo = this;
         elemento.addListener('rightclick', function(event) {
+           
+            // busca elementos en el punto donde se hizo click
             var seleccionado = [];
             $.each(lista_poligonos, function(j, elemento_seleccionado){
                 var bo_elemento_seleccionado = false;
@@ -137,7 +144,31 @@ var MapaInformacionElemento = Class({
                     case "RECTANGULO":
                         bo_elemento_seleccionado = elemento_seleccionado.getBounds().contains(event.latLng);
                         break;
+                    // la zona en forma de dona no debe existir en la zona central al hacer click
                     case "CIRCULO LUGAR EMERGENCIA":
+                        bo_elemento_seleccionado = (google.maps.geometry.spherical.computeDistanceBetween(event.latLng, elemento_seleccionado.getCenter()) <= elemento_seleccionado.getRadius());
+                        if(bo_elemento_seleccionado){
+                            
+                            //se buscan hermanas
+                            var zonas = jQuery.grep(lista_poligonos, function( a ) {
+                                if(a["tipo"] == "CIRCULO LUGAR EMERGENCIA" && a["identificador"] != elemento_seleccionado.identificador){
+                                    if((google.maps.geometry.spherical.computeDistanceBetween(event.latLng, a.getCenter()) <= a.getRadius())){
+                                        return true;
+                                    }
+                                }
+                            });
+                            
+                            //si las hermanas son mas chicas (estan contenidas dentro de la zona), entonces no se incluye esta zona en el menu
+                            if(zonas.length > 0){
+                               var mi_radio = elemento_seleccionado.getRadius();
+                               $.each(zonas, function(i, zona_hermana){
+                                   if(zona_hermana.getRadius() < mi_radio){
+                                       bo_elemento_seleccionado = false;
+                                   }
+                               });
+                            }
+                        }
+                        break;
                     case "CIRCULO":
                         bo_elemento_seleccionado = (google.maps.geometry.spherical.computeDistanceBetween(event.latLng, elemento_seleccionado.getCenter()) <= elemento_seleccionado.getRadius());
                         break;
@@ -165,6 +196,7 @@ var MapaInformacionElemento = Class({
      * @returns {undefined}
      */
     muestraMenu : function(mapa, lista_elementos, posicion){
+        
         var yo = this;
         var menu = new MapaInformacionElementoMenu();
         menu.render(
@@ -185,16 +217,39 @@ var MapaInformacionElemento = Class({
         var marcadores = {};
         var elemento_principal = null;
         $.each(lista_elementos, function(i, elemento){
+            console.log(elemento);
             elemento_principal = elemento;
             //se recorren marcadores, y se busca los dentro del poligono
             $.each(lista_markers, function(i, marker){
                 var bo_marcador_dentro_de_poligono = false;
                 switch(elemento.tipo){
-                    //el circulo de la emergencia tiene tratamiento especial en circulo/click_listener.js
                     case "RECTANGULO":
                         bo_marcador_dentro_de_poligono = elemento.getBounds().contains(marker.getPosition());
                         break;
+                    //se debe considerar solo la forma de dona o la zona principal
                     case "CIRCULO LUGAR EMERGENCIA":
+                        bo_marcador_dentro_de_poligono = (google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), elemento.getCenter()) <= elemento.getRadius());
+                        if(bo_marcador_dentro_de_poligono){
+                            
+                            //se buscan hermanas menores, que contengan el marcador
+                            var zonas = jQuery.grep(lista_poligonos, function( a ) {
+                                if(a["tipo"] == "CIRCULO LUGAR EMERGENCIA" && a["identificador"] != elemento.identificador){
+                                    if(a.getRadius() < elemento.getRadius()){
+                                        if((google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), a.getCenter()) <= a.getRadius())){
+                                            return true;
+                                        }
+                                    }
+                                }
+                            });
+                            console.log(zonas.length);
+                            //si una hermana menor tiene el marcador, se quita el marcador
+                            if(zonas.length > 0){
+                                console.log("No va");
+                               bo_marcador_dentro_de_poligono = false;
+                            }
+                        }
+                        break;
+                    
                     case "CIRCULO":
                         bo_marcador_dentro_de_poligono = (google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), elemento.getCenter()) <= elemento.getRadius());
                         break;

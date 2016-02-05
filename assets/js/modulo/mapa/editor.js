@@ -231,8 +231,10 @@ var MapaEditor = Class({
                 if(data.correcto){
                     var elemento_custom = new MapaElementos();
                     elemento_custom.emergencia(yo.id_emergencia);
+                    
                     elemento_custom.removeCustomElements();
                     elemento_custom.loadCustomElements(yo.mapa);
+                    
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }

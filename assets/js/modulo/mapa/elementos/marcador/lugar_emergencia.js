@@ -99,7 +99,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
         this.informacionMarcador(marker);
         
         $.each(zonas, function(i, datos){
-            yo.dibujarCirculo(id, lon, lat, datos.radio, propiedades, datos.color);
+            yo.dibujarCirculo(id, lon, lat, datos.radio, datos.propiedades, datos.color);
         });
 
         var dragend = new MapaMarcadorMoveListener();
@@ -303,7 +303,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                         posicion.lat(), 
                         parametros.metros, 
                         {"TIPO" : "LUGAR EMERGENCIA",
-                         "NOMBRE" : ""},
+                         "NOMBRE" : "ZONA EMERGENCIA"},
                         $("#color").val()
                     );
                     

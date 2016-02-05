@@ -148,6 +148,10 @@ var MapaElementos = Class({
         lista_poligonos.push(circulo);
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     listaElementosVisor : function(){
         
         var lista = this.listCustomElements();
@@ -187,9 +191,7 @@ var MapaElementos = Class({
         } else {
             $("#cantidad_elementos_agregados").removeClass("alert-success");
         }
-        
-        
-        
+
         $("#lista_elementos_agregados").html(html);
     },
     
@@ -205,7 +207,6 @@ var MapaElementos = Class({
         
         var yo = this;
         
-
         var ajax = {         
             dataType: "json",
             cache: false,
@@ -467,7 +468,8 @@ var MapaElementos = Class({
                     var zonas = {};
                     $.each(arr, function(i, circulo){
                        zonas[i] = {"radio" : circulo.getRadius(),
-                                   "color" : circulo.fillColor};
+                                   "color" : circulo.fillColor,
+                                   "propiedades" : circulo.informacion};
                     });
                     
                     data = {"tipo" : "PUNTO LUGAR EMERGENCIA",
