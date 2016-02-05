@@ -45,7 +45,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             var circulo = new MapaCirculo();
             circulo.seteaTipo("CIRCULO LUGAR EMERGENCIA");
             circulo.seteaMapa(yo.mapa);
-            circulo.seteaCustom(false);
+            //circulo.seteaCustom(false);
             circulo.seteaUniqueId(yo.unique_id);
             circulo.seteaEditable(false);
             circulo.seteaIdentificador(identificador);

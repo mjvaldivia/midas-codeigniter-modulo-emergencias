@@ -340,11 +340,11 @@ var MapaElementos = Class({
     removeOneCustomElements : function(atributo, valor){
         console.log("Quitando elemento " + atributo + " " + valor);
         var custom = jQuery.grep(lista_poligonos, function( a ) {
-            if(a.custom){
+            //if(a.custom){
                 if(a[atributo] == valor){
                     return true;
                 }
-            }
+            //}
         });
         
         $.each(custom, function(i, elemento){
@@ -358,11 +358,11 @@ var MapaElementos = Class({
         });
         
         var custom = jQuery.grep(lista_markers, function( a ) {
-            if(a.custom){
+            //if(a.custom){
                 if(a[atributo] == valor){
                     return true;
                 }
-            }
+            //}
         });
         
         $.each(custom, function(i, elemento){
