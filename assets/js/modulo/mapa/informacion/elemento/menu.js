@@ -84,6 +84,7 @@ var MapaInformacionElementoMenu = Class({
                     contextMenu.hide();                    
                 break;
                 default:
+                    contextMenu.hide();   
                     var separar = eventName.split("__");
                     var mostrar = jQuery.grep(lista_poligonos, function( a ) {
                         if(separar[1] == "CIRCULO LUGAR EMERGENCIA"){

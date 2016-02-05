@@ -16,6 +16,12 @@ var MapaInformacionElemento = Class({
                         className: "btn-success fa fa-check",
                         callback: function() {
                             
+                            var informacion = {};
+                            $(".propiedades").each(function(){
+                               informacion[$(this).attr("name")] = $(this).val(); 
+                            });
+                            
+                            
                             var elementos = jQuery.grep(lista_poligonos, function( a ) {
                                 if(a.clave == clave){
                                     return true;
@@ -25,7 +31,13 @@ var MapaInformacionElemento = Class({
                             $.each(lista_poligonos, function(i, elem){
                                 if(elem.clave == clave){
                                     if(elem.tipo == "CIRCULO" || elem.tipo == "RECTANGULO" || elem.tipo== "POLIGONO"){
-                                        elem.setOptions({fillColor : $("#color_editar").val()})
+                                        
+                                        elem.setOptions(
+                                            {fillColor : $("#color_editar").val()}
+                                        );
+                                        
+                                        elem["informacion"] = informacion;
+                                        
                                     }
                                 }
                             });
