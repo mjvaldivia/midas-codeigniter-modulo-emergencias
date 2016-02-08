@@ -54,57 +54,65 @@ var MapaInformacionElementoContenido = Class({
         $.each(lista_poligonos, function(i, forma){
             
             if(forma.clave != elemento.clave){
-                var bo_forma_dentro_de_poligono = false;
-                switch(forma.tipo){
-                    case "POLIGONO":
-                        $.each(forma.getPath().getArray(), function(m, val){
-                            if(!bo_forma_dentro_de_poligono){
-                                var posicion = new google.maps.LatLng(parseFloat(val.lat()), parseFloat(val.lng()));
-                                bo_forma_dentro_de_poligono = yo.elementoContainsPoint(elemento, posicion);
-                            } else {
-                                return false
-                            }
-                        });
-                        break;
-                    case "RECTANGULO":
-                        
-                        var bounds = forma.getBounds();
-                        var NE = bounds.getNorthEast();
-                        var SW = bounds.getSouthWest();
-                        var NW = new google.maps.LatLng(NE.lat(),SW.lng());
-                        var SE = new google.maps.LatLng(SW.lat(),NE.lng());
-                        
-                        bo_forma_dentro_de_poligono = yo.elementoContainsPoint(elemento, NE);
-                        bo_forma_dentro_de_poligono = bo_forma_dentro_de_poligono || yo.elementoContainsPoint(elemento, SW);
-                        bo_forma_dentro_de_poligono = bo_forma_dentro_de_poligono || yo.elementoContainsPoint(elemento, NW);
-                        bo_forma_dentro_de_poligono = bo_forma_dentro_de_poligono || yo.elementoContainsPoint(elemento, SE);
-                        
-                        break;
-                    case "CIRCULO":
-                    case "CIRCULO LUGAR EMERGENCIA":
-                        var puntos_circulo = yo.coordenadasCirculo(forma.getCenter(), forma.getRadius());
-                        $.each(puntos_circulo, function(j, punto){
-                            if(!bo_forma_dentro_de_poligono){
-                                bo_forma_dentro_de_poligono = yo.elementoContainsPoint(elemento, punto);
-                            } else {
-                                return false
-                            }
-                        });
-                        break;
-                }
-
+                var bo_forma_dentro_de_poligono = yo.elementoContainsElemento(elemento, forma, true);
+                
                 if(bo_forma_dentro_de_poligono){
-                    
                     var data = {"informacion" : forma.informacion};
-
                     if(forma.capa != null){
                         data["CAPA"] = forma.capa;
                     }
-                    
                     yo.formas.push(data);
                 }
             }
         });
+    },
+    
+    elementoContainsElemento : function(elemento, forma, repetir){
+        var yo = this;
+        var bo_forma_dentro_de_poligono = false;
+        switch(forma.tipo){
+            case "POLIGONO":
+                $.each(forma.getPath().getArray(), function(m, val){
+                    if(!bo_forma_dentro_de_poligono){
+                        var posicion = new google.maps.LatLng(parseFloat(val.lat()), parseFloat(val.lng()));
+                        bo_forma_dentro_de_poligono = yo.elementoContainsPoint(elemento, posicion);
+                    } else {
+                        return false
+                    }
+                });
+                break;
+            case "RECTANGULO":
+                var bounds = forma.getBounds();
+                var NE = bounds.getNorthEast();
+                var SW = bounds.getSouthWest();
+                var NW = new google.maps.LatLng(NE.lat(),SW.lng());
+                var SE = new google.maps.LatLng(SW.lat(),NE.lng());
+
+                bo_forma_dentro_de_poligono = yo.elementoContainsPoint(elemento, NE);
+                bo_forma_dentro_de_poligono = bo_forma_dentro_de_poligono || yo.elementoContainsPoint(elemento, SW);
+                bo_forma_dentro_de_poligono = bo_forma_dentro_de_poligono || yo.elementoContainsPoint(elemento, NW);
+                bo_forma_dentro_de_poligono = bo_forma_dentro_de_poligono || yo.elementoContainsPoint(elemento, SE);
+
+                break;
+            case "CIRCULO":
+            case "CIRCULO LUGAR EMERGENCIA":
+                var puntos_circulo = yo.coordenadasCirculo(forma.getCenter(), forma.getRadius());
+                $.each(puntos_circulo, function(j, punto){
+                    if(!bo_forma_dentro_de_poligono){
+                        bo_forma_dentro_de_poligono = yo.elementoContainsPoint(elemento, punto);
+                    } else {
+                        return false
+                    }
+                });
+                break;
+        }
+        
+        //repite la operacion dando vuelta los elementos
+        if(!bo_forma_dentro_de_poligono && repetir){
+           bo_forma_dentro_de_poligono = this.elementoContainsElemento(forma, elemento, false);
+        }
+        
+        return bo_forma_dentro_de_poligono;
     },
     
     /**
@@ -147,7 +155,7 @@ var MapaInformacionElementoContenido = Class({
                 break;
             case "POLIGONO":
             default:
-                bo_dentro  = elemento.containsLatLng(marker.getPosition()); 
+                bo_dentro  = elemento.containsLatLng(posicion); 
                 break;
         }
         

@@ -65,6 +65,7 @@ class Mapa_capas extends MY_Controller {
                                     "nombre_capa"    => $nombre_capa,
                                     "nombre_tipo"   => $nombre_tipo,
                                     "informacion" => $informacion,
+                                    "lista_formas" => json_decode($params["formas"]),
                                     "lista_marcadores"  => json_decode($params["marcadores"])));
         } else {
             throw new Exception(__METHOD__ . " - La capa no existe");
