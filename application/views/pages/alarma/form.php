@@ -251,7 +251,7 @@
     $(document).ready(function(){
         var emergencia = $("#eme_id").val();
         if(emergencia < 1){
-            emergencia = <?php echo uniqid();?>;
+            emergencia = '<?php echo uniqid();?>';
         }
         $("#adjunto-emergencia").fileinput({
             language: "es",
