@@ -15,7 +15,9 @@
         <?php if(count($lista_otros)>0) { ?>
         <li role="presentation" class="<?php echo $active; ?>">
             <a href="#otros_<?php echo $prefix; ?>" aria-controls="otros" role="tab" data-toggle="tab">
-                <i class="fa fa-question-circle"></i> Otros
+                <div class="row">
+                <div class="col-xs-2"><i class="fa fa-question-circle"></i></div><div class="col-xs-10"> Otros</div>
+                </div>
             </a>
         </li>
         <?php } ?>
