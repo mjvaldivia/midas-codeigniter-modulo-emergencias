@@ -166,7 +166,7 @@ var MapaInformacionElemento = Class({
                 lista_elementos, 
                 posicion, 
                 function(lista){
-                    yo.preparaPopupInformacion(lista);
+                    yo.preparaPopupInformacion(mapa, lista);
                 });
     },
     
@@ -176,7 +176,7 @@ var MapaInformacionElemento = Class({
      * @param {object} lista_elementos elemento seleccionado en el menu
      * @returns {undefined}
      */
-    preparaPopupInformacion : function(lista_elementos){
+    preparaPopupInformacion : function(mapa,lista_elementos){
         
         var contenido = new MapaInformacionElementoContenido();
         
@@ -188,7 +188,7 @@ var MapaInformacionElemento = Class({
             
             //se recorren marcadores, y se busca los que estan dentro del elemento
             contenido.procesaMarcadores(elemento);
-            contenido.procesaFormas(elemento);
+            contenido.procesaFormas(elemento, mapa);
         });
         
         console.log(contenido.retornaFormas());
