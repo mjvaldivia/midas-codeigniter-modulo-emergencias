@@ -12,6 +12,16 @@ class Emergencia_Model extends MY_Model {
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
+
+    public $nivel_I = 1;
+    public $nivel_II = 2;
+    public $nivel_III = 3;
+    public $nivel_IV = 4;
+
+    public $en_alerta = 1;
+    public $emergencia_activa = 2;
+    public $emergencia_finalizada = 3;
+
         
     /**
      *

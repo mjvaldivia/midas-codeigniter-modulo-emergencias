@@ -53,7 +53,8 @@ class Alarma extends MY_Controller {
         $this->usuario->setModulo("alarma");
         
         $this->load->model("alarma_model", "AlarmaModel");
-        $this->load->model("alarma_comuna_model", "AlarmaComunaModel");
+        $this->load->model("emergencia_comuna_model", "EmergenciaComunaModel");
+        $this->load->model("emergencia_estado_model", "EmergenciaEstadoModel");
         $this->load->model("alarma_estado_model", "AlarmaEstadoModel");
         $this->load->model("tipo_emergencia_model", "emergencia_tipo_model");
         sessionValidation();
@@ -209,7 +210,7 @@ class Alarma extends MY_Controller {
      */
     public function guardaAlarma() {       
         $this->load->library(array("alarma/alarmavalidar", 
-                                   "alarma/alarma_guardar"));
+                                   "emergencia/emergencia_guardar"));
         
         $params = $this->input->post(null, true);
         
@@ -221,50 +222,59 @@ class Alarma extends MY_Controller {
             $usuario = $this->session->userdata('session_idUsuario');
             $this->load->model('alarma_historial_model','AlarmaHistorialModel');
 
+            $this->load->model('emergencia_model','EmergenciaModel');
+
             $data = array(
-                            "ala_c_nombre_informante"   => $params['nombre_informante'],
-                            "ala_c_telefono_informante" => $params['telefono_informante'],
-                            "ala_c_nombre_emergencia"   => $params['nombre_emergencia'],
+                            "eme_c_nombre_informante"   => $params['nombre_informante'],
+                            "eme_c_nombre_emergencia"   => $params['nombre_emergencia'],
                             "tip_ia_id"                 => $params['tipo_emergencia'],
-                            "ala_c_lugar_emergencia" => $params['nombre_lugar'],
-                            "ala_d_fecha_emergencia" => spanishDateToISO($params['fecha_emergencia']),
+                            "est_ia_id"                 => $params['estado_emergencia'],
+                            "eme_c_lugar_emergencia" => $params['nombre_lugar'],
+                            "eme_d_fecha_emergencia" => spanishDateToISO($params['fecha_emergencia']),
                             "rol_ia_id"              => $this->session->userdata('session_idCargo'),
                             "usu_ia_id"              => $this->session->userdata('session_idUsuario'),
-                            "ala_c_observacion"      => $params['observacion'],
-                            "ala_c_utm_lat" => $params['latitud'],
-                            "ala_c_utm_lng" => $params['longitud'],
-                            "ala_c_geozone" => $params['geozone']
+                            "eme_c_descripcion"     => nl2br($params['descripcion_emergencia']),
+                            "eme_c_observacion"      => nl2br($params['observacion']),
+                            "eme_c_utm_lat" => $params['latitud'],
+                            "eme_c_utm_lng" => $params['longitud'],
+                            "eme_nivel" => $params['nivel_emergencia']
                            );
 
-            $alerta = $this->AlarmaModel->query()->getById("ala_ia_id", $params["ala_id"]);
+            $alerta = $this->EmergenciaModel->query()->getById("eme_ia_id", $params["eme_id"]);
 
             //la alarma ya existia
             if(!is_null($alerta)){
 
                 $id= $alerta->ala_ia_id;
-                $this->AlarmaModel->query()->update($data, "ala_ia_id", $alerta->ala_ia_id);
-                $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['comunas']);
+                $this->EmergenciaModel->query()->update($data, "eme_ia_id", $alerta->eme_ia_id);
+                $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['comunas']);
                 $respuesta_email = "";
 
-                $historial_comentario = 'La alarma ha sido editada';
+                /*$historial_comentario = 'La alarma ha sido editada';
                 $data = array(
                     'historial_alerta' => $id,
                     'historial_usuario' => $usuario,
                     'historial_fecha' => date('Y-m-d H:i:s'),
                     'historial_comentario' => $historial_comentario
                 );
-                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);*/
 
             //la alarma no existia
             } else {
-                $data["ala_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
-                $data["est_ia_id"] = Alarma_Model::REVISION;
-                $id = $this->AlarmaModel->query()->insert($data);
-                $this->AlarmaComunaModel->query()->insertOneToMany("ala_ia_id", "com_ia_id", $id, $params['comunas']);
-                $params["ala_ia_id"] = $id;
-                $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
-
-                $historial_comentario = 'Se ha creado la alarma y se encuentra en revisión';
+                $data["eme_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
+                /*$data["est_ia_id"] = Alarma_Model::REVISION;*/
+                $id = $this->EmergenciaModel->query()->insert($data);
+                $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $id, $params['comunas']);
+                $params["eme_ia_id"] = $id;
+                //$respuesta_email = $this->AlarmaModel->enviaCorreo($params);
+                if($params['estado_emergencia'] == $this->EmergenciaModel->en_alerta){
+                    $estado_emergencia = 'En Alerta';
+                }elseif($params['estado_emergencia'] == $this->EmergenciaModel->emergencia_activa){
+                    $estado_emergencia = 'Emergencia Activa';
+                }elseif($params['estado_emergencia'] == $this->EmergenciaModel->emergencia_finalizada){
+                    $estado_emergencia = 'Emergencia Finalizada';
+                }
+                $historial_comentario = 'Se ha creado el Evento con estado '.$estado_emergencia;
                 $data = array(
                     'historial_alerta' => $id,
                     'historial_usuario' => $usuario,
@@ -275,9 +285,9 @@ class Alarma extends MY_Controller {
 
             }
             
-            $this->alarma_guardar->setAlarma($id);
-            $this->alarma_guardar->setTipo($params["tipo_emergencia"]);
-            $this->alarma_guardar->guardarDatosTipoEmergencia($params);
+            $this->emergencia_guardar->setEmergencia($id);
+            $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
+            $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
 
         }
         

@@ -1,6 +1,6 @@
 <div class="container-fluid">
-	<div class="row form-group">
-        <div id="div-pasos" class="col-xs-12">
+	<div class="row form-group" >
+        <div id="div-pasos" style="display: none;" class="col-xs-12">
             <ul class="nav nav-pills nav-justified thumbnail setup-panel">
                 <li class="active"><a href="#step-1">
                     <h4 class="list-group-item-heading">Paso 1</h4>
@@ -18,7 +18,7 @@
             <div class="col-md-12 well text-center">
                 <form  id="<?= $form_name ?>" name="<?= $form_name ?>" enctype="application/x-www-form-urlencoded" action="" method="post">
                     <input type="hidden" name="eme_id" id="eme_id" value="<?php echo $eme_id; ?>"/>
-                    <input type="hidden" name="ala_id" id="ala_id" value="<?php echo $ala_id; ?>" />
+                    <!--<input type="hidden" name="ala_id" id="ala_id" value="<?php /*echo $ala_id; */?>" />-->
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="row">
@@ -62,11 +62,24 @@
 
                                         <div class="col-md-5">
                                             <div class="form-group clearfix">
-                                                <label for="telefono-informante" class="control-label">Teléfono del informante:</label>
-                                                <input value="<?php echo $telefono_informante; ?>" class="form-control" name="telefono_informante" id="telefono_informante">
+                                                <label for="tipo_emergencia" class="control-label">Estado del Evento (*):</label>
+                                                <select name="estado_emergencia" id="estado_emergencia" class="form-control">
+                                                    <option value="" selected>Seleccione...</option>
+                                                    <option value="1">En Alerta</option>
+                                                    <option value="2">Emergencia Activa</option>
+                                                    <option value="3">Emergencia Finalizada</option>
+                                                </select>
                                                 <span class="help-block hidden"></span>
                                             </div>
                                         </div>
+
+                                        <!--<div class="col-md-5">
+                                            <div class="form-group clearfix">
+                                                <label for="telefono-informante" class="control-label">Teléfono del informante:</label>
+                                                <input value="<?php /*echo $telefono_informante; */?>" class="form-control" name="telefono_informante" id="telefono_informante">
+                                                <span class="help-block hidden"></span>
+                                            </div>
+                                        </div>-->
                                     </div>
 
                                 </div>
@@ -78,18 +91,19 @@
                                     <div class="row">
                                         <div class="col-md-7">
                                             <div class="form-group clearfix">
-                                                <label for="nombre-emergencia" class="control-label">Nombre de la emergencia (*):</label>
+                                                <label for="nombre-emergencia" class="control-label">Nombre del Evento (*):</label>
                                                 <input value="<?php echo $nombre_emergencia; ?>" class="form-control" name="nombre_emergencia" id="nombre_emergencia">
                                                 <span class="help-block hidden"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group clearfix">
-                                                <label for="tipo_emergencia" class="control-label">Tipo de la emergencia (*):</label>
+                                                <label for="tipo_emergencia" class="control-label">Tipo del Evento (*):</label>
                                                 <?php echo formElementSelectEmergenciaTipo("tipo_emergencia", $id_tipo_emergencia, array("class" => "form-control")); ?>
                                                 <span class="help-block hidden"></span>
                                             </div>
                                         </div>
+
                                     </div>
 
                                 </div>
@@ -123,8 +137,16 @@
 
                                 <div class="col-md-5 text-left">
                                     <div class="form-group clearfix">
-                                        <label for="observacion" class="control-label">Observación:</label>
-                                        <textarea  class="form-control" name="observacion" id="observacion"><?php echo $observacion; ?></textarea>
+                                        <label for="observacion" class="control-label">Descripción del Evento:</label>
+                                        <textarea  class="form-control" rows="5" name="descripcion_emergencia" id="descripcion_emergencia"><?php echo $descripcion; ?></textarea>
+                                        <span class="help-block hidden col-sm-8"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 text-left">
+                                    <div class="form-group clearfix">
+                                        <label for="observacion" class="control-label">Observaciones iniciales:</label>
+                                        <textarea  class="form-control" name="observacion" rows="5" id="observacion"><?php echo $observacion; ?></textarea>
                                         <span class="help-block hidden col-sm-8"></span>
                                     </div>
                                 </div>
@@ -136,7 +158,7 @@
                                 <div class="col-md-7 text-left">
 
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 col-xs-12">
                                                 <div class="form-group clearfix">
                                                     <label for="fecha_emergencia" class="control-label">Ocurrencia del evento:</label>
                                                     <div class="input-group col-sm-12" id="div-fecha">
@@ -144,6 +166,20 @@
                                                         <div class="input-group-addon" style="cursor: pointer">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
+                                                    </div>
+                                                    <span class="help-block hidden"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="form-group clearfix">
+                                                    <label for="fecha_emergencia" class="control-label">Nivel del Evento:</label>
+                                                    <div class="input-group col-sm-12" id="div-fecha">
+                                                        <select class="form-control" name="nivel_emergencia" id="nivel_emergencia">
+                                                            <option value="1">Nivel I</option>
+                                                            <option value="2">Nivel II</option>
+                                                            <option value="3">Nivel III</option>
+                                                            <option value="4">Nivel IV</option>
+                                                        </select>
                                                     </div>
                                                     <span class="help-block hidden"></span>
                                                 </div>

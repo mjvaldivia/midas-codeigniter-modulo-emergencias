@@ -22,12 +22,12 @@
                     <div class="circle-tile">
                         <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
-                                <i class="fa fa-bell fa-fw fa-3x"></i>
+                                <i class="fa fa-bullhorn fa-fw fa-3x"></i>
                             </div>
                         </a>
                         <div class="circle-tile-content orange">
                             <div class="circle-tile-description text-faded">
-                                Alertas
+                                Eventos
                             </div>
                             <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
@@ -35,10 +35,10 @@
                 </div>
                 <?php } ?>
                 
-                <?php if(puedeVer("emergencia")) { ?>
+                <?php /*if(puedeVer("emergencia")) { */?><!--
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>">
+                        <a href="<?/*= site_url("emergencia/listado/estado/en_curso") */?>">
                             <div class="circle-tile-heading red">
                                 <i class="fa fa-bullhorn fa-fw fa-3x"></i>
                             </div>
@@ -47,11 +47,11 @@
                             <div class="circle-tile-description text-faded">
                                 Emergencias
                             </div>
-                            <a href="<?= site_url("emergencia/listado/estado/en_curso") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?/*= site_url("emergencia/listado/estado/en_curso") */?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
-                <?php } ?>
+                --><?php /*} */?>
                 
                 <?php if(puedeVer("capas")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
