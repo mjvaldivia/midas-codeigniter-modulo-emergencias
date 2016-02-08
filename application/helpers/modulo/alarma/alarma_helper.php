@@ -24,3 +24,16 @@ function nombreAlarmaEstado($id_estado){
     $nombre->setId($id_estado);
     return $nombre->getString();
 }
+
+
+function nivelEmergencia($nivel){
+    if($nivel == 1){
+        return 'Nivel I';
+    }elseif($nivel == 2){
+        return 'Nivel II';
+    }elseif($nivel == 3){
+        return 'Nivel III';
+    }elseif($nivel == 4){
+        return 'Nivel IV';
+    }
+}

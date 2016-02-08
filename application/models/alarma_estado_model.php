@@ -30,7 +30,7 @@ class Alarma_Estado_Model extends MY_Model
      *
      * @var string 
      */
-    protected $_tabla = "estados_alertas";
+    protected $_tabla = "estados_emergencias";
         
     
     

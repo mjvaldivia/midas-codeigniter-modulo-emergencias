@@ -31,6 +31,9 @@ Class Emergencia_guardar extends Alarma_guardar{
     public function __construct() {
         parent::__construct();
         $this->_ci->load->model("emergencia_model");
+        $this->_ci->load->model("tipo_emergencia_model");
+        $this->_ci->load->model("emergencia_comuna_model");
+        $this->_emergencia_tipo_model   = New Tipo_Emergencia_Model();
         $this->_emergencia_model = New Emergencia_Model();
         $this->_emergencia_comuna_model = New Emergencia_Comuna_Model();
     }
@@ -95,4 +98,50 @@ Class Emergencia_guardar extends Alarma_guardar{
         $update = array("eme_c_datos_tipo_emergencia" => serialize($datos));
         $this->_emergencia_model->update($update, $this->_emergencia->eme_ia_id);
     }
+
+
+    /**
+     *
+     * @param int $id_tipo
+     */
+    public function setTipo($id_tipo){
+        $this->_tipo_emergencia = $this->_emergencia_tipo_model->getById($id_tipo);
+        if(is_null($this->_tipo_emergencia)){
+            throw new Exception(__METHOD__ . " - No existe el tipo de emergencia");
+        }
+    }
+
+    /**
+     * Guarda los campos del tipo de emergencia
+     * @param array $parametros
+     */
+    public function guardarDatosTipoEmergencia($parametros){
+
+        switch ($this->_tipo_emergencia->aux_ia_id) {
+            case Tipo_Emergencia_Model::EMERGENCIA_RADIOLOGICA:
+                $guardar = true;
+                break;
+            default:
+                $guardar = true;
+                break;
+        }
+
+        if($guardar){
+            $datos = array();
+            foreach($parametros as $nombre => $valor){
+                $existe_campo = strpos($nombre, "form_tipo_");
+                if($existe_campo !== false){
+                    $campo = str_replace("form_tipo_", "", $nombre);
+                    $datos[$campo] = $valor;
+                }
+            }
+
+            $this->_guardaDatosTipoEmergencia($datos);
+        }
+    }
+
+
+
+
+
 }

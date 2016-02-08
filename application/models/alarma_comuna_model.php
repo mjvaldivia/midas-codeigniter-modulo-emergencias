@@ -6,7 +6,7 @@ class Alarma_Comuna_Model extends MY_Model{
      *
      * @var string 
      */
-    protected $_tabla = "alertas_vs_comunas";
+    protected $_tabla = "emergencias_vs_comunas";
         
     /**
      * Lista de comunas por emergencia
@@ -16,7 +16,7 @@ class Alarma_Comuna_Model extends MY_Model{
     public function listaComunasPorAlarma($id_alarma){
         $result = $this->_query->select("*")
                                ->from()
-                               ->whereAND("ala_ia_id", $id_alarma)
+                               ->whereAND("eme_ia_id", $id_alarma)
                                ->getAllResult();
         if (!is_null($result)){
            return $result; 

@@ -51,7 +51,7 @@ Class Alarmavalidar{
 
         if(!$this->validar->validarVacio($params["nombre_emergencia"])){
             $this->_correcto = false;
-            $this->_error["nombre_emergencia"] = "Debe ingresar el nombre de la emergencia";
+            $this->_error["nombre_emergencia"] = "Debe ingresar el nombre del Evento";
         } else {
             $this->_error["nombre_emergencia"] = "";
         }
@@ -65,9 +65,30 @@ Class Alarmavalidar{
 
         if(!$this->validar->validarVacio($params["tipo_emergencia"])){
             $this->_correcto = false;
-            $this->_error["tipo_emergencia"] = "Debe ingresar un tipo de emergencia";
+            $this->_error["tipo_emergencia"] = "Debe ingresar un tipo de Evento";
         } else {
             $this->_error["tipo_emergencia"] = "";
+        }
+
+        if(!$this->validar->validarVacio($params["estado_emergencia"])){
+            $this->_correcto = false;
+            $this->_error["estado_emergencia"] = "Debe seleccionar estado del Evento";
+        } else {
+            $this->_error["estado_emergencia"] = "";
+        }
+
+        if(!$this->validar->validarVacio($params["descripcion_emergencia"])){
+            $this->_correcto = false;
+            $this->_error["descripcion_emergencia"] = "Debe ingresar una descripción del Evento";
+        } else {
+            $this->_error["descripcion_emergencia"] = "";
+        }
+
+        if(!$this->validar->validarFechaSpanish($params["fecha_emergencia"])){
+            $this->_correcto = false;
+            $this->_error["fecha_emergencia"] = "Debe ingresar fecha/hora del Evento";
+        } else {
+            $this->_error["fecha_emergencia"] = "";
         }
 
         if(!$this->validar->validarArregloVacio($params["comunas"])){

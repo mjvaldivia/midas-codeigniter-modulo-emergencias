@@ -305,9 +305,9 @@ class Alarma_Model extends MY_Model {
 
 
         $comunas_query = $this->db->query("
-            SELECT GROUP_CONCAT(com_c_nombre) comunas, GROUP_CONCAT(c.com_ia_id) id_comunas from comunas c join alertas_vs_comunas avc
+            SELECT GROUP_CONCAT(com_c_nombre) comunas, GROUP_CONCAT(c.com_ia_id) id_comunas from comunas c join emergencias_vs_comunas avc
         on avc.com_ia_id = c.com_ia_id
-        where avc.ala_ia_id = " . $params["ala_ia_id"]);
+        where avc.eme_ia_id = " . $params["eme_ia_id"]);
 
         $tipo_query = $this->db->query("select aux_c_nombre nombre from auxiliar_emergencias_tipo where aux_ia_id = '" . $params['tipo_emergencia'] . "'");
 
@@ -331,39 +331,39 @@ class Alarma_Model extends MY_Model {
         $this->load->helper('session');
         $this->load->model("usuario_model", "UsuarioModel");
         $key_id = $this->UsuarioModel->generaKeyId($this->session->userdata('session_idUsuario'));
-        $mensaje = "<b>SIPRESA: Revisión de Alarma</b><br><br>";
-        $mensaje .= $this->session->userdata('session_nombres') . " ha registrado la alarma código : " . $params['ala_ia_id'] . "<br><br>";
+        $mensaje = "<b>EMERGENCIAS: Revisión de Evento</b><br><br>";
+        $mensaje .= $this->session->userdata('session_nombres') . " ha registrado la alarma código : " . $params['eme_ia_id'] . "<br><br>";
         $mensaje .= "<b>Nombre de la emergencia:</b> " . $params['nombre_emergencia'] . "<br>";
         $mensaje .= "<b>Tipo de emergencia:</b> " . $params['tipo_emergencia'] . "<br>";
+        $mensaje .= "<b>Nivel de emergencia:</b> " . $params['nivel_emergencia'] . "<br>";
         $mensaje .= "<b>Lugar o dirección de la emergencia:</b> " . $params['nombre_lugar'] . "<br>";
         $mensaje .= "<b>Comuna(s):</b> " . $params['lista_comunas'] . "<br>";
         $mensaje .= "<b>Fecha de la emergencia:</b> " . spanishDateToISO($params['fecha_emergencia']) . "<br>";
         $mensaje .= "<b>Fecha recepción de la emergencia:</b> " . spanishDateToISO($params['fecha_recepcion']) . "<br>";
-        $mensaje .= "<b>Nombre del informante:</b> " . $params['nombre_informante'] . "<br>";
-        $mensaje .= "<b>Teléfono del informante:</b> " . $params['telefono_informante'] . "<br><br>";
+        $mensaje .= "<b>Origen de la información:</b> " . $params['nombre_informante'] . "<br>";
 
 
         //$to = 'rukmini.tonacca@redsalud.gov.cl';
         //$to = 'vladimir@cosof.cl';
         $simulacion = New Simulacion();
-        $subject = $simulacion . "SIPRESA: Revisión de Alarma";
+        $subject = $simulacion . "EMERGENCIAS: Revisión de Evento";
 
 
         $this->load->model("Sendmail_Model", "SendmailModel");
 
 
         //obtengo al CRE activo y le mando el mail con la url de activacion
-        $qry_usu_cre = $this->db->query("
+        /*$qry_usu_cre = $this->db->query("
                 SELECT u.usu_ia_id,u.usu_c_email from usuarios u
                 JOIN usuarios_vs_oficinas uvo ON uvo.usu_ia_id = u.usu_ia_id
                 JOIN oficinas_vs_comunas ovc ON ovc.ofi_ia_id = uvo.ofi_ia_id
                 WHERE crg_ia_id = 4 and usu_b_cre_activo=1
-                AND ovc.com_ia_id IN (".$params['lista_id_comunas'].") limit 1");
+                AND ovc.com_ia_id IN (".$params['lista_id_comunas'].") limit 1");*/
 
-        $id_usuario_excluir = null;
+        /*$id_usuario_excluir = null;
         if ($usu_cre = $qry_usu_cre->result_array()) {
             $mensajeCRE = $mensaje;
-            $mensajeCRE .= "<a href='" . site_url('emergencia/generaEmergencia/id/' . $params['ala_ia_id'] . '/k/' . $key_id) . "'>URL de la alarma a revisar</a><br>";
+            $mensajeCRE .= "<a href='" . site_url('emergencia/generaEmergencia/id/' . $params['eme_ia_id'] . '/k/' . $key_id) . "'>URL del Evento a revisar</a><br>";
             $mensajeCRE .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
             //envio mail al CRE
             $this->SendmailModel->emailSend($usu_cre[0]['usu_c_email'], null, null, $subject, $mensajeCRE);
@@ -372,12 +372,13 @@ class Alarma_Model extends MY_Model {
             }
         } else {
             $error++;
-        }
+        }*/
 
 
         // mando mail al resto
         $mensaje .= "<br><img src='" . base_url('assets/img/logoseremi.png') . "' alt='Seremi' title='Seremi'></img><br>";
-        $to = $this->SendmailModel->get_destinatariosCorreo($params["id_tipo_emergencia"], $params['lista_id_comunas'], $id_usuario_excluir);
+        /*$to = $this->SendmailModel->get_destinatariosCorreo($params["id_tipo_emergencia"], $params['lista_id_comunas'], $id_usuario_excluir);*/
+        $to = $params['correos_evento'];
         
         if(count($to)>0){
         if (!$this->SendmailModel->emailSend($to, null, null, $subject, $mensaje)) {
@@ -386,7 +387,6 @@ class Alarma_Model extends MY_Model {
         } else {
             $error++;
         }
-        
         return ($error==0)?true:false;
     }
 

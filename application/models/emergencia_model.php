@@ -12,6 +12,16 @@ class Emergencia_Model extends MY_Model {
     public $activado = 1;
     public $rechazado = 2;
     public $revision = 3;
+
+    public $nivel_I = 1;
+    public $nivel_II = 2;
+    public $nivel_III = 3;
+    public $nivel_IV = 4;
+
+    public $en_alerta = 1;
+    public $emergencia_activa = 2;
+    public $emergencia_finalizada = 3;
+
         
     /**
      *
@@ -636,6 +646,39 @@ class Emergencia_Model extends MY_Model {
 
     public function getByAlarma($id_alarma){
         return $this->_query->getById("ala_ia_id", $id_alarma);
+    }
+
+
+
+    /**
+     * Lista alarmas de acuerdo a parametros
+     * @param array $parametros
+     * @return array
+     */
+    public function buscar(array $parametros = array()){
+        $query = $this->_query->select("e.*")
+            ->from($this->_tabla . " e");
+
+        if(!empty($parametros["id_estado"])){
+            $query->whereAND("e.est_ia_id", $parametros["id_estado"], "=");
+        }
+
+        if(!empty($parametros["id_tipo"])){
+            $query->whereAND("e.tip_ia_id", $parametros["id_tipo"], "=");
+        }
+
+        if(!empty($parametros["year"])){
+            $query->whereAND("year(e.eme_d_fecha_recepcion)", $parametros["year"], "=");
+        }
+
+        $this->_addQueryComunas($query);
+
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
 
 }

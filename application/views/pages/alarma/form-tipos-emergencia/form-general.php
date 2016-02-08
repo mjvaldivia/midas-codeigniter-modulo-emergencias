@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-6 text-left">
             <div class="row">
-                <div class="col-md-6 text-left">
+                <div class="col-md-3 text-left">
                     <div class="form-group clearfix">
                         <label for="form_tipo_heridos" class="control-label">Número de heridos</label>
 
@@ -33,7 +33,7 @@
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
-                <div class="col-md-6 text-left">
+                <div class="col-md-3 text-left">
                     <div class="form-group clearfix">
                         <label for="form_tipo_fallecidos" class="control-label">Número de fallecidos</label>
 
@@ -42,9 +42,28 @@
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
+                <div class="col-md-6 text-left">
+                    <div class="form-group clearfix">
+                        <label for="form_tipo_fallecidos" class="control-label">Número estimado de población en riesgo</label>
+
+                        <input value="<?php echo $form_tipo_riesgo; ?>" class="form-control" name="form_tipo_poblacion_riesgo" id="form_tipo_poblacion_riesgo">
+
+                        <span class="help-block hidden"></span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-6 text-left">
+            <div class="form-group clearfix">
+                <label for="form_tipo_riesgo" class="control-label">¿Está en riesgo la salud de la población expuesta?</label>
+
+                <textarea  class="form-control" name="form_tipo_expuesta" id="form_tipo_expuesta"><?php echo $form_tipo_expuesta; ?></textarea>
+
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+        <div class="col-md-6 text-left">
+
             <div class="form-group clearfix">
                 <label for="form_tipo_superada" class="control-label">¿En qué ha sido superada su capacidad para una respuesta eficiente y efectiva?</label>
 
@@ -53,30 +72,6 @@
                 <span class="help-block hidden"></span>
             </div>
         </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-6 text-left">
-            <div class="form-group clearfix">
-                <label for="form_tipo_descripcion" class="control-label">Descrición del evento</label>
-
-                <textarea  class="form-control" name="form_tipo_descripcion" id="form_tipo_descripcion"><?php echo $form_tipo_descripcion; ?></textarea>
-
-                <span class="help-block hidden"></span>
-            </div>
-        </div>
-        <div class="col-md-6 text-left">
-            <div class="form-group clearfix">
-                <label for="form_tipo_acciones" class="control-label">Acciones</label>
-
-                <textarea  class="form-control" name="form_tipo_acciones" id="form_tipo_acciones"><?php echo $form_tipo_acciones; ?></textarea>
-
-                <span class="help-block hidden"></span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row">
         <div class="col-md-6 text-left">
             <div class="form-group clearfix">
                 <label for="form_tipo_informacion" class="control-label">Información adicional</label>
@@ -86,6 +81,22 @@
                 <span class="help-block hidden"></span>
             </div>
         </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 text-left">
+            <div class="form-group clearfix">
+                <label for="form_tipo_acciones" class="control-label">Acciones</label>
+
+                <textarea  class="form-control" name="form_tipo_acciones" id="form_tipo_acciones" rows="10"><?php echo $form_tipo_acciones; ?></textarea>
+
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+
         
         <div class="col-md-6 text-left">
             <!--

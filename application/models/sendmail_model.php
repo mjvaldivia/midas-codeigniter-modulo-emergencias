@@ -18,7 +18,7 @@ class Sendmail_Model extends MY_Model {
     public $CRE = 4;
 
     public function emailSend($to = null, $cc = null, $bcc = null, $subject = null, $message = null, $dry_run = false, $attach = array()) {
-        
+
         $this->load->library('mailer');
         $mail = $this->mailer->load();
         $mail->IsSMTP(); // telling the class to use SMTP

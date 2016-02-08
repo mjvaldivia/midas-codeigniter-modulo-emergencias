@@ -6,11 +6,12 @@
                 <th></th>
                 <?php } ?>
                 <!--<th></th>-->
-                <th>Nombre alarma</th>
+                <th>Nombre Evento</th>
                 <th>Estado</th>
                 <th>Tipo</th>
+                <th>Nivel Evento</th>
                 <th>Comunas afectadas</th>
-                <th>Fecha alarma</th>
+                <th>Fecha Evento</th>
                 <th>Lugar</th>
                 
             </tr>
@@ -34,13 +35,13 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a class="expediente" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['ala_ia_id'])?>','Bitácora',75);">
+                                        <a class="expediente" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
                                             <i class="fa fa-files-o"></i> Bitácora
                                         </a>
                                     </li>
                                   <?php if (puedeEditar("emergencia")) { ?>
                                   <li>
-                                      <a data="<?php echo $row["ala_ia_id"]; ?>" class="emergencia-nueva" href="#">
+                                      <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva" href="#">
                                           <i class="fa fa-bullhorn"></i> Generar emergencia
                                       </a>
                                   </li>
@@ -48,7 +49,7 @@
                                   
                                   <?php if (puedeEditar("alarma")) { ?>
                                   <li>
-                                      <a data="<?php echo $row["ala_ia_id"]; ?>" class="editar" href="#">
+                                      <a data="<?php echo $row["eme_ia_id"]; ?>" class="editar" href="#">
                                           <i class="fa fa-edit"></i> Editar
                                       </a>
                                   </li>
@@ -57,7 +58,7 @@
                                   <?php if (puedeEliminar("alarma") and $row["est_ia_id"] != 1) { ?>
                                   <li class="divider"></li>
                                   <li>
-                                      <a data="<?php echo $row["ala_ia_id"]; ?>" class="alarma-eliminar" href="#">
+                                      <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar" href="#">
                                           <i class="fa fa-trash"></i> Eliminar
                                       </a>
                                   </li>
@@ -73,22 +74,25 @@
                 <?php } ?>
                 
                 <td>
-                    <?php echo $row["ala_c_nombre_emergencia"]; ?>
+                    <?php echo $row["eme_c_nombre_emergencia"]; ?>
                 </td>
-                <td>
+                <td class="text-center">
                     <?php echo nombreAlarmaEstado($row["est_ia_id"]); ?> 
                 </td>
-                <td>
+                <td class="text-center">
                     <?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> 
                 </td>
+                <td class="text-center">
+                    <?php echo nivelEmergencia($row['eme_nivel']) ?>
+                </td>
                 <td> 
-                    <?php echo textMoreLess(comunasAlarmaConComa($row["ala_ia_id"])); ?>
+                    <?php echo textMoreLess(comunasAlarmaConComa($row["eme_ia_id"])); ?>
+                </td>
+                <td class="text-center">
+                    <?php echo ISODateTospanish($row["eme_d_fecha_emergencia"]); ?>
                 </td>
                 <td>
-                    <?php echo ISODateTospanish($row["ala_d_fecha_emergencia"]); ?>
-                </td>
-                <td>
-                    <?php echo textMoreLess($row["ala_c_lugar_emergencia"]); ?>
+                    <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
                 </td>
                 
             </tr>

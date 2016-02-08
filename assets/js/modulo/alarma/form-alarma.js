@@ -36,43 +36,126 @@ var FormAlarma = Class({
 
             /* obtener correos destinatarios */
             var tipo_emergencia = $(this).val();
-            var comunas_seleccionadas = [];
-            $("#comunas_seleccionados option").each(function(){
-                comunas_seleccionadas.push($(this).val());
-            });
-            if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
-                $.post(siteUrl + 'alarma/obtenerListadoCorreosAlarma',{tipo_emergencia:tipo_emergencia, comunas_seleccionadas:comunas_seleccionadas},function(response){
-                    if(response.correos != ""){
-                        $("#correos_alarma").html("Además se dará aviso a los siguientes correos: " + response.correos);
+
+            if(tipo_emergencia == "15"){
+                $("#caja_correos_evento").hide();
+                var comunas_seleccionadas = [];
+                $("#comunas_seleccionados option").each(function(){
+                    comunas_seleccionadas.push($(this).val());
+                });
+                /*if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
+                    $.post(siteUrl + 'alarma/obtenerListadoCorreosAlarma',{tipo_emergencia:tipo_emergencia, comunas_seleccionadas:comunas_seleccionadas},function(response){
+                        if(response.correos != ""){
+                            $("#correos_alarma").html("Además se dará aviso a los siguientes correos: " + response.correos);
+                        }else{
+                            $("#correos_alarma").html("");
+                        }
+                    },'json');
+                }else{
+                    $("#correos_alarma").html("");
+                }*/
+
+                var parametros = {"id_tipo" : $(this).val(),
+                                  "id" : $("#ala_id").val()}
+                $.ajax({
+                    dataType: "json",
+                    cache: false,
+                    async: false,
+                    data: parametros,
+                    type: "post",
+                    url: siteUrl + "alarma/form_tipo_emergencia",
+                    error: function(xhr, textStatus, errorThrown){},
+                    success:function(data){
+
+                        $("#form-tipo-emergencia").html(data.html);
+                        $("#estado_emergencia").val(2);
+                        if(data.form){
+                            $("#div-pasos").show();
+                        } else {
+                            $("#div-pasos").hide();
+                        }
+                        yo.btnPaso1();
+                    }
+                });
+            }else{
+
+                var estado_emergencia = $("#estado_emergencia").val();
+                if(estado_emergencia > 1){
+                    $("#caja_correos_evento").hide();
+                    var comunas_seleccionadas = [];
+                    $("#comunas_seleccionados option").each(function(){
+                        comunas_seleccionadas.push($(this).val());
+                    });
+                    /*if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
+                        $.post(siteUrl + 'alarma/obtenerListadoCorreosAlarma',{tipo_emergencia:tipo_emergencia, comunas_seleccionadas:comunas_seleccionadas},function(response){
+                            if(response.correos != ""){
+                                $("#correos_alarma").html("Además se dará aviso a los siguientes correos: " + response.correos);
+                            }else{
+                                $("#correos_alarma").html("");
+                            }
+                        },'json');
                     }else{
                         $("#correos_alarma").html("");
-                    }
-                },'json');
-            }else{
-                $("#correos_alarma").html("");
-            }
+                    }*/
 
-            var parametros = {"id_tipo" : $(this).val(),
-                              "id" : $("#ala_id").val()}
-            $.ajax({         
-                dataType: "json",
-                cache: false,
-                async: false,
-                data: parametros,
-                type: "post",
-                url: siteUrl + "alarma/form_tipo_emergencia", 
-                error: function(xhr, textStatus, errorThrown){},
-                success:function(data){
-                    $("#form-tipo-emergencia").html(data.html);
-                    if(data.form){
-                        $("#div-pasos").show();
-                    } else {
-                        $("#div-pasos").hide();
+                    var parametros = {"id_tipo" : $(this).val(),
+                        "id" : $("#ala_id").val()}
+                    $.ajax({
+                        dataType: "json",
+                        cache: false,
+                        async: false,
+                        data: parametros,
+                        type: "post",
+                        url: siteUrl + "alarma/form_tipo_emergencia",
+                        error: function(xhr, textStatus, errorThrown){},
+                        success:function(data){
+
+                            $("#form-tipo-emergencia").html(data.html);
+
+                            if(data.form){
+                                $("#div-pasos").show();
+                                if(estado_emergencia > 1){
+                                    yo.btnPaso1();
+                                }
+                            } else {
+                                $("#div-pasos").hide();
+                            }
+
+                        }
+                    });
+                }else{
+                    $("#div-pasos").hide();
+                    yo.btnPaso2();
+                    if(estado_emergencia == 1){
+                        $("#caja_correos_evento").show();
+                    }else{
+                        $("#caja_correos_evento").hide();
                     }
-                    yo.btnPaso1();
                 }
-            }); 
+            }
         }).change();        
+    },
+
+
+    estadoEventoChange : function(){
+        var yo = this;
+        $("body").on('change','#estado_emergencia',function(){
+            var estado = $("#estado_emergencia").val();
+            var tipo_emergencia = $("#tipo_emergencia").val();
+
+            if(estado > 1){
+                $("#div-pasos").show();
+                yo.btnPaso1();
+            }else{
+                if(tipo_emergencia == 15){
+                    xModal.warning('Evento Radiológico debe estar en estado Activo o Finalizado');
+                }else{
+                    $("#div-pasos").hide();
+                    yo.btnPaso2();
+                }
+            }
+        }).change();
+
     },
     
     /**
@@ -272,6 +355,20 @@ var FormAlarma = Class({
         
         var parametros = this.getParametrosFix("form_nueva");
 
+        if($("#correos_evento") !== undefined){
+            parametros.push({"name" : "correos_evento",
+                "value" : $("#correos_evento").val()});
+        }
+
+        if($("#estado_emergencia").val() > 1){
+            var parametros_emergencia = this.getParametrosFix("form-tipos-emergencia");
+            for(var i=0; i<parametros_emergencia.length; i++){
+                parametros.push(parametros_emergencia[i]);
+            }
+
+        }
+
+
         var salida = false;
         
         $.ajax({         
@@ -302,6 +399,7 @@ var FormAlarma = Class({
         this.configSteps();
         this.bindComunasPicklist();
         this.bindSelectEmergenciaTipo();
+        this.estadoEventoChange();
     },
     
     showPaso2 : function(form){
@@ -355,10 +453,10 @@ var FormAlarma = Class({
                 bootbox.dialog({
                     message: html,
                     className: "modal90",
-                    title: "<i class=\"fa fa-arrow-right\"></i> Nueva alarma",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Nuevo Evento",
                     buttons: {
                         guardar: {
-                            label: " Guardar alarma",
+                            label: " Guardar Evento",
                             className: "btn-success fa fa-check",
                             callback: function() {
                                 return yo.guardar();
