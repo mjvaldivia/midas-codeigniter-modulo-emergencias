@@ -21,13 +21,13 @@ Class Visor_Propiedades_Informacion{
      * @return string html
      */
     public function render(){
-        $html = "";
+        $html = "<div class=\"row\">";
         foreach($this->_propiedades as $nombre => $valor){
-            $html .= "<div class=\"row\">"
-                   . "<div class=\"col-lg-4\"><strong>" . $nombre . ":</strong></div>"
-                   . "<div class=\"col-lg-8\">" . $valor . "</div>"
-                   . "</div>";
+            $html .= "<div class=\"col-lg-2 text-right\"><strong>" . $nombre . ":</strong></div>"
+                   . "<div class=\"col-lg-4 text-left\">" . $valor . "</div>";
+                   
         }
+        $html .= "</div>";
         return $html;
     }
     

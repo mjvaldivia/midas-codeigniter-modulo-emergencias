@@ -207,34 +207,35 @@ class Mapa extends MY_Controller {
     /**
      * Muestra información del poligono
      */
-    public function popup_informacion(){
+    public function popup_elemento_edicion(){
         $this->load->helper(array("modulo/visor/visor"));
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
         
-        $subcapa = $this->_capa_detalle_model->getById($params["capa"]);
-        
-        if(is_null($subcapa)){
-            $nombre_subcapa = "";
-            $nombre_capa    = "";
-            $nombre_tipo    = "";
-        } else {
-            $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
-            $tipo    = $this->_tipo_capa_model->getById($capa->ccb_ia_categoria);
-            $nombre_subcapa  = $subcapa->geometria_nombre;
-            $nombre_capa     = $capa->cap_c_nombre;
-            $nombre_tipo     = $tipo["ccb_c_categoria"];
-        }        
-
-        $this->load->view("pages/mapa/popup-informacion", 
-                          array("nombre_subcapa" => $nombre_subcapa,
-                                "tipo" => $params["tipo"],
+        $this->load->view("pages/mapa/popup-elemento-edicion", 
+                          array("tipo" => $params["tipo"],
                                 "color" => $params["color"],
-                                "nombre_capa"    => $nombre_capa,
-                                "nombre_tipo"   => $nombre_tipo,
                                 "informacion" => $informacion,
                                 "lista_marcadores"  => json_decode($params["marcadores"])));
+        
+    }
+    
+    /**
+     * Muestra información del poligono
+     */
+    public function popup_lugar_emergencia_edicion(){
+        $this->load->helper(array("modulo/visor/visor"));
+        
+        $params = $this->input->post(null, true);
+        $informacion = json_decode($params["informacion"]);
+        
+        $this->load->view("pages/mapa/popup-lugar-emergencia-edicion", 
+                          array("tipo" => $params["tipo"],
+                                "color" => $params["color"],
+                                "informacion" => $informacion,
+                                "lista_marcadores"  => json_decode($params["marcadores"])));
+        
     }
     
     /**

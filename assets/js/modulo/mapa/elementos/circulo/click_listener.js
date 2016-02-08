@@ -6,7 +6,7 @@ var MapaCirculoClickListener = Class({
      */
     addClickListener : function(circulo, mapa){
         var yo = this;
-        circulo.addListener('click', function(event) {
+        circulo.addListener('rightclick', function(event) {
                         
             var marcadores = {};
             //se recorren marcadores, y se buscan los dentro del poligono

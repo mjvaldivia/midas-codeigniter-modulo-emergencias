@@ -80,6 +80,11 @@ var MapaLayoutInputBusqueda = Class({
         this.listenerRightClick(map);
     },
     
+    /**
+     * 
+     * @param {type} mapa
+     * @returns {undefined}
+     */
     listenerRightClick : function(mapa){
         var yo = this;
         
@@ -114,6 +119,7 @@ var MapaLayoutInputBusqueda = Class({
                 case 'quitar_marcador_busqueda':
                     marker_search.setMap(null);
                     marker_search = null;
+                    contextMenu.hide();
                 break;
             }
 	});

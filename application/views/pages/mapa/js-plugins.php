@@ -18,16 +18,15 @@
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.buttons.js"); ?>
 
 <!-- Popup con informacion de un elemento -->
+<?= loadJS("assets/js/modulo/mapa/informacion/elemento/menu.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
 
 <!-- ELEMENTOS -->
 <!-- Circulo -->
 <?= loadJS("assets/js/modulo/mapa/elementos/circulo.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/elementos/circulo/move_listener.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/circulo/click_listener.js"); ?>
 
 <!-- Rectangulo -->
-<?= loadJS("assets/js/modulo/mapa/elementos/rectangulo/click_listener.js"); ?>
 
 <!-- Lineas -->
 <?= loadJS("assets/js/modulo/mapa/elementos/linea.js"); ?>

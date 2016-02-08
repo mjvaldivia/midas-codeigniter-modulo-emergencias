@@ -205,7 +205,7 @@ var MapaCapa = Class({
         var i = 0;
         
         $.each(capa.json, function(id, data){
-            yo.elemento(data.id, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
+            yo.elemento(data.id, data.nombre, data.geojson, data.propiedades, id_subcapa, capa.zona, capa.icono, capa.color);
             i++;
         });
                 
@@ -274,7 +274,7 @@ var MapaCapa = Class({
      * @param {string} color
      * @returns {void}
      */
-    elemento : function(id, geometry, propiedades, subcapa, zona, icono, color){
+    elemento : function(id, nombre, geometry, propiedades, subcapa, zona, icono, color){
         
         var yo = this;
         switch (geometry.type) {
@@ -294,10 +294,10 @@ var MapaCapa = Class({
                                                      icono);
                 break;
             case "Polygon":
-                yo.class_poligono.dibujarPoligono(id, subcapa, geometry.coordinates, propiedades, zona, color);
+                yo.class_poligono.dibujarPoligono(id, nombre, subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
             case "MultiPolygon":
-                yo.class_multipoligono.dibujarPoligono(id, subcapa, geometry.coordinates, propiedades, zona, color);
+                yo.class_multipoligono.dibujarPoligono(id, nombre, subcapa, geometry.coordinates, propiedades, zona, color);
                 break;
         }
         

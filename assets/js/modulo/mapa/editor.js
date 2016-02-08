@@ -72,6 +72,8 @@ var MapaEditor = Class({
             markerOptions: {"id" : null,
                             icon: baseUrl + 'assets/img/markers/spotlight-poi-black.png',
                             tipo : "PUNTO",
+                            informacion : {"NOMBRE" : "MARCADOR AGREGADO",
+                                           "TIPO" : "MARCADOR"},
                             capa: null,
                             draggable: true,
                             custom: true,
@@ -132,8 +134,9 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             });
             
-            var rectanguloClickListener = new  MapaRectanguloClickListener();
-            rectanguloClickListener.addClickListener(rectangle, mapa);
+            var circuloClickListener = new MapaInformacionElemento();
+            circuloClickListener.addRightClickListener(rectangle, mapa);
+            
             lista_poligonos.push(rectangle);
             
             var elemento = new MapaElementos();
@@ -181,8 +184,11 @@ var MapaEditor = Class({
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
             })
-            var circuloClickListener = new MapaCirculoClickListener();
-            circuloClickListener.addClickListener(circle, mapa);
+            
+            
+            var circuloClickListener = new MapaInformacionElemento();
+            circuloClickListener.addRightClickListener(circle, mapa);
+            
             lista_poligonos.push(circle);
             
             var elemento = new MapaElementos();
@@ -225,8 +231,10 @@ var MapaEditor = Class({
                 if(data.correcto){
                     var elemento_custom = new MapaElementos();
                     elemento_custom.emergencia(yo.id_emergencia);
+                    
                     elemento_custom.removeCustomElements();
                     elemento_custom.loadCustomElements(yo.mapa);
+                    
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }

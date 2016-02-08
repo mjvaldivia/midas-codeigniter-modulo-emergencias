@@ -10,7 +10,7 @@
 <?= loadJS("assets/js/library/picklist/picklist.js") ?>
 
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
-<?= loadJS("assets/js/modulo/mapa/extension/geo-encoder.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
 <?= loadJS("assets/js/library/html2canvas/build/html2canvas.js") ?>
 
 <?= loadJS("assets/js/modulo/alarma/mapa.js") ?>

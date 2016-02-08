@@ -111,7 +111,7 @@ function visorEdicionElemento($tipo, $propiedades, $color = null, $imagen = null
  * @param type $lista
  * @return type
  */
-function visorPoligonoInstalaciones($lista){
+function visorElementoInstalaciones($lista){
     $html = New Visor_Elemento_Instalaciones($lista);
     return $html->render();
 }

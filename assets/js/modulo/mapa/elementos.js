@@ -105,9 +105,11 @@ var MapaElementos = Class({
             map: this.mapa,
             bounds: coordenadas
         });
+        
+        var circuloClickListener = new MapaInformacionElemento();
+        circuloClickListener.addRightClickListener(rectangle, this.mapa);
+        
 
-        var rectanguloClickListener = new MapaRectanguloClickListener();
-        rectanguloClickListener.addClickListener(rectangle, this.mapa);
         lista_poligonos.push(rectangle);
     },
     
@@ -139,15 +141,17 @@ var MapaElementos = Class({
             center: centro,
             radius: radio
         });
-
-        var circuloClickListener = new MapaCirculoClickListener();
-        circuloClickListener.addClickListener(circulo, this.mapa);
         
-        var circuloClickListener = new MapaCirculoMoveListener();
-        circuloClickListener.addMoveListener(circulo, this.mapa); 
+        var circuloClickListener = new MapaInformacionElemento();
+        circuloClickListener.addRightClickListener(circulo, this.mapa);
+        
         lista_poligonos.push(circulo);
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     listaElementosVisor : function(){
         
         var lista = this.listCustomElements();
@@ -187,9 +191,7 @@ var MapaElementos = Class({
         } else {
             $("#cantidad_elementos_agregados").removeClass("alert-success");
         }
-        
-        
-        
+
         $("#lista_elementos_agregados").html(html);
     },
     
@@ -205,7 +207,6 @@ var MapaElementos = Class({
         
         var yo = this;
         
-
         var ajax = {         
             dataType: "json",
             cache: false,
@@ -340,11 +341,11 @@ var MapaElementos = Class({
     removeOneCustomElements : function(atributo, valor){
         console.log("Quitando elemento " + atributo + " " + valor);
         var custom = jQuery.grep(lista_poligonos, function( a ) {
-            if(a.custom){
+            //if(a.custom){
                 if(a[atributo] == valor){
                     return true;
                 }
-            }
+            //}
         });
         
         $.each(custom, function(i, elemento){
@@ -358,11 +359,11 @@ var MapaElementos = Class({
         });
         
         var custom = jQuery.grep(lista_markers, function( a ) {
-            if(a.custom){
+            //if(a.custom){
                 if(a[atributo] == valor){
                     return true;
                 }
-            }
+            //}
         });
         
         $.each(custom, function(i, elemento){
@@ -467,7 +468,8 @@ var MapaElementos = Class({
                     var zonas = {};
                     $.each(arr, function(i, circulo){
                        zonas[i] = {"radio" : circulo.getRadius(),
-                                   "color" : circulo.fillColor};
+                                   "color" : circulo.fillColor,
+                                   "propiedades" : circulo.informacion};
                     });
                     
                     data = {"tipo" : "PUNTO LUGAR EMERGENCIA",

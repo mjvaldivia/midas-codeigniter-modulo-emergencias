@@ -35,7 +35,40 @@ class Mapa_capas extends MY_Controller {
         $this->load->model("emergencia_capa_model", "_emergencia_capa_model");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("capa_detalle_model", "_capa_detalle_model");
+        $this->load->model("capa_model", "_capa_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
+    }
+    
+    /**
+     * Muestra información del poligono
+     */
+    public function popup_informacion(){
+        $this->load->helper(array("modulo/visor/visor"));
+        
+        $params = $this->input->post(null, true);
+        $informacion = json_decode($params["informacion"]);
+        
+        $subcapa = $this->_capa_detalle_model->getById($params["capa"]);
+        
+        if(!is_null($subcapa)){
+            $capa    = $this->_capa_model->getById($subcapa->geometria_capa);
+            $tipo    = $this->_tipo_capa_model->getById($capa->ccb_ia_categoria);
+            $nombre_subcapa  = $subcapa->geometria_nombre;
+            $nombre_capa     = $capa->cap_c_nombre;
+            $nombre_tipo     = $tipo["ccb_c_categoria"];
+             
+
+            $this->load->view("pages/mapa_capas/popup-informacion", 
+                              array("nombre_subcapa" => $nombre_subcapa,
+                                    "tipo" => $params["tipo"],
+                                    "color" => $params["color"],
+                                    "nombre_capa"    => $nombre_capa,
+                                    "nombre_tipo"   => $nombre_tipo,
+                                    "informacion" => $informacion,
+                                    "lista_marcadores"  => json_decode($params["marcadores"])));
+        } else {
+            throw new Exception(__METHOD__ . " - La capa no existe");
+        }
     }
     
     /**
