@@ -134,7 +134,7 @@
                     <div class="portlet portlet-default">
                         <div class="portlet-heading">
                             <div class="portlet-title">
-                                <h4><i class="fa fa-list-ul"></i> Emergencias en curso</h4>
+                                <h4><i class="fa fa-list-ul"></i> Eventos con Emergencia en Curso</h4>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -157,7 +157,7 @@
                         <div class="portlet portlet-default">
                             <div class="portlet-heading">
                                 <div class="portlet-title">
-                                    <h4><i class="fa fa-list-ul"></i> Alarmas en revisión</h4>
+                                    <h4><i class="fa fa-list-ul"></i> Eventos en Alerta</h4>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
