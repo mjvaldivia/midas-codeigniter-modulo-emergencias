@@ -210,7 +210,7 @@
                 <div id="form-tipo-emergencia">
                     
                 </div>
-                <?php if($eme_id > 0):?>
+                <div id="contenedor-adjuntos">
                     <?php if(isset($adjuntos) and count($adjuntos) > 0):?>
                     <div class="col-xs-12">
                         <div class="alert alert-info">
@@ -223,10 +223,11 @@
                         </div>
                     </div>
                     <?php endif;?>
-                <div class="col-xs-12">
-                    <input type="file" name="adjunto-emergencia" id="adjunto-emergencia" multiple />
+                    <div class="col-xs-12">
+                        <input type="file" name="adjunto-emergencia" id="adjunto-emergencia" multiple />
+                    </div>
+
                 </div>
-                <?php endif;?>
             </div>
         </div>
     </div>
@@ -242,18 +243,23 @@
 </div>
 
 
+<?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
+<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+
 <script type="text/javascript">
     $(document).ready(function(){
         var emergencia = $("#eme_id").val();
-        if(emergencia > 0){
-            $("#adjunto-emergencia").fileinput({
-                language: "es",
-                multiple: true,
-                uploadAsync: true,
-                initialCaption: "Seleccione los adjuntos a la emergencia",
-                uploadUrl: siteUrl + "emergencia/subir_AdjuntoEmergenciaTmp/id/"+emergencia
-            });
+        if(emergencia < 1){
+            emergencia = <?php echo uniqid();?>;
         }
+        $("#adjunto-emergencia").fileinput({
+            language: "es",
+            multiple: true,
+            uploadAsync: true,
+            initialCaption: "Seleccione los adjuntos a la emergencia",
+            uploadUrl: siteUrl + "emergencia/subir_AdjuntoEmergenciaTmp/id/"+emergencia
+        });
     });
 </script>
 

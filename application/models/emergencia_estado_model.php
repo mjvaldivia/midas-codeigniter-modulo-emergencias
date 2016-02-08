@@ -11,12 +11,15 @@ class Emergencia_Estado_Model extends MY_Model
      * Emergencia terminada
      * @see est_ia_id en tabla estado_emergencia
      */
-    const CERRADA = 2;
+    const EN_CURSO = 2;
     
     /**
      * @see tip_ia_id en tabla alertas 
      */
-    const EN_CURSO = 1;
+    const EN_ALERTA = 1;
+
+
+    const FINALIZADA = 3;
             
     /**
      *
