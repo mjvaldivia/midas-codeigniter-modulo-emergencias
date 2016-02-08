@@ -31,17 +31,7 @@ Class Visor_Elemento_Editar{
      * @param array $propiedades
      */
     public function __construct($tipo) {
-        $this->_ci =& get_instance();
-        
-        switch ($tipo) {
-            case "CIRCULO":
-            case "RECTANGULO":
-            case "POLIGONO":
-                break;
-            default:
-                break;
-        }
-        
+        $this->_ci =& get_instance();        
         $this->_tipo = $tipo;
     }
     
@@ -63,17 +53,18 @@ Class Visor_Elemento_Editar{
         $this->_propiedades = $propiedades;
     }
     
-    
     /**
      * Retorna propiedades
      * @return string html
      */
     public function render(){
-        return $this->_ci->load->view("pages/mapa/form-editar-elemento", 
-                                      array("tipo" => $this->_tipo,
-                                            "color" => $this->_color,
-                                            "propiedades" => $this->_propiedades), 
-                                      true);
+        return $this->_ci->load->view(
+            "pages/mapa/form/elemento-editar", 
+            array("tipo" => $this->_tipo,
+                  "color" => $this->_color,
+                  "propiedades" => $this->_propiedades), 
+            true
+        );
     }
     
 }

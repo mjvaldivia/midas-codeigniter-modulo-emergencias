@@ -18,6 +18,8 @@
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.buttons.js"); ?>
 
 <!-- Popup con informacion de un elemento -->
+<?= loadJS("assets/js/modulo/mapa/informacion/elemento/contenido.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/informacion/elemento/edicion.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento/menu.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
 

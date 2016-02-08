@@ -217,6 +217,7 @@ class Mapa extends MY_Controller {
                           array("tipo" => $params["tipo"],
                                 "color" => $params["color"],
                                 "informacion" => $informacion,
+                                "lista_formas" => json_decode($params["formas"]),
                                 "lista_marcadores"  => json_decode($params["marcadores"])));
         
     }
@@ -234,6 +235,7 @@ class Mapa extends MY_Controller {
                           array("tipo" => $params["tipo"],
                                 "color" => $params["color"],
                                 "informacion" => $informacion,
+                                "lista_formas" => json_decode($params["formas"]),
                                 "lista_marcadores"  => json_decode($params["marcadores"])));
         
     }
@@ -394,18 +396,15 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
-            
-            $alarma = $this->_alarma_model->getById($emergencia->ala_ia_id);
-            if(!is_null($alarma)){
+            if($emergencia->eme_c_utm_lat != "" AND $emergencia->eme_c_utm_lng!=""){
                 $data = array("correcto"  => true,
-                              "resultado" => array("lat" => $alarma->ala_c_utm_lat,
-                                                   "lon" => $alarma->ala_c_utm_lng,
-                                                   "nombre" => $alarma->ala_c_nombre_informante,
-                                                   "zona" => $alarma->ala_c_geozone));
+                              "resultado" => array("lat" => $emergencia->eme_c_utm_lat,
+                                                   "lon" => $emergencia->eme_c_utm_lng,
+                                                   "nombre" => $alarma->eme_c_nombre_emergencia,
+                                                   "zona" => ""));
             } else {
-                $data["error"] = "La alarma no existe";
+                $data["error"] = "El lugar de la emergencia no fue encontrado";
             }
-            
         } else {
             $data["error"] = "La emergencia no existe";
         }

@@ -2,7 +2,7 @@
     <div class="tab-content">
         <?php $active = "active"; ?>
         <?php foreach($lista_capas as $id_capa => $capa){ ?>
-        <div role="tabpanel" class="tab-pane <?php echo $active; ?>" id="capa_<?php echo $id_capa; ?>">
+        <div role="tabpanel" class="tab-pane <?php echo $active; ?>" id="capa_<?php echo $prefix; ?>_<?php echo $id_capa; ?>">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="table-responsive" data-row="5" style="width:100%">
@@ -11,7 +11,7 @@
                                 <tr>
                                 <?php 
                                     $columnas = reset($capa["marcadores"]);
-                                    foreach($columnas as $key => $void){
+                                    foreach($columnas->informacion as $key => $void){
                                 ?>
                                     <th><?php echo $key; ?></th>
                                 <?php } ?>    
@@ -20,8 +20,8 @@
                             <tbody>
                         <?php foreach($capa["marcadores"] as $marcador) { ?>
                             <tr>
-                                <?php foreach($columnas as $key => $void){ ?>
-                                <td><?php echo $marcador->$key ?></td>
+                                <?php foreach($columnas->informacion as $key => $void){ ?>
+                                <td><?php echo $marcador->informacion->$key ?></td>
                                 <?php } ?>
                             </tr>
                         <?php } ?>
@@ -35,7 +35,7 @@
         <?php } ?>
         
          <?php if(count($lista_otros)>0) { ?>
-        <div role="tabpanel" class="tab-pane <?php echo $active; ?>" id="otros">
+        <div role="tabpanel" class="tab-pane <?php echo $active; ?>" id="otros_<?php echo $prefix; ?>">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="table-responsive" data-row="5" style="width:100%">
@@ -44,7 +44,7 @@
                                 <tr>
                                 <?php 
                                     $columnas = reset($lista_otros);
-                                    foreach($columnas as $key => $void){
+                                    foreach($columnas->informacion as $key => $void){
                                 ?>
                                     <th><?php echo $key; ?></th>
                                 <?php } ?>    
@@ -53,8 +53,8 @@
                             <tbody>
                         <?php foreach($lista_otros as $marcador) { ?>
                             <tr>
-                                <?php foreach($columnas as $key => $void){ ?>
-                                <td><?php if(isset($marcador->$key)) { echo $marcador->$key; } ?></td>
+                                <?php foreach($columnas->informacion as $key => $void){ ?>
+                                <td><?php if(isset($marcador->informacion->$key)) { echo $marcador->informacion->$key; } ?></td>
                                 <?php } ?>
                             </tr>
                         <?php } ?>

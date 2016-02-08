@@ -6,7 +6,9 @@ require_once(__DIR__ . "/menu/CapaDetalle.php");
 require_once(__DIR__ . "/menu/Capa.php");
 require_once(__DIR__ . "/propiedades/Informacion.php");
 require_once(__DIR__ . "/elemento/Editar.php");
-require_once(__DIR__ . "/elemento/Instalaciones.php");
+require_once(__DIR__ . "/elemento/editar/LugarEmergencia.php");
+require_once(__DIR__ . "/elemento/informacion/Marcadores.php");
+require_once(__DIR__ . "/elemento/informacion/Formas.php");
 require_once(__DIR__ . "/capa/Comuna.php");
 
 /**
@@ -108,11 +110,33 @@ function visorEdicionElemento($tipo, $propiedades, $color = null, $imagen = null
 
 /**
  * 
+ * @param type $propiedades
+ * @return type
+ */
+function visorEdicionLugarEmergencia($tipo, $propiedades, $color = null, $imagen = null){
+    $html = New Visor_Elemento_Editar_LugarEmergencia($tipo);
+    $html->setPropiedades($propiedades);
+    $html->setColor($color);
+    return $html->render();
+}
+
+/**
+ * 
  * @param type $lista
  * @return type
  */
 function visorElementoInstalaciones($lista){
-    $html = New Visor_Elemento_Instalaciones($lista);
+    $html = New Visor_Elemento_Informacion_Marcadores($lista);
+    return $html->render();
+}
+
+/**
+ * 
+ * @param type $lista
+ * @return type
+ */
+function visorElementoFormas($lista){
+    $html = New Visor_Elemento_Informacion_Formas($lista);
     return $html->render();
 }
 
