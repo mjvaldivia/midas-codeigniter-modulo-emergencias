@@ -12,7 +12,6 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
      */
     __construct : function(value) {
         this.id_emergencia = value;
-        console.log("LLama constructor");
     },
     
     /**
@@ -21,7 +20,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
      */
     callBackGuardar : function(){
        Emergencia.eventoBtnBuscar();
-       notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente");
+       notificacionCorrecto("Resultado de la operacion", "Se ha editado la emergencia correctamente");
     },
     
     

@@ -1,197 +1,34 @@
 var MapaInformacionElemento = Class({ 
     
-    
+    /**
+     * Muestra dialogo que muestra informacion y permite editar 
+     * datos del lugar de la emergencia
+     * @param {string} identificador
+     * @param {object} parametros
+     * @returns {undefined}
+     */
     dialogoLugarEmergencia : function(identificador, parametros){
-        bootbox.dialog({
-                message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
-                title: "<i class=\"fa fa-arrow-right\"></i> Datos del lugar de la emergencia",
-                className: "modal90",
-                buttons: {
-                    guardar: {
-                        label: " Efectuar cambios",
-                        className: "btn-success fa fa-check",
-                        callback: function() {
-                            
-                            var informacion = {};
-                                                        
-                            $('input[name^="parametro_nombre"]').each(function(i, input) {
-                                informacion[$(input).val()] = $($('input[name^="parametro_valor"]').get(i)).val(); 
-                            });
-     
-                            
-                            $.each(lista_poligonos, function(i, elem){
-                                if(elem.identificador == identificador){
-                                    if(elem.tipo == "CIRCULO LUGAR EMERGENCIA"){
-                                        elem.setOptions(
-                                            {fillColor : $("#color_editar").val()}
-                                        );
-                                        elem["informacion"] = informacion;
-                                    }
-                                }
-                            });
-                            
-                            var elemento = new MapaElementos();
-                            elemento.listaElementosVisor();
-                            
-                        }
-                    },
-                    eliminar: {
-                        label: " Quitar elemento",
-                        className: "btn-danger fa fa-remove",
-                        callback: function() {
-                            var custom = new MapaElementos();
-                            custom.removeOneCustomElements("identificador", identificador);
-                        }
-                    },
-                    cerrar: {
-                        label: " Cerrar ventana",
-                        className: "btn-white fa fa-close",
-                        callback: function() {}
-                    }
-                }
-        });
-        
-        $.ajax({         
-            dataType: "html",
-            cache: false,
-            async: true,
-            data: parametros,
-            type: "post",
-            url: siteUrl + "mapa/popup_lugar_emergencia_edicion", 
-            error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
-            },
-            success:function(data){
-                $("#contenido-popup-informacion-capas").html(data);
-                
-                $("#add-propiedad").click(function(e){
-                    e.preventDefault();
-                    $("#div-propiedades").append(
-                        "<div class=\"row\">"
-                            + "<div class=\"col-lg-4 text-right\">"
-                                + "<input class=\"form-control\" type\"text\" name=\"parametro_nombre[]\" value=\"\" />"
-                            + "</div>"
-                            + "<div class=\"col-lg-1 text-left\">:</div>"
-                            + "<div class=\"col-lg-6 text-left\">"
-                                + "<input class=\"form-control propiedades\" type=\"text\" name=\"parametro_valor[]\" value=\"\">"
-                            + "</div>"
-                            + "<div class=\"col-lg-1 text-left\">"
-                                + "<button class=\"btn btn-xs btn-danger remove-propiedad\"><i class=\"fa fa-remove\"></i></button>"
-                            + "</div>"
-                    + "</div>"
-                    );
-                });
-                
-                $(".remove-propiedad").livequery(function(){
-                    $(this).unbind("click");
-                    $(this).click(function(e){
-                        e.preventDefault();
-                        $(this).parent().parent().remove();
-                    });
-                });
-            }
-        }); 
+        var dialogo = new MapaInformacionElementoEdicion();
+        dialogo.dialogoLugarEmergencia(identificador, parametros);
     },
     
     /**
-     * 
+     * Muestra dialogo que muestra informacion y permite editar 
+     * un elemento custom
      * @param {string} clave
+     * @param {object} parametros
      * @returns {undefined}
      */
     dialogoEdicion : function(clave, parametros){
-        bootbox.dialog({
-                message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
-                title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
-                className: "modal90",
-                buttons: {
-                    guardar: {
-                        label: " Efectuar cambios",
-                        className: "btn-success fa fa-check",
-                        callback: function() {
-                            
-                            var informacion = {};
-                                                        
-                            $('input[name^="parametro_nombre"]').each(function(i, input) {
-                                informacion[$(input).val()] = $($('input[name^="parametro_valor"]').get(i)).val(); 
-                            });
-
-                            
-                            $.each(lista_poligonos, function(i, elem){
-                                if(elem.clave == clave){
-                                    if(elem.tipo == "CIRCULO" || elem.tipo == "RECTANGULO" || elem.tipo== "POLIGONO"){
-                                        elem.setOptions(
-                                            {fillColor : $("#color_editar").val()}
-                                        );
-                                        elem["informacion"] = informacion;
-                                    }
-                                }
-                            });
-                            
-                            var elemento = new MapaElementos();
-                            elemento.listaElementosVisor();
-                            
-                        }
-                    },
-                    eliminar: {
-                        label: " Quitar elemento",
-                        className: "btn-danger fa fa-remove",
-                        callback: function() {
-                            var custom = new MapaElementos();
-                            custom.removeOneCustomElements("clave", clave);
-                        }
-                    },
-                    cerrar: {
-                        label: " Cerrar ventana",
-                        className: "btn-white fa fa-close",
-                        callback: function() {}
-                    }
-                }
-        });
-        
-        $.ajax({         
-            dataType: "html",
-            cache: false,
-            async: true,
-            data: parametros,
-            type: "post",
-            url: siteUrl + "mapa/popup_elemento_edicion", 
-            error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
-            },
-            success:function(data){
-                $("#contenido-popup-informacion-capas").html(data);
-                
-                $("#add-propiedad").click(function(e){
-                    e.preventDefault();
-                    $("#div-propiedades").append(
-                        "<div class=\"row\">"
-                            + "<div class=\"col-lg-4 text-right\">"
-                                + "<input class=\"form-control\" type\"text\" name=\"parametro_nombre[]\" value=\"\" />"
-                            + "</div>"
-                            + "<div class=\"col-lg-1 text-left\">:</div>"
-                            + "<div class=\"col-lg-6 text-left\">"
-                                + "<input class=\"form-control propiedades\" type=\"text\" name=\"parametro_valor[]\" value=\"\">"
-                            + "</div>"
-                            + "<div class=\"col-lg-1 text-left\">"
-                                + "<button class=\"btn btn-xs btn-danger remove-propiedad\"><i class=\"fa fa-remove\"></i></button>"
-                            + "</div>"
-                    + "</div>"
-                    );
-                });
-                
-                $(".remove-propiedad").livequery(function(){
-                    $(this).unbind("click");
-                    $(this).click(function(e){
-                        e.preventDefault();
-                        $(this).parent().parent().remove();
-                    });
-                });
-            }
-        }); 
+        var dialogo = new MapaInformacionElementoEdicion();
+        dialogo.dialogoElemento(clave, parametros);
     },
     
+    
+    
     /**
-     * 
+     * Muestra dialogo con informacion de 
+     * una capa seleccionada
      * @returns {undefined}
      */
     dialogoCapa : function(parametros){
@@ -225,12 +62,14 @@ var MapaInformacionElemento = Class({
     },
     
     /**
-     * Levanta popup con la informacion del poligono
+     * Levanta popup con la informacion del elemento
+     * de acuerdo a su tipo
      * @param {object} marcadores
      * @returns {void}
      */
-    popupInformacion : function(marcadores, elemento){
+    popupInformacion : function(marcadores, formas, elemento){
         var parametros = {"marcadores"  : JSON.stringify(marcadores),
+                          "formas"      : JSON.stringify(formas),
                           "tipo"        : elemento.tipo,
                           "color"       : elemento.fillColor,
                           "informacion" : JSON.stringify(elemento.informacion)};
@@ -241,7 +80,7 @@ var MapaInformacionElemento = Class({
             } else {
                this.dialogoLugarEmergencia(elemento.identificador, parametros); 
             }
-        }  else {  
+        }  else { //es una capa
             if(elemento.capa != null){
                 parametros["capa"] = elemento.capa;
                 this.dialogoCapa(parametros);
@@ -251,8 +90,9 @@ var MapaInformacionElemento = Class({
     },
     
     /**
-     * 
-     * @param {google.maps.Polygon} poligono
+     * Muestra menu al presionar el boton derecho sobre un elemento
+     * @param {google.maps.Polygon|google.maps.Rectangle|google.maps.Circle} elemento
+     * @param {google.maps}
      * @returns {void}
      */
     addRightClickListener : function(elemento, mapa){
@@ -319,7 +159,6 @@ var MapaInformacionElemento = Class({
      * @returns {undefined}
      */
     muestraMenu : function(mapa, lista_elementos, posicion){
-        
         var yo = this;
         var menu = new MapaInformacionElementoMenu();
         menu.render(
@@ -332,68 +171,33 @@ var MapaInformacionElemento = Class({
     },
     
     /**
-     * 
-     * @param {type} lista_elementos
+     * Prepara y carga la informacion que se desplegara
+     * en el popup
+     * @param {object} lista_elementos elemento seleccionado en el menu
      * @returns {undefined}
      */
     preparaPopupInformacion : function(lista_elementos){
-        var marcadores = {};
+        
+        var contenido = new MapaInformacionElementoContenido();
+        
         var elemento_principal = null;
         $.each(lista_elementos, function(i, elemento){
-            console.log(elemento);
+            
+            //guardo informacion del ultimo elemento listado
             elemento_principal = elemento;
-            //se recorren marcadores, y se busca los dentro del poligono
-            $.each(lista_markers, function(i, marker){
-                var bo_marcador_dentro_de_poligono = false;
-                switch(elemento.tipo){
-                    case "RECTANGULO":
-                        bo_marcador_dentro_de_poligono = elemento.getBounds().contains(marker.getPosition());
-                        break;
-                    //se debe considerar solo la forma de dona o la zona principal
-                    case "CIRCULO LUGAR EMERGENCIA":
-                        bo_marcador_dentro_de_poligono = (google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), elemento.getCenter()) <= elemento.getRadius());
-                        if(bo_marcador_dentro_de_poligono){
-                            
-                            //se buscan hermanas menores, que contengan el marcador
-                            var zonas = jQuery.grep(lista_poligonos, function( a ) {
-                                if(a["tipo"] == "CIRCULO LUGAR EMERGENCIA" && a["identificador"] != elemento.identificador){
-                                    if(a.getRadius() < elemento.getRadius()){
-                                        if((google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), a.getCenter()) <= a.getRadius())){
-                                            return true;
-                                        }
-                                    }
-                                }
-                            });
-                            console.log(zonas.length);
-                            //si una hermana menor tiene el marcador, se quita el marcador
-                            if(zonas.length > 0){
-                                console.log("No va");
-                               bo_marcador_dentro_de_poligono = false;
-                            }
-                        }
-                        break;
-                    
-                    case "CIRCULO":
-                        bo_marcador_dentro_de_poligono = (google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), elemento.getCenter()) <= elemento.getRadius());
-                        break;
-                    case "POLIGONO":
-                    default:
-                        bo_marcador_dentro_de_poligono  = elemento.containsLatLng(marker.getPosition()); 
-                        break;
-                }
-
-                if(bo_marcador_dentro_de_poligono){
-                    marcadores[i] = marker.informacion;
-
-                    if(marker.capa != null){
-                        marcadores[i]["CAPA"] = marker.capa;
-                     }
-                }
-
-            });
+            
+            //se recorren marcadores, y se busca los que estan dentro del elemento
+            contenido.procesaMarcadores(elemento);
+            contenido.procesaFormas(elemento);
         });
-
-        this.popupInformacion(marcadores, elemento_principal);
+        
+        console.log(contenido.retornaFormas());
+        
+        this.popupInformacion(
+            contenido.retornaMarcadores(), 
+            contenido.retornaFormas(),
+            elemento_principal
+        );
     }
 });
 
