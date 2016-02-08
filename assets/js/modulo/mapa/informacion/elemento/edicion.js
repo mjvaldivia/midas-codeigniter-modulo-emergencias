@@ -19,6 +19,10 @@ var MapaInformacionElementoEdicion = Class({
                 } else {
                     return false;
                 }
+            },
+            function(){
+                var custom = new MapaElementos();
+                custom.removeOneCustomElements("identificador", clave);
             }
         );
     },
@@ -42,6 +46,10 @@ var MapaInformacionElementoEdicion = Class({
                 } else {
                     return false;
                 }
+            },
+            function(){
+                var custom = new MapaElementos();
+                custom.removeOneCustomElements("clave", clave);
             }
         );
     },
@@ -60,7 +68,8 @@ var MapaInformacionElementoEdicion = Class({
             clave, 
             parametros, 
             funcion_elemento, 
-            funcion_tipo
+            funcion_tipo,
+            funccion_remove
     ){
         var yo = this;
         
