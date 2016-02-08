@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1> Alarmas
-                <small><i class="fa fa-arrow-right"></i> Gestión de alarmas</small>
+            <h1> Eventos
+                <small><i class="fa fa-arrow-right"></i> Gestión de Eventos</small>
                 <?php if(puedeEditar("alarma")){ ?>
                 <div class="pull-right">
                     <a href="#" id="nueva" class="btn btn-green btn-square">
                         <i class="fa fa-plus"></i>
-                        Nueva alarma
+                        Nuevo Evento
                     </a>
                 </div>
                 <?php } ?>
@@ -35,14 +35,19 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group clearfix">
-                                <label for="TiposEmergencias" class="control-label">Tipo de emergencia</label>
+                                <label for="TiposEmergencias" class="control-label">Tipo de Evento</label>
                                 <?= formElementSelectEmergenciaTipo("filtro_id_tipo", "",array("class" => "form-control") ) ?>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group clearfix">
                                 <label for="iEstadoAlarma" class="control-label">Estado</label>
-                                <?= formElementSelectAlarmaEstados("filtro_id_estado", $id_estado, array("class" => "form-control")) ?>
+                                <!--<?/*= formElementSelectAlarmaEstados("filtro_id_estado", $id_estado, array("class" => "form-control")) */?>-->
+                                <select class="form-control" id="filtro_id_estado" name="filtro_id_estado">
+                                    <option value="2">Emergencia en Curso</option>
+                                    <option value="1">En Alerta</option>
+                                    <option value="3">Emergencia Finalizada</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-3">

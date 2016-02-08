@@ -648,4 +648,37 @@ class Emergencia_Model extends MY_Model {
         return $this->_query->getById("ala_ia_id", $id_alarma);
     }
 
+
+
+    /**
+     * Lista alarmas de acuerdo a parametros
+     * @param array $parametros
+     * @return array
+     */
+    public function buscar(array $parametros = array()){
+        $query = $this->_query->select("e.*")
+            ->from($this->_tabla . " e");
+
+        if(!empty($parametros["id_estado"])){
+            $query->whereAND("e.est_ia_id", $parametros["id_estado"], "=");
+        }
+
+        if(!empty($parametros["id_tipo"])){
+            $query->whereAND("e.tip_ia_id", $parametros["id_tipo"], "=");
+        }
+
+        if(!empty($parametros["year"])){
+            $query->whereAND("year(e.eme_d_fecha_recepcion)", $parametros["year"], "=");
+        }
+
+        $this->_addQueryComunas($query);
+
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+
 }

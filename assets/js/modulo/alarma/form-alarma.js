@@ -38,12 +38,12 @@ var FormAlarma = Class({
             var tipo_emergencia = $(this).val();
 
             if(tipo_emergencia == "15"){
-
+                $("#caja_correos_evento").hide();
                 var comunas_seleccionadas = [];
                 $("#comunas_seleccionados option").each(function(){
                     comunas_seleccionadas.push($(this).val());
                 });
-                if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
+                /*if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
                     $.post(siteUrl + 'alarma/obtenerListadoCorreosAlarma',{tipo_emergencia:tipo_emergencia, comunas_seleccionadas:comunas_seleccionadas},function(response){
                         if(response.correos != ""){
                             $("#correos_alarma").html("Además se dará aviso a los siguientes correos: " + response.correos);
@@ -53,7 +53,7 @@ var FormAlarma = Class({
                     },'json');
                 }else{
                     $("#correos_alarma").html("");
-                }
+                }*/
 
                 var parametros = {"id_tipo" : $(this).val(),
                                   "id" : $("#ala_id").val()}
@@ -81,11 +81,12 @@ var FormAlarma = Class({
 
                 var estado_emergencia = $("#estado_emergencia").val();
                 if(estado_emergencia > 1){
+                    $("#caja_correos_evento").hide();
                     var comunas_seleccionadas = [];
                     $("#comunas_seleccionados option").each(function(){
                         comunas_seleccionadas.push($(this).val());
                     });
-                    if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
+                    /*if(comunas_seleccionadas.length > 0 && tipo_emergencia > 0){
                         $.post(siteUrl + 'alarma/obtenerListadoCorreosAlarma',{tipo_emergencia:tipo_emergencia, comunas_seleccionadas:comunas_seleccionadas},function(response){
                             if(response.correos != ""){
                                 $("#correos_alarma").html("Además se dará aviso a los siguientes correos: " + response.correos);
@@ -95,7 +96,7 @@ var FormAlarma = Class({
                         },'json');
                     }else{
                         $("#correos_alarma").html("");
-                    }
+                    }*/
 
                     var parametros = {"id_tipo" : $(this).val(),
                         "id" : $("#ala_id").val()}
@@ -125,6 +126,11 @@ var FormAlarma = Class({
                 }else{
                     $("#div-pasos").hide();
                     yo.btnPaso2();
+                    if(estado_emergencia == 1){
+                        $("#caja_correos_evento").show();
+                    }else{
+                        $("#caja_correos_evento").hide();
+                    }
                 }
             }
         }).change();        
@@ -349,6 +355,20 @@ var FormAlarma = Class({
         
         var parametros = this.getParametrosFix("form_nueva");
 
+        if($("#correos_evento") !== undefined){
+            parametros.push({"name" : "correos_evento",
+                "value" : $("#correos_evento").val()});
+        }
+
+        if($("#estado_emergencia").val() > 1){
+            var parametros_emergencia = this.getParametrosFix("form-tipos-emergencia");
+            for(var i=0; i<parametros_emergencia.length; i++){
+                parametros.push(parametros_emergencia[i]);
+            }
+
+        }
+
+
         var salida = false;
         
         $.ajax({         
@@ -436,7 +456,7 @@ var FormAlarma = Class({
                     title: "<i class=\"fa fa-arrow-right\"></i> Nuevo Evento",
                     buttons: {
                         guardar: {
-                            label: " Guardar alarma",
+                            label: " Guardar Evento",
                             className: "btn-success fa fa-check",
                             callback: function() {
                                 return yo.guardar();

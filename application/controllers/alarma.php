@@ -195,10 +195,10 @@ class Alarma extends MY_Controller {
     public function ajax_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia",
                                   "modulo/alarma/alarma"));
-        
+        $this->load->model('emergencia_model','EmergenciaModel');
         $params = $this->input->post(null, true);
         
-        $lista = $this->AlarmaModel->buscar(array("id_estado" => $params["filtro_id_estado"],
+        $lista = $this->EmergenciaModel->buscar(array("id_estado" => $params["filtro_id_estado"],
                                                   "id_tipo"   => $params["filtro_id_tipo"],
                                                   "year"      => $params["filtro_year"]));
         
@@ -213,7 +213,7 @@ class Alarma extends MY_Controller {
                                    "emergencia/emergencia_guardar"));
         
         $params = $this->input->post(null, true);
-        
+
         $respuesta = array();
         $correcto = $this->alarmavalidar->esValido($params);
         
@@ -266,7 +266,11 @@ class Alarma extends MY_Controller {
                 $id = $this->EmergenciaModel->query()->insert($data);
                 $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $id, $params['comunas']);
                 $params["eme_ia_id"] = $id;
-                //$respuesta_email = $this->AlarmaModel->enviaCorreo($params);
+
+                if($params['estado_emergencia'] == $this->EmergenciaModel->en_alerta and !empty($params['correos_evento'])){
+                    $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
+                }
+
                 if($params['estado_emergencia'] == $this->EmergenciaModel->en_alerta){
                     $estado_emergencia = 'En Alerta';
                 }elseif($params['estado_emergencia'] == $this->EmergenciaModel->emergencia_activa){
