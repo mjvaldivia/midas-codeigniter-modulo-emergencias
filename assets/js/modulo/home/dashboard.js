@@ -357,8 +357,20 @@ var Dashboard = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 var id = $(this).attr("data");
-                var formulario = new FormEmergenciasNuevaDashboard(id, yo);	
-                formulario.mostrarFormulario();
+                xModal.confirm('Desea generar la Emergencia?',function(){
+                    $.post(siteUrl + 'emergencia/activarEmergencia',{emergencia:id},function(response){
+                        if(response.estado == true){
+                            xModal.success(response.mensaje,function(){
+                                yo.loadGridAlarma();
+                                yo.loadGridEmergencia();
+                            });
+                        }else{
+                            xModal.danger(response.mensaje);
+                        }
+                    },'json');
+                });
+                /*var formulario = new FormEmergenciasNuevaDashboard(id, yo);
+                formulario.mostrarFormulario();*/
             });
         });
         

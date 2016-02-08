@@ -780,5 +780,35 @@ class Emergencia extends MY_Controller {
     }
 
 
+    public function activarEmergencia(){
+        $id_emergencia = $this->input->post('emergencia');
+
+        $this->load->model('emergencia_model','EmergenciaModel');
+
+        $json = array();
+        $update = $this->EmergenciaModel->update(array('est_ia_id' => $this->EmergenciaModel->emergencia_activa),$id_emergencia);
+        if($update){
+            $json['estado'] = true;
+            $json['mensaje'] = 'Emergencia en Curso';
+            $usuario = $this->session->userdata('session_idUsuario');
+            $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+            $historial_comentario = 'El evento ha pasado a ser una Emergencia en Curso';
+            $data = array(
+                'historial_alerta' => $id_emergencia,
+                'historial_usuario' => $usuario,
+                'historial_fecha' => date('Y-m-d H:i:s'),
+                'historial_comentario' => $historial_comentario
+            );
+            $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Problemas al activar la emergencia. Intente nuevamente';
+        }
+
+        echo json_encode($json);
+
+
+    }
+
     
 }
