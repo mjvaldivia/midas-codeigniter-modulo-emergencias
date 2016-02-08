@@ -609,9 +609,8 @@ class Emergencia_Model extends MY_Model {
      * @return QueryBuilder
      */
     protected function _queryEmergenciasPorRegion($id_region){
-        $query = $this->_query->select("DISTINCT e.eme_ia_id, e.eme_c_nombre_emergencia, a.ala_c_utm_lat, a.ala_c_utm_lng")
+        $query = $this->_query->select("DISTINCT e.eme_ia_id, e.eme_c_nombre_emergencia, e.eme_c_utm_lat, e.eme_c_utm_lng")
                             ->from("emergencias e")
-                            ->join("alertas a", "a.ala_ia_id = e.ala_ia_id")
                             ->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
                             ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
                             ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")

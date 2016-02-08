@@ -137,12 +137,12 @@ class Home extends MY_Controller {
         $lista = $this->EmergenciaModel->listarPorRegionYFecha($id_region, $fecha_inicio, $fecha_termino);
         foreach($lista as $void => $row){
             
-            if($row["ala_c_utm_lat"]!="" AND $row["ala_c_utm_lng"]!=""){
+            if($row["eme_c_utm_lat"]!="" AND $row["eme_c_utm_lng"]!=""){
                 $respuesta[] = array("id"       => $row["eme_ia_id"],
                                      "tipo"     => 2,
                                      "nombre"   => $row["eme_c_nombre_emergencia"],
-                                     "latitud"  => $row["ala_c_utm_lat"],
-                                     "longitud" => $row["ala_c_utm_lng"]);
+                                     "latitud"  => $row["eme_c_utm_lat"],
+                                     "longitud" => $row["eme_c_utm_lng"]);
             }
             
         }
@@ -150,12 +150,12 @@ class Home extends MY_Controller {
         $lista = $this->AlarmaModel->listarPorRegionYFecha($id_region, $fecha_inicio, $fecha_termino);
         foreach($lista as $void => $row){
             
-            if($row["ala_c_utm_lat"]!="" AND $row["ala_c_utm_lng"]!=""){
-                $respuesta[] = array("id"       => $row["ala_ia_id"],
+            if($row["eme_c_utm_lat"]!="" AND $row["eme_c_utm_lng"]!=""){
+                $respuesta[] = array("id"       => $row["eme_ia_id"],
                                      "tipo"     => 1,
-                                     "nombre"   => $row["ala_c_nombre_emergencia"],
-                                     "latitud"  => $row["ala_c_utm_lat"],
-                                     "longitud" => $row["ala_c_utm_lng"]);
+                                     "nombre"   => $row["eme_c_nombre_emergencia"],
+                                     "latitud"  => $row["eme_c_utm_lat"],
+                                     "longitud" => $row["eme_c_utm_lng"]);
             }
             
         }
@@ -168,6 +168,7 @@ class Home extends MY_Controller {
      */
     public function ajax_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia"));
+        $this->load->helper(array("modulo/alarma/alarma"));
         $lista = $this->EmergenciaModel->listarEmergenciasPorEstado(Emergencia_Estado_Model::EN_ALERTA);
         $this->load->view("pages/home/grilla_alarmas", array("lista" => $lista));
     }
