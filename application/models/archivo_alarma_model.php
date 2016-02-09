@@ -20,7 +20,7 @@ class Archivo_Alarma_Model extends MY_Model {
                                ->whereAND("aa.ala_ia_id", $id_alarma)
                                ->getAllResult();
         if (!is_null($result)){
-           return $result; 
+           return $result;
         } else {
             return NULL;
         }
