@@ -447,7 +447,7 @@ var FormAlarma = Class({
             type: "post",
             url: siteUrl + "alarma/form_nueva/" , 
             error: function(xhr, textStatus, errorThrown){
-
+                console.error(errorThrown);
             },
             success:function(html){
                 bootbox.dialog({

@@ -23,7 +23,6 @@
                         <div class="col-lg-4">
                             <div class="row">
                             <div class="col-md-12">
-                                    <input type="hidden" id="geozone" name="geozone" value="<?= $geozone ?>" /> 
                                     <div id="mapa" class="col-md-12 mapa-alarma" style="height: 400px !important;"></div>
                                     <div class="col-xs-12 alert alert-info help-block">
                                         <p><strong>Puede mover el pin si es necesario para una ubicación más exacta</strong></p></div>
@@ -31,7 +30,7 @@
                                         <div class="form-group">
                                             <br>
                                             <!-- <label>Lon:</label> -->
-                                            <input id="longitud" name="longitud" type="hidden" value="<?= $longitud_utm ?>"
+                                            <input id="longitud" name="longitud" type="hidden" value="<?php $longitud_utm ?>"
                                                    class="form-control required mapa-coordenadas" placeholder="longitud (e)">
                                         </div>
                                     </div>
@@ -39,7 +38,7 @@
                                         <div class="form-group ">
                                             <br>
                                             <!-- <label>Lat:</label> -->
-                                            <input id="latitud" name="latitud" type="hidden" value="<?= $latitud_utm ?>"
+                                            <input id="latitud" name="latitud" type="hidden" value="<?php $latitud_utm ?>"
                                                    class="form-control required mapa-coordenadas" placeholder="latitud (n)">
                                         </div>
                                     </div>
@@ -64,10 +63,17 @@
                                             <div class="form-group clearfix">
                                                 <label for="tipo_emergencia" class="control-label">Estado del Evento (*):</label>
                                                 <select name="estado_emergencia" id="estado_emergencia" class="form-control">
-                                                    <option value="" selected>Seleccione...</option>
-                                                    <option value="1">En Alerta</option>
-                                                    <option value="2">Emergencia Activa</option>
-                                                    <option value="3">Emergencia Finalizada</option>
+
+                                                    <?php if($id_estado_emergencia):?>
+                                                        <option value="1" <?php if($id_estado_emergencia == 1):?> selected <?php endif;?>>En Alerta</option>
+                                                        <option value="2" <?php if($id_estado_emergencia == 2):?> selected <?php endif;?>>Emergencia Activa</option>
+                                                        <option value="3" <?php if($id_estado_emergencia == 3):?> selected <?php endif;?>>Emergencia Finalizada</option>
+                                                    <?php else:?>form-alarm
+                                                        <option value="" >Seleccione...</option>
+                                                        <option value="1" >En Alerta</option>
+                                                        <option value="2" >Emergencia Activa</option>
+                                                        <option value="3" >Emergencia Finalizada</option>
+                                                    <?php endif;?>
                                                 </select>
                                                 <span class="help-block hidden"></span>
                                             </div>
@@ -173,12 +179,19 @@
                                             <div class="col-md-6 col-xs-12">
                                                 <div class="form-group clearfix">
                                                     <label for="fecha_emergencia" class="control-label">Nivel del Evento:</label>
-                                                    <div class="input-group col-sm-12" id="div-fecha">
+                                                    <div class="input-group col-sm-12" id="div-nivel">
                                                         <select class="form-control" name="nivel_emergencia" id="nivel_emergencia">
-                                                            <option value="1">Nivel I</option>
-                                                            <option value="2">Nivel II</option>
-                                                            <option value="3">Nivel III</option>
-                                                            <option value="4">Nivel IV</option>
+                                                            <?php if($nivel_emergencia):?>
+                                                                <option value="1" <?php if($nivel_emergencia == 1):?> selected <?php endif;?>>Nivel I</option>
+                                                                <option value="2" <?php if($nivel_emergencia == 2):?> selected <?php endif;?>>Nivel II</option>
+                                                                <option value="3" <?php if($nivel_emergencia == 3):?> selected <?php endif;?>>Nivel III</option>
+                                                                <option value="4" <?php if($nivel_emergencia == 4):?> selected <?php endif;?>>Nivel IV</option>
+                                                            <?php else:?>
+                                                                <option value="1" >Nivel I</option>
+                                                                <option value="2" >Nivel II</option>
+                                                                <option value="3">Nivel III</option>
+                                                                <option value="4" >Nivel IV</option>
+                                                            <?php endif;?>
                                                         </select>
                                                     </div>
                                                     <span class="help-block hidden"></span>
@@ -194,7 +207,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="<?= $form_name ?>_error" class="alert alert-danger hidden">
+                            <div id="<?php $form_name ?>_error" class="alert alert-danger hidden">
                                 <strong> Existen problemas con los datos ingresados </strong> <br>
                                 Revise y corrija los campos iluminados en rojo.
                             </div>
@@ -243,15 +256,19 @@
 </div>
 
 
-<?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
-<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
-<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?php echo loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
+<?php echo loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
+<?php echo loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
 <script type="text/javascript">
     $(document).ready(function(){
         var emergencia = $("#eme_id").val();
+
         if(emergencia < 1){
             emergencia = '<?php echo uniqid();?>';
+        }else{
+            $("#latitud").val('<?php echo $latitud_utm?>');
+            $("#longitud").val('<?php echo $longitud_utm?>');
         }
         $("#adjunto-emergencia").fileinput({
             language: "es",
@@ -260,6 +277,13 @@
             initialCaption: "Seleccione los adjuntos a la emergencia",
             uploadUrl: siteUrl + "emergencia/subir_AdjuntoEmergenciaTmp/id/"+emergencia
         });
+
+        <?php if(isset($activar_emergencia)):?>
+        $("#estado_emergencia").val(2);
+        $("#tipo_emergencia").trigger('change');
+        $("#latitud").val('<?php echo $latitud_utm?>');
+        $("#longitud").val('<?php echo $longitud_utm?>');
+        <?php endif;?>
     });
 </script>
 

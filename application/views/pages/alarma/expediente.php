@@ -5,40 +5,38 @@
                 <div class="portlet-heading">
                     <div class="portlet-title"><h4>Información Alarma</h4></div>
                 </div>
-                <div class="portlet-body">
-                    <table class="table table-condensed small table-bordered" style="margin-bottom: 0;">
-                        <tbody>
-                            <tr>
-                                <td class="text-right text-bold" width="25%" style="border:1px solid #2980B9">Nombre Alarma</td>
-                                <td class="text-right" width="25%" style="border:1px solid #2980B9"><?php echo $alarma->ala_c_nombre_emergencia?></td>
+                <table class="table table-condensed table-hover table-bordered" style="margin-bottom: 0;">
+                    <tbody>
+                    <tr>
+                        <td class="text-right text-bold bg-primary bg-primary" width="25%" >Nombre Alarma</td>
+                        <td class="text-left active active" width="25%" ><?php echo $emergencia->eme_c_nombre_emergencia?></td>
 
-                                <td class="text-right text-bold" width="25%" style="border:1px solid #2980B9">Estado Alarma</td>
-                                <td class="text-right" width="25%" style="border:1px solid #2980B9"><?php echo $estado_alarma->est_c_nombre?></td>
-                            </tr>
-                            <tr>
-                                <td class="text-right text-bold" style="border:1px solid #2980B9">Nombre Informante</td>
-                                <td class="text-right" style="border:1px solid #2980B9"><?php echo $alarma->ala_c_nombre_informante?></td>
+                        <td class="text-right text-bold bg-primary" width="25%" >Estado Alarma</td>
+                        <td class="text-left active" width="25%" ><?php echo $estado_alarma->est_c_nombre?></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right text-bold bg-primary" >Nombre Informante</td>
+                        <td class="text-left active" ><?php echo $emergencia->eme_c_nombre_informante?></td>
 
-                                <td class="text-right text-bold" style="border:1px solid #2980B9">Fecha Alarma</td>
-                                <td class="text-right" style="border:1px solid #2980B9"><?php echo ISODateTospanish($alarma->ala_d_fecha_emergencia)?></td>
-                            </tr>
-                            <tr>
-                                <td class="text-right text-bold" style="border:1px solid #2980B9">Lugar</td>
-                                <td class="text-right" style="border:1px solid #2980B9"><?php echo $alarma->ala_c_lugar_emergencia?></td>
+                        <td class="text-right text-bold bg-primary" >Fecha Alarma</td>
+                        <td class="text-left active" ><?php echo ISODateTospanish($emergencia->eme_d_fecha_emergencia)?></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right text-bold bg-primary" >Lugar</td>
+                        <td class="text-left active" ><?php echo $emergencia->eme_c_lugar_emergencia?></td>
 
-                                <td class="text-right text-bold" style="border:1px solid #2980B9">Comunas afectadas</td>
-                                <td class="text-right" style="border:1px solid #2980B9"><?php echo $comunas?></td>
-                            </tr>
-                            <tr>
-                                <td class="text-right text-bold" style="border:1px solid #2980B9">Tipo Alarma</td>
-                                <td class="text-right" style="border:1px solid #2980B9"><?php echo $tipo_emergencia->aux_c_nombre?></td>
+                        <td class="text-right text-bold bg-primary" >Comunas afectadas</td>
+                        <td class="text-left active" ><?php echo $comunas?></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right text-bold bg-primary" >Tipo Alarma</td>
+                        <td class="text-left active" ><?php echo $tipo_emergencia->aux_c_nombre?></td>
 
-                                <td class="text-right text-bold" style="border:1px solid #2980B9">Fecha recepción</td>
-                                <td class="text-right" style="border:1px solid #2980B9"><?php echo ISODateTospanish($alarma->ala_c_fecha_recepcion)?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <td class="text-right text-bold bg-primary" >Fecha recepción</td>
+                        <td class="text-left active" ><?php echo ISODateTospanish($emergencia->eme_c_fecha_recepcion)?></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 

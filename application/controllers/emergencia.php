@@ -82,7 +82,7 @@ class Emergencia extends MY_Controller {
     public function form_nueva()
     {
         $params = $this->uri->uri_to_assoc();
-        
+
         $this->load->helper(
                             array(
                                   "modulo/emergencia/emergencia_form",
@@ -96,10 +96,35 @@ class Emergencia extends MY_Controller {
                                   )
                             );
 
-        $this->emergencia_edit->setAlarma($params["id"]);
-        $data = $this->emergencia_edit->getNewData();
+        //$this->emergencia_edit->setAlarma($params["id"]);
+        /*$data = $this->emergencia_edit->getNewData();*/
+        $emergencia = $this->emergencia_model->getById($params['id']);
+
+        $descripcion = preg_replace('/<br\s?\/?>/ius', "\n", str_replace("\n","",str_replace("\r","", htmlspecialchars_decode($emergencia->eme_c_descripcion))));
+        $informacion_adicional = preg_replace('/<br\s?\/?>/ius', "\n", str_replace("\n","",str_replace("\r","", htmlspecialchars_decode($emergencia->eme_c_informacion_adicional))));
+        $data = array("eme_id" => $emergencia->eme_ia_id,
+            "nombre_informante"   => $emergencia->eme_c_nombre_informante,
+            "nombre_emergencia"   => $emergencia->eme_c_nombre_emergencia,
+            "id_tipo_emergencia"  => $emergencia->tip_ia_id,
+            "id_estado_emergencia" => $emergencia->est_ia_id,
+            "nombre_lugar"        => $emergencia->eme_c_lugar_emergencia,
+            "observacion"         => $emergencia->eme_c_observacion,
+            "informacion_adicional" => $informacion_adicional,
+            "descripcion" => $descripcion,
+            "fecha_emergencia"    => ISODateTospanish($emergencia->eme_d_fecha_emergencia),
+            "latitud_utm"  => $emergencia->eme_c_utm_lat,
+            "longitud_utm" => $emergencia->eme_c_utm_lng,
+            "nivel_emergencia" => $emergencia->eme_nivel);
+
+        $lista_comunas = $this->emergencia_comuna_model->listaComunasPorEmergencia($emergencia->eme_ia_id);
+
+        foreach($lista_comunas as $comuna){
+            $data["lista_comunas"][] = $comuna["com_ia_id"];
+        }
         
         $data["form_name"] = "form_nueva_emergencia";
+        $data['activar_emergencia'] = true;
+
         $this->load->view("pages/alarma/form", $data);
        
     }
@@ -281,7 +306,8 @@ class Emergencia extends MY_Controller {
         
         $params = $this->input->post(null, true);
         
-        $alarma = $this->alarma_model->getById($params["ala_id"]);
+        $alarma = $this->emergencia_model->getById($params["eme_id"]);
+
         if(!is_null($alarma)){
                         
             $correcto = $this->alarmavalidar->esValido($params);
@@ -291,36 +317,35 @@ class Emergencia extends MY_Controller {
                 
                 $data = array(
                               "eme_c_nombre_informante"   => $params["nombre_informante"],
-                              "eme_c_telefono_informante" => $params["telefono_informante"],
                               "eme_c_nombre_emergencia"   => $params["nombre_emergencia"],
                               "tip_ia_id"                 => $params["tipo_emergencia"],
                               "eme_d_fecha_emergencia"    => spanishDateToISO($params["fecha_emergencia"]),
                               "eme_c_lugar_emergencia"    => $params["nombre_lugar"],
                               "eme_d_fecha_recepcion"     => DATE("Y-m-d H:i:s"),
                               "est_ia_id"         => Emergencia_Estado_Model::EN_CURSO,
-                              "ala_ia_id"         => $alarma->ala_ia_id,
-                              "eme_c_observacion" => $params["nobservacion"],
                               "rol_ia_id"         => $this->session->userdata('session_idCargo'),
-                              "usu_ia_id"         => $this->session->userdata('session_idUsuario')
+                              "usu_ia_id"         => $this->session->userdata('session_idUsuario'),
+                                "eme_c_descripcion"     => nl2br($params['descripcion_emergencia']),
+                                "eme_c_observacion"      => nl2br($params['observacion']),
+                                "eme_c_utm_lat" => $params['latitud'],
+                                "eme_c_utm_lng" => $params['longitud'],
+                                "eme_nivel" => $params['nivel_emergencia']
                              );
-                
+
+                $this->emergencia_guardar->setEmergencia($params['eme_id']);
                 $this->emergencia_guardar->guardar($data);
                 $this->emergencia_guardar->setComunas($params['comunas']);
+                $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
                 $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
                 
-                $id = $this->emergencia_guardar->getId();
+                //$id = $this->emergencia_guardar->getId();
                 
-                //se actualiza alarma
-                $this->alarma_model->update(array("ala_c_utm_lat" => $params["latitud"], 
-                                                  "ala_c_utm_lng" => $params["longitud"],
-                                                  "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
-                                            $alarma->ala_ia_id);
 
                 $usuario = $this->session->userdata('session_idUsuario');
                 $this->load->model('alarma_historial_model','AlarmaHistorialModel');
-                $historial_comentario = 'Se ha generado y activado la emergencia';
+                $historial_comentario = 'Se ha generado y dado curso a la emergencia';
                 $data = array(
-                    'historial_alerta' => $alarma->ala_ia_id,
+                    'historial_alerta' => $alarma->eme_ia_id,
                     'historial_usuario' => $usuario,
                     'historial_fecha' => date('Y-m-d H:i:s'),
                     'historial_comentario' => $historial_comentario
@@ -328,8 +353,8 @@ class Emergencia extends MY_Controller {
                 $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
 
                 //envio de email
-                $this->emergencia_email_confirmacion->setEmergencia($id);
-                $respuesta["res_mail"] = $this->emergencia_email_confirmacion->enviar();
+                //$this->emergencia_email_confirmacion->setEmergencia($params['id']);
+                //$respuesta["res_mail"] = $this->emergencia_email_confirmacion->enviar();
             }
             
             $respuesta["correcto"] = $correcto;

@@ -2,7 +2,7 @@
     <table id="grilla-alarmas" class="table table-hover datatable paginada hidden">
         <thead>
             <tr>
-                
+
                 <th>Nombre Evento</th>
                 <th>Estado</th>
                 <th>Tipo</th>
