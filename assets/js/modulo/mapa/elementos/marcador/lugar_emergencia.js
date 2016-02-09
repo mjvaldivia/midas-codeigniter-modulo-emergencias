@@ -399,7 +399,6 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             var dragend = new MapaMarcadorMoveListener();
             dragend.addMoveListener(marker, yo.mapa);
             lista_markers.push(marker);
-            
         });
     }
 

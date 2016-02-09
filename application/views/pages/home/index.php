@@ -18,7 +18,7 @@
             <div class="row">
                 
                 <?php if(puedeVer("alarma")) { ?>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">

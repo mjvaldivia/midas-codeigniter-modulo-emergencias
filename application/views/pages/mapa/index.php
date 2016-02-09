@@ -24,6 +24,9 @@
                                 <li>
                                     <a  id="btn-importar-kml" href="#"> <i class="fa fa-map"></i> Kml/Kmz </a>
                                 </li>
+                                <li>
+                                    <a  id="btn-importar-excel" href="#"> <i class="fa fa-table"></i> Excel </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown-submenu">

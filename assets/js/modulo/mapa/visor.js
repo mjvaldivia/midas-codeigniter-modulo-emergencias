@@ -120,8 +120,7 @@ var Visor = Class({
     initialize : function(){
         
         var yo = this;
-
-                    
+      
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud), parseFloat(yo.longitud));
 
         var mapOptions = {
@@ -140,8 +139,6 @@ var Visor = Class({
                 console.log("Carga de " + i);
                 funcion.funcion(map, funcion.parametros);
             });
-
-            //yo.centrarLugarEmergencia();
         });
 
         yo.contextMenu(map);
@@ -149,12 +146,6 @@ var Visor = Class({
         yo.mapa = map;
 
         google.maps.event.addDomListener(window, "resize", yo.resizeMap());
-
-
-
-
-
-        
     },
 
     
