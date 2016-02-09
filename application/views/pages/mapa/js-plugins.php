@@ -12,6 +12,8 @@
 
 <!-- Extensiones para el mapa -->
 <?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.label.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.ruler.js"); ?>
 <?= loadCSS("assets/js/modulo/mapa/google/extension/maps.google.buttons.css") ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.polygon.containsLatLng.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.contextmenu.js"); ?>

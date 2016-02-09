@@ -190,14 +190,13 @@ var MapaInformacionElemento = Class({
             contenido.procesaMarcadores(elemento);
             contenido.procesaFormas(elemento, mapa);
         });
-        
-        console.log(contenido.retornaFormas());
-        
+  
         this.popupInformacion(
             contenido.retornaMarcadores(), 
             contenido.retornaFormas(),
             elemento_principal
         );
+
     }
 });
 

@@ -108,6 +108,8 @@ var MapaEditor = Class({
         });
         drawingManager.setMap(mapa);
         
+        var ruler = new GoogleMapsRuler(mapa);
+        ruler.button();
         
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
             lista_markers.push(marker);

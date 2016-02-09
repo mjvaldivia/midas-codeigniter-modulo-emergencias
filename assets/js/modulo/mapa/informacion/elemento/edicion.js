@@ -1,5 +1,11 @@
 var MapaInformacionElementoEdicion = Class({ 
     
+    /**
+     * 
+     * @param {type} clave
+     * @param {type} parametros
+     * @returns {undefined}
+     */
     dialogoLugarEmergencia : function(clave, parametros){
         this.dialogo(
             "Datos del lugar de la emergencia",
@@ -27,6 +33,12 @@ var MapaInformacionElementoEdicion = Class({
         );
     },
     
+    /**
+     * 
+     * @param {type} clave
+     * @param {type} parametros
+     * @returns {undefined}
+     */
     dialogoElemento : function(clave, parametros){
         this.dialogo(
             "Datos del elemento",
@@ -69,7 +81,7 @@ var MapaInformacionElementoEdicion = Class({
             parametros, 
             funcion_elemento, 
             funcion_tipo,
-            funccion_remove
+            funcion_remove
     ){
         var yo = this;
         
@@ -88,7 +100,6 @@ var MapaInformacionElementoEdicion = Class({
                         $('input[name^="parametro_nombre"]').each(function(i, input) {
                             informacion[$(input).val()] = $($('input[name^="parametro_valor"]').get(i)).val(); 
                         });
-
 
                         $.each(lista_poligonos, function(i, elem){
                             if(funcion_elemento(elem, clave)){
@@ -110,8 +121,7 @@ var MapaInformacionElementoEdicion = Class({
                     label: " Quitar elemento",
                     className: "btn-danger fa fa-remove",
                     callback: function() {
-                        var custom = new MapaElementos();
-                        custom.removeOneCustomElements("clave", clave);
+                        funcion_remove();
                     }
                 },
                 cerrar: {
