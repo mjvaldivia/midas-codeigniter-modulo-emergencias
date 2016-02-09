@@ -2,15 +2,12 @@
     <table id="grilla-alarmas" class="table table-hover datatable paginada hidden">
         <thead>
             <tr>
-                <?php if (puedeActivarAlarma("alarma") || puedeEliminar("alarma")) { ?>
-                <th></th>
-                <?php } ?>
-                <!--<th></th>-->
-                <th>Nombre alarma</th>
-                <th>Tipo alarma</th>
+                <th>Nombre Evento</th>
+                <th>Tipo Evento</th>
                 <th>Comunas afectadas</th>
-                <th>Fecha alarma</th>
+                <th>Fecha Evento</th>
                 <th>Lugar</th>
+                <th>Opciones</th>
                 
             </tr>
         </thead>
@@ -18,50 +15,8 @@
             <?php if(count($lista)>0){ ?>
             <?php foreach($lista as $row){ ?>
             <tr>
-                <?php if (puedeActivarAlarma("alarma") || puedeEliminar("alarma")) { ?>
-                <td width="10%" align="center">
-                    
-                    <div style="width: 90px">
-                        <div class="row">
-                            <div class="btn-group">
-
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    Acciones
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Desplegar menú</span>
-                                </button>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    
-                                  <?php if (puedeActivarAlarma("alarma")) { ?>
-                                  <li>
-                                      <a data="<?php echo $row["ala_ia_id"]; ?>" class="emergencia-nueva" href="#">
-                                          <i class="fa fa-bullhorn"></i> Generar emergencia
-                                      </a>
-                                  </li>
-                                  <li class="divider"></li>
-                                  <?php } ?>
-                                  
-                                  <?php if (puedeEliminar("alarma")) { ?>
-                                  
-                                  <li>
-                                      <a data="<?php echo $row["ala_ia_id"]; ?>" class="alarma-eliminar" href="#">
-                                          <i class="fa fa-trash"></i> Eliminar
-                                      </a>
-                                  </li>
-                                  <?php } ?>
-                                  
-                                </ul>
-                               
-                            </div>
-                        </div>
-                    </div>
-                   
-                </td>
-                <?php } ?>
-                
                 <td>
-                    <?php echo $row["ele_c_nombre_emergencia"]; ?>
+                    <?php echo $row["eme_c_nombre_emergencia"]; ?>
                 </td>
                 <td>
                     <?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> 
@@ -74,6 +29,18 @@
                 </td>
                 <td>
                     <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
+                </td>
+                <td class="text-center">
+                    <?php if (puedeActivarAlarma("alarma")) { ?>
+                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-danger" href="#">
+                                <i class="fa fa-bullhorn"></i> Generar emergencia
+                            </a>
+                    <?php } ?>
+                    <?php if (puedeEliminar("alarma")) { ?>
+                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-warning" href="#">
+                                <i class="fa fa-trash"></i> Eliminar
+                            </a>
+                    <?php } ?>
                 </td>
                 
             </tr>
