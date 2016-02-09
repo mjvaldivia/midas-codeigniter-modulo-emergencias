@@ -159,11 +159,11 @@ var MapaInformacionElementoEdicion = Class({
             e.preventDefault();
             $("#div-propiedades").append(
                 "<div class=\"row\">"
-                    + "<div class=\"col-lg-4 text-right\">"
+                    + "<div class=\"col-lg-3 text-right\">"
                         + "<input class=\"form-control\" type\"text\" name=\"parametro_nombre[]\" value=\"\" />"
                     + "</div>"
-                    + "<div class=\"col-lg-1 text-left\">:</div>"
-                    + "<div class=\"col-lg-6 text-left\">"
+                    + "<div class=\"col-lg-1 text-center\">:</div>"
+                    + "<div class=\"col-lg-7 text-left\">"
                         + "<input class=\"form-control propiedades\" type=\"text\" name=\"parametro_valor[]\" value=\"\">"
                     + "</div>"
                     + "<div class=\"col-lg-1 text-left\">"

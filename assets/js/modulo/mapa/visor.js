@@ -140,6 +140,10 @@ var Visor = Class({
                 funcion.funcion(map, funcion.parametros);
             });
         });
+        
+        google.maps.event.addListener(map, 'click', function(e){
+            console.log(e);
+        });
 
         yo.contextMenu(map);
 
