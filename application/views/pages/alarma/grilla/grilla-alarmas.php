@@ -2,10 +2,7 @@
     <table id="grilla-alarmas" class="table table-hover datatable paginada hidden">
         <thead>
             <tr>
-                <?php if (puedeEditar("emergencia") && puedeEliminar("alarma")) { ?>
-                <th></th>
-                <?php } ?>
-                <!--<th></th>-->
+
                 <th>Nombre Evento</th>
                 <th>Estado</th>
                 <th>Tipo</th>
@@ -13,6 +10,7 @@
                 <th>Comunas afectadas</th>
                 <th>Fecha Evento</th>
                 <th>Lugar</th>
+                <th>Opciones</th>
                 
             </tr>
         </thead>
@@ -20,58 +18,7 @@
             <?php if(count($lista)>0){ ?>
             <?php foreach($lista as $row){ ?>
             <tr>
-                <?php if (puedeEditar("emergencia") && puedeEliminar("alarma")) { ?>
-                <td width="10%" align="center">
-                    
-                    <div style="width: 90px">
-                        <div class="row">
-                            <div class="btn-group">
 
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    Acciones
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Desplegar menú</span>
-                                </button>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a class="expediente" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
-                                            <i class="fa fa-files-o"></i> Bitácora
-                                        </a>
-                                    </li>
-                                  <?php if (puedeEditar("emergencia")) { ?>
-                                  <li>
-                                      <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva" href="#">
-                                          <i class="fa fa-bullhorn"></i> Generar emergencia
-                                      </a>
-                                  </li>
-                                  <?php } ?>
-                                  
-                                  <?php if (puedeEditar("alarma")) { ?>
-                                  <li>
-                                      <a data="<?php echo $row["eme_ia_id"]; ?>" class="editar" href="#">
-                                          <i class="fa fa-edit"></i> Editar
-                                      </a>
-                                  </li>
-                                  <?php } ?>
-                                  
-                                  <?php if (puedeEliminar("alarma") and $row["est_ia_id"] != 1) { ?>
-                                  <li class="divider"></li>
-                                  <li>
-                                      <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar" href="#">
-                                          <i class="fa fa-trash"></i> Eliminar
-                                      </a>
-                                  </li>
-                                  <?php } ?>
-                                  
-                                </ul>
-                               
-                            </div>
-                        </div>
-                    </div>
-                   
-                </td>
-                <?php } ?>
                 
                 <td>
                     <?php echo $row["eme_c_nombre_emergencia"]; ?>
@@ -93,6 +40,27 @@
                 </td>
                 <td>
                     <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
+                </td>
+                <td class="text-center">
+                    <a class="expediente btn btn-sm btn-info" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);" title="Bitácora">
+                        <i class="fa fa-files-o"></i>
+                    </a>
+                <?php if (puedeEditar("emergencia") and $row['est_ia_id'] == 1) { ?>
+                        <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-danger" href="#" title="Activar Emergencia" >
+                            <i class="fa fa-bullhorn"></i>
+                        </a>
+                    <?php }?>
+                    <?php if (puedeEditar("alarma")) { ?>
+                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="editar btn btn-sm btn-success" title="Editar" href="#">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                    <?php } ?>
+
+                    <?php if (puedeEliminar("alarma") and $row["est_ia_id"] != 1) { ?>
+                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-warning" href="#">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                    <?php } ?>
                 </td>
                 
             </tr>

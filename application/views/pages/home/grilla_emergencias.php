@@ -32,7 +32,7 @@
                         <div class="row">
 						
 
-									<button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['ala_ia_id'])?>','Bitácora',75);">
+									<button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
 										<i class="fa fa-files-o"></i>
 									</button>
 
