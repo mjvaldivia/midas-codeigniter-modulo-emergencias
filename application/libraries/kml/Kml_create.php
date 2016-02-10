@@ -8,14 +8,27 @@ Class Kml_create{
     protected $_kml;
     
     /**
+     *
+     * @var CI_Controller 
+     */
+    protected $_ci;
+    
+    /**
      * Constructor
      */
     public function __construct() {
+        $this->_ci =& get_instance();
+        $this->_ci->load->library("string");
+        
+        
         $this->_kml = new SimpleXMLElement(
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
            ."<kml xmlns=\"http://www.opengis.net/kml/2.2\">"
            ."</kml>"
         );
+        
+        $this->_kml->addChild("Document");
+        
     }
     
     /**
@@ -26,10 +39,13 @@ Class Kml_create{
      * @param array $propiedades
      * @return string kml
      */
-    public function poligon($nombre, $coordenadas, $color, $propiedades){
-        $this->_kml->addChild("Document");
-        $this->_addStyle($color);
-        $this->_addPoligon($nombre,  json_decode($coordenadas));
+    public function addPoligon($nombre, $coordenadas, $color, $propiedades){
+        $folder = $this->_kml->Document;
+        $id_style = $this->_addStyle($folder, $color);
+        $this->_addPoligon($folder, $nombre, $id_style, json_decode($coordenadas));
+    }
+    
+    public function getKml(){
         return $this->_kml->asXML();
     }
     
@@ -39,53 +55,54 @@ Class Kml_create{
      * @param array $coordenadas
      */
     protected function _addPoligon(
+        $folder,
         $nombre, 
+        $id_style,
         array $coordenadas = array()
     ){
-        $this->_kml->Document->addChild("Placemark");
-        $this->_kml->Document->Placemark->addChild("name");
-        $this->_kml->Document->Placemark->name = $nombre; 
+        $placemark = $folder->addChild("Placemark");
+        $placemark->addChild("name", $nombre);
+        $placemark->addChild("styleUrl", "#" . $id_style);
         
-        $this->_kml->Document->Placemark->addChild("styleUrl");
-        $this->_kml->Document->Placemark->styleUrl = "#transBluePoly";
+        $polygon = $placemark->addChild("Polygon");
+
+        $polygon->addChild("extrude", 1);
+
         
-        $this->_kml->Document->Placemark->addChild("Polygon");
-        $this->_kml->Document->Placemark->Polygon->addChild("extrude");
-        $this->_kml->Document->Placemark->Polygon->extrude = 1;
+        $polygon->addChild("altitudeMode", "relativeToGround");
         
-        $this->_kml->Document->Placemark->Polygon->addChild("altitudeMode");
-        $this->_kml->Document->Placemark->Polygon->altitudeMode = "relativeToGround";
-        
-        $this->_kml->Document->Placemark->Polygon->addChild("outerBoundaryIs");
-        $this->_kml->Document->Placemark->Polygon->outerBoundaryIs->addChild("LinearRing");
-        $this->_kml->Document->Placemark->Polygon->outerBoundaryIs->LinearRing->addChild("coordinates");
-        
+        $linearRing = $polygon->addChild("outerBoundaryIs")->addChild("LinearRing");
+                
         $string = "";
         if(count($coordenadas)>0){
             foreach($coordenadas as $coordenada){
                 $string .= $coordenada->lng . "," .$coordenada->lat . ",100\n";
             }
         }
-        $this->_kml->Document->Placemark->Polygon->outerBoundaryIs->LinearRing->coordinates = $string;
+        
+        $linearRing->addChild("coordinates", $string);
+
     }
     
     /**
      * Agrega estilo para el elemento
      * @param string $color
      */
-    protected function _addStyle($color){
-        $this->_kml->Document->addChild("Style");
-        $this->_kml->Document->Style->addAttribute("id", "transBluePoly");
+    protected function _addStyle($folder, $color){
         
-        $this->_kml->Document->Style->addChild("LineStyle");
-        $this->_kml->Document->Style->LineStyle->addChild("width");
-        $this->_kml->Document->Style->LineStyle->width = "1.5";
-        $this->_kml->Document->Style->LineStyle->addChild("color");
-        $this->_kml->Document->Style->LineStyle->color = "ff000000";
+        $id = $this->_ci->string->rand_string(20);
+      
+        $style = $folder->addChild("Style");
+        $style->addAttribute("id", $id);
         
-        $this->_kml->Document->Style->addChild("PolyStyle");
-        $this->_kml->Document->Style->PolyStyle->addChild("color");
-        $this->_kml->Document->Style->PolyStyle->color = "7f" . $this->_color($color);
+        $lineStyle = $style->addChild("LineStyle");
+        $lineStyle->addChild("width", "1.5");
+        $lineStyle->addChild("color", "ff000000");
+
+        $polyStyle = $style->addChild("PolyStyle");
+        $polyStyle->addChild("color", "7f" . $this->_color($color));
+        
+        return $id;
     }
     
     protected function _color($color){
