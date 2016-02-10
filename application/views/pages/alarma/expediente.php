@@ -3,22 +3,22 @@
         <div class="col-xs-12">
             <div class="portlet portlet-dark-blue">
                 <div class="portlet-heading">
-                    <div class="portlet-title"><h4>Información Alarma</h4></div>
+                    <div class="portlet-title"><h4>Información Evento</h4></div>
                 </div>
                 <table class="table table-condensed table-hover table-bordered" style="margin-bottom: 0;">
                     <tbody>
                     <tr>
-                        <td class="text-right text-bold bg-primary bg-primary" width="25%" >Nombre Alarma</td>
+                        <td class="text-right text-bold bg-primary bg-primary" width="25%" >Nombre Evento</td>
                         <td class="text-left active active" width="25%" ><?php echo $emergencia->eme_c_nombre_emergencia?></td>
 
-                        <td class="text-right text-bold bg-primary" width="25%" >Estado Alarma</td>
+                        <td class="text-right text-bold bg-primary" width="25%" >Estado Evento</td>
                         <td class="text-left active" width="25%" ><?php echo $estado_alarma->est_c_nombre?></td>
                     </tr>
                     <tr>
                         <td class="text-right text-bold bg-primary" >Nombre Informante</td>
                         <td class="text-left active" ><?php echo $emergencia->eme_c_nombre_informante?></td>
 
-                        <td class="text-right text-bold bg-primary" >Fecha Alarma</td>
+                        <td class="text-right text-bold bg-primary" >Fecha Evento</td>
                         <td class="text-left active" ><?php echo ISODateTospanish($emergencia->eme_d_fecha_emergencia)?></td>
                     </tr>
                     <tr>
@@ -29,11 +29,11 @@
                         <td class="text-left active" ><?php echo $comunas?></td>
                     </tr>
                     <tr>
-                        <td class="text-right text-bold bg-primary" >Tipo Alarma</td>
+                        <td class="text-right text-bold bg-primary" >Tipo Evento</td>
                         <td class="text-left active" ><?php echo $tipo_emergencia->aux_c_nombre?></td>
 
                         <td class="text-right text-bold bg-primary" >Fecha recepción</td>
-                        <td class="text-left active" ><?php echo ISODateTospanish($emergencia->eme_c_fecha_recepcion)?></td>
+                        <td class="text-left active" ><?php echo ISODateTospanish($emergencia->eme_d_fecha_recepcion)?></td>
                     </tr>
                     </tbody>
                 </table>
@@ -82,7 +82,7 @@
 
                     <?php else:?>
                         <div class="top-spaced">
-                            <p class="text-bold">Alarma sin documentos</p>
+                            <p class="text-bold">Evento sin documentos</p>
                         </div>
                     <?php endif;?>
                 </div>
