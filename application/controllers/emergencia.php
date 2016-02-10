@@ -196,21 +196,17 @@ class Emergencia extends MY_Controller {
                 $data = array(
                         //paso 1
                         "eme_c_nombre_informante"   => $params["nombre_informante"],
-                        "eme_c_telefono_informante" => $params["telefono_informante"],
                         "eme_c_nombre_emergencia"   => $params["nombre_emergencia"],
                         "tip_ia_id"                 => $params["tipo_emergencia"],
                         "eme_d_fecha_emergencia"    => spanishDateToISO($params["fecha_emergencia"]),
                         "eme_c_lugar_emergencia"    => $params["nombre_lugar"],
-                        "eme_c_observacion"         => $params["nobservacion"],
+                        "eme_c_observacion"         => $params["observacion"],
+                        "est_ia_id"                 => $params['estado_emergencia'],
+                        "eme_c_utm_lat" => $params["latitud"],
+                        "eme_c_utm_lng" => $params["longitud"],
                         //paso 2
-                        "eme_c_recursos"            => $params["editar_recursos"],
-                        "eme_c_heridos"             => $params["editar_heridos"],
-                        "eme_c_fallecidos"          => $params["editar_fallecidos"],
-                        "eme_c_riesgo"              => $params["editar_riesgo"],
-                        "eme_c_capacidad"           => $params["editar_superada"],
-                        "eme_c_descripcion"         => $params["editar_evento"],
-                        "eme_c_acciones"            => $params["editar_acciones"],
-                        "eme_c_informacion_adicional" => $params["editar_informacion"]
+                        "eme_c_descripcion"         => $params["descripcion_emergencia"],
+                        "eme_nivel" => $params['nivel_emergencia']
                        );
                 $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
 
@@ -221,10 +217,10 @@ class Emergencia extends MY_Controller {
                 $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
                 
                 //se actualiza alarma
-                $this->alarma_model->update(array("ala_c_utm_lat" => $params["latitud"], 
+                /*$this->alarma_model->update(array("ala_c_utm_lat" => $params["latitud"],
                                                   "ala_c_utm_lng" => $params["longitud"],
                                                   "est_ia_id"     => Alarma_Estado_Model::ACTIVADO), 
-                                            $emergencia->ala_ia_id);
+                                            $emergencia->ala_ia_id);*/
 
 
                 $usuario = $this->session->userdata('session_idUsuario');
@@ -254,7 +250,7 @@ class Emergencia extends MY_Controller {
                         if(rename($directorio.$file, 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo)){
 
                             $ruta = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo;
-                            $archivo = $this->archivo_model->file_to_bd('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/', $file_nuevo, mime_content_type($ruta), $this->archivo_model->TIPO_EMERGENCIA, $emergencia->ala_ia_id, filesize($ruta));
+                            $archivo = $this->archivo_model->file_to_bd('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/', $file_nuevo, mime_content_type($ruta), $this->archivo_model->TIPO_EMERGENCIA, $emergencia->eme_ia_id, filesize($ruta));
                             $file_nuevo = $archivo . '_'.$file_nuevo;
                             rename($ruta,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo);
                         }

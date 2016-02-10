@@ -46,7 +46,7 @@
                     <div class="form-group clearfix">
                         <label for="form_tipo_fallecidos" class="control-label">Número estimado de población en riesgo</label>
 
-                        <input value="<?php echo $form_tipo_riesgo; ?>" class="form-control" name="form_tipo_poblacion_riesgo" id="form_tipo_poblacion_riesgo">
+                        <input value="<?php echo $form_tipo_poblacion_riesgo; ?>" class="form-control" name="form_tipo_poblacion_riesgo" id="form_tipo_poblacion_riesgo">
 
                         <span class="help-block hidden"></span>
                     </div>

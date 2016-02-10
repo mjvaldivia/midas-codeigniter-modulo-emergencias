@@ -155,7 +155,7 @@ var FormEmergenciasEditar = Class({ extends : FormAlarma}, {
                 bootbox.dialog({
                     message: html,
                     className: "modal90",
-                    title: "<i class=\"fa fa-arrow-right\"></i> Editar emergencia",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Editar Evento",
                     buttons: {
                         guardar: {
                             label: " Guardar",

@@ -114,19 +114,31 @@ Class Emergencia_edit{
     public function getEditData(){
         $data = array();
         if(!is_null($this->_emergencia)){
+            $descripcion = preg_replace('/<br\s?\/?>/ius', "\n", str_replace("\n","",str_replace("\r","", htmlspecialchars_decode($this->_emergencia->eme_c_descripcion))));
+            $informacion_adicional = preg_replace('/<br\s?\/?>/ius', "\n", str_replace("\n","",str_replace("\r","", htmlspecialchars_decode($this->_emergencia->eme_c_informacion_adicional))));
             $data = array("eme_id"              => $this->_emergencia->eme_ia_id,
-                          "ala_id"              => $this->_emergencia->ala_ia_id,
                           "nombre_informante"   => $this->_emergencia->eme_c_nombre_informante,
-                          "telefono_informante" => $this->_emergencia->eme_c_telefono_informante,
                           "nombre_emergencia"   => $this->_emergencia->eme_c_nombre_emergencia,
                           "id_tipo_emergencia"  => $this->_emergencia->tip_ia_id,
+                            "id_estado_emergencia" => $this->_emergencia->est_ia_id,
                           "nombre_lugar"        => $this->_emergencia->eme_c_lugar_emergencia,
                           "observacion"         => $this->_emergencia->eme_c_observacion,
                           "fecha_emergencia"    => ISODateTospanish($this->_emergencia->eme_d_fecha_emergencia),                          
-                          "geozone"             => $this->_alarma->ala_c_geozone,
-                          "latitud_utm"         => $this->_alarma->ala_c_utm_lat,
-                          "longitud_utm"        => $this->_alarma->ala_c_utm_lng);
-            
+                          "latitud_utm"         => $this->_emergencia->eme_c_utm_lat,
+                          "longitud_utm"        => $this->_emergencia->eme_c_utm_lng,
+                            "niveo_emergencia" => $this->_emergencia->eme_nivel,
+                            "descripcion" => $descripcion,
+                        "informacion_adicional" => $informacion_adicional,);
+
+            if($this->_emergencia->est_ia_id == $this->_emergencia->emergencia_activa or $this->_emergencia->est_ia_id == $this->_emergencia->emergencia_finalizada){
+                $formulario = unserialize($this->_emergencia->eme_c_datos_tipo_emergencia);
+
+                foreach($formulario as $key => $value){
+                    echo $key;
+                    $data['form_tipo_'.$key] = $value;
+                }
+            }
+
             $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($this->_emergencia->eme_ia_id);
             foreach($lista_comunas as $comuna){
                 $data["lista_comunas"][] = $comuna["com_ia_id"];
