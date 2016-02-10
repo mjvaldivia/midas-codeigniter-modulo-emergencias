@@ -456,8 +456,8 @@ var Emergencia = {};
             var formulario = $(form).serialize();
             $.post(siteUrl + 'emergencia/finalizarEmergencia',{data:formulario},function(response){
                 if(response.estado == true){
+                    xModal.close();
                     xModal.success(response.mensaje,function(){
-                        xModal.closeAll();
                         location.reload();
                     });
                 }else{

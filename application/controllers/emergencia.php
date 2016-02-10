@@ -879,6 +879,16 @@ class Emergencia extends MY_Controller {
         $json = array();
         $update = $this->EmergenciaModel->update($data,$params['id']);
         if($update){
+            $usuario = $this->session->userdata('session_idUsuario');
+            $this->load->model('alarma_historial_model','AlarmaHistorialModel');
+            $historial_comentario = 'El EVENTO ha sido FINALIZADO';
+            $data = array(
+                'historial_alerta' => $params['id'],
+                'historial_usuario' => $usuario,
+                'historial_fecha' => date('Y-m-d H:i:s'),
+                'historial_comentario' => $historial_comentario
+            );
+            $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
             $json['estado'] = true;
             $json['mensaje'] = 'El Evento ha sido finalizado';
         }else{
