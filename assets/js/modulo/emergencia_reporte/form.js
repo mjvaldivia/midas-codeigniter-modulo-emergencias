@@ -123,7 +123,7 @@ var EmergenciaReporteForm = Class({
                         $(boton).children("i").addClass("fa-spin fa-spinner");
                         
                         var retorno = yo.mostrarReporte();
-                        za                              
+                        
                         $(boton).children("i").addClass("fa-file");
                         $(boton).children("i").removeClass("fa-spin fa-spinner");
                         return retorno;
