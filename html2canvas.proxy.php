@@ -679,6 +679,10 @@ setHeaders(true);//no-cache
 
 remove_old_files();
 
+if($response["error"]!=""){
+    throw new Exception($response["error"]);
+}
+
 echo $param_callback, '(',
     JsonEncodeString(
         'error: html2canvas-proxy-php: ' . $response['error']
