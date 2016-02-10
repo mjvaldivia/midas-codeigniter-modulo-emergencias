@@ -7,7 +7,7 @@
  */
 
 //Turn off errors because the script already own uses "error_get_last"
-error_reporting(0);
+error_reporting(1);
 
 //setup
 define('JSLOG', 'console.log'); //Configure alternative function log, eg. console.log, alert, custom_function
