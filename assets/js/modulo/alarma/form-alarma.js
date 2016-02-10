@@ -56,7 +56,8 @@ var FormAlarma = Class({
                 }*/
 
                 var parametros = {"id_tipo" : $(this).val(),
-                                  "id" : $("#ala_id").val()}
+                                  "id" : $("#eme_id").val()}
+                console.log(parametros);
                 $.ajax({
                     dataType: "json",
                     cache: false,
@@ -99,7 +100,7 @@ var FormAlarma = Class({
                     }*/
 
                     var parametros = {"id_tipo" : $(this).val(),
-                        "id" : $("#ala_id").val()}
+                        "id" : $("#eme_id").val()}
                     $.ajax({
                         dataType: "json",
                         cache: false,

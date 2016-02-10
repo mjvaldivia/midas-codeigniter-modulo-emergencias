@@ -212,7 +212,8 @@ class Emergencia extends MY_Controller {
                         "eme_c_acciones"            => $params["editar_acciones"],
                         "eme_c_informacion_adicional" => $params["editar_informacion"]
                        );
-                
+                $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
+
                 $this->emergencia_guardar->setEmergencia($emergencia->eme_ia_id);
                 $this->emergencia_guardar->guardar($data);
                 $this->emergencia_guardar->setComunas($params['comunas']);

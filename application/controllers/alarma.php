@@ -141,7 +141,14 @@ class Alarma extends MY_Controller {
                           "latitud_utm"  => $alarma->eme_c_utm_lat,
                           "longitud_utm" => $alarma->eme_c_utm_lng,
                             "nivel_emergencia" => $alarma->eme_nivel);
-            
+            if($alarma->est_ia_id == $this->EmergenciaModel->emergencia_activa or $alarma->est_ia_id == $this->EmergenciaModel->emergencia_finalizada){
+                $formulario = unserialize($alarma->eme_c_datos_tipo_emergencia);
+                foreach($formulario as $key => $value){
+                    $data['form_tipo_'.$key] = $value;
+                }
+            }
+
+
             $lista_comunas = $this->EmergenciaComunaModel->listaComunasPorEmergencia($alarma->eme_ia_id);
             
             foreach($lista_comunas as $comuna){
@@ -164,12 +171,11 @@ class Alarma extends MY_Controller {
         $this->load->library(array("alarma/alarma_form_tipo")); 
         
         $params = $this->input->post(null, true);
-        
         $this->alarma_form_tipo->setEmergenciaTipo($params["id_tipo"]);
         $this->alarma_form_tipo->setAlarma($params["id"]);
                 
         $formulario = $this->alarma_form_tipo->getFormulario();
-        
+
         if($formulario["form"]){
             $respuesta = array("html" => $this->load->view($formulario["path"], $formulario["data"], true),
                                "form" => $formulario["form"]);
@@ -293,9 +299,11 @@ class Alarma extends MY_Controller {
                 );
                 $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
 
+
             }
-            
-            $this->emergencia_guardar->setEmergencia($id);
+            $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
+
+            $this->emergencia_guardar->setEmergencia($params["eme_id"]);
             $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
             $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
 

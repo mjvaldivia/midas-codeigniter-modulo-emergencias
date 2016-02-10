@@ -49,7 +49,15 @@
                         <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-danger" href="#" title="Activar Emergencia" >
                             <i class="fa fa-bullhorn"></i>
                         </a>
+
                     <?php }?>
+
+                    <?php if (puedeEditar("emergencia") and $row['est_ia_id'] > 1) { ?>
+                        <a title="Reporte" class="btn btn-sm btn-primary emergencia-reporte" type="button"  data="<?php echo $row["eme_ia_id"] ?>" data-rel="<?php echo $row["eme_ia_id"] ?>" href="javascript:void(0)" onclick="Emergencia.reporte(<?php echo $row["eme_ia_id"] ?>);">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    <?php }?>
+
                     <?php if (puedeEditar("alarma")) { ?>
                             <a data="<?php echo $row["eme_ia_id"]; ?>" class="editar btn btn-sm btn-success" title="Editar" href="#">
                                 <i class="fa fa-edit"></i>
