@@ -124,6 +124,9 @@ class Mapa_kml extends MY_Controller {
      * Sube KML a archivo temporal
      */
     public function upload_kml(){
+        
+
+        
         header('Content-type: application/json');
         
         $this->load->library(array(
@@ -175,13 +178,16 @@ class Mapa_kml extends MY_Controller {
         
         $file_paths = array();
         $cache = Cache::iniciar();
-        foreach($params["kml"] as $hash){
-            $file_path = FCPATH . "media/tmp/" . $hash . ".kml";
-            $file_paths[] = $file_path;
-            $file = $cache->load($hash);
-            file_put_contents($file_path, $file);
-            $this->zip->add($hash . ".kml", $file_path);
-        }
+        
+        
+        $hash = $params["kml"];
+        
+        $file_path = FCPATH . "media/tmp/" . $hash . ".kml";
+        $file_paths[] = $file_path;
+        $file = $cache->load($hash);
+        file_put_contents($file_path, $file);
+        $this->zip->add($hash . ".kml", $file_path);
+        
         $kmz = file_get_contents($this->zip->create());
         $this->zip->clear();
         
@@ -203,6 +209,7 @@ class Mapa_kml extends MY_Controller {
      * Crea archivo kml temporal
      */
     public function ajax_exportar_kml_elemento(){
+        ini_set('error_reporting', E_ALL ^ E_WARNING);
         $correcto = true;
         
         header('Content-type: application/json');
@@ -221,8 +228,13 @@ class Mapa_kml extends MY_Controller {
         
         try{
             $cache = Cache::iniciar();
+            
+            foreach($params["elemento"] as $elemento){
+                $this->kml_create->addPoligon("PRUEBA", $elemento["coordenadas"], $elemento["color"], $elemento["informacion"]);
+            }
+            
             $cache->save(
-                    $this->kml_create->poligon("PRUEBA", $params["coordenadas"], $params["color"], $params["propiedades"]), 
+                    $this->kml_create->getKml(), 
                     $clave
             );
         } catch (Exception $e){

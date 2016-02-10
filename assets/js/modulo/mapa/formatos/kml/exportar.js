@@ -8,32 +8,29 @@ var MapaKmlExportar = Class({
      * @returns {undefined}
      */
     makeElement : function(tipo, identificador, clave){
-        var lista_kml = [];
+        var kml = "";
         
         var elemento_kml = new MapaKmlExportarElemento();
         
         var elementos = this.retornaElementos(tipo, identificador, clave);
 
         $.each(elementos, function(i, elemento){
-            if(elemento_kml.exportar(elemento)){
-                lista_kml.push({"file" : elemento_kml.retornaHash()});
-            }
+            elemento_kml.addElemento(elemento);
         });
+        
+        if(elemento_kml.exportar()){
+            kml = elemento_kml.retornaHash();
+        }
 
-        if(lista_kml.length > 0){
-            this.generaKmz(lista_kml);
+        if(kml != ""){
+            this.generaKmz(kml);
         }
 
     },
     
-    generaKmz : function(lista_hash){
-        
-        console.log(lista_hash);
-        
-         var parametros = {"kml" : {}};
-        $.each(lista_hash, function(i, hash){
-            parametros["kml"][i] = hash.file;
-        });
+    generaKmz : function(kml){
+                
+         var parametros = {"kml" : kml};
         
         $.ajax({         
             dataType: "json",
@@ -61,15 +58,9 @@ var MapaKmlExportar = Class({
      * @returns {Array}
      */
     retornaElementos : function(tipo, identificador, clave){
+        var contenido = new MapaInformacionElementoContenido();
+        
         if(tipo == "CIRCULO LUGAR EMERGENCIA"){
-            var elementos = jQuery.grep(
-                lista_poligonos, 
-                function( a ) {
-                    if(a["clave"] == clave){
-                        return true;
-                    }
-            });
-        } else {
             var elementos = jQuery.grep(
                 lista_poligonos, 
                 function( a ) {
@@ -77,7 +68,27 @@ var MapaKmlExportar = Class({
                         return true;
                     }
             });
+        } else {
+            var elementos = jQuery.grep(
+                lista_poligonos, 
+                function( a ) {
+                    if(a["clave"] == clave){
+                        return true;
+                    }
+            });
         }
+        
+        var aux = elementos;
+        $.each(aux, function(i, elemento_seleccionado){
+            $.each(lista_poligonos, function(j, elemento){
+                if(elemento.clave != elemento_seleccionado.clave){
+                    if(contenido.elementoContainsElemento(elemento_seleccionado, elemento, true)){
+                        elementos.push(elemento);
+                    }
+                }
+            });
+        });
+        
         return elementos;
     }
     
