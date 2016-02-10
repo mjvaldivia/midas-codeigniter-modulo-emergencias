@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
 
-    <title>Emergencias::MIDAS</title>
+    <title>MIDAS :: Módulo de emergencias</title>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
     <script type='text/javascript' src="<?= base_url("/assets/js/library/jquery-2.1.4/jquery.min.js") ?>"></script>
     
@@ -86,7 +86,7 @@
                 </button>
                 <div class="navbar-brand">
                     <a href="<?php echo base_url("/") ?>">
-                        <div> <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Emergencias</div>
+                        <div> <img src="<?php echo base_url("/assets/img/logo_visor.jpg") ?>" /> Midas - <small> Emergencias </small></div>
                        
                     </a>
            

@@ -15,13 +15,24 @@ var EmergenciaReporteForm = Class({
     },
     
     
+    /**
+     * 
+     * @param {type} boton
+     * @returns {Boolean}
+     */
     enviarCorreo : function(boton){
         var imagen = new EmergenciaReporteMapaImagen("mapa");
-        imagen.addOnReadyFunction("carga pdf", this.correo, boton);
+        imagen.addOnReadyFunction("enviando email", this.correo, boton);
         imagen.crearImagen();
         return false;
     },
     
+    /**
+     * Envia email con reporte
+     * @param {string} hash identificador de la imagen del mapa
+     * @param {object} boton que dispara el envio de correo
+     * @returns {undefined}
+     */
     correo : function(hash, boton){
         var parametros = $("#form_reporte_emergencia").serializeArray();
         
@@ -110,7 +121,9 @@ var EmergenciaReporteForm = Class({
                         var boton = e.currentTarget;
                         $(boton).children("i").removeClass("fa-file");
                         $(boton).children("i").addClass("fa-spin fa-spinner");
+                        
                         var retorno = yo.mostrarReporte();
+                        za                              
                         $(boton).children("i").addClass("fa-file");
                         $(boton).children("i").removeClass("fa-spin fa-spinner");
                         return retorno;

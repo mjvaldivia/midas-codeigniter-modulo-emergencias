@@ -63,10 +63,9 @@ Class Kml_create{
         $string = "";
         if(count($coordenadas)>0){
             foreach($coordenadas as $coordenada){
-                $string .= $coordenada->lat . "," .$coordenada->lng . ",100\n";
+                $string .= $coordenada->lng . "," .$coordenada->lat . ",100\n";
             }
         }
-        
         $this->_kml->Document->Placemark->Polygon->outerBoundaryIs->LinearRing->coordinates = $string;
     }
     
@@ -75,16 +74,26 @@ Class Kml_create{
      * @param string $color
      */
     protected function _addStyle($color){
-        
         $this->_kml->Document->addChild("Style");
         $this->_kml->Document->Style->addAttribute("id", "transBluePoly");
         
         $this->_kml->Document->Style->addChild("LineStyle");
         $this->_kml->Document->Style->LineStyle->addChild("width");
         $this->_kml->Document->Style->LineStyle->width = "1.5";
+        $this->_kml->Document->Style->LineStyle->addChild("color");
+        $this->_kml->Document->Style->LineStyle->color = "ff000000";
         
         $this->_kml->Document->Style->addChild("PolyStyle");
         $this->_kml->Document->Style->PolyStyle->addChild("color");
-        $this->_kml->Document->Style->PolyStyle->color = $color;
+        $this->_kml->Document->Style->PolyStyle->color = "7f" . $this->_color($color);
+    }
+    
+    protected function _color($color){
+        $hex = str_replace("#", "", $color);
+        $rojo = substr($hex, 0, 2);
+        $verde = substr($hex, 3, 2);
+        $azul = substr($hex, 4);
+        
+        return $azul.$verde.$rojo;
     }
 }

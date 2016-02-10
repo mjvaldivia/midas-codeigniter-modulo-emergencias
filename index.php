@@ -31,9 +31,17 @@ $autoloader = Zend_Loader_Autoloader::getInstance();
 
 define('CACHE_FRONTEND_OPTIONS', serialize(array('automatic_cleaning_factor' => 0)));
 
+/**
+ * ENVIROMENT:
+ * Define el ambiente de ejecucion, estos pueden ser
+ * DEV (desarrollo)
+ * TEST (testing)
+ * QA ()
+ * PROD (produccion)
+ */
+defined('ENVIRONMENT')
+    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'testing'));
 
-
-define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

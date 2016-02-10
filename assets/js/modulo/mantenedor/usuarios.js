@@ -25,10 +25,11 @@ var MantenedorUsuarios = Class({
                     url: siteUrl + "oficina/rest/region/" + $(this).val(), 
                     error: function(xhr, textStatus, errorThrown){},
                     success:function(json){
-                        
+                       
                         $("#oficinas").html("");
-                        if(json.lenght>0){
+                        if(json.length>0){
                             $.each(json, function(i, oficina){
+                                
                                 $("#oficinas").append("<option value=\"" + oficina.ofi_ia_id + "\">" + oficina.ofi_c_nombre + "</option>"); 
                             });
                         }

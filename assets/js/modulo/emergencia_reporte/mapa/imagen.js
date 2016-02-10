@@ -21,6 +21,10 @@ var EmergenciaReporteMapaImagen = Class({
                                           "parametros" : parametros};
     },
     
+    /**
+     * Captura imagen del mapa
+     * @returns {undefined}
+     */
     crearImagen : function(){
         var yo = this;
         
@@ -35,6 +39,7 @@ var EmergenciaReporteMapaImagen = Class({
                 
                 var temp_hash = yo.crearImagenTemporal(img);
                 
+                //ejecuta funciones despues de generar imagen temporal
                 $.each(yo.on_ready_functions, function(i, funcion){
                     console.log("Carga de " + i);
                     funcion.funcion(temp_hash, funcion.parametros);
@@ -43,6 +48,11 @@ var EmergenciaReporteMapaImagen = Class({
         });
     },
     
+    /**
+     * Guarda captura en archivo temporal
+     * @param {type} img
+     * @returns {Array.hash|currentData.hash}
+     */
     crearImagenTemporal : function(img){
         var data = {"imagen" : img};
         

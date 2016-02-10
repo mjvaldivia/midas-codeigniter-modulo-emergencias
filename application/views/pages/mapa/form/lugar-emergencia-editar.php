@@ -2,7 +2,7 @@
     
     <input type="hidden" name="elemento_tipo" id="elemento_tipo" value="<?php echo $tipo; ?>" />
     <input type="hidden" name="elemento_identificador" id="elemento_identificador" value="<?php echo $identificador; ?>" />
-    <input type="hidden" name="elemento_clave" id="elemento_identificador" value="<?php echo $clave; ?>" />
+    <input type="hidden" name="elemento_clave" id="elemento_clave" value="<?php echo $clave; ?>" />
 
     
     <div class="col-lg-6">
