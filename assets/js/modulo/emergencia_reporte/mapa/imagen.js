@@ -30,7 +30,7 @@ var EmergenciaReporteMapaImagen = Class({
         
         html2canvas($('#' +  yo.div),
         {
-            proxy : baseUrl + "emergencias/html2canvas.proxy.php",
+            proxy : baseUrl + "html2canvas.proxy.php",
             useCORS: true,
             onrendered: function(canvas)
             {

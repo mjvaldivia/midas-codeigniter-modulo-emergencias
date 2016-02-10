@@ -7,8 +7,8 @@
  */
 
 //Turn off errors because the script already own uses "error_get_last"
-error_reporting(0);
-
+error_reporting(1);
+error_log("Entrando");
 //setup
 define('JSLOG', 'console.log'); //Configure alternative function log, eg. console.log, alert, custom_function
 define('PATH', 'images');//relative folder where the images are saved
@@ -678,6 +678,11 @@ if(is_array($tmp) && isset($tmp['location']) && file_exists($tmp['location'])) {
 setHeaders(true);//no-cache
 
 remove_old_files();
+
+if($response["error"]!=""){
+    error_log($response["error"]);
+    //throw new Exception($response["error"]);
+}
 
 echo $param_callback, '(',
     JsonEncodeString(
