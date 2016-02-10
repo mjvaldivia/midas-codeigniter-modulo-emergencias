@@ -202,5 +202,3 @@ var MapaInformacionElemento = Class({
 
     }
 });
-
-

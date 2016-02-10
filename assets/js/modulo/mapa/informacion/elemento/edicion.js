@@ -145,6 +145,36 @@ var MapaInformacionElementoEdicion = Class({
             success:function(data){
                 $("#contenido-popup-informacion-capas").html(data);
                 yo.formPropiedades();
+                
+                $("#exportar-elemento-kmz").click(function(e){
+                    e.preventDefault();
+                    
+                    var elemento_kml = new MapaKmlExportarElemento();
+                    
+                    var tipo = $("#elemento_tipo").val();
+                    if(tipo == "CIRCULO LUGAR EMERGENCIA"){
+                        var elementos = jQuery.grep(
+                            lista_poligonos, 
+                            function( a ) {
+                                if(a["identificador"] == $("#elemento_identificador").val()){
+                                    return true;
+                                }
+                        });
+                    } else {
+                        var elementos = jQuery.grep(
+                            lista_poligonos, 
+                            function( a ) {
+                                if(a["clave"] == $("#elemento_clave").val()){
+                                    return true;
+                                }
+                        });
+                    }
+                    
+                    $.each(elementos, function(i, elemento){
+                        elemento_kml.exportar(elemento);
+                    });
+                    
+                });
             }
         }); 
     },

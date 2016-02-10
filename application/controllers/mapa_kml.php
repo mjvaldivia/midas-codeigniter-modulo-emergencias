@@ -156,5 +156,13 @@ class Mapa_kml extends MY_Controller {
         
         echo json_encode($retorno);
     }
+    
+    public function ajax_exportar_kml_elemento(){
+        $params = $this->input->post(null, true);
+        
+        $this->load->library("kml/kml_create");
+
+        fb($this->kml_create->poligon("PRUEBA", $params["coordenadas"], $params["color"], $params["propiedades"]));
+    }
 }
 
