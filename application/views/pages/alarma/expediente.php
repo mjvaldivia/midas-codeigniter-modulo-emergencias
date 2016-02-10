@@ -15,7 +15,7 @@
                         <td class="text-left active" width="25%" ><?php echo $estado_alarma->est_c_nombre?></td>
                     </tr>
                     <tr>
-                        <td class="text-right text-bold bg-primary" >Nombre Informante</td>
+                        <td class="text-right text-bold bg-primary" >Origen de Información</td>
                         <td class="text-left active" ><?php echo $emergencia->eme_c_nombre_informante?></td>
 
                         <td class="text-right text-bold bg-primary" >Fecha Evento</td>

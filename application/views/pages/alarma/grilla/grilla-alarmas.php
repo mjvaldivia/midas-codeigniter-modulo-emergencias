@@ -58,7 +58,7 @@
                         </a>
                     <?php }?>
 
-                    <?php if (puedeEditar("alarma") and $row['est_ia_id'] < 2) { ?>
+                    <?php if (puedeEditar("alarma") and $row['est_ia_id'] < 3) { ?>
                             <a data="<?php echo $row["eme_ia_id"]; ?>" class="editar btn btn-sm btn-success" title="Editar" href="#">
                                 <i class="fa fa-edit"></i>
                             </a>
