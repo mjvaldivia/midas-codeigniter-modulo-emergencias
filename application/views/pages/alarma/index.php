@@ -14,7 +14,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Inicio </a></li>
-                <li><i class="fa fa-bell"></i> Alarmas </li>
+                <li><i class="fa fa-bell"></i> Eventos </li>
                 <li class="active"><i class="fa fa-bell"></i> Ingreso </li>
             </ol>
         </div>
