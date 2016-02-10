@@ -58,17 +58,22 @@
                         </a>
                     <?php }?>
 
-                    <?php if (puedeEditar("alarma")) { ?>
+                    <?php if (puedeEditar("alarma") and $row['est_ia_id'] < 2) { ?>
                             <a data="<?php echo $row["eme_ia_id"]; ?>" class="editar btn btn-sm btn-success" title="Editar" href="#">
                                 <i class="fa fa-edit"></i>
                             </a>
                     <?php } ?>
 
-                    <?php if (puedeEliminar("alarma")) { ?>
+                    <?php if (puedeEliminar("alarma") and $row['est_ia_id'] < 2) { ?>
                             <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-warning" href="#">
                                 <i class="fa fa-trash"></i>
                             </a>
                     <?php } ?>
+                    <?php if (puedeEditar("emergencia") and $row['est_ia_id'] == 2) { ?>
+                        <a title="Finalizar" class="btn btn-sm btn-danger emergencia-finalizar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" data-rel="<?php echo $row["eme_ia_id"] ?>" href="javascript:void(0)" onclick="Emergencia.finalizar(<?php echo $row["eme_ia_id"] ?>);">
+                            <i class="fa fa-thumb-tack"></i>
+                        </a>
+                    <?php }?>
                 </td>
                 
             </tr>
