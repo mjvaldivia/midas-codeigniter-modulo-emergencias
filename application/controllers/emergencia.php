@@ -306,9 +306,9 @@ class Emergencia extends MY_Controller {
         
         $params = $this->input->post(null, true);
         
-        $alarma = $this->emergencia_model->getById($params["eme_id"]);
+        $emergencia = $this->emergencia_model->getById($params["eme_id"]);
 
-        if(!is_null($alarma)){
+        if(!is_null($emergencia)){
                         
             $correcto = $this->alarmavalidar->esValido($params);
 
@@ -337,15 +337,36 @@ class Emergencia extends MY_Controller {
                 $this->emergencia_guardar->setComunas($params['comunas']);
                 $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
                 $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
-                
+
+                $id = $params['eme_id'];
                 //$id = $this->emergencia_guardar->getId();
+                /* verificar si existen adjuntos en temporal */
+                $directorio = 'media/tmp/';
+                $readDir = array_diff(scandir($directorio), array('..', '.'));
+                $this->load->model('archivo_model');
+                foreach($readDir as $file){
+                    if(preg_match("/^".$emergencia->eme_ia_id."-emergencia_adjunto_temp_/",$file)){
+                        if(!is_dir('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/')){
+                            mkdir('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/',0777,true);
+                        }
+                        $file_nuevo = str_replace('emergencia_adjunto_temp_','',$file);
+                        if(rename($directorio.$file, 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo)){
+
+                            $ruta = 'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo;
+                            $archivo = $this->archivo_model->file_to_bd('media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/', $file_nuevo, mime_content_type($ruta), $this->archivo_model->TIPO_EMERGENCIA, $emergencia->eme_ia_id, filesize($ruta));
+                            $file_nuevo = $archivo . '_'.$file_nuevo;
+                            rename($ruta,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/adjuntos/'.$file_nuevo);
+                        }
+
+                    }
+                }
                 
 
                 $usuario = $this->session->userdata('session_idUsuario');
                 $this->load->model('alarma_historial_model','AlarmaHistorialModel');
                 $historial_comentario = 'Se ha generado y dado curso a la emergencia';
                 $data = array(
-                    'historial_alerta' => $alarma->eme_ia_id,
+                    'historial_alerta' => $emergencia->eme_ia_id,
                     'historial_usuario' => $usuario,
                     'historial_fecha' => date('Y-m-d H:i:s'),
                     'historial_comentario' => $historial_comentario

@@ -105,7 +105,7 @@ Class Emergencia_Form_Element_SelectArchivos{
      * @return array
      */
     protected function _listar(){
-        $lista = $this->_archivo_alarma_model->listaPorAlarma($this->_emergencia->ala_ia_id);
+        $lista = $this->_archivo_alarma_model->listaPorAlarma($this->_emergencia->eme_ia_id);
         if(count($lista)>0){
             foreach($lista as $key => $row){
                 $lista[$key]["nombre"] = basename(BASEPATH . $row["arch_c_nombre"]);

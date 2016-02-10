@@ -43,16 +43,16 @@ Class Emergencia_reporte extends MY_Controller {
      */
     public function index(){
         $this->load->helper(array("modulo/emergencia/emergencia_form"));
-        $this->load->model('alarma_model','AlarmaModel');
+        //$this->load->model('alarma_model','AlarmaModel');
 
         $params = $this->uri->uri_to_assoc();
         $emergencia = $this->_emergencia_model->getById($params["id"]);
-        $alarma = $this->AlarmaModel->getById($emergencia->ala_ia_id);
+        //$alarma = $this->AlarmaModel->getById($emergencia->ala_ia_id);
 
         if(!is_null($emergencia)){
             $data = array("id" => $emergencia->eme_ia_id,
-                            "lat" => $alarma->ala_c_utm_lat,
-                            "lon" => $alarma->ala_c_utm_lng,
+                            "lat" => $emergencia->eme_c_utm_lat,
+                            "lon" => $emergencia->eme_c_utm_lng,
                           "nombre" => strtoupper($emergencia->eme_c_nombre_emergencia),
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
             $this->load->view("pages/emergencia_reporte/index.php", $data);
@@ -121,7 +121,7 @@ Class Emergencia_reporte extends MY_Controller {
                     mkdir($url,0777,true);
                 }
 
-                $id_reporte = $this->ArchivoModel->file_to_bd($url, $nombre_reporte, 'application/pdf', $this->ArchivoModel->TIPO_EMERGENCIA, $emergencia->ala_ia_id, filesize($reporte));
+                $id_reporte = $this->ArchivoModel->file_to_bd($url, $nombre_reporte, 'application/pdf', $this->ArchivoModel->TIPO_EMERGENCIA, $emergencia->eme_ia_id, filesize($reporte));
 
                 rename($reporte,'media/doc/emergencia/'.$emergencia->eme_ia_id.'/'.$id_reporte.'_'.$nombre_reporte);
                 @unlink($reporte);
@@ -135,7 +135,7 @@ Class Emergencia_reporte extends MY_Controller {
             $this->load->model('alarma_historial_model','AlarmaHistorialModel');
             $historial_comentario = 'Se ha enviado el reporte '.$file.' de la emergencia a los siguientes usuarios: ' . implode(',',$destinatarios);
             $data = array(
-                'historial_alerta' => $emergencia->ala_ia_id,
+                'historial_alerta' => $emergencia->eme_ia_id,
                 'historial_usuario' => $usuario,
                 'historial_fecha' => date('Y-m-d H:i:s'),
                 'historial_comentario' => $historial_comentario
