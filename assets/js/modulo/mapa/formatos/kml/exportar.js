@@ -30,9 +30,9 @@ var MapaKmlExportar = Class({
         
         console.log(lista_hash);
         
-         var parametros = {};
+         var parametros = {"kml" : {}};
         $.each(lista_hash, function(i, hash){
-            parametros[i] = hash.file;
+            parametros["kml"][i] = hash.file;
         });
         
         $.ajax({         
@@ -47,7 +47,7 @@ var MapaKmlExportar = Class({
             },
             success:function(data){
                 if(data.correcto){
-                    //document.location.href = siteUrl + "mapa_kml/kml_temporal/hash/" + data.hash
+                    document.location.href = siteUrl + "mapa_kml/kml_temporal/hash/" + data.hash
                 }
             }
         }); 

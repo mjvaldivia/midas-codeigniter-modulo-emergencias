@@ -157,18 +157,43 @@ class Mapa_kml extends MY_Controller {
         echo json_encode($retorno);
     }
     
+    /**
+     * 
+     */
     public function ajax_generar_kmz(){
         header('Content-type: application/json');
         $correcto = true;
         
         $params = $this->input->post(null, true);
-        fb($params);
+        $this->load->library(
+            array(
+                "cache",
+                "string",
+                "zip"
+                )
+        );
         
+        $file_paths = array();
+        $cache = Cache::iniciar();
+        foreach($params["kml"] as $hash){
+            $file_path = FCPATH . "media/tmp/" . $hash . ".kml";
+            $file_paths[] = $file_path;
+            $file = $cache->load($hash);
+            file_put_contents($file_path, $file);
+            $this->zip->add($hash . ".kml", $file_path);
+        }
+        $kmz = file_get_contents($this->zip->create());
+        $this->zip->clear();
         
+        $kmz_hash = $this->string->rand_string(25);
+        $cache->save(array("tipo" => "kmz",
+                           "archivo_nombre" => $kmz_hash . ".kmz",
+                           "archivo" => $kmz), 
+                    $kmz_hash);
         
         echo Zend_Json::encode(
             array(
-                "hash" => $hash,
+                "hash" => $kmz_hash,
                 "correcto" => $correcto
             )
         );
