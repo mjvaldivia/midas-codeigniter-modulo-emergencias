@@ -64,7 +64,7 @@
                             </a>
                     <?php } ?>
 
-                    <?php if (puedeEliminar("alarma") and $row["est_ia_id"] != 1) { ?>
+                    <?php if (puedeEliminar("alarma")) { ?>
                             <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-warning" href="#">
                                 <i class="fa fa-trash"></i>
                             </a>

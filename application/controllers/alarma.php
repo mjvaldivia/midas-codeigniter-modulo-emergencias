@@ -257,9 +257,10 @@ class Alarma extends MY_Controller {
             //la alarma ya existia
             if(!is_null($alerta)){
 
-                $id= $alerta->ala_ia_id;
+                $id= $alerta->eme_ia_id;
+                $params["eme_id"] = $id;
                 $this->EmergenciaModel->query()->update($data, "eme_ia_id", $alerta->eme_ia_id);
-                $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $alerta->ala_ia_id, $params['comunas']);
+                $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $alerta->eme_ia_id, $params['comunas']);
                 $respuesta_email = "";
 
                 /*$historial_comentario = 'La alarma ha sido editada';
@@ -277,7 +278,7 @@ class Alarma extends MY_Controller {
                 /*$data["est_ia_id"] = Alarma_Model::REVISION;*/
                 $id = $this->EmergenciaModel->query()->insert($data);
                 $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $id, $params['comunas']);
-                $params["eme_ia_id"] = $id;
+                $params["eme_id"] = $id;
 
                 if($params['estado_emergencia'] == $this->EmergenciaModel->en_alerta and !empty($params['correos_evento'])){
                     $respuesta_email = $this->AlarmaModel->enviaCorreo($params);

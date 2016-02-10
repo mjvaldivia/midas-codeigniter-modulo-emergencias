@@ -397,8 +397,8 @@ class Alarma_Model extends MY_Model {
         $this->db->trans_begin();
 
         $this->db->query("delete from alertas_historial where historial_alerta=$id");
-        $this->db->query("delete from alertas where ala_ia_id=$id");
         $this->db->query("delete from alertas_vs_comunas where ala_ia_id=$id");
+        $this->db->query("delete from emergencias where eme_ia_id=$id");
 
         if ($this->db->trans_status() === FALSE) {
             $error = true;
