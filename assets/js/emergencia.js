@@ -307,7 +307,7 @@ var Emergencia = {};
 
     this.rechazar = function () {
 
-        var params = 'ala_ia_id=' + $('#ala_ia_id').val();
+        var params = 'eme_ia_id=' + $('#eme_ia_id').val();
         $.post(siteUrl + "emergencia/rechaza", params, function (data) {
             if (data == 1) {
                 bootbox.dialog({

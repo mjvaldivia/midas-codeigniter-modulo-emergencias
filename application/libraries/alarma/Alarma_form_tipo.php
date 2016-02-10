@@ -57,8 +57,8 @@ Class Alarma_form_tipo{
     public function __construct() {
         $this->_ci =& get_instance();
         $this->_ci->load->model("tipo_emergencia_model");
-        $this->_ci->load->model("alarma_model");
-        $this->_alarma_model = New Alarma_Model();
+        $this->_ci->load->model("emergencia_model");
+        $this->_alarma_model = New Emergencia_Model();
         $this->_emergencia_tipo_model = New Tipo_Emergencia_Model();
     }
     
@@ -69,6 +69,7 @@ Class Alarma_form_tipo{
      */
     public function setAlarma($id_alarma){
         $this->_alarma = $this->_alarma_model->getById($id_alarma);
+
     }
     
     /**
@@ -130,7 +131,7 @@ Class Alarma_form_tipo{
      */
     protected function _getDataFromBd(){
         if(!is_null($this->_alarma)){
-            return $this->_alarma->ala_c_datos_tipo_emergencia;
+            return $this->_alarma->eme_c_datos_tipo_emergencia;
         } else {
             return "";
         }

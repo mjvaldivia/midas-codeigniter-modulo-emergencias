@@ -59,17 +59,30 @@ Class Emergencia_pdf{
         if(!is_null($emergencia)){    
             $data = array("eme_ia_id" => $emergencia->eme_ia_id,
                           "eme_c_nombre_emergencia" => $emergencia->eme_c_nombre_emergencia,
-                          "eme_d_fecha_emergencia"  => ISODateTospanish($emergencia->eme_d_fecha_emergencia),
+                            "eme_c_nombre_informante" => $emergencia->eme_c_nombre_informante,
+                          "eme_d_fecha_emergencia"  => ISODateTospanish($emergencia->eme_d_fecha_emergencia,false),
                           "hora_emergencia" => ISOTimeTospanish($emergencia->eme_d_fecha_emergencia),
                           "hora_recepcion"  => ISOTimeTospanish($emergencia->eme_d_fecha_recepcion),
                           "eme_c_lugar_emergencia" => $emergencia->eme_c_lugar_emergencia,
                           "emisor"               => $this->_ci->session->userdata('session_nombres'),
                           "id_usuario_encargado" => $emergencia->usu_ia_id,
-                          "eme_c_observacion"    => $emergencia->eme_c_observacion);
+                          "eme_c_descripcion"    => $emergencia->eme_c_descripcion,
+                            "est_ia_id" => $emergencia->est_ia_id,
+                            "tip_ia_id" => $emergencia->tip_ia_id);
+
+            $datos = unserialize($emergencia->eme_c_datos_tipo_emergencia);
+            foreach($datos as $key => $value){
+                $data['form_tipo_'.$key] = $value;
+            }
+
         }
 
+        $data['region'] = $this->_ci->session->userdata('session_region_codigo');
+        if($data['region'] < 10){
+            $data['region'] = '0'.$data['region'];
+        }
         $html = $this->_ci->load->view('pages/emergencia_reporte/pdf', $data, true); 
-        
+
         $this->_pdf->imagen_mapa = $this->_imagen;
         $this->_pdf->imagen_logo = file_get_contents(FCPATH . "/assets/img/top_logo.png");
         $this->_pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));

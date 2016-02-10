@@ -90,6 +90,8 @@
 <?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>
 <?= loadJS("assets/js/modulo/alarma/form-alarma-editar.js"); ?>
 
+<?= loadJS("assets/js/modulo/emergencia_reporte/form.js") ?>
+<?= loadJS("assets/js/emergencia.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js") ?>
 
 <?= loadJS("assets/js/modulo/alarma/listado.js") ?>

@@ -7,24 +7,35 @@
 
     }
     td, th{
-       /* border: 1px solid black;*/
+       /*border: 1px solid black;*/
         /* background-color: #CFC378;*/
         font-weight: normal;
         text-align: left;
-        padding : 10px;
+        padding : 0px;
+
 
     }
-    .tabla_detalle td, .tabla_detalle th{
+    .tabla_detalle td, .tabla_detalle th, .tabla_cabecera td{
         border: 1px solid black;
+        border-spacing: 0;
+        border-collapse: collapse;
+        padding:5px;
+    }
+
+    .tabla_cabecera td{
+        padding:0px !important;
+        border-spacing: 0;
+        border-collapse: collapse;
     }
     #texto_cabecera{
         font-size: 16px;
     }
-    .tabla_border{
+    .tabla_border, .tabla_border>tr>td{
                 border-spacing: 0;
         border-collapse: collapse;
         border: 1px solid black;
     }
+    .tabla_border>td{padding:5px;}
     
     .descripcion{
         color: gray;
@@ -33,78 +44,94 @@
 
 
 
-<table class="">
+<table class="tabla_cabecera" cellpadding="0" cellspacing="0">
     <tr>
-        <th  style="padding:10px; width: 0px;">
+        <td style="padding:0px !important; width: 140px;" rowspan="3">
             <img src="var:imagen_logo" width="140px"/>
-        </th>
-        <th style="padding:10px;" id="detalle_cabecera" valign='top'>
-            <div id="texto_cabecera">
-                <h2><b>Reporte de Emergencias <?= $eme_ia_id ?></b></h2></div>
-                <span style="text-transform: uppercase;"><?= $eme_c_nombre_emergencia ?></span><br>
-                Fecha: <?= $eme_d_fecha_emergencia ?><br>
-                Elaborado por: <?= $emisor ?><br>
-                Fecha de emisión: <?= date('d-m-Y H:i') ?><br>
-        </th>
+        </td>
+        <td style="text-align: center;font-weight: bold;font-size:18px;padding:0px !important" colspan="2">MINUTA DE EMERGENCIA</td>
+        <td style="text-align:center;">Minuta</td>
+    </tr>
+    <tr>
+        <td style="text-align: center;font-size:16px" colspan="2"><span style="font-weight: bold">CONTENIDO</span><br/><?= $eme_c_nombre_emergencia ?></td>
+        <td>Región<br/><?php echo $region?></td>
+    </tr>
+    <tr>
+        <td style="text-align: center;font-size:14px"><span style="font-weight: bold">ELABORADOR POR:</span><br/><?= $emisor ?></td>
+        <td>Cargo/Función</td>
+        <td></td>
+    </tr>
+
+</table>
+<br/>
+
+<table class="tabla_detalle" cellpadding="1" cellspacing="0">
+    <tr>
+        <td>1.- TIPO DE EVENTO</td>
+        <td colspan="4"><?php echo nombreEmergenciaTipo($tip_ia_id)?></td>
+    </tr>
+    <tr>
+        <td>2.- OCURRENCIA</td>
+        <td>DÍA</td>
+        <td><?= $eme_d_fecha_emergencia ?></td>
+        <td>HORA</td>
+        <td><?= $hora_emergencia ?></td>
+    </tr>
+    <tr>
+        <td colspan="5">3.- DIRECCIÓN/UBICACIÓN<br/>
+            <?= $eme_c_lugar_emergencia?>, <?= comunasEmergenciaConComa($eme_ia_id); ?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">4.- ORIGEN DE INFORMACION:<br/>
+            <?= $eme_c_nombre_informante;?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">5.- DISPONE DE RECURSOS SUFICIENTES PARA CONTROLAR LA EMERGENCIA:<br/>
+        <?php echo $form_tipo_recursos?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">6.- IMPACTO A LAS PERSONAS:<br/>
+            NUMERO HERIDOS:<?php echo $form_tipo_heridos?>                         NUMERO FALLECIDOS:<?php echo $form_tipo_fallecidos?></td>
+    </tr>
+    <tr>
+        <td colspan="5">7.- ESTA EN RIESGO LA SEGURIDAD DE NUESTRO PERSONAL:<br/>
+        <?php echo $form_tipo_riesgo?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">8.- ¿EN QUE HA SIDO SUPERADA SU CAPACIDAD PARA UNA RESPUESTA EFICIENTE Y EFECTIVA?<br/>
+        <?php echo $form_tipo_superada?>
+        </td>
     </tr>
 </table>
-<br>
 
-INFORMACIÓN DE LA ALARMA 
-<hr>
-<br>
-<table class="">
+<br/>
+<table class="tabla_detalle">
     <tr>
-        <td width="40%">Encargado de la alarma:</td>
-        <td width="60%">
-            <div class="descripcion"><?= nombreUsuario($id_usuario_encargado); ?></div>
+        <td>9.- DESCRIPCIÓN DEL EVENTO<br/>
+        <?php echo $eme_c_descripcion?>
         </td>
-    </tr>
-    <tr>
-        <td>Hora inicio de la alarma:</td>
-        <td>
-            <div class="descripcion"><?= $hora_emergencia ?></div>
-        </td>
-    </tr>
-    <tr>
-        <td>Hora de registro:</td>
-        <td>
-            <div class="descripcion"><?= $hora_recepcion ?></div>
-        </td>
-    </tr>
-    <tr>
-        <td>Lugar de la Emergencia:</td>
-        <td>
-            <div class="descripcion"><?= $eme_c_lugar_emergencia?></div>
-        </td>
-    </tr>
-    <tr>
-        <td>Comuna (s):</td>
-        <td>
-            <div class="descripcion"><?= comunasEmergenciaConComa($eme_ia_id); ?></div>
-        </td>
-    </tr>
-    <tr>
-        <td>Observaciones preliminares:</td>
-        <td><?= $eme_c_observacion ?></td>
-    </tr>
-    <tr >
-        <td colspan="2"></td>
     </tr>
 </table>
 
-<br>
-INFORMACIÓN DE LA EMERGENCIA
-<hr>
+<br/>
 
-<br>
-<?= reporteEmergenciaTipo($eme_ia_id); ?>
-<br>
-
+<table class="tabla_detalle">
+    <tr>
+        <td>10.- ACCIONES<br/>
+            <?php echo $form_tipo_acciones?>
+        </td>
+    </tr>
+</table>
+<br/>
 <!--<pagebreak></pagebreak>-->
+<div style="page-break-after: always"></div>
 <table border="0">
     <tr>
-        <td>Mapa del lugar de la emergencia</td>
+        <td>ANEXO: Mapa del lugar de la emergencia</td>
     </tr>
     <tr>
         <td><img src="var:imagen_mapa"/></td>

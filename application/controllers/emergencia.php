@@ -212,7 +212,8 @@ class Emergencia extends MY_Controller {
                         "eme_c_acciones"            => $params["editar_acciones"],
                         "eme_c_informacion_adicional" => $params["editar_informacion"]
                        );
-                
+                $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
+
                 $this->emergencia_guardar->setEmergencia($emergencia->eme_ia_id);
                 $this->emergencia_guardar->guardar($data);
                 $this->emergencia_guardar->setComunas($params['comunas']);
@@ -392,15 +393,15 @@ class Emergencia extends MY_Controller {
      */
     public function json_rechaza_alarma() {
         $params = $this->input->post(null, true);
-        $alarma = $this->alarma_model->getById($params["ala_id"]);
+        $alarma = $this->emergencia_model->getById($params["eme_id"]);
         if(!is_null($alarma)){
-            $this->alarma_model->update(array("est_ia_id" => Alarma_Estado_Model::RECHAZADO), $alarma->ala_ia_id);
+            $this->emergencia_model->update(array("est_ia_id" => Alarma_Estado_Model::RECHAZADO), $alarma->eme_ia_id);
 
             $usuario = $this->session->userdata('session_idUsuario');
             $this->load->model('alarma_historial_model','AlarmaHistorialModel');
-            $historial_comentario = 'Alarma ha sido rechazada';
+            $historial_comentario = 'Evento en Alerta ha sido rechazado';
             $data = array(
-                'historial_alerta' => $params["ala_id"],
+                'historial_alerta' => $params["eme_id"],
                 'historial_usuario' => $usuario,
                 'historial_fecha' => date('Y-m-d H:i:s'),
                 'historial_comentario' => $historial_comentario
