@@ -230,7 +230,8 @@ class Alarma extends MY_Controller {
         
         $lista = $this->EmergenciaModel->buscar(array("id_estado" => $params["filtro_id_estado"],
                                                   "id_tipo"   => $params["filtro_id_tipo"],
-                                                  "year"      => $params["filtro_year"]));
+                                                  "year"      => $params["filtro_year"],
+                                                    "nivel" => $params['filtro_nivel']));
         
         $this->load->view("pages/alarma/grilla/grilla-alarmas", array("lista" => $lista));
     }

@@ -50,7 +50,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-1">
+                            <div class="form-group clearfix">
+                                <label for="" class="control-label">Nivel</label>
+                                <select id="filtro_nivel" name="filtro_nivel" type="text" class="form-control">
+                                    <option value="0" selected>Todos</option>
+                                    <option value="1">Nivel I</option>
+                                    <option value="2">Nivel II</option>
+                                    <option value="3">Nivel III</option>
+                                    <option value="4">Nivel IV</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
                             <button id="btnBuscarAlarmas" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">
                                 <i class="fa fa-search"></i>
                                 Buscar
