@@ -40,7 +40,7 @@ define('CACHE_FRONTEND_OPTIONS', serialize(array('automatic_cleaning_factor' => 
  * PROD (produccion)
  */
 defined('ENVIRONMENT')
-    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'testing'));
+    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'development'));
 
 /*
  *---------------------------------------------------------------

@@ -280,7 +280,7 @@ class Emergencia extends MY_Controller {
         $this->emergencia_form_tipo->setEmergencia($params["id"]);
                 
         $formulario = $this->emergencia_form_tipo->getFormulario();
-        
+
         if($formulario["form"]){
             $respuesta = array("html" => $this->load->view($formulario["path"], $formulario["data"], true),
                                "form" => $formulario["form"]);
@@ -851,6 +851,42 @@ class Emergencia extends MY_Controller {
         echo json_encode($json);
 
 
+    }
+
+
+    public function comentarioCierreEmergencia(){
+        $params = $this->uri->uri_to_assoc();
+        $this->load->model('emergencia_model','EmergenciaModel');
+        $emergencia = $this->EmergenciaModel->getById($params['id']);
+        $data['id'] = $emergencia->eme_ia_id;
+        $data['nombre'] = $emergencia->eme_c_nombre_emergencia;
+        $data['fecha'] = date('d-m-Y H:i:s');
+        $this->load->view('pages/emergencia_finalizar/form',$data);
+    }
+
+    public function finalizarEmergencia(){
+        $params = array();
+        parse_str($this->input->post('data'),$params);
+
+        $this->load->model('emergencia_model','EmergenciaModel');
+
+        $data = array(
+            'eme_d_fecha_cierre' => spanishDateToISO($params['fecha_cierre']),
+            'eme_c_comentario_cierre' => nl2br($params['comentarios_cierre']),
+            'est_ia_id' => $this->EmergenciaModel->emergencia_finalizada
+        );
+
+        $json = array();
+        $update = $this->EmergenciaModel->update($data,$params['id']);
+        if($update){
+            $json['estado'] = true;
+            $json['mensaje'] = 'El Evento ha sido finalizado';
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'] = 'Hubo un problema al finalizar el evento. Intente nuevamente';
+        }
+
+        echo json_encode($json);
     }
 
     

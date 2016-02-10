@@ -434,7 +434,47 @@ var Emergencia = {};
                 },'json');
             }
         });
+    };
+
+    this.finalizar = function(id){
+        xModal.confirm('Desea Finalizar este Evento?',function(){
+            xModal.open(siteUrl + 'emergencia/comentarioCierreEmergencia/id/'+id,'Finalizar Evento en Emergencia');
+        })
+    };
+
+
+    this.finalizarEvento = function(form,btn){
+        btn.disabled = true;
+        var btnText = $(btn).html();
+        $(btn).html('Finalizando...<i class="fa fa-spin fa-spinner"></i>');
+
+        if(form.comentarios_cierre.value == ""){
+            xModal.danger('No puede ingresar comentario vacío',function(){
+                $(btn).html(btnText).attr('disabled',false);
+            });
+        }else{
+            var formulario = $(form).serialize();
+            $.post(siteUrl + 'emergencia/finalizarEmergencia',{data:formulario},function(response){
+                if(response.estado == true){
+                    xModal.success(response.mensaje,function(){
+                        xModal.closeAll();
+                        location.reload();
+                    });
+                }else{
+                    xModal.danger(response.mensaje,function(){
+                        $(btn).html(btnText).attr('disabled',false);
+                    });
+                }
+            },'json').fail(function(){
+                xModal.danger('Error en Sistema. Intente nuevamente o comuníquese con Soporte',function(){
+                    $(btn).html(btnText).attr('disabled',false);
+                });
+            });
+        }
     }
+
+
+
     
 
 

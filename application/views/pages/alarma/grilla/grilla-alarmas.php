@@ -69,6 +69,11 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                     <?php } ?>
+                    <?php if (puedeEditar("emergencia") and $row['est_ia_id'] == 2) { ?>
+                        <a title="Reporte" class="btn btn-sm btn-primary emergencia-finalizar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" data-rel="<?php echo $row["eme_ia_id"] ?>" href="javascript:void(0)" onclick="Emergencia.finalizar(<?php echo $row["eme_ia_id"] ?>);">
+                            <i class="fa fa-file-text-o"></i>
+                        </a>
+                    <?php }?>
                 </td>
                 
             </tr>

@@ -129,7 +129,7 @@ var xModal = {
 			});
 
 			if($(".modal").length == 0){
-				$('body').removeClass('modal-open');
+				$('body').removeClass('modal-open').css('padding-right','0px');
 			}
 		});	
 		/*if(modalIndex === undefined){
@@ -160,7 +160,7 @@ var xModal = {
 			$('.modal-backdrop').fadeOut(function(){
 				$(this).remove();
 			});
-			$('body').removeClass('modal-open');
+			$('body').removeClass('modal-open').css('padding-right','0px');
 		});
 	},
 
