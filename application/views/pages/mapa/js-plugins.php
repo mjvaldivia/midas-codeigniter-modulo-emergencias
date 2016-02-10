@@ -51,6 +51,8 @@
 
 <!-- IMPORTAR ARCHIVOS -->
 <!-- Kml -->
+<?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar/elemento.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
 <!-- Externos -->

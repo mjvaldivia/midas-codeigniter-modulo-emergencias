@@ -235,6 +235,8 @@ class Mapa extends MY_Controller {
                           array("tipo" => $params["tipo"],
                                 "color" => $params["color"],
                                 "informacion" => $informacion,
+                                "identificador" => $params["identificador"],
+                                "clave" => $params["clave"],
                                 "lista_formas" => json_decode($params["formas"]),
                                 "lista_marcadores"  => json_decode($params["marcadores"])));
         

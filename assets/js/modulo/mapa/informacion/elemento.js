@@ -68,11 +68,14 @@ var MapaInformacionElemento = Class({
      * @returns {void}
      */
     popupInformacion : function(marcadores, formas, elemento){
+
         var parametros = {"marcadores"  : JSON.stringify(marcadores),
                           "formas"      : JSON.stringify(formas),
                           "tipo"        : elemento.tipo,
                           "color"       : elemento.fillColor,
-                          "informacion" : JSON.stringify(elemento.informacion)};
+                          "informacion" : JSON.stringify(elemento.informacion),
+                          "clave" : elemento.clave,
+                          "identificador" : elemento.identificador};
         
         if(elemento.custom != null && elemento.custom == true){
             if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
@@ -199,5 +202,3 @@ var MapaInformacionElemento = Class({
 
     }
 });
-
-

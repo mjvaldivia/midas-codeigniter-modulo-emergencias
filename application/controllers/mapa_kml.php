@@ -101,10 +101,10 @@ class Mapa_kml extends MY_Controller {
             
             switch ($archivo["tipo"]) {
                 case "kml":
-                    $content_type = "text/plain";  
+                    $content_type = "application/vnd.google-earth.kml+xml";  
                     break;
                 case "kmz":
-                    $content_type = "text/plain"; 
+                    $content_type = "application/vnd.google-earth.kmz"; 
                     break;
                 default:
                     throw new Exception(__METHOD__ . " - El tipo de archivo no es valido");
@@ -155,6 +155,61 @@ class Mapa_kml extends MY_Controller {
                          "errores" => $error);
         
         echo json_encode($retorno);
+    }
+    
+    public function ajax_generar_kmz(){
+        header('Content-type: application/json');
+        $correcto = true;
+        
+        $params = $this->input->post(null, true);
+        fb($params);
+        
+        
+        
+        echo Zend_Json::encode(
+            array(
+                "hash" => $hash,
+                "correcto" => $correcto
+            )
+        );
+    }
+    
+    /**
+     * Crea archivo kml temporal
+     */
+    public function ajax_exportar_kml_elemento(){
+        $correcto = true;
+        
+        header('Content-type: application/json');
+        
+        $params = $this->input->post(null, true);
+        
+        $this->load->library(
+            array(
+                "kml/kml_create", 
+                "cache",
+                "string"
+                )
+        );
+        
+        $clave = $this->string->rand_string(20);
+        
+        try{
+            $cache = Cache::iniciar();
+            $cache->save(
+                    $this->kml_create->poligon("PRUEBA", $params["coordenadas"], $params["color"], $params["propiedades"]), 
+                    $clave
+            );
+        } catch (Exception $e){
+            $correcto = false;
+        }
+        
+        echo Zend_Json::encode(
+            array(
+                "file" => $clave,
+                "correcto" => $correcto
+            )
+        );
     }
 }
 
