@@ -78,9 +78,6 @@ Class Kml_create{
             $path = "icons/" . $name;
             $icon->addChild("href", $path);
             
-            
-            fb($icono);
-            
             $cache->save(array("name" => $name,
                                "file" => file_get_contents($icono)), $id_style);
             
