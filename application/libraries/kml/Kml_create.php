@@ -74,7 +74,7 @@ Class Kml_create{
             $name = $id_style.".".$this->_imgExt($icono);
             $path = "icons/" . $name;
             $icon->addChild("href", $path);
-            
+            fb($icono);
             $cache->save(array("name" => $name,
                                "file" => file_get_contents($icono)), $id_style);
             
@@ -87,7 +87,7 @@ Class Kml_create{
         $placemark = $folder->addChild("Placemark");
         $placemark->addChild("styleUrl", "#" . $id_style);
         $point = $placemark->addChild("Point");
-        $coordenadas = $point->addChild("coordinates", $posicion["lng"] . "," . $posicion["lat"] . ",0.");
+        $point->addChild("coordinates", $posicion["lng"] . "," . $posicion["lat"] . ",0.");
     }
     
     public function _imgExt($icono){

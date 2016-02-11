@@ -107,7 +107,7 @@ var MapaKmlExportarElemento = Class({
             }
        });
        
-       console.log(yo.style_icons);
+       
        this.file_hash = retorno;
        
        return correcto;
