@@ -8,6 +8,12 @@ Class Kml_create{
     protected $_kml;
     
     /**
+     * Guarda estilos para los iconos
+     * @var array 
+     */
+    protected $_style_icons = array();
+    
+    /**
      *
      * @var CI_Controller 
      */
@@ -18,7 +24,7 @@ Class Kml_create{
      */
     public function __construct() {
         $this->_ci =& get_instance();
-        $this->_ci->load->library("string");
+        $this->_ci->load->library(array("string","cache"));
         
         
         $this->_kml = new SimpleXMLElement(
@@ -45,6 +51,61 @@ Class Kml_create{
         $this->_addPoligon($folder, $nombre, $id_style, json_decode($coordenadas));
     }
     
+    /**
+     * 
+     * @param type $posicion
+     * @param type $icono
+     * @param type $propiedades
+     */
+    public function addMarker($posicion, $icono, $propiedades){
+        
+        $cache = Cache::iniciar();
+        
+        $folder = $this->_kml->Document;
+        
+        $ya_existe = array_search($icono, $this->_style_icons);
+        if($ya_existe === false){
+            $id_style = $this->_ci->string->rand_string(25);
+            $style = $folder->addChild("Style");
+            $style->addAttribute("id", $id_style);
+            $iconStyle = $style->addChild("IconStyle");
+            $icon = $iconStyle->addChild("Icon");
+            
+            $name = $id_style.".".$this->_imgExt($icono);
+            $path = "icons/" . $name;
+            $icon->addChild("href", $path);
+            
+            $cache->save(array("name" => $name,
+                               "file" => file_get_contents($icono)), $id_style);
+            
+            
+            $this->_style_icons[$id_style] = $icono;
+        } else {
+            $id_style = $ya_existe;
+        }
+        
+        $placemark = $folder->addChild("Placemark");
+        $placemark->addChild("styleUrl", "#" . $id_style);
+        $point = $placemark->addChild("Point");
+        $coordenadas = $point->addChild("coordinates", $posicion["lng"] . "," . $posicion["lat"] . ",0.");
+    }
+    
+    public function _imgExt($icono){
+        $separado = explode(".", $icono);
+        return $separado[count($separado)-1];
+    }
+    
+    /*
+     * 
+     */
+    public function getStyleIcons(){
+        return array_keys($this->_style_icons);
+    }
+    
+    /**
+     * 
+     * @return string xml
+     */
     public function getKml(){
         return $this->_kml->asXML();
     }

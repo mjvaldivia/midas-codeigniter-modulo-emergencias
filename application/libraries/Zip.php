@@ -40,7 +40,7 @@ class Zip {
             # download file
             $download_file = file_get_contents($file);
             #add it to the zip
-            $this->_zip->addFromString(basename($nombre), $download_file);
+            $this->_zip->addFromString($nombre, $download_file);
         }
     }
     

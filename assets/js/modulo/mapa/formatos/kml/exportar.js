@@ -9,28 +9,41 @@ var MapaKmlExportar = Class({
      */
     makeElement : function(tipo, identificador, clave){
         var kml = "";
+        var iconos = "";
         
         var elemento_kml = new MapaKmlExportarElemento();
+        var marcador     = new MapaKmlExportarMarcador();
         
-        var elementos = this.retornaElementos(tipo, identificador, clave);
-
-        $.each(elementos, function(i, elemento){
+        var lista_elementos = this.retornaElementos(tipo, identificador, clave);
+        $.each(lista_elementos, function(i, elemento){
             elemento_kml.addElemento(elemento);
         });
         
-        if(elemento_kml.exportar()){
+        var lista_marcadores = this.retornaMarcadores(tipo, identificador, clave);
+        $.each(lista_marcadores, function(i, marker){
+            marcador.addMarcador(marker);
+        });
+        
+        if(elemento_kml.exportar(marcador.retornaMarcadores())){
             kml = elemento_kml.retornaHash();
+            iconos = elemento_kml.retornaIconos();
         }
 
         if(kml != ""){
-            this.generaKmz(kml);
+            this.generaKmz(kml, iconos);
         }
 
     },
     
-    generaKmz : function(kml){
+    /**
+     * Genera KMZ
+     * @param {type} kml
+     * @returns {undefined}
+     */
+    generaKmz : function(kml, iconos){
                 
-         var parametros = {"kml" : kml};
+         var parametros = {"kml" : kml,
+                           "images" : iconos};
         
         $.ajax({         
             dataType: "json",
@@ -50,6 +63,25 @@ var MapaKmlExportar = Class({
         }); 
     },
     
+    retornaMarcadores : function(tipo, identificador, clave){
+         var contenido = new MapaInformacionElementoContenido();
+        
+        var elementos = this.retornaElementoSeleccionado(tipo, identificador, clave);
+        
+        var marcadores = [];
+        $.each(elementos, function(i, elemento_seleccionado){
+            $.each(lista_markers, function(j, marker){
+
+                if(contenido.elementoContainsPoint(elemento_seleccionado, marker.getPosition())){
+                    marcadores.push(marker);
+                }
+                
+            });
+        });
+        
+        return marcadores;
+    },
+    
     /**
      * 
      * @param {type} tipo
@@ -60,6 +92,30 @@ var MapaKmlExportar = Class({
     retornaElementos : function(tipo, identificador, clave){
         var contenido = new MapaInformacionElementoContenido();
         
+        var elementos = this.retornaElementoSeleccionado(tipo, identificador, clave);
+        
+        var aux = elementos;
+        $.each(aux, function(i, elemento_seleccionado){
+            $.each(lista_poligonos, function(j, elemento){
+                if(elemento.clave != elemento_seleccionado.clave){
+                    if(contenido.elementoContainsElemento(elemento_seleccionado, elemento, true)){
+                        elementos.push(elemento);
+                    }
+                }
+            });
+        });
+        
+        return elementos;
+    },
+    
+    /**
+     * Busca elemento seleccionado
+     * @param {type} tipo
+     * @param {type} identificador
+     * @param {type} clave
+     * @returns {undefined}
+     */
+    retornaElementoSeleccionado : function(tipo, identificador, clave){
         if(tipo == "CIRCULO LUGAR EMERGENCIA"){
             var elementos = jQuery.grep(
                 lista_poligonos, 
@@ -78,20 +134,8 @@ var MapaKmlExportar = Class({
             });
         }
         
-        var aux = elementos;
-        $.each(aux, function(i, elemento_seleccionado){
-            $.each(lista_poligonos, function(j, elemento){
-                if(elemento.clave != elemento_seleccionado.clave){
-                    if(contenido.elementoContainsElemento(elemento_seleccionado, elemento, true)){
-                        elementos.push(elemento);
-                    }
-                }
-            });
-        });
-        
         return elementos;
     }
-    
 });
 
 

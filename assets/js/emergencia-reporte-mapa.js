@@ -22,7 +22,7 @@ $(document).ready(function() {
     var capas = new MapaCapa();
     capas.emergencia(id);
     visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
-
+    visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
     //inicia mapa
     visor.bindMapa();
 });

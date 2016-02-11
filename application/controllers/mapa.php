@@ -401,21 +401,37 @@ class Mapa extends MY_Controller {
      * Retorna datos de ubicacion de la alarma
      * @throws Exception
      */
-    public function ajax_lugar_alarma(){
+    public function ajax_posicion_lugar_emergencia(){
         header('Content-type: application/json');
         $data = array("correcto" => false);
         
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
-            if($emergencia->eme_c_utm_lat != "" AND $emergencia->eme_c_utm_lng!=""){
-                $data = array("correcto"  => true,
-                              "resultado" => array("lat" => $emergencia->eme_c_utm_lat,
-                                                   "lon" => $emergencia->eme_c_utm_lng,
-                                                   "nombre" => $alarma->eme_c_nombre_emergencia,
-                                                   "zona" => ""));
+            
+            $lugar_emergencia = $this->_emergencia_elementos_model->getPrimerLugarEmergencia($emergencia->eme_ia_id);
+            if(!is_null($lugar_emergencia)){
+                fb($lugar_emergencia);
+                $coordenadas = Zend_json::decode($lugar_emergencia->coordenadas);
+                fb($coordenadas);
+                $data = array(
+                    "correcto"  => true,
+                    "resultado" => array(
+                        "lat" => $coordenadas["center"]["lat"],
+                        "lon" => $coordenadas["center"]["lng"],
+                        "nombre" => $emergencia->eme_c_nombre_emergencia,
+                        "zona" => "")
+                );
             } else {
-                $data["error"] = "El lugar de la emergencia no fue encontrado";
+                if($emergencia->eme_c_utm_lat != "" AND $emergencia->eme_c_utm_lng!=""){
+                    $data = array("correcto"  => true,
+                                  "resultado" => array("lat" => $emergencia->eme_c_utm_lat,
+                                                       "lon" => $emergencia->eme_c_utm_lng,
+                                                       "nombre" => $emergencia->eme_c_nombre_emergencia,
+                                                       "zona" => ""));
+                } else {
+                    $data["error"] = "El lugar de la emergencia no fue encontrado";
+                }
             }
         } else {
             $data["error"] = "La emergencia no existe";

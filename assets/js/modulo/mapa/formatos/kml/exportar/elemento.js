@@ -1,6 +1,7 @@
 var MapaKmlExportarElemento = Class({
     
     file_hash : "",
+    style_icons : {},
     elementos : [],
     /**
      * 
@@ -10,7 +11,15 @@ var MapaKmlExportarElemento = Class({
         return this.file_hash;
     },
     
+    retornaIconos : function(){
+        return this.style_icons;
+    },
     
+    /**
+     * 
+     * @param {type} elemento
+     * @returns {undefined}
+     */
     addElemento : function(elemento){
         var coordenadas = {};
         switch(elemento.tipo){
@@ -70,16 +79,14 @@ var MapaKmlExportarElemento = Class({
      * @param {type} elemento
      * @returns {Boolean}
      */
-    exportar : function(){
+    exportar : function(marcadores){
+        var yo = this;
         var correcto = true;
         var retorno = "";
         
-        var parametros = {"elemento" : {}};
-        $.each(this.elementos, function(i, elemento){
-            parametros["elemento"][i] = elemento;
-        });
+        var parametros = {"elemento" : JSON.stringify(this.elementos),
+                          "marcadores" : JSON.stringify(marcadores)};
 
-        
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -92,6 +99,7 @@ var MapaKmlExportarElemento = Class({
             },
             success:function(data){
                 if(data.correcto){
+                    yo.style_icons = data.images;
                     retorno = data.file;
                 } else {
                     correcto = false;
@@ -99,6 +107,7 @@ var MapaKmlExportarElemento = Class({
             }
        });
        
+       console.log(yo.style_icons);
        this.file_hash = retorno;
        
        return correcto;

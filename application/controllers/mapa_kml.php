@@ -187,6 +187,19 @@ class Mapa_kml extends MY_Controller {
         $file = $cache->load($hash);
         file_put_contents($file_path, $file);
         $this->zip->add($hash . ".kml", $file_path);
+        unlink($file_path);
+        
+        
+        foreach($params["images"] as $codigo){
+            if($imagen = $cache->load($codigo)){
+                $file_path = FCPATH . "media/tmp/" . $imagen["name"];
+                file_put_contents($file_path, $imagen["file"]);
+                $this->zip->add("icons/" . $imagen["name"], $file_path);
+                unlink($file_path);
+            }
+        }
+        
+        
         
         $kmz = file_get_contents($this->zip->create());
         $this->zip->clear();
@@ -229,8 +242,16 @@ class Mapa_kml extends MY_Controller {
         try{
             $cache = Cache::iniciar();
             
-            foreach($params["elemento"] as $elemento){
+            
+            $lista_elementos = Zend_Json::decode($params["elemento"]);
+            
+            foreach($lista_elementos as $elemento){
                 $this->kml_create->addPoligon("PRUEBA", $elemento["coordenadas"], $elemento["color"], $elemento["informacion"]);
+            }
+            
+            $lista_marcadores = Zend_Json::decode($params["marcadores"]);
+            foreach($lista_marcadores as $marcador){
+                $this->kml_create->addMarker($marcador["posicion"], $marcador["icono"], $marcador["informacion"]);
             }
             
             $cache->save(
@@ -244,6 +265,7 @@ class Mapa_kml extends MY_Controller {
         echo Zend_Json::encode(
             array(
                 "file" => $clave,
+                "images" => $this->kml_create->getStyleIcons(),
                 "correcto" => $correcto
             )
         );

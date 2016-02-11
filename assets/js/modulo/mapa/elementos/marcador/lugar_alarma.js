@@ -43,7 +43,7 @@ var MapaMarcadorLugarAlarma = Class({ extends : MapaMarcador}, {
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_lugar_alarma", 
+            url: siteUrl + "mapa/ajax_posicion_lugar_emergencia", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){

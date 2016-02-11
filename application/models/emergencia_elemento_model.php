@@ -23,6 +23,25 @@ class Emergencia_Elemento_Model extends MY_Model
     
     /**
      * 
+     * @param int $id_emergencia
+     * @return array
+     */
+    public function getPrimerLugarEmergencia($id_emergencia){
+        $result = $this->_queryPorEmergencia($id_emergencia)
+                       ->select("*")
+                       ->whereAND("tipo", "PUNTO LUGAR EMERGENCIA")
+                       ->orderBy("id", "ASC")
+                       ->limit(1)
+                       ->getOneResult();
+        if (!is_null($result)){
+            return $result; 
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * 
      * @param array $data
      * @return int
      */
