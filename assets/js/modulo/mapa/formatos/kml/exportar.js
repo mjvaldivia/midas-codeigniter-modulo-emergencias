@@ -1,5 +1,33 @@
 var MapaKmlExportar = Class({
    
+   
+   makeMapa : function(){
+       var kml = "";
+        var iconos = "";
+        
+        var elemento_kml = new MapaKmlExportarElemento();
+        var marcador     = new MapaKmlExportarMarcador();
+        
+       
+        $.each(lista_poligonos, function(i, elemento){
+            elemento_kml.addElemento(elemento);
+        });
+        
+
+        $.each(lista_markers, function(i, marker){
+            marcador.addMarcador(marker);
+        });
+        
+        if(elemento_kml.exportar(marcador.retornaMarcadores())){
+            kml = elemento_kml.retornaHash();
+            iconos = elemento_kml.retornaIconos();
+        }
+
+        if(kml != ""){
+            this.generaKmz(kml, iconos);
+        }
+   },
+   
     /**
      * Crea kmz de un elemento
      * @param {type} tipo

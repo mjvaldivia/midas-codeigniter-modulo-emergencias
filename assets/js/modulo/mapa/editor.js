@@ -266,6 +266,11 @@ var MapaEditor = Class({
                 sidco.remove();
             }
         });
+        
+        $("#btn-exportar-kml").click(function(){
+           var exportar = new MapaKmlExportar();
+           exportar.makeMapa();
+        });
 
     },
     
