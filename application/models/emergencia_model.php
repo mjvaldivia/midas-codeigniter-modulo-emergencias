@@ -669,6 +669,9 @@ class Emergencia_Model extends MY_Model {
         if(!empty($parametros["year"])){
             $query->whereAND("year(e.eme_d_fecha_recepcion)", $parametros["year"], "=");
         }
+        if($parametros['nivel'] != 0){
+            $query->whereAND("e.eme_nivel", $parametros["nivel"], "=");
+        }
 
         $this->_addQueryComunas($query);
 
