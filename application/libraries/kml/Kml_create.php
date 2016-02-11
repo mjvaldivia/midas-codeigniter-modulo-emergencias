@@ -63,6 +63,9 @@ Class Kml_create{
         
         $folder = $this->_kml->Document;
         
+        //se crea el PATH absoluto desde la URL
+        $icono = str_replace(base_url(), FCPATH, $icono);
+        
         $ya_existe = array_search($icono, $this->_style_icons);
         if($ya_existe === false){
             $id_style = $this->_ci->string->rand_string(25);
@@ -74,7 +77,10 @@ Class Kml_create{
             $name = $id_style.".".$this->_imgExt($icono);
             $path = "icons/" . $name;
             $icon->addChild("href", $path);
+            
+            
             fb($icono);
+            
             $cache->save(array("name" => $name,
                                "file" => file_get_contents($icono)), $id_style);
             
