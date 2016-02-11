@@ -53,9 +53,9 @@ var MapaKml = Class({
                    Messenger().run({
                        action: $.ajax,
                        showCloseButton: true,
-                       successMessage: 'Archivos KML cargados correctamente',
-                       errorMessage: 'Ha ocurrido un error al guardar la configuración',
-                       progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando archivos kml asociados a la emergencia...'
+                       successMessage: '<strong> KML </strong> <br> Ok',
+                       errorMessage: '<strong> KML </strong> <br> Se produjo un error al cargar',
+                       progressMessage: '<strong> KML </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
                    }, {         
                        dataType: "json",
                        cache: false,

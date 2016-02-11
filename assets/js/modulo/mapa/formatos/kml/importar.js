@@ -39,7 +39,7 @@ var MapaKmlImportar = Class({
        
         lista_kml.push(kmzLayer);
         
-        notificacionCorrecto("", "El archivo kml ha sido cargado correctamente");
+        notificacionCorrecto("KML", "Archivo " + nombre + " cargado");
     },
     
     /**
