@@ -131,9 +131,9 @@ var MapaCapa = Class({
         var yo = this;
         Messenger().run({
             action: $.ajax,
-            successMessage: 'Capa cargada correctamente',
-            errorMessage: 'Error al cargar capa',
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capa...'
+            successMessage: '<strong> Agregando capa </strong> <br> Ok',
+            errorMessage: '<strong> Agregando capa </strong> <br> Se produjo un error al cargar',
+            progressMessage: '<strong> Agregando capa </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
         }, {
             dataType: "json",
             cache: false,
@@ -325,10 +325,10 @@ var MapaCapa = Class({
                 if(data.cantidad > 0){
                     Messenger().run({
                         action: $.ajax,
-                        successMessage: 'Capas cargadas correctamente',
-                        errorMessage: 'Error al cargar capas',
+                        successMessage: '<strong> Capas </strong> <br> Ok',
+                        errorMessage: '<strong> Capas </strong> <br> Se produjo un error al cargar',
                         showCloseButton: true,
-                        progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando capas del mapa...'
+                        progressMessage: '<strong> Capas </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
                     }, {        
                         dataType: "json",
                         cache: false,

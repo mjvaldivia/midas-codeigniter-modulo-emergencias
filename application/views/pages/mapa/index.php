@@ -19,7 +19,7 @@
                             <a href="#"><i class="fa fa-upload"></i> Exportar</a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a  id="btn-importar-kml" href="#"> <i class="fa fa-map"></i> Kmz </a>
+                                    <a  id="btn-exportar-kml" href="#"> <i class="fa fa-map"></i> Kmz </a>
                                 </li>
                             </ul>
                         </li>

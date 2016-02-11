@@ -1,10 +1,20 @@
 <div class="col-lg-12">
     <div class="row">
-        
+        <input type="hidden" name="elemento_tipo" id="elemento_tipo" value="<?php echo $tipo; ?>" />
+        <input type="hidden" name="elemento_identificador" id="elemento_identificador" value="<?php echo $identificador; ?>" />
+        <input type="hidden" name="elemento_clave" id="elemento_clave" value="<?php echo $clave; ?>" />
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-4">
-                    <h4><small><i class="fa fa-info-circle"></i> Información de la capa</small></h4>
+                    <h4>
+                        <div class="pull-left">
+                            <small><i class="fa fa-info-circle"></i> Información de la capa</small>
+                        </div>
+                        <div class="pull-right">
+                            <button id="exportar-elemento-kmz" class="btn btn-xs btn-primary"> <i class="fa fa-download"></i> Exportar a KMZ </button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </h4>
                     <div class="tile dark-blue">
                         <div class="row">
                             <div class="col-lg-4 text-right"><strong>TIPO:</strong></div>

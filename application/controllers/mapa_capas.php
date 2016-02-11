@@ -62,6 +62,8 @@ class Mapa_capas extends MY_Controller {
                               array("nombre_subcapa" => $nombre_subcapa,
                                     "tipo" => $params["tipo"],
                                     "color" => $params["color"],
+                                    "identificador" => $params["identificador"],
+                                    "clave" => $params["clave"],
                                     "nombre_capa"    => $nombre_capa,
                                     "nombre_tipo"   => $nombre_tipo,
                                     "informacion" => $informacion,

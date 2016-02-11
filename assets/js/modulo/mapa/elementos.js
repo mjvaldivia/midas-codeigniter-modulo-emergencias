@@ -203,7 +203,7 @@ var MapaElementos = Class({
     loadCustomElements : function(mapa, mensaje_carga){
         
         this.mapa = mapa;
-        this.loadConfiguracion();
+        this.loadConfiguracion(mensaje_carga);
         
         var yo = this;
         
@@ -283,9 +283,9 @@ var MapaElementos = Class({
                         Messenger().run({
                             action: $.ajax,
                             showCloseButton: true,
-                            successMessage: 'Elementos cargados correctamente',
-                            errorMessage: 'Error al cargar elementos',
-                            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando elementos del mapa...'
+                            successMessage: '<strong> Elementos </strong> <br> Ok',
+                            errorMessage: '<strong> Elementos </strong> <br> Se produjo un error al cargar',
+                            progressMessage: '<strong> Elementos </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
                         },
                         ajax
                         );
@@ -307,7 +307,7 @@ var MapaElementos = Class({
      * 
      * @returns {undefined}
      */
-    loadConfiguracion : function(){
+    loadConfiguracion : function(mensaje_carga){
         var yo = this;
         $.ajax({         
             dataType: "json",
@@ -322,7 +322,7 @@ var MapaElementos = Class({
                    if(data.resultado.sidco == 1){
                         var sidco = new MapaKmlSidcoConaf();
                         sidco.seteaMapa(yo.mapa);
-                        sidco.loadKml();
+                        sidco.loadKml(mensaje_carga);
                         $("#importar_sidco").prop("checked", true);
                    } else {
                        $("#importar_sidco").prop("checked", false);

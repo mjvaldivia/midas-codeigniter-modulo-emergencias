@@ -216,9 +216,9 @@ var MapaEditor = Class({
         Messenger().run({
             action: $.ajax,
             showCloseButton: true,
-            successMessage: 'Mapa guardado correctamente',
-            errorMessage: 'Ha ocurrido un error al guardar la configuración',
-            progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Guardando configuración de mapa...'
+            successMessage: '<strong> Guardar <strong> <br> Ok',
+            errorMessage: '<strong> Guardar <strong> <br> Se produjo un error al guardar',
+            progressMessage: '<strong> Guardar <strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Procesando...'
         }, {         
             dataType: "json",
             cache: false,
@@ -233,9 +233,8 @@ var MapaEditor = Class({
                 if(data.correcto){
                     var elemento_custom = new MapaElementos();
                     elemento_custom.emergencia(yo.id_emergencia);
-                    
                     elemento_custom.removeCustomElements();
-                    elemento_custom.loadCustomElements(yo.mapa);
+                    elemento_custom.loadCustomElements(yo.mapa, false);
                     
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
@@ -309,87 +308,7 @@ var MapaEditor = Class({
         
         $("#btn-capas-gestionar").click(function(){
             yo.popupCapasComuna(); 
-        });
-        
-        /*
-        var divOptions = {
-        		gmap: map,
-        		name: '<i class="fa fa-eye"></i> &nbsp;Gestionar capas',
-        		title: "",
-        		id: "capas_comuna",
-        		action: function(){
-        			yo.popupCapasComuna(); 
-        		}
-        }
-        var optionDiv1 = new optionDiv(divOptions);
-        
-        var divOptions2 = {
-        		gmap: map,
-        		label: 'Provincia',
-        		title: "Capas pertenecientes a provincias",
-        		id: "capas_provincias",
-        		action: function(){
-                            var capa_provincia = new MapaCapaProvincia();
-                            capa_provincia.emergencia(yo.id_emergencia);
-                            if($("#capas_provincias").css("display") == "none"){
-                                capa_provincia.removeCapa();
-                            } else {
-        			capa_provincia.addCapa(map);
-                            }
-        		}
-        }
-       
-        var optionDiv2 = new checkBox(divOptions2);
-        
-        var divOptions3 = {
-        		gmap: map,
-        		label: 'Region',
-        		title: "Capas pertenecientes a provincias",
-        		id: "capas_regiones",
-        		action: function(){
-                            var capa_region = new MapaCapaRegion();
-                            capa_region.emergencia(yo.id_emergencia);
-                            if($("#capas_regiones").css("display") == "none"){
-                                capa_region.removeCapa();
-                            } else {
-        			capa_region.addCapa(map);
-                            }
-        		}
-        }
-       
-        var optionDiv3 = new checkBox(divOptions3);
-        
-        
-        
-        //create the input box items
-        
-        //possibly add a separator between controls    
-        var sep0 = new separator();
-        var sep1 = new separator();
-        var sep2 = new separator();
-        
-        
-        //put them all together to create the drop down       
-        var ddDivOptions = {
-        	items: [sep0, optionDiv1, sep1, optionDiv2, sep2, optionDiv3],
-                //items: [sep0, optionDiv1, sep3, optionDiv4],
-        	id: "myddOptsDiv"        		
-        }
-        //alert(ddDivOptions.items[1]);
-        var dropDownDiv = new dropDownOptionsDiv(ddDivOptions);               
-                
-        var dropDownOptions = {
-        		gmap: map,
-        		name: '<i class=\"fa fa-clone\"></i> Capas',
-        		id: 'ddControl',
-        		title: 'Seleccion de capas',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
-        		dropDown: dropDownDiv 
-        }
-        
-        var dropDown1 = new dropDownControl(dropDownOptions);   
-        
-        */
+        });  
     },
     
     /**

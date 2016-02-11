@@ -299,7 +299,7 @@ function notificacionSimulacion(){
 function notificacionCorrecto(titulo, texto){
 
     Messenger().post({
-        message: titulo + " " + texto,
+        message:"<strong>" + titulo + "</strong> <br> " + texto,
         type: 'success',
         showCloseButton: true
     });
