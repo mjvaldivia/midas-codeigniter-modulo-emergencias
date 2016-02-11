@@ -25,7 +25,7 @@ var GoogleMapsRuler = Class({
         var customControlDiv = document.createElement('div');
         var customControl = new rulerControl(customControlDiv, this.mapa);
         customControlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
+        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(customControlDiv);
     },
     
     /**
@@ -188,7 +188,7 @@ function rulerControl(controlDiv, map){
     controlUI.style.borderWidth = '1px';
     controlUI.style.borderColor = '#ccc';
     controlUI.style.height = '26px';
-    controlUI.style.marginTop = '4px';
+    controlUI.style.marginBottom = '4px';
     controlUI.style.marginLeft = '-6px';
     controlUI.style.paddingTop = '1px';
     controlUI.style.cursor = 'pointer';

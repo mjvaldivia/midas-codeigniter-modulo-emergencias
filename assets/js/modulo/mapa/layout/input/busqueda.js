@@ -15,7 +15,7 @@ var MapaLayoutInputBusqueda = Class({
      */
     html : function(){
       $("body").append("<div class=\"row hidden\">"
-                     + "<div id=\"" + this.div + "\" class=\"input-group\" style=\"width:600px;padding-right:50px\">"
+                     + "<div id=\"" + this.div + "\" class=\"input-group\" style=\"width:40%;padding-right:50px\">"
                      + "<span class=\"input-group-addon\"><i class=\"fa fa-search\"></i></span>"
                      + "<input id=\"" + this.div + "-input\" class=\"form-control\" type=\"text\" placeholder=\"Buscar dirección\">"
                      + "</div>"

@@ -60,7 +60,7 @@ var MapaEditor = Class({
             drawingMode: null,
             drawingControl: true,
             drawingControlOptions: {
-              position: google.maps.ControlPosition.TOP_CENTER,
+              position: google.maps.ControlPosition.BOTTOM_CENTER,
               drawingModes: [
                 google.maps.drawing.OverlayType.MARKER,
                 google.maps.drawing.OverlayType.CIRCLE,

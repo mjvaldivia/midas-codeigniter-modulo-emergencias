@@ -213,12 +213,18 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
         
-        $this->load->view("pages/mapa/popup-elemento-edicion", 
-                          array("tipo" => $params["tipo"],
-                                "color" => $params["color"],
-                                "informacion" => $informacion,
-                                "lista_formas" => json_decode($params["formas"]),
-                                "lista_marcadores"  => json_decode($params["marcadores"])));
+        $this->load->view(
+            "pages/mapa/popup-elemento-edicion", 
+            array(
+                "tipo" => $params["tipo"],
+                "color" => $params["color"],
+                "informacion" => $informacion,
+                "identificador" => $params["identificador"],
+                "clave" => $params["clave"],
+                "lista_formas" => json_decode($params["formas"]),
+                "lista_marcadores"  => json_decode($params["marcadores"])
+            )
+        );
         
     }
     
@@ -231,14 +237,18 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
         
-        $this->load->view("pages/mapa/popup-lugar-emergencia-edicion", 
-                          array("tipo" => $params["tipo"],
-                                "color" => $params["color"],
-                                "informacion" => $informacion,
-                                "identificador" => $params["identificador"],
-                                "clave" => $params["clave"],
-                                "lista_formas" => json_decode($params["formas"]),
-                                "lista_marcadores"  => json_decode($params["marcadores"])));
+        $this->load->view(
+            "pages/mapa/popup-lugar-emergencia-edicion", 
+            array(
+                "tipo" => $params["tipo"],
+                "color" => $params["color"],
+                "informacion" => $informacion,
+                "identificador" => $params["identificador"],
+                "clave" => $params["clave"],
+                "lista_formas" => json_decode($params["formas"]),
+                "lista_marcadores"  => json_decode($params["marcadores"])
+                )
+        );
         
     }
     

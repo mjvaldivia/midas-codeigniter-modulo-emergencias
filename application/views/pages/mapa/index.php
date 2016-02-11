@@ -7,19 +7,24 @@
         <div class="row">
             <div class="collapse navbar-collapse hidden" id="menu-derecho">
                 <ul class="nav navbar-nav navbar-right">
+                
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-clone"></i> Capas <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
-                        <li><a id="btn-capas-gestionar" href="#"><i class="fa fa-gears"></i> Gestionar capas</a></li>
+                        <li>
+                            <a id="btn-guardar" href="#"><i class="fa fa-save"></i> Guardar</a>
+                        </li>
                         <li class="divider"></li>
-                        <?php echo visorMenuCapasCategoria($id); ?>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-download"></i> Importar <b class="caret"></b></a>
-                    <ul class="dropdown-menu multi-level">
                         <li class="dropdown-submenu">
-                            <a href="#"><i class="fa fa-upload"></i> Subir archivo</a>
+                            <a href="#"><i class="fa fa-upload"></i> Exportar</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a  id="btn-importar-kml" href="#"> <i class="fa fa-map"></i> Kmz </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="#"><i class="fa fa-download"></i> Importar</a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a  id="btn-importar-kml" href="#"> <i class="fa fa-map"></i> Kml/Kmz </a>
@@ -29,6 +34,28 @@
                                 </li>
                             </ul>
                         </li>
+                        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-edit"></i> Editar <b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">
+                        <li><a id="btn-ubicacion-emergencia" href="#"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
+                        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-eye"></i> Ver <b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">
+                        <li class="dropdown-submenu">
+                            <a href="#"><i class="fa fa-object-group"></i> Capas</a>
+                            <ul class="dropdown-menu">
+                                <li><a id="btn-capas-gestionar" href="#"><i class="fa fa-gears"></i> Gestionar capas</a></li>
+                                <li class="divider"></li>
+                                <?php echo visorMenuCapasCategoria($id); ?>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="#"><i class="fa fa-cloud-download"></i> Datos externos</a>
                             <ul class="dropdown-menu">
@@ -38,11 +65,6 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
-
-                <li><a id="btn-ubicacion-emergencia" href="#"><i class="fa fa-bullhorn"></i> Ubicación emergencia</a></li>
-                <li class="btn-success" >
-                    <a id="btn-guardar" style="color: #FFF" href="#"><i class="fa fa-save"></i> Guardar</a>
                 </li>
                 </ul>
              </div><!-- /.navbar-collapse -->
