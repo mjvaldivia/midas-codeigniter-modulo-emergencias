@@ -21,16 +21,6 @@
  *
  */
 
-set_include_path(
-        '.' . PATH_SEPARATOR . realpath(dirname(__FILE__)).'/application/third_party'
-        .PATH_SEPARATOR . get_include_path()
-        );
-
-require 'Zend/Loader/Autoloader.php';
-$autoloader = Zend_Loader_Autoloader::getInstance();
-
-define('CACHE_FRONTEND_OPTIONS', serialize(array('automatic_cleaning_factor' => 0)));
-
 /**
  * ENVIROMENT:
  * Define el ambiente de ejecucion, estos pueden ser
@@ -41,6 +31,19 @@ define('CACHE_FRONTEND_OPTIONS', serialize(array('automatic_cleaning_factor' => 
  */
 defined('ENVIRONMENT')
     || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'development'));
+
+
+set_include_path(
+        '.' . PATH_SEPARATOR . realpath(dirname(__FILE__)).'/application/third_party'
+        .PATH_SEPARATOR . get_include_path()
+        );
+
+require 'Zend/Loader/Autoloader.php';
+$autoloader = Zend_Loader_Autoloader::getInstance();
+
+define('CACHE_FRONTEND_OPTIONS', serialize(array('automatic_cleaning_factor' => 0)));
+
+
 
 /*
  *---------------------------------------------------------------

@@ -402,8 +402,7 @@ class Mapa extends MY_Controller {
      * @throws Exception
      */
     public function ajax_posicion_lugar_emergencia(){
-        ini_set('error_reporting', E_ALL);
-    ini_set('display_errors', 1);
+
         header('Content-type: application/json');
         $data = array("correcto" => false);
         
@@ -413,9 +412,9 @@ class Mapa extends MY_Controller {
             
             $lugar_emergencia = $this->_emergencia_elementos_model->getPrimerLugarEmergencia($emergencia->eme_ia_id);
             if(!is_null($lugar_emergencia)){
-                fb($lugar_emergencia);
-                $coordenadas = Zend_json::decode($lugar_emergencia->coordenadas);
-                fb($coordenadas);
+                
+                $coordenadas = Zend_Json::decode($lugar_emergencia->coordenadas);
+  
                 $data = array(
                     "correcto"  => true,
                     "resultado" => array(
