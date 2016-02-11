@@ -402,7 +402,8 @@ class Mapa extends MY_Controller {
      * @throws Exception
      */
     public function ajax_posicion_lugar_emergencia(){
-        ini_set('error_reporting', E_ALL ^ E_WARNING);
+        ini_set('error_reporting', E_ALL);
+    ini_set('display_errors', 1);
         header('Content-type: application/json');
         $data = array("correcto" => false);
         
