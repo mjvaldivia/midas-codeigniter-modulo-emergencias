@@ -32,9 +32,7 @@
                     </div>
                 </div>
             </div>
-
             <?php echo visorElementosTotales($capa["marcadores"]); ?>
-
         </div>
         <?php echo $active = ""; ?>
         <?php } ?>

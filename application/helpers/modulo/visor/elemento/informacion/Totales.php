@@ -61,7 +61,7 @@ Class Visor_Elemento_Informacion_Totales{
                         $totales[$key] = 0;
                     }
                     
-                    $totales[$key] += $valor;
+                    $totales[$key] += (int) $valor;
                 }
                 
             }

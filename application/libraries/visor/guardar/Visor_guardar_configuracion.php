@@ -1,12 +1,24 @@
 <?php
 
-Class Visor_guardar_sidco{
+Class Visor_guardar_configuracion{
     
     /**
      *
      * @var int 
      */
     protected $_id_emergencia;
+    
+    /**
+     *
+     * @var boolean 
+     */
+    protected $_bo_sidco_conaf;
+    
+    /**
+     *
+     * @var string 
+     */
+    protected $_tipo_mapa;
     
     /**
      *
@@ -42,11 +54,29 @@ Class Visor_guardar_sidco{
     
     /**
      * 
-     * @param array $lista_kml
+     * @param string $string
      */
-    public function guardar($bo_sidco){
+    public function setTipoMapa($string){
+        $this->_tipo_mapa = $string;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param boolean $boolean
+     */
+    public function setSidcoConaf($boolean){
+        $this->_bo_sidco_conaf = $boolean;
+        return $this;
+    }
+    
+    /**
+     * 
+     */
+    public function guardar(){
         $data = array("id_emergencia" => $this->_id_emergencia,
-                      "kml_sidco"     => $bo_sidco);
+                      "tipo_mapa" => $this->_tipo_mapa,
+                      "kml_sidco"     => $this->_bo_sidco_conaf);
         
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($this->_id_emergencia);
         if(is_null($configuracion)){

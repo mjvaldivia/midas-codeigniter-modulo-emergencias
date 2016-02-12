@@ -204,11 +204,12 @@ var MapaEditor = Class({
      * @returns {void}
      */
     guardar : function(){
-        
+        console.log(this.mapa);
         var custom = new MapaElementos();
         
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
+                          "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),
                           "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
                           "kmls" : this.class_kml.listKml(),

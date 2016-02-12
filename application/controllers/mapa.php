@@ -133,7 +133,7 @@ class Mapa extends MY_Controller {
             array(
                   "visor/guardar/visor_guardar_elemento",
                   "visor/guardar/visor_guardar_kml",
-                  "visor/guardar/visor_guardar_sidco" 
+                  "visor/guardar/visor_guardar_configuracion" 
                  )
         );
         
@@ -171,8 +171,11 @@ class Mapa extends MY_Controller {
             $this->visor_guardar_kml->setEmergencia($emergencia->eme_ia_id)
                                     ->guardar($kml);
             
-            $this->visor_guardar_sidco->setEmergencia($emergencia->eme_ia_id)
-                                      ->guardar($params["sidco"]);
+            $this->visor_guardar_configuracion
+                 ->setEmergencia($emergencia->eme_ia_id)
+                 ->setSidcoConaf($params["sidco"])
+                 ->setTipoMapa($params["tipo_mapa"])
+                 ->guardar();
             
             
             $data = array("correcto" => true,
@@ -324,7 +327,8 @@ class Mapa extends MY_Controller {
 
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
         if(!is_null($configuracion)){
-            $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco);
+            $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco,
+                                            "tipo_mapa" => $configuracion->tipo_mapa);
         }
         
         echo json_encode($resultado);

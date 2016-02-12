@@ -319,6 +319,7 @@ var MapaElementos = Class({
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                if(data.correcto){
+                   
                    if(data.resultado.sidco == 1){
                         var sidco = new MapaKmlSidcoConaf();
                         sidco.seteaMapa(yo.mapa);
@@ -326,6 +327,10 @@ var MapaElementos = Class({
                         $("#importar_sidco").prop("checked", true);
                    } else {
                        $("#importar_sidco").prop("checked", false);
+                   }
+                   
+                   if(data.resultado.tipo_mapa != ""){
+                       yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
                    }
                }
             }

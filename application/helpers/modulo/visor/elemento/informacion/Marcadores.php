@@ -87,10 +87,9 @@ Class Visor_Elemento_Informacion_Marcadores{
                     true);
             
             return $html;
-               
         } else {
             return $this->_ci->load->view(
-                "pages/mapa/popup-informacion/no-existen-instalaciones", 
+                "pages/mapa/popup-informacion/no-existen-items", 
                 array(), 
                 true
             );
