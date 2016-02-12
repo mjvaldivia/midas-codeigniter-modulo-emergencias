@@ -18,23 +18,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                        <?php $suma = array(); ?>
                         <?php foreach($capa["marcadores"] as $marcador) { ?>
                             <tr>
                                 <?php foreach($columnas->informacion as $key => $void){ ?>
-                                
-                                
+
                                 <td><?php echo $marcador->informacion->$key ?></td>
-                                
-                                <?php if($key == "VIVIENDAS"){
-                                    
-                                    if(!isset($suma["VIVIENDAS"])){
-                                        $suma["VIVIENDAS"] = 0;
-                                    }
-                                    
-                                    $suma["VIVIENDAS"] += (int) $marcador->informacion->$key;
-                                } ?>
-                                
+
                                 <?php } ?>
                             </tr>
                         <?php } ?>
@@ -43,25 +32,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                
-                    <?php 
-                    if(count($suma)>0){
-                    ?>
-                    <div class="col-xs-6"></div>
-                    <div class="col-xs-6">
-                        <legend><small> TOTALES </small></legend>
-                        <?php foreach($suma as $tipo => $valor) { ?>
-                        <div class="tile gray">
-                            <div class="col-xs-6 text-right"><strong><?php echo $tipo; ?>:</strong></div> <div class="col-xs-6"><?php echo $valor; ?></div>
-                        </div>
-                        <?php } ?>
-                    </div>
-                    <?php
-                    }
-                    ?>
-                
-            </div>
+
+            <?php echo visorElementosTotales($capa["marcadores"]); ?>
+
         </div>
         <?php echo $active = ""; ?>
         <?php } ?>
@@ -95,6 +68,7 @@
                     </div>
                 </div>
             </div>
+            <?php echo visorElementosTotales($lista_otros); ?>
         </div>
         <?php } ?>
     </div>

@@ -9,6 +9,7 @@ require_once(__DIR__ . "/elemento/Editar.php");
 require_once(__DIR__ . "/elemento/editar/LugarEmergencia.php");
 require_once(__DIR__ . "/elemento/informacion/Marcadores.php");
 require_once(__DIR__ . "/elemento/informacion/Formas.php");
+require_once(__DIR__ . "/elemento/informacion/Totales.php");
 require_once(__DIR__ . "/capa/Comuna.php");
 
 /**
@@ -137,6 +138,16 @@ function visorElementoInstalaciones($lista){
  */
 function visorElementoFormas($lista){
     $html = New Visor_Elemento_Informacion_Formas($lista);
+    return $html->render();
+}
+
+/**
+ * 
+ * @param array $lista
+ * @return string hmtl
+ */
+function visorElementosTotales($lista){
+    $html = New Visor_Elemento_Informacion_Totales($lista);
     return $html->render();
 }
 
