@@ -328,7 +328,7 @@ var MapaElementos = Class({
                        $("#importar_sidco").prop("checked", false);
                    }
                    
-                   if(data.resultado.tipo_mapa != ""){
+                   if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
                        yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
                    }
                }
