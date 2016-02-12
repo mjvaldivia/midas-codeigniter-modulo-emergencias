@@ -40,7 +40,7 @@ var MapaEditor = Class({
     __construct : function() {
         this.class_marcador = new MapaMarcador();
         this.class_poligono = new MapaPoligono();
-        this.class_kml = new MapaKml();
+        this.class_kml = new MapaArchivos();
     },
     
     /**
@@ -212,7 +212,7 @@ var MapaEditor = Class({
                           "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),
                           "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
-                          "kmls" : this.class_kml.listKml(),
+                          "kmls" : this.class_kml.listArchivosKml(),
                           "id" : this.id_emergencia};
         Messenger().run({
             action: $.ajax,

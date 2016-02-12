@@ -109,6 +109,8 @@ var MapaKmlImportar = Class({
                     if(data.response.correcto){
                         bootbox.hideAll();
                         yo.cargarKmlTemporal(data.response.hash, data.response.tipo, data.response.nombre);
+                        var archivos = new MapaArchivos();
+                        archivos.updateListaArchivosAgregados();
                     } else {
                         procesaErrores(data.response.errores);
 

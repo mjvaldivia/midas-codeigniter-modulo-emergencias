@@ -87,12 +87,12 @@
                         </ul>
                         <a href="#" class="menu-item-text">Elementos <span id="cantidad_elementos_agregados" class="badge">0</span></a> 
                     </div>
-                    <!--<div class="top-menu-main">
-                        <ul class="demo-menu">
+                    <div class="top-menu-main">
+                        <ul id="lista_importados_agregados" class="demo-menu">
 
                         </ul>
-                        <a href="#" class="menu-item-text">Archivos importados <span class="badge">0</span></a> 
-                    </div>-->
+                        <a href="#" class="menu-item-text">Importados <span id="cantidad_elementos_importados" class="badge">0</span></a> 
+                    </div>
                 </div>
             </div>
         </div>

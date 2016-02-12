@@ -1,6 +1,6 @@
 var lista_kml = [];
 
-var MapaKml = Class({
+var MapaArchivos = Class({
     
     mapa : null,
     id_emergencia : null,
@@ -14,11 +14,45 @@ var MapaKml = Class({
         this.id_emergencia = id;
     },
     
+    updateListaArchivosAgregados : function(){
+        var kml = this.listArchivosKml();
+                
+        var html = "";
+        var cantidad = 0;
+       
+        var lista = kml;
+       
+        $.each(lista, function(i, json){
+           
+                 
+           html += "<li data=\"" + json.id + "\" class=\"\">\n"
+                 + "<div class=\"row\"><div class=\"col-xs-2\"></div><div class=\"col-xs-10\"> " + json.nombre + "</div>"
+                 + "</div>\n"
+                 + "</li>";
+           
+           
+           cantidad++;
+        });
+        
+        
+        $("#cantidad_elementos_importados").html(cantidad);
+ 
+        if(cantidad > 0){
+            $("#cantidad_elementos_importados").addClass("alert-success");
+        } else {
+            $("#cantidad_elementos_importados").removeClass("alert-success");
+        }
+
+        $("#lista_importados_agregados").html(html);
+        
+        
+    },
+    
      /**
      * Retorna lista de elementos personalizados
      * @returns {String}
      */
-    listKml : function(){
+    listArchivosKml : function(){
         var lista = {};
         $.each(lista_kml, function(i, kml){
             lista[i] = {"id" : kml.id,
@@ -35,7 +69,7 @@ var MapaKml = Class({
      * @param {googleMaps} mapa
      * @returns {void}
      */
-    loadKml : function(mapa){
+    loadArchivos : function(mapa){
         var yo = this;
 
         $.ajax({         
@@ -69,19 +103,24 @@ var MapaKml = Class({
                        success:function(data){
                            if(data.correcto){
                                $.each(data.resultado.elemento, function(id, elemento){
-                                   var kmzLayer = new google.maps.KmlLayer( siteUrl + "mapa_kml/kml/id/" + elemento.id + "/file." + elemento.tipo,{
-                                       suppressInfoWindows: false,
-                                       preserveViewport: true
-                                   });
-                                   kmzLayer.setMap(mapa);
-                                   kmzLayer.id = elemento.id;
-                                   kmzLayer.nombre = elemento.nombre;
-                                   lista_kml.push(kmzLayer);
+                                   if(elemento.tipo == "kmz" || elemento.tipo == "kml"){
+                                        var kmzLayer = new google.maps.KmlLayer( siteUrl + "mapa_kml/kml/id/" + elemento.id + "/file." + elemento.tipo,{
+                                            suppressInfoWindows: false,
+                                            preserveViewport: true
+                                        });
+                                        kmzLayer.setMap(mapa);
+                                        kmzLayer.id = elemento.id;
+                                        kmzLayer.nombre = elemento.nombre;
+
+                                        lista_kml.push(kmzLayer);
+                                    }
                                });
                            }
                        }
                    });
                }
+               
+               yo.updateListaArchivosAgregados();
            }
        });
         

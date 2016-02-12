@@ -172,8 +172,7 @@ var MapaElementos = Class({
                    preview = "<img style=\"height:20px\" src=\"" + data.icono + "\" >";
                    break;
            }
-           
-                    
+                 
            html += "<li data=\"" + data.id + "\" class=\"\">\n"
                  + "<div class=\"row\"><div class=\"col-xs-2\">" + preview + "</div><div class=\"col-xs-10\"> " + data.tipo + "</div>"
                  + "</div>\n"

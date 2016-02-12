@@ -54,7 +54,7 @@
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar/marcador.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar/elemento.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/formatos/kml.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/formatos/archivos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
 <!-- Externos -->
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/sidco-conaf.js"); ?>
