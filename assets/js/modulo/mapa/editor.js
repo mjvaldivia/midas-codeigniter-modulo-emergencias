@@ -272,6 +272,24 @@ var MapaEditor = Class({
            var exportar = new MapaKmlExportar();
            exportar.makeMapa();
         });
+        
+        $(".btn-quitar-archivo").livequery(function(){
+            $(this).click(function(){
+                var id = $(this).attr("date-rel");
+                
+                lista_kml = jQuery.grep(lista_kml, function( a ) {
+                    if(a["id"] == id){
+                        a.setMap(null);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+                
+                var archivo = new MapaArchivos();
+                archivo.updateListaArchivosAgregados();
+            });
+        });
 
     },
     

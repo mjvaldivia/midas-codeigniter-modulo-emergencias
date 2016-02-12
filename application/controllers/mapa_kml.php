@@ -60,8 +60,9 @@ class Mapa_kml extends MY_Controller {
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array(
                         "id" => $elemento["id"],
-                        "tipo" => $elemento["tipo"],
-                        "nombre" => $elemento["nombre"]
+                        "tipo" => strtoupper($elemento["tipo"]),
+                        "nombre" => strtoupper($elemento["nombre"]),
+                        "archivo" => $elemento["archivo"]
                     );
                     
                 }
@@ -124,9 +125,6 @@ class Mapa_kml extends MY_Controller {
      * Sube KML a archivo temporal
      */
     public function upload_kml(){
-        
-
-        
         header('Content-type: application/json');
         
         $this->load->library(array(
@@ -144,7 +142,6 @@ class Mapa_kml extends MY_Controller {
             $error["nombre"] = "Debe ingresar un nombre";
         }
         
-        
         $retorno_archivo = $this->visor_upload_temp_kml->upload(); 
         if(!$retorno_archivo["correcto"]){
             $correcto = false;
@@ -152,7 +149,8 @@ class Mapa_kml extends MY_Controller {
         }  
         
         $retorno = array("correcto" => $correcto,
-                         "nombre" => $params["nombre"],
+                         "nombre" => strtoupper($params["nombre"]),
+                         "archivo" => $retorno_archivo["archivo_nombre"],
                          "tipo" => $retorno_archivo["tipo"],
                          "hash" => $retorno_archivo["hash"],
                          "errores" => $error);
@@ -178,7 +176,6 @@ class Mapa_kml extends MY_Controller {
         
         $file_paths = array();
         $cache = Cache::iniciar();
-        
         
         $hash = $params["kml"];
         

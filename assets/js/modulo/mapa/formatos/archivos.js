@@ -22,15 +22,29 @@ var MapaArchivos = Class({
        
         var lista = kml;
        
+
+       
         $.each(lista, function(i, json){
-           
-                 
-           html += "<li data=\"" + json.id + "\" class=\"\">\n"
-                 + "<div class=\"row\"><div class=\"col-xs-2\">(KML/KMZ)</div><div class=\"col-xs-10\">  " + json.nombre + "</div>"
-                 + "</div>\n"
+            
+           if(i == 0){
+               html += "<li data=\"" + json.id + "\" class=\"\">\n"
+                 + "<div class=\"row\">"
+                 + "<div class=\"col-xs-3 badge alert-info\">Tipo archivo</div>\n"
+                 + "<div class=\"col-xs-4 badge alert-info\">Descripción</div>"
+                 + "<div class=\"col-xs-4 badge alert-info\">Nombre</div>"
+                 + "<div class=\"col-xs-1 badge alert-info\"></div>"
+                 + "</div>"
                  + "</li>";
-           
-           
+           } 
+            
+           html += "<li data=\"" + json.id + "\" class=\"\">\n"
+                 + "<div class=\"row\">"
+                 + "<div class=\"col-xs-3\">(" + json.tipo + ")</div>\n"
+                 + "<div class=\"col-xs-4\"> " + json.nombre + "</div>"
+                 + "<div class=\"col-xs-4\"> " + json.archivo + "</div>"
+                 + "<div class=\"col-xs-1\"><button date-rel=\"" + json.id + "\" title=\"Quitar archivo\" class=\"btn btn-xs btn-danger btn-quitar-archivo\"> <i class=\"fa fa-remove\"></i></button></div>"
+                 + "</div>"
+                 + "</li>";
            cantidad++;
         });
         
@@ -58,6 +72,7 @@ var MapaArchivos = Class({
             lista[i] = {"id" : kml.id,
                         "hash" : kml.hash,
                         "tipo" : kml.tipo,
+                        "archivo" : kml.archivo,
                         "nombre" : kml.nombre,
                         "file" : kml.url};
         });
@@ -103,24 +118,26 @@ var MapaArchivos = Class({
                        success:function(data){
                            if(data.correcto){
                                $.each(data.resultado.elemento, function(id, elemento){
-                                   if(elemento.tipo == "kmz" || elemento.tipo == "kml"){
+                                   if(elemento.tipo == "KMZ" || elemento.tipo == "KML"){
                                         var kmzLayer = new google.maps.KmlLayer( siteUrl + "mapa_kml/kml/id/" + elemento.id + "/file." + elemento.tipo,{
                                             suppressInfoWindows: false,
                                             preserveViewport: true
                                         });
                                         kmzLayer.setMap(mapa);
                                         kmzLayer.id = elemento.id;
+                                        kmzLayer.archivo = elemento.archivo;
                                         kmzLayer.nombre = elemento.nombre;
-
+                                        kmzLayer.tipo = elemento.tipo;
                                         lista_kml.push(kmzLayer);
                                     }
                                });
+                               yo.updateListaArchivosAgregados();
                            }
                        }
                    });
                }
                
-               yo.updateListaArchivosAgregados();
+               
            }
        });
         

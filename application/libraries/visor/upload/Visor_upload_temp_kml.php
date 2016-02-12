@@ -119,6 +119,7 @@ Class Visor_upload_temp_kml{
                     $this->_hash);
         
         $retorno = array("correcto" => true,
+                         "archivo_nombre" => $this->_file_name,
                          "tipo" => $this->_file_ext,
                          "hash" => $this->_hash);
 

@@ -22,7 +22,20 @@ var MapaKmlImportar = Class({
 
     },
     
-    cargarKmlTemporal : function(hash, tipo, nombre){
+    /**
+     * 
+     * @param {type} hash
+     * @param {type} tipo
+     * @param {type} nombre
+     * @param {type} archivo
+     * @returns {undefined}
+     */
+    cargarKmlTemporal : function(
+        hash, 
+        tipo, 
+        nombre, 
+        archivo
+    ){
         var kmzLayer = new google.maps.KmlLayer( 
             siteUrl + 'mapa_kml/kml_temporal/hash/' + hash + "/file." + tipo,
             {
@@ -34,6 +47,7 @@ var MapaKmlImportar = Class({
         kmzLayer.setMap(this.mapa);
         kmzLayer.id = null;
         kmzLayer.tipo = tipo;
+        kmzLayer.archivo = archivo;
         kmzLayer.hash = hash;
         kmzLayer.nombre = nombre;
        
@@ -108,7 +122,12 @@ var MapaKmlImportar = Class({
                     
                     if(data.response.correcto){
                         bootbox.hideAll();
-                        yo.cargarKmlTemporal(data.response.hash, data.response.tipo, data.response.nombre);
+                        yo.cargarKmlTemporal(
+                            data.response.hash, 
+                            data.response.tipo, 
+                            data.response.nombre,
+                            data.response.archivo
+                        );
                         var archivos = new MapaArchivos();
                         archivos.updateListaArchivosAgregados();
                     } else {
