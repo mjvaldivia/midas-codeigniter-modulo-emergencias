@@ -568,7 +568,7 @@ class Emergencia extends MY_Controller {
                 fwrite($geojson,file_get_contents($tmp_name));
                 fclose($geojson);
 
-                $mapsharper = shell_exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_geojson.' -simplify dp 15% keep-shapes -o format=geojson '.$tmp_geojson);
+                $mapsharper = shell_exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_geojson.' -simplify 35% keep-shapes -o format=geojson '.$tmp_geojson);
 
                 unlink($nombre_geojson);
 
@@ -600,7 +600,7 @@ class Emergencia extends MY_Controller {
                 }
 
 
-                $mapsharper = shell_exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_capa.' -simplify dp 15% keep-shapes -o format=geojson '.$tmp_geojson);
+                $mapsharper = shell_exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_capa.' -simplify 35% keep-shapes -o format=geojson '.$tmp_geojson);
 
                 unlink($nombre_capa);
                 unlink($nombre_dbf);
