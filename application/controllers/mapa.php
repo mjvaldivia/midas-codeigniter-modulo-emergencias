@@ -322,7 +322,8 @@ class Mapa extends MY_Controller {
     public function ajax_mapa_configuracion(){
         header('Content-type: application/json');
         $resultado = array("correcto" => true,
-                           "resultado" => array("sidco" => 0));
+                           "resultado" => array("sidco" => 0,
+                                                "tipo_mapa" => ""));
         $params = $this->input->post(null, true);
 
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
