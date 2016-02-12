@@ -26,7 +26,7 @@ var MapaArchivos = Class({
            
                  
            html += "<li data=\"" + json.id + "\" class=\"\">\n"
-                 + "<div class=\"row\"><div class=\"col-xs-2\"></div><div class=\"col-xs-10\"> " + json.nombre + "</div>"
+                 + "<div class=\"row\"><div class=\"col-xs-2\">(KML/KMZ)</div><div class=\"col-xs-10\">  " + json.nombre + "</div>"
                  + "</div>\n"
                  + "</li>";
            
