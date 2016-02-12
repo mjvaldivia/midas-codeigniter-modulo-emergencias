@@ -245,6 +245,7 @@ class Mapa extends MY_Controller {
             array(
                 "tipo" => $params["tipo"],
                 "color" => $params["color"],
+                "metros" => $params["radio"],
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],

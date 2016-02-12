@@ -18,7 +18,7 @@
             <div class="row">
                 
                 <?php if(puedeVer("alarma")) { ?>
-                <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
@@ -58,12 +58,27 @@
                     <div class="circle-tile">
                         <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>">
                             <div class="circle-tile-heading blue">
-                                <i class="fa fa-globe fa-fw fa-3x"></i>
+                                <i class="fa fa-object-group fa-fw fa-3x"></i>
                             </div>
                         </a>
                         <div class="circle-tile-content blue">
                             <div class="circle-tile-description text-faded">
                                 Capas
+                            </div>
+                            <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="circle-tile">
+                        <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>">
+                            <div class="circle-tile-heading dark-blue">
+                                <i class="fa fa-globe fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content dark-blue">
+                            <div class="circle-tile-description text-faded">
+                                Visor
                             </div>
                             <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
@@ -93,11 +108,11 @@
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("/mantenedor_documentos/index") ?>">
-                            <div class="circle-tile-heading dark-blue">
+                            <div class="circle-tile-heading dark-gray">
                                 <i class="fa fa-book fa-fw fa-3x"></i>
                             </div>
                         </a>
-                        <div class="circle-tile-content dark-blue">
+                        <div class="circle-tile-content dark-gray">
                             <div class="circle-tile-description text-faded">
                                 Documentación
                             </div>
@@ -110,11 +125,11 @@
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("soportes/bandeja_usuario") ?>">
-                            <div class="circle-tile-heading dark-gray">
+                            <div class="circle-tile-heading gray">
                                 <i class="fa fa-question-circle fa-fw fa-3x"></i>
                             </div>
                         </a>
-                        <div class="circle-tile-content dark-gray">
+                        <div class="circle-tile-content gray">
                             <div class="circle-tile-description text-faded">
                                 Mesa de ayuda
                             </div>

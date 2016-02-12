@@ -20,14 +20,19 @@
             </div>
         </div>
         <div class="tile dark-blue">
-        <div class="row">
+        <div class="row" style="height: 40px">
             <div class="col-lg-3 text-right"><strong>ELEMENTO:</strong></div>
             <div class="col-lg-9 text-left"><?php echo $tipo; ?></div>
+        </div>
+        <div class="row" style="height: 40px">
+            <div class="col-lg-3 text-right"><strong>METROS:</strong></div>
+            <div class="col-lg-4 text-left"><input name="metros_editar" id="metros_editar" placeholder="Metros del radio" type='text' class="form-control required" value="<?php echo $metros; ?>"/></div>
         </div>
         <div class="row">
             <div class="col-lg-3 text-right"><strong>COLOR:</strong></div>
             <div class="col-lg-9 text-left"><input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="<?php echo $color; ?>"/></div>
         </div>
+        
         </div>
     </div>
     <div class="col-lg-6">

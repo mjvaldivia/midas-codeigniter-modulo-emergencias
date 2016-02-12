@@ -107,6 +107,11 @@ var MapaInformacionElementoEdicion = Class({
                                     elem.setOptions(
                                         {fillColor : $("#color_editar").val()}
                                     );
+                            
+                                    if(elem.tipo == "CIRCULO LUGAR EMERGENCIA"){
+                                        elem.setRadius(parseInt($("#metros_editar").val()));
+                                    }
+                            
                                     elem["informacion"] = informacion;
                                 }
                             }

@@ -83,7 +83,10 @@ var MapaInformacionElemento = Class({
             if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
                this.dialogoEdicion(elemento.clave, parametros); 
             } else {
-               this.dialogoLugarEmergencia(elemento.identificador, parametros); 
+                
+                parametros["radio"] = elemento.getRadius(); 
+                
+                this.dialogoLugarEmergencia(elemento.identificador, parametros); 
             }
         }  else { //es una capa
             if(elemento.capa != null){
