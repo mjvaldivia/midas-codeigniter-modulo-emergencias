@@ -9,7 +9,7 @@
     <div class="row top-spaced">
         <div class="col-lg-12">
             <div class="form-group clearfix ocultar-al-subir">
-                <label for="nombre" class="control-label">Nombre descriptivo (*):</label>
+                <label for="nombre" class="control-label">Descripción (*):</label>
                 <input value="" class="form-control" name="nombre" id="nombre">
                 <span class="help-block hidden"></span>
             </div>
