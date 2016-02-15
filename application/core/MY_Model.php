@@ -42,12 +42,12 @@ Class MY_Model extends CI_Model {
     }
     
     public function getDb(){
-        if($this->_bo_simulacion){
+       /* if($this->_bo_simulacion){
             $this->_enviroment = New Enviroment();
             return $this->load->database($this->_enviroment->getDatabase(), true);
-        } else {
+        } else {*/
             return $this->load->database(ENVIRONMENT, true);
-        }
+       // }
     }
     
     /**
