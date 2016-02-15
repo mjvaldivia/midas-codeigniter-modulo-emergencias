@@ -49,12 +49,6 @@
 </div>
 
 <?php echo $js?>
-<?/*= loadJS("assets/js/geo-encoder.js") */?><!--
-<?/*= loadJS("assets/js/modulo/mapa/visor.js"); */?>
-<?/*= loadJS("assets/js/modulo/mapa/capa.js"); */?>
-<?/*= loadJS("assets/js/modulo/mapa/marcador.js"); */?>
-<?/*= loadJS("assets/js/modulo/mapa/poligono.js"); */?>
---><?/*= loadJS("assets/js/modulo/mapa/poligono/poligono_multi.js"); */?>
 <script type="text/javascript">
     $(document).ready(function(){
         var visor = new Visor("mapa","<?php echo $geozone?>");
@@ -63,14 +57,6 @@
 
         var capas = new MapaCapa();
         visor.addOnReadyFunction("capas asociadas a la emergencia", capas.addElemento, <?php echo $id_item?>);
-        //visor.addCapa(capas);
         visor.bindMapa();
-
-
-        //recargar mapa al abrir o cerrar menu
-        $("#sidebar-toggle").click(function(){
-            visor.resizeMap();
-        });
     });
-
 </script>
