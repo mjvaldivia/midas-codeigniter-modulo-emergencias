@@ -50,7 +50,7 @@ var Layer = {};
             language: "es",
             multiple: true,
             uploadAsync: false,
-            maxFileCount: 2,
+            maxFileCount: 1,
             msgFilesTooMany: 'Sólo se permite cargar 2 archivos',
             initialCaption: "Seleccione archivos Shape .shp y .dbf",
             showUpload: true,
