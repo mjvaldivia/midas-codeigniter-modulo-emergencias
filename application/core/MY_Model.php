@@ -41,17 +41,13 @@ Class MY_Model extends CI_Model {
         $this->_query->setTable($this->_tabla);
     }
     
-    /**
-     * Cambia a BD de simulacion o 
-     * @return type
-     */
     public function getDb(){
-       /* if($this->_bo_simulacion){
+       /* if($this->_bo_simulacion){*/
             $this->_enviroment = New Enviroment();
-            return $this->load->database($this->_enviroment->getDatabase(), true);
+        /*    return $this->load->database($this->_enviroment->getDatabase(), true);
         } else {*/
             return $this->load->database(ENVIRONMENT, true);
-        //}
+       // }
     }
     
     /**
