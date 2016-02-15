@@ -108,23 +108,22 @@
 <script type="text/javascript">
     $(document).ready(function() {
         Layer.initSave();
-        //$('#div_tab_2').load(siteUrl+'capas/listado');
     });
+    
     $('#input-capa-geojson').on('fileloaded', function(event, file){
         $("#cargando_geojson").fadeIn();
         $(this).fileinput("upload");
     });
 
     $('#input-capa-shape').on('fileuploaderror', function(event, data, previewId, index) {
-        console.log('File upload error');
         $('#input-capa-shape').fileinput('clear');
     });
 
     $('#input-capa-shape').on('filebatchselected', function(event, files) {
-        if(files.length == 2){
+        //if(files.length == 2){
             $("#cargando_geojson").fadeIn();
             $(this).fileinput('upload');
-        }
+        //}
 
     });
 </script>
