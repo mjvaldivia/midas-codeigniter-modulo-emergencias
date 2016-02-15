@@ -24,14 +24,15 @@ class Mapa_kml extends MY_Controller {
     }
     
     /**
-     * 
+     * Popup que permite subir un archivo
+     * y cargarlo en el mapa
      */
     public function popup_importar_kml(){
         $this->load->view("pages/mapa_kml/popup-importar-kml", array());
     }
     
     /**
-     * Retorna cantidad de capas por emergencia
+     * Retorna cantidad de archivos subidos por una emergencia
      */
     public function ajax_contar_kml_emergencia(){
         header('Content-type: application/json');        
@@ -43,7 +44,7 @@ class Mapa_kml extends MY_Controller {
     }
     
     /**
-     * Carga elementos custom
+     * Carga archivos asociados a una emergencia al mapa
      */
     public function ajax_kml_emergencia(){
         header('Content-type: application/json');
@@ -75,7 +76,7 @@ class Mapa_kml extends MY_Controller {
     }
     
     /**
-     * 
+     * Retorna archivo KML asociado a una emergencia
      */
     public function kml(){
          $params = $this->uri->uri_to_assoc();
@@ -195,9 +196,7 @@ class Mapa_kml extends MY_Controller {
                 unlink($file_path);
             }
         }
-        
-        
-        
+
         $kmz = file_get_contents($this->zip->create());
         $this->zip->clear();
         
