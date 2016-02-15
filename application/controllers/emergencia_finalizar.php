@@ -78,7 +78,7 @@ Class Emergencia_finalizar extends MY_Controller {
             }
 
             if($correcto){
-                $data = array("est_ia_id" => Emergencia_Estado_Model::CERRADA,
+                $data = array("est_ia_id" => Emergencia_Estado_Model::FINALIZADA,
                               "eme_d_fecha_cierre" => spanishDateToISO($params["fecha_cierre"]),
                               "eme_c_comentario_cierre" => $params["comentarios_cierre"]);
                 $this->emergencia_model->query()->update($data, "eme_ia_id",  $emergencia->eme_ia_id);
@@ -87,7 +87,7 @@ Class Emergencia_finalizar extends MY_Controller {
                 $this->load->model('alarma_historial_model','AlarmaHistorialModel');
                 $historial_comentario = 'La emergencia ha sido finalizada: ' . $params["comentarios_cierre"];
                 $data = array(
-                    'historial_alerta' => $emergencia->ala_ia_id,
+                    'historial_alerta' => $emergencia->eme_ia_id,
                     'historial_usuario' => $usuario,
                     'historial_fecha' => date('Y-m-d H:i:s'),
                     'historial_comentario' => $historial_comentario

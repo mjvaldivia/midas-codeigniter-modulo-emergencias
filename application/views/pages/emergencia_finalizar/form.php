@@ -44,13 +44,13 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-md-12">
             <div class="text-right">
                 <button type="button" class="btn btn-default" onclick="xModal.close();">Cerrar</button>
                 <button type="button" class="btn btn-success" onclick="Emergencia.finalizarEvento(this.form,this);">Finalizar</button>
             </div>
         </div>
-    </div>
+    </div>-->
 </form>
 

@@ -79,6 +79,7 @@ Class Capa_elemento_locacion{
      * Procesa y busca la locacion
      */
     public function process(){
+        
         if(isset($this->_data["COMUNA"])){
             $comuna = $this->_ci->comuna_model->getOneByName($this->_data["COMUNA"]);
             if(!is_null($comuna)){
@@ -101,6 +102,7 @@ Class Capa_elemento_locacion{
                 $this->_id_region = $region->reg_ia_id;
             }
         }
+        
     }
 }
 
