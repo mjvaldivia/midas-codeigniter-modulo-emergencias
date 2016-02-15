@@ -22,6 +22,12 @@ class Capas extends MY_Controller
     public $capa_detalle_elemento_model;
     
     /**
+     *
+     * @var Comuna_Model 
+     */
+    public $comuna_model;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -30,6 +36,7 @@ class Capas extends MY_Controller
         $this->load->library("usuario");
         $this->load->model("capa_model", "capa_model");
         $this->load->model("capa_detalle_elemento_model", "capa_detalle_elemento_model");
+        $this->load->model("comuna_model","comuna_model");
         $this->usuario->setModulo("capas");
     }
     
@@ -515,7 +522,10 @@ class Capas extends MY_Controller
         $this->load->view("pages/capa/edicion_subcapa",$data);
     }
 
-
+    /**
+     * Muestra formulario para editar
+     * elemento de una capa
+     */
     public function editarItemSubcapa(){
         $this->load->helper(array("session", "debug"));
         $id_item = $this->input->post('item');
@@ -553,10 +563,14 @@ class Capas extends MY_Controller
         $data['js'] = $this->load->view('pages/mapa/js-plugins',array());
         $this->load->view("pages/capa/edicion_item_subcapa",$data);
     }
-
-
-
+    
+    /**
+     * Guarda un elemento de una capa
+     */
     public function guardarItemSubcapa(){
+        
+        
+        
         $item = $this->uri->uri_to_assoc();
         $id_item = $item['item'];
         $params = $this->input->post();
@@ -580,6 +594,12 @@ class Capas extends MY_Controller
         foreach($params["propiedad_nombre"] as $key => $nombre){
             $propiedades[$nombre] = $params["propiedad_valor"][$key];
         }
+        
+        $this->load->library("capa/elemento/capa_elemento_locacion", $propiedades);
+        $this->capa_elemento_locacion->process();
+        $data["poligono_comuna"] = $this->capa_elemento_locacion->getComuna();
+        $data["poligono_provincia"] = $this->capa_elemento_locacion->getProvincia();
+        $data["poligono_region"] = $this->capa_elemento_locacion->getRegion();
         
         $data["poligono_propiedades"] = serialize($propiedades);
 

@@ -24,6 +24,15 @@ class Provincia_Model extends MY_Model{
         return $this->_query->getById("prov_ia_id", $id);
     }
     
+    /**
+     * Retorna una comuna por el nombre
+     * @param string $nombre
+     * @return array
+     */
+    public function getOneByName($nombre){
+        return $this->_query->getById("prov_c_nombre", $nombre);
+    }
+    
         /**
      * Lista regiones por emergencia
      * @param int $id_emergencia

@@ -39,7 +39,18 @@ class Enviroment{
         if($enviroment === false){
             return ENVIRONMENT;
         } else {
-            return $enviroment;
+            switch ($enviroment) {
+                case "production":
+                case "testing":
+                case "development":
+                case "simulacion":
+                    return $enviroment;
+                    break;
+                default:
+                    return ENVIRONMENT;
+                    break;
+            }
+            
         }
     }
     

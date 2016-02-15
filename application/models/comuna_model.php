@@ -30,6 +30,15 @@ class Comuna_Model extends MY_Model
     }
     
     /**
+     * Retorna una comuna por el nombre
+     * @param string $nombre
+     * @return array
+     */
+    public function getOneByName($nombre){
+        return $this->_query->getById("com_c_nombre", $nombre);
+    }
+    
+    /**
      * 
      * @param int $id_usuario
      * @return array
