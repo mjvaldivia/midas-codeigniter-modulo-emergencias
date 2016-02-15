@@ -36,9 +36,8 @@
                     </div>
                     <div class="row" style="display:none" id="contenedor_tipo_shape">
                         <div class="col-md-12 top-spaced">
-                            <input id="input-capa-shape" name="input-capa-shape[]" class="form-control"  type="file" data-show-preview="false" multiple />
+                            <input id="input-capa-shape" name="input-capa-shape" class="form-control"  type="file" data-show-preview="false" />
                         </div>
-
                     </div>
 
                     <div class="row" style="display:none" id="cargando_geojson">
