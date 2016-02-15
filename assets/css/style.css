@@ -2272,3 +2272,64 @@ body.modal-open {
 .modal {
     overflow: auto;
 }
+
+.alert:not(.ui-pnotify-container) {
+	margin: 20px 0;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	position: relative;
+	padding-left: 70px;
+	overflow: hidden;
+	z-index: 1;
+	border: none;
+}
+.alert:not(.ui-pnotify-container):before {
+	position: absolute;
+	content: "";
+	top: 0px;
+	left: 0px;
+	width: 50px;
+	height: 101%;
+	background-color: rgba(0, 0, 0, 0.25);
+	z-index: 2;
+}
+.alert-success {
+	color: #2a5f2b;
+	background-color: #bcdab0;
+}
+.alert-info {
+	color: #1a4e68;
+	background-color: #c6e8fa;
+}
+.alert-warning {
+	color: #8a6d3b;
+	background-color: #f7f0ce;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+}
+
+.alert:not(.ui-pnotify-container):after {
+	font-family: "FontAwesome";
+	position: absolute;
+	top: 10px;
+	left: 17px;
+	color: #ffffff;
+	font-size: 20px;
+	z-index: 3;
+}
+.alert.alert-success:not(.ui-pnotify-container):after {
+	content: "\f00c";
+}
+.alert.alert-info:not(.ui-pnotify-container):after {
+	content: "\f05a";
+}
+.alert.alert-warning:not(.ui-pnotify-container):after {
+	content: "\f071";
+}
+.alert.alert-danger:not(.ui-pnotify-container):after {
+	content: "\f00d";
+}

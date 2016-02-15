@@ -264,7 +264,7 @@ var FormAlarma = Class({
      * @returns void
      */
     bindComunasPicklist : function(){
-        $("#comunas").picklist();
+        //$("#comunas").picklist();
     },
     
     /**
@@ -302,33 +302,11 @@ var FormAlarma = Class({
         mapa.cargaMapa(); 
     } ,
     
-    /**
-     * Parche para datos seleccionados del picklist
-     * @param {string} form
-     * @returns {Array}
-     */
-    getParametrosFix : function(form){
-        var parametros = $("#" + form).serializeArray();
-      
-        //parche para el picklist
-        parametros = jQuery.grep(parametros, function( a ) {
-            if(a["name"] != "comunas[]"){
-                return true;
-            }
-        });
-        
-        $("#comunas_seleccionados > option").each(function(i, opcion){
-            parametros.push({"name" : "comunas[]",
-                             "value" : $(opcion).attr("value")});
-        });
-        //************************
-        
-        return parametros;
-    },
+
     
     getParametros : function(form){
-        var parametros = this.getParametrosFix(form);
-
+        //var parametros = this.getParametrosFix(form);
+        var parametros = $("#" + form).serializeArray();
         
         $("#form-tipos-emergencia").find(".form-control , input[type='radio'], input[type='checkbox']").each(function(){
             
@@ -354,7 +332,7 @@ var FormAlarma = Class({
     guardar : function(){
         var yo = this;
         
-        var parametros = this.getParametrosFix("form_nueva");
+        var parametros = this.getParametros("form_nueva");
 
         if($("#correos_evento") !== undefined){
             parametros.push({"name" : "correos_evento",
