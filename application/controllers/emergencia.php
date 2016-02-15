@@ -604,6 +604,7 @@ class Emergencia extends MY_Controller {
                 
                 fb($log);
                 fb($retorno);
+                fb($tmp_geojson);
                 
                 unlink($nombre_capa);
                 unlink($nombre_dbf);
