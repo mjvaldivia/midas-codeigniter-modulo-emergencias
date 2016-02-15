@@ -66,7 +66,7 @@ var Layer = {};
             
         });*/
         
-         $("#iCategoria").jCombo(siteUrl + "visor/obtenerJsonCatCoberturas");
+         $("#iCategoria").jCombo(siteUrl + "capas/obtenerJsonCatCoberturas");
         
         $('#input-capa-geojson, #input-capa-shape').on('filebatchuploadsuccess', function(event, data) {
 
@@ -185,7 +185,7 @@ var Layer = {};
             params += "&items="+parseInt($('#tabla_comunas_editar tr').length-1); 
         }*/
         
-        $.post(siteUrl+"visor/guardarCapa", params, function (data) {
+        $.post(siteUrl+"capas/guardarCapa", params, function (data) {
             if(data==1)//bien
             {
                 xModal.success('Se han guardado con éxito los datos',function(){
@@ -529,7 +529,7 @@ var Layer = {};
 
          });*/
 
-        $("#iCategoria").jCombo(siteUrl + "visor/obtenerJsonCatCoberturas");
+        $("#iCategoria").jCombo(siteUrl + "capas/obtenerJsonCatCoberturas");
 
         $('#input-capa-geojson, #input-capa-shape').on('filebatchuploadsuccess', function(event, data) {
 

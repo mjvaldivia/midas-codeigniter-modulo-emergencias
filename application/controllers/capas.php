@@ -369,8 +369,34 @@ class Capas extends MY_Controller
 
         echo json_encode($json);
     }
+    
+    public function guardarCapa() {
+        fb("guardar capa");
+        $this->load->helper("session");
+        sessionValidation();
+        $params = $this->input->post();
 
+        $this->load->helper("session");
+        $this->load->model("capa_model", "CapaModel");
+        echo $this->CapaModel->guardarCapa($params);
+    }
 
+    public function obtenerJsonCatCoberturas() {
+        $this->load->model("categoria_cobertura_model", "CategoriaCobertura");
+
+        $CategoriaCobertura = $this->CategoriaCobertura->obtenerTodos();
+
+        $json = array();
+
+        foreach ($CategoriaCobertura as $c) {
+            $json[] = array(
+                $c["ccb_ia_categoria"],
+                $c["ccb_c_categoria"]
+            );
+        }
+
+        echo json_encode($json);
+    }
 
     public function eliminarItemSubcapa(){
         $this->load->helper(array("session", "debug"));
