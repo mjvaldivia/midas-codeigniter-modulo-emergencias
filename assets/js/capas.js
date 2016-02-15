@@ -53,7 +53,6 @@ var Layer = {};
             maxFileCount: 1,
             msgFilesTooMany: 'Sólo se permite cargar 2 archivos',
             initialCaption: "Seleccione archivos Shape .shp y .dbf",
-            showUpload: true,
             allowedFileExtensions : ['shp','dbf'],
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
