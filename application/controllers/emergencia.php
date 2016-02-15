@@ -1,4 +1,4 @@
-su<?php
+<?php
 
 /**
  * @author Vladimir
@@ -526,7 +526,7 @@ class Emergencia extends MY_Controller {
         $error = false;
         $error_mensaje = '';
 
-        fb($_FILES['input-capa-shape']);
+
 
         /* validar archivos */
         if(isset($_FILES['input-capa-geojson'])){
