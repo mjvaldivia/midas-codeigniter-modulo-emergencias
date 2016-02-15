@@ -146,7 +146,10 @@ class Capa_Model extends MY_Model {
                     /* obtener comuna */
                     $poligono_comuna = 0;
                     if(isset($item->properties->COMUNA)){
-                        $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
+                       
+                        $comuna = $this->ComunaModel->getByNombre(
+                            iconv(mb_detect_encoding($item->properties->COMUNA, mb_detect_order(), true), "UTF-8", $item->properties->COMUNA)
+                        );
 
                         if($comuna){
                             $comuna = $comuna[0];
@@ -158,7 +161,9 @@ class Capa_Model extends MY_Model {
                     /** obtener provincia */
                     $poligono_provincia = 0;
                     if(isset($item->properties->PROVINCIA)){
-                        $provincia = $this->ProvinciaModel->getByNombre($item->properties->PROVINCIA);
+                        $provincia = $this->ProvinciaModel->getByNombre(
+                            iconv(mb_detect_encoding($item->properties->PROVINCIA, mb_detect_order(), true), "UTF-8", $item->properties->PROVINCIA)
+                        );
 
                         if($provincia){
                             $provincia = $provincia[0];
@@ -172,7 +177,9 @@ class Capa_Model extends MY_Model {
                     /** obtener provincia */
                     $poligono_region = 0;
                     if(isset($item->properties->REGION)){
-                        $region = $this->RegionModel->getByNombre($item->properties->REGION);
+                        $region = $this->RegionModel->getByNombre(
+                                iconv(mb_detect_encoding($item->properties->REGION, mb_detect_order(), true), "UTF-8", $item->properties->REGION)
+                        );
 
                         if($region){
                             $region = $region[0];

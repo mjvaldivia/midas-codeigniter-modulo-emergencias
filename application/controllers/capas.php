@@ -550,7 +550,7 @@ class Capas extends MY_Controller
 
         $this->load->model('capa_model','CapaModel');
         $json = array();
-        if($this->CapaModel->guardarItemSubcapa($id_item,$propiedades)){
+        if($this->CapaModel->guardarItemSubcapa($id_item, $propiedades)){
             $json['estado'] = true;
             $json['mensaje'] = "Datos guardados correctamente";
         }else{

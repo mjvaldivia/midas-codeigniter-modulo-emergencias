@@ -2,6 +2,10 @@
 
 class Test extends MY_Controller 
 {
+    public function codificacion(){
+        $string =  "IQUIQUE";
+        echo mb_detect_encoding($string);
+    }
     
     public function comprimir(){
         $filter     = new Zend_Filter_Compress('Bz2');
