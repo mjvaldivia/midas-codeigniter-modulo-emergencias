@@ -153,7 +153,7 @@ class Session extends MY_Controller {
     public function obtenerJsonMIDAS () {
         $this->load->model("session_model", "Sesion");
 
-        $params = $this->uri->uri_to_assoc();
+        $params = $this->input->get(null, true);
 
         $usuario = $this->Sesion->obtenerDatosMIDAS($params["rut"]);
         echo json_encode($usuario);
