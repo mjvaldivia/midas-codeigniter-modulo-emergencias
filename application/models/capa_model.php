@@ -935,7 +935,7 @@ class Capa_Model extends MY_Model {
     }
 
 
-    public function guardarItemSubcapa($id_item,$propiedades){
+    public function guardarItemSubcapa($id_item, $propiedades){
         $query = "update capas_poligonos_informacion set poligono_propiedades = ? where poligono_id = ?";
         if($this->db->query($query,array($propiedades,$id_item))){
             return true;

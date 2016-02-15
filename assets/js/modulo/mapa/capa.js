@@ -94,6 +94,7 @@ var MapaCapa = Class({
                 if(data.correcto){
                     yo.elemento(
                             data.resultado.id, 
+                            "",
                             data.resultado.geojson, 
                             data.resultado.propiedades, 
                             data.resultado.id_subcapa, 
@@ -275,7 +276,7 @@ var MapaCapa = Class({
      * @returns {void}
      */
     elemento : function(id, nombre, geometry, propiedades, subcapa, zona, icono, color){
-        
+        console.log(geometry);
         var yo = this;
         switch (geometry.type) {
             case "LineString":

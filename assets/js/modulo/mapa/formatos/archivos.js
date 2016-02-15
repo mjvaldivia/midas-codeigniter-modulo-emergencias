@@ -42,7 +42,7 @@ var MapaArchivos = Class({
                  + "<div class=\"col-xs-3\">(" + json.tipo + ")</div>\n"
                  + "<div class=\"col-xs-4\"> " + json.nombre + "</div>"
                  + "<div class=\"col-xs-4\"> " + json.archivo + "</div>"
-                 + "<div class=\"col-xs-1\"><button date-rel=\"" + json.id + "\" title=\"Quitar archivo\" class=\"btn btn-xs btn-danger btn-quitar-archivo\"> <i class=\"fa fa-remove\"></i></button></div>"
+                 + "<div class=\"col-xs-1\"><button date-rel=\"" + json.hash + "\" title=\"Quitar archivo\" class=\"btn btn-xs btn-danger btn-quitar-archivo\"> <i class=\"fa fa-remove\"></i></button></div>"
                  + "</div>"
                  + "</li>";
            cantidad++;

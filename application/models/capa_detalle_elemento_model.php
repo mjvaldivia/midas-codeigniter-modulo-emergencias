@@ -31,12 +31,22 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
      * @return object
      */
     public function getById($id){
-        $cache = Cache::iniciar();
-        if(!($row = $cache->load("capa_poligono_" . $id))){
+        //$cache = Cache::iniciar();
+        //if(!($row = $cache->load("capa_poligono_" . $id))){
            $row = $this->_query->getById("poligono_id", $id);
-           $cache->save($row, "capa_poligono_" . $id);
-        }
+          // $cache->save($row, "capa_poligono_" . $id);
+        //}
         return $row;
+    }
+    
+    /**
+     * Actualiza
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "poligono_id", $id);
     }
     
     /**

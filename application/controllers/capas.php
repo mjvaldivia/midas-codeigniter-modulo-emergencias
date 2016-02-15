@@ -16,6 +16,12 @@ class Capas extends MY_Controller
     public $capa_model;
     
     /**
+     *
+     * @var Capa_Detalle_Elemento_Model 
+     */
+    public $capa_detalle_elemento_model;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -23,6 +29,7 @@ class Capas extends MY_Controller
         sessionValidation();
         $this->load->library("usuario");
         $this->load->model("capa_model", "capa_model");
+        $this->load->model("capa_detalle_elemento_model", "capa_detalle_elemento_model");
         $this->usuario->setModulo("capas");
     }
     
@@ -518,23 +525,31 @@ class Capas extends MY_Controller
         $item = $this->CapaModel->getItemSubCapa($id_item);
         $data = array();
 
-        $data['id_item'] = $item['poligono_id'];
+        $data['id_item']    = $item['poligono_id'];
         $data['id_subcapa'] = $item['poligono_capitem'];
-        $data['subcapa'] = $item['geometria_nombre'];
-        $data['comuna'] = $item['com_c_nombre'];
-        $data['provincia'] = $item['prov_c_nombre'];
-        $data['region'] = $item['reg_c_nombre'];
-        $data['capa'] = $item['cap_c_nombre'];
-        $data['id_region'] = $item['reg_ia_id'];
-        $data['geozone'] = $item['reg_geozone'];
+        $data['subcapa']    = $item['geometria_nombre'];
+        $data['comuna']     = $item['com_c_nombre'];
+        $data['provincia']  = $item['prov_c_nombre'];
+        $data['region']     = $item['reg_c_nombre'];
+        $data['capa']       = $item['cap_c_nombre'];
+        $data['id_region']  = $item['reg_ia_id'];
+        $data['geozone']    = $item['reg_geozone'];
         $data['propiedades'] = unserialize($item['poligono_propiedades']);
         $data['geometria'] = unserialize($item['poligono_geometria']);
         
-        if($data['geometria']['type'] == 'Point'){
-            $data['center'] = array('lon'=>$data['geometria']['coordinates'][0], 'lat' => $data['geometria']['coordinates'][1]);    
-        }else{
-            $data['center'] = array('lon'=>$item['lon'],'lat'=>$item['lat']);
+        switch ($data['geometria']['type']) {
+            case "Point":
+                $data['latitud'] = $data['geometria']['coordinates'][1]; 
+                $data['longitud'] = $data['geometria']['coordinates'][0];
+                break;
+            case "Polygon":
+                $data['latitud'] = $data['geometria']['coordinates'][0][0][1]; 
+                $data['longitud'] = $data['geometria']['coordinates'][0][0][0];
+                break;
+            default:
+                break;
         }
+
         $data['js'] = $this->load->view('pages/mapa/js-plugins',array());
         $this->load->view("pages/capa/edicion_item_subcapa",$data);
     }
@@ -546,11 +561,30 @@ class Capas extends MY_Controller
         $id_item = $item['item'];
         $params = $this->input->post();
 
-        $propiedades = serialize($params);
+        $data = array();
+        
+        $elemento = $this->capa_detalle_elemento_model->getById($id_item);
+        $geometria = unserialize($elemento->poligono_geometria);
 
-        $this->load->model('capa_model','CapaModel');
+        switch ($geometria["type"]) {
+            case "Point":
+                $geometria["coordinates"][1] = $params["latitud"];
+                $geometria["coordinates"][0] = $params["longitud"];
+                $data["poligono_geometria"] = serialize($geometria);
+                break;
+
+            default:
+                break;
+        }
+            
+        foreach($params["propiedad_nombre"] as $key => $nombre){
+            $propiedades[$nombre] = $params["propiedad_valor"][$key];
+        }
+        
+        $data["poligono_propiedades"] = serialize($propiedades);
+
         $json = array();
-        if($this->CapaModel->guardarItemSubcapa($id_item, $propiedades)){
+        if($this->capa_detalle_elemento_model->update($data, $id_item)){
             $json['estado'] = true;
             $json['mensaje'] = "Datos guardados correctamente";
         }else{

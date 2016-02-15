@@ -66,9 +66,9 @@ var MapaMarcador = Class({
         });  
 
         this.informacionMarcador(marker);
-
+        console.log(marker);
         lista_markers.push(marker);
-       
+        google.maps.event.trigger(yo.mapa, 'marcador_cargado');
     },
     
     /**

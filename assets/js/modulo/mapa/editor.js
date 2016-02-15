@@ -278,7 +278,7 @@ var MapaEditor = Class({
                 var id = $(this).attr("date-rel");
                 
                 lista_kml = jQuery.grep(lista_kml, function( a ) {
-                    if(a["id"] == id){
+                    if(a["hash"] == id){
                         a.setMap(null);
                         return false;
                     } else {
