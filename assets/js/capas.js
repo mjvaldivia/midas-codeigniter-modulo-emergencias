@@ -48,7 +48,7 @@ var Layer = {};
 
         $("#input-capa-shape").fileinput({
             language: "es",
-            multiple: true,
+            multiple: false,
             uploadAsync: false,
             maxFileCount: 1,
             msgFilesTooMany: 'Sólo se permite cargar 2 archivos',
