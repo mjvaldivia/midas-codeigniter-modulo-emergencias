@@ -25,6 +25,16 @@ var Layer = {};
     };
 
     this.initSave = function() {
+        /*$("#input-icon").fileinput({
+            language: "es",
+            multiple: false,
+            uploadAsync: true,
+            initialCaption: "Seleccione Icono",
+            allowedFileTypes: ['image'],
+            uploadUrl: siteUrl + "emergencia/subir_IconTemp",
+            dropZoneTitle:''
+        });*/
+        
 
         $("#input-capa-geojson").fileinput({
             language: "es",
@@ -38,11 +48,12 @@ var Layer = {};
 
         $("#input-capa-shape").fileinput({
             language: "es",
-            multiple: false,
+            multiple: true,
             uploadAsync: false,
-            maxFileCount: 1,
+            maxFileCount: 2,
             msgFilesTooMany: 'Sólo se permite cargar 2 archivos',
             initialCaption: "Seleccione archivos Shape .shp y .dbf",
+            showUpload: true,
             allowedFileExtensions : ['shp','dbf'],
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
@@ -500,11 +511,12 @@ var Layer = {};
 
         $("#input-capa-shape").fileinput({
             language: "es",
-            multiple: false,
+            multiple: true,
             uploadAsync: false,
-            maxFileCount: 1,
+            maxFileCount: 2,
             msgFilesTooMany: 'Sólo se permite cargar 2 archivos',
             initialCaption: "Seleccione archivos Shape .shp y .dbf",
+            showUpload: true,
             allowedFileExtensions : ['shp','dbf'],
             uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
         });
