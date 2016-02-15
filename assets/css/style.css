@@ -2273,6 +2273,7 @@ body.modal-open {
     overflow: auto;
 }
 
+/*
 .alert:not(.ui-pnotify-container) {
 	margin: 20px 0;
 	-webkit-border-radius: 0px;
@@ -2332,4 +2333,4 @@ body.modal-open {
 }
 .alert.alert-danger:not(.ui-pnotify-container):after {
 	content: "\f00d";
-}
+}*/

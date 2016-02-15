@@ -145,6 +145,7 @@ var FormAlarma = Class({
             var tipo_emergencia = $("#tipo_emergencia").val();
 
             if(estado > 1){
+                $("#tipo_emergencia").trigger("change");
                 $("#div-pasos").show();
                 yo.btnPaso1();
             }else{
