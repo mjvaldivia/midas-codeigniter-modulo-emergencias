@@ -600,9 +600,10 @@ class Emergencia extends MY_Controller {
                 }
 
                 $log = array();
-                $mapsharper = exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_capa.' -simplify 35% -o format=geojson '.$tmp_geojson, $log);
+                $mapsharper = exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_capa.' -simplify 35% -o format=geojson '.$tmp_geojson, $log, $retorno);
                 
                 fb($log);
+                fb($retorno);
                 
                 unlink($nombre_capa);
                 unlink($nombre_dbf);
