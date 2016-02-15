@@ -120,10 +120,10 @@
     });
 
     $('#input-capa-shape').on('filebatchselected', function(event, files) {
-        //if(files.length == 2){
+        if(files.length == 2){
             $("#cargando_geojson").fadeIn();
             $(this).fileinput('upload');
-        //}
+        }
 
     });
 </script>
