@@ -274,6 +274,7 @@
 <?= loadJS("assets/js/modulo/home/form-emergencias-cerrar-dashboard.js"); ?>
 
 <?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>
+<?= loadJS("assets/js/modulo/alarma/form-alarma-editar.js") ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js"); ?>
 <?= loadJS("assets/js/modulo/emergencia/form-emergencias-editar.js"); ?>
 <?= loadJS("assets/js/modulo/home/form-emergencias-nueva-dashboard.js"); ?>

@@ -1,4 +1,4 @@
-var FormEmergenciasEditarDashboard = Class({ extends : FormEmergenciasEditar }, {
+var FormEmergenciasEditarDashboard = Class({ extends : FormAlarmasEditar }, {
     
     /**
      * @var Dashboard
@@ -22,7 +22,7 @@ var FormEmergenciasEditarDashboard = Class({ extends : FormEmergenciasEditar }, 
      */
     callBackGuardar : function(){
        this.dashboard.loadGridEmergencia();
-       notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente");
+       notificacionCorrecto("Resultado de la operacion", "Se ha editado correctamente");
     }
     
 });
