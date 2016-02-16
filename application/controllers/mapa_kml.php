@@ -61,6 +61,7 @@ class Mapa_kml extends MY_Controller {
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array(
                         "id" => $elemento["id"],
+                        "hash" => "archivo_importado_" . $elemento["id"],
                         "tipo" => strtoupper($elemento["tipo"]),
                         "nombre" => strtoupper($elemento["nombre"]),
                         "archivo" => $elemento["archivo"]

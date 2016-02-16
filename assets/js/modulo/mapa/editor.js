@@ -301,7 +301,7 @@ var MapaEditor = Class({
          */
         $(".btn-quitar-archivo").livequery(function(){
             $(this).click(function(){
-                var id = $(this).attr("date-rel");
+                var id = $(this).attr("data-rel");
                 
                 lista_kml = jQuery.grep(lista_kml, function( a ) {
                     if(a["hash"] == id){
