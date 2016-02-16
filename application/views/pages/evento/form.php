@@ -197,13 +197,14 @@
                     </div>
                     <?php endif;?>
                     <div class="col-xs-12">
-                        <input type="file" name="adjunto-emergencia" id="adjunto-emergencia" multiple />
+                        <!--<input type="file" name="adjunto-emergencia" id="adjunto-emergencia" multiple />-->
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
+    <!--
     <div class="alert alert-warning" style="display: none; overflow:hidden" id="caja_correos_evento">
         <div class="form-group">
             <label class="col-xs-12 col-md-5 control-label">Escriba los correos, separados con coma (,), a los cuales desea hacer llegar este evento</label>
@@ -212,7 +213,7 @@
             </div>
         </div>
 
-    </div>
+    </div>-->
 </div>
 
 

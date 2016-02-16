@@ -268,6 +268,17 @@ var MapaEditor = Class({
             }
         });
         
+        $("#importar_rapanui").click(function(){
+            var sidco = new MapaRapanuiEbola();
+            sidco.seteaMapa(map);
+            
+            if($(this).is(":checked")){
+                sidco.load();
+            } else {
+                sidco.remove();
+            }
+        });
+        
         $("#btn-exportar-kml").click(function(){
            var exportar = new MapaKmlExportar();
            exportar.makeMapa();

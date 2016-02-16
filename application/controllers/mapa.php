@@ -188,6 +188,27 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    public function info_rapanui_ebola(){
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("rapanui_ebola_model", "_rapanui_ebola_model");
+        
+        $lista = $this->_rapanui_ebola_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+                $coordenadas = json_decode($row["coordenadas"]);
+                $casos[] = array("propiedades" => json_decode($row["propiedades"]),
+                                 "lat" => $coordenadas->lat,
+                                 "lng" => $coordenadas->lng);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
     /**
      * 
      */

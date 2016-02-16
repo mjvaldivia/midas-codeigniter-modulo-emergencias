@@ -62,6 +62,9 @@
                                 <li>
                                     <a id="btn-importar-sidco" href="#"><input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> <i class="fa fa-fire"></i> Sidco - Conaf </a>
                                 </li>
+                                <li>
+                                    <a id="btn-importar-rapanui" href="#"><input type="checkbox" name="importar_rapanui" id="importar_rapanui" value="1"/> <i class="fa fa-fire"></i> Isla de pascua - ebola </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
