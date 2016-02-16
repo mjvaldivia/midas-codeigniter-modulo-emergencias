@@ -1,4 +1,4 @@
-var EmergenciaReporteMapaImagen = Class({
+var EventoReporteMapaImagen = Class({
     
     div : null,
     on_ready_functions : {},

@@ -46,7 +46,7 @@ Class Layout_Menu_Render{
                                                         "child" => array()),   
                                    "Eventos" => array("icon_class" => "fa-bullhorn",
                                                       "permiso" => "emergencia",
-                                                      "controller" => "alarma",
+                                                      "controller" => "evento",
                                                       "action" => "index",
                                                       "child" => array()), 
                                    "Capas" => array("icon_class" => "fa-globe",

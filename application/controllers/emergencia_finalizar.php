@@ -28,7 +28,13 @@ Class Emergencia_finalizar extends MY_Controller {
         parent::__construct();
         $this->load->model("emergencia_model", "emergencia_model");
         $this->load->model("emergencia_estado_model", "emergencia_estado_model");
-
+        
+        $this->load->library(
+            array(
+                "evento/evento_historial"
+            )
+        );
+        
         sessionValidation();
     }
     
@@ -82,17 +88,13 @@ Class Emergencia_finalizar extends MY_Controller {
                               "eme_d_fecha_cierre" => spanishDateToISO($params["fecha_cierre"]),
                               "eme_c_comentario_cierre" => $params["comentarios_cierre"]);
                 $this->emergencia_model->query()->update($data, "eme_ia_id",  $emergencia->eme_ia_id);
-
-                $usuario = $this->session->userdata('session_idUsuario');
-                $this->load->model('alarma_historial_model','AlarmaHistorialModel');
-                $historial_comentario = 'La emergencia ha sido finalizada: ' . $params["comentarios_cierre"];
-                $data = array(
-                    'historial_alerta' => $emergencia->eme_ia_id,
-                    'historial_usuario' => $usuario,
-                    'historial_fecha' => date('Y-m-d H:i:s'),
-                    'historial_comentario' => $historial_comentario
+                
+                
+                Evento_historial::putHistorial(
+                    $emergencia->eme_ia_id, 
+                    'La emergencia ha sido finalizada: ' . $params["comentarios_cierre"]
                 );
-                $insertHistorial = $this->AlarmaHistorialModel->query()->insert($data);
+                
             }
             
             $respuesta = array("correcto" => $correcto,

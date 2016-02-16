@@ -1,6 +1,13 @@
-var FormAlarma = Class({
+var EventoFormNuevo = Class({
     
+    /**
+     * Identificador emergencia radiologica
+     */
     tipo_emergencia_radiologica : 15,
+    
+    /**
+     * Identificador estado de emergencia activada
+     */
     estado_emergencia_activada : 2,
     
     /**
@@ -19,13 +26,19 @@ var FormAlarma = Class({
     bo_email_enviado : false,
     
     /**
+     * Retorno despues de guardar
+     * @returns void
+     */
+    callBackGuardar : function(){},
+    
+    /**
      * 
      * @param int value identificador de alarma
      * @returns void
      */
-    __construct : function(value) {
-        this.id_alarma = value;
-        
+    __construct : function(options) {
+        this.id_alarma = options.id;
+        this.callBackGuardar = options.callBackGuardar;
     },
 
     /**
@@ -52,7 +65,7 @@ var FormAlarma = Class({
                 async: false,
                 data: parametros,
                 type: "post",
-                url: siteUrl + "alarma/form_tipo_emergencia",
+                url: siteUrl + "evento/form_tipo_emergencia",
                 error: function(xhr, textStatus, errorThrown){},
                 success:function(data){
 
@@ -71,7 +84,10 @@ var FormAlarma = Class({
         });      
     },
 
-
+    /**
+     * 
+     * @returns {undefined}
+     */
     estadoEventoChange : function(){
         var yo = this;
         $("body").on('change','#estado_emergencia',function(){
@@ -167,24 +183,7 @@ var FormAlarma = Class({
             yo.btnPaso1();
         }
     },
-    
-    /**
-     * Retorno despues de guardar
-     * @returns void
-     */
-    callBackGuardar : function(){
-       this.recargaGrilla();
         
-        var agregar = "";
-        if(this.bo_email_enviado){
-            agregar = "<br/> Estado email: Enviado correctamente";
-        } else {
-            notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
-        }
-        
-        notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);
-    },
-    
     /**
      * Se recarga lista con resultados de busqueda
      * @returns void
@@ -194,19 +193,11 @@ var FormAlarma = Class({
     },
         
     /**
-     * Se asigna plugin picklist a combo de comunas
-     * @returns void
-     */
-    bindComunasPicklist : function(){
-        //$("#comunas").picklist();
-    },
-    
-    /**
      * 
      * @returns {undefined}
      */
     bindMapa : function(){
-        var mapa = new AlarmaMapa("mapa");
+        var mapa = new EventoFormMapa("mapa");
        
         if($("#longitud").val() != "" && $("#latitud").val() != ""){
             mapa.setLongitud($("#longitud").val());
@@ -237,21 +228,28 @@ var FormAlarma = Class({
     } ,
     
 
-    
+    /**
+     * Retorna parametros del formulario
+     * @param {type} form
+     * @returns {Array}
+     */
     getParametros : function(form){
         //var parametros = this.getParametrosFix(form);
         var parametros = $("#" + form).serializeArray();
         
         $("#form-tipos-emergencia").find(".form-control , input[type='radio'], input[type='checkbox']").each(function(){
-            
             if($(this).attr("type") == "radio" || $(this).attr("type") == "checkbox"){
                 if($(this).is(':checked')){
-                    parametros.push({"name"  : $(this).attr("name"),
-                                     "value" : $(this).val()});
+                    parametros.push({
+                        "name"  : $(this).attr("name"),             
+                        "value" : $(this).val()
+                    });
                 }
             } else {
-            parametros.push({"name"  : $(this).attr("name"),
-                             "value" : $(this).val()});
+                parametros.push({
+                    "name"  : $(this).attr("name"),
+                    "value" : $(this).val()
+                });
             }
                          
         });
@@ -275,12 +273,13 @@ var FormAlarma = Class({
             });
         }
 
-        if($("#estado_emergencia").val() > 1){
+        /*if($("#estado_emergencia").val() > 1){
             var parametros_emergencia = this.getParametrosFix("form-tipos-emergencia");
             for(var i=0; i<parametros_emergencia.length; i++){
                 parametros.push(parametros_emergencia[i]);
             }
-        }
+
+        }*/
 
         var salida = false;
         
@@ -290,13 +289,13 @@ var FormAlarma = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "alarma/guardaAlarma", 
+            url: siteUrl + "evento/guardar", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
                     yo.bo_email_enviado = data.res_mail;
-                    yo.callBackGuardar();
+                    yo.callBackGuardar(yo.bo_email_enviado);
                     salida = true;
                 } else {
                     $("#form_nueva_error").removeClass("hidden");
@@ -308,13 +307,21 @@ var FormAlarma = Class({
         return salida;
     },
     
+    /**
+     * Se llama al mostrar formulario
+     * @returns {undefined}
+     */
     callOnShow : function(){
         this.configSteps();
-        this.bindComunasPicklist();
         this.bindSelectEmergenciaTipo();
         this.estadoEventoChange();
     },
     
+    /**
+     * Carga el paso 2 del formulario
+     * @param {type} form
+     * @returns {undefined}
+     */
     showPaso2 : function(form){
         var yo = this;
         
@@ -326,7 +333,7 @@ var FormAlarma = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "alarma/ajax_validar_datos_generales", 
+            url: siteUrl + "evento/ajax_validar_datos_generales", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -397,5 +404,5 @@ var FormAlarma = Class({
             }
         }); 
     }
-
 });
+

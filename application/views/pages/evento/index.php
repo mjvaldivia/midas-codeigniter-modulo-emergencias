@@ -86,24 +86,21 @@
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 
-<?= loadCSS("assets/js/library/picklist/picklist.css") ?>
-<?= loadJS("assets/js/library/picklist/picklist.js") ?>
-
-<?= loadJS("assets/js/moment.min.js") ?>
-<?= loadCSS("assets/js/library/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
-<?= loadJS("assets/js/library/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
-
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
-<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
+
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
 
-<?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>
-<?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>
-<?= loadJS("assets/js/modulo/alarma/form-alarma-editar.js"); ?>
+<?= loadJS("assets/js/modulo/evento/form/mapa/mapa.js"); ?>
 
-<?= loadJS("assets/js/modulo/emergencia_reporte/form.js") ?>
-<?= loadJS("assets/js/emergencia.js") ?>
-<?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js") ?>
+<?= loadJS("assets/js/modulo/evento/grilla.js") ?>
+<?= loadJS("assets/js/modulo/evento/form/nuevo.js") ?>
+<?= loadJS("assets/js/modulo/evento/form/editar.js") ?>
+<?= loadJS("assets/js/modulo/evento/form/finalizar.js") ?>
 
-<?= loadJS("assets/js/modulo/alarma/listado.js") ?>
+
+<?= loadJS("assets/js/library/html2canvas/build/html2canvas.js"); ?>
+<?= loadJS("assets/js/modulo/evento/reporte/form.js") ?>
+<?= loadJS("assets/js/modulo/evento/reporte/mapa/imagen.js") ?>
+
+<?= loadJS("assets/js/evento-lista.js") ?>

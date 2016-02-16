@@ -20,7 +20,7 @@
                 <?php if(puedeVer("alarma")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>">
+                        <a href="<?php if(puedeEditar("alarma")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
                                 <i class="fa fa-bullhorn fa-fw fa-3x"></i>
                             </div>
@@ -29,7 +29,7 @@
                             <div class="circle-tile-description text-faded">
                                 Eventos
                             </div>
-                            <a href="<?php if(puedeEditar("alarma")) { echo site_url("alarma/index/tab/nuevo"); } else {echo site_url("alarma/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php if(puedeEditar("alarma")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -258,30 +258,21 @@
 
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js", true) ?>
 
-<?= loadCSS("assets/js/library/picklist/picklist.css") ?>
-<?= loadJS("assets/js/library/picklist/picklist.js") ?>
-
-<?= loadJS("assets/js/modulo/emergencia_reporte/form.js"); ?>
-
-<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
 
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.min.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.min.js") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
-<?= loadJS("assets/js/modulo/emergencia/form-emergencias-cerrar.js"); ?>
-<?= loadJS("assets/js/modulo/home/form-emergencias-cerrar-dashboard.js"); ?>
 
-<?= loadJS("assets/js/modulo/alarma/form-alarma.js") ?>
-<?= loadJS("assets/js/modulo/alarma/form-alarma-editar.js") ?>
-<?= loadJS("assets/js/modulo/emergencia/form-emergencias-nueva.js"); ?>
-<?= loadJS("assets/js/modulo/emergencia/form-emergencias-editar.js"); ?>
-<?= loadJS("assets/js/modulo/home/form-emergencias-nueva-dashboard.js"); ?>
-<?= loadJS("assets/js/modulo/home/form-emergencias-editar-dashboard.js"); ?>
-<?= loadJS("assets/js/modulo/alarma/mapa.js"); ?>
+<?= loadJS("assets/js/modulo/evento/form/mapa/mapa.js"); ?>
+<?= loadJS("assets/js/modulo/evento/form/nuevo.js") ?>
+<?= loadJS("assets/js/modulo/evento/form/editar.js") ?>
+<?= loadJS("assets/js/modulo/evento/form/finalizar.js") ?>
+
+<?= loadJS("assets/js/library/html2canvas/build/html2canvas.js"); ?>
+<?= loadJS("assets/js/modulo/evento/reporte/form.js") ?>
+<?= loadJS("assets/js/modulo/evento/reporte/mapa/imagen.js") ?>
 
 <?= loadJS("assets/js/modulo/home/mapa.js"); ?>
 <?= loadJS("assets/js/modulo/home/dashboard.js", true) ?>
-
-<?= loadJS("assets/js/emergencia.js") ?>

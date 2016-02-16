@@ -200,11 +200,9 @@ var Dashboard = Class({
             $(this).click(function(e){  
                 e.preventDefault();
                 var id = $(this).attr("data");
-                
-                var reporte = new EmergenciaReporteForm();
+                var reporte = new EventoReporteForm();	
                 reporte.seteaEmergencia(id);
-                reporte.mostrar();
-                
+                reporte.mostrar();                
             });
         });
     },
@@ -221,47 +219,37 @@ var Dashboard = Class({
                     message: '¿Está seguro que desea eliminar esta emergencia?',
                     buttons: {
                         success: {
-                            label: "Aceptar",
-                            className: "btn-primary",
+                            label: "<i class=\"fa fa-trash\"></i> Eliminar",
+                            className: "btn-danger",
                             callback: function () {
-                                $.get(siteUrl + 'emergencia/eliminarEmergencia/id/' + id).done(function (retorno) {
-                                    if (retorno == 0) { // sin error
-                                        bootbox.dialog({
-                                            title: "Resultado de la operacion",
-                                            message: 'Se eliminó correctamente',
-                                            buttons: {
-                                                danger: {
-                                                    label: "Cerrar",
-                                                    className: "btn-info",
-                                                    callback: function () {
-                                                        yo.loadGridEmergencia();
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    } else {
-                                        bootbox.dialog({
-                                            title: "Resultado de la operacion",
-                                            message: 'Error al eliminar',
-                                            buttons: {
-                                                danger: {
-                                                    label: "Cerrar",
-                                                    className: "btn-danger"
-                                                }
-                                            }
-                                        });
+                                var parametros = {"id" : id};
+                                $.ajax({         
+                                    dataType: "json",
+                                    cache: false,
+                                    async: true,
+                                    data: parametros,
+                                    type: "post",
+                                    url: siteUrl + "evento/eliminar", 
+                                    error: function(xhr, textStatus, errorThrown){
+                                        notificacionError("Error", "Ha ocurrido un error al eliminar el evento");
+                                    },
+                                    success:function(data){
+                                        if(data.correcto){
+                                            yo.loadGridEmergencia();
+                                            notificacionCorrecto("Resultado de la operacion", "Se ha eliminado el evento correctamente");
+                                        } else {
+                                            notificacionError("Error", "Ha ocurrido un error al eliminar el evento");
+                                        }
                                     }
-
-
-
-
                                 });
-
+                                
+                                
+                                
                             }
                         },
                         danger: {
-                            label: "Cancelar",
-                            className: "btn-default"
+                            label: "<i class=\"fa fa-remove\"></i> Cancelar",
+                            className: "btn-white"
                         }
                     }
 
@@ -282,46 +270,38 @@ var Dashboard = Class({
                     message: '¿Está seguro que desea eliminar esta alarma?',
                     buttons: {
                         success: {
-                            label: "Aceptar",
-                            className: "btn-primary",
+                            label: "<i class=\"fa fa-trash\"></i> Eliminar",
+                            className: "btn-danger",
                             callback: function () {
-                                $.get(siteUrl + 'alarma/eliminarAlarma/id/' + id).done(function (retorno) {
-                                    if (retorno == 0) { // sin error
-                                        bootbox.dialog({
-                                            title: "Resultado de la operacion",
-                                            message: 'Se eliminó correctamente',
-                                            buttons: {
-                                                danger: {
-                                                    label: "Cerrar",
-                                                    className: "btn-info",
-                                                    callback: function () {
-                                                        yo.loadGridAlarma();
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    } else {
-                                        bootbox.dialog({
-                                            title: "Resultado de la operacion",
-                                            message: 'Error al eliminar',
-                                            buttons: {
-                                                danger: {
-                                                    label: "Cerrar",
-                                                    className: "btn-danger"
-                                                }
-                                            }
-                                        });
+                                var parametros = {"id" : id};
+                                $.ajax({         
+                                    dataType: "json",
+                                    cache: false,
+                                    async: true,
+                                    data: parametros,
+                                    type: "post",
+                                    url: siteUrl + "evento/eliminar", 
+                                    error: function(xhr, textStatus, errorThrown){
+                                        notificacionError("Error", "Ha ocurrido un error al eliminar el evento");
+                                    },
+                                    success:function(data){
+                                        if(data.correcto){
+                                            yo.loadGridAlarma();
+                                            notificacionCorrecto("Resultado de la operacion", "Se ha eliminado el evento correctamente");
+                                        } else {
+                                            notificacionError("Error", "Ha ocurrido un error al eliminar el evento");
+                                        }
                                     }
                                 });
                             }
                         },
                         danger: {
-                            label: "Cancelar",
-                            className: "btn-default"
+                            label: "<i class=\"fa fa-remove\"></i> Cancelar",
+                            className: "btn-white"
                         }
                             }
-                    }); 
-                });
+                }); 
+            });
         });
     },
     
@@ -338,7 +318,14 @@ var Dashboard = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 var id = $(this).attr("data");
-                var formulario = new FormEmergenciasCerrarDashboard(id, yo);	
+                
+                var formulario = new EventoFormFinalizar({
+                    "id" : id,
+                    callBack : function(){
+                        yo.loadGridEmergencia();
+                        notificacionCorrecto("Resultado de la operacion", "Se ha finalizado el evento correctamente");
+                    }
+                });	
                 formulario.mostrarFormulario();
             });
         });
@@ -357,20 +344,44 @@ var Dashboard = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 var id = $(this).attr("data");
-                xModal.confirm('Desea generar la Emergencia?',function(){
-                    $.post(siteUrl + 'emergencia/activarEmergencia',{emergencia:id},function(response){
-                        if(response.estado == true){
-                            xModal.success(response.mensaje,function(){
-                                yo.loadGridAlarma();
-                                yo.loadGridEmergencia();
-                            });
-                        }else{
-                            xModal.danger(response.mensaje);
+                bootbox.dialog({
+                    title: "Activar evento",
+                    message: '¿Está seguro que desea activar la emergencia?',
+                    buttons: {
+                        success: {
+                            label: "Activar",
+                            className: "btn-success",
+                            callback: function () {
+                                var parametros = {"emergencia": id}
+                                $.ajax({         
+                                    dataType: "json",
+                                    cache: false,
+                                    async: false,
+                                    data: parametros,
+                                    type: "post",
+                                    url: siteUrl + 'evento/ajax_activar_emergencia', 
+                                    error: function(xhr, textStatus, errorThrown){
+                                        notificacionError("Error", "Ha ocurrido un error al activar la emergencia");
+                                    },
+                                    success:function(data){
+                                        if(data.estado == true){
+                                            yo.loadGridAlarma();
+                                            yo.loadGridEmergencia();
+                                            notificacionCorrecto("Resultado de la operacion", "Se ha activado el evento correctamente");
+                                        } else {
+                                            notificacionError("Error", "Ha ocurrido un error al activar la emergencia");
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        danger: {
+                            label: "Cancelar",
+                            className: "btn-white"
                         }
-                    },'json');
-                });
-                /*var formulario = new FormEmergenciasNuevaDashboard(id, yo);
-                formulario.mostrarFormulario();*/
+                    }
+                }); 
+                
             });
         });
         
@@ -387,7 +398,13 @@ var Dashboard = Class({
             $(this).unbind( "click" );
             $(this).click(function(){
                 var id = $(this).attr("data");
-                var formulario = new FormEmergenciasEditarDashboard(id, yo);	
+                var formulario = new EventoFormEditar({
+                    "id" : id,
+                    callBackGuardar : function(){
+                        yo.loadGridEmergencia();
+                        notificacionCorrecto("Resultado de la operacion", "Se ha editado el evento correctamente");
+                    }
+                });	
                 formulario.mostrarFormulario();
             });
         });

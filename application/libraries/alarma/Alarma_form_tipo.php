@@ -11,7 +11,7 @@ Class Alarma_form_tipo{
      * Ubicacion de los templates para formulario
      * @var string 
      */
-    protected $_path = "pages/alarma/form-tipos-emergencia/";
+    protected $_path = "pages/evento/form-tipos-emergencia/";
     
     /**
      * Formularios

@@ -22,7 +22,11 @@ var regiones = {"Región de Tarapacá" : "19K",
                "Región de los Ríos" : "18H",
                "Región de Arica y Parinacota" : "19K"};
 
-var AlarmaMapa = Class({
+/**
+ * 
+ * @type type
+ */
+var EventoFormMapa = Class({
     
     mapa : null,
     marker : null,
@@ -38,9 +42,12 @@ var AlarmaMapa = Class({
      */
     __construct : function(id_mapa) {
         this.id_div_mapa = id_mapa;
-       
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     inicio : function(){
         var yo = this;
 

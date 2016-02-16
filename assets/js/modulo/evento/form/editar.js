@@ -1,28 +1,23 @@
-/**
- * Control de formulario para cerrar emergencia
- */
-
-var FormEmergenciasCerrar = Class({
-    
-    // Se declara la propiedad id, que es el identificador de la emergencia
-    id : null,
-
-    // Funcion que se ejecuta al instanciar
-    __construct : function(value) {
-        this.id = value;
-    },
-    
-    //funcion de retorno al guardar formulario
-    callBack : function(){
-        $("#btnBuscar").trigger("click");
-    },
-
-    //guarda el formulario de cierre
-    guardaFormulario : function(){
+var EventoFormEditar = Class({ extends : EventoFormNuevo}, {
         
+    /**
+     * Se llama al cargar formulario de edicion
+     * @returns {undefined}
+     */
+    callOnShow : function(){
+        this.super("callOnShow");
+        $("#tipo_emergencia").trigger("change");
+        $("#estado_emergencia").trigger("change");
+    },
+        
+    /**
+     * Guarda la edicion de la alarma
+     * @returns {Boolean}
+     */
+    guardar : function(){
         var yo = this;
         
-        var parametros = $("#form-cerrar").serializeArray();
+        var parametros = this.getParametros("form_editar");
         
         var salida = false;
         
@@ -32,17 +27,17 @@ var FormEmergenciasCerrar = Class({
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "emergencia_finalizar/save", 
+            url: siteUrl + "evento/guardar", 
             error: function(xhr, textStatus, errorThrown){
 
             },
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    yo.callBack();
+                    yo.callBackGuardar();
                     salida = true;
                 } else {
-                    $("#form-cerrar-error").removeClass("hidden");
+                    $("#form_editar_error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
             }
@@ -51,7 +46,10 @@ var FormEmergenciasCerrar = Class({
         return salida;
     },
     
-    // Despliega el formulario
+    /**
+     * Muestra formulario para ingresar nueva emergencia
+     * @returns void
+     */
     mostrarFormulario : function(){
         
         var yo = this;
@@ -62,20 +60,30 @@ var FormEmergenciasCerrar = Class({
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "emergencia_finalizar/form/id/" + this.id, 
+            url: siteUrl + "evento/editar/id/" + this.id_alarma , 
             error: function(xhr, textStatus, errorThrown){
 
             },
             success:function(html){
                 bootbox.dialog({
                     message: html,
-                    title: "Finalizar emergencia",
+                    className: "modal90",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Editar alarma",
                     buttons: {
                         guardar: {
-                            label: " Aceptar",
+                            id: "btn-guardar",
+                            label: " Guardar edición de evento",
                             className: "btn-success fa fa-check",
                             callback: function() {
-                                return yo.guardaFormulario();
+                                return yo.guardar();
+                            }
+                        },
+                        paso2: {
+                            label: " Ir al paso 2",
+                            className: "btn-primary fa fa-arrow-right",
+                            callback: function() {
+                                yo.showPaso2("form_editar");
+                                return false;
                             }
                         },
                         cerrar: {
@@ -87,9 +95,11 @@ var FormEmergenciasCerrar = Class({
                         }
                     }
                 });
+                
+                yo.bindMapa();
+                yo.callOnShow();
             }
         }); 
-    }
+    }    
 });
-
 

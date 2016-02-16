@@ -62,6 +62,15 @@ class Emergencia_Model extends MY_Model {
     }
     
     /**
+     * 
+     * @param array $data
+     * @return int identificador del registro ingresado
+     */
+    public function insert($data){
+        return $this->_query->insert($data);
+    }
+    
+    /**
      * Actualiza 
      * @param array $data
      * @param int $id
@@ -69,6 +78,15 @@ class Emergencia_Model extends MY_Model {
      */
     public function update($data, $id){
         return $this->_query->update($data, "eme_ia_id", $id);
+    }
+    
+    /**
+     * Elimina la emergencia
+     * @param int $id
+     * @return boolean
+     */
+    public function delete($id){
+        return $this->_query->delete("eme_ia_id", $id);
     }
     
     /**

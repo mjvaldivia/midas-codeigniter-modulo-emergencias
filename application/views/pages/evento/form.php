@@ -62,16 +62,11 @@
                                 </div>
                                 <div class="col-md-9 col-xs-12">
                                     <div class="form-group clearfix">
-                                        <div class="form-group clearfix">
-                                                <label for="nombre-emergencia" class="control-label">Nombre del Evento (*):</label>
-                                                <input value="<?php echo $nombre_emergencia; ?>" class="form-control" name="nombre_emergencia" id="nombre_emergencia">
-                                                <span class="help-block hidden"></span>
-                                            </div>
-                                        
+                                        <label for="nombre-emergencia" class="control-label">Nombre del Evento (*):</label>
+                                        <input value="<?php echo $nombre_emergencia; ?>" class="form-control" name="nombre_emergencia" id="nombre_emergencia">
+                                        <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-
-  
                             </div>
                             <div class="row">
 

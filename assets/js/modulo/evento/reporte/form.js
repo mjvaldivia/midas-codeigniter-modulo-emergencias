@@ -1,4 +1,4 @@
-var EmergenciaReporteForm = Class({
+var EventoReporteForm = Class({
     
     /**
      * Identificador de la emergencia
@@ -21,7 +21,7 @@ var EmergenciaReporteForm = Class({
      * @returns {Boolean}
      */
     enviarCorreo : function(boton){
-        var imagen = new EmergenciaReporteMapaImagen("mapa");
+        var imagen = new EventoReporteMapaImagen("mapa");
         imagen.addOnReadyFunction("enviando email", this.correo, boton);
         imagen.crearImagen();
         return false;
@@ -74,7 +74,7 @@ var EmergenciaReporteForm = Class({
      * @returns {Boolean}
      */
     mostrarReporte : function(){
-        var imagen = new EmergenciaReporteMapaImagen("mapa");
+        var imagen = new EventoReporteMapaImagen("mapa");
         imagen.addOnReadyFunction("carga pdf", this.generarPdf, this.id_emergencia);
         imagen.crearImagen();
         return false;

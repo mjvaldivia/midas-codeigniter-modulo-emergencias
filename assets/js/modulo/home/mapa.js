@@ -52,12 +52,8 @@ var HomeMapa = Class({
      * @returns {void}
      */
     setLatitudLongitudUTM : function(latitud_utm, longitud_utm){
-
-            var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(longitud_utm), 
-                                                       parseFloat(latitud_utm), 
-                                                       this.geozone);
-            this.latitud = parseFloat(latLon[0]);
-            this.longitud = parseFloat(latLon[1]);
+            this.latitud = parseFloat(parseFloat(latitud_utm));
+            this.longitud = parseFloat(parseFloat(longitud_utm));
 
     },
     
@@ -182,12 +178,8 @@ var HomeMapa = Class({
             success:function(markers){
           
                 for( i = 0; i < markers.length; i++ ) {
-                    
-                    var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(markers[i]["longitud"]), 
-                                                               parseFloat(markers[i]["latitud"]), 
-                                                               yo.geozone);
-                    
-                    var position = new google.maps.LatLng(latLon[0], latLon[1]);
+                                        
+                    var position = new google.maps.LatLng(parseFloat(markers[i]["latitud"]), parseFloat(markers[i]["longitud"]));
                     
                     var imagen = baseUrl + 'assets/img/spotlight-poi.png';
                     if(markers[i]["tipo"] == yo.tipo_alarma){

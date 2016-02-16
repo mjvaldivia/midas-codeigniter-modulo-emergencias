@@ -7,7 +7,7 @@
                 <th>Comunas afectadas</th>
                 <th>Fecha Evento</th>
                 <th>Lugar</th>
-                <th>Opciones</th>
+                <th width="5%">Opciones</th>
                 
             </tr>
         </thead>
@@ -30,15 +30,15 @@
                 <td>
                     <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
                 </td>
-                <td class="text-center">
+                <td class="text-right">
                     <?php if (puedeActivarAlarma("alarma")) { ?>
-                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-danger" href="#">
-                                <i class="fa fa-bullhorn"></i> Generar emergencia
+                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-purple" href="#">
+                                <i class="fa fa-bullhorn"></i>
                             </a>
                     <?php } ?>
                     <?php if (puedeEliminar("alarma")) { ?>
-                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-warning" href="#">
-                                <i class="fa fa-trash"></i> Eliminar
+                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-danger" href="#">
+                                <i class="fa fa-trash"></i>
                             </a>
                     <?php } ?>
                 </td>

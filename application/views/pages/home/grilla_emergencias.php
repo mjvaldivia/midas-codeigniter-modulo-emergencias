@@ -32,9 +32,9 @@
                         <div class="row">
 						
 
-									<button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('alarma/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
-										<i class="fa fa-files-o"></i>
-									</button>
+                            <button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
+                                    <i class="fa fa-files-o"></i>
+                            </button>
 
                                     
                                   <?php if (puedeEditar("emergencia")) { ?>
@@ -55,7 +55,7 @@
                                   <?php if (puedeFinalizarEmergencia()) { ?>
 
                                       <button title="Finalizar emergencia" class="btn btn-sm btn-warning emergencia-cerrar" type="button" data="<?php echo $row["eme_ia_id"] ?>" href="#">
-                                          <i class="fa fa-check"></i> 
+                                          <i class="fa fa-thumb-tack"></i> 
                                       </button>
 
                                   <?php } ?>

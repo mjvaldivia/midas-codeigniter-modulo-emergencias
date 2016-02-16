@@ -86,6 +86,4 @@
     </form>
 </div>
 <div class="clearfix"></div>
-<?= loadJS("assets/js/library/html2canvas/build/html2canvas.js"); ?>
-<?= loadJS("assets/js/modulo/emergencia_reporte/mapa/imagen.js"); ?>
 <?= loadJS("assets/js/emergencia-reporte-mapa.js"); ?>

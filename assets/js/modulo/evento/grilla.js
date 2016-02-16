@@ -1,4 +1,4 @@
-var AlarmaListado = Class({
+var EventoGrilla = Class({
     
     /**
      * Carga de dependencias
@@ -11,6 +11,8 @@ var AlarmaListado = Class({
         this.bindBtnEditarAlarma();
         this.bindBtnBuscar();
         this.bindBtnNuevaAlarma();
+        this.bindBtnReporte();
+        this.bindBtnFinalizar();
         
         var url = $(location).attr('href');
         var nuevo = url.indexOf("tab/nuevo");
@@ -19,19 +21,39 @@ var AlarmaListado = Class({
         }
     },
     
-    
+    /**
+     * 
+     * @returns {undefined}
+     */
     bindBtnNuevaAlarma : function(){
         var yo = this;
-        
         $("#nueva").click(function(e){
             e.preventDefault();
             var id = $(this).attr("data");
-            var formulario = new FormAlarma(id, yo);	
+            var formulario = new EventoFormNuevo({
+                "id" : id,
+                callBackGuardar : function(bo_email_enviado){
+                    yo.loadGridAlarma();
+                    
+                    var agregar = "";
+                    if(bo_email_enviado){
+                        agregar = "<br/> Estado email: Enviado correctamente";
+                    } else {
+                        notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
+                    }
+                    
+                    notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);
+                }
+            });	
             formulario.mostrarFormulario();
         });
         
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     bindBtnBuscar : function(){
         var yo = this;
         $("#btnBuscarAlarmas").click(function(){
@@ -52,11 +74,56 @@ var AlarmaListado = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 var id = $(this).attr("data");
-                var formulario = new FormAlarmasEditar(id, yo);	
+                var formulario = new EventoFormEditar({
+                    "id" : id,
+                    callBackGuardar : function(){
+                        yo.loadGridAlarma();
+                        notificacionCorrecto("Resultado de la operacion", "Se ha editado el evento correctamente");
+                    }
+                });	
                 formulario.mostrarFormulario();
             });
         });
         
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    bindBtnFinalizar : function(){
+        var yo = this;
+        $(".emergencia-finalizar").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(e){
+                e.preventDefault();
+                var id = $(this).attr("data-rel");
+                var formulario = new EventoFormFinalizar({
+                    "id" : id,
+                    callBack : function(){
+                        yo.loadGridAlarma();
+                    }
+                });	
+                formulario.mostrarFormulario();
+            });
+        });
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    bindBtnReporte : function(){
+        $(".emergencia-reporte").livequery(function(){
+            $(this).unbind( "click" );
+            $(this).click(function(e){
+                e.preventDefault();
+                var id = $(this).attr("data-rel");
+                var reporte = new EventoReporteForm();	
+                reporte.seteaEmergencia(id);
+                reporte.mostrar();
+            });
+        });
     },
     
     /**
@@ -79,6 +146,10 @@ var AlarmaListado = Class({
         
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     bindBtnAlarmaEliminar : function(){
         var yo = this;
         $(".alarma-eliminar").livequery(function(){
@@ -147,7 +218,7 @@ var AlarmaListado = Class({
             async: true,
             data: $("#busqueda").serializeArray(),
             type: "post",
-            url: siteUrl + "alarma/ajax_grilla_alarmas", 
+            url: siteUrl + "evento/ajax_grilla_alarmas", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -159,12 +230,5 @@ var AlarmaListado = Class({
         });
     },
     
-});
-
-/**
- * Inicio front-end
- */
-$(document).ready(function() {
-    var listado = new AlarmaListado();	
 });
 

@@ -360,73 +360,7 @@ class Alarma extends MY_Controller {
     }
 
 
-    public function expediente(){
-        sessionValidation();
-        $params = $this->uri->uri_to_assoc();
-
-        $this->load->model('alarma_historial_model','AlarmaHistorial');
-        $this->load->model('alarma_model','AlarmaModel');
-        $this->load->model('emergencia_model','EmergenciaModel');
-        $this->load->model('tipo_emergencia_model','TipoEmergenciaModel');
-        $this->load->model('alarma_comuna_model','AlarmaComunaModel');
-        $this->load->model('emergencia_comuna_model','EmergenciaComunaModel');
-        $this->load->model('comuna_model','ComunaModel');
-        $this->load->model('alarma_estado_model','AlarmaEstadoModel');
-        $this->load->model('archivo_alarma_model','ArchivoAlarmaModel');
-        $this->load->model('usuario_model','UsuarioModel');
-
-
-        $emergencia = $this->EmergenciaModel->getById($params['id']);
-
-        $tipo_emergencia = $this->TipoEmergenciaModel->getById($emergencia->tip_ia_id);
-        $estado_alarma = $this->AlarmaEstadoModel->getById($emergencia->est_ia_id);
-        $comunas_alarma = $this->EmergenciaComunaModel->listaComunasPorEmergencia($emergencia->eme_ia_id);
-
-        /*$comunas_emergencia = $this->EmergenciaComunaModel->listaComunasPorEmergencia($emergencia->eme_ia_id);*/
-
-        $arr_comunas = array();
-        $arr_comunas_emergencia = array();
-        foreach($comunas_alarma as $comuna){
-            $com = $this->ComunaModel->getById($comuna['com_ia_id']);
-            $arr_comunas[] = $com->com_c_nombre;
-        }
-
-
-        $datos_alarma = unserialize($emergencia->ala_c_datos_tipo_emergencia);
-        $datos_emergencia = array();
-        if($emergencia)
-            $datos_emergencia = unserialize($emergencia->eme_c_datos_tipo_emergencia);
-        $historial = $this->AlarmaHistorial->getByAlarma($params['id']);
-
-        $arr_documentos = array();
-        $documentos = $this->ArchivoAlarmaModel->listaPorAlarma($params['id']);
-        if($documentos){
-            foreach($documentos as $doc){
-                $nombre = explode('/',$doc['arch_c_nombre']);
-                $usuario = $this->UsuarioModel->getById($doc['usu_ia_id']);
-                $arr_documentos[] = array(
-                    'nombre' => $nombre[count($nombre) - 1],
-                    'hash' => $doc['arch_c_hash'],
-                    'id' => $doc['arch_ia_id'],
-                    'usuario' => $usuario->usu_c_nombre.' '.$usuario->usu_c_apellido_paterno.' '.$usuario->usu_c_apellido_materno,
-                    'fecha' => $doc['arch_f_fecha']
-                );
-            }
-        }
-        $data = array(
-            'historial' => $historial,
-            'tipo_emergencia' => $tipo_emergencia,
-            'estado_alarma' => $estado_alarma,
-            'comunas' => implode(', ',$arr_comunas),
-            'datos_alarma' => $datos_alarma,
-            'emergencia' => $emergencia,
-            'datos_emergencia' => $datos_emergencia,
-            'documentos' => $arr_documentos
-        );
-
-        $this->load->view('pages/alarma/expediente',$data);
-
-    }
+    
 
 
 }
