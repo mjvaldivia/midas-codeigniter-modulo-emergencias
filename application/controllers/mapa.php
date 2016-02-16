@@ -188,12 +188,12 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
-    public function info_rapanui_ebola(){
+    public function info_rapanui_dengue(){
         header('Content-type: application/json'); 
         $casos = array();
-        $this->load->model("rapanui_ebola_model", "_rapanui_ebola_model");
+        $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
         
-        $lista = $this->_rapanui_ebola_model->listar();
+        $lista = $this->_rapanui_dengue_model->listar();
         if($lista != null){
             foreach($lista as $row){
                 $coordenadas = json_decode($row["coordenadas"]);

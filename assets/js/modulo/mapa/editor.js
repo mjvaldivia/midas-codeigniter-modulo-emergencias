@@ -251,12 +251,18 @@ var MapaEditor = Class({
      */
     controlImportar : function (map) {
         
+        /**
+         * Popup para subir kml
+         */
         $("#btn-importar-kml").click(function(){
             var kml = new MapaKmlImportar();
             kml.seteaMapa(map);
             kml.popupUpload();
         });
         
+        /**
+         * Importar datos externos de conaf
+         */
         $("#importar_sidco").click(function(){
             var sidco = new MapaKmlSidcoConaf();
             sidco.seteaMapa(map);
@@ -268,8 +274,11 @@ var MapaEditor = Class({
             }
         });
         
+        /**
+         * Importar casos de ebola
+         */
         $("#importar_rapanui").click(function(){
-            var sidco = new MapaRapanuiEbola();
+            var sidco = new MapaRapanuiDengue();
             sidco.seteaMapa(map);
             
             if($(this).is(":checked")){
@@ -279,11 +288,17 @@ var MapaEditor = Class({
             }
         });
         
+        /**
+         * Exportar mapa a kml
+         */
         $("#btn-exportar-kml").click(function(){
            var exportar = new MapaKmlExportar();
            exportar.makeMapa();
         });
         
+        /**
+         * Quitar archivo subido
+         */
         $(".btn-quitar-archivo").livequery(function(){
             $(this).click(function(){
                 var id = $(this).attr("date-rel");

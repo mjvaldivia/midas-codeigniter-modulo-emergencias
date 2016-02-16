@@ -1,6 +1,6 @@
 var rapanui_ebola = null;
 
-var MapaRapanuiEbola = Class({  
+var MapaRapanuiDengue = Class({  
     
     /**
      * Google maps
@@ -36,13 +36,13 @@ var MapaRapanuiEbola = Class({
                 async: true,
                 data: "",
                 type: "post",
-                url: siteUrl + "mapa/info_rapanui_ebola", 
+                url: siteUrl + "mapa/info_rapanui_dengue", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                            var marcador = new MapaMarcador();
                            marcador.seteaMapa(yo.mapa);
-                           marcador.posicionarMarcador("rapanui_ebola", null, valor.lng, valor.lat, valor.propiedades, "", baseUrl + "assets/img/firstaid.png");
+                           marcador.posicionarMarcador("rapanui_dengue", null, valor.lng, valor.lat, valor.propiedades, "", baseUrl + "assets/img/firstaid.png");
                         });
                     } else {
                         notificacionError("", "No es posible encontrar la información del incendio.");
@@ -54,7 +54,7 @@ var MapaRapanuiEbola = Class({
     
     remove : function(){
         var marcador = new MapaMarcador();
-        marcador. removerMarcadores("identificador", "rapanui_ebola");
+        marcador. removerMarcadores("identificador", "rapanui_dengue");
         rapanui_ebola = null;
     }
 });

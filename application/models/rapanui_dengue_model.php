@@ -7,13 +7,13 @@ if (!defined('BASEPATH')){
 /**
  * Alarma Model
  */
-class Rapanui_Ebola_Model extends MY_Model {
+class Rapanui_Dengue_Model extends MY_Model {
     
     /**
      * Nombre de tabla
      * @var string 
      */
-    protected $_tabla = "rapanui_ebola";
+    protected $_tabla = "rapanui_dengue";
     
     /**
      * Lista alarmas de acuerdo a parametros

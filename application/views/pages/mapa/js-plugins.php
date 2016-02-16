@@ -56,7 +56,7 @@
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/archivos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/formatos/rapanui_ebola.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/formatos/rapanui_dengue.js"); ?>
 
 <!-- Externos -->
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/sidco-conaf.js"); ?>
