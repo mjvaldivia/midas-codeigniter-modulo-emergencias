@@ -1,5 +1,5 @@
 <li class="dropdown-submenu">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $nombre; ?></a>
+    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><?php echo $nombre; ?></a>
     <ul class="dropdown-menu" style="min-width:400px">
     <!--<li>
         <a href="#">

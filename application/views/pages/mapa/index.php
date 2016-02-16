@@ -9,25 +9,25 @@
                 <ul class="nav navbar-nav navbar-right">
                 
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
                         <li>
-                            <a id="btn-guardar" href="#"><i class="fa fa-save"></i> Guardar</a>
+                            <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
-                            <a href="#"><i class="fa fa-upload"></i> Exportar</a>
+                            <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a  id="btn-exportar-kml" href="#"> <i class="fa fa-map"></i> Kmz </a>
+                                    <a  id="btn-exportar-kml" href="javascript:void(0)"> <i class="fa fa-map"></i> Kmz </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="dropdown-submenu">
-                            <a href="#"><i class="fa fa-download"></i> Importar</a>
+                            <a href="javascript:void(0)"><i class="fa fa-download"></i> Importar</a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a  id="btn-importar-kml" href="#"> <i class="fa fa-map"></i> Kml/Kmz </a>
+                                    <a  id="btn-importar-kml" href="javascript:void(0)"> <i class="fa fa-map"></i> Kml/Kmz </a>
                                 </li>
                                 <!--<li>
                                     <a id="btn-importar-excel" href="#"> <i class="fa fa-table"></i> Excel </a>
@@ -38,32 +38,32 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-edit"></i> Editar <b class="caret"></b></a>
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-edit"></i> Editar <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
-                        <li><a id="btn-ubicacion-emergencia" href="#"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
+                        <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
                         
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-eye"></i> Ver <b class="caret"></b></a>
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-eye"></i> Ver <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
                         <li class="dropdown-submenu">
-                            <a href="#"><i class="fa fa-object-group"></i> Capas</a>
+                            <a href="javascript:void(0)"><i class="fa fa-object-group"></i> Capas</a>
                             <ul class="dropdown-menu">
-                                <li><a id="btn-capas-gestionar" href="#"><i class="fa fa-gears"></i> Gestionar capas</a></li>
+                                <li><a id="btn-capas-gestionar" href="javascript:void(0)"><i class="fa fa-gears"></i> Gestionar capas</a></li>
                                 <li class="divider"></li>
                                 <?php echo visorMenuCapasCategoria($id); ?>
                             </ul>
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
-                            <a href="#"><i class="fa fa-cloud-download"></i> Datos externos</a>
+                            <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> Datos externos</a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a id="btn-importar-sidco" href="#"><input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> <i class="fa fa-fire"></i> Sidco - Conaf </a>
+                                    <a id="btn-importar-sidco" href="javascript:void(0)"><input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> <i class="fa fa-fire"></i> Sidco - Conaf </a>
                                 </li>
                                 <li>
-                                    <a id="btn-importar-rapanui" href="#"><input type="checkbox" name="importar_rapanui" id="importar_rapanui" value="1"/> <i class="fa fa-fire"></i> Isla de pascua - ebola </a>
+                                    <a id="btn-importar-rapanui" href="javascript:void(0)"><input type="checkbox" name="importar_rapanui" id="importar_rapanui" value="1"/> <i class="fa fa-fire"></i> Isla de pascua - ebola </a>
                                 </li>
                             </ul>
                         </li>
@@ -82,19 +82,19 @@
                         <ul id="lista_capas_agregadas" class="demo-menu">
 
                         </ul>
-                        <a href="#" class="menu-item-text">Capas <span id="cantidad_capas_agregadas" class="badge">0</span></a> 
+                        <a href="javascript:void(0)" class="menu-item-text">Capas <span id="cantidad_capas_agregadas" class="badge">0</span></a> 
                     </div>
                     <div class="top-menu-main">
                         <ul id="lista_elementos_agregados" class="demo-menu">
 
                         </ul>
-                        <a href="#" class="menu-item-text">Elementos <span id="cantidad_elementos_agregados" class="badge">0</span></a> 
+                        <a href="javascript:void(0)" class="menu-item-text">Elementos <span id="cantidad_elementos_agregados" class="badge">0</span></a> 
                     </div>
                     <div class="top-menu-main">
                         <ul id="lista_importados_agregados" class="demo-menu">
 
                         </ul>
-                        <a href="#" class="menu-item-text">Importados <span id="cantidad_elementos_importados" class="badge">0</span></a> 
+                        <a href="javascript:void(0)" class="menu-item-text">Importados <span id="cantidad_elementos_importados" class="badge">0</span></a> 
                     </div>
                 </div>
             </div>
