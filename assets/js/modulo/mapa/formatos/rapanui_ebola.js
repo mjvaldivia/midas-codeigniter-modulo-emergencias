@@ -53,6 +53,8 @@ var MapaRapanuiEbola = Class({
     },
     
     remove : function(){
+        var marcador = new MapaMarcador();
+        marcador. removerMarcadores("identificador", "rapanui_ebola");
         rapanui_ebola = null;
     }
 });
