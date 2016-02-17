@@ -120,14 +120,14 @@
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="fecha_consulta" class="control-label">Fecha consulta(*):</label>
-                                    <input value="<?php echo $fecha_consulta; ?>" class="form-control" name="fecha_de_consulta" id="fecha_consulta">
+                                    <input value="<?php echo $fecha_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_consulta">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="fecha_1er_dia_fiebre" class="control-label">Fecha 1er día fiebre(*):</label>
-                                    <input value="<?php echo $fecha_1er_dia_fiebre; ?>" class="form-control" name="fecha_1er_dia_fiebre" id="fecha_1er_dia_fiebre">
+                                    <input value="<?php echo $fecha_1er_dia_fiebre; ?>" class="form-control datepicker-date" name="fecha_1er_dia_fiebre" id="fecha_1er_dia_fiebre">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="fecha_hospitalizacion" class="control-label">Fecha hospitalización:</label>
-                                    <input value="<?php echo $fecha_hospitalizacion; ?>" class="form-control" name="fecha_hospitalizacion" id="fecha_hospitalizacion">
+                                    <input value="<?php echo $fecha_hospitalizacion; ?>" class="form-control datepicker-date" name="fecha_hospitalizacion" id="fecha_hospitalizacion">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -173,7 +173,7 @@
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="fecha_fallecimiento" class="control-label">Fecha fallecimiento:</label>
-                                    <input value="<?php echo $fecha_fallecimiento; ?>" class="form-control" name="fecha_fallecimiento" id="fecha_fallecimiento">
+                                    <input value="<?php echo $fecha_fallecimiento; ?>" class="form-control datepicker-date" name="fecha_fallecimiento" id="fecha_fallecimiento">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -456,14 +456,14 @@
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="viaje_fuera_de_isla_de_pascua_fecha_salida" class="control-label">Fecha salida:</label>
-                                    <input value="<?php echo $viaje_fuera_de_isla_de_pascua_fecha_salida; ?>" class="form-control" name="viaje_fuera_de_isla_de_pascua_fecha_salida" id="viaje_fuera_de_isla_de_pascua_fecha_salida">
+                                    <input value="<?php echo $viaje_fuera_de_isla_de_pascua_fecha_salida; ?>" class="form-control datepicker-date" name="viaje_fuera_de_isla_de_pascua_fecha_salida" id="viaje_fuera_de_isla_de_pascua_fecha_salida">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="viaje_fuera_de_isla_de_pascua_fecha_llegada" class="control-label">Fecha llegada:</label>
-                                    <input value="<?php echo $viaje_fuera_de_isla_de_pascua_fecha_llegada; ?>" class="form-control" name="viaje_fuera_de_isla_de_pascua_fecha_llegada" id="viaje_fuera_de_isla_de_pascua_fecha_llegada">
+                                    <input value="<?php echo $viaje_fuera_de_isla_de_pascua_fecha_llegada; ?>" class="form-control datepicker-date" name="viaje_fuera_de_isla_de_pascua_fecha_llegada" id="viaje_fuera_de_isla_de_pascua_fecha_llegada">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -488,14 +488,14 @@
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="viaje_reciente_al_extrangero_fecha_salida" class="control-label">Fecha salida:</label>
-                                    <input value="<?php echo $viaje_reciente_al_extrangero_fecha_salida; ?>" class="form-control" name="viaje_reciente_al_extrangero_fecha_salida" id="viaje_reciente_al_extrangero_fecha_salida">
+                                    <input value="<?php echo $viaje_reciente_al_extrangero_fecha_salida; ?>" class="form-control datepicker-date" name="viaje_reciente_al_extrangero_fecha_salida" id="viaje_reciente_al_extrangero_fecha_salida">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="viaje_reciente_al_extrangero_fecha_llegada" class="control-label">Fecha llegada:</label>
-                                    <input value="<?php echo $viaje_reciente_al_extrangero_fecha_llegada; ?>" class="form-control" name="viaje_reciente_al_extrangero_fecha_llegada" id="viaje_reciente_al_extrangero_fecha_llegada">
+                                    <input value="<?php echo $viaje_reciente_al_extrangero_fecha_llegada; ?>" class="form-control datepicker-date" name="viaje_reciente_al_extrangero_fecha_llegada" id="viaje_reciente_al_extrangero_fecha_llegada">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -510,7 +510,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
@@ -522,7 +522,7 @@
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="antecedentes_de_dengue_previo_fecha" class="control-label">Fecha:</label>
-                                    <input value="<?php echo $antecedentes_de_dengue_previo_fecha; ?>" class="form-control" name="antecedentes_de_dengue_previo_fecha" id="antecedentes_de_dengue_previo_fecha">
+                                    <input value="<?php echo $antecedentes_de_dengue_previo_fecha; ?>" class="form-control datepicker-date" name="antecedentes_de_dengue_previo_fecha" id="antecedentes_de_dengue_previo_fecha">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -549,7 +549,7 @@
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="vacunacion_contra_fiebre_amarilla_fecha" class="control-label">Fecha vacunacion:</label>
-                                    <input value="<?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?>" class="form-control" name="vacunacion_contra_fiebre_amarilla_fecha" id="vacunacion_contra_fiebre_amarilla_fecha">
+                                    <input value="<?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?>" class="form-control datepicker-date" name="vacunacion_contra_fiebre_amarilla_fecha" id="vacunacion_contra_fiebre_amarilla_fecha">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>

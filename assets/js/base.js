@@ -33,6 +33,12 @@ $(document).ready(function() {
         });
     });
     
+    $(".datepicker-date").livequery(function(){
+        $(this).datetimepicker({
+            format: "DD/MM/YYYY"
+        });
+    });
+    
     $(".select2-images").livequery(function(){ 
         $(this).select2({
             templateResult: formatState
