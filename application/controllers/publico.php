@@ -15,6 +15,7 @@ class Publico extends MY_Controller
      */
     public function __construct() {
         parent::__construct();
+        $this->load->helper(array("modulo/alarma/alarma_form"));
         $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
     }
     
@@ -29,7 +30,35 @@ class Publico extends MY_Controller
      * 
      */
     public function form_dengue(){
-        $this->template->parse("default", "pages/publico/form-dengue", array());
+        
+        $this->template->parse(
+            "default", 
+            "pages/publico/form-dengue", 
+            array(
+                "latitud" => "-27.11299",
+                "longitud" => "-109.34958059999997"
+                )
+        );
+    }
+    
+    public function editar(){
+        $params = $this->input->get(null, true);
+        
+        $caso = $this->_rapanui_dengue_model->getById($params["id"]);
+        if(!is_null($caso)){
+            
+            $data = array("id" => $caso->id);
+            $propiedades = json_decode($caso->propiedades);
+            $coordenadas = json_decode($caso->coordenadas);
+            foreach($propiedades as $nombre => $valor){
+                $data[str_replace(" ", "_" ,strtolower($nombre))] = $valor;
+            }
+            
+            $data["latitud"] = $coordenadas->lat;
+            $data["longitud"] = $coordenadas->lng;
+            
+            $this->template->parse("default", "pages/publico/form-dengue", $data);
+        }
     }
     
     /**
@@ -50,13 +79,22 @@ class Publico extends MY_Controller
          foreach($params as $nombre => $valor){
              if(TRIM($valor)!=""){
                  $nombre = str_replace("_", " ", $nombre);
-                 $arreglo[strtoupper($nombre)] = strtoupper($valor);
+                 $arreglo[strtoupper($nombre)] = $valor;
              }
          }
-
-        $this->_rapanui_dengue_model->insert(array("fecha" => date("Y-m-d H:i:s"),
+         
+        $caso = $this->_rapanui_dengue_model->getById($params["id"]);
+        if(is_null($caso)){
+            $this->_rapanui_dengue_model->insert(array("fecha" => date("Y-m-d H:i:s"),
                                                    "propiedades" => json_encode($arreglo),
                                                    "coordenadas" => json_encode($coordenadas)));
+        } else {
+            $this->_rapanui_dengue_model->update(array("propiedades" => json_encode($arreglo),
+                                                       "coordenadas" => json_encode($coordenadas)),
+                                                 $caso->id);
+        }
+
+        
        
         echo json_encode(array("error" => array(),
                               "correcto" => true));

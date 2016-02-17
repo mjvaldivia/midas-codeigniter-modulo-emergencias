@@ -15,6 +15,15 @@ class Rapanui_Dengue_Model extends MY_Model {
      */
     protected $_tabla = "rapanui_dengue";
     
+    /**
+     * Retorna por el identificador
+     * @param int $id clave primaria
+     * @return object
+     */
+    public function getById($id){
+        return $this->_query->getById("id", $id);
+    }
+    
     
     /**
      * 
@@ -23,6 +32,16 @@ class Rapanui_Dengue_Model extends MY_Model {
      */
     public function insert($data){
         return $this->_query->insert($data);
+    }
+    
+    /**
+     * Actualiza 
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "id", $id);
     }
     
     /**
