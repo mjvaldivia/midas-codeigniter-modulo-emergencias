@@ -27,14 +27,14 @@
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
                                     <label for="nombre" class="control-label">Latitud(*):</label>
-                                    <input type="text" name="latitud" id="latitud" value="-27.11299">
+                                    <input type="text" class="form-control mapa-coordenadas" name="latitud" id="latitud" value="-27.11299">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
                                     <label for="nombre" class="control-label">Longitud(*):</label>
-                                    <input type="text" name="longitud" id="longitud" value="-109.34958059999997">
+                                    <input type="text" class="form-control mapa-coordenadas" name="longitud" id="longitud" value="-109.34958059999997">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>

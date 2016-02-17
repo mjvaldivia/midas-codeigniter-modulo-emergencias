@@ -28,6 +28,7 @@ var regiones = {"Región de Tarapacá" : "19K",
  */
 var EventoFormMapa = Class({
     
+    places_input : "nombre_lugar",
     mapa : null,
     marker : null,
     geozone : "19H",
@@ -42,6 +43,10 @@ var EventoFormMapa = Class({
      */
     __construct : function(id_mapa) {
         this.id_div_mapa = id_mapa;
+    },
+    
+    seteaPlaceInput : function(place){
+        this.places_input = place;
     },
     
     seteaLatitud : function(latitud){
@@ -147,8 +152,8 @@ var EventoFormMapa = Class({
     places : function(){
         var yo = this;
         
-        $("#nombre_lugar").livequery(function(){
-            ac = new google.maps.places.Autocomplete((document.getElementById('nombre_lugar')), {
+        $("#" + yo.places_input).livequery(function(){
+            ac = new google.maps.places.Autocomplete((document.getElementById(yo.places_input)), {
                 componentRestrictions: {country: 'cl'}
             });
 

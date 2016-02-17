@@ -23,7 +23,7 @@ $(document).ready(function() {
     });
     
     var mapa = new EventoFormMapa("mapa");
-    
+    mapa.seteaPlaceInput("direccion");
     mapa.seteaLongitud($("#longitud").val());
     mapa.seteaLatitud($("#latitud").val());
     
