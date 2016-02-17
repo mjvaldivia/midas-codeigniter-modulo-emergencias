@@ -476,7 +476,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input id="viaje_reciente_al_extrangero" name="viaje_reciente_al_extrangero" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $viaje_reciente_al_extrangero); ?>> Viaje reciente al extrangero
+                                            <input id="viaje_reciente_al_extranjero" name="viaje_reciente_al_extranjero" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $viaje_reciente_al_extrangero); ?>> Viaje reciente al extranjero
                                         </label>
                                     </div>
                                 </div>
