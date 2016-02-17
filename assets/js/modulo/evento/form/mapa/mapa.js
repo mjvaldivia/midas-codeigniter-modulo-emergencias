@@ -126,7 +126,7 @@ var EventoFormMapa = Class({
         var mapOptions = {
           zoom: 13,
           center: myLatlng,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.HYBRID
         };
 
         map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
