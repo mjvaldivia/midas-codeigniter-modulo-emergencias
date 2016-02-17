@@ -43,37 +43,48 @@
                         </div>
                         <div class="col-md-8">
                             <div class="row">
-                                <div class="col-xs-6">
+                                <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="nombre" class="control-label">Nombre(*):</label>
                                         <input value="<?php echo $nombre; ?>" class="form-control" name="nombre" id="nombre">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="apellido" class="control-label">Apellidos(*):</label>
                                         <input value="<?php echo $apellido; ?>" class="form-control" name="apellido" id="apellido">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
+                                <div class="col-xs-2">
+                                    <div class="form-group clearfix">
+                                        <label for="sexo" class="control-label">Sexo(*):</label>
+                                        <select name="sexo" id="sexo" class="form-control">
+                                            <option value=""></option>
+                                            <option value="Masculino" <?php if($sexo == "Masculino") echo "selected" ?>> Masculino </option>
+                                            <option value="Femenino" <?php if($sexo == "Femenino") echo "selected" ?>> Femenino </option>
+                                        </select>
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-4">
+                                <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="rut" class="control-label">Rut(*):</label>
                                         <input value="<?php echo $rut; ?>" class="form-control" name="rut" id="rut">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-5">
                                     <div class="form-group clearfix">
-                                        <label for="sexo" class="control-label">Sexo(*):</label>
-                                        <input value="<?php echo $sexo; ?>" class="form-control" name="sexo" id="sexo">
+                                        <label for="telefono" class="control-label">Teléfono(s)(*):</label>
+                                        <input value="<?php echo $telefono; ?>" class="form-control" name="telefono" id="telefono">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     <div class="form-group clearfix">
                                         <label for="fecha_nacimiento" class="control-label">Fecha de nacimiento(*):</label>
                                         <input value="<?php echo $fecha_nacimiento; ?>" class="form-control" name="fecha_de_nacimiento" id="fecha_nacimiento">
@@ -82,14 +93,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6">
+                                <div class="col-xs-12">
                                     <div class="form-group clearfix">
                                         <label for="direccion" class="control-label">Dirección(*):</label>
                                         <input value="<?php echo $direccion; ?>" class="form-control" name="direccion" id="direccion">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
                                     <div class="form-group clearfix">
                                         <label for="ocupacion" class="control-label">Ocupación(*):</label>
                                         <input value="<?php echo $ocupacion; ?>" class="form-control" name="ocupacion" id="ocupacion">
@@ -97,18 +110,7 @@
                                     </div>
                                 </div>
                             </div>			
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="form-group clearfix">
-                                        <label for="telefono" class="control-label">Teléfono(s)(*):</label>
-                                        <input value="<?php echo $telefono; ?>" class="form-control" name="telefono" id="telefono">
-                                        <span class="help-block hidden"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-
-                                </div>
-                            </div>	
+   	
                         </div>
                     </div>
                 </div>
