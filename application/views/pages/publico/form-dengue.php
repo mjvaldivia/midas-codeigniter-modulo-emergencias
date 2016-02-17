@@ -1,11 +1,12 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1>Inicio
-                <small><i class="fa fa-arrow-right"></i> Resumen</small>
+            <h1> Gestión de vigilancia de casos febriles
             </h1>
             <ol class="breadcrumb">
-                <li class="active"><i class="fa fa-dashboard"></i> Inicio</li>
+                <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Inicio </a></li>
+                <li><i class="fa fa-bell"></i> Casos febriles </li>
+                <li class="active"><i class="fa fa-bell"></i> Formulario </li>
             </ol>
         </div>
     </div>
