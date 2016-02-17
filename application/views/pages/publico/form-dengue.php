@@ -567,7 +567,7 @@
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
                         <button id="guardar" class="btn btn-green" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
-                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("publico/dengue") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
+                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("publico/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
                     </div>
                 </div>
                 </div>

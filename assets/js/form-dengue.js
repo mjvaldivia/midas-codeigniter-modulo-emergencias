@@ -13,7 +13,7 @@ $(document).ready(function() {
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    document.location.href = siteUrl + "publico/dengue";
+                    document.location.href = siteUrl + "publico/index";
                 } else {
                     $("#form_error").removeClass("hidden");
                     procesaErrores(data.error);

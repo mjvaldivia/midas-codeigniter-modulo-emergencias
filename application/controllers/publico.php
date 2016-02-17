@@ -22,7 +22,7 @@ class Publico extends MY_Controller
     /**
      * 
      */
-    public function dengue(){
+    public function index(){
         $this->template->parse("default", "pages/publico/dengue", array());
     }
     
