@@ -18,7 +18,6 @@
             <div class="col-md-12 well text-center">
                 <form  id="<?= $form_name ?>" name="<?= $form_name ?>" enctype="application/x-www-form-urlencoded" action="" method="post">
                     <input type="hidden" name="eme_id" id="eme_id" value="<?php echo $eme_id; ?>"/>
-                    <!--<input type="hidden" name="ala_id" id="ala_id" value="<?php /*echo $ala_id; */?>" />-->
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="row">
@@ -30,7 +29,7 @@
                                         <div class="form-group">
                                             <br>
                                             <!-- <label>Lon:</label> -->
-                                            <input id="longitud" name="longitud" type="hidden" value="<?php $longitud_utm ?>"
+                                            <input id="longitud" name="longitud" type="hidden" value="<?php echo $longitud_utm ?>"
                                                    class="form-control required mapa-coordenadas" placeholder="longitud (e)">
                                         </div>
                                     </div>
@@ -38,7 +37,7 @@
                                         <div class="form-group ">
                                             <br>
                                             <!-- <label>Lat:</label> -->
-                                            <input id="latitud" name="latitud" type="hidden" value="<?php $latitud_utm ?>"
+                                            <input id="latitud" name="latitud" type="hidden" value="<?php echo $latitud_utm ?>"
                                                    class="form-control required mapa-coordenadas" placeholder="latitud (n)">
                                         </div>
                                     </div>
@@ -141,7 +140,7 @@
                                     <div class="form-group clearfix">
                                         <label for="observacion" class="control-label">Comuna(s) afectada(s) (*):</label>
                                         <?php echo formElementSelectComunaUsuario("comunas[]", $lista_comunas); ?>
-                                        <span class="help-block hidden col-sm-8"></span>
+                                        <span class="help-block hidden"></span>
                                     </div>
                  
                                 </div>
@@ -151,7 +150,7 @@
                                     <div class="form-group clearfix">
                                         <label for="observacion" class="control-label">Descripción del Evento (*):</label>
                                         <textarea  class="form-control" rows="5" name="descripcion_emergencia" id="descripcion_emergencia"><?php echo $descripcion; ?></textarea>
-                                        <span class="help-block hidden col-sm-8"></span>
+                                        <span class="help-block hidden"></span>
                                     </div>
                                 </div>
 
@@ -159,7 +158,7 @@
                                     <div class="form-group clearfix">
                                         <label for="observacion" class="control-label">Observaciones iniciales:</label>
                                         <textarea  class="form-control" name="observacion" rows="5" id="observacion"><?php echo $observacion; ?></textarea>
-                                        <span class="help-block hidden col-sm-8"></span>
+                                        <span class="help-block hidden"></span>
                                     </div>
                                 </div>
                             </div>
@@ -183,24 +182,6 @@
                 <div id="form-tipo-emergencia">
                     
                 </div>
-                <div id="contenedor-adjuntos">
-                    <?php if(isset($adjuntos) and count($adjuntos) > 0):?>
-                    <div class="col-xs-12">
-                        <div class="alert alert-info">
-                            <p><strong>Adjuntos</strong></p>
-                            <ul>
-                                <?php foreach($adjuntos as $adjunto):?>
-                                <li style="margin:2px 0;"><a href="<?php echo $adjunto['path'];?>" target="_blank"><i class="fa fa-file-o"></i> <?php echo $adjunto['nombre']?></a> <button type="btn btn-xs btn-danger" type="button" onclick="Emergencia.borrarAdjunto('<?php echo $adjunto['arch_c_nombre']?>',this)"><i class="fa fa-trash-o"></i></button></li>
-                                <?php endforeach;?>
-                            </ul>
-                        </div>
-                    </div>
-                    <?php endif;?>
-                    <div class="col-xs-12">
-                        <!--<input type="file" name="adjunto-emergencia" id="adjunto-emergencia" multiple />-->
-                    </div>
-
-                </div>
             </div>
         </div>
     </div>
@@ -221,32 +202,6 @@
 <?php echo loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
 <?php echo loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        var emergencia = $("#eme_id").val();
-
-        if(emergencia < 1){
-            emergencia = '<?php echo uniqid();?>';
-        }else{
-            $("#latitud").val('<?php echo $latitud_utm?>');
-            $("#longitud").val('<?php echo $longitud_utm?>');
-        }
-        $("#adjunto-emergencia").fileinput({
-            language: "es",
-            multiple: true,
-            uploadAsync: true,
-            initialCaption: "Seleccione los adjuntos a la emergencia",
-            uploadUrl: siteUrl + "emergencia/subir_AdjuntoEmergenciaTmp/id/"+emergencia
-        });
-
-        <?php if(isset($activar_emergencia)):?>
-        $("#estado_emergencia").val(2);
-        $("#tipo_emergencia").trigger('change');
-        $("#latitud").val('<?php echo $latitud_utm?>');
-        $("#longitud").val('<?php echo $longitud_utm?>');
-        <?php endif;?>
-    });
-</script>
 
 
 

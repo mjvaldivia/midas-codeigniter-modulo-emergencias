@@ -40,18 +40,12 @@ $(document).ready(function() {
     });
     
     $(".select2-tags").livequery(function(){
-        $(this).select2({
+        $(this).chosen({
+            no_results_text: "No se encontraron resultados",
             width: '100%',
             tags: true,
             allowClear: true
         });
-        
-       /* var parent = $(this).parent().parent(".form-group");
- 
-        var label = $(parent).find("label");
-        $(label).css("width", "100%");
-        $(label).append("<div style=\"float:right\"><input type=\"checkbox\">Seleccionar todos</div>");*/
-        
     });
     
     $(".colorpicker").livequery(function(){

@@ -162,7 +162,8 @@ class Evento extends MY_Controller {
     /**
      * Guarda formulario de alarma
      */
-    public function guardar() {       
+    public function guardar() { 
+        header('Content-type: application/json');
         $this->load->library(array("alarma/alarmavalidar", 
                                    "emergencia/emergencia_guardar"));
         

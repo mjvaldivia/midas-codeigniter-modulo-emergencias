@@ -112,10 +112,11 @@ Class Alarma_form_tipo{
      * @return array
      */
     protected function _populate(){
-        $array = array();
+        $array = array("id" => $this->_alarma->eme_ia_id);
                     
         $datos = unserialize($this->_getDataFromBd());
         if(is_array($datos) && count($datos)>0){
+            
             foreach($datos as $nombre_input => $valor){
                 $array["form_tipo_" . $nombre_input] = $valor;
             }

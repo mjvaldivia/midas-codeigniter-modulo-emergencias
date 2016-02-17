@@ -273,14 +273,6 @@ var EventoFormNuevo = Class({
             });
         }
 
-        /*if($("#estado_emergencia").val() > 1){
-            var parametros_emergencia = this.getParametrosFix("form-tipos-emergencia");
-            for(var i=0; i<parametros_emergencia.length; i++){
-                parametros.push(parametros_emergencia[i]);
-            }
-
-        }*/
-
         var salida = false;
         
         $.ajax({         
@@ -298,6 +290,7 @@ var EventoFormNuevo = Class({
                     yo.callBackGuardar(yo.bo_email_enviado);
                     salida = true;
                 } else {
+                    console.log("Se muestran errores");
                     $("#form_nueva_error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
@@ -344,7 +337,7 @@ var EventoFormNuevo = Class({
                     $('ul.setup-panel li a[href="#step-2"]').trigger('click');
                     yo.btnPaso2();
                 } else {
-                    $("#" + form + "_error").addClass("hidden");
+                    $("#" + form + "_error").removeClass("hidden");
                     procesaErrores(data.error);
                 }
             }

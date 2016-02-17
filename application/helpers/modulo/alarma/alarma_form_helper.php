@@ -1,7 +1,15 @@
 <?php
 
 require_once(APPPATH . "helpers/modulo/alarma/form/element/SelectEstados.php");
+require_once(APPPATH . "helpers/modulo/alarma/form/element/Archivos.php");
 require_once(APPPATH . "helpers/modulo/alarma/form/value/EmergenciaTipoChecked.php");
+
+
+function formElementArchivos($id_emergencia){
+    $elemento = New Alarma_Form_Element_Archivos();
+    $elemento->setEmergencia($id_emergencia);
+    return $elemento->render();
+}
 
 /**
  * Genera elemento select de estados de alarma

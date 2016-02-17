@@ -95,7 +95,7 @@
             <!-- end BRAND HEADING -->
 
             <div class="nav-top">
-
+                <?php if(estaLogeado()) { ?>
                 <!-- begin LEFT SIDE WIDGETS -->
                 <ul class="nav navbar-left">
                     <li class="tooltip-sidebar-toggle">
@@ -105,6 +105,7 @@
                     </li>
                     <!-- You may add more widgets here using <li> -->
                 </ul>
+                <?php } ?>
                 <!-- end LEFT SIDE WIDGETS -->
 
                 <!-- begin MESSAGES/ALERTS/TASKS/USER ACTIONS DROPDOWNS -->
@@ -131,6 +132,7 @@
                     <!-- /.dropdown -->
                     <!-- end MESSAGES DROPDOWN -->
                     <!-- begin USER ACTIONS DROPDOWN -->
+                    <?php if(estaLogeado()) { ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-user"></i> {session_usuario} <i class="fa fa-caret-down"></i>
@@ -174,6 +176,7 @@
                         </ul>
                         <!-- /.dropdown-menu -->
                     </li>
+                    <?php } ?>
                     <!-- /.dropdown -->
                     <!-- end USER ACTIONS DROPDOWN -->
 
@@ -188,7 +191,7 @@
         <!-- end TOP NAVIGATION -->
 
         <!-- begin SIDE NAVIGATION -->
-        <nav class="navbar-side <?= menuCollapsed("navbar"); ?>" role="navigation">
+        <nav class="navbar-side <?= menuCollapsed("navbar"); ?> <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
             <div class="navbar-collapse sidebar-collapse <?= menuCollapsed("sidebar"); ?>">
                 <ul id="side" class="nav navbar-nav side-nav">
                     <li class="side-user hidden-xs">
@@ -244,6 +247,7 @@
         <?= loadJS("assets/js/library/qtip/jquery.qtip.min.js", true) ?>
 
         <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.min.css") ?>
+        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.boostrap.css") ?>
         <?= loadJS("assets/js/library/chosen_v1.4.2/chosen.jquery.min.js") ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2.css", true) ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>

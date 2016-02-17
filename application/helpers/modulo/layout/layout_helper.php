@@ -2,6 +2,7 @@
 
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
+require_once(APPPATH . "helpers/modulo/layout/usuario/Logeado.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Permiso.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Regiones.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Roles.php");
@@ -135,4 +136,9 @@ function textMoreLess($string, $largo = 30){
 function htmlSimulacion(){
     $simulacion = New Layout_Sistema_Simulacion();
     return $simulacion->render();
+}
+
+function estaLogeado(){
+    $logeo = New Layout_Usuario_Logeado();
+    return $logeo->estaLogeado();
 }

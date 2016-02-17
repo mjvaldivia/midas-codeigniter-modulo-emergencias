@@ -44,6 +44,14 @@ var EventoFormMapa = Class({
         this.id_div_mapa = id_mapa;
     },
     
+    seteaLatitud : function(latitud){
+      this.latitud = latitud;  
+    },
+    
+    seteaLongitud : function(longitud){
+      this.longitud = longitud;  
+    },
+    
     /**
      * 
      * @returns {undefined}

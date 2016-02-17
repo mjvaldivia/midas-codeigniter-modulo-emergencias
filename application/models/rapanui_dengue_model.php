@@ -15,6 +15,23 @@ class Rapanui_Dengue_Model extends MY_Model {
      */
     protected $_tabla = "rapanui_dengue";
     
+    
+    /**
+     * 
+     * @param array $data
+     * @return int identificador del registro ingresado
+     */
+    public function insert($data){
+        return $this->_query->insert($data);
+    }
+    
+    /**
+     * 
+     */
+    public function delete($id){
+        $this->_query->delete("id", $id);
+    }
+    
     /**
      * Lista alarmas de acuerdo a parametros
      * @param array $parametros

@@ -33,6 +33,7 @@ var EventoFormEditar = Class({ extends : EventoFormNuevo}, {
             },
             success:function(data){
                 if(data.correcto == true){
+                    $("#form_editar_error").addClass("hidden");
                     procesaErrores(data.error);
                     yo.callBackGuardar();
                     salida = true;
@@ -51,9 +52,7 @@ var EventoFormEditar = Class({ extends : EventoFormNuevo}, {
      * @returns void
      */
     mostrarFormulario : function(){
-        
         var yo = this;
-
         $.ajax({         
             dataType: "html",
             cache: false,

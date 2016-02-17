@@ -85,6 +85,12 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <?php echo formElementArchivos($id); ?>
+        </div>
+    </div>
            
     <div class="row">
         <div class="col-md-12">

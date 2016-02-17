@@ -72,7 +72,7 @@
 
                                       <button title="Eliminar" class="btn btn-sm btn-danger emergencia-eliminar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" href="#" >
                                           <i class="fa fa-trash"></i>
-                                      </button class="btn btn-sm btn-success " type="button" >
+                                      </button>
                                   <?php } ?>
 
                         </div>
