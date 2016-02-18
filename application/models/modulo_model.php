@@ -13,7 +13,7 @@ class Modulo_Model extends MY_Model {
     const SUB_MODULO_CAPAS = 41;
     const SUB_SIMULACION   = 42;
     const SUB_DOCUMENTACION = 43;
-
+    const SUB_CASOS_FEBRILES = 44;
     /**
      *
      * @var string 

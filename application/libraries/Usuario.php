@@ -77,6 +77,9 @@ Class Usuario{
             case "administracion":
                 $this->_administrador = true;
                 break;
+            case "casos_febriles":
+                $this->_id_modulo = Modulo_Model::SUB_CASOS_FEBRILES;
+                break;
             default:
                 throw new Exception("No se encontro el modulo");
                 break;
@@ -150,7 +153,7 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoVisorEmergencia(){
-        $permiso = $this->_permiso_model->tienePermisoVisorEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        $permiso = $this->_permiso_model->tienePermisoVisorEmergencia($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {

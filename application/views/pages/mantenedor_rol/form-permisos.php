@@ -13,12 +13,14 @@
             </div>
             <div class="portlet-body" style='height: 100px'>
                 <div class="row"> 
+                    <?php if($row["per_ia_id"] != Modulo_Model::SUB_CASOS_FEBRILES) { ?>
                     <div class="col-sm-4">
                         <input <?php echo permisoFormCheckedVer($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="ver[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                         Ver
                     </div>
                     <div id="permisos_io_<?php echo $row["per_ia_id"] ?>">
                         <?php if($row["per_ia_id"] != Modulo_Model::SUB_SIMULACION) { ?>
+                        
                             
                             <div class="col-sm-4">
                                 <input <?php echo permisoFormCheckedEditar($id_rol, $row["per_ia_id"]); ?> name="editar[]" id="editar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
@@ -28,6 +30,7 @@
                                 <input <?php echo permisoFormCheckedEliminar($id_rol, $row["per_ia_id"]); ?> name="eliminar[]" id="eliminar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                                 Eliminar
                             </div>
+                    
                         
                             <?php if($row["per_ia_id"] == Modulo_Model::SUB_MODULO_ALARMA) { ?>
                                 <div class="col-sm-4">
@@ -53,6 +56,16 @@
                             <?php } ?>
                         <?php } ?>
                     </div>
+                    <?php } else { ?>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedVer($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="ver[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Ver y editar
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedVisorEmergencia($id_rol, $row["per_ia_id"]); ?> name="visor[]" id="visor_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Ver en visor
+                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
