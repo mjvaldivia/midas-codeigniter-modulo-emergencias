@@ -15,6 +15,7 @@ class Publico extends MY_Controller
      */
     public function __construct() {
         parent::__construct();
+        sessionValidation();
         $this->load->helper(array("modulo/alarma/alarma_form"));
         $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
     }
