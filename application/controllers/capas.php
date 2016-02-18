@@ -735,6 +735,221 @@ class Capas extends MY_Controller
 
         $this->load->view('pages/capa/listado_items_subcapa',$data);
     }
+    
+    public function subir_CapaTemp() {
+        $this->load->library("capa/capageojson");
+        $error = false;
+        $this->load->helper(array("session", "debug"));
+        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        sessionValidation();
+        if (!isset($_FILES)) {
+            show_error("No se han detectado archivos", 500, "Error interno");
+        }
+
+        $properties = array();
+        $arr_filename = array();
+        $tmp_prop_array = array();
+        $tipo_geometria = array();
+
+        $error = false;
+        $error_mensaje = '';
+
+
+
+        /* validar archivos */
+        if(isset($_FILES['input-capa-geojson'])){
+            $nombre = explode(".",$_FILES['input-capa-geojson']['name']);
+            $ext = end($nombre);
+            if($ext != 'geojson'){
+                $error = true;
+                $error_mensaje = 'Extensión no válida para archivo GeoJSON';
+            }
+        }elseif(isset($_FILES['input-capa-shape'])){
+            $nombres = $_FILES['input-capa-shape']['name'];
+            for($i=0; $i<sizeof($nombres); $i++){
+                $nombre = explode(".",$nombres[$i]);
+                $ext = end($nombre);
+
+                if($ext != 'shp' and $ext != 'dbf'){
+                    $error = true;
+                    $error_mensaje = 'Extensión no válida para archivo Shape';
+                }
+            }
+        }
+
+
+
+        if($error === false){
+
+            $prefijo = uniqid();
+
+            if(isset($_FILES['input-capa-geojson'])){
+                $tipo = 'geojson';
+                $tmp_name = $_FILES['input-capa-geojson']['tmp_name'];
+                $nombres = $_FILES['input-capa-geojson']['name'];
+                $size = $_FILES['input-capa-geojson']['size'];
+                $type = $_FILES['input-capa-geojson']['type'];
+
+                $nombre_geojson = 'media/tmp/capa_'.$prefijo.'_'.$nombres;
+                $tmp_geojson = 'media/tmp/tmp_'.$prefijo.'_'.$nombres;
+                $geojson = fopen($nombre_geojson, 'w');
+                fwrite($geojson,file_get_contents($tmp_name));
+                fclose($geojson);
+
+                $mapsharper = shell_exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_geojson.' -simplify 35% -o format=geojson '.$tmp_geojson);
+
+                unlink($nombre_geojson);
+
+            }else{
+                $tipo = 'shape';
+                $tmp_name = $_FILES['input-capa-shape']['tmp_name'];
+                $nombres = $_FILES['input-capa-shape']['name'];
+                $size = $_FILES['input-capa-shape']['size'];
+                $type = $_FILES['input-capa-shape']['type'];
+
+                for($i = 0; $i < sizeof($tmp_name); $i++){
+                    $extension = explode('.', $nombres[$i]);
+                    $ext = end($extension);
+                    if($ext == 'shp'){
+                        $nombre_capa = 'media/tmp/capa_'.$prefijo.'_'.$nombres[$i];
+                        $ext_geojson = str_replace('.shp','.geojson',$nombres[$i]);
+                        $tmp_geojson = 'media/tmp/tmp_'.$prefijo.'_'.$ext_geojson;
+                        $geojson = fopen($nombre_capa, 'w');
+                        fwrite($geojson,file_get_contents($tmp_name[$i]));
+                        fclose($geojson);
+                    }else{
+                        $nombre_dbf = 'media/tmp/capa_'.$prefijo.'_'.$nombres[$i];
+                        $geojson = fopen($nombre_dbf, 'w');
+                        fwrite($geojson,file_get_contents($tmp_name[$i]));
+                        fclose($geojson);
+                    }
+
+
+                }
+
+                $log = array();
+                $mapsharper = exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_capa.' -simplify 35% -o format=geojson '.$tmp_geojson, $log, $retorno);
+                
+                fb($log);
+                fb($retorno);
+                fb($tmp_geojson);
+                
+                unlink($nombre_capa);
+                unlink($nombre_dbf);
+
+
+            }
+
+
+
+            $arr_error_filenames = array();
+
+            $poligono = null;
+            $icono = null;
+
+
+            if(is_file($tmp_geojson)){
+                $fp = file_get_contents($tmp_geojson, 'r');
+                $nombre_archivo = end(explode("/",$tmp_geojson));
+                $size = filesize($tmp_geojson);
+                $type = mime_content_type($tmp_geojson);
+            }else{
+                $fp = file_get_contents($tmp_name, 'r');
+                $nombre_archivo = $nombres;
+            }
+
+            $error = false;
+            /*$fp = file_get_contents($tmp_geojson, 'r');*/
+
+            $arr_properties = json_decode(utf8_encode($fp),true);
+
+            // var_dump($arr_properties['features'][0]['properties']);die;
+
+            if (!isset($arr_properties['features'][0]['properties'])) {
+                $error = true;
+                $arr_error_filenames[] = $nombres[$i];
+            } else {
+                $nombre_cache_id = 'file_temp_'.  uniqid();
+                $arr_cache= array(
+                    'filename' => $nombre_archivo,
+                    'nombre_cache_id' => $nombre_cache_id,
+                    'content' => $fp,
+                    'size'=> $size,
+                    'type'=> $type
+
+                );
+                /*$this->cache->save($nombre_cache_id, $arr_cache, 28800);*/
+                $file = fopen('media/tmp/'.$nombre_cache_id,'w+b');
+                fwrite($file,serialize($arr_cache));
+                fclose($file);
+
+                /* ejecutar script para reducir geojson */
+
+
+                foreach ($arr_properties['features'][0]['properties'] as $k => $v) {
+
+                    if (in_array($k, $tmp_prop_array)) { // reviso que no se me repitan las propiedades
+                        continue;
+                    }
+                    $properties['data'][] = array($k,
+                        "<input class='propiedades' id='prop_$k' name='prop_$k' type='checkbox' checked=checked  />");
+                    $tmp_prop_array[] = $k;
+                }
+
+                $arr_filename['data'][] = array(
+                    $nombres[$i],
+                    "<select name=iComunas_".($i+1)." id=iComunas_".($i+1)." class='form-control iComunas required' placeholder='Comuna de la capa' ></select> <input name=tmp_file_".($i+1)." id=tmp_file_".($i+1)." value='$nombre_cache_id' type=hidden />",
+                );
+
+                $this->capageojson->setGeojson($arr_properties);
+                $geometrias = $this->capageojson->listGeometry();
+
+                if(in_array("Polygon", $geometrias) OR in_array("MultiPolygon", $geometrias) or in_array("MultiLineString", $geometrias)){
+                    $poligono = array("Poligonos",
+                        "<input name=\"color_poligono\" id=\"color_poligono\" placeholder=\"Color del poligono o linea\" type='text' class=\"colorpicker required\" value=\"\"/>");
+                }
+
+                if(in_array("Point", $geometrias)){
+                    $icono = array("Icono",
+                        "<select name=\"icono_color\" id=\"icono_color\" style=\"width: 300px\" placeholder=\"Icono de los marcadores\" class=\" select2-images required\">"
+                        . "<option value=\"\"></option>"
+                        . "<option value=\"". base_url("assets/img/markers/spotlight-poi.png")."\">Rojo</option>"
+                        . "<option value=\"". base_url("assets/img/markers/spotlight-poi-yellow.png")."\">Amarillo</option>"
+                        . "<option value=\"". base_url("assets/img/markers/spotlight-poi-blue.png")."\">Azul</option>"
+                        . "<option value=\"". base_url("assets/img/markers/spotlight-poi-green.png")."\">Verde</option>"
+                        . "<option value=\"". base_url("assets/img/markers/spotlight-poi-pink.png")."\">Rosado</option>"
+                        . "<option value=\"". base_url("assets/img/markers/spotlight-poi-black.png")."\">Negro</option>"
+                        . "</select>");
+                }
+
+            }
+
+
+
+            if(!is_null($poligono))
+                $tipo_geometria['data'][] = $poligono;
+
+            if(!is_null($icono))
+                $tipo_geometria['data'][] = $icono;
+
+        }
+        
+
+
+
+        echo ($error) ? json_encode(array("uploaded" => 0, 
+                                          "error_filenames" => $arr_error_filenames,
+                                          "error_mensaje" => $error_mensaje,
+                                          'properties' => $properties, 
+                                          'filenames' => $arr_filename,
+                                          'geometry' => $tipo_geometria)) 
+                      : json_encode(array("uploaded" => 1,
+                                            'nombre_cache_id' => $nombre_cache_id,
+                                            'error_mensaje' => $error_mensaje,
+                                            'properties' => $properties,
+                                            'filenames' => $arr_filename,
+                                            'geometry' => $tipo_geometria));
+    }
 
 
 }

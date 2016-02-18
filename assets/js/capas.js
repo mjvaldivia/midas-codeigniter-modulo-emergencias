@@ -43,7 +43,7 @@ var Layer = {};
             maxFileCount: 1,
             initialCaption: "Seleccione una capa GeoJson",
             allowedFileExtensions : ['geojson'],
-            uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
+            uploadUrl: siteUrl + "capas/subir_CapaTemp"
         });
 
         $("#input-capa-shape").fileinput({
@@ -55,7 +55,7 @@ var Layer = {};
             initialCaption: "Seleccione archivos Shape .shp y .dbf",
             showUpload: true,
             allowedFileExtensions : ['shp','dbf'],
-            uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
+            uploadUrl: siteUrl + "capas/subir_CapaTemp"
         });
 
 
@@ -506,7 +506,7 @@ var Layer = {};
             maxFileCount: 1,
             initialCaption: "Seleccione una capa GeoJson",
             allowedFileExtensions : ['geojson'],
-            uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
+            uploadUrl: siteUrl + "capas/subir_CapaTemp"
         });
 
         $("#input-capa-shape").fileinput({
@@ -518,7 +518,7 @@ var Layer = {};
             initialCaption: "Seleccione archivos Shape .shp y .dbf",
             showUpload: true,
             allowedFileExtensions : ['shp','dbf'],
-            uploadUrl: siteUrl + "emergencia/subir_CapaTemp"
+            uploadUrl: siteUrl + "capas/subir_CapaTemp"
         });
 
 
