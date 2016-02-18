@@ -204,7 +204,7 @@ var EventoFormNuevo = Class({
             mapa.setLongitud($("#longitud").val());
             mapa.setLatitud($("#latitud").val());
             
-            if($("#geozone").val() == ""){
+            /*if($("#geozone").val() == ""){
                 $.ajax({         
                     dataType: "json",
                     cache: false,
@@ -221,7 +221,7 @@ var EventoFormNuevo = Class({
                 }); 
             } 
             
-            mapa.setGeozone($("#geozone").val());
+            mapa.setGeozone($("#geozone").val());*/
         }
 
         mapa.inicio();
