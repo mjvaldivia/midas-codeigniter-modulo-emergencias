@@ -5,7 +5,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
-                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("publico/index") ?>"> Casos febriles </a></li>
+                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("formulario/index") ?>"> Casos febriles </a></li>
                 <li class="active"><i class="fa fa-bell"></i> Formulario </li>
             </ol>
         </div>
@@ -25,7 +25,7 @@
             <?php } ?>
             
             
-            <form id="form-dengue" class="form-vertical" action="<?php echo base_url("publico/guardar_dengue") ?>" method="post" role="form">
+            <form id="form-dengue" class="form-vertical" action="<?php echo base_url("formulario/guardar_dengue") ?>" method="post" role="form">
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
                 <legend>
@@ -607,7 +607,7 @@
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
                         <button id="guardar" class="btn btn-green" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
-                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("publico/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
+                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("formulario/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
                     </div>
                 </div>
                 </div>

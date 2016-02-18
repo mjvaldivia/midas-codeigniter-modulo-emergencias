@@ -3,11 +3,11 @@
         <div class="page-title">
             <h1> Gestión de vigilancia de casos febriles
                 <div class="pull-right">
-                    <a href="<?php echo base_url("publico/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square">
+                    <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square">
                         <i class="fa fa-download"></i>
                         Descargar excel
                     </a>
-                    <a href="<?php echo base_url("publico/form_dengue"); ?>" id="nueva" class="btn btn-xs btn-green btn-square">
+                    <a href="<?php echo base_url("formulario/form_dengue"); ?>" id="nueva" class="btn btn-xs btn-green btn-square">
                         <i class="fa fa-plus"></i>
                         Nuevo caso
                     </a>

@@ -2,7 +2,7 @@
 
 if (!defined("BASEPATH")) exit("No direct script access allowed");
 
-class Publico extends MY_Controller 
+class Formulario extends MY_Controller 
 {
     /**
      *
@@ -28,12 +28,12 @@ class Publico extends MY_Controller
         $params = $this->uri->uri_to_assoc();
         
         if(puedeEditar("casos_febriles")){
-            $this->template->parse("default", "pages/publico/dengue", array());
+            $this->template->parse("default", "pages/formulario/dengue", array());
         } else {
             if(isset($params["ingresado"]) && $params["ingresado"] == "correcto"){
-                redirect(base_url("publico/form_dengue/ingreso/correcto"));
+                redirect(base_url("formulario/form_dengue/ingreso/correcto"));
             } else {
-                redirect(base_url("publico/form_dengue"));
+                redirect(base_url("formulario/form_dengue"));
             }
         }
     }
@@ -46,7 +46,7 @@ class Publico extends MY_Controller
         
         $this->template->parse(
             "default", 
-            "pages/publico/form-dengue", 
+            "pages/formulario/form-dengue", 
             array(
                 "ingresado" => $params["ingreso"],
                 "latitud" => "-27.11299",
@@ -74,7 +74,7 @@ class Publico extends MY_Controller
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
             
-            $this->template->parse("default", "pages/publico/form-dengue", $data);
+            $this->template->parse("default", "pages/formulario/form-dengue", $data);
         }
     }
     
@@ -205,7 +205,7 @@ class Publico extends MY_Controller
             }
         }
         
-        $this->load->view("pages/publico/grilla", array("lista" => $casos));
+        $this->load->view("pages/formulario/grilla", array("lista" => $casos));
     }
 }
 

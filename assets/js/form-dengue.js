@@ -8,12 +8,12 @@ $(document).ready(function() {
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "publico/guardar_dengue", 
+            url: siteUrl + "formulario/guardar_dengue", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    document.location.href = siteUrl + "publico/index/ingresado/correcto";
+                    document.location.href = siteUrl + "formulario/index/ingresado/correcto";
                 } else {
                     $("#form_error").removeClass("hidden");
                     procesaErrores(data.error);

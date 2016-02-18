@@ -22,7 +22,7 @@ $(document).ready(function() {
                                  async: true,
                                  data: parametro,
                                  type: "post",
-                                 url: siteUrl + "publico/eliminar", 
+                                 url: siteUrl + "formulario/eliminar", 
                                  error: function(xhr, textStatus, errorThrown){
 
                                  },
@@ -53,7 +53,7 @@ function recargaGrilla(){
         async: true,
         data: "",
         type: "post",
-        url: siteUrl + "publico/ajax_lista", 
+        url: siteUrl + "formulario/ajax_lista", 
         error: function(xhr, textStatus, errorThrown){
 
         },

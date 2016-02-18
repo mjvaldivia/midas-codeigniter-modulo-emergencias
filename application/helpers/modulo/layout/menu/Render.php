@@ -66,7 +66,7 @@ Class Layout_Menu_Render{
                                                             "child" => array()), 
                                    "Casos febriles" => array("icon_class" => "fa-plus-square",
                                                             "permiso" => "casos_febriles",
-                                                            "controller" => "publico",
+                                                            "controller" => "formulario",
                                                             "action" => "index",
                                                             "child" => array()), 
                                    "Soportes" => array("icon_class" => "fa-question-circle",
