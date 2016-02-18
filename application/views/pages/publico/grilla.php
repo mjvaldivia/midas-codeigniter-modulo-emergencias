@@ -2,8 +2,9 @@
     <thead>
         <tr>
             <th width="20%">Fecha</th>
-            <th width="35%">Nombre</th>
-            <th width="40%">Dirección</th>
+            <th width="20%">Diagnostico clínico</th>
+            <th width="25%">Nombre</th>
+            <th width="30%">Dirección</th>
             <th width="5%">Opciones</th>				
         </tr>
     </thead>
@@ -12,6 +13,7 @@
         <?php foreach($lista as $row){ ?>
         <tr>
             <td width="20%"><?php echo $row["fecha"]; ?></td>
+            <td width="20%"><?php echo $row["diagnostico"]; ?></td>
             <td width="35%"><?php echo $row["nombre"]; ?></td>
             <td width="40%"><?php echo $row["direccion"]; ?></td>
             <td align="center" width="5%">

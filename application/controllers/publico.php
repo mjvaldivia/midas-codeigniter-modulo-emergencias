@@ -185,6 +185,7 @@ class Publico extends MY_Controller
                 
                 $casos[] = array("id" => $caso["id"],
                                  "fecha" => $fecha_formato,
+                                 "diagnostico" => $propiedades->diagnostico_clinico,
                                  "nombre" => $propiedades->NOMBRE . " " . $propiedades->APELLIDO,
                                  "direccion" => $propiedades->DIRECCION);
             }
