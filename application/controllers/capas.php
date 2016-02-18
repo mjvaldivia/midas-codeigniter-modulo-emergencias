@@ -99,7 +99,7 @@ class Capas extends MY_Controller
             
         );
 
-        $this->template->parse('alone',"pages/capa/listado",$data);
+        $this->load->view("pages/capa/listado", $data, false);
     }
     
     
