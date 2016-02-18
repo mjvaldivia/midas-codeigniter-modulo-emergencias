@@ -15,13 +15,14 @@
             <td width="35%"><?php echo $row["nombre"]; ?></td>
             <td width="40%"><?php echo $row["direccion"]; ?></td>
             <td align="center" width="5%">
+                <div style="width: 100px">
                 <button onclick="document.location.href='<?php echo base_url("publico/editar/?id=" . $row["id"]); ?>'" title="editar" class="btn btn-sm btn-success" type="button" >
                     <i class="fa fa-edit"></i>
                 </button>
                 <button title="Eliminar" class="btn btn-sm btn-danger caso-eliminar" type="button"  data="<?php echo $row["id"] ?>" href="#" >
                     <i class="fa fa-trash"></i>
                 </button>
-                
+                </div>
             </td>
         </tr>
         <?php } ?>
