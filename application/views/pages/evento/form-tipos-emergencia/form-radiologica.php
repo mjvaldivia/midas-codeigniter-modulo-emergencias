@@ -756,4 +756,4 @@
     
 </form>
 
-<?= loadJS("assets/js/modulo/alarma/form-tipo-emergencia/radiologica.js") ?>
+<?= loadJS("assets/js/modulo/evento/form/form-tipo-emergencia/radiologica.js") ?>

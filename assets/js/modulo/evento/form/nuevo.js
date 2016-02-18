@@ -197,8 +197,9 @@ var EventoFormNuevo = Class({
      * @returns {undefined}
      */
     bindMapa : function(){
-        var mapa = new EventoFormMapa("mapa");
-       
+        var mapa = new MapaFormulario("mapa");
+        mapa.seteaPlaceInput("nombre_lugar");
+        
         if($("#longitud").val() != "" && $("#latitud").val() != ""){
             mapa.setLongitud($("#longitud").val());
             mapa.setLatitud($("#latitud").val());

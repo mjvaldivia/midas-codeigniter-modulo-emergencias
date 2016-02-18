@@ -91,7 +91,7 @@
 
 <?= loadJS("assets/js/modulo/general/permisos.js") ?>
 
-<?= loadJS("assets/js/modulo/evento/form/mapa/mapa.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/formulario.js"); ?>
 
 <?= loadJS("assets/js/modulo/evento/grilla.js") ?>
 <?= loadJS("assets/js/modulo/evento/form/nuevo.js") ?>

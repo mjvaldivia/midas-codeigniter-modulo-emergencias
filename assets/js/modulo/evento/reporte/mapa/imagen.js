@@ -1,7 +1,16 @@
 var EventoReporteMapaImagen = Class({
     
+    /**
+     * Contenedor del mapa
+     */
     div : null,
+    
+    /**
+     * Funciones que se ejecutan
+     * despues de sacar foto del mapa
+     */
     on_ready_functions : {},
+    
     /**
     * Carga de dependencias
     * @returns void

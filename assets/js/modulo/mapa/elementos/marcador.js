@@ -83,7 +83,9 @@ var MapaMarcador = Class({
         
         
         $.each(propiedades, function(nombre, valor){
-            markerContent += '<div class="col-xs-12"><strong>' + nombre +':</strong> ' + valor + '</div>';
+            if(valor.trim() != ""){
+                markerContent += '<div class="col-xs-12"><strong>' + nombre +':</strong> ' + valor + '</div>';
+            }
         });
         
         markerContent += '</div>';

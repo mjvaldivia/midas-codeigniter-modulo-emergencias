@@ -524,7 +524,7 @@ a:focus {
 .navbar-side .side-user .name {
     margin: 0;
     font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 300;
     color: #ccd1d7;
 }
@@ -2246,7 +2246,7 @@ label {
 table>tbody>tr>td{vertical-align: middle !important}
 table>thead>tr>th{vertical-align: middle !important; text-align: center;}
 
-#page-wrapper{overflow:hidden;padding-bottom: 15px;min-height: 1500px}
+#page-wrapper{overflow:hidden;padding-bottom: 15px;min-height: 1000px}
 
 .text-bold{font-weight: bold !important;}
 

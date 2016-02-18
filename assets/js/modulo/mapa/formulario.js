@@ -1,41 +1,41 @@
-var marker;
-
-var regiones = {"Región de Tarapacá" : "19K",
-               "Región de Antofagasta" : "19K",
-               "III Región" : "19J",
-               "Región de Atacama" : "19J",
-               "Región de Coquimbo" : "19J",
-               "Región de Valparaíso" : "19H",
-               "VI Región" : "19H",
-               "Región del libertador General Bernardo O'Higgins" : "19H",
-               "VII Región" : "19H",
-               "Región del Maule" : "19H",
-               "Región del Bío Bío" : "18H",
-               "IX Región" : "18H",
-               "Región de la Araucania" : "18H",
-               "X Región" : "18G",
-               "Región de los lagos" : "18G",
-               "XI Región" : "18G",
-               "Región de Aysen" : "18G",
-               "Región de Magallanes y de la Antártica Chilena" : "19K",
-               "Región Metropolitana" : "19H",
-               "Región de los Ríos" : "18H",
-               "Región de Arica y Parinacota" : "19K"};
-
 /**
+ * Clase para agregar mapa a formulario.
  * 
- * @type type
+ * @requires 
+ * 
+ * @type MapaFormulario
  */
-var EventoFormMapa = Class({
+var MapaFormulario = Class({
     
-    places_input : "nombre_lugar",
+    /**
+     * Nombre del input de busqueda de direccion
+     */
+    places_input : null,
+    
+    /**
+     * googleMaps
+     */
     mapa : null,
+    
+    /**
+     * Marcador en el mapa
+     */
     marker : null,
-    geozone : "19H",
+
+    /**
+     * Identificador del contenedor html del mapa
+     */
     id_div_mapa : "",
+    
+    /**
+     * Latitud por defecto
+     */
     latitud : -33.04864,
+    
+    /**
+     * Longitud por defecto
+     */
     longitud : -71.613353,
-    callback : null,
     
     /**
      * Carga de dependencias
@@ -45,14 +45,29 @@ var EventoFormMapa = Class({
         this.id_div_mapa = id_mapa;
     },
     
+    /**
+     * Setea el id del input de busqueda de direcciones
+     * @param {string} place
+     * @returns {void}
+     */
     seteaPlaceInput : function(place){
         this.places_input = place;
     },
     
+    /**
+     * Setea el valor de la latitud del centro del mapa
+     * @param {string} latitud
+     * @returns {undefined}
+     */
     seteaLatitud : function(latitud){
       this.latitud = latitud;  
     },
     
+    /**
+     * Setea el valor de la longitud del centro del mapa
+     * @param {string} longitud
+     * @returns {undefined}
+     */
     seteaLongitud : function(longitud){
       this.longitud = longitud;  
     },
@@ -149,31 +164,32 @@ var EventoFormMapa = Class({
         this.mapa = map;
     },
     
+    /**
+     * Configuracion de busqueda de direcciones
+     * @returns {void}
+     */
     places : function(){
         var yo = this;
-        
-        $("#" + yo.places_input).livequery(function(){
-            ac = new google.maps.places.Autocomplete((document.getElementById(yo.places_input)), {
-                componentRestrictions: {country: 'cl'}
+        if(yo.places_input != null && $("#" + yo.places_input).length > 0){
+            $("#" + yo.places_input).livequery(function(){
+                ac = new google.maps.places.Autocomplete((document.getElementById(yo.places_input)), {
+                    componentRestrictions: {country: 'cl'}
+                });
+
+                ac.addListener('place_changed', function () {
+                    var place = ac.getPlace();
+                    if (place.length === 0) {
+                        return;
+                    }
+                    var index = place.address_components.length - 2;
+                    var region = place.address_components[index].long_name;  
+
+                    $('#longitud').val(parseFloat(place.geometry.location.lng()));
+                    $('#latitud').val(parseFloat(place.geometry.location.lat()));
+                    $('.mapa-coordenadas').trigger("change");
+                });
             });
-
-            ac.addListener('place_changed', function () {
-                var place = ac.getPlace();
-                if (place.length === 0) {
-                    return;
-                }
-                var index = place.address_components.length - 2;
-                var region = place.address_components[index].long_name;  
-
-                yo.geozone = regiones[region];
-
-                //var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(place.geometry.location.lng()), parseFloat(place.geometry.location.lat()));
-                $('#longitud').val(parseFloat(place.geometry.location.lng()));
-                $('#latitud').val(parseFloat(place.geometry.location.lat()));
-                $('.mapa-coordenadas').trigger("change");
-            });
-        });
-        
+        }
           
     },
     
@@ -183,14 +199,16 @@ var EventoFormMapa = Class({
      * @returns {void}
      */
     setInputs : function(posicion){
-        //var punto = GeoEncoder.decimalDegreeToUtm(parseFloat(posicion.lng()), parseFloat(posicion.lat()));
-        //console.log(results[0].geometry.location.lat());
         $('#longitud').val(parseFloat(posicion.lng()));
         $('#latitud').val(parseFloat(posicion.lat()));
     },
     
+    /**
+     * Actualiza posicion de marcador y mapa de acuerdo
+     * a los input de latitud y longitud
+     * @returns {undefined}
+     */
     setMarkerInputs : function(){
-        //var latLon = GeoEncoder.utmToDecimalDegree(parseFloat($('#longitud').val()), parseFloat($('#latitud').val()), this.geozone);
         this.marker.setPosition( new google.maps.LatLng( parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
         this.mapa.panTo( new google.maps.LatLng(parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
     },
@@ -213,11 +231,6 @@ var EventoFormMapa = Class({
         var center = this.mapa.getCenter();
         google.maps.event.trigger(this.mapa, "resize");
         this.mapa.setCenter(center); 
-        
-       // this.callback(this.mapa);
-        
     }
-    
-    
 
 });

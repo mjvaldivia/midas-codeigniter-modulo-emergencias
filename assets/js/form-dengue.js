@@ -22,7 +22,7 @@ $(document).ready(function() {
         }); 
     });
     
-    var mapa = new EventoFormMapa("mapa");
+    var mapa = new MapaFormulario("mapa");
     mapa.seteaPlaceInput("direccion");
     mapa.seteaLongitud($("#longitud").val());
     mapa.seteaLatitud($("#latitud").val());

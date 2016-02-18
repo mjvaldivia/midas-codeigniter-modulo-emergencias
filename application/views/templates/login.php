@@ -16,23 +16,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-banner text-left">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <img src="<?php echo base_url("/assets/img/top_logo.png"); ?>" style="width: 100%" />
-                        </div>
-                        <div class="col-xs-8">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <strong>MIDAS</strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    Módulo emergencias
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="portlet portlet-green">
                     <div class="portlet-heading login-heading">

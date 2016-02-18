@@ -619,5 +619,5 @@
 </div>
 
 
-<?= loadJS("assets/js/modulo/evento/form/mapa/mapa.js") ?>
+<?= loadJS("assets/js/modulo/mapa/formulario.js") ?>
 <?= loadJS("assets/js/form-dengue.js") ?>

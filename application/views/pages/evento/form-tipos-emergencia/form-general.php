@@ -103,4 +103,4 @@
     
 </form>
 
-<?= loadJS("assets/js/modulo/alarma/form-tipo-emergencia/general.js") ?>
+<?= loadJS("assets/js/modulo/evento/form/form-tipo-emergencia/general.js") ?>
