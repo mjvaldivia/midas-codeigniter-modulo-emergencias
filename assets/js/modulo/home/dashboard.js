@@ -162,35 +162,37 @@ var Dashboard = Class({
      * @returns void
      */
     loadGraficoEmergenciasMes : function(){
-        $.ajax({         
-            dataType: "json",
-            cache: false,
-            async: true,
-            data: "",
-            type: "post",
-            url: siteUrl + "home/json_cantidad_emergencia_mes", 
-            error: function(xhr, textStatus, errorThrown){
+        if($("#morris-chart-line").length > 0){
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: true,
+                data: "",
+                type: "post",
+                url: siteUrl + "home/json_cantidad_emergencia_mes", 
+                error: function(xhr, textStatus, errorThrown){
 
-            },
-            success:function(data){
-                if(data.correcto){
-                    var months = ['En', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                    Morris.Line({
-                        element: 'morris-chart-line',
-                        data: data.data,
-                        xkey: 'm',
-                        hideHover: true,
-                        ykeys: data.ykeys,
-                        labels: data.labels,
-                        xLabelFormat: function (x) {
-                            return months[x.getMonth()]; 
-                        },
-                        smooth: false,
-                        resize: false
-                    });
+                },
+                success:function(data){
+                    if(data.correcto){
+                        var months = ['En', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                        Morris.Line({
+                            element: 'morris-chart-line',
+                            data: data.data,
+                            xkey: 'm',
+                            hideHover: true,
+                            ykeys: data.ykeys,
+                            labels: data.labels,
+                            xLabelFormat: function (x) {
+                                return months[x.getMonth()]; 
+                            },
+                            smooth: false,
+                            resize: false
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     },
     
     bindBtnEmergenciaReporte : function(){
