@@ -147,6 +147,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="hospitalizacion" type="hidden" value="No" />
                                             <input id="hospitalizacion" name="hospitalizacion" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $hospitalizacion); ?>> Hospitalización
                                         </label>
                                     </div>
@@ -168,6 +169,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="fallecido" type="hidden" value="No" />
                                             <input id="fallecido" name="fallecido" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $fallecido); ?>> Fallecido
                                         </label>
                                     </div>
@@ -191,6 +193,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="fiebre" type="hidden" value="No" />
                                             <input id="fiebre" name="fiebre" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $fiebre); ?>> Fiebre
                                         </label>
                                     </div>
@@ -200,6 +203,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="escalofrios" type="hidden" value="No" />
                                             <input id="escalofrios" name="escalofrios" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $escalofrios); ?>> Escalofrios
                                         </label>
                                     </div>
@@ -209,6 +213,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="sudoracion" type="hidden" value="No" />
                                             <input id="sudoracion" name="sudoracion" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $sudoracion); ?>> Sudoración
                                         </label>
                                     </div>
@@ -218,6 +223,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="cefalea" type="hidden" value="No" />
                                             <input id="cefalea" name="cefalea" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $cefalea); ?>> Cefalea
                                         </label>
                                     </div>
@@ -229,6 +235,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="malgia_artralgia" type="hidden" value="No" />
                                             <input id="malgia_artralgia" name="malgia_artralgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $malgia_artralgia); ?>> Malgia / Artralgia
                                         </label>
                                     </div>
@@ -238,6 +245,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="inyeccion_conjuntival" type="hidden" value="No" />
                                             <input id="inyeccion_conjuntival" name="inyeccion_conjuntival" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $inyeccion_conjuntival); ?>> Inyección conjuntival
                                         </label>
                                     </div>
@@ -247,6 +255,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="dorsalgia" type="hidden" value="No" />
                                             <input id="dorsalgia" name="dorsalgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dorsalgia); ?>> Dorsalgia
                                         </label>
                                     </div>
@@ -256,6 +265,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="nauseas_vomito" type="hidden" value="No" />
                                             <input id="nauseas_vomito" name="nauseas_vomito" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $nauseas_vomito); ?>> Nauseas / Vomito
                                         </label>
                                     </div>
@@ -267,6 +277,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="convulsiones_generalizadas" type="hidden" value="No" />
                                             <input id="convulsiones_generalizadas" name="convulsiones_generalizadas" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $convulsiones_generalizadas); ?>> Convulsiones generalizadas
                                         </label>
                                     </div>
@@ -276,6 +287,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="dificultad_respiratoria" type="hidden" value="No" />
                                             <input id="dificultad_respiratoria" name="dificultad_respiratoria" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dificultad_respiratoria); ?>> Dificultad respiratoria
                                         </label>
                                     </div>
@@ -285,6 +297,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="dolor_retroorbitario" type="hidden" value="No" />
                                             <input id="dolor_retroorbitario" name="dolor_retroorbitario" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dolor_retroorbitario); ?>> Dolor retroorbitario
                                         </label>
                                     </div>
@@ -294,6 +307,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="compromiso_de_conciencia" type="hidden" value="No" />
                                             <input id="compromiso_de_conciencia" name="compromiso_de_conciencia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $compromiso_de_conciencia); ?>> Compromiso de conciencia
                                         </label>
                                     </div>
@@ -305,6 +319,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="manifestaciones_hemorragicas" type="hidden" value="No" />
                                             <input id="manifestaciones_hemorragicas" name="manifestaciones_hemorragicas" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $manifestaciones_hemorragicas); ?>> Manifestaciones hemorragicas
                                         </label>
                                     </div>
@@ -314,6 +329,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="petequias" type="hidden" value="No" />
                                             <input id="petequias" name="petequias" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $petequias); ?>> Petequias
                                         </label>
                                     </div>
@@ -323,6 +339,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="erupcion_cutanea" type="hidden" value="No" />
                                             <input id="erupcion_cutanea" name="erupcion_cutanea" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $erupcion_cutanea); ?>> Erupcion cutanea
                                         </label>
                                     </div>
@@ -332,6 +349,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="sintomas_respiratorios" type="hidden" value="No" />
                                             <input id="sintomas_respiratorios" name="sintomas_respiratorios" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $sintomas_respiratorios); ?>> Sintomas respiratorios
                                         </label>
                                     </div>
@@ -343,6 +361,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="shock" type="hidden" value="No" />
                                             <input id="shock" name="shock" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $shock); ?>> Shock
                                         </label>
                                     </div>
@@ -352,6 +371,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="ictericia" type="hidden" value="No" />
                                             <input id="ictericia" name="ictericia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $ictericia); ?>> Ictericia
                                         </label>
                                     </div>
@@ -361,6 +381,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="compromiso_renal" type="hidden" value="No" />
                                             <input id="compromiso_renal" name="compromiso_renal" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $compromiso_renal); ?>> Compromiso renal
                                         </label>
                                     </div>
@@ -433,6 +454,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="vive_en_isla" type="hidden" value="No" />
                                             <input id="vive_en_isla" name="vive_en_isla" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $vive_en_isla); ?>> Vive en Isla de Pascua
                                         </label>
                                     </div>
@@ -444,6 +466,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="viaje_fuera_de_isla_de_pascua" type="hidden" value="No" />
                                             <input id="viaje_fuera_de_isla_de_pascua" name="viaje_fuera_de_isla_de_pascua" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $viaje_fuera_de_isla_de_pascua); ?>> Viaje fuera de Isla de Pascua
                                         </label>
                                     </div>
@@ -476,6 +499,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="viaje_reciente_al_extranjero" type="hidden" value="No" />
                                             <input id="viaje_reciente_al_extranjero" name="viaje_reciente_al_extranjero" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $viaje_reciente_al_extrangero); ?>> Viaje reciente al extranjero
                                         </label>
                                     </div>
@@ -517,6 +541,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="antecedentes_de_dengue_previo" type="hidden" value="No" />
                                             <input id="antecedentes_de_dengue_previo" name="antecedentes_de_dengue_previo" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $antecedentes_de_dengue_previo); ?>> Antecedentes de dengue previo
                                         </label>
                                     </div>
@@ -535,6 +560,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="caso_febril_grupo_familiar" type="hidden" value="No" />
                                             <input id="caso_febril_grupo_familiar" name="caso_febril_grupo_familiar" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $caso_febril_grupo_familiar); ?>> Caso febril actual en el grupo familiar
                                         </label>
                                     </div>
@@ -544,6 +570,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
+                                            <input name="vacunacion_contra_fiebre_amarilla" type="hidden" value="No" />
                                             <input id="vacunacion_contra_fiebre_amarilla" name="vacunacion_contra_fiebre_amarilla" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $vacunacion_contra_fiebre_amarilla); ?>> Vacunación contra fiebre amarilla
                                         </label>
                                     </div>

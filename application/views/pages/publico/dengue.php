@@ -3,7 +3,11 @@
         <div class="page-title">
             <h1> Gestión de vigilancia de casos febriles
                 <div class="pull-right">
-                    <a href="<?php echo base_url("publico/form_dengue"); ?>" id="nueva" class="btn btn-green btn-square">
+                    <a href="<?php echo base_url("publico/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square">
+                        <i class="fa fa-download"></i>
+                        Descargar excel
+                    </a>
+                    <a href="<?php echo base_url("publico/form_dengue"); ?>" id="nueva" class="btn btn-xs btn-green btn-square">
                         <i class="fa fa-plus"></i>
                         Nuevo caso
                     </a>
@@ -18,15 +22,20 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12">           
-        
-                            
+    <div class="col-lg-12">                        
         <div id="pResultados" class="portlet portlet-default">
-            <div id="resultados" class="portlet-body table-responsive">
-                <div class="col-lg-12 text-center">
-                    <i class="fa fa-4x fa-spin fa-spinner"></i>
+                <div class="portlet-body"> 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="resultados" class="table-responsive">
+                                <div class="col-lg-12 text-center">
+                                    <i class="fa fa-4x fa-spin fa-spinner"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+     
         </div>
     </div>
 </div>

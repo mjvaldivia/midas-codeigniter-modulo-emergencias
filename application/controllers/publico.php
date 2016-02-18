@@ -41,6 +41,9 @@ class Publico extends MY_Controller
         );
     }
     
+    /**
+     * 
+     */
     public function editar(){
         $params = $this->input->get(null, true);
         
@@ -75,15 +78,16 @@ class Publico extends MY_Controller
         unset($params["latitud"]);
         unset($params["longitud"]);
 
-        $arreglo = array();
-         foreach($params as $nombre => $valor){
-             if(TRIM($valor)!=""){
-                 $nombre = str_replace("_", " ", $nombre);
-                 $arreglo[strtoupper($nombre)] = $valor;
-             }
-         }
-         
         $caso = $this->_rapanui_dengue_model->getById($params["id"]);
+        
+        unset($params["id"]);
+        
+        $arreglo = array();
+        foreach($params as $nombre => $valor){
+            $nombre = str_replace("_", " ", $nombre);
+            $arreglo[strtoupper($nombre)] = $valor;
+        }
+         
         if(is_null($caso)){
             $this->_rapanui_dengue_model->insert(array("fecha" => date("Y-m-d H:i:s"),
                                                    "propiedades" => json_encode($arreglo),
@@ -108,6 +112,58 @@ class Publico extends MY_Controller
         $this->_rapanui_dengue_model->delete($params["id"]);
         echo json_encode(array("error" => array(),
                               "correcto" => true));
+    }
+    
+    /**
+     * Genera excel para casos de dengue
+     */
+    public function excel(){
+        $this->load->library("excel");
+        $lista = $this->_rapanui_dengue_model->listar();
+        
+        $datos_excel = array();
+        if(!is_null($lista)){
+            foreach($lista as $caso){
+                $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
+            }
+        
+            $excel = $this->excel->nuevoExcel();
+            $excel->getProperties()
+                  ->setCreator("Midas - Emergencias")
+                  ->setLastModifiedBy("Midas - Emergencias")
+                  ->setTitle("Exportación de casos febriles")
+                  ->setSubject("Emergencias")
+                  ->setDescription("Casos febriles")
+                  ->setKeywords("office 2007 openxml php sumanet")
+                  ->setCategory("Midas");
+
+            $letras = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+            $columnas = reset($datos_excel);
+
+            $i=0;
+            foreach($columnas as $columna => $valor){
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna); //setCellValue($letras[$i] . '1', strip_tags($columna));
+                $i++;
+            }
+
+            $j = 2;
+            foreach($datos_excel as $id => $valores){
+                $i = 0;
+                foreach($valores as $columna => $valor){
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, $valor);
+                    $i++;
+                }
+                $j++;
+            }
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="casos_febriles.xlsx"');
+            header('Cache-Control: max-age=0');
+            $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $objWriter->save('php://output');
+        } else {
+            echo "No hay registros para generar el excel";
+        }
     }
     
     /**
