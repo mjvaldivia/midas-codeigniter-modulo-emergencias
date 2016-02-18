@@ -200,7 +200,7 @@
                             <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
                         </p>
                         <p class="name tooltip-sidebar-logout">
-                            {session_usuario} <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
+                            {session_nombres} <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
                         </p>
                         <div class="clearfix"></div>
                     </li>
