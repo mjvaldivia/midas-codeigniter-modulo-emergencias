@@ -63,17 +63,19 @@ var HomeMapa = Class({
      */
     initialize : function(){
 
-        var myLatlng = new google.maps.LatLng(this.latitud, this.longitud);
+        if($("#" + this.id_div_mapa).length > 0){
+            var myLatlng = new google.maps.LatLng(this.latitud, this.longitud);
 
-        var mapOptions = {
-          zoom: 8,
-          center: myLatlng,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+            var mapOptions = {
+              zoom: 8,
+              center: myLatlng,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
 
-        map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
+            map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
 
-        this.mapa = map;
+            this.mapa = map;
+        }
     },
     
     /**
