@@ -11,15 +11,21 @@ function sessionValidation()
     $ci =& get_instance();
     $ci->load->helper(array("url", "debug"));
 
-    $url = "http://asdigital.minsal.cl/acceso";
+    $url = base_url("login");
 
     $sessionId = $ci->session->userdata('session_idUsuario');
 
     if(empty($sessionId)) {
-        if ($ci->input->is_ajax_request())
-            show_error("Su sesión ha expirado", 401, "Error");
-        else
+        if ($ci->input->is_ajax_request()){
+            header("HTTP/1.1 403 Forbidden");
+            header('Content-type: application/json');
+            $data = array("correcto" => false,
+                          "error" => "Su sesión ha expirado");
+            echo Zend_Json::encode($data);
+            die();
+        } else {
             redirect($url);
+        }
     }
 }
 

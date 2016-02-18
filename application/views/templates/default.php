@@ -135,7 +135,7 @@
                     <?php if(estaLogeado()) { ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i> {session_usuario} <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-user"></i> {session_nombres} <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             

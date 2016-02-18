@@ -59,6 +59,10 @@
                     <?php } else { ?>
                     <div class="col-sm-4">
                         <input <?php echo permisoFormCheckedVer($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="ver[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Solo ingresar
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedEditar($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="editar[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                         Ver y editar
                     </div>
                     <div class="col-sm-4">

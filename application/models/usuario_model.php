@@ -52,6 +52,25 @@ class Usuario_Model extends MY_Model {
     
     /**
      * 
+     * @param string $usuario
+     * @param string $password
+     * @return array
+     */
+    public function getByUserAndPass($usuario, $password){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("usu_c_login", $usuario)
+                               ->whereAND("usu_c_clave", sha1($password))
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
      * @return array
      */
     public function listar(){

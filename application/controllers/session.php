@@ -200,6 +200,10 @@ class Session extends MY_Controller {
 
         redirect(base_url());
     }
+    
+    /**
+     * 
+     */
     public function logout(){
          $this->load->helper(array(
             "debug",

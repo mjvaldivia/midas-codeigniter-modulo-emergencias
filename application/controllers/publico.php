@@ -24,18 +24,31 @@ class Publico extends MY_Controller
      * 
      */
     public function index(){
-        $this->template->parse("default", "pages/publico/dengue", array());
+        
+        $params = $this->uri->uri_to_assoc();
+        
+        if(puedeEditar("casos_febriles")){
+            $this->template->parse("default", "pages/publico/dengue", array());
+        } else {
+            if(isset($params["ingresado"]) && $params["ingresado"] == "correcto"){
+                redirect(base_url("publico/form_dengue/ingreso/correcto"));
+            } else {
+                redirect(base_url("publico/form_dengue"));
+            }
+        }
     }
     
     /**
      * 
      */
     public function form_dengue(){
+        $params = $this->uri->uri_to_assoc();
         
         $this->template->parse(
             "default", 
             "pages/publico/form-dengue", 
             array(
+                "ingresado" => $params["ingreso"],
                 "latitud" => "-27.11299",
                 "longitud" => "-109.34958059999997"
                 )

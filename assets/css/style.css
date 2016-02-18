@@ -2277,8 +2277,8 @@ body.modal-open {
     margin-left: 0px;
 }
 
-/*
-.alert:not(.ui-pnotify-container) {
+
+.alert:not(.messenger-message) {
 	margin: 20px 0;
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
@@ -2289,7 +2289,7 @@ body.modal-open {
 	z-index: 1;
 	border: none;
 }
-.alert:not(.ui-pnotify-container):before {
+.alert:not(.messenger-message):before {
 	position: absolute;
 	content: "";
 	top: 0px;
@@ -2317,7 +2317,7 @@ body.modal-open {
     background-color: #f2dede;
 }
 
-.alert:not(.ui-pnotify-container):after {
+.alert:not(.messenger-message):after {
 	font-family: "FontAwesome";
 	position: absolute;
 	top: 10px;
@@ -2326,15 +2326,15 @@ body.modal-open {
 	font-size: 20px;
 	z-index: 3;
 }
-.alert.alert-success:not(.ui-pnotify-container):after {
+.alert.alert-success:not(.messenger-message):after {
 	content: "\f00c";
 }
-.alert.alert-info:not(.ui-pnotify-container):after {
+.alert.alert-info:not(.messenger-message):after {
 	content: "\f05a";
 }
-.alert.alert-warning:not(.ui-pnotify-container):after {
+.alert.alert-warning:not(.messenger-message):after {
 	content: "\f071";
 }
-.alert.alert-danger:not(.ui-pnotify-container):after {
+.alert.alert-danger:not(.messenger-message):after {
 	content: "\f00d";
-}*/
+}

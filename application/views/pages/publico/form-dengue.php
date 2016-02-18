@@ -15,6 +15,16 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="row">
+            
+            <?php if($ingresado == "correcto") { ?>
+            <div class="col-md-12">
+                <div class="alert alert-success">
+                    Se ha ingresado el caso correctamente
+                </div>
+            </div>
+            <?php } ?>
+            
+            
             <form id="form-dengue" class="form-vertical" action="<?php echo base_url("publico/guardar_dengue") ?>" method="post" role="form">
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
