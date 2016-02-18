@@ -187,9 +187,8 @@
                     </div>
                 </div>  
             <?php } ?>
-             
+            <?php if(puedeVer("alarma")) { ?> 
             <div class="row top-spaced">
-                
                 <div class="col-lg-12">
                     <div class="portlet portlet-default">
                         <div class="portlet-heading">
@@ -211,14 +210,12 @@
                         </div>
                     </div>
                 </div>
-                
-                
-                
-                
             </div>
+            <?php } ?>
         </div>
     </div>
 
+    <?php if(puedeVer("alarma")) { ?> 
     <div class="row">
         <div class="col-lg-12">
             <div class="portlet portlet-default">
@@ -236,7 +233,7 @@
             </div>
         </div>
     </div>
-
+    <?php } ?>
 </div>
 <?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>

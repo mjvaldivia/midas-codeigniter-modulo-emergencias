@@ -19,7 +19,7 @@
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
                 <legend>
-                    Identificacion del caso
+                    Identificación del caso
                 </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body">
