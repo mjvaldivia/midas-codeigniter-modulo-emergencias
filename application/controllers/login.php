@@ -41,7 +41,7 @@ class Login extends MY_Controller {
         $usuario = $this->_usuario_model->getByUserAndPass($params["username"], $params["password"]);
         if(!is_null($usuario)){
             $this->_session_model->autentificar($usuario->usu_c_rut);
-            redirect(base_url("home"));
+            redirect(base_url("formulario"));
         }
         $this->load->view('templates/login', array("error" => true,
                                                    "mensaje" => "El usuario no es válido, intente nuevamente."));
