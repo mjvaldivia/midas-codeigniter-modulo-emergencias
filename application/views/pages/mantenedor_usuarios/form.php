@@ -201,7 +201,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 text-left">
+                        <div class="col-md-12 text-left" style="margin-bottom: 220px">
                             <div class="form-group clearfix">
                                 <label for="email" class="control-label">Ambito:</label>
                                 <div class="input-group col-sm-12">

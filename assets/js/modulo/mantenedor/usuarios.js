@@ -36,7 +36,7 @@ var MantenedorUsuarios = Class({
                         
                         $("#oficinas").val("");
                         
-                        $("#oficinas").trigger("change");
+                        $("#oficinas").trigger("chosen:updated");
                     }
                 }); 
             });
