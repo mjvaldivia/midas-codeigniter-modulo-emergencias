@@ -150,7 +150,7 @@ class Publico extends MY_Controller
             foreach($datos_excel as $id => $valores){
                 $i = 0;
                 foreach($valores as $columna => $valor){
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, $valor);
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
                     $i++;
                 }
                 $j++;
@@ -185,9 +185,9 @@ class Publico extends MY_Controller
                 
                 $casos[] = array("id" => $caso["id"],
                                  "fecha" => $fecha_formato,
-                                 "diagnostico" => $propiedades->diagnostico_clinico,
-                                 "nombre" => $propiedades->NOMBRE . " " . $propiedades->APELLIDO,
-                                 "direccion" => $propiedades->DIRECCION);
+                                 "diagnostico" => strtoupper($propiedades->{"DIAGNOSTICO CLINICO"}),
+                                 "nombre" => strtoupper($propiedades->NOMBRE . " " . $propiedades->APELLIDO),
+                                 "direccion" => strtoupper($propiedades->DIRECCION));
             }
         }
         
