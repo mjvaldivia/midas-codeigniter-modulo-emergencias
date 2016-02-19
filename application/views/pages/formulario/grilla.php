@@ -19,7 +19,11 @@
             <td width="25%"><?php echo $row["nombre"]; ?></td>
             <td width="20%"><?php echo $row["direccion"]; ?></td>
             <td align="center" width="5%">
-                <div style="width: 100px">
+                <div style="width: 150px">
+                <a href="<?php echo base_url("formulario/pdf/id/" . $row["id"]); ?>" target="_blank" title="Pdf" class="btn btn-sm btn-default">
+                    <i class="fa fa-file"></i>
+                </a>
+    
                 <button onclick="document.location.href='<?php echo base_url("formulario/editar/?id=" . $row["id"]); ?>'" title="editar" class="btn btn-sm btn-success" type="button" >
                     <i class="fa fa-edit"></i>
                 </button>

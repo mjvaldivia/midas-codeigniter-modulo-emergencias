@@ -186,6 +186,34 @@ class Formulario extends MY_Controller
         }
     }
     
+    public function pdf(){
+        $this->load->library("pdf");
+        $params = $this->uri->uri_to_assoc();
+        $formulario = $this->_rapanui_dengue_model->getById($params["id"]);
+        if(!is_null($formulario)){
+            header("Content-Type: application/pdf");
+            header("Content-Disposition: inline;filename=formulario.pdf"); 
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public'); 
+            
+            $propiedades = Zend_Json::decode($formulario->propiedades);
+            
+            $datos = array();
+            foreach($propiedades as $nombre => $valor){
+                $datos[str_replace(" ", "_", strtolower($nombre))] = $valor;
+            }
+ 
+            
+            $html = $this->load->view("pages/formulario/pdf", $datos, true);
+            $pdf = $this->pdf->load();
+            $pdf->imagen_logo = file_get_contents(FCPATH . "/assets/img/top_logo.png");
+            $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
+            $pdf->WriteHTML($html);
+            echo $pdf->Output('formulario.pdf', 'S');
+        }
+    }
+    
     /**
      * 
      */

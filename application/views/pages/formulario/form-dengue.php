@@ -33,9 +33,10 @@
                 </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div id="mapa" style="height: 400px"></div>
                             <div class="alert alert-info">Puede mover el marcador para ajustar la ubicación del caso</div>
+                            <div class="hidden">
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
                                     <label for="nombre" class="control-label">Latitud(*):</label>
@@ -50,8 +51,9 @@
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
+                            </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <div class="row">
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
@@ -218,7 +220,7 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="calofrios" type="hidden" value="No" />
-                                            <input id="calofrios" name="calofrios" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $escalofrios); ?>> Calofríos
+                                            <input id="calofrios" name="calofrios" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $calofrios); ?>> Calofríos
                                         </label>
                                     </div>
                                 </div>
@@ -249,8 +251,9 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="mialgia_artralgia" type="hidden" value="No" />
+                                            
                                             <input id="mialgia_artralgia" name="mialgia_artralgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $mialgia_artralgia); ?>> Mialgia / Artralgia
+                                            <input name="mialgia_artralgia" type="hidden" value="No" />
                                         </label>
                                     </div>
                                 </div>
@@ -259,8 +262,8 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="inyeccion_conjuntival" type="hidden" value="No" />
-                                            <input id="inyeccion_conjuntival" name="inyeccion_conjuntival" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $inyeccion_conjuntival); ?>> Conjuntivitis
+                                            <input name="conjuntivitis" type="hidden" value="No" />
+                                            <input id="conjuntivitis" name="conjuntivitis" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $conjuntivitis); ?>> Conjuntivitis
                                         </label>
                                     </div>
                                 </div>
@@ -446,14 +449,14 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
-                                    <label for="diagnostico_clinico" class="control-label">Diagnostico clínico:</label>
+                                    <label for="diagnostico_clinico" class="control-label">Diagnóstico clínico:</label>
                                     <input value="<?php echo $diagnostico_clinico; ?>" class="form-control" name="diagnostico_clinico" id="diagnostico_clinico">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
-                                    <label for="nombre_medico" class="control-label">Nombre medico:</label>
+                                    <label for="nombre_medico" class="control-label">Nombre médico:</label>
                                     <input value="<?php echo $nombre_medico; ?>" class="form-control" name="nombre_medico" id="nombre_medico">
                                     <span class="help-block hidden"></span>
                                 </div>
@@ -489,7 +492,7 @@
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
-                                    <label for="fecha_toma_de_sevologia" class="control-label">Fecha de toma de sevología:</label>
+                                    <label for="fecha_toma_de_sevologia" class="control-label">Fecha de toma de serología:</label>
                                     <input value="<?php echo $fecha_toma_de_sevologia; ?>" class="form-control datepicker-date" name="fecha_toma_de_sevologia" id="fecha_toma_de_sevologia">
                                     <span class="help-block hidden"></span>
                                 </div>
@@ -498,8 +501,8 @@
                                 <div class="form-group clearfix top-spaced">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="rechaza_toma_muestra_sevologia" type="hidden" value="No" />
-                                            <input id="rechaza_toma_muestra_sevologia" name="rechaza_toma_muestra_sevologia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $rechaza_toma_muestra_sevologia); ?>> Rechaza toma muestra
+                                            <input name="rechaza_toma_muestra_serologia" type="hidden" value="No" />
+                                            <input id="rechaza_toma_muestra_serologia" name="rechaza_toma_muestra_serologia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $rechaza_toma_muestra_serologia); ?>> Rechaza toma muestra
                                         </label>
                                     </div>
                                 </div>
@@ -594,7 +597,7 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
-                                    <label for="lugar_de_residencia_hace_30_dias" class="control-label">Lugar de residencia los 30 dias anteriores al inicio de los sintomas:</label>
+                                    <label for="lugar_de_residencia_hace_30_dias" class="control-label">Lugar de residencia los 30 días anteriores al inicio de los síntomas:</label>
                                     <input value="<?php echo $lugar_de_residencia_hace_30_dias; ?>" class="form-control" name="lugar_de_residencia_hace_30_dias" id="lugar_de_residencia_hace_30_dias">
                                     <span class="help-block hidden"></span>
                                 </div>
@@ -642,7 +645,7 @@
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
-                                    <label for="vacunacion_contra_fiebre_amarilla_fecha" class="control-label">Fecha vacunacion:</label>
+                                    <label for="vacunacion_contra_fiebre_amarilla_fecha" class="control-label">Fecha vacunación:</label>
                                     <input value="<?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?>" class="form-control datepicker-date" name="vacunacion_contra_fiebre_amarilla_fecha" id="vacunacion_contra_fiebre_amarilla_fecha">
                                     <span class="help-block hidden"></span>
                                 </div>
