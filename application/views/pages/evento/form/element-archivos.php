@@ -1,36 +1,65 @@
-<div class="tile blue">
+<div class="tile gray">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div class="form-group clearfix ocultar-al-subir">
                 <label for="nombre" class="control-label">Descripción (*):</label>
                 <input value="" class="form-control" name="file_descripcion" id="file_descripcion">
                 <span class="help-block hidden"></span>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-3">
+            <div class="form-group clearfix ocultar-al-subir">
+                <label for="nombre" class="control-label">Tipo (*):</label>
+                <?php echo formElementSelectArchivoTipo("archivo_tipo", "", array("class" => "form-control")); ?>
+                <span class="help-block hidden"></span>
+            </div>
+        </div>
+        <div class="col-lg-4">
             <div class="form-group clearfix">
                 <label for="upload-adjunto" class="control-label ocultar-al-subir">Seleccionar archivo:</label>
                 <input id="upload-adjunto" name="upload-adjunto" class="form-control ocultar-al-subir"  type="file" data-show-preview="false">
                 <span class="help-block hidden"></span>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-hover datatable">
-                <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Descargar</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+        <div class="col-lg-2">
+            <div class="form-group clearfix top-spaced">
+                <button id="upload-adjunto-start" class="btn btn-success"> <i class="fa fa-plus"></i> Agregar </button>
+            </div>
         </div>
+    </div>
+    
+    <div class="row hidden">
+        <div class="col-xs-12">
+            <div id="upload-adjunto-error" class="alert alert-danger"></div>
+        </div>
+    </div>
+ 
+    <div id="upload-adjunto-lista">
+    <?php 
+        if(count($lista_archivos)>0){
+            foreach($lista_archivos as $archivo){
+    ?>
+        <div id="archivo-<?php echo $archivo["id"]; ?>">
+            <input type="hidden" name="archivos[]" value="<?php echo $archivo["id"]; ?>" />
+            <input type="hidden" name="archivos_hash[]" value="<?php echo $archivo["hash"]; ?>" />
+            <hr/>
+            <div class="col-md-3">
+                <?php echo $archivo["descripcion"]; ?>
+            </div>  
+            <div class="col-md-3">
+                <input type="hidden" name="archivos_tipo[]" value="<?php echo $archivo["id_tipo"]; ?>" />
+                <?php echo $archivo["nombre_tipo"]; ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $archivo["nombre"]; ?>
+            </div>
+            <div class="col-md-2 text-center">
+                <button class="btn btn-xs btn-danger"> <i class="fa fa-remove"></i> </button>
+            </div> 
+        </div>
+    <?php
+            }
+        }
+    ?>
     </div>
 </div>

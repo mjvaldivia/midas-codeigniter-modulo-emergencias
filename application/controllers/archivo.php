@@ -8,6 +8,95 @@ if (!defined("BASEPATH"))
 
 class Archivo extends MY_Controller {
 
+    public function upload_temporal(){
+        $this->load->model("archivo_tipo_model", "_archivo_tipo_model");
+        
+        header('Content-type: application/json');
+        
+        $this->load->library(array(
+            "visor/upload/visor_upload_temp_kml")
+        );
+        
+        $params = $this->input->post(null, true);
+        
+        $correcto = true;
+        $error    = "";
+          
+        $retorno_archivo = $this->visor_upload_temp_kml->upload(
+            array('png',
+                  'jpg',
+                    'jpeg',
+                    'bmp',
+                    'pdf',
+                    'doc',
+                    'dot',
+                    'docx',
+                    'dotx',
+                    'docm',
+                    'dotm',
+                    'xls',
+                    'xlt',
+                    'xla',
+                    'xlsx',
+                    'xltx',
+                    'xlsm',
+                    'xltm',
+                    'xlam',
+                    'xlsb',
+                    'ppt',
+                    'pot',
+                    'pps',
+                    'ppa',
+                    'pptx',
+                    'potx',
+                    'ppsx',
+                    'ppam',
+                    'pptm',
+                    'potm',
+                    'ppsm',
+                    'txt')); 
+        
+        if(!$retorno_archivo["correcto"]){
+            $correcto = false;
+            $error = $retorno_archivo["mensaje"];  
+        }  
+        
+        $nombre_tipo = "";
+        $tipo = $this->_archivo_tipo_model->getById($params["tipo"]);
+        if(!is_null($tipo)){
+            $nombre_tipo = $tipo->nombre;
+        }
+        
+        $retorno = array("correcto" => $correcto,
+                         "descripcion" => $params["descripcion"],
+                         "archivo" => $retorno_archivo["archivo_nombre"],
+                         "tipo" => $params["tipo"],
+                         "nombre_tipo" => $nombre_tipo,
+                         "hash" => $retorno_archivo["hash"],
+                         "errores" => $error);
+        
+        echo json_encode($retorno);
+    }
+    
+    /**
+     * Muestra KML temporal
+     * @throws Exception
+     */
+    public function download_temporal(){
+        $this->load->library(array("cache"));
+        $params = $this->uri->uri_to_assoc();
+        $cache = Cache::iniciar();
+        if($archivo = $cache->load($params["hash"])){
+            header("Content-Type: " . $archivo["mime"]);
+            header("Content-Disposition: inline;filename=" . $archivo["archivo_nombre"]); 
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public'); 
+            echo $archivo["archivo"];
+        }
+    }
+    
+    
     public function subir() {
         // load basicos
         $this->load->helper(array("session", "debug"));

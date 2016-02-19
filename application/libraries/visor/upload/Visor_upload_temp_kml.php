@@ -35,6 +35,8 @@ Class Visor_upload_temp_kml{
      */
     protected $_dir_temp  = "";
     
+    protected $_mime = "";
+    
     /**
      *
      * @var CI_Controller 
@@ -64,11 +66,11 @@ Class Visor_upload_temp_kml{
      * Sube el archivo a temporal
      * @return string
      */
-    public function upload(){
+    public function upload($extenciones = array('kml','kmz')){
         $correcto = true;
         
         $upload = New Zend_File_Transfer();
-        $upload->addValidator('Extension', false, array('kml','kmz'));
+        $upload->addValidator('Extension', false, $extenciones);
         $upload->addValidator('FilesSize', false, array('min' => '0.001kB', 'max' => '100MB'));
         $file = $upload->getFileInfo();
         foreach($file as $field_name => $file_data){
@@ -91,7 +93,7 @@ Class Visor_upload_temp_kml{
             }
 
             $this->_setFileConfig($file_data["name"]);
-            
+            $this->_mime = $file_data["type"];
             $this->_hash = $this->_ci->string->rand_string(20);
             $this->_target = $this->_dir_temp . $this->_hash . "." . $this->_file_ext;
             $upload->addFilter('Rename', array('target' => $this->_target , 'overwrite' => true));
@@ -115,10 +117,12 @@ Class Visor_upload_temp_kml{
         $cache = Cache::iniciar();
         $cache->save(array("archivo" => file_get_contents($this->_target),
                            "archivo_nombre" => $this->_file_name,
+                           "mime" => $this->_mime,
                            "tipo" => $this->_file_ext) , 
                     $this->_hash);
         
         $retorno = array("correcto" => true,
+                         "mime" => $this->_mime,
                          "archivo_nombre" => $this->_file_name,
                          "tipo" => $this->_file_ext,
                          "hash" => $this->_hash);

@@ -232,9 +232,13 @@ class Evento extends MY_Controller {
                     $id, 
                     'Se ha creado el Evento con estado ' . $estado_emergencia
                 );
-
-
             }
+            
+            
+            
+            
+            
+            
             $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
 
             $this->emergencia_guardar->setEmergencia($params["eme_id"]);
