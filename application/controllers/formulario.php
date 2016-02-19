@@ -186,6 +186,9 @@ class Formulario extends MY_Controller
         }
     }
     
+    /**
+     * Genera en pdf
+     */
     public function pdf(){
         $this->load->library("pdf");
         $params = $this->uri->uri_to_assoc();
@@ -204,7 +207,6 @@ class Formulario extends MY_Controller
                 $datos[str_replace(" ", "_", strtolower($nombre))] = $valor;
             }
  
-            
             $html = $this->load->view("pages/formulario/pdf", $datos, true);
             $pdf = $this->pdf->load();
             $pdf->imagen_logo = file_get_contents(FCPATH . "/assets/img/top_logo.png");

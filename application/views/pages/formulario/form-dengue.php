@@ -96,7 +96,10 @@
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <div class="col-xs-2">
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">
                                     <div class="form-group clearfix">
                                         <label for="fecha_nacimiento" class="control-label">Fecha de nacimiento(*):</label>
                                         <input value="<?php echo $fecha_nacimiento; ?>" class="form-control" name="fecha_de_nacimiento" id="fecha_nacimiento">
