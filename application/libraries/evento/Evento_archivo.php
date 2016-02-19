@@ -15,6 +15,7 @@ Class Evento_archivo{
      */
     public function __construct($id_evento) {
         $this->_ci =& get_instance();
+        $this->_ci->load->library("cache");
         $this->_ci->load->model("emergencia_model", "_emergencia_model");
         
         $this->_evento = $this->_ci->_emergencia_model->getById($id_evento);
@@ -24,7 +25,10 @@ Class Evento_archivo{
     }
     
     public function addArchivo($hash){
-        
+        $cache = Cache::iniciar();
+        if($archivo = $cache->load($hash)){
+            
+        }
     }
 }
 
