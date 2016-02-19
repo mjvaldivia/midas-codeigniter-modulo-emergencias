@@ -139,8 +139,8 @@
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
-                                    <label for="fecha_1er_dia_fiebre" class="control-label">Fecha 1er día fiebre(*):</label>
-                                    <input value="<?php echo $fecha_1er_dia_fiebre; ?>" class="form-control datepicker-date" name="fecha_1er_dia_fiebre" id="fecha_1er_dia_fiebre">
+                                    <label for="fecha_de_inicio_de_sintomas" class="control-label">Fecha de inicio de síntomas (fiebre o exantema)(*):</label>
+                                    <input value="<?php echo $fecha_de_inicio_de_sintomas; ?>" class="form-control datepicker-date" name="fecha_de_inicio_de_sintomas" id="fecha_de_inicio_de_sintomas">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -197,6 +197,10 @@
                             </div>
                         </div>
                         <hr>
+                        
+                        
+                        <legend> <small>Signos clínicos</small> </legend>
+      
                         <div class="tile gray">
                         <div class="row">
                             <div class="col-xs-3">
@@ -213,8 +217,8 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="escalofrios" type="hidden" value="No" />
-                                            <input id="escalofrios" name="escalofrios" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $escalofrios); ?>> Escalofrios
+                                            <input name="calofrios" type="hidden" value="No" />
+                                            <input id="calofrios" name="calofrios" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $escalofrios); ?>> Calofríos
                                         </label>
                                     </div>
                                 </div>
@@ -233,8 +237,8 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="cefalea" type="hidden" value="No" />
-                                            <input id="cefalea" name="cefalea" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $cefalea); ?>> Cefalea
+                                            <input name="cefalea_dolor_retroorbitario" type="hidden" value="No" />
+                                            <input id="cefalea_dolor_retroorbitario" name="cefalea_dolor_retroorbitario" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $cefalea_dolor_retroorbitario); ?>> Cefalea / Dolor retroorbitario
                                         </label>
                                     </div>
                                 </div>
@@ -245,8 +249,8 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="malgia_artralgia" type="hidden" value="No" />
-                                            <input id="malgia_artralgia" name="malgia_artralgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $malgia_artralgia); ?>> Malgia / Artralgia
+                                            <input name="mialgia_artralgia" type="hidden" value="No" />
+                                            <input id="mialgia_artralgia" name="mialgia_artralgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $mialgia_artralgia); ?>> Mialgia / Artralgia
                                         </label>
                                     </div>
                                 </div>
@@ -256,27 +260,18 @@
                                     <div class="checkbox">
                                         <label>
                                             <input name="inyeccion_conjuntival" type="hidden" value="No" />
-                                            <input id="inyeccion_conjuntival" name="inyeccion_conjuntival" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $inyeccion_conjuntival); ?>> Inyección conjuntival
+                                            <input id="inyeccion_conjuntival" name="inyeccion_conjuntival" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $inyeccion_conjuntival); ?>> Conjuntivitis
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="dorsalgia" type="hidden" value="No" />
-                                            <input id="dorsalgia" name="dorsalgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dorsalgia); ?>> Dorsalgia
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
                                             <input name="nauseas_vomito" type="hidden" value="No" />
-                                            <input id="nauseas_vomito" name="nauseas_vomito" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $nauseas_vomito); ?>> Nauseas / Vomito
+                                            <input id="nauseas_vomito" name="nauseas_vomito" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $nauseas_vomito); ?>> Náuseas / Vómito
                                         </label>
                                     </div>
                                 </div>
@@ -299,16 +294,6 @@
                                         <label>
                                             <input name="dificultad_respiratoria" type="hidden" value="No" />
                                             <input id="dificultad_respiratoria" name="dificultad_respiratoria" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dificultad_respiratoria); ?>> Dificultad respiratoria
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="dolor_retroorbitario" type="hidden" value="No" />
-                                            <input id="dolor_retroorbitario" name="dolor_retroorbitario" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dolor_retroorbitario); ?>> Dolor retroorbitario
                                         </label>
                                     </div>
                                 </div>
@@ -349,8 +334,8 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="erupcion_cutanea" type="hidden" value="No" />
-                                            <input id="erupcion_cutanea" name="erupcion_cutanea" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $erupcion_cutanea); ?>> Erupcion cutanea
+                                            <input name="exantema_generalizado" type="hidden" value="No" />
+                                            <input id="exantema_generalizado" name="exantema_generalizado" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $exantema_generalizado); ?>> Exantema generalizado
                                         </label>
                                     </div>
                                 </div>
@@ -405,37 +390,59 @@
                                 </div>
                             </div>
                         </div>
-                             </div>
+                    </div>
+                        <legend> <small> Resultados test rápidos </small> </legend>
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="influenza" class="control-label">Influenza:</label>
-                                    <input value="<?php echo $influenza; ?>" class="form-control" name="influenza" id="influenza">
+                                    <select name="influenza" id="influenza" class="form-control">
+                                        <option value=""></option>
+                                        <option value="positivo" <?php if($influenza == "positivo") echo "selected" ?>> positivo </option>
+                                        <option value="negativo" <?php if($influenza == "negativo") echo "selected" ?>> negativo </option>
+                                        <option value="no concluyente" <?php if($influenza == "no concluyente") echo "selected" ?>> no concluyente </option>
+                                    </select>
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="adenovirus" class="control-label">Adenovirus:</label>
-                                    <input value="<?php echo $adenovirus; ?>" class="form-control" name="adenovirus" id="adenovirus">
+                                    <select name="adenovirus" id="adenovirus" class="form-control">
+                                        <option value=""></option>
+                                        <option value="positivo" <?php if($adenovirus == "positivo") echo "selected" ?>> positivo </option>
+                                        <option value="negativo" <?php if($adenovirus == "negativo") echo "selected" ?>> negativo </option>
+                                        <option value="no concluyente" <?php if($adenovirus == "no concluyente") echo "selected" ?>> no concluyente </option>
+                                    </select>
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="vrs" class="control-label">VRS:</label>
-                                    <input value="<?php echo $vrs; ?>" class="form-control" name="vrs" id="vrs">
+                                    <select name="vrs" id="vrs" class="form-control">
+                                        <option value=""></option>
+                                        <option value="positivo" <?php if($vrs == "positivo") echo "selected" ?>> positivo </option>
+                                        <option value="negativo" <?php if($vrs == "negativo") echo "selected" ?>> negativo </option>
+                                        <option value="no concluyente" <?php if($vrs == "no concluyente") echo "selected" ?>> no concluyente </option>
+                                    </select>
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="rotavirus" class="control-label">Rotavirus:</label>
-                                    <input value="<?php echo $rotavirus; ?>" class="form-control" name="rotavirus" id="rotavirus">
+                                    <select name="rotavirus" id="rotavirus" class="form-control">
+                                        <option value=""></option>
+                                        <option value="positivo" <?php if($rotavirus == "positivo") echo "selected" ?>> positivo </option>
+                                        <option value="negativo" <?php if($rotavirus == "negativo") echo "selected" ?>> negativo </option>
+                                        <option value="no concluyente" <?php if($rotavirus == "no concluyente") echo "selected" ?>> no concluyente </option>
+                                    </select>
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
@@ -455,8 +462,55 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-12 top-spaced">
-                <legend> Investigación epidemiológica </legend>
+                <legend> Examen de laboratorio </legend>
+                <div class="portlet portlet-default">
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="fecha_toma_de_pcr" class="control-label">Fecha de toma de PCR:</label>
+                                    <input value="<?php echo $fecha_toma_de_pcr; ?>" class="form-control datepicker-date" name="fecha_toma_de_pcr" id="fecha_toma_de_pcr">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix top-spaced">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="rechaza_toma_muestra_pcr" type="hidden" value="No" />
+                                            <input id="rechaza_toma_muestra_pcr" name="rechaza_toma_muestra_pcr" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $rechaza_toma_muestra_pcr); ?>> Rechaza toma muestra
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="fecha_toma_de_sevologia" class="control-label">Fecha de toma de sevología:</label>
+                                    <input value="<?php echo $fecha_toma_de_sevologia; ?>" class="form-control datepicker-date" name="fecha_toma_de_sevologia" id="fecha_toma_de_sevologia">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix top-spaced">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="rechaza_toma_muestra_sevologia" type="hidden" value="No" />
+                                            <input id="rechaza_toma_muestra_sevologia" name="rechaza_toma_muestra_sevologia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $rechaza_toma_muestra_sevologia); ?>> Rechaza toma muestra
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-12 top-spaced">
+                <legend> Antecedentes epidemiológicos </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body">
                         <div class="row">
@@ -598,7 +652,14 @@
                 </div>
             </div>
                             
-                            
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <div id="form_error" class="alert alert-danger hidden">
+                        <strong> Existen problemas con los datos ingresados </strong> <br>
+                        Revise y corrija los campos iluminados en rojo.
+                    </div>
+                </div>
+            </div>                
                             
             <div class="row top-spaced">
                 <div class="col-xs-6"></div>
@@ -618,6 +679,6 @@
     </div>
 </div>
 
-
+<?= loadJS("assets/js/library/jquery.mask-1.10.8/jquery.mask.js") ?>
 <?= loadJS("assets/js/modulo/mapa/formulario.js") ?>
 <?= loadJS("assets/js/form-dengue.js") ?>

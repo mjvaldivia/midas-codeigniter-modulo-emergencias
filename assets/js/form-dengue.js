@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    
+    $("#rut").mask('000000000-A', {reverse: true});
+    
     $("#guardar").click(function(e){
        e.preventDefault();
        var parametros = $("#form-dengue").serializeArray();

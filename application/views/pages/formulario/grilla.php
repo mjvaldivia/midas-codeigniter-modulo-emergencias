@@ -3,8 +3,9 @@
         <tr>
             <th width="20%">Fecha</th>
             <th width="20%">Diagnostico clínico</th>
+            <th width="10%">Rut</th>
             <th width="25%">Nombre</th>
-            <th width="30%">Dirección</th>
+            <th width="20%">Dirección</th>
             <th width="5%">Opciones</th>				
         </tr>
     </thead>
@@ -14,8 +15,9 @@
         <tr>
             <td width="20%"><?php echo $row["fecha"]; ?></td>
             <td width="20%"><?php echo $row["diagnostico"]; ?></td>
-            <td width="35%"><?php echo $row["nombre"]; ?></td>
-            <td width="40%"><?php echo $row["direccion"]; ?></td>
+            <td width="10%"><?php echo $row["rut"]; ?></td>
+            <td width="25%"><?php echo $row["nombre"]; ?></td>
+            <td width="20%"><?php echo $row["direccion"]; ?></td>
             <td align="center" width="5%">
                 <div style="width: 100px">
                 <button onclick="document.location.href='<?php echo base_url("formulario/editar/?id=" . $row["id"]); ?>'" title="editar" class="btn btn-sm btn-success" type="button" >

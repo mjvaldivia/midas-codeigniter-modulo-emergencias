@@ -82,40 +82,46 @@ class Formulario extends MY_Controller
      * 
      */
     public function guardar_dengue(){
+        $this->load->library("rut");
+        
         header('Content-type: application/json');
 
         $params = $this->input->post(null, true);
 
-        $coordenadas = array("lat" => $params["latitud"],
-                             "lng" => $params["longitud"]);
-
-        unset($params["latitud"]);
-        unset($params["longitud"]);
-
-        $caso = $this->_rapanui_dengue_model->getById($params["id"]);
+        if($this->rut->validar($params["rut"])){
         
-        unset($params["id"]);
-        
-        $arreglo = array();
-        foreach($params as $nombre => $valor){
-            $nombre = str_replace("_", " ", $nombre);
-            $arreglo[strtoupper($nombre)] = $valor;
-        }
-         
-        if(is_null($caso)){
-            $this->_rapanui_dengue_model->insert(array("fecha" => date("Y-m-d H:i:s"),
-                                                   "propiedades" => json_encode($arreglo),
-                                                   "coordenadas" => json_encode($coordenadas)));
+            $coordenadas = array("lat" => $params["latitud"],
+                                 "lng" => $params["longitud"]);
+
+            unset($params["latitud"]);
+            unset($params["longitud"]);
+
+            $caso = $this->_rapanui_dengue_model->getById($params["id"]);
+
+            unset($params["id"]);
+
+            $arreglo = array();
+            foreach($params as $nombre => $valor){
+                $nombre = str_replace("_", " ", $nombre);
+                $arreglo[strtoupper($nombre)] = $valor;
+            }
+
+            if(is_null($caso)){
+                $this->_rapanui_dengue_model->insert(array("fecha" => date("Y-m-d H:i:s"),
+                                                       "propiedades" => json_encode($arreglo),
+                                                       "coordenadas" => json_encode($coordenadas)));
+            } else {
+                $this->_rapanui_dengue_model->update(array("propiedades" => json_encode($arreglo),
+                                                           "coordenadas" => json_encode($coordenadas)),
+                                                     $caso->id);
+            }
+
+            echo json_encode(array("error" => array(),
+                                   "correcto" => true));
         } else {
-            $this->_rapanui_dengue_model->update(array("propiedades" => json_encode($arreglo),
-                                                       "coordenadas" => json_encode($coordenadas)),
-                                                 $caso->id);
+            echo json_encode(array("error" => array("rut" => "El rut no tiene un formato válido"),
+                                   "correcto" => false));
         }
-
-        
-       
-        echo json_encode(array("error" => array(),
-                              "correcto" => true));
     }
     
     /**
@@ -199,6 +205,7 @@ class Formulario extends MY_Controller
                 
                 $casos[] = array("id" => $caso["id"],
                                  "fecha" => $fecha_formato,
+                                 "rut" => $propiedades->RUT,
                                  "diagnostico" => strtoupper($propiedades->{"DIAGNOSTICO CLINICO"}),
                                  "nombre" => strtoupper($propiedades->NOMBRE . " " . $propiedades->APELLIDO),
                                  "direccion" => strtoupper($propiedades->DIRECCION));
