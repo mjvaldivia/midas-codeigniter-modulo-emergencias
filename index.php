@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL ^ E_NOTICE);
 //echo "Estimado  usuario favor usar nuevo sitio web, ingrese mediante <a href='http://midas.minsal.cl'>http://midas.minsal.cl</a>";die;
 
 /*
@@ -30,7 +30,7 @@
  * PROD (produccion)
  */
 defined('ENVIRONMENT')
-    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'development'));
+    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'production'));
 
 
 set_include_path(
