@@ -100,6 +100,11 @@ class Mantenedor_usuario extends MY_Controller {
                 $this->usuario_model->update($data, $usuario->usu_ia_id);
                 $id_usuario = $usuario->usu_ia_id;
             } else {
+                
+                $data["usu_c_login"] = str_replace(" ", ".", strtolower(substr($params["nombre"], 0, 1) . "." .$params["apellido_paterno"]));
+                $data["usu_c_clave"] = sha1("123");
+                
+                
                 $id_usuario = $this->usuario_model->insert($data);
             }
             
