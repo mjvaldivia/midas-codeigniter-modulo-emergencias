@@ -157,12 +157,11 @@ class Formulario extends MY_Controller
                   ->setKeywords("office 2007 openxml php sumanet")
                   ->setCategory("Midas");
 
-            $letras = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
             $columnas = reset($datos_excel);
 
             $i=0;
             foreach($columnas as $columna => $valor){
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna); //setCellValue($letras[$i] . '1', strip_tags($columna));
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna); 
                 $i++;
             }
 

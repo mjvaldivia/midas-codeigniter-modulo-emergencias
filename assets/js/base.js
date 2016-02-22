@@ -323,3 +323,29 @@ function notificacionEspera(titulo){
     });
 }
 
+/**
+ * Boquea el boton despues de hacer click
+ * @param {type} boton
+ * @param {type} e
+ * @returns {buttonStartProcess.retorno}
+ */
+function buttonStartProcess(boton, e){
+    e.preventDefault();
+    $(boton).prop('disabled', true);
+    
+    var clase_boton = $(boton).children("i").attr("class");
+    $(boton).children("i").attr("class","fa fa-refresh fa-spin"); 
+    
+    var retorno = {"boton" : boton, "clase" : clase_boton};
+    return retorno;
+}
+
+/**
+ * Desbloquea el boton
+ * @param {type} retorno
+ * @returns {undefined}
+ */
+function buttonEndProcess(retorno){
+    $(retorno.boton).prop('disabled', false);
+    $(retorno.boton).children("i").attr("class", retorno.clase);
+}

@@ -4,6 +4,7 @@ class Rol_Model extends MY_Model {
     
     const ADMINISTRADOR = 27;
     const MONITOR = 44;
+    const MEDICO = 46;
     
     /**
      * Se utiliza emergencias_simulacion o no

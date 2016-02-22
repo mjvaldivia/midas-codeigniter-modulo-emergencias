@@ -13,7 +13,7 @@
                 </div>
                 <div class="portlet-body">
                     <div class="row">
-                        <div class="col-md-4 text-left">
+                        <div class="col-xs-4 text-left">
                             <div class="form-group clearfix">
                                 <label for="rut" class="control-label">Rut (*):</label>
                                 <div class="input-group col-sm-12">
@@ -22,7 +22,7 @@
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 text-left">
+                        <div class="col-xs-4 text-left">
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Sexo (*):</label>
                                 <div class="input-group col-sm-12">
@@ -31,9 +31,6 @@
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
-                        
-                        
-                        
                     </div>
                     <div class="row">
                         <div class="col-md-4 text-left">
