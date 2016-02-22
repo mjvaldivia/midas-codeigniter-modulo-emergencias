@@ -52,6 +52,15 @@ class Usuario_Model extends MY_Model {
     
     /**
      * 
+     * @param string $login
+     * @return type
+     */
+    public function getByLogin($login){
+        return $this->_query->getById("usu_c_login", $login);
+    }
+    
+    /**
+     * 
      * @param string $usuario
      * @param string $password
      * @return array

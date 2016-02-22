@@ -5,6 +5,7 @@
                 <th></th>
                 <th>Rut</th>
                 <th>Nombre</th>
+                <th>Usuario Emergencias</th>
                 <th>Email</th>
                 <th>Region</th>
             </tr>
@@ -49,6 +50,9 @@
                 </td>
                 <td>
                     <?php echo $row["usu_c_nombre"]; ?> <?php echo $row["usu_c_apellido_paterno"]; ?> <?php echo $row["usu_c_apellido_materno"]; ?> 
+                </td>
+                <td>
+                    <?php echo $row["usu_c_login"]; ?>
                 </td>
                 <td> 
                     <?php echo $row["usu_c_email"]; ?>
