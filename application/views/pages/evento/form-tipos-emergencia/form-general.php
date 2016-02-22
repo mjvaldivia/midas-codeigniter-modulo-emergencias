@@ -88,9 +88,9 @@
     
     <div class="row">
         <div class="col-md-6">
-            <!--
+       
             <?php echo formElementEventoArchivos($id); ?>
-            -->
+         
         </div>
     </div>
            

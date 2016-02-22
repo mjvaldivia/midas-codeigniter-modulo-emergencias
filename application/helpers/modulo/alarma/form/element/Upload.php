@@ -47,7 +47,7 @@ Class Alarma_Form_Element_Upload{
             $lista_archivos = $this->_ci->_emergencia_archivo_model->listaPorEmergencia($this->_emergencia->eme_ia_id);
             if(!is_null($lista_archivos)){
                 foreach($lista_archivos as $archivo){
-                    $lista[] = array($archivo["arch_ia_id"]);
+                    $lista[] = $archivo["arch_ia_id"];
                 }
             }
         }

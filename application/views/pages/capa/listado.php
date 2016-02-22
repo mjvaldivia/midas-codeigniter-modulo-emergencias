@@ -1,11 +1,5 @@
 
 <div id="pResultados" class="portlet portlet-default" width="100%">
-    <div class="portlet-heading">
-        <div class="portlet-title">
-            <h4><i class="fa fa-th-list"></i>
-            Resultados <span id="resultados_capa"></span></h4>
-        </div>
-    </div>
     <div class='portlet-body'>
         <div class="table-responsive">
             <div class="col-xs-12" id="contenedor-grilla-capas"></div>

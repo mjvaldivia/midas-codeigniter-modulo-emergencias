@@ -65,11 +65,13 @@ var EventoFormNuevo = Class({
                 $("#archivo_tipo").val("");
                 
                 $("#upload-adjunto-lista").append(
-                        "<div id=\"archivo-" + data.response.hash + "\">"
+                        + "<div id=\"archivo-" + data.response.hash + "\">"
                         + "<input type=\"hidden\" name=\"archivos[]\" value=\"\" />"
                         + "<input type=\"hidden\" name=\"archivos_hash[]\" value=\""+data.response.hash+"\" />"
                         + "<hr/>"
+                        + "<div class=\"row\">"
                         + "<div class=\"col-md-3\">"
+                        + "<input type=\"hidden\" name=\"archivos_descripcion[]\" value=\"" + data.response.descripcion + "\" />"
                         + data.response.descripcion
                         + "</div>"
                         + "<div class=\"col-md-3\">"
@@ -82,8 +84,9 @@ var EventoFormNuevo = Class({
                         + "</a>"
                         + "</div>"
                         + "<div class=\"col-md-2 text-center\">"
-                        + "<button class=\"btn btn-xs btn-danger\"> <i class=\"fa fa-remove\"></i> </button>"
+                        + "<button class=\"btn btn-xs btn-danger quitar-archivo\"> <i class=\"fa fa-remove\"></i> </button>"
                         + "</div>" 
+                        + "</div>"
                         + "</div>"
                 );
                 
@@ -107,6 +110,13 @@ var EventoFormNuevo = Class({
             $('#upload-adjunto').fileinput('cancel');    
 
         });  
+        
+        $(".quitar-archivo").livequery(function(){
+            $(this).click(function(e){
+                e.preventDefault();
+                $(this).parent().parent().remove();
+            });
+        });
         
         $("#upload-adjunto-start").click(function(e){
             e.preventDefault();

@@ -233,12 +233,7 @@ class Evento extends MY_Controller {
                     'Se ha creado el Evento con estado ' . $estado_emergencia
                 );
             }
-            
-            
-            
-            
-            
-            
+
             $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
 
             $this->emergencia_guardar->setEmergencia($params["eme_id"]);
@@ -246,6 +241,8 @@ class Evento extends MY_Controller {
             $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
 
         }
+        
+        $this->_guardarArchivos($id);
         
         $respuesta["res_mail"] = $respuesta_email;
         $respuesta["correcto"] = $correcto;
@@ -321,24 +318,6 @@ class Evento extends MY_Controller {
             
             foreach($lista_comunas as $comuna){
                 $data["lista_comunas"][] = $comuna["com_ia_id"];
-            }
-
-            /* revisar adjuntos de emergencia */
-            $adjuntos = array();
-            $dir_adjuntos = 'media/doc/emergencia/'.$params['id'].'/adjuntos/';
-            if(is_dir($dir_adjuntos)){
-                $readDir = array_diff(scandir($dir_adjuntos), array('..', '.'));
-                if(count($readDir) > 0){
-                    $this->load->model('archivo_model','ArchivoModel');
-                    foreach($readDir as $file){
-                        $data_adjunto = $this->ArchivoModel->getByPath($dir_adjuntos.$file);
-                        $data_adjunto[0]['nombre'] = $file;
-                        $data_adjunto[0]['path'] = site_url() . '/archivo/download_file/k/'.$data_adjunto[0]['arch_c_hash'];
-                        $adjuntos[] = $data_adjunto[0];
-
-                    }
-                    $data['adjuntos'] = $adjuntos;
-                }
             }
             
             $data["form_name"] = "form_editar";
@@ -434,5 +413,29 @@ class Evento extends MY_Controller {
                            "error"    => $this->alarmavalidar->getErrores());
         
         echo json_encode($respuesta);
+    }
+    
+    /**
+     * Guarda archivos adjuntos
+     * @param int $id_evento
+     */
+    protected function _guardarArchivos($id_evento){
+        $this->load->library("evento/evento_archivo");
+        
+        $params = $this->input->post(null, true);
+        
+        $this->evento_archivo->setEvento($id_evento);
+        if(count($params["archivos"])>0){
+            foreach($params["archivos"] as $key => $id_archivo){
+                $this->evento_archivo->addArchivo(
+                    $params["archivos_hash"][$key], 
+                    $params["archivos_descripcion"][$key],
+                    $params["archivos_tipo"][$key], 
+                    $id_archivo
+                );
+            }
+        }
+        
+        $this->evento_archivo->guardar();
     }
 }

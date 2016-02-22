@@ -43,19 +43,24 @@
             <input type="hidden" name="archivos[]" value="<?php echo $archivo["id"]; ?>" />
             <input type="hidden" name="archivos_hash[]" value="<?php echo $archivo["hash"]; ?>" />
             <hr/>
+            <div class="row">
             <div class="col-md-3">
+                <input type="hidden" name="archivos_descripcion[]" value="<?php echo $archivo["descripcion"]; ?>" />
                 <?php echo $archivo["descripcion"]; ?>
             </div>  
             <div class="col-md-3">
-                <input type="hidden" name="archivos_tipo[]" value="<?php echo $archivo["id_tipo"]; ?>" />
-                <?php echo $archivo["nombre_tipo"]; ?>
+                <input type="hidden" name="archivos_tipo[]" value="<?php echo $archivo["tipo"]; ?>" />
+                <?php echo nombreArchivoTipo($archivo["tipo"]); ?>
             </div>
             <div class="col-md-4">
-                <?php echo $archivo["nombre"]; ?>
+                <a href="<?php echo base_url("archivo/download_file/hash/" . $archivo["hash"]) ?>" target="_blank"><?php echo $archivo["nombre"]; ?></a>
             </div>
             <div class="col-md-2 text-center">
-                <button class="btn btn-xs btn-danger"> <i class="fa fa-remove"></i> </button>
+                <button class="btn btn-xs btn-danger quitar-archivo"> 
+                    <i class="fa fa-remove"></i> 
+                </button>
             </div> 
+            </div>
         </div>
     <?php
             }
