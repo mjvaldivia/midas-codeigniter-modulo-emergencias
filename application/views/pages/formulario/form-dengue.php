@@ -33,6 +33,7 @@
                 </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body">
+                        <div class="row">
                         <div class="col-md-6">
                             <div id="mapa" style="height: 400px"></div>
                             <div class="alert alert-info">Puede mover el marcador para ajustar la ubicación del caso</div>
@@ -126,6 +127,7 @@
                                 </div>
                             </div>			
    	
+                        </div>
                         </div>
                     </div>
                 </div>

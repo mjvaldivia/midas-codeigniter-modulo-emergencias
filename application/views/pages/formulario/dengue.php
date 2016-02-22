@@ -3,7 +3,7 @@
         <div class="page-title">
             <h1> Gestión de vigilancia de casos febriles
                 <div class="pull-right">
-                    <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square">
+                    <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square hide">
                         <i class="fa fa-download"></i>
                         Descargar excel
                     </a>
