@@ -113,7 +113,7 @@ class Mantenedor_usuario extends MY_Controller {
                 $id_usuario = $usuario->usu_ia_id;
             } else {
                 
-                $data["usu_c_login"] = $this->_getLogin(str_replace(" ", ".", strtolower(substr($params["nombre"], 0, 1) . "." .$params["apellido_paterno"])));
+                $data["usu_c_login"] = $this->_getLogin(str_replace(" ", ".", strtolower(substr(trim($params["nombre"]), 0, 1) . "." .trim($params["apellido_paterno"]))));
                 
                 $rut = explode("-", $params["rut"]);
                 $data["usu_c_clave"] = sha1(substr($rut[0], strlen($rut[0])-4, 4));
