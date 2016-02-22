@@ -48,7 +48,7 @@ class Login extends MY_Controller {
     public function actualizar(){
         $this->template->parse("default", 
                                "pages/login/actualizar", 
-                                array());
+                                array("id" => $this->session->userdata("session_idUsuario")));
     }
     
     /**
@@ -109,7 +109,7 @@ class Login extends MY_Controller {
                 }
                 
                 if($bo_perfil_medico){
-                    if(count($lista_roles) > 0){
+                    if(count($lista_roles) > 1){
                         redirect(base_url("home"));
                     } else {
                         redirect(base_url("formulario"));
