@@ -7,7 +7,7 @@
                         <i class="fa fa-download"></i>
                         Descargar excel
                     </a>
-                    <a href="<?php echo base_url("formulario/form_dengue"); ?>" id="nueva" class="btn btn-xs btn-green btn-square">
+                    <a href="<?php echo base_url("formulario/form_dengue"); ?>" id="nueva" class="btn btn-xs btn-green">
                         <i class="fa fa-plus"></i>
                         Nuevo caso
                     </a>
