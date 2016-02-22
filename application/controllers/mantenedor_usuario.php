@@ -69,6 +69,18 @@ class Mantenedor_usuario extends MY_Controller {
         $this->template->parse("default", "pages/mantenedor_usuarios/index", array());
     }
     
+    public function correccion_usuarios(){
+        $lista = $this->usuario_model->listar();
+        $data = array();
+        foreach($lista as $usuario){
+            $data["usu_c_login"] = $this->_getLogin(str_replace(" ", ".", strtolower(substr(trim($usuario["usu_c_nombre"]), 0, 1) . "." .trim($usuario["usu_c_apellido_paterno"]))));
+                
+            $rut = explode("-", $usuario["usu_c_rut"]);
+            $data["usu_c_clave"] = sha1(substr($rut[0], strlen($rut[0])-4, 4));
+            $this->usuario_model->update($data, $usuario["usu_ia_id"]);
+        }
+    }
+    
     /**
      * Guardar
      */
@@ -212,7 +224,7 @@ class Mantenedor_usuario extends MY_Controller {
         
         $existe = $this->usuario_model->getByLogin($login);
         if(!is_null($existe)){
-            $login = $this->_getLogin($nombre, $apellido, $intento + 1);
+            $login = $this->_getLogin($login, $intento + 1);
         }
         
         return $login;
