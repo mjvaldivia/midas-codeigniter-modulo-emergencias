@@ -1,7 +1,7 @@
 <form id="form-usuario" name="form_cerrar" enctype="application/x-www-form-urlencoded" action="" method="post">
     <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"/>
     
-    <div class="row">
+    <div class="row text-left">
         <div class="col-lg-7">
             <div class="portlet portlet-default">
                 <div class="portlet-heading">
@@ -13,7 +13,7 @@
                 </div>
                 <div class="portlet-body">
                     <div class="row">
-                        <div class="col-xs-4 text-left">
+                        <div class="col-lg-4 text-left">
                             <div class="form-group clearfix">
                                 <label for="rut" class="control-label">Rut (*):</label>
                                 <div class="input-group col-sm-12">
@@ -22,7 +22,7 @@
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
-                        <div class="col-xs-4 text-left">
+                        <div class="col-lg-4 text-left">
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Sexo (*):</label>
                                 <div class="input-group col-sm-12">
@@ -107,11 +107,6 @@
                     </div>
                 </div>
             </div>
-            
-
-            
-
-            
         </div>
         <div class="col-lg-5">
             <div class="portlet portlet-default">
@@ -123,10 +118,8 @@
                     </div>
                 </div>
                 <div class="portlet-body">
-            
-            
                     <div class="row">
-                        <div class="col-md-5 text-left">
+                        <div class="col-md-6 text-left">
                             <div class="form-group clearfix">
                                 <label for="sexo" class="control-label">Cargo (*):</label>
                                 <div class="input-group col-sm-12">

@@ -2097,7 +2097,7 @@ input[type="checkbox"]:checked::after,
 
 .nav-tabs{margin-bottom:0;}
 .nav-tabs>li>a{background-color:#ecf0f1;border-bottom:1px solid #ddd;}
-/*.portlet-heading, .portlet-body{overflow:hidden;}*/
+.portlet-heading, .portlet-body{overflow:hidden;}
 
 
 .tab-content{border-left:1px solid #ddd;overflow:hidden;border-bottom:1px solid #ddd;border-right:1px solid #ddd;}
