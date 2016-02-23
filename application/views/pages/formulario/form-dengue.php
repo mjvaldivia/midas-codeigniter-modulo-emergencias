@@ -147,7 +147,7 @@
                 <div class="portlet portlet-default">
                     <div class="portlet-body" style="overflow: visible">
                         <div class="row">
-                            <div class="col-xs-4">
+                            <div class="col-xs-2">
                                 <div class="form-group clearfix">
                                     <label for="fecha_consulta" class="control-label">Fecha consulta(*):</label>
                                     <input value="<?php echo $fecha_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_consulta">
@@ -161,58 +161,55 @@
                                     <span class="help-block">Formato: dd/mm/aaaa</span>
                                 </div>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-2">
                                 <div class="form-group clearfix">
-                                    <label for="temperatura_axilar" class="control-label">T° Axilar(*):</label>
+                                    <label for="temperatura_axilar" class="control-label">T° Axilar al momento de la consulta(*):</label>
                                     <input value="<?php echo $temperatura_axilar; ?>" class="form-control" name="temperatura_axilar" id="temperatura_axilar">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="hospitalizacion" type="hidden" value="No" />
-                                            <input id="hospitalizacion" name="hospitalizacion" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $hospitalizacion); ?>> Hospitalización
-                                        </label>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="form-group clearfix">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="hospitalizacion" type="hidden" value="No" />
+                                                    <input id="hospitalizacion" name="hospitalizacion" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $hospitalizacion); ?>> Hospitalización
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="form-group clearfix">
+                                            <label for="fecha_hospitalizacion" class="control-label">Fecha hospitalización:</label>
+                                            <input value="<?php echo $fecha_hospitalizacion; ?>" class="form-control datepicker-date" name="fecha_hospitalizacion" id="fecha_hospitalizacion">
+                                            <span class="help-block hidden"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="form-group clearfix">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="fallecido" type="hidden" value="No" />
+                                                    <input id="fallecido" name="fallecido" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $fallecido); ?>> Fallecido
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="form-group clearfix">
+                                            <label for="fecha_fallecimiento" class="control-label">Fecha fallecimiento:</label>
+                                            <input value="<?php echo $fecha_fallecimiento; ?>" class="form-control datepicker-date" name="fecha_fallecimiento" id="fecha_fallecimiento">
+                                            <span class="help-block hidden"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="fecha_hospitalizacion" class="control-label">Fecha hospitalización:</label>
-                                    <input value="<?php echo $fecha_hospitalizacion; ?>" class="form-control datepicker-date" name="fecha_hospitalizacion" id="fecha_hospitalizacion">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-
-                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="fallecido" type="hidden" value="No" />
-                                            <input id="fallecido" name="fallecido" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $fallecido); ?>> Fallecido
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="fecha_fallecimiento" class="control-label">Fecha fallecimiento:</label>
-                                    <input value="<?php echo $fecha_fallecimiento; ?>" class="form-control datepicker-date" name="fecha_fallecimiento" id="fecha_fallecimiento">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-
-                            </div>
-                        </div>
+                        
                         <hr>
                         
                         
@@ -226,6 +223,16 @@
                                         <label>
                                             <input name="fiebre" type="hidden" value="No" />
                                             <input id="fiebre" name="fiebre" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $fiebre); ?>> Fiebre
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="exantema_generalizado" type="hidden" value="No" />
+                                            <input id="exantema_generalizado" name="exantema_generalizado" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $exantema_generalizado); ?>> Exantema generalizado
                                         </label>
                                     </div>
                                 </div>
@@ -250,6 +257,8 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
@@ -260,15 +269,44 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="tos" name="tos" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $tos); ?>> Tos
+                                            <input name="tos" type="hidden" value="No" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="coriza" name="coriza" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $tos); ?>> Coriza
+                                            <input name="coriza" type="hidden" value="No" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
                                             
-                                            <input id="mialgia_artralgia" name="mialgia_artralgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $mialgia_artralgia); ?>> Mialgia / Artralgia
-                                            <input name="mialgia_artralgia" type="hidden" value="No" />
+                                            <input id="mialgia" name="mialgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $mialgia); ?>> Mialgia 
+                                            <input name="mialgia" type="hidden" value="No" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            
+                                            <input id="artralgia" name="artralgia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $artralgia); ?>> Artralgia
+                                            <input name="artralgia" type="hidden" value="No" />
                                         </label>
                                     </div>
                                 </div>
@@ -294,92 +332,29 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                            
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="convulsiones_generalizadas" type="hidden" value="No" />
-                                            <input id="convulsiones_generalizadas" name="convulsiones_generalizadas" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $convulsiones_generalizadas); ?>> Convulsiones generalizadas
+                                            <input name="diarrea" type="hidden" value="No" />
+                                            <input id="diarrea" name="diarrea" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $diarrea); ?>> Diarrea
                                         </label>
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="dificultad_respiratoria" type="hidden" value="No" />
-                                            <input id="dificultad_respiratoria" name="dificultad_respiratoria" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dificultad_respiratoria); ?>> Dificultad respiratoria
+                                            <input name="edema_de_articulacion_manos_y_pies" type="hidden" value="No" />
+                                            <input id="edema_de_articulacion_manos_y_pies" name="edema_de_articulacion_manos_y_pies" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $edema_de_articulacion_manos_y_pies); ?>>  Edema de articulación de manos/pies
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="compromiso_de_conciencia" type="hidden" value="No" />
-                                            <input id="compromiso_de_conciencia" name="compromiso_de_conciencia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $compromiso_de_conciencia); ?>> Compromiso de conciencia
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="manifestaciones_hemorragicas" type="hidden" value="No" />
-                                            <input id="manifestaciones_hemorragicas" name="manifestaciones_hemorragicas" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $manifestaciones_hemorragicas); ?>> Manifestaciones hemorragicas
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="petequias" type="hidden" value="No" />
-                                            <input id="petequias" name="petequias" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $petequias); ?>> Petequias
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="exantema_generalizado" type="hidden" value="No" />
-                                            <input id="exantema_generalizado" name="exantema_generalizado" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $exantema_generalizado); ?>> Exantema generalizado
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="sintomas_respiratorios" type="hidden" value="No" />
-                                            <input id="sintomas_respiratorios" name="sintomas_respiratorios" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $sintomas_respiratorios); ?>> Sintomas respiratorios
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="shock" type="hidden" value="No" />
-                                            <input id="shock" name="shock" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $shock); ?>> Shock
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
@@ -390,12 +365,222 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="compromiso_renal" type="hidden" value="No" />
-                                            <input id="compromiso_renal" name="compromiso_renal" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $compromiso_renal); ?>> Compromiso renal
+                                            <input name="torniquete" type="hidden" value="No" />
+                                            <input id="torniquete" name="torniquete" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $torniquete); ?>> Torniquete (+)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="leucopenia" type="hidden" value="No" />
+                                            <input id="leucopenia" name="leucopenia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $leucopenia); ?>> Leucopenia
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="acumulacion_extravascular_de_fluidos" type="hidden" value="No" />
+                                            <input id="acumulacion_extravascular_de_fluidos" name="acumulacion_extravascular_de_fluidos" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $acumulacion_extravascular_de_fluidos); ?>> Acumulación extravascular de fluidos
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="dolor_o_sensibilidad_abdominal" type="hidden" value="No" />
+                                            <input id="dolor_o_sensibilidad_abdominal" name="dolor_o_sensibilidad_abdominal" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dolor_o_sensibilidad_abdominal); ?>> Dolor/sensibilidad abdominal
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="sangramiento_de_mucosas" type="hidden" value="No" />
+                                            <input id="sangramiento_de_mucosas" name="sangramiento_de_mucosas" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $sangramiento_de_mucosas); ?>> Sangramiento de mucosas
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="hepatomegalia_2cm" type="hidden" value="No" />
+                                            <input id="hepatomegalia_2cm" name="hepatomegalia_2cm" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $hepatomegalia_2cm); ?>> Hepatomegalia > 2cm
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="Aumento_hematocrito" type="hidden" value="No" />
+                                            <input id="Aumento_hematocrito" name="Aumento_hematocrito" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $Aumento_hematocrito); ?>> Aumento hematocrito
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="disminucion_de_plaquetas" type="hidden" value="No" />
+                                            <input id="disminucion_de_plaquetas" name="disminucion_de_plaquetas" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $disminucion_de_plaquetas); ?>> Disminución de plaquetas
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="sdra" type="hidden" value="No" />
+                                            <input id="sdra" name="sdra" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $sdra); ?>> SDRA
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="shock" type="hidden" value="No" />
+                                            <input id="shock" name="shock" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $shock); ?>> Shock
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="sangramiento_severo" type="hidden" value="No" />
+                                            <input id="sangramiento_severo" name="sangramiento_severo" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $sangramiento_severo); ?>> Sangramiento severo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="compromiso_severo_de_organos" type="hidden" value="No" />
+                                            <input id="compromiso_severo_de_organos" name="compromiso_severo_de_organos" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $compromiso_severo_de_organos); ?>> Compromiso severo de órganos
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="meningitis_encefalitis" type="hidden" value="No" />
+                                            <input id="meningitis_encefalitis" name="meningitis_encefalitis" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $meningitis_encefalitis); ?>> Meningitis/encefalitis
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="paralisis_flaccida_aguda" type="hidden" value="No" />
+                                            <input id="paralisis_flaccida_aguda" name="paralisis_flaccida_aguda" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $paralisis_flaccida_aguda); ?>> Parálisis fláccida aguda/Sind. Guillain-Barré
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="vertigo" type="hidden" value="No" />
+                                            <input id="vertigo" name="vertigo" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $vertigo); ?>> Vértigo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="paresia" type="hidden" value="No" />
+                                            <input id="paresia" name="paresia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $paresia); ?>> Paresia
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="rigidez_de_nuca" type="hidden" value="No" />
+                                            <input id="rigidez_de_nuca" name="rigidez_de_nuca" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $rigidez_de_nuca); ?>> Rigidez de nuca
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="albuminuria" type="hidden" value="No" />
+                                            <input id="albuminuria" name="albuminuria" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $albuminuria); ?>> Albuminuria
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="anemia_severa" type="hidden" value="No" />
+                                            <input id="anemia_severa" name="anemia_severa" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $anemia_severa); ?>> Anemia severa
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="dificultad_respiratoria" type="hidden" value="No" />
+                                            <input id="dificultad_respiratoria" name="dificultad_respiratoria" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $dificultad_respiratoria); ?>> Dificultad respiratoria
                                         </label>
                                     </div>
                                 </div>
@@ -411,7 +596,7 @@
                     </div>
                         <legend> <small> Resultados test rápidos </small> </legend>
                         <div class="row">
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <div class="form-group clearfix">
                                     <label for="influenza" class="control-label">Influenza:</label>
                                     <select name="influenza" id="influenza" class="form-control">
@@ -423,7 +608,7 @@
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <div class="form-group clearfix">
                                     <label for="adenovirus" class="control-label">Adenovirus:</label>
                                     <select name="adenovirus" id="adenovirus" class="form-control">
@@ -435,7 +620,7 @@
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <div class="form-group clearfix">
                                     <label for="vrs" class="control-label">VRS:</label>
                                     <select name="vrs" id="vrs" class="form-control">
@@ -447,7 +632,7 @@
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <div class="form-group clearfix">
                                     <label for="rotavirus" class="control-label">Rotavirus:</label>
                                     <select name="rotavirus" id="rotavirus" class="form-control">
@@ -455,6 +640,18 @@
                                         <option value="positivo" <?php if($rotavirus == "positivo") echo "selected" ?>> positivo </option>
                                         <option value="negativo" <?php if($rotavirus == "negativo") echo "selected" ?>> negativo </option>
                                         <option value="no concluyente" <?php if($rotavirus == "no concluyente") echo "selected" ?>> no concluyente </option>
+                                    </select>
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group clearfix">
+                                    <label for="dengue_local" class="control-label">Dengue local:</label>
+                                    <select name="dengue_local" id="dengue_local" class="form-control">
+                                        <option value=""></option>
+                                        <option value="positivo" <?php if($dengue_local == "positivo") echo "selected" ?>> positivo </option>
+                                        <option value="negativo" <?php if($dengue_local == "negativo") echo "selected" ?>> negativo </option>
+                                        <option value="no concluyente" <?php if($dengue_local == "no concluyente") echo "selected" ?>> no concluyente </option>
                                     </select>
                                     <span class="help-block hidden"></span>
                                 </div>
@@ -672,9 +869,11 @@
                             
             <div class="row">
                 <div class="col-md-12 text-left">
+                    <div class="col-md-12">
                     <div id="form_error" class="alert alert-danger hidden">
                         <strong> Existen problemas con los datos ingresados </strong> <br>
                         Revise y corrija los campos iluminados en rojo.
+                    </div>
                     </div>
                 </div>
             </div>                

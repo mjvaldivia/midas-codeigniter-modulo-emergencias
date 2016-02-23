@@ -3,7 +3,7 @@
         <tr>
             <th width="20%">Fecha</th>
             <th width="20%">Diagnostico clínico</th>
-            <th width="10%">Rut</th>
+            <th width="10%">Run</th>
             <th width="25%">Nombre</th>
             <th width="20%">Dirección</th>
             <th width="5%">Opciones</th>				
