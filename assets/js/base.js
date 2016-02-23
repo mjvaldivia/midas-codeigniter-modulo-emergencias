@@ -22,6 +22,8 @@ function formatState (state) {
 
 $(document).ready(function() {
     
+    $(".rut:input").mask('0000000000-A', {reverse: true});
+    
     Messenger.options = {
         extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
         theme: 'flat'

@@ -1,6 +1,7 @@
 $(document).ready(function() {
     
-    $("#rut").mask('000000000-A', {reverse: true});
+    
+    $("#fecha_de_nacimiento").mask('99/99/9999');
     
     $("#guardar").click(function(e){
        e.preventDefault();

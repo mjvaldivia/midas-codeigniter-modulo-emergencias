@@ -125,8 +125,13 @@ Class Layout_Menu_Render{
             $ver = true;
             
             if(isset($datos["permiso"])){
-                $this->usuario->setModulo($datos["permiso"]);
-                $ver = $this->usuario->getPermisoVer();
+                if($datos["permiso"]!="casos_febriles"){
+                    $this->usuario->setModulo($datos["permiso"]);
+                    $ver = $this->usuario->getPermisoVer();
+                } else {
+                    $this->usuario->setModulo($datos["permiso"]);
+                    $ver = $this->usuario->getPermisoReporteEmergencia();
+                }
             }
             
             if(isset($datos["rol"]) and $datos["rol"] == "administrador"){

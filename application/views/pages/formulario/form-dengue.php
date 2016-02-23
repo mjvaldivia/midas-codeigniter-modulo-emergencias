@@ -84,33 +84,44 @@
                             <div class="row">
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
-                                        <label for="rut" class="control-label">Rut(*):</label>
-                                        <input value="<?php echo $rut; ?>" class="form-control" name="rut" id="rut">
+                                        <label for="run" class="control-label">RUN:</label>
+                                        <input value="<?php echo $run; ?>" class="form-control rut" name="run" id="run">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
-                                        <label for="telefono" class="control-label">Teléfono(s)(*):</label>
+                                        <label for="numero_pasaporte" class="control-label">N° Pasaporte:</label>
+                                        <input value="<?php echo $numero_pasaporte; ?>" class="form-control" name="numero_pasaporte" id="numero_pasaporte">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-xs-5">
+                                    <div class="form-group clearfix">
+                                        <label for="telefono" class="control-label">Teléfono(s) de contacto:</label>
                                         <input value="<?php echo $telefono; ?>" class="form-control" name="telefono" id="telefono">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
                                 
-                            </div>
-                            <div class="row">
                                 <div class="col-xs-4">
                                     <div class="form-group clearfix">
                                         <label for="fecha_nacimiento" class="control-label">Fecha de nacimiento(*):</label>
-                                        <input value="<?php echo $fecha_nacimiento; ?>" class="form-control" name="fecha_de_nacimiento" id="fecha_nacimiento">
-                                        <span class="help-block hidden"></span>
+                                        <input value="<?php echo $fecha_nacimiento; ?>" class="form-control" name="fecha_de_nacimiento" id="fecha_de_nacimiento">
+                                        
+                                        <span class="help-block">Formato: dd/mm/aaaa</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="form-group clearfix">
-                                        <label for="direccion" class="control-label">Dirección(*):</label>
+                                        <label for="direccion" class="control-label">Dirección de residencia/trabajo o de estadía en Isla de Pascua (*):</label>
                                         <input value="<?php echo $direccion; ?>" class="form-control" name="direccion" id="direccion">
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -132,22 +143,22 @@
                 </div>
             </div>
             <div class="col-md-12 top-spaced">
-                <legend> Cuadro Clínico </legend>
+                <legend> Información clínica </legend>
                 <div class="portlet portlet-default">
-                    <div class="portlet-body">
+                    <div class="portlet-body" style="overflow: visible">
                         <div class="row">
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="fecha_consulta" class="control-label">Fecha consulta(*):</label>
                                     <input value="<?php echo $fecha_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_consulta">
-                                    <span class="help-block hidden"></span>
+                                    <span class="help-block">Formato: dd/mm/aaaa</span>
                                 </div>
                             </div>
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
-                                    <label for="fecha_de_inicio_de_sintomas" class="control-label">Fecha de inicio de síntomas (fiebre o exantema)(*):</label>
+                                    <label for="fecha_de_inicio_de_sintomas" class="control-label">Fecha de inicio de síntomas (fiebre o exantema) (*):</label>
                                     <input value="<?php echo $fecha_de_inicio_de_sintomas; ?>" class="form-control datepicker-date" name="fecha_de_inicio_de_sintomas" id="fecha_de_inicio_de_sintomas">
-                                    <span class="help-block hidden"></span>
+                                    <span class="help-block">Formato: dd/mm/aaaa</span>
                                 </div>
                             </div>
                             <div class="col-xs-4">
@@ -473,7 +484,7 @@
             <div class="col-md-12 top-spaced">
                 <legend> Examen de laboratorio </legend>
                 <div class="portlet portlet-default">
-                    <div class="portlet-body">
+                    <div class="portlet-body" style="overflow: visible;">
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group">
@@ -686,6 +697,5 @@
     </div>
 </div>
 
-<?= loadJS("assets/js/library/jquery.mask-1.10.8/jquery.mask.js") ?>
 <?= loadJS("assets/js/modulo/mapa/formulario.js") ?>
 <?= loadJS("assets/js/form-dengue.js") ?>

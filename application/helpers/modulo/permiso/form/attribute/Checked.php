@@ -129,6 +129,7 @@ Class Permiso_Form_Attribute_Checked{
      * @return string
      */
     public function visorEmergencia(){
+        fb($this->_id_rol . " " . $this->_id_modulo);
         $valido = $this->_permiso_model->tienePermisoVisorEmergencia(array($this->_id_rol), $this->_id_modulo);
         if($valido){
             return $this->_checked();

@@ -138,10 +138,11 @@ class Permiso_Model extends MY_Model {
      * @return boolean
      */
     public function tienePermisoVisorEmergencia($lista_roles, $id_submodulo){
-        $result = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
-                       ->whereAND("m.bo_visor_emergencia", 1)
-                       ->select("count(*) as cantidad", false)
-                       ->getOneResult();
+        $query = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
+                      ->whereAND("m.bo_visor_emergencia", 1)
+                      ->select("count(*) as cantidad", false);
+        fb($query->getQuery());
+        $result = $query->getOneResult();
         if(!is_null($result)){
             if($result->cantidad > 0){
                 return true;
