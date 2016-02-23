@@ -111,8 +111,8 @@
                                 
                                 <div class="col-xs-4">
                                     <div class="form-group clearfix">
-                                        <label for="fecha_nacimiento" class="control-label">Fecha de nacimiento(*):</label>
-                                        <input value="<?php echo $fecha_nacimiento; ?>" class="form-control" name="fecha_de_nacimiento" id="fecha_de_nacimiento">
+                                        <label for="fecha_de_nacimiento" class="control-label">Fecha de nacimiento(*):</label>
+                                        <input value="<?php echo $fecha_de_nacimiento; ?>" class="form-control" name="fecha_de_nacimiento" id="fecha_de_nacimiento">
                                         
                                         <span class="help-block">Formato: dd/mm/aaaa</span>
                                     </div>
@@ -130,8 +130,12 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="form-group clearfix">
-                                        <label for="ocupacion" class="control-label">Ocupación(*):</label>
-                                        <input value="<?php echo $ocupacion; ?>" class="form-control" name="ocupacion" id="ocupacion">
+                                        <label for="ocupacion" class="control-label">Origen(*):</label>
+                                         <select name="origen" id="origen" class="form-control">
+                                            <option value=""></option>
+                                            <option value="Residente" <?php if($origen == "Residente") echo "selected" ?>> Residente </option>
+                                            <option value="Turista" <?php if($origen == "Turista") echo "selected" ?>> Turista </option>
+                                        </select>
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
@@ -149,8 +153,8 @@
                         <div class="row">
                             <div class="col-xs-2">
                                 <div class="form-group clearfix">
-                                    <label for="fecha_consulta" class="control-label">Fecha consulta(*):</label>
-                                    <input value="<?php echo $fecha_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_consulta">
+                                    <label for="fecha_de_consulta" class="control-label">Fecha consulta(*):</label>
+                                    <input value="<?php echo $fecha_de_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_de_consulta">
                                     <span class="help-block">Formato: dd/mm/aaaa</span>
                                 </div>
                             </div>
@@ -283,7 +287,7 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input id="coriza" name="coriza" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $tos); ?>> Coriza
+                                            <input id="coriza" name="coriza" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $coriza); ?>> Coriza
                                             <input name="coriza" type="hidden" value="No" />
                                         </label>
                                     </div>
@@ -436,8 +440,8 @@
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="Aumento_hematocrito" type="hidden" value="No" />
-                                            <input id="Aumento_hematocrito" name="Aumento_hematocrito" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $Aumento_hematocrito); ?>> Aumento hematocrito
+                                            <input name="aumento_hematocrito" type="hidden" value="No" />
+                                            <input id="aumento_hematocrito" name="aumento_hematocrito" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $aumento_hematocrito); ?>> Aumento hematocrito
                                         </label>
                                     </div>
                                 </div>

@@ -78,11 +78,18 @@ Class Formulario_dengue_validar{
             $this->_error["direccion"] = "";
         }
         
-        if(!$this->validar->validarFechaSpanish($params["fecha_consulta"], "d/m/Y")){
+        if(!$this->validar->validarVacio($params["origen"])){
             $this->_correcto = false;
-            $this->_error["fecha_consulta"] = "La fecha no es válida";
+            $this->_error["origen"] = "Debe seleccionar un valor";
         } else {
-            $this->_error["fecha_consulta"] = "";
+            $this->_error["origen"] = "";
+        }
+        
+        if(!$this->validar->validarFechaSpanish($params["fecha_de_consulta"], "d/m/Y")){
+            $this->_correcto = false;
+            $this->_error["fecha_de_consulta"] = "La fecha no es válida";
+        } else {
+            $this->_error["fecha_de_consulta"] = "";
         }
         
         if(!$this->validar->validarFechaSpanish($params["fecha_de_inicio_de_sintomas"], "d/m/Y")){
