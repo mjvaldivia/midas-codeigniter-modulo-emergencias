@@ -731,7 +731,7 @@
             <div class="col-md-12 top-spaced">
                 <legend> Antecedentes epidemiológicos </legend>
                 <div class="portlet portlet-default">
-                    <div class="portlet-body">
+                    <div class="portlet-body" style="overflow: visible">
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
