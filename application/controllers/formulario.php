@@ -234,7 +234,7 @@ class Formulario extends MY_Controller
                 
                 $casos[] = array("id" => $caso["id"],
                                  "fecha" => $fecha_formato,
-                                 "rut" => $propiedades->RUT,
+                                 "run" => $propiedades->RUN,
                                  "diagnostico" => strtoupper($propiedades->{"DIAGNOSTICO CLINICO"}),
                                  "nombre" => strtoupper($propiedades->NOMBRE . " " . $propiedades->APELLIDO),
                                  "direccion" => strtoupper($propiedades->DIRECCION));
