@@ -259,8 +259,8 @@ class Archivo_Model extends MY_Model {
         $this->load->helper("session");
 
 
-        $sql = "    INSERT INTO archivo (arch_ia_id, arch_c_nombre, arch_c_mime, arch_c_tipo, arch_c_hash, ins_ia_id,usu_ia_id,arch_c_tamano)
-                    values('',null,'$mimetype',$tipo,null,null," . $this->session->userdata('session_idUsuario') . ",'$size')";
+        $sql = "    INSERT INTO archivo (arch_ia_id, arch_c_nombre, arch_c_mime, arch_c_tipo, arch_c_hash,usu_ia_id,arch_c_tamano)
+                    values('',null,'$mimetype',$tipo,null," . $this->session->userdata('session_idUsuario') . ",'$size')";
 
         if ($this->db->query($sql)) {
 
