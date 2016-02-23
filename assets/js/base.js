@@ -27,13 +27,13 @@ $(document).ready(function() {
         theme: 'flat'
     };
     
-    $(".datepicker").livequery(function(){
+    $(".datepicker:input").livequery(function(){
         $(this).datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
     });
     
-    $(".datepicker-date").livequery(function(){
+    $(".datepicker-date:input").livequery(function(){
         $(this).datetimepicker({
             format: "DD/MM/YYYY"
         });

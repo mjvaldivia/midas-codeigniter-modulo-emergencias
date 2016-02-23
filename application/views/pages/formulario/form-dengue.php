@@ -1,11 +1,10 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1> Gestión de vigilancia de casos febriles
-            </h1>
+            <h1> Gestión de vigilancia de casos febriles/exantemáticos ISLA DE PASCUA </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
-                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("formulario/index") ?>"> Casos febriles </a></li>
+                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("formulario/index") ?>"> Casos febriles</a></li>
                 <li class="active"><i class="fa fa-bell"></i> Formulario </li>
             </ol>
         </div>
@@ -29,7 +28,7 @@
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
                 <legend>
-                    Identificación del caso
+                    Identificación del caso <div class="pull-right"><small>(*) Campos obligatorios</small></div>
                 </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body">
@@ -477,14 +476,14 @@
                     <div class="portlet-body">
                         <div class="row">
                             <div class="col-xs-3">
-                                <div class="form-group clearfix">
+                                <div class="form-group">
                                     <label for="fecha_toma_de_pcr" class="control-label">Fecha de toma de PCR:</label>
                                     <input value="<?php echo $fecha_toma_de_pcr; ?>" class="form-control datepicker-date" name="fecha_toma_de_pcr" id="fecha_toma_de_pcr">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
                             <div class="col-xs-3">
-                                <div class="form-group clearfix top-spaced">
+                                <div class="form-group top-spaced">
                                     <div class="checkbox">
                                         <label>
                                             <input name="rechaza_toma_muestra_pcr" type="hidden" value="No" />
