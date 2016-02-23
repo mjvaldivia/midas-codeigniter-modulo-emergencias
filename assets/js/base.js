@@ -31,13 +31,15 @@ $(document).ready(function() {
     
     $(".datepicker:input").livequery(function(){
         $(this).datetimepicker({
-            format: "DD-MM-YYYY hh:mm"
+            format: "DD-MM-YYYY hh:mm",
+            locale: "es"
         });
     });
     
     $(".datepicker-date:input").livequery(function(){
         $(this).datetimepicker({
-            format: "DD/MM/YYYY"
+            format: "DD/MM/YYYY",
+            locale: "es"
         });
     });
     

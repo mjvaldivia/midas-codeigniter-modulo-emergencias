@@ -255,7 +255,8 @@
         
         <?= loadJS("assets/js/library/jquery.mask-1.10.8/jquery.mask.js") ?>
         
-        <?= loadJS("assets/js/moment.min.js") ?>
+        <?= loadJS("assets/js/library/moment-2.11.2/moment.min.js") ?>
+        <?= loadJS("assets/js/library/moment-2.11.2/es.js") ?>
         <?= loadCSS("assets/js/library/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
         <?= loadJS("assets/js/library/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
         
