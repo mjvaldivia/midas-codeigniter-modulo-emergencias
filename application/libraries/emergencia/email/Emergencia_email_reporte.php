@@ -34,10 +34,8 @@ Class Emergencia_email_reporte{
     
     /**
      *
-     * @var string 
+     * @var array
      */
-    protected $_dir;
- 
     protected $_adjuntos = array();
     
     /**
@@ -73,16 +71,16 @@ Class Emergencia_email_reporte{
      * @param binary $binary_file
      */
     public function setReporte($binary_file){
-        $dir = FCPATH . "media/tmp/" . $this->_ci->string->rand_string(20);
-        mkdir($dir);
-        $this->_dir = $dir;
+        $dir = FCPATH . "media/tmp";
         
-        $time = date('d_m_Y_H_i_s');
-        file_put_contents($dir . "/reporte_".$time.".pdf", $binary_file);
-        
-        $this->_reporte = $dir . "/reporte_".$time.".pdf";
+        if(!is_dir($dir)){
+            mkdir($dir);    
+        }
 
-        return $this->_reporte;
+        $path = $dir . "/reporte_".$this->_ci->string->rand_string(20).".pdf";
+        file_put_contents($path, $binary_file);
+        $this->_reporte = $path;
+        
     }
     
     /**
@@ -114,6 +112,11 @@ Class Emergencia_email_reporte{
             $this->_message .= $adjuntos;
         }
         $respuesta = $this->_sendmail_model->emailSend($this->_to, null, null, $this->_subject, $this->_message, false, array($this->_reporte) );
+        
+        if(is_file($this->_reporte)){
+            unlink($this->_reporte);
+        }
+        
         return $respuesta;
     }
     

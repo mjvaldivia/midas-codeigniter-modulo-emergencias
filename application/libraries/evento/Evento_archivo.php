@@ -73,13 +73,27 @@ Class Evento_archivo{
     }
     
     /**
+     * Agrega los archivos que ya existian en el evento al stack
+     */
+    public function agregarArchivosAnteriores(){
+        $lista = $this->_ci->_emergencia_archivo_model->listaPorEmergencia($this->_evento->eme_ia_id);
+        if(count($lista)>0){
+            foreach($lista as $archivo){
+                $this->_agregados[] = $archivo["arch_ia_id"];
+            }
+        }
+    }
+    
+    /**
      * Asocia archivos al evento
      */
     public function guardar(){
         
+        //se elimina el archivo fisico si no esta asignado a ningun otro evento
         $this->_ci->_emergencia_archivo_model
                   ->deleteArchivoNotIn($this->_evento->eme_ia_id, $this->_agregados);
         
+        //se elimina la relacion
         $this->_ci->_emergencia_archivo_model
                   ->query()
                   ->insertOneToMany("id_emergencia", "id_archivo", $this->_evento->eme_ia_id, $this->_agregados);        
@@ -112,6 +126,8 @@ Class Evento_archivo{
                 $this->_agregados[] = $this->_ci->_archivo_model->insert($data);
             }
         }
+        
+        return $this->_agregados[count($this->_agregados)-1];
     }
 }
 

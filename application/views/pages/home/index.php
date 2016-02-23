@@ -246,7 +246,6 @@
 <?= loadJS("assets/js/library/daterangepicker/moment.js", true) ?>
 <?= loadJS("assets/js/library/daterangepicker/daterangepicker.js", true) ?>
 
-<?= loadJS("assets/js/library/moment/moment.min.js", true) ?>
 <?= loadJS("assets/js/library/fullcalendar/fullcalendar.min.js", true) ?>
 <?= loadJS("assets/js/library/fullcalendar/lang-all.js", true) ?>
 

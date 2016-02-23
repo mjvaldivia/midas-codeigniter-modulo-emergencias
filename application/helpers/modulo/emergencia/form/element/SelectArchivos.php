@@ -93,7 +93,7 @@ Class Emergencia_Form_Element_SelectArchivos{
             $this->_element->setNombre($this->_nombre);
             $this->_element->populate($lista);
             $this->_element->setOptionId("arch_ia_id");
-            $this->_element->setOptionName("arch_c_nombre");
+            $this->_element->setOptionName("nombre_completo");
             return $this->_element->render($this->_nombre, $default);
         } else {
             return "<div class=\"alert alert-warning\"> No hay archivos asociados a la emergencia </div>";

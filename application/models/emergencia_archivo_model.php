@@ -98,8 +98,9 @@ class Emergencia_Archivo_Model extends MY_Model
         $result = $this->_query
                        ->from($this->_tabla . " ea")
                        ->join("archivo a", "a.arch_ia_id = ea.id_archivo", "INNER")
+                       ->join("archivo_tipo t", "t.id = a.arch_c_tipo")
                        ->whereAND("id_emergencia", $id_emergencia)
-                       ->select("a.*")
+                       ->select("a.*, CONCAT_WS(\" - \", t.nombre, a.arch_c_descripcion) as nombre_completo ")
                        ->getAllResult();
         if (!is_null($result)){
            return $result; 
