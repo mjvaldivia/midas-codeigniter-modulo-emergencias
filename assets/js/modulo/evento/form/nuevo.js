@@ -65,28 +65,28 @@ var EventoFormNuevo = Class({
                 $("#archivo_tipo").val("");
                 
                 $("#upload-adjunto-lista").append(
-                        + "<div id=\"archivo-" + data.response.hash + "\">"
-                        + "<input type=\"hidden\" name=\"archivos[]\" value=\"\" />"
-                        + "<input type=\"hidden\" name=\"archivos_hash[]\" value=\""+data.response.hash+"\" />"
-                        + "<hr/>"
-                        + "<div class=\"row\">"
-                        + "<div class=\"col-md-3\">"
-                        + "<input type=\"hidden\" name=\"archivos_descripcion[]\" value=\"" + data.response.descripcion + "\" />"
-                        + data.response.descripcion
-                        + "</div>"
-                        + "<div class=\"col-md-3\">"
-                        + "<input type=\"hidden\" name=\"archivos_tipo[]\" value=\"" + data.response.tipo + "\" />"
-                        + data.response.nombre_tipo
-                        + "</div>"
-                        + "<div class=\"col-md-4\">"
-                        + "<a href=\"" + siteUrl + "archivo/download_temporal/hash/" + data.response.hash + "\" target=\"_blank\" >"
-                        + data.response.archivo
-                        + "</a>"
-                        + "</div>"
-                        + "<div class=\"col-md-2 text-center\">"
-                        + "<button class=\"btn btn-xs btn-danger quitar-archivo\"> <i class=\"fa fa-remove\"></i> </button>"
-                        + "</div>" 
-                        + "</div>"
+                        "<div id=\"archivo-" + data.response.hash + "\">"
+                            + "<input type=\"hidden\" name=\"archivos[]\" value=\"\" />"
+                            + "<input type=\"hidden\" name=\"archivos_hash[]\" value=\""+data.response.hash+"\" />"
+                            + "<hr/>"
+                            + "<div class=\"row\">"
+                                + "<div class=\"col-md-3\">"
+                                    + "<input type=\"hidden\" name=\"archivos_descripcion[]\" value=\"" + data.response.descripcion + "\" />"
+                                    + data.response.descripcion
+                                + "</div>"
+                                + "<div class=\"col-md-3\">"
+                                    + "<input type=\"hidden\" name=\"archivos_tipo[]\" value=\"" + data.response.tipo + "\" />"
+                                    + data.response.nombre_tipo
+                                + "</div>"
+                                + "<div class=\"col-md-4\">"
+                                    + "<a href=\"" + siteUrl + "archivo/download_temporal/hash/" + data.response.hash + "\" target=\"_blank\" >"
+                                    + data.response.archivo
+                                    + "</a>"
+                                + "</div>"
+                                + "<div class=\"col-md-2 text-center\">"
+                                    + "<button class=\"btn btn-xs btn-danger quitar-archivo\"> <i class=\"fa fa-remove\"></i> </button>"
+                                + "</div>" 
+                            + "</div>"
                         + "</div>"
                 );
                 
