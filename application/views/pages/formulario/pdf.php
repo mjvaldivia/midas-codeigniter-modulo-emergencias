@@ -43,12 +43,40 @@
     }
 </style>
 
-<table class="tabla_cabecera" cellpadding="0" cellspacing="0">
+<table  cellpadding="0" cellspacing="0">
     <tr>
         <td style="padding:0px !important; width: 140px;">
             <img src="var:imagen_logo" width="140px"/>
         </td>
-        <td style="text-align: center;font-weight: bold;font-size:18px;padding:0px !important">FICHA DE VIGILANCIA FEBRILES</td>
+        <td valign="top" align="center" style="text-align: center;" >
+            <table width="100%">
+                <tr>
+                    <td colspan="2" style="text-align: center;font-weight: bold;font-size:18px;padding:0px !important">
+                        FICHA DE VIGILANCIA FEBRILES
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <table width="70%">
+                <tr>
+                    <td width="40%" align="right"><strong>Seremi región</strong></td>
+                    <td>: Valparaíso</td>  
+                </tr>
+                <tr>
+                    <td width="40%" align="right"><strong>Servicio de salud</strong></td>
+                    <td>: Metropolitano oriente</td>  
+                </tr>
+                <tr>
+                    <td width="40%" align="right"><strong>Of. provincial</strong></td>
+                    <td>: Isla de Pascua</td>  
+                </tr>
+                <tr>
+                    <td width="40%" align="right"><strong>Establecimiento</strong></td>
+                    <td>: Hospital Hanga Roa</td>  
+                </tr>
+            </table>
+            
+        </td>
     </tr>
 </table>
 
@@ -81,10 +109,18 @@
     </tr>
     <tr>
         <td>
-            Rut
+            Run
         </td>
         <td>
-            :<?php echo $rut; ?>
+            :<?php echo $run; ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            N° Pasaporte
+        </td>
+        <td>
+            :<?php echo $numero_pasaporte; ?>
         </td>
     </tr>
     <tr>
@@ -100,28 +136,28 @@
             Fecha de nacimiento
         </td>
         <td>
-            :<?php echo $sexo; ?>
+            :<?php echo $fecha_de_nacimiento; ?>
         </td>
     </tr>
     <tr>
-        <td>
-            Dirección
+        <td valign="top">
+            Dirección de residencia/trabajo o de estadía en Isla de Pascua
         </td>
-        <td>
+        <td valign="top">
             :<?php echo $direccion; ?>
         </td>
     </tr>
     <tr>
         <td>
-            Ocupación
+            Origen
         </td>
         <td>
-            :<?php echo $ocupacion; ?>
+            :<?php echo $origen; ?>
         </td>
     </tr>
     <tr>
         <td>
-            Telefono
+            Teléfono(s) de contacto:
         </td>
         <td>
             :<?php echo $telefono; ?>
@@ -133,7 +169,7 @@
 <table class="tabla" cellpadding="0" cellspacing="0">
     <tr>
         <td style="text-align: left;font-weight: bold;font-size:14px;padding:0px !important" colspan="4">
-            2.- Cuadro clínico
+            2.- Información clínica 
         </td>
     </tr>
 </table>
@@ -145,18 +181,18 @@
             Fecha consulta 
         </td>
         <td colspan="3">
-            :<?php echo $fecha_consulta; ?>
+            :<?php echo $fecha_de_consulta; ?>
         </td>
     </tr>
     <tr>
         <td width="30%" valign="top">
-            Fecha de inicio de síntomas (fiebre o exantema)
+           Fecha de inicio de síntomas (fiebre o exantema) 
         </td>
         <td valign="top">
             :<?php echo $fecha_de_inicio_de_sintomas; ?>
         </td>
         <td width="20%" valign="top">
-            T° Axilar
+            T° Axilar al momento de la consulta
         </td>
         <td valign="top">
             :<?php echo $temperatura_axilar; ?>
@@ -210,35 +246,63 @@
             :<?php echo $fiebre; ?>
         </td>
         <td width="30%">
-            Calofríos
+            Exantema generalizado
         </td>
-    
         <td>
-            :<?php echo $calofrios; ?>
+            :<?php echo $exantema_generalizado; ?>
         </td>
     </tr>
     <tr>
         <td width="30%">
-            Sudoración
+            Calofríos
         </td>
         <td>
-            :<?php echo $sudoracion; ?>
+            :<?php echo $calofrios; ?>
         </td>
     
+        <td width="30%" valign="top">
+            Sudoración
+        </td>
+        <td valign="top">
+            :<?php echo $sudoracion; ?>
+        </td>
+    </tr>
+    <tr>
         <td width="30%" valign="top">
             Cefalea / Dolor retroorbitario
         </td>
         <td valign="top">
             :<?php echo $cefalea_dolor_retroorbitario; ?>
         </td>
+        <td width="30%" valign="top">
+            Tos
+        </td>
+        <td valign="top">
+            :<?php echo $tos; ?>
+        </td>
     </tr>
     <tr>
         <td width="30%" valign="top">
-            Mialgia / Artralgia
+            Coriza
         </td>
         <td valign="top">
-            :<?php echo $mialgia_artralgia; ?>
+            :<?php echo $coriza; ?>
         </td>
+        <td width="30%" valign="top">
+            Mialgia 
+        </td>
+        <td valign="top">
+            :<?php echo $mialgia; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Artralgia
+        </td>
+        <td valign="top">
+            :<?php echo $artralgia; ?>
+        </td>
+
         <td width="30%" valign="top">
             Conjuntivitis
         </td>
@@ -254,65 +318,21 @@
             :<?php echo $nauseas_vomito; ?>
         </td>
         <td width="30%" valign="top">
-            Convulsiones generalizadas
+            Diarrea
         </td>
         <td valign="top">
-            :<?php echo $convulsiones_generalizadas; ?>
+            :<?php echo $diarrea; ?>
         </td>
     </tr>
     <tr>
         <td width="30%" valign="top">
-            Dificultad respiratoria
+            Edema de articulación de manos/pies
         </td>
         <td valign="top">
-            :<?php echo $dificultad_respiratoria; ?>
-        </td>
-
-        <td width="30%" valign="top">
-            Compromiso de conciencia
-        </td>
-        <td valign="top">
-            :<?php echo $compromiso_de_conciencia; ?>
-        </td>
-    </tr>
-    <tr>
-        <td width="30%" valign="top">
-            Manifestaciones hemorragicas
-        </td>
-        <td valign="top">
-            :<?php echo $manifestaciones_hemorragicas; ?>
+            :<?php echo $edema_de_articulacion_manos_y_pies; ?>
         </td>
         <td width="30%" valign="top">
-            Petequias
-        </td>
-        <td valign="top">
-            :<?php echo $petequias; ?>
-        </td>
-    </tr>
-    <tr>
-        <td width="30%" valign="top">
-            Exantema generalizado
-        </td>
-        <td valign="top">
-            :<?php echo $exantema_generalizado; ?>
-        </td>
-        <td width="30%" valign="top">
-            Sintomas respiratorios
-        </td>
-        <td valign="top">
-            :<?php echo $sintomas_respiratorios; ?>
-        </td>
-    </tr>
-    <tr>
-        <td width="30%" valign="top">
-            Shock
-        </td>
-        <td valign="top">
-            :<?php echo $shock; ?>
-        </td>
-
-        <td width="30%" valign="top">
-           Ictericia
+            Ictericia
         </td>
         <td valign="top">
             :<?php echo $ictericia; ?>
@@ -320,16 +340,156 @@
     </tr>
     <tr>
         <td width="30%" valign="top">
-            Compromiso renal
+            Torniquete (+)
         </td>
         <td valign="top">
-            :<?php echo $compromiso_renal; ?>
+            :<?php echo $torniquete; ?>
         </td>
+
+        <td width="30%" valign="top">
+           Leucopenia
+        </td>
+        <td valign="top">
+            :<?php echo $leucopenia; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Acumulación extravascular de fluidos
+        </td>
+        <td valign="top">
+            :<?php echo $acumulacion_extravascular_de_fluidos; ?>
+        </td>
+        <td width="30%" valign="top">
+            Dolor/sensibilidad abdominal
+        </td>
+        <td valign="top">
+            :<?php echo $dolor_o_sensibilidad_abdominal; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Sangramiento de mucosas
+        </td>
+        <td valign="top">
+            :<?php echo $sangramiento_de_mucosas; ?>
+        </td>
+        <td width="30%" valign="top">
+            Hepatomegalia > 2cm
+        </td>
+        <td valign="top">
+            :<?php echo $hepatomegalia_2cm; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Aumento hematocrito
+        </td>
+        <td valign="top">
+            :<?php echo $aumento_hematocrito; ?>
+        </td>
+        <td width="30%" valign="top">
+            Disminución de plaquetas
+        </td>
+        <td valign="top">
+            :<?php echo $disminucion_de_plaquetas; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            SDRA
+        </td>
+        <td valign="top">
+            :<?php echo $sdra; ?>
+        </td>
+        <td width="30%" valign="top">
+            Shock
+        </td>
+        <td valign="top">
+            :<?php echo $shock; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Sangramiento severo
+        </td>
+        <td valign="top">
+            :<?php echo $sangramiento_severo; ?>
+        </td>
+        <td width="30%" valign="top">
+            Compromiso severo de órganos
+        </td>
+        <td valign="top">
+            :<?php echo $compromiso_severo_de_organos; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Meningitis/encefalitis
+        </td>
+        <td valign="top">
+            :<?php echo $meningitis_encefalitis; ?>
+        </td>
+        <td width="30%" valign="top">
+             Parálisis fláccida aguda/Sind. Guillain-Barré
+        </td>
+        <td valign="top">
+            :<?php echo $paralisis_flaccida_aguda; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Vértigo
+        </td>
+        <td valign="top">
+            :<?php echo $vertigo; ?>
+        </td>
+        <td width="30%" valign="top">
+             Paresia
+        </td>
+        <td valign="top">
+            :<?php echo $paresia; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Rigidez de nuca
+        </td>
+        <td valign="top">
+            :<?php echo $rigidez_de_nuca; ?>
+        </td>
+        <td width="30%" valign="top">
+             Albuminuria
+        </td>
+        <td valign="top">
+            :<?php echo $albuminuria; ?>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%" valign="top">
+            Anemia severa
+        </td>
+        <td valign="top">
+            :<?php echo $anemia_severa; ?>
+        </td>
+        <td width="30%" valign="top">
+             Dificultad respiratoria
+        </td>
+        <td valign="top">
+            :<?php echo $dificultad_respiratoria; ?>
+        </td>
+    </tr>
+    <tr>
         <td width="30%" valign="top">
             Otros
         </td>
         <td valign="top">
             :<?php echo $otros; ?>
+        </td>
+        <td width="30%" valign="top">
+             
+        </td>
+       <td valign="top">
         </td>
     </tr>
 </table>

@@ -3,7 +3,7 @@
         <tr>
             <th width="20%">Fecha</th>
             <th width="20%">Diagnostico clínico</th>
-            <th width="10%">Rut</th>
+            <th width="10%">Run</th>
             <th width="25%">Nombre</th>
             <th width="20%">Dirección</th>
             <th width="5%">Opciones</th>				
@@ -15,7 +15,7 @@
         <tr>
             <td width="20%"><?php echo $row["fecha"]; ?></td>
             <td width="20%"><?php echo $row["diagnostico"]; ?></td>
-            <td width="10%"><?php echo $row["rut"]; ?></td>
+            <td width="10%"><?php echo $row["run"]; ?></td>
             <td width="25%"><?php echo $row["nombre"]; ?></td>
             <td width="20%"><?php echo $row["direccion"]; ?></td>
             <td align="center" width="5%">

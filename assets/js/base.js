@@ -22,18 +22,20 @@ function formatState (state) {
 
 $(document).ready(function() {
     
+    $(".rut:input").mask('0000000000-A', {reverse: true});
+    
     Messenger.options = {
         extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
         theme: 'flat'
     };
     
-    $(".datepicker").livequery(function(){
+    $(".datepicker:input").livequery(function(){
         $(this).datetimepicker({
             format: "DD-MM-YYYY hh:mm"
         });
     });
     
-    $(".datepicker-date").livequery(function(){
+    $(".datepicker-date:input").livequery(function(){
         $(this).datetimepicker({
             format: "DD/MM/YYYY"
         });

@@ -127,7 +127,7 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoReporteEmergencia(){
-        $permiso = $this->_permiso_model->tienePermisoReporteEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        $permiso = $this->_permiso_model->tienePermisoReporteEmergencia($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {

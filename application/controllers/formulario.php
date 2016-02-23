@@ -27,7 +27,7 @@ class Formulario extends MY_Controller
         
         $params = $this->uri->uri_to_assoc();
         
-        if(puedeEditar("casos_febriles")){
+        if(puedeVerReporteEmergencia("casos_febriles")){
             $this->template->parse("default", "pages/formulario/dengue", array());
         } else {
             if(isset($params["ingresado"]) && $params["ingresado"] == "correcto"){
@@ -82,13 +82,13 @@ class Formulario extends MY_Controller
      * 
      */
     public function guardar_dengue(){
-        $this->load->library("rut");
+        $this->load->library(array("rut", "formulario/formulario_dengue_validar"));
         
         header('Content-type: application/json');
 
         $params = $this->input->post(null, true);
 
-        if($this->rut->validar($params["rut"])){
+        if($this->formulario_dengue_validar->esValido($params)){
         
             $coordenadas = array("lat" => $params["latitud"],
                                  "lng" => $params["longitud"]);
@@ -119,7 +119,7 @@ class Formulario extends MY_Controller
             echo json_encode(array("error" => array(),
                                    "correcto" => true));
         } else {
-            echo json_encode(array("error" => array("rut" => "El rut no tiene un formato válido"),
+            echo json_encode(array("error" => $this->formulario_dengue_validar->getErrores(),
                                    "correcto" => false));
         }
     }
@@ -234,7 +234,7 @@ class Formulario extends MY_Controller
                 
                 $casos[] = array("id" => $caso["id"],
                                  "fecha" => $fecha_formato,
-                                 "rut" => $propiedades->RUT,
+                                 "run" => $propiedades->RUN,
                                  "diagnostico" => strtoupper($propiedades->{"DIAGNOSTICO CLINICO"}),
                                  "nombre" => strtoupper($propiedades->NOMBRE . " " . $propiedades->APELLIDO),
                                  "direccion" => strtoupper($propiedades->DIRECCION));

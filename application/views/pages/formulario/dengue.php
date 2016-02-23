@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1> Gestión de vigilancia de casos febriles
+            <h1>  Gestión de vigilancia de casos febriles/exantemáticos ISLA DE PASCUA 
                 <div class="pull-right">
                     <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square hide">
                         <i class="fa fa-download"></i>
