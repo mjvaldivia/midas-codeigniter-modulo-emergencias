@@ -137,8 +137,9 @@
                                         <label for="ocupacion" class="control-label">Origen(*):</label>
                                          <select name="origen" id="origen" class="form-control">
                                             <option value=""></option>
-                                            <option value="Residente" <?php if($origen == "Residente") echo "selected" ?>> Residente </option>
-                                            <option value="Turista" <?php if($origen == "Turista") echo "selected" ?>> Turista </option>
+                                            <option value="Residente" <?php if($origen == "Residente") echo "selected" ?>> Residente natural </option>
+                                            <option value="Residente no permanente" <?php if($origen == "Residente no permanente") echo "selected" ?>> Residente no permanente (1 año) </option>
+                                            <option value="Turista estadía corta" <?php if($origen == "Turista estadía corta") echo "selected" ?>> Turista estadía corta (hasta un mes) </option>
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -682,13 +683,7 @@
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-6">
-                                <div class="form-group clearfix">
-                                    <label for="nombre_medico" class="control-label">Nombre médico:</label>
-                                    <input value="<?php echo $nombre_medico; ?>" class="form-control" name="nombre_medico" id="nombre_medico">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -744,19 +739,7 @@
                 <legend> Antecedentes epidemiológicos </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body" style="overflow: visible">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="vive_en_isla" type="hidden" value="No" />
-                                            <input id="vive_en_isla" name="vive_en_isla" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $vive_en_isla); ?>> Vive en Isla de Pascua
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
+
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">

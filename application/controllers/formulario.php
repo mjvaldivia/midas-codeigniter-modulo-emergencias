@@ -16,6 +16,7 @@ class Formulario extends MY_Controller
     public function __construct() {
         parent::__construct();
         sessionValidation();
+        $this->load->library("session");
         $this->load->helper(array("modulo/alarma/alarma_form"));
         $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
     }
@@ -107,9 +108,12 @@ class Formulario extends MY_Controller
             }
 
             if(is_null($caso)){
-                $this->_rapanui_dengue_model->insert(array("fecha" => date("Y-m-d H:i:s"),
-                                                       "propiedades" => json_encode($arreglo),
-                                                       "coordenadas" => json_encode($coordenadas)));
+                $this->_rapanui_dengue_model->insert(array(
+                    "fecha" => date("Y-m-d H:i:s"),
+                    "propiedades" => json_encode($arreglo),
+                    "coordenadas" => json_encode($coordenadas),
+                    "id_usuario" => $this->session->userdata("session_idUsuario"))
+                );
             } else {
                 $this->_rapanui_dengue_model->update(array("propiedades" => json_encode($arreglo),
                                                            "coordenadas" => json_encode($coordenadas)),
@@ -138,6 +142,7 @@ class Formulario extends MY_Controller
      * Genera excel para casos de dengue
      */
     public function excel(){
+        $this->load->helper("modulo/usuario/usuario");
         $this->load->library("excel");
         $lista = $this->_rapanui_dengue_model->listar();
         
@@ -145,6 +150,7 @@ class Formulario extends MY_Controller
         if(!is_null($lista)){
             foreach($lista as $caso){
                 $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
+                $datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
             }
         
             $excel = $this->excel->nuevoExcel();
@@ -158,8 +164,11 @@ class Formulario extends MY_Controller
                   ->setCategory("Midas");
 
             $columnas = reset($datos_excel);
-
-            $i=0;
+            
+            
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MÉDICO"); 
+            
+            $i=1;
             foreach($columnas as $columna => $valor){
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna); 
                 $i++;
@@ -167,7 +176,12 @@ class Formulario extends MY_Controller
 
             $j = 2;
             foreach($datos_excel as $id => $valores){
-                $i = 0;
+                
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, (string) nombreUsuario($valores["id_usuario"]));
+                
+                unset($valores["id_usuario"]);
+                
+                $i = 1;
                 foreach($valores as $columna => $valor){
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
                     $i++;
@@ -189,6 +203,7 @@ class Formulario extends MY_Controller
      * Genera en pdf
      */
     public function pdf(){
+        $this->load->helper("modulo/usuario/usuario");
         $this->load->library("pdf");
         $params = $this->uri->uri_to_assoc();
         $formulario = $this->_rapanui_dengue_model->getById($params["id"]);
@@ -205,6 +220,7 @@ class Formulario extends MY_Controller
             foreach($propiedades as $nombre => $valor){
                 $datos[str_replace(" ", "_", strtolower($nombre))] = $valor;
             }
+            $datos["id_usuario"] = $formulario->id_usuario;
  
             $html = $this->load->view("pages/formulario/pdf", $datos, true);
             $pdf = $this->pdf->load();
@@ -219,6 +235,7 @@ class Formulario extends MY_Controller
      * 
      */
     public function ajax_lista(){
+        $this->load->helper("modulo/usuario/usuario");
         $lista = $this->_rapanui_dengue_model->listar();
         
         $casos = array();
@@ -233,6 +250,7 @@ class Formulario extends MY_Controller
                 $propiedades = json_decode($caso["propiedades"]);
                 
                 $casos[] = array("id" => $caso["id"],
+                                 "id_usuario" => $caso["id_usuario"],
                                  "fecha" => $fecha_formato,
                                  "run" => $propiedades->RUN,
                                  "diagnostico" => strtoupper($propiedades->{"DIAGNOSTICO CLINICO"}),

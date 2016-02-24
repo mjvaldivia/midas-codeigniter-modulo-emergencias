@@ -36,6 +36,8 @@ Class Usuario_Nombre_Base{
     public function __toString() {
         if(!is_null($this->_usuario)){
             return strtoupper($this->_usuario->usu_c_nombre . " " . $this->_usuario->usu_c_apellido_paterno . " " . $this->_usuario->usu_c_apellido_materno);
+        } else {
+            return "";
         }
     }
     
@@ -46,9 +48,9 @@ Class Usuario_Nombre_Base{
      */
     public function setUsuario($id_usuario){
         $this->_usuario = $this->_usuario_model->getById($id_usuario);
-        if(is_null($this->_usuario)){
+        /*if(is_null($this->_usuario)){
             throw new Exception(__METHOD__ . " - No existe el usuario");
-        }
+        }*/
     }
 }
 

@@ -43,7 +43,7 @@ var MapaRapanuiDengue = Class({
                            
                            var zona = {0 : {
                                             "radio" : 100,
-                                            "propiedades" : {"TIPO" : "LUGAR EMERGENCIA",
+                                            "propiedades" : {"TIPO" : "CASO FEBRIL",
                                                              "NOMBRE" : valor.propiedades["DIAGNOSTICO CLINICO"]},
                                             "color" : "#ffff00"
                                             }

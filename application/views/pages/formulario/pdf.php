@@ -561,7 +561,7 @@
             Nombre médico
         </td>
         <td>
-            : <strong><?php echo $nombre_medico; ?></strong>
+            : <strong><?php echo nombreUsuario($id_usuario); ?></strong>
         </td>
     </tr>
 </table>

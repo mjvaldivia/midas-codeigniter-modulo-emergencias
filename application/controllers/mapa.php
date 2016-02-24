@@ -192,6 +192,7 @@ class Mapa extends MY_Controller {
      * Trae datos de casos de fiebre
      */
     public function info_rapanui_dengue(){
+        $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 
         $casos = array();
         $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
@@ -201,7 +202,7 @@ class Mapa extends MY_Controller {
             foreach($lista as $row){
                 
                 $propiedades = Zend_Json::decode($row["propiedades"]);
-                
+                $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
                 unset($propiedades["RUN"]);
                 unset($propiedades["NOMBRE"]);
                 unset($propiedades["APELLIDO"]);
