@@ -266,7 +266,7 @@ var MapaEditor = Class({
         $("#importar_sidco").click(function(){
             var sidco = new MapaKmlSidcoConaf();
             sidco.seteaMapa(map);
-            
+
             if($(this).is(":checked")){
                 sidco.loadKml();
             } else {

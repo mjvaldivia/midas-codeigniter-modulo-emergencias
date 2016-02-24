@@ -3,7 +3,9 @@ var lista_markers = [];
 var MapaMarcador = Class({
     
     mapa : null,
+    
     draggable : false,
+
     
     /**
      * Setea mapa

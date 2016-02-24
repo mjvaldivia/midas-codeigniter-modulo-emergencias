@@ -13,6 +13,11 @@ var MapaFormulario = Class({
     places_input : null,
     
     /**
+     * Icono utilizado para el marcador
+     */
+    icon : "assets/img/referencia.png",
+    
+    /**
      * googleMaps
      */
     mapa : null,
@@ -43,6 +48,15 @@ var MapaFormulario = Class({
      */
     __construct : function(id_mapa) {
         this.id_div_mapa = id_mapa;
+    },
+    
+    /**
+     * Setea el icono para el marcador
+     * @param {string} icono
+     * @returns {undefined}
+     */
+    seteaIcono : function (icono){
+        this.icon = icono;
     },
     
     /**
@@ -112,7 +126,7 @@ var MapaFormulario = Class({
             position: posicion,
             draggable:true,
             map: yo.mapa,
-            icon: baseUrl + 'assets/img/referencia.png'
+            icon: baseUrl + yo.icon
         });  
         
         google.maps.event.addListener(marker, 'dragend', function (){
@@ -131,11 +145,6 @@ var MapaFormulario = Class({
         
         var yo = this;
 
-        /*var latLon = GeoEncoder.utmToDecimalDegree(parseFloat(yo.longitud),
-                                                   parseFloat(yo.latitud), 
-                                                   yo.geozone);*/
-
-
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud),parseFloat(yo.longitud));
 
         var mapOptions = {
@@ -151,15 +160,13 @@ var MapaFormulario = Class({
             position: myLatlng,
             draggable:true,
             map: map,
-            icon: baseUrl + 'assets/img/referencia.png'
+            icon: baseUrl + yo.icon
         });  
         
         google.maps.event.addListener(marker, 'dragend', function (){
             yo.setInputs(marker.getPosition());
         });
-        
-        
-        
+
         this.marker = marker;
         this.mapa = map;
     },

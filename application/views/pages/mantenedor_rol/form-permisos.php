@@ -60,12 +60,20 @@
                     <input type="hidden" data-rel="<?php echo $row["per_ia_id"] ?>" name="ver[]" id="ver_<?php echo $row["per_ia_id"] ?>" value="<?php echo $row["per_ia_id"] ?>" />
                     
                     <div class="col-sm-4">
-                        <input <?php echo permisoFormCheckedEditar($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="editar[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
-                        Solo ingresar
+                        <input <?php echo permisoFormCheckedActivarAlarma($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="activar_alarma[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Ingresar
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedEditar($id_rol, $row["per_ia_id"]); ?> name="editar[]" id="editar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Editar
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedEliminar($id_rol, $row["per_ia_id"]); ?> name="eliminar[]" id="eliminar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Eliminar
                     </div>
                     <div class="col-sm-4">
                         <input <?php echo permisoFormCheckedReporteEmergencia($id_rol, $row["per_ia_id"]); ?> name="reporte[]" id="reporte_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
-                        Ver lista y editar
+                        Exportar datos
                     </div>
                     <div class="col-sm-4">
                         <input <?php echo permisoFormCheckedVisorEmergencia($id_rol, $row["per_ia_id"]); ?> name="visor[]" id="visor_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">

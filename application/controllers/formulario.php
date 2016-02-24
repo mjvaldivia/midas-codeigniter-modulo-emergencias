@@ -27,7 +27,7 @@ class Formulario extends MY_Controller
         
         $params = $this->uri->uri_to_assoc();
         
-        if(puedeVerReporteEmergencia("casos_febriles")){
+        if(puedeVerReporteEmergencia("casos_febriles") || puedeEditar("casos_febriles") || puedeEliminar("casos_febriles")){
             $this->template->parse("default", "pages/formulario/dengue", array());
         } else {
             if(isset($params["ingresado"]) && $params["ingresado"] == "correcto"){

@@ -3,9 +3,27 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
     mapa : null,
 
     draggable : true,
+    
+    /**
+     * identificador de la emergencia
+     */
     id_emergencia : null,
+    
+    /**
+     * 
+     */
     drawing_manager : null,
+    
+    /**
+     * id unico generado
+     */
     unique_id : null,
+    
+    /**
+     * Si es o no un elemento que se debe guardar
+     */
+    custom : true,
+    
     
     /**
     * Carga de dependencias
@@ -22,6 +40,15 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      */
     setearMapa : function(mapa) {
         this.mapa = mapa;
+    },
+    
+    /**
+     * 
+     * @param {boolean} custom
+     * @returns {undefined}
+     */
+    seteaCustom : function(custom){
+        this.custom = custom;
     },
     
     /**
@@ -45,7 +72,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             var circulo = new MapaCirculo();
             circulo.seteaTipo("CIRCULO LUGAR EMERGENCIA");
             circulo.seteaMapa(yo.mapa);
-            //circulo.seteaCustom(false);
+            circulo.seteaCustom(yo.custom);
             circulo.seteaUniqueId(yo.unique_id);
             circulo.seteaEditable(false);
             circulo.seteaIdentificador(identificador);
@@ -88,7 +115,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             identificador: id,
             clave : yo.unique_id,
             capa: null,
-            custom: true,
+            custom: yo.custom,
             informacion : propiedades,
             draggable: draggable,
             map: yo.mapa,
@@ -236,7 +263,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                             identificador: null,
                             draggable: true,
                             clave : yo.unique_id,
-                            custom : true,
+                            custom : yo.custom,
                             icon: baseUrl + "assets/img/emergencia.png",
                             informacion: {"TIPO" : "LUGAR EMERGENCIA",
                                           "NOMBRE" : ""}

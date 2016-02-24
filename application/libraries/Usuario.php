@@ -140,7 +140,7 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoActivarAlarma(){
-        $permiso = $this->_permiso_model->tienePermisoActivarAlarma($this->listarRoles(), Modulo_Model::SUB_MODULO_ALARMA);
+        $permiso = $this->_permiso_model->tienePermisoActivarAlarma($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {

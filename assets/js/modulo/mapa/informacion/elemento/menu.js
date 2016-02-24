@@ -115,9 +115,13 @@ var MapaInformacionElementoMenu = Class({
     render : function(mapa, lista_elementos, posicion, funcion_popup){
         var yo = this;
         this._hideMenu();
+        
+        console.log(lista_elementos);
+        console.log(lista_elementos.length);
         if(lista_elementos.length == 1){
             funcion_popup(lista_elementos);
         } else {
+            
             yo._menu(mapa, lista_elementos, posicion, funcion_popup);
         }
 

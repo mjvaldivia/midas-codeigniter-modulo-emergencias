@@ -24,7 +24,40 @@ var MapaInformacionElemento = Class({
         dialogo.dialogoElemento(clave, parametros);
     },
     
-    
+    /**
+     * Muestra dialogo con informacion de 
+     * una capa seleccionada
+     * @returns {undefined}
+     */
+    dialogoInformacion : function(parametros){
+        bootbox.dialog({
+            message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+            title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
+            className: "modal90",
+            buttons: {
+                cerrar: {
+                    label: " Cerrar ventana",
+                    className: "btn-white fa fa-close",
+                    callback: function() {}
+                }
+            }
+        });
+        
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "mapa/popup_elemento_info", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                $("#contenido-popup-informacion-capas").html(data);
+            }
+        }); 
+    },
     
     /**
      * Muestra dialogo con informacion de 
@@ -70,7 +103,7 @@ var MapaInformacionElemento = Class({
      * @returns {void}
      */
     popupInformacion : function(marcadores, formas, elemento){
-
+        
         var parametros = {"marcadores"  : JSON.stringify(marcadores),
                           "formas"      : JSON.stringify(formas),
                           "tipo"        : elemento.tipo,
@@ -79,6 +112,26 @@ var MapaInformacionElemento = Class({
                           "clave" : elemento.clave,
                           "identificador" : elemento.identificador};
         
+        if(elemento.capa != null){
+            parametros["capa"] = elemento.capa;
+            this.dialogoCapa(parametros);
+        } else {
+            if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
+                    this.dialogoEdicion(elemento.clave, parametros);
+            } else {
+                if(elemento.custom == true) {
+                    parametros["radio"] = elemento.getRadius(); 
+                    this.dialogoLugarEmergencia(elemento.identificador, parametros); 
+                } else {
+                    if(elemento.tipo == "CIRCULO LUGAR EMERGENCIA" || elemento.tipo == "CIRCULO"){
+                        parametros["radio"] = elemento.getRadius(); 
+                    }
+                    this.dialogoInformacion(parametros);
+                }
+            }
+        }
+        
+        /*
         if(elemento.custom != null && elemento.custom == true){
             if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
                this.dialogoEdicion(elemento.clave, parametros); 
@@ -94,7 +147,7 @@ var MapaInformacionElemento = Class({
                 this.dialogoCapa(parametros);
             }
             
-        }
+        }*/
     },
     
     /**
@@ -105,11 +158,13 @@ var MapaInformacionElemento = Class({
      */
     addRightClickListener : function(elemento, mapa){
         var yo = this;
+        
         elemento.addListener('rightclick', function(event) {
            
             // busca elementos en el punto donde se hizo click
             var seleccionado = [];
             $.each(lista_poligonos, function(j, elemento_seleccionado){
+                
                 var bo_elemento_seleccionado = false;
                 switch(elemento_seleccionado.tipo){
                     case "RECTANGULO":
@@ -153,6 +208,8 @@ var MapaInformacionElemento = Class({
                     seleccionado.push(elemento_seleccionado);
                 }
             });
+
+            console.log(seleccionado);
 
             yo.muestraMenu(mapa, seleccionado, event.latLng);
             

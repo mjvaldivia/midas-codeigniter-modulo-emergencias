@@ -40,9 +40,19 @@ var MapaRapanuiDengue = Class({
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
-                           var marcador = new MapaMarcador();
+                           
+                           var zona = {0 : {
+                                            "radio" : 100,
+                                            "propiedades" : {"TIPO" : "LUGAR EMERGENCIA",
+                                                             "NOMBRE" : valor.propiedades["DIAGNOSTICO CLINICO"]},
+                                            "color" : "#ffff00"
+                                            }
+                                      };
+                           
+                           var marcador = new MapaMarcadorLugarEmergencia();
                            marcador.seteaMapa(yo.mapa);
-                           marcador.posicionarMarcador("rapanui_dengue", null, valor.lng, valor.lat, valor.propiedades, "", baseUrl + "assets/img/firstaid.png");
+                           marcador.seteaCustom(false);
+                           marcador.posicionarMarcador("rapanui_dengue_" + valor.id, valor.lng, valor.lat, zona, valor.propiedades, baseUrl + "assets/img/firstaid.png");
                         });
                     } else {
                         notificacionError("", "No es posible encontrar la información del incendio.");

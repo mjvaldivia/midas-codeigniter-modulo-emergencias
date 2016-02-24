@@ -3,14 +3,20 @@
         <div class="page-title">
             <h1>  Gestión de vigilancia de casos febriles/exantemáticos ISLA DE PASCUA 
                 <div class="pull-right">
-                    <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square hide">
+                    
+                    <?php if(puedeVerReporteEmergencia("casos_febriles")) { ?>
+                    <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-default btn-square">
                         <i class="fa fa-download"></i>
                         Descargar excel
                     </a>
+                    <?php } ?>
+                    
+                    <?php if(puedeActivarAlarma("casos_febriles")) { ?>
                     <a href="<?php echo base_url("formulario/form_dengue"); ?>" id="nueva" class="btn btn-square btn-green">
                         <i class="fa fa-plus"></i>
                         Nuevo caso
                     </a>
+                    <?php } ?>
                 </div>
             </h1>
             <ol class="breadcrumb">

@@ -6,6 +6,10 @@
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
                 <li><i class="fa fa-list"></i> <a href="<?php echo base_url("formulario/index") ?>"> Casos febriles</a></li>
                 <li class="active"><i class="fa fa-bell"></i> Formulario </li>
+                
+                <?php if(puedeEditar("casos_febriles") || puedeEliminar("casos_febriles") || puedeVerReporteEmergencia("casos_febriles")){ ?>
+                <li class="pull-right"><a href="<?php echo base_url("formulario/index") ?>"> <i class="fa fa-backward"></i> Volver </a></li>
+                <?php } ?>
             </ol>
         </div>
     </div>
@@ -151,26 +155,38 @@
                 <div class="portlet portlet-default">
                     <div class="portlet-body" style="overflow: visible">
                         <div class="row">
-                            <div class="col-xs-2">
-                                <div class="form-group clearfix">
-                                    <label for="fecha_de_consulta" class="control-label">Fecha consulta(*):</label>
-                                    <input value="<?php echo $fecha_de_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_de_consulta">
-                                    <span class="help-block">Formato: dd/mm/aaaa</span>
+                            <div class="col-xs-3">
+                                
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group clearfix">
+                                            <label for="fecha_de_consulta" class="control-label">Fecha consulta(*):</label>
+                                            <input value="<?php echo $fecha_de_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_de_consulta">
+                                            <span class="help-block">Formato: dd/mm/aaaa</span>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group clearfix">
+                                            <label for="fecha_de_inicio_de_sintomas" class="control-label">Fecha de inicio de síntomas (fiebre o exantema) (*):</label>
+                                            <input value="<?php echo $fecha_de_inicio_de_sintomas; ?>" class="form-control datepicker-date" name="fecha_de_inicio_de_sintomas" id="fecha_de_inicio_de_sintomas">
+                                            <span class="help-block">Formato: dd/mm/aaaa</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="fecha_de_inicio_de_sintomas" class="control-label">Fecha de inicio de síntomas (fiebre o exantema) (*):</label>
-                                    <input value="<?php echo $fecha_de_inicio_de_sintomas; ?>" class="form-control datepicker-date" name="fecha_de_inicio_de_sintomas" id="fecha_de_inicio_de_sintomas">
-                                    <span class="help-block">Formato: dd/mm/aaaa</span>
-                                </div>
+                            <div class="col-xs-3">
+                      
+                                    <div class="form-group clearfix">
+                                        <label for="temperatura_axilar" class="control-label">T° Axilar al momento de la consulta(*):</label>
+                                        <input value="<?php echo $temperatura_axilar; ?>" class="form-control" name="temperatura_axilar" id="temperatura_axilar">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                    
                             </div>
-                            <div class="col-xs-2">
-                                <div class="form-group clearfix">
-                                    <label for="temperatura_axilar" class="control-label">T° Axilar al momento de la consulta(*):</label>
-                                    <input value="<?php echo $temperatura_axilar; ?>" class="form-control" name="temperatura_axilar" id="temperatura_axilar">
-                                    <span class="help-block hidden"></span>
-                                </div>
+                            <div class="col-xs-1">
                             </div>
                             <div class="col-xs-4">
                                 <div class="row">
@@ -213,13 +229,9 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <hr>
-                        
-                        
+
                         <legend> <small>Signos clínicos</small> </legend>
-      
-                        <div class="tile gray">
+
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
@@ -597,7 +609,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                 
                         <legend> <small> Resultados test rápidos </small> </legend>
                         <div class="row">
                             <div class="col-xs-2">
@@ -744,6 +756,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
@@ -777,6 +790,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
@@ -810,6 +824,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
@@ -819,6 +834,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
@@ -838,6 +854,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
@@ -849,7 +866,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-4">
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <div class="checkbox">
                                         <label>
@@ -859,7 +879,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-2">
                                 <div class="form-group clearfix">
                                     <label for="vacunacion_contra_fiebre_amarilla_fecha" class="control-label">Fecha vacunación:</label>
                                     <input value="<?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?>" class="form-control datepicker-date" name="vacunacion_contra_fiebre_amarilla_fecha" id="vacunacion_contra_fiebre_amarilla_fecha">

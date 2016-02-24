@@ -96,7 +96,7 @@
             Nombres 
         </td>
         <td>
-            :<?php echo $nombre; ?>
+            : <?php echo $nombre; ?>
         </td>
     </tr>
     <tr>
@@ -104,7 +104,7 @@
             Apellidos
         </td>
         <td>
-            :<?php echo $apellido; ?>
+            : <?php echo $apellido; ?>
         </td>
     </tr>
     <tr>
@@ -112,7 +112,7 @@
             Run
         </td>
         <td>
-            :<?php echo $run; ?>
+            : <?php echo $run; ?>
         </td>
     </tr>
     <tr>
@@ -120,7 +120,7 @@
             N° Pasaporte
         </td>
         <td>
-            :<?php echo $numero_pasaporte; ?>
+            : <?php echo $numero_pasaporte; ?>
         </td>
     </tr>
     <tr>
@@ -128,7 +128,7 @@
             Sexo
         </td>
         <td>
-            :<?php echo $sexo; ?>
+            : <?php echo $sexo; ?>
         </td>
     </tr>
     <tr>
@@ -136,7 +136,7 @@
             Fecha de nacimiento
         </td>
         <td>
-            :<?php echo $fecha_de_nacimiento; ?>
+            : <?php echo $fecha_de_nacimiento; ?>
         </td>
     </tr>
     <tr>
@@ -144,7 +144,7 @@
             Dirección de residencia/trabajo o de estadía en Isla de Pascua
         </td>
         <td valign="top">
-            :<?php echo $direccion; ?>
+            : <?php echo $direccion; ?>
         </td>
     </tr>
     <tr>
@@ -152,7 +152,7 @@
             Origen
         </td>
         <td>
-            :<?php echo $origen; ?>
+            : <?php echo $origen; ?>
         </td>
     </tr>
     <tr>
@@ -160,7 +160,7 @@
             Teléfono(s) de contacto:
         </td>
         <td>
-            :<?php echo $telefono; ?>
+            : <?php echo $telefono; ?>
         </td>
     </tr>
 </table>
@@ -181,7 +181,7 @@
             Fecha consulta 
         </td>
         <td colspan="3">
-            :<?php echo $fecha_de_consulta; ?>
+            : <?php echo $fecha_de_consulta; ?>
         </td>
     </tr>
     <tr>
@@ -189,13 +189,13 @@
            Fecha de inicio de síntomas (fiebre o exantema) 
         </td>
         <td valign="top">
-            :<?php echo $fecha_de_inicio_de_sintomas; ?>
+            : <?php echo $fecha_de_inicio_de_sintomas; ?>
         </td>
         <td width="20%" valign="top">
             T° Axilar al momento de la consulta
         </td>
         <td valign="top">
-            :<?php echo $temperatura_axilar; ?>
+            : <?php echo $temperatura_axilar; ?>
         </td>
     </tr>
     <tr>
@@ -203,13 +203,13 @@
             Hospitalización
         </td>
         <td valign="top">
-            :<?php echo $hospitalizacion; ?>
+            : <?php echo $hospitalizacion; ?>
         </td>
         <td width="20%" valign="top">
             Fecha hospitalización
         </td>
         <td valign="top">
-            :<?php echo $fecha_hospitalizacion; ?>
+            : <?php echo $fecha_hospitalizacion; ?>
         </td>
     </tr>
     <tr>
@@ -217,13 +217,13 @@
             Fallecido
         </td>
         <td valign="top">
-            :<?php echo $fallecido; ?>
+            : <?php echo $fallecido; ?>
         </td>
         <td width="20%" valign="top">
             Fecha fallecimiento
         </td>
         <td valign="top">
-            :<?php echo $fecha_fallecimiento; ?>
+            : <?php echo $fecha_fallecimiento; ?>
         </td>
     </tr>
 </table>
@@ -484,7 +484,7 @@
             Otros
         </td>
         <td valign="top">
-            :<?php echo $otros; ?>
+            : <strong><?php echo $otros; ?></strong>
         </td>
         <td width="30%" valign="top">
              
@@ -510,7 +510,7 @@
             Influenza 
         </td>
         <td>
-            :<?php echo $influenza; ?>
+            : <strong><?php echo $influenza; ?></strong>
         </td>
     </tr>
     <tr>
@@ -518,7 +518,7 @@
             Adenovirus
         </td>
         <td>
-            :<?php echo $adenovirus; ?>
+            : <strong><?php echo $adenovirus; ?></strong>
         </td>
     </tr>
     <tr>
@@ -526,7 +526,7 @@
             VRS
         </td>
         <td>
-            :<?php echo $vrs; ?>
+            : <strong><?php echo $vrs; ?></strong>
         </td>
     </tr>
     <tr>
@@ -534,7 +534,15 @@
             Rotavirus
         </td>
         <td>
-            :<?php echo $rotavirus; ?>
+            : <strong><?php echo $rotavirus; ?></strong>
+        </td>
+    </tr>
+    <tr>
+        <td width="30%">
+            Dengue local
+        </td>
+        <td>
+            : <strong><?php echo $dengue_local; ?></strong>
         </td>
     </tr>
 </table>
@@ -545,7 +553,7 @@
             Diagnóstico clínico
         </td>
         <td>
-            :<?php echo $diagnostico_clinico; ?>
+            : <strong><?php echo $diagnostico_clinico; ?></strong>
         </td>
     </tr>
     <tr>
@@ -553,7 +561,7 @@
             Nombre médico
         </td>
         <td>
-            :<?php echo $nombre_medico; ?>
+            : <strong><?php echo $nombre_medico; ?></strong>
         </td>
     </tr>
 </table>
@@ -573,13 +581,18 @@
             Fecha de toma de PCR
         </td>
         <td>
-            :<?php echo $fecha_toma_de_pcr; ?>
+            : <strong><?php echo $fecha_toma_de_pcr; ?></strong>
         </td>
         <td width="30%">
             Rechaza toma muestra
         </td>
         <td>
-            :<?php echo $rechaza_toma_muestra_pcr; ?>
+            : <strong><?php echo $rechaza_toma_muestra_pcr; ?></strong>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <hr>
         </td>
     </tr>
     <tr>
@@ -587,13 +600,13 @@
             Fecha de toma de serología
         </td>
         <td>
-            :<?php echo $fecha_toma_de_sevologia; ?>
+            : <strong><?php echo $fecha_toma_de_sevologia; ?></strong>
         </td>
         <td width="30%">
             Rechaza toma muestra
         </td>
         <td>
-            :<?php echo $rechaza_toma_muestra_serologia; ?>
+            : <strong><?php echo $rechaza_toma_muestra_serologia; ?></strong>
         </td>
     </tr>
 </table>
@@ -612,7 +625,12 @@
             Vive en Isla de Pascua
         </td>
         <td colspan="3">
-            :<?php echo $vive_en_isla; ?>
+            : <strong><?php echo $vive_en_isla; ?></strong>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <hr>
         </td>
     </tr>
     <tr>
@@ -620,13 +638,13 @@
             Viaje fuera de Isla de Pascua
         </td>
         <td width="30%" rowspan="3" valign="top">
-            :<?php echo $viaje_fuera_de_isla_de_pascua; ?>
+            : <strong><?php echo $viaje_fuera_de_isla_de_pascua; ?></strong>
         </td>
         <td width="20%" valign="top">
             Lugar
         </td>
         <td valign="top">
-            :<?php echo $viaje_fuera_de_isla_de_pascua_lugar; ?>
+            : <strong><?php echo $viaje_fuera_de_isla_de_pascua_lugar; ?></strong>
         </td>
     </tr>
     <tr>
@@ -634,7 +652,7 @@
             Fecha salida
         </td>
         <td valign="top">
-            :<?php echo $viaje_fuera_de_isla_de_pascua_fecha_salida; ?>
+            : <strong><?php echo $viaje_fuera_de_isla_de_pascua_fecha_salida; ?></strong>
         </td>
     </tr>
     <tr>
@@ -642,28 +660,28 @@
             Fecha llegada
         </td>
         <td valign="top">
-            :<?php echo $viaje_fuera_de_isla_de_pascua_fecha_llegada; ?>
+            : <strong><?php echo $viaje_fuera_de_isla_de_pascua_fecha_llegada; ?></strong>
         </td>
     </tr>
     
     <tr>
         <td colspan="4">
-            &nbsp;
+            <hr>
         </td>
     </tr>
-    
+        
     <tr>
         <td width="30%" rowspan="3" valign="top">
             Viaje reciente al extranjero
         </td>
         <td width="30%" rowspan="3" valign="top">
-            :<?php echo $viaje_reciente_al_extranjero; ?>
+            : <strong><?php echo $viaje_reciente_al_extranjero; ?></strong>
         </td>
         <td width="20%" valign="top">
             País
         </td>
         <td valign="top">
-            :<?php echo $viaje_reciente_al_extrangero_pais; ?>
+            : <strong><?php echo $viaje_reciente_al_extrangero_pais; ?></strong>
         </td>
     </tr>
     <tr>
@@ -671,7 +689,7 @@
             Fecha salida
         </td>
         <td valign="top">
-            :<?php echo $viaje_reciente_al_extrangero_fecha_salida; ?>
+            : <strong><?php echo $viaje_reciente_al_extrangero_fecha_salida; ?></strong>
         </td>
     </tr>
     <tr>
@@ -679,13 +697,13 @@
             Fecha llegada
         </td>
         <td valign="top">
-            :<?php echo $viaje_reciente_al_extrangero_fecha_llegada; ?>
+            : <strong><?php echo $viaje_reciente_al_extrangero_fecha_llegada; ?></strong>
         </td>
     </tr>
     
     <tr>
         <td colspan="4">
-            &nbsp;
+            <hr>
         </td>
     </tr>
     
@@ -694,13 +712,13 @@
             Lugar de residencia los 30 días anteriores al inicio de los síntomas:
         </td>
         <td valign="top" colspan="2">
-            :<?php echo $lugar_de_residencia_hace_30_dias; ?>
+            : <strong><?php echo $lugar_de_residencia_hace_30_dias; ?></strong>
         </td>
     </tr>
     
     <tr>
         <td colspan="4">
-            &nbsp;
+            <hr>
         </td>
     </tr>
     
@@ -709,34 +727,34 @@
             Antecedentes de dengue previo
         </td>
         <td width="30%"  valign="top">
-            :<?php echo $antecedentes_de_dengue_previo; ?>
+            : <strong><?php echo $antecedentes_de_dengue_previo; ?></strong>
         </td>
         <td width="20%" valign="top">
             Fecha
         </td>
         <td valign="top">
-            :<?php echo $antecedentes_de_dengue_previo_fecha; ?>
+            : <strong><?php echo $antecedentes_de_dengue_previo_fecha; ?></strong>
         </td>
     </tr>
     
     <tr>
         <td colspan="4">
-            &nbsp;
+            <hr>
         </td>
     </tr>
     
     <tr>
-        <td valign="top" colspan="2">
+        <td valign="top" colspan="1">
             Caso febril actual en el grupo familiar
         </td>
-        <td valign="top" colspan="2">
-            :<?php echo $caso_febril_grupo_familiar; ?>
+        <td valign="top" colspan="3">
+            : <strong><?php echo $caso_febril_grupo_familiar; ?></strong>
         </td>
     </tr>
     
     <tr>
         <td colspan="4">
-            &nbsp;
+            <hr>
         </td>
     </tr>
     
@@ -745,13 +763,13 @@
             Vacunación contra fiebre amarilla
         </td>
         <td width="30%" valign="top">
-            :<?php echo $vacunacion_contra_fiebre_amarilla; ?>
+            : <strong><?php echo $vacunacion_contra_fiebre_amarilla; ?></strong>
         </td>
         <td width="20%" valign="top">
             Fecha vacunación
         </td>
         <td valign="top">
-            :<?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?>
+            : <strong><?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?></strong>
         </td>
     </tr>
 </table>

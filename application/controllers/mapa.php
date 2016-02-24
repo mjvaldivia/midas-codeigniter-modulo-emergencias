@@ -188,6 +188,9 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    /**
+     * Trae datos de casos de fiebre
+     */
     public function info_rapanui_dengue(){
         header('Content-type: application/json'); 
         $casos = array();
@@ -196,8 +199,18 @@ class Mapa extends MY_Controller {
         $lista = $this->_rapanui_dengue_model->listar();
         if($lista != null){
             foreach($lista as $row){
+                
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                
+                unset($propiedades["RUN"]);
+                unset($propiedades["NOMBRE"]);
+                unset($propiedades["APELLIDO"]);
+                unset($propiedades["TELEFONO"]);
+                unset($propiedades["NUMERO PASAPORTE"]);
+                
                 $coordenadas = json_decode($row["coordenadas"]);
-                $casos[] = array("propiedades" => json_decode($row["propiedades"]),
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
                                  "lat" => $coordenadas->lat,
                                  "lng" => $coordenadas->lng);
             }
@@ -226,6 +239,26 @@ class Mapa extends MY_Controller {
      */
     public function popup_lugar_emergencia(){
         $this->load->view("pages/mapa/popup-lugar-emergencia", array());
+    }
+    
+    public function popup_elemento_info(){
+        $this->load->helper(array("modulo/visor/visor"));
+        
+        $params = $this->input->post(null, true);
+        $informacion = json_decode($params["informacion"]);
+        
+        $this->load->view(
+            "pages/mapa_capas/popup-informacion", 
+            array(
+                "tipo" => $params["tipo"],
+                "color" => $params["color"],
+                "informacion" => $informacion,
+                "identificador" => $params["identificador"],
+                "clave" => $params["clave"],
+                "lista_formas" => json_decode($params["formas"]),
+                "lista_marcadores"  => json_decode($params["marcadores"])
+            )
+        );
     }
     
     /**

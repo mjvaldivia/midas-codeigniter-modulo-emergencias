@@ -130,7 +130,7 @@ Class Layout_Menu_Render{
                     $ver = $this->usuario->getPermisoVer();
                 } else {
                     $this->usuario->setModulo($datos["permiso"]);
-                    $ver = $this->usuario->getPermisoReporteEmergencia() || $this->usuario->getPermisoEditar();
+                    $ver = $this->usuario->getPermisoReporteEmergencia() || $this->usuario->getPermisoEditar() || $this->usuario->getPermisoEliminar() || $this->usuario->getPermisoActivarAlarma();
                 }
             }
             
