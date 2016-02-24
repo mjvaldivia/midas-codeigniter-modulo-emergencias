@@ -55,6 +55,8 @@ var MapaInformacionElemento = Class({
             },
             success:function(data){
                 $("#contenido-popup-informacion-capas").html(data);
+                var dialogo = new MapaInformacionElementoEdicion();
+                dialogo.formExportar();
             }
         }); 
     },

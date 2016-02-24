@@ -18,16 +18,18 @@
                     <div class="tile dark-blue">
                         <div class="row">
                             <div class="col-lg-4 text-right"><strong>TIPO:</strong></div>
-                            <div class="col-lg-8 text-left"><?php echo $nombre_tipo ?></div>
+                            <div class="col-lg-8 text-left"><?php echo $tipo ?></div>
+                        </div>
+                        <?php if($tipo == "CIRCULO LUGAR EMERGENCIA" || $tipo == "CIRCULO") { ?>
+                        <div class="row">
+                            <div class="col-lg-4 text-right"><strong>COLOR:</strong></div>
+                            <div class="col-lg-8 text-left"><div class="color-capa-preview" style="background-color:<?php echo $color; ?>; height: 20px;width: 20px;"></div></div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4 text-right"><strong>CAPA:</strong></div>
-                            <div class="col-lg-8 text-left"><?php echo $nombre_capa ?></div>
+                            <div class="col-lg-4 text-right"><strong>RADIO:</strong></div>
+                            <div class="col-lg-8 text-left"><?php echo $radio ?> metros</div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-4 text-right"><strong>SUB-CAPA:</strong></div>
-                            <div class="col-lg-8 text-left"><?php echo $nombre_subcapa ?></div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
 

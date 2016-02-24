@@ -241,6 +241,9 @@ class Mapa extends MY_Controller {
         $this->load->view("pages/mapa/popup-lugar-emergencia", array());
     }
     
+    /**
+     * 
+     */
     public function popup_elemento_info(){
         $this->load->helper(array("modulo/visor/visor"));
         
@@ -248,10 +251,11 @@ class Mapa extends MY_Controller {
         $informacion = json_decode($params["informacion"]);
         
         $this->load->view(
-            "pages/mapa_capas/popup-informacion", 
+            "pages/mapa/popup-elemento-informacion", 
             array(
                 "tipo" => $params["tipo"],
                 "color" => $params["color"],
+                "radio" => $params["radio"],
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],

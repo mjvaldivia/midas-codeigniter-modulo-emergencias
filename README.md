@@ -1,10 +1,16 @@
 # emergencias
 
-1.- Instalación.
+1.- Requerimientos.
 
-1.1.- Ejecutar "git clone https://github.com/CarlosAyala/emergencias"
-1.2.- Crear directorio media/ y dar permisos de escritura para el usuario apache.
-1.3.- Crear host virtual
+#
+
+2.- Instalación.
+
+2.1.- Ejecutar "git clone https://github.com/CarlosAyala/emergencias"
+
+2.2.- Crear directorio media/ y dar permisos de escritura para el usuario de apache.
+
+2.3.- Crear host virtual y agregar url a archivo local hosts
 
     <VirtualHost *:80>
        DocumentRoot "[path/to/system]"
