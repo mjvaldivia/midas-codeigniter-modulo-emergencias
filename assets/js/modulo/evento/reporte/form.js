@@ -165,7 +165,7 @@ var EventoReporteForm = Class({
                     render: {
                         item: function(item, escape) {
                             return '<div>' +
-                                (item.name ? '<span class="name">' + escape(item.name) + '</span> ' : '') +
+                                (item.name ? '<!-- <span class="name">' + escape(item.name) + '</span> -->' : '') +
                                 (item.email ? '<span><i class="fa fa-chevron-left"></i>' + escape(item.email) + '<i class="fa fa-chevron-right"></i></span>' : '') +
                             '</div>';
                         },
@@ -173,7 +173,7 @@ var EventoReporteForm = Class({
                             var label = item.name || item.email;
                             var caption = item.name ? item.email : null;
                             return '<div>' +
-                                '<span class="label">' + escape(label) + '</span>' +
+                                '<!-- <span class="label">' + escape(label) + '</span> -->' +
                                 (caption ? '<span class="caption"><i class="fa fa-chevron-left"></i>' + escape(caption) + '<i class="fa fa-chevron-right"></i></span>' : '') +
                             '</div>';
                         }
