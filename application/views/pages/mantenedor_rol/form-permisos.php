@@ -72,6 +72,10 @@
                         Eliminar
                     </div>
                     <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedFinalizar($id_rol, $row["per_ia_id"]); ?> name="finalizar[]" id="finalizar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Ingreso de conclusiones
+                    </div>
+                    <div class="col-sm-4">
                         <input <?php echo permisoFormCheckedReporteEmergencia($id_rol, $row["per_ia_id"]); ?> name="reporte[]" id="reporte_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                         Exportar datos
                     </div>

@@ -13,9 +13,9 @@ require_once(APPPATH . "helpers/modulo/emergencia/html/reporte/TipoEmergencia.ph
  * 
  * @return boolean
  */
-function puedeFinalizarEmergencia(){
+function puedeFinalizarEmergencia($id_modulo){
     $permiso = New Emergencia_Usuario_Permiso();
-    return $permiso->puedeFinalizarEmergencia();
+    return $permiso->puedeFinalizarEmergencia($id_modulo);
 }
 
 /**

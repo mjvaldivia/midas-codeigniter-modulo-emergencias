@@ -2,7 +2,8 @@
     <thead>
         <tr>
             <th width="20%">Fecha</th>
-            <th width="20%">Diagnostico clínico</th>
+            <th width="10%">Estado</th>
+            <th width="10%">Diagnostico clínico</th>
             <th width="10%">Médico</th>
             <th width="10%">Run</th>
             <th width="15%">Nombre</th>
@@ -15,6 +16,17 @@
         <?php foreach($lista as $row){ ?>
         <tr>
             <td width="20%"><?php echo $row["fecha"]; ?></td>
+            <td width="10%">
+                <?php if($row["id_estado"] == ""){ ?>
+                <div class="badge alert-warning">Caso sospechoso</div>
+                <?php }elseif($row["id_estado"] == 1) { ?>
+                <div class="badge alert-danger">Confirmado</div>
+                <?php }elseif($row["id_estado"] == 2) { ?>
+                <div class="badge alert-success">Descartado</div>
+                <?php }elseif($row["id_estado"] == 3) { ?>
+                <div class="badge alert-info">No concluyente</div>
+                <?php } ?>
+            </td>
             <td width="20%"><?php echo $row["diagnostico"]; ?></td>
             <td width="10%"><?php echo nombreUsuario($row["id_usuario"]); ?></td>
             <td width="10%"><?php echo $row["run"]; ?></td>
@@ -29,6 +41,9 @@
                     </a>
                     <?php } ?>
                     
+                    
+                    <?php if(($row["enviado"] == 0 and !puedeFinalizarEmergencia("casos_febriles")) OR puedeFinalizarEmergencia("casos_febriles")) { ?>
+                    
                     <?php if(puedeEditar("casos_febriles")) { ?> 
                     <button onclick="document.location.href='<?php echo base_url("formulario/editar/?id=" . $row["id"]); ?>'" title="editar" class="btn btn-sm btn-success" type="button" >
                         <i class="fa fa-edit"></i>
@@ -39,6 +54,8 @@
                     <button title="Eliminar" class="btn btn-sm btn-danger caso-eliminar" type="button"  data="<?php echo $row["id"] ?>" href="#" >
                         <i class="fa fa-trash"></i>
                     </button>
+                    <?php } ?>
+                    
                     <?php } ?>
                 </div>
             </td>

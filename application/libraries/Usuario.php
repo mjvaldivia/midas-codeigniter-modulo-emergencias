@@ -114,7 +114,7 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoFinalizarEmergencia(){
-        $permiso = $this->_permiso_model->tienePermisoFinalizarEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        $permiso = $this->_permiso_model->tienePermisoFinalizarEmergencia($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {
