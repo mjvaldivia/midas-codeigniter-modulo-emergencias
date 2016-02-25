@@ -1284,11 +1284,9 @@
             </div>                
                             
             <div class="row top-spaced">
-                <div class="col-xs-6"></div>
-                <div class="col-xs-6 text-right">
+                <div class="col-xs-12 text-right">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-12">
                         <button id="guardar" class="btn btn-green" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
                         <?php if(!puedeFinalizarEmergencia("casos_febriles")) { ?>
                         <button id="enviar" class="btn btn-blue" type="button"><i class="fa fa-send"></i> Guardar y enviar a delegado de epidemiología</button>
