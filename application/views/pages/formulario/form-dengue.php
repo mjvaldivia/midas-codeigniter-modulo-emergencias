@@ -28,7 +28,7 @@
             <?php } ?>
             
             
-            <form id="form-dengue" class="form-vertical" action="<?php echo base_url("formulario/guardar_dengue") ?>" method="post" role="form">
+            <form id="form-dengue" autocomplete="off" class="form-vertical" action="<?php echo base_url("formulario/guardar_dengue") ?>" method="post" role="form">
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
                 <legend>
@@ -924,6 +924,8 @@
                             </div>
                         </div>
                         
+                        <?php if(puedeFinalizarEmergencia("casos_febriles")) { ?>
+                        
                         <div class="row top-spaced-doble">
                             <div class="col-xs-12">
                                 <legend>
@@ -1082,27 +1084,27 @@
                                         <tr>
                                             <td>Malaria</td>
                                             <td>
-                                                <select name="conclusion_pcr_fiebre_amarilla" id="conclusion_pcr_fiebre_amarilla" class="form-control">
+                                                <select name="conclusion_pcr_malaria" id="conclusion_pcr_malaria" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_pcr_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_pcr_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
-                                                    <option value="No concluyente" <?php if($conclusion_pcr_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                    <option value="Confirmado" <?php if($conclusion_pcr_malaria == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_pcr_malaria == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_pcr_malaria == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <select name="conclusion_serologia_fiebre_amarilla" id="conclusion_serologia_fiebre_amarilla" class="form-control">
+                                                <select name="conclusion_serologia_malaria" id="conclusion_serologia_malaria" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_serologia_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_serologia_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
-                                                    <option value="No concluyente" <?php if($conclusion_serologia_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                    <option value="Confirmado" <?php if($conclusion_serologia_malaria == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_serologia_malaria == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_serologia_malaria == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <select name="conclusion_otro_fiebre_amarilla" id="conclusion_otro_fiebre_amarilla" class="form-control">
+                                                <select name="conclusion_otro_malaria" id="conclusion_otro_malaria" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_otro_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_otro_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
-                                                    <option value="No concluyente" <?php if($conclusion_otro_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                    <option value="Confirmado" <?php if($conclusion_otro_malaria == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_otro_malaria == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_otro_malaria == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -1130,6 +1132,7 @@
                                  </div>
                             </div>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -1287,6 +1290,9 @@
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
                         <button id="guardar" class="btn btn-green" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        <?php if(!puedeFinalizarEmergencia("casos_febriles")) { ?>
+                        <button id="enviar" class="btn btn-blue" type="button"><i class="fa fa-send"></i> Guardar y enviar a delegado de epidemiología</button>
+                        <?php } ?>
                         <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("formulario/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
                     </div>
                 </div>

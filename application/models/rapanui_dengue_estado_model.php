@@ -1,34 +1,26 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Emergencia_Estado_Model extends MY_Model
+class Rapanui_Dengue_Estado_Model extends MY_Model
 {    
-    /**
-     * Emergencia terminada
-     * @see est_ia_id en tabla estado_emergencia
-     */
-    const EN_CURSO = 2;
-    
-    /**
-     * @see tip_ia_id en tabla alertas 
-     */
-    const EN_ALERTA = 1;
 
+    const CONFIRMADO = 1;
+    const DESCARTADO = 2;
+    const NO_CONCLUYENTE = 3;
 
-    const FINALIZADA = 3;
             
     /**
      *
      * @var string 
      */
-    protected $_tabla = "estados_emergencias";
+    protected $_tabla = "rapanui_dengue_estado";
     
     /**
-     * Retorna la alarma por el identificador
+     * Retorna la por el identificador
      * @param int $id clave primaria
      * @return object
      */
     public function getById($id){
-        return $this->_query->getById("est_ia_id", $id);
+        return $this->_query->getById("id", $id);
     }
     
     /**
@@ -38,7 +30,7 @@ class Emergencia_Estado_Model extends MY_Model
     public function listarTodos(){
          $result = $this->_query->select("*")
                                ->from()
-                               ->orderBy("est_c_nombre", "ASC")
+                               ->orderBy("nombre", "ASC")
                                ->getAllResult();
         if (!is_null($result)){
            return $result; 
