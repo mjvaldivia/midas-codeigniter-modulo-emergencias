@@ -690,45 +690,444 @@
             </div>
             
             <div class="col-md-12 top-spaced">
-                <legend> Examen de laboratorio </legend>
+                <legend> Laboratorio </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body" style="overflow: visible;">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <div class="form-group">
-                                    <label for="fecha_toma_de_pcr" class="control-label">Fecha de toma de PCR:</label>
-                                    <input value="<?php echo $fecha_toma_de_pcr; ?>" class="form-control datepicker-date" name="fecha_toma_de_pcr" id="fecha_toma_de_pcr">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group top-spaced">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="rechaza_toma_muestra_pcr" type="hidden" value="No" />
-                                            <input id="rechaza_toma_muestra_pcr" name="rechaza_toma_muestra_pcr" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $rechaza_toma_muestra_pcr); ?>> Rechaza toma muestra
-                                        </label>
-                                    </div>
-                                </div>
+                            <div class="col-xs-12">
+                                <table width="100%" class="table table-bordered table-green">
+                                    <thead>
+                                    <tr>
+                                        <th width="20%">TIPO DE MUESTRA</th>
+                                        <th width="10%">Sangre</th>
+                                        <th width="10%">Orina</th>
+                                        <th width="10%">LCE</th>
+                                        <th width="25%">Fecha de toma</th>
+                                        <th width="25%">Rechaza toma de muestra</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td align="center">Muestra PCR</td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_pcr_sangre" type="hidden" value="No" />
+                                                        <input id="muestra_pcr_sangre" name="muestra_pcr_sangre" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_pcr_sangre); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_pcr_orina" type="hidden" value="No" />
+                                                        <input id="muestra_pcr_orina" name="muestra_pcr_orina" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_pcr_orina); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_pcr_lce" type="hidden" value="No" />
+                                                        <input id="muestra_pcr_lce" name="muestra_pcr_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_pcr_lce); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center"><input value="<?php echo $muestra_pcr_fecha; ?>" class="form-control datepicker-date" name="muestra_pcr_fecha" id="muestra_pcr_fecha"></td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_pcr_rechaza_toma" type="hidden" value="No" />
+                                                        <input id="muestra_pcr_rechaza_toma" name="muestra_pcr_rechaza_toma" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_pcr_rechaza_toma); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">Muestra serología</td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_serologia_sangre" type="hidden" value="No" />
+                                                        <input id="muestra_serologia_sangre" name="muestra_serologia_sangre" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_serologia_sangre); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_serologia_orina" type="hidden" value="No" />
+                                                        <input id="muestra_serologia_orina" name="muestra_serologia_orina" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_serologia_orina); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_serologia_lce" type="hidden" value="No" />
+                                                        <input id="muestra_serologia_lce" name="muestra_serologia_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_serologia_lce); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center"><input value="<?php echo $muestra_serologia_fecha; ?>" class="form-control datepicker-date" name="muestra_serologia_fecha" id="muestra_serologia_fecha"></td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_serologia_rechaza_toma" type="hidden" value="No" />
+                                                        <input id="muestra_serologia_rechaza_toma" name="muestra_serologia_rechaza_toma" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_serologia_rechaza_toma); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">Muestra frotis</td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_frotis_sangre" type="hidden" value="No" />
+                                                        <input id="muestra_frotis_sangre" name="muestra_frotis_sangre" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_frotis_sangre); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_frotis_orina" type="hidden" value="No" />
+                                                        <input id="muestra_frotis_orina" name="muestra_frotis_orina" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_frotis_orina); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_frotis_lce" type="hidden" value="No" />
+                                                        <input id="muestra_frotis_lce" name="muestra_frotis_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_frotis_lce); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center"><input value="<?php echo $muestra_frotis_fecha; ?>" class="form-control datepicker-date" name="muestra_frotis_fecha" id="muestra_frotis_fecha"></td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_frotis_rechaza_toma" type="hidden" value="No" />
+                                                        <input id="muestra_frotis_rechaza_toma" name="muestra_frotis_rechaza_toma" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_frotis_rechaza_toma); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <div class="col-xs-4 text-right">Otro:</div> <div class="col-xs-8"><input value="<?php echo $muestra_otro; ?>" class="form-control" name="muestra_otro" id="muestra_otro"></div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_otro_sangre" type="hidden" value="No" />
+                                                        <input id="muestra_otro_sangre" name="muestra_otro_sangre" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_sangre); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_otro_orina" type="hidden" value="No" />
+                                                        <input id="muestra_otro_orina" name="muestra_otro_orina" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_orina); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_otro_lce" type="hidden" value="No" />
+                                                        <input id="muestra_otro_lce" name="muestra_otro_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_lce); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td align="center"><input value="<?php echo $muestra_otro_fecha; ?>" class="form-control datepicker-date" name="muestra_otro_fecha" id="muestra_otro_fecha"></td>
+                                            <td align="center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="muestra_otro_rechaza_toma" type="hidden" value="No" />
+                                                        <input id="muestra_otro_rechaza_toma" name="muestra_otro_rechaza_toma" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_rechaza_toma); ?>>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <label for="fecha_toma_de_sevologia" class="control-label">Fecha de toma de serología:</label>
-                                    <input value="<?php echo $fecha_toma_de_sevologia; ?>" class="form-control datepicker-date" name="fecha_toma_de_sevologia" id="fecha_toma_de_sevologia">
-                                    <span class="help-block hidden"></span>
-                                </div>
+                            <div class="col-xs-12">
+                                <div class="alert alert-info text-center"> SE SOLICITA ANÁLISIS PARA </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="15%">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="se_solicita_analisis_para_dengue" type="hidden" value="No" />
+                                                    <input id="se_solicita_analisis_para_dengue" name="se_solicita_analisis_para_dengue" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $se_solicita_analisis_para_dengue); ?>> Dengue
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="se_solicita_analisis_para_chikungunya" type="hidden" value="No" />
+                                                    <input id="se_solicita_analisis_para_chikungunya" name="se_solicita_analisis_para_chikungunya" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $se_solicita_analisis_para_chikungunya); ?>> Chikungunya
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="se_solicita_analisis_para_zika" type="hidden" value="No" />
+                                                    <input id="se_solicita_analisis_para_zika" name="se_solicita_analisis_para_zika" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $se_solicita_analisis_para_zika); ?>> Zika
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="se_solicita_analisis_para_fiebre_amarilla" type="hidden" value="No" />
+                                                    <input id="se_solicita_analisis_para_fiebre_amarilla" name="se_solicita_analisis_para_fiebre_amarilla" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $se_solicita_analisis_para_fiebre_amarilla); ?>> Fiebre Amarilla
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="se_solicita_analisis_para_virus_del_nilo_occidental" type="hidden" value="No" />
+                                                    <input id="se_solicita_analisis_para_virus_del_nilo_occidental" name="se_solicita_analisis_para_virus_del_nilo_occidental" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $se_solicita_analisis_para_virus_del_nilo_occidental); ?>> Virus del Nilo Occidental
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="se_solicita_analisis_para_malaria" type="hidden" value="No" />
+                                                    <input id="se_solicita_analisis_para_fiebre_malaria" name="se_solicita_analisis_para_malaria" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $se_solicita_analisis_para_malaria); ?>> Malaria
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <small>(*) frente a casos de fiebre + exantema, considere la sospecha de Sarampión-Rubeola </small>
+                            </div>
+                        </div>
+                        
+                        <div class="row top-spaced-doble">
+                            <div class="col-xs-12">
+                                <legend>
+                                <small> Resultados </small>
+                                </legend>
+                            </div>
+                        </div>
+                        
+                        <div class="row top-spaced">
+                            <div class="col-xs-9">
+                                <table width="100%" class="table table-bordered table-green">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>PCR</th>
+                                            <th>Serología</th>
+                                            <th>Otro</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Dengue</td>
+                                            <td>
+                                                <select name="conclusion_pcr_dengue" id="conclusion_pcr_dengue" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_pcr_dengue == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_pcr_dengue == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_pcr_dengue == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_serologia_dengue" id="conclusion_serologia_dengue" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_serologia_dengue == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_serologia_dengue == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_serologia_dengue == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_otro_dengue" id="conclusion_otro_dengue" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_otro_dengue == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_otro_dengue == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_otro_dengue == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Chikungunya</td>
+                                            <td>
+                                                <select name="conclusion_pcr_chikungunya" id="conclusion_pcr_chikungunya" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_pcr_chikungunya == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_pcr_chikungunya == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_pcr_chikungunya == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_serologia_chikungunya" id="conclusion_serologia_chikungunya" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_serologia_chikungunya == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_serologia_chikungunya == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_serologia_chikungunya == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_otro_chikungunya" id="conclusion_otro_chikungunya" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_otro_chikungunya == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_otro_chikungunya == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_otro_chikungunya == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Zika</td>
+                                            <td>
+                                                <select name="conclusion_pcr_zika" id="conclusion_pcr_zika" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_pcr_zika == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_pcr_zika == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_pcr_zika == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_serologia_zika" id="conclusion_serologia_zika" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_serologia_zika == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_serologia_zika == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_serologia_zika == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_otro_zika" id="conclusion_otro_zika" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_otro_zika == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_otro_zika == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_otro_zika == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fiebre Amarilla</td>
+                                            <td>
+                                                <select name="conclusion_pcr_fiebre_amarilla" id="conclusion_pcr_fiebre_amarilla" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_pcr_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_pcr_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_pcr_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_serologia_fiebre_amarilla" id="conclusion_serologia_fiebre_amarilla" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_serologia_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_serologia_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_serologia_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_otro_fiebre_amarilla" id="conclusion_otro_fiebre_amarilla" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_otro_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_otro_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_otro_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>V. del Nilo Occidental</td>
+                                            <td>
+                                                <select name="conclusion_pcr_virus_del_nilo" id="conclusion_pcr_virus_del_nilo" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_pcr_virus_del_nilo == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_pcr_virus_del_nilo == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_pcr_virus_del_nilo == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_serologia_virus_del_nilo" id="conclusion_serologia_virus_del_nilo" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_serologia_virus_del_nilo == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_serologia_virus_del_nilo == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_serologia_virus_del_nilo == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_otro_virus_del_nilo" id="conclusion_otro_virus_del_nilo" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_otro_virus_del_nilo == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_otro_virus_del_nilo == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_otro_virus_del_nilo == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Malaria</td>
+                                            <td>
+                                                <select name="conclusion_pcr_fiebre_amarilla" id="conclusion_pcr_fiebre_amarilla" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_pcr_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_pcr_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_pcr_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_serologia_fiebre_amarilla" id="conclusion_serologia_fiebre_amarilla" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_serologia_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_serologia_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_serologia_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="conclusion_otro_fiebre_amarilla" id="conclusion_otro_fiebre_amarilla" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="Confirmado" <?php if($conclusion_otro_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
+                                                    <option value="Descartado" <?php if($conclusion_otro_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="No concluyente" <?php if($conclusion_otro_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="col-xs-3">
-                                <div class="form-group clearfix top-spaced">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="rechaza_toma_muestra_serologia" type="hidden" value="No" />
-                                            <input id="rechaza_toma_muestra_serologia" name="rechaza_toma_muestra_serologia" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $rechaza_toma_muestra_serologia); ?>> Rechaza toma muestra
-                                        </label>
-                                    </div>
-                                </div>
+                                 <div class="tile blue">
+                                    <div class="form-group clearfix">
+                                       <label for="conclusion_del_caso" class="control-label">Conclusión del caso:</label>
+                                       <select name="conclusion_del_caso" id="conclusion_del_caso" class="form-control">
+                                           <option value=""></option>
+                                           <option value="1" <?php if($conclusion_del_caso == "1") echo "selected" ?>> Confirmado </option>
+                                           <option value="2" <?php if($conclusion_del_caso == "2") echo "selected" ?>> Descartado </option>
+                                           <option value="3" <?php if($conclusion_del_caso == "3") echo "selected" ?>> No concluyente </option>
+
+                                       </select>
+                                       <span class="help-block hidden"></span>
+                                   </div>
+                                   <div class="form-group clearfix">
+                                       <label for="observaciones" class="control-label">Observaciones:</label>
+                                       <textarea name="observaciones" id="observaciones" class="form-control"></textarea>
+                                       <span class="help-block hidden"></span>
+                                   </div>
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -863,11 +1262,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-2">
-                                <div class="form-group clearfix">
-                                    <label for="vacunacion_contra_fiebre_amarilla_fecha" class="control-label">Fecha vacunación:</label>
-                                    <input value="<?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?>" class="form-control datepicker-date" name="vacunacion_contra_fiebre_amarilla_fecha" id="vacunacion_contra_fiebre_amarilla_fecha">
-                                    <span class="help-block hidden"></span>
-                                </div>
+                 
                             </div>
                         </div>
                     </div>
