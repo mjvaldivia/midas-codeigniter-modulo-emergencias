@@ -52,7 +52,7 @@
 
                                   <?php } ?>
                                   
-                                  <?php if (puedeFinalizarEmergencia()) { ?>
+                                  <?php if (puedeFinalizarEmergencia("emergencia")) { ?>
 
                                       <button title="Finalizar emergencia" class="btn btn-sm btn-warning emergencia-cerrar" type="button" data="<?php echo $row["eme_ia_id"] ?>" href="#">
                                           <i class="fa fa-thumb-tack"></i> 
