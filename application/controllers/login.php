@@ -103,7 +103,7 @@ class Login extends MY_Controller {
                 
                 $bo_perfil_medico = false;
                 foreach($lista_roles as $rol){
-                    if($rol["rol_ia_id"] == Rol_Model::MEDICO){
+                    if($rol["rol_ia_id"] == Rol_Model::MEDICO || $rol["rol_ia_id"] == Rol_Model::MEDICO_EPI){
                         $bo_perfil_medico = true;
                     }
                 }
