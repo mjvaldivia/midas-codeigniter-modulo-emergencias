@@ -24,7 +24,7 @@
     <?= loadCSS("assets/js/library/messenger/messenger-theme-flat.css", true) ?>
     
     <?= loadJS("assets/js/library/joii-3.1.3/joii.min.js", true) ?>
-    
+    <?= loadCSS("assets/js/library/selectize-0.12.1/css/selectize.bootstrap3.css") ?>
     <!-- GLOBAL STYLES - Include these on every page. -->
     <?= loadCSS("assets/js/library/bootstrap-3.3.5/css/bootstrap.css", true) ?>
     <?= loadCSS("assets/css/bootstrap.vertical-tabs.css", true) ?>
@@ -32,7 +32,7 @@
 
     <?= loadCSS("assets/js/library/font-awesome-4.4.0/css/font-awesome.css", true) ?>
     <?= loadCSS("assets/js/library/spectrum-colorpicker/spectrum.css") ?>
-
+    
     <!-- THEME STYLES - Include these on every page. -->
     <?= loadCSS("assets/css/style.css", true) ?>
     <?= loadJS("assets/js/Modal_Sipresa.js") ?>
@@ -263,6 +263,7 @@
         <?= loadJS("assets/js/library/messenger/messenger.min.js", true) ?>
         <?= loadJS("assets/js/library/messenger/messenger-theme-flat.js", true) ?>
         <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
+        <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.min.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
 

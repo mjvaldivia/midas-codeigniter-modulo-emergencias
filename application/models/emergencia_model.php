@@ -90,6 +90,26 @@ class Emergencia_Model extends MY_Model {
     }
     
     /**
+     * Lista las regiones de una emergencia
+     * @param int $id_emergencia
+     * @return array
+     */
+    public function listarRegionesPorEmergencia($id_emergencia){
+        $result = $this->_query->select("DISTINCT p.reg_ia_id")
+                               ->from($this->_tabla . " e")
+                               ->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
+                               ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")
+                               ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                               ->whereAND("e.eme_ia_id", $id_emergencia)
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param type $id_region
      * @param DateTime $fecha_inicio

@@ -115,6 +115,24 @@ class Usuario_Model extends MY_Model {
     
     /**
      * 
+     * @param int $id_region
+     * @return array
+     */
+    public function listarUsuariosPorRegion($id_region){
+        $result = $this->_query->select("DISTINCT u.*")
+                               ->from($this->_tabla . " u")
+                               ->join("usuarios_region r", "r.id_usuario = u.usu_ia_id", "INNER")
+                               ->whereAND("r.id_region", $id_region)
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
      * @param int $id_rol
      * @return array
      */
