@@ -855,30 +855,19 @@ class Capa_Model extends MY_Model {
 
 
     public function guardarSubCapa($params){
-        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        $this->load->library("capa/subcapa_archivo");
         $this->load->model("archivo_model", "ArchivoModel");
         $this->load->model("comuna_model", "ComunaModel");
 
         $params = $this->input->post();
 
-
-
-
-
         $query = "update capas_geometria set geometria_nombre = ? where geometria_id = ?";
         if($this->db->query($query,array($params['nombre_subcapa'],$params['id_subcapa']))){
             if(isset($params['tmp_file_icono'])){
-                $icono = $this->cache->get($params['tmp_file_icono']);
+                
+                $this->subcapa_archivo->setSubcapa($params['id_subcapa']);
+                $this->subcapa_archivo->addIcono($params['tmp_file_icono']);
 
-                $icono_ruta = explode(base_url(),$params["ruta_icono"]);
-                $icono_ruta = $icono_ruta[1];
-                $subir_icono = $this->ArchivoModel->upload_to_site($icono['filename'], $icono['type'], $icono_ruta, $params['id_capa'], $this->ArchivoModel->TIPO_ICONO_DE_CAPA, $icono['size'], $icono['nombre_cache_id']);
-                if($subir_icono){
-                    $subir_icono = json_decode($subir_icono);
-                    $nombre_icono = 'media/doc/capa/'.$params['id_capa'].'/'.date(Y).'/'.$subir_icono->id . "_" . $subir_icono->filename;
-                    $query = "update capas_geometria set geometria_icono = ? where geometria_id = ?";
-                    $update = $this->db->query($query,array($nombre_icono,$params['id_subcapa']));
-                }
             }elseif(isset($params['color_poligono'])){
                 $query = "update capas_geometria set geometria_icono = ? where geometria_id = ?";
                 $update = $this->db->query($query,array($params['color_poligono'],$params['id_subcapa']));

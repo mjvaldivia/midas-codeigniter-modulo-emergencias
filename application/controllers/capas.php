@@ -619,7 +619,7 @@ class Capas extends MY_Controller
     public function subir_CapaIconTemp(){
         $error = false;
         $this->load->helper(array("session", "debug"));
-        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        $this->load->library("cache");
         sessionValidation();
         if (!isset($_FILES)) {
             show_error("No se han detectado archivos", 500, "Error interno");
@@ -646,7 +646,9 @@ class Capas extends MY_Controller
             'type'=> $type
 
         );
-        $this->cache->save($nombre_cache_id, $arr_cache, 28800);
+        $cache = Cache::iniciar();
+        $cache->save($arr_cache, $nombre_cache_id);
+       
 
         echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>base_url($binary_path)));
     }

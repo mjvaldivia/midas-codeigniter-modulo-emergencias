@@ -29,6 +29,17 @@ class Capa_Detalle_Model extends MY_Model {
         return $this->_query->getById("geometria_id", $id);
     }
     
+        
+    /**
+     * Actualiza 
+     * @param array $data
+     * @param int $id
+     * @return int
+     */
+    public function update($data, $id){
+        return $this->_query->update($data, "geometria_id", $id);
+    }
+    
     /**
      * Lista las subcapas de region
      * @return array
