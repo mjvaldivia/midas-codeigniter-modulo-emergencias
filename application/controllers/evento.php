@@ -236,13 +236,14 @@ class Evento extends MY_Controller {
 
             $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
 
-            $this->emergencia_guardar->setEmergencia($params["eme_id"]);
+            $this->emergencia_guardar->setEmergencia($id);
             $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
             $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
-
+            
+            $this->_guardarArchivos($id);
         }
         
-        $this->_guardarArchivos($id);
+        //$this->_guardarArchivos($id);
         
         $respuesta["res_mail"] = $respuesta_email;
         $respuesta["correcto"] = $correcto;
