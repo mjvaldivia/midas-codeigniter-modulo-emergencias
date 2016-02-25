@@ -214,7 +214,7 @@ class Evento extends MY_Controller {
                 
                 $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $id, $params['comunas']);
                 
-                $params["eme_id"] = $id;
+                $params["eme_ia_id"] = $id;
 
                 if($params['estado_emergencia'] == Emergencia_Estado_Model::EN_ALERTA and !empty($params['correos_evento'])){
                     $respuesta_email = $this->AlarmaModel->enviaCorreo($params);

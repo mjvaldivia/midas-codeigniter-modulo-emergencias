@@ -39,7 +39,7 @@ var EventoGrilla = Class({
                     if(bo_email_enviado){
                         agregar = "<br/> Estado email: Enviado correctamente";
                     } else {
-                        notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
+                        //notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
                     }
                     
                     notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);

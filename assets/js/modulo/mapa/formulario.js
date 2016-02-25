@@ -185,9 +185,11 @@ var MapaFormulario = Class({
 
                 ac.addListener('place_changed', function () {
                     var place = ac.getPlace();
-                    if (place.length === 0) {
+                    
+                    if (place && place.length === 0) {
                         return;
                     }
+                    
                     var index = place.address_components.length - 2;
                     var region = place.address_components[index].long_name;  
 
