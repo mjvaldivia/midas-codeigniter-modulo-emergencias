@@ -59,7 +59,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="row">
-                                <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
+                                <div class="<?php if(!puedeVerFormularioDatosPersonales("casos_febriles")) echo "hidden"; ?>">
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="nombre" class="control-label">Nombre(*):</label>
@@ -74,7 +74,7 @@
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <?php } ?>
+                                </div>
                                 <div class="col-xs-2">
                                     <div class="form-group clearfix">
                                         <label for="sexo" class="control-label">Sexo(*):</label>
@@ -87,7 +87,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
+                            <div class="<?php if(!puedeVerFormularioDatosPersonales("casos_febriles")) echo "hidden"; ?>">
                             <div class="row">
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
@@ -104,9 +104,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <?php } ?>
+                            </div>
                             <div class="row">
-                                <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
+                                <div class="<?php if(!puedeVerFormularioDatosPersonales("casos_febriles")) echo "hidden"; ?>">
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="telefono" class="control-label">Teléfono(s) de contacto:</label>
@@ -114,7 +114,7 @@
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                 <?php } ?>
+                                </div>
                                 <div class="col-xs-4">
                                     <div class="form-group clearfix">
                                         <label for="fecha_de_nacimiento" class="control-label">Fecha de nacimiento(*):</label>
