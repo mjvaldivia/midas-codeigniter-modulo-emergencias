@@ -52,7 +52,7 @@
             <table width="100%">
                 <tr>
                     <td colspan="2" style="text-align: center;font-weight: bold;font-size:18px;padding:0px !important">
-                        FICHA DE VIGILANCIA FEBRILES
+                        FICHA DE VIGILANCIA FEBRILES - Caso N° <?php echo $id; ?>
                     </td>
                 </tr>
             </table>

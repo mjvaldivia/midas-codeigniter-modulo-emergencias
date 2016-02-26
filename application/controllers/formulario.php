@@ -286,7 +286,7 @@ class Formulario extends MY_Controller
             }
             $datos["estado"] = $formulario->id_estado;
             $datos["id_usuario"] = $formulario->id_usuario;
- 
+            $datos["id"] = $formulario->id;
             $html = $this->load->view("pages/formulario/pdf", $datos, true);
             $pdf = $this->pdf->load();
             $pdf->imagen_logo = file_get_contents(FCPATH . "/assets/img/top_logo.png");
