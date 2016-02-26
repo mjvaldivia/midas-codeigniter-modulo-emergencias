@@ -6,8 +6,12 @@
             <th width="10%">Estado</th>
             <th width="10%">Diagnostico clínico</th>
             <th width="10%">Médico</th>
+            
+            <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
             <th width="10%">Run</th>
             <th width="15%">Nombre</th>
+            <?php } ?>
+            
             <th width="20%">Dirección</th>
             <th width="5%">Opciones</th>				
         </tr>
@@ -31,8 +35,12 @@
             </td>
             <td width="20%"><?php echo $row["diagnostico"]; ?></td>
             <td width="10%"><?php echo nombreUsuario($row["id_usuario"]); ?></td>
+            
+            <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
             <td width="10%"><?php echo $row["run"]; ?></td>
             <td width="15%"><?php echo $row["nombre"]; ?></td>
+            <?php } ?>
+            
             <td width="20%"><?php echo $row["direccion"]; ?></td>
             <td align="center" width="5%">
                 <div style="width: 150px">

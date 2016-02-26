@@ -91,6 +91,7 @@
 </table>
 <br/>
 <table width="100%">
+    <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
     <tr>
         <td width="30%">
             Nombres 
@@ -123,6 +124,7 @@
             : <?php echo $numero_pasaporte; ?>
         </td>
     </tr>
+    <?php } ?>
     <tr>
         <td>
             Sexo
@@ -155,6 +157,7 @@
             : <?php echo $origen; ?>
         </td>
     </tr>
+    <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
     <tr>
         <td>
             Teléfono(s) de contacto:
@@ -163,6 +166,7 @@
             : <?php echo $telefono; ?>
         </td>
     </tr>
+    <?php } ?>
 </table>
 <br/>
 

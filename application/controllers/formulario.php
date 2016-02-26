@@ -172,7 +172,13 @@ class Formulario extends MY_Controller
      * Genera excel para casos de dengue
      */
     public function excel(){
-        $this->load->helper("modulo/usuario/usuario");
+        
+        $this->load->helper(array(
+            "modulo/usuario/usuario",
+            "modulo/formulario/formulario"
+            )
+        );
+        
         $this->load->library("excel");
         $lista = $this->_rapanui_dengue_model->listar();
         
@@ -181,6 +187,7 @@ class Formulario extends MY_Controller
             foreach($lista as $caso){
                 $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
                 $datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
+                $datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];
             }
         
             $excel = $this->excel->nuevoExcel();
@@ -196,25 +203,36 @@ class Formulario extends MY_Controller
             $columnas = reset($datos_excel);
             
             
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MÉDICO"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "ESTADO"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "MÉDICO"); 
             
-            $i=1;
+            $i = 2;
             foreach($columnas as $columna => $valor){
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna); 
-                $i++;
+                
+                $exportar = $this->_boExportarColumnaExcel($columna);
+                
+                if($exportar){
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna); 
+                    $i++;
+                }
+                
             }
 
             $j = 2;
             foreach($datos_excel as $id => $valores){
                 
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, (string) nombreUsuario($valores["id_usuario"]));
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, (string) nombreFormularioEstado($valores["id_estado"]));
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, (string) nombreUsuario($valores["id_usuario"]));
                 
                 unset($valores["id_usuario"]);
                 
-                $i = 1;
+                $i = 2;
                 foreach($valores as $columna => $valor){
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
-                    $i++;
+                    $exportar = $this->_boExportarColumnaExcel($columna);
+                    if($exportar){
+                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
+                        $i++;
+                    }
                 }
                 $j++;
             }
@@ -227,6 +245,22 @@ class Formulario extends MY_Controller
         } else {
             echo "No hay registros para generar el excel";
         }
+    }
+    
+    protected function _boExportarColumnaExcel($columna){
+        $exportar = true;
+        if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
+            switch ($columna) {
+                case "NOMBRE":
+                case "APELLIDO":
+                case "RUN";
+                case "NUMERO PASAPORTE":
+                case "TELEFONO":
+                    $exportar = false;
+                    break;
+            }
+        }
+        return $exportar;
     }
     
     /**
