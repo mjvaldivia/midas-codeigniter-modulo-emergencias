@@ -1126,7 +1126,7 @@
                                    </div>
                                    <div class="form-group clearfix">
                                        <label for="observaciones" class="control-label">Observaciones:</label>
-                                       <textarea name="observaciones" id="observaciones" class="form-control"></textarea>
+                                       <textarea name="observaciones" id="observaciones" class="form-control"><?php echo $observaciones; ?></textarea>
                                        <span class="help-block hidden"></span>
                                    </div>
                                  </div>

@@ -250,6 +250,7 @@ class Formulario extends MY_Controller
             foreach($propiedades as $nombre => $valor){
                 $datos[str_replace(" ", "_", strtolower($nombre))] = $valor;
             }
+            $datos["estado"] = $formulario->id_estado;
             $datos["id_usuario"] = $formulario->id_usuario;
  
             $html = $this->load->view("pages/formulario/pdf", $datos, true);

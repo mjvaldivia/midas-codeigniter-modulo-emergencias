@@ -570,43 +570,168 @@
 <table class="tabla" cellpadding="0" cellspacing="0">
     <tr>
         <td style="text-align: left;font-weight: bold;font-size:14px;padding:0px !important" colspan="4">
-            5.-  Examen de laboratorio
+            5.-  Laboratorio
         </td>
     </tr>
 </table>
 <br/>
 <table width="100%">
+    <thead>
+    <tr>
+        <th align="center" width="15%">
+            TIPO DE MUESTRA
+        </th>
+        <th align="center" width="15%">
+            Sangre
+        </th>
+        <th align="center"  width="15%">
+            Orina
+        </th>
+        <th align="center" width="15%">
+            LCE
+        </th>
+        <th align="center" width="20%">
+            Fecha de toma
+        </th>
+        <th align="center" width="20%">
+            Rechaza toma de muestra
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Muestra PCR</td>
+            <td align="center"><?php echo $muestra_pcr_sangre; ?></td>
+            <td align="center"><?php echo $muestra_pcr_orina; ?></td>
+            <td align="center"><?php echo $muestra_pcr_lce; ?></td>
+            <td align="center"><?php echo $muestra_pcr_fecha ?></td>
+            <td align="center"><?php echo $muestra_pcr_rechaza_toma; ?></td>
+        </tr>
+        <tr>
+            <td>Muestra serología</td>
+            <td align="center"><?php echo $muestra_serologia_sangre; ?></td>
+            <td align="center"><?php echo $muestra_serologia_orina; ?></td>
+            <td align="center"><?php echo $muestra_serologia_lce; ?></td>
+            <td align="center"><?php echo $muestra_serologia_fecha ?></td>
+            <td align="center"><?php echo $muestra_serologia_rechaza_toma; ?></td>
+        </tr>
+        <tr>
+            <td>Muestra frotis</td>
+            <td align="center"><?php echo $muestra_frotis_sangre; ?></td>
+            <td align="center"><?php echo $muestra_frotis_orina; ?></td>
+            <td align="center"><?php echo $muestra_frotis_lce; ?></td>
+            <td align="center"><?php echo $muestra_frotis_fecha ?></td>
+            <td align="center"><?php echo $muestra_frotis_rechaza_toma; ?></td>
+        </tr>
+        <tr>
+            <td>Otro: <?php echo $muestra_otro; ?></td>
+            <td align="center"><?php echo $muestra_otro_sangre; ?></td>
+            <td align="center"><?php echo $muestra_otro_orina; ?></td>
+            <td align="center"><?php echo $muestra_otro_lce; ?></td>
+            <td align="center"><?php echo $muestra_otro_fecha ?></td>
+            <td align="center"><?php echo $muestra_otro_rechaza_toma; ?></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table width="100%">
+    <thead>
+    <tr>
+        <th colspan="6" align="center" width="100%">
+            Se solicitan análisis para:
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center" width="15%">Dengue : <?php echo $se_solicita_analisis_para_dengue; ?></td>
+            <td align="center" width="15%">Chikungunya : <?php echo $se_solicita_analisis_para_chikungunya; ?></td>
+            <td align="center" width="15%">Zika : <?php echo $se_solicita_analisis_para_zika; ?></td>
+            <td align="center" width="20%">Fiebre Amarilla : <?php echo $se_solicita_analisis_para_fiebre_amarilla; ?></td>
+            <td align="center" width="20%">Virus del Nilo : <?php echo $se_solicita_analisis_para_virus_del_nilo_occidental; ?></td>
+            <td align="center" width="15%">Malaria : <?php echo $se_solicita_analisis_para_malaria; ?></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table width="100%">
+    <thead>
+    <tr>
+        <th colspan="4" align="center" width="100%">
+            Resultados
+        </th>
+    </tr>
+    <tr>
+        <th width="10%"></th>
+        <th align="center" width="20%">PCR</th>
+        <th align="center" width="25%">Serología</th>
+        <th align="center" width="25%">Otro</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="right">Dengue</td>
+            <td align="center"><?php echo $conclusion_pcr_dengue; ?></td>
+            <td align="center"><?php echo $conclusion_serologia_dengue; ?></td>
+            <td align="center"><?php echo $conclusion_otro_dengue; ?></td>
+        </tr>
+        <tr>
+            <td align="right">Chikungunya</td>
+            <td align="center"><?php echo $conclusion_pcr_chikungunya; ?></td>
+            <td align="center"><?php echo $conclusion_serologia_chikungunya; ?></td>
+            <td align="center"><?php echo $conclusion_otro_chikungunya; ?></td>
+        </tr>
+        <tr>
+            <td align="right">Zika</td>
+            <td align="center"><?php echo $conclusion_pcr_zika; ?></td>
+            <td align="center"><?php echo $conclusion_serologia_zika; ?></td>
+            <td align="center"><?php echo $conclusion_otro_zika; ?></td>
+        </tr>
+        <tr>
+            <td align="right">Fiebre Amarilla</td>
+            <td align="center"><?php echo $conclusion_pcr_fiebre_amarilla; ?></td>
+            <td align="center"><?php echo $conclusion_serologia_fiebre_amarilla; ?></td>
+            <td align="center"><?php echo $conclusion_otro_fiebre_amarilla; ?></td>
+        </tr>
+        <tr>
+            <td align="right">V. del Nilo Occidental</td>
+            <td align="center"><?php echo $conclusion_pcr_virus_del_nilo; ?></td>
+            <td align="center"><?php echo $conclusion_serologia_virus_del_nilo; ?></td>
+            <td align="center"><?php echo $conclusion_otro_virus_del_nilo; ?></td>
+        </tr>
+        <tr>
+            <td align="right">Malaria</td>
+            <td align="center"><?php echo $conclusion_pcr_malaria; ?></td>
+            <td align="center"><?php echo $conclusion_serologia_malaria; ?></td>
+            <td align="center"><?php echo $conclusion_otro_malaria; ?></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table width="100%">
     <tr>
         <td width="30%">
-            Fecha de toma de PCR
+            Conclusión del caso :
         </td>
         <td>
-            : <strong><?php echo $fecha_toma_de_pcr; ?></strong>
-        </td>
-        <td width="30%">
-            Rechaza toma muestra
-        </td>
-        <td>
-            : <strong><?php echo $rechaza_toma_muestra_pcr; ?></strong>
+            : 
+            <?php if($estado == ""){ ?>
+            Caso sospechoso
+            <?php }elseif($estado == 1) { ?>
+            Confirmado
+            <?php }elseif($estado == 2) { ?>
+            Descartado
+            <?php }elseif($estado == 3) { ?>
+            No concluyente
+            <?php } ?>
         </td>
     </tr>
     <tr>
-        <td colspan="4">
-            <hr>
-        </td>
-    </tr>
-    <tr>
-        <td width="30%">
-            Fecha de toma de serología
+        <td>
+            Observaciones 
         </td>
         <td>
-            : <strong><?php echo $fecha_toma_de_sevologia; ?></strong>
-        </td>
-        <td width="30%">
-            Rechaza toma muestra
-        </td>
-        <td>
-            : <strong><?php echo $rechaza_toma_muestra_serologia; ?></strong>
+            : <?php echo $observaciones; ?>
         </td>
     </tr>
 </table>
@@ -620,14 +745,6 @@
 </table>
 <br/>
 <table width="100%">
-    <tr>
-        <td width="30%">
-            Vive en Isla de Pascua
-        </td>
-        <td colspan="3">
-            : <strong><?php echo $vive_en_isla; ?></strong>
-        </td>
-    </tr>
     <tr>
         <td colspan="4">
             <hr>
@@ -766,10 +883,10 @@
             : <strong><?php echo $vacunacion_contra_fiebre_amarilla; ?></strong>
         </td>
         <td width="20%" valign="top">
-            Fecha vacunación
+           
         </td>
         <td valign="top">
-            : <strong><?php echo $vacunacion_contra_fiebre_amarilla_fecha; ?></strong>
+
         </td>
     </tr>
 </table>
