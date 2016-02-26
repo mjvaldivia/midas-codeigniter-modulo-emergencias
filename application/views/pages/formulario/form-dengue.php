@@ -926,7 +926,7 @@
                             </div>
                         </div>
                         
-                        <?php if(puedeFinalizarEmergencia("casos_febriles")) { ?>
+                        <div class="<?php if(!puedeFinalizarEmergencia("casos_febriles")) echo "hidden"; ?>">
                         
                         <div class="row top-spaced-doble">
                             <div class="col-xs-12">
@@ -1134,7 +1134,7 @@
                                  </div>
                             </div>
                         </div>
-                        <?php } ?>
+                        </div>
                     </div>
                 </div>
             </div>

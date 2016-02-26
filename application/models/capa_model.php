@@ -485,9 +485,9 @@ class Capa_Model extends MY_Model {
             $lista_regiones = array()
     ){
         $query->addWhere("("
-                       . "(p.poligono_comuna IN (".  implode(",", $lista_comunas).")) OR"
-                       . "(p.poligono_comuna = 0 AND p.poligono_provincia IN (".  implode(",", $lista_provincias).")) OR"
-                       . "(p.poligono_comuna = 0 AND p.poligono_provincia = 0 AND p.poligono_region IN (".  implode(",", $lista_regiones)."))"
+                       . "(p.poligono_comuna <> 0 AND p.poligono_comuna IN (".  implode(",", $lista_comunas).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia <> 0 AND p.poligono_provincia IN (".  implode(",", $lista_provincias).")) OR"
+                       . "(p.poligono_comuna = 0 AND p.poligono_provincia = 0 AND p.poligono_region <> 0 AND p.poligono_region IN (".  implode(",", $lista_regiones)."))"
                        . ")");
     }
     
