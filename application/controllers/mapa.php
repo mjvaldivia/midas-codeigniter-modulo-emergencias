@@ -203,6 +203,7 @@ class Mapa extends MY_Controller {
                 
                 $propiedades = Zend_Json::decode($row["propiedades"]);
                 $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
+                
                 unset($propiedades["RUN"]);
                 unset($propiedades["NOMBRE"]);
                 unset($propiedades["APELLIDO"]);
@@ -211,6 +212,7 @@ class Mapa extends MY_Controller {
                 
                 $coordenadas = json_decode($row["coordenadas"]);
                 $casos[] = array("id" => $row["id"],
+                                 "id_estado" => $row["id_estado"],
                                  "propiedades" => $propiedades,
                                  "lat" => $coordenadas->lat,
                                  "lng" => $coordenadas->lng);

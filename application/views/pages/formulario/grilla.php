@@ -1,7 +1,8 @@
 <table id="grilla-emergencia" class="table table-hover datatable paginada hidden">
     <thead>
         <tr>
-            <th width="20%">Fecha</th>
+            <th>Código</th>
+            <th width="10%">Fecha</th>
             <th width="10%">Estado</th>
             <th width="10%">Diagnostico clínico</th>
             <th width="10%">Médico</th>
@@ -15,6 +16,7 @@
         <?php if(count($lista)>0){ ?>
         <?php foreach($lista as $row){ ?>
         <tr>
+            <td width="10%">Caso N°<?php echo $row["id"]; ?></td>
             <td width="20%"><?php echo $row["fecha"]; ?></td>
             <td width="10%">
                 <?php if($row["id_estado"] == ""){ ?>
@@ -35,11 +37,11 @@
             <td align="center" width="5%">
                 <div style="width: 150px">
                     
-                    <?php if(puedeVerReporteEmergencia("casos_febriles")) { ?> 
+                    <?php // if(puedeVerReporteEmergencia("casos_febriles")) { ?> 
                     <a href="<?php echo base_url("formulario/pdf/id/" . $row["id"]); ?>" target="_blank" title="Pdf" class="btn btn-sm btn-default">
                         <i class="fa fa-file"></i>
                     </a>
-                    <?php } ?>
+                    <?php //} ?>
                     
                     
                     <?php if(($row["enviado"] == 0 and !puedeFinalizarEmergencia("casos_febriles")) OR puedeFinalizarEmergencia("casos_febriles")) { ?>

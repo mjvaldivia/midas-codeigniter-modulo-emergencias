@@ -96,6 +96,16 @@ function puedeVerReporteEmergencia($modulo){
 
 /**
  * 
+ * @param type $modulo
+ * @return type
+ */
+function puedeVerFormularioDatosPersonales($modulo){
+    $reporte = New Layout_Usuario_Permiso();
+    return $reporte->puedeVerFormularioDatosPersonales($modulo);
+}
+
+/**
+ * 
  * @param string $modulo
  * @return boolean
  */

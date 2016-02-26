@@ -188,6 +188,19 @@ Class Usuario{
     }
     
     /**
+     * 
+     * @return boolean
+     */
+    public function getPermisoVerFormularioDatosPersonales(){
+        $permiso = $this->_permiso_model->tienePermisoVerFormularioDatosPersonales($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * Si tiene o no permisos para ver el modulo
      * @return boolean
      */
