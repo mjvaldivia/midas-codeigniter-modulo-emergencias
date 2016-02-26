@@ -49,6 +49,7 @@ var MapaRapanuiDengue = Class({
                                         {
                                             "radio" : 100,
                                             "propiedades" : {"TIPO" : "CASO FEBRIL",
+                                                             "NOMBRE" : "CASO FEBRIL N° " + valor.id,
                                                              "ESTADO" : "CONFIRMADO",
                                                              "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
                                             "color" : "#ff0000"
@@ -66,6 +67,7 @@ var MapaRapanuiDengue = Class({
                                         {
                                             "radio" : 100,
                                             "propiedades" : {"TIPO" : "CASO FEBRIL",
+                                                             "NOMBRE" : "CASO FEBRIL N° " + valor.id,
                                                              "ESTADO" : "NO CONCLUYENTE",
                                                              "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
                                             "color" : "#486ff0"
@@ -79,6 +81,7 @@ var MapaRapanuiDengue = Class({
                                         {
                                             "radio" : 100,
                                             "propiedades" : {"TIPO" : "CASO FEBRIL",
+                                                             "NOMBRE" : "CASO FEBRIL N° " + valor.id,
                                                              "ESTADO" : "SOSPECHOSO",
                                                              "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
                                             "color" : "#ffff00"
