@@ -40,19 +40,58 @@ var MapaRapanuiDengue = Class({
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
-                           
-                           var zona = {0 : {
+                            
+                            switch(valor.id_estado){
+                                case "1":
+                                    var icono = baseUrl + "assets/img/markers/epidemiologico/confirmado.png"
+                                    var zona = {
+                                       0 : 
+                                        {
                                             "radio" : 100,
                                             "propiedades" : {"TIPO" : "CASO FEBRIL",
-                                                             "NOMBRE" : valor.propiedades["DIAGNOSTICO CLINICO"]},
+                                                             "ESTADO" : "CONFIRMADO",
+                                                             "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
+                                            "color" : "#ff0000"
+                                        }
+                                    };
+                                    break;
+                                case "2":
+                                    var icono = baseUrl + "assets/img/markers/epidemiologico/descartado.png"
+                                    var zona = {};
+                                    break;
+                                case "3":
+                                    var icono = baseUrl + "assets/img/markers/epidemiologico/no_concluyente.png"
+                                    var zona = {
+                                       0 : 
+                                        {
+                                            "radio" : 100,
+                                            "propiedades" : {"TIPO" : "CASO FEBRIL",
+                                                             "ESTADO" : "NO CONCLUYENTE",
+                                                             "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
+                                            "color" : "#486ff0"
+                                        }
+                                    };
+                                    break;
+                                default:
+                                    var icono = baseUrl + "assets/img/markers/epidemiologico/caso_sospechoso.png"
+                                    var zona = {
+                                       0 : 
+                                        {
+                                            "radio" : 100,
+                                            "propiedades" : {"TIPO" : "CASO FEBRIL",
+                                                             "ESTADO" : "SOSPECHOSO",
+                                                             "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
                                             "color" : "#ffff00"
-                                            }
-                                      };
+                                        }
+                                    };
+                                    break;
+                            }
+
                            
-                           var marcador = new MapaMarcadorLugarEmergencia();
-                           marcador.seteaMapa(yo.mapa);
-                           marcador.seteaCustom(false);
-                           marcador.posicionarMarcador("rapanui_dengue_" + valor.id, valor.lng, valor.lat, zona, valor.propiedades, baseUrl + "assets/img/firstaid.png");
+                            var marcador = new MapaMarcadorLugarEmergencia();
+                            marcador.seteaMapa(yo.mapa);
+                            marcador.seteaCustom(false);
+                            marcador.posicionarMarcador("rapanui_dengue_" + valor.id, valor.lng, valor.lat, zona, valor.propiedades, icono);
                         });
                     } else {
                         notificacionError("", "No es posible encontrar la información del incendio.");
