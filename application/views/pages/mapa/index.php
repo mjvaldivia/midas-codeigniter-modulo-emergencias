@@ -51,7 +51,6 @@
                             <a href="javascript:void(0)"><i class="fa fa-object-group"></i> Capas</a>
                             <ul class="dropdown-menu">
                                 <li><a id="btn-capas-gestionar" href="javascript:void(0)"><i class="fa fa-gears"></i> Gestionar capas</a></li>
-                                <li class="divider"></li>
                                 <?php echo visorMenuCapasCategoria($id); ?>
                             </ul>
                         </li>
