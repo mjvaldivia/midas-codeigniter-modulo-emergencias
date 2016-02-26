@@ -58,7 +58,8 @@ class Rapanui_Dengue_Model extends MY_Model {
      */
     public function listar(){
         $query = $this->_query->select("a.*")
-                               ->from($this->_tabla . " a");
+                               ->from($this->_tabla . " a")
+                               ->orderBy("id", "DESC");
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;
