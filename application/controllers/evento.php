@@ -234,7 +234,7 @@ class Evento extends MY_Controller {
                 );
             }
 
-            $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
+            $params['form_tipo_acciones'] = ($params['form_tipo_acciones']);
 
             $this->emergencia_guardar->setEmergencia($id);
             $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
