@@ -212,6 +212,7 @@ var MapaEditor = Class({
                           "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),
                           "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
+                          "casos_febriles" : $("#importar_rapanui").is(":checked") ? 1:0,
                           "kmls" : this.class_kml.listArchivosKml(),
                           "id" : this.id_emergencia};
         Messenger().run({
@@ -275,16 +276,16 @@ var MapaEditor = Class({
         });
         
         /**
-         * Importar casos de ebola
+         * Importar casos febriles
          */
         $("#importar_rapanui").click(function(){
-            var sidco = new MapaRapanuiDengue();
-            sidco.seteaMapa(map);
+            var rapanui = new MapaRapanuiDengue();
+            rapanui.seteaMapa(map);
             
             if($(this).is(":checked")){
-                sidco.load();
+                rapanui.load();
             } else {
-                sidco.remove();
+                rapanui.remove();
             }
         });
         

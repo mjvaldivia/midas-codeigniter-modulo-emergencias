@@ -202,7 +202,7 @@ var MapaElementos = Class({
     loadCustomElements : function(mapa, mensaje_carga){
         
         this.mapa = mapa;
-        this.loadConfiguracion(mensaje_carga);
+        
         
         var yo = this;
         
@@ -261,6 +261,7 @@ var MapaElementos = Class({
                     }
                     
                     yo.listaElementosVisor();
+                    yo.loadConfiguracion(mensaje_carga);
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -318,6 +319,15 @@ var MapaElementos = Class({
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                if(data.correcto){
+                   
+                   if(data.resultado.casos_febriles == 1){
+                        var sidco = new MapaRapanuiDengue();
+                            sidco.seteaMapa(yo.mapa);
+                            sidco.load();
+                            $("#importar_rapanui").prop("checked", true);
+                        } else {
+                            $("#importar_rapanui").prop("checked", false);
+                   }
                    
                    if(data.resultado.sidco == 1){
                         var sidco = new MapaKmlSidcoConaf();

@@ -16,6 +16,12 @@ Class Visor_guardar_configuracion{
     
     /**
      *
+     * @var boolean 
+     */
+    protected $_bo_casos_febriles;
+    
+    /**
+     *
      * @var string 
      */
     protected $_tipo_mapa;
@@ -70,13 +76,19 @@ Class Visor_guardar_configuracion{
         return $this;
     }
     
+    public function setCasosFebriles($boolean){
+        $this->_bo_casos_febriles = $boolean;
+        return $this;
+    }
+    
     /**
      * 
      */
     public function guardar(){
         $data = array("id_emergencia" => $this->_id_emergencia,
                       "tipo_mapa" => $this->_tipo_mapa,
-                      "kml_sidco"     => $this->_bo_sidco_conaf);
+                      "kml_sidco"     => $this->_bo_sidco_conaf,
+                      "bo_casos_febriles" => $this->_bo_casos_febriles);
         
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($this->_id_emergencia);
         if(is_null($configuracion)){

@@ -174,6 +174,7 @@ class Mapa extends MY_Controller {
             $this->visor_guardar_configuracion
                  ->setEmergencia($emergencia->eme_ia_id)
                  ->setSidcoConaf($params["sidco"])
+                 ->setCasosFebriles($params["casos_febriles"])
                  ->setTipoMapa($params["tipo_mapa"])
                  ->guardar();
             
@@ -391,6 +392,7 @@ class Mapa extends MY_Controller {
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
         if(!is_null($configuracion)){
             $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco,
+                                            "casos_febriles" => $configuracion->bo_casos_febriles,
                                             "tipo_mapa" => $configuracion->tipo_mapa);
         }
         

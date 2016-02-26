@@ -1,4 +1,4 @@
-var rapanui_ebola = null;
+var rapanui_ebola = [];
 
 var MapaRapanuiDengue = Class({  
     
@@ -23,7 +23,7 @@ var MapaRapanuiDengue = Class({
      */
     load : function(){
         var yo = this;
-        if(rapanui_ebola == null){ //si ya esta cargado no se vuelve a cargar
+        if(rapanui_ebola.length == 0){ //si ya esta cargado no se vuelve a cargar
             Messenger().run({
                 action: $.ajax,
                 successMessage: 'Información del casos cargada correctamente',
@@ -92,19 +92,32 @@ var MapaRapanuiDengue = Class({
                             marcador.seteaMapa(yo.mapa);
                             marcador.seteaCustom(false);
                             marcador.posicionarMarcador("rapanui_dengue_" + valor.id, valor.lng, valor.lat, zona, valor.propiedades, icono);
+                            rapanui_ebola.push("rapanui_dengue_" + valor.id);
                         });
                     } else {
-                        notificacionError("", "No es posible encontrar la información del incendio.");
+                        notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
                }
             });
         }
     },
     
+    /**
+     * Quita los marcadores
+     * @returns {undefined}
+     */
     remove : function(){
         var marcador = new MapaMarcador();
-        marcador. removerMarcadores("identificador", "rapanui_dengue");
-        rapanui_ebola = null;
+        $.each(rapanui_ebola, function(i, identificador){
+            marcador.removerMarcadores("identificador", identificador);
+        });
+        
+        var poligono = new MapaPoligono();
+        $.each(rapanui_ebola, function(i, identificador){
+            poligono.removerPoligono("id", identificador);
+        });
+        
+        rapanui_ebola = [];
     }
 });
 
