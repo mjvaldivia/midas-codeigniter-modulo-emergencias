@@ -17,7 +17,7 @@
         <?php foreach($lista as $row){ ?>
         <tr>
             <td width="10%">Caso N°<?php echo $row["id"]; ?></td>
-            <td width="20%"><?php echo $row["fecha"]; ?></td>
+            <td width="10%"><?php echo $row["fecha"]; ?></td>
             <td width="10%">
                 <?php if($row["id_estado"] == ""){ ?>
                 <div class="badge alert-warning">Caso sospechoso</div>
