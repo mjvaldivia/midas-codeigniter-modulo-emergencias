@@ -98,12 +98,12 @@
     </tr>
     <tr>
         <td colspan="5">7.- ESTA EN RIESGO LA SEGURIDAD DE NUESTRO PERSONAL:<br/>
-        <?php echo $form_tipo_riesgo?>
+        <?php echo nl2br($form_tipo_riesgo) ?>
         </td>
     </tr>
     <tr>
         <td colspan="5">8.- ¿EN QUE HA SIDO SUPERADA SU CAPACIDAD PARA UNA RESPUESTA EFICIENTE Y EFECTIVA?<br/>
-        <?php echo $form_tipo_superada?>
+        <?php echo nl2br($form_tipo_superada) ?>
         </td>
     </tr>
 </table>
@@ -112,7 +112,7 @@
 <table class="tabla_detalle">
     <tr>
         <td>9.- DESCRIPCIÓN DEL EVENTO<br/>
-        <?php echo $eme_c_descripcion?>
+        <?php echo nl2br($eme_c_descripcion) ?>
         </td>
     </tr>
 </table>
@@ -122,7 +122,7 @@
 <table class="tabla_detalle">
     <tr>
         <td>10.- ACCIONES<br/>
-            <?php echo $form_tipo_acciones?>
+            <?php echo nl2br($form_tipo_acciones) ?>
         </td>
     </tr>
 </table>
