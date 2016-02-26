@@ -261,7 +261,7 @@ var MapaElementos = Class({
                     }
                     
                     yo.listaElementosVisor();
-                    yo.loadConfiguracion(mensaje_carga);
+                    
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -298,7 +298,9 @@ var MapaElementos = Class({
                     var lugar_alarma = new MapaMarcadorLugarAlarma();
                     lugar_alarma.seteaEmergencia(yo.id_emergencia);
                     lugar_alarma.marcador(yo.mapa);
+                    
                 }
+                yo.loadConfiguracion(mensaje_carga);
             }
         });
     },
