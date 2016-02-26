@@ -127,9 +127,8 @@
     </tr>
 </table>
 <br/>
-<!--<pagebreak></pagebreak>-->
-<div style="page-break-after: always"></div>
-<table border="0">
+
+<table border="0" style="page-break-inside: avoid;">
     <tr>
         <td>ANEXO: Mapa del lugar de la emergencia</td>
     </tr>
