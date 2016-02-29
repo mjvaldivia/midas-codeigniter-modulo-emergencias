@@ -38,15 +38,12 @@
                     <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
                 </td>
                 <td width="10%" class="text-center">
+                    <div style="width: 200px">
                     <a class="expediente btn btn-sm btn-info" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);" title="Bitácora">
                         <i class="fa fa-files-o"></i>
                     </a>
-                <?php if (puedeEditar("emergencia") and $row['est_ia_id'] == 1) { ?>
-                        <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-purple" href="#" title="Activar Emergencia" >
-                            <i class="fa fa-bullhorn"></i>
-                        </a>
-
-                    <?php }?>
+                        
+                    
 
                     <?php if (puedeEditar("emergencia") and $row['est_ia_id'] > 1) { ?>
                         <a title="Reporte" class="btn btn-sm btn-primary emergencia-reporte" type="button" data-rel="<?php echo $row["eme_ia_id"] ?>" href="javascript:void(0)">
@@ -60,16 +57,24 @@
                             </a>
                     <?php } ?>
 
-                    <?php if (puedeEliminar("alarma") and $row['est_ia_id'] < 2) { ?>
-                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-danger" href="#">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                    <?php } ?>
+                    <?php if (puedeEditar("emergencia") and $row['est_ia_id'] == 1) { ?>
+                        <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-purple" href="#" title="Activar Emergencia" >
+                            <i class="fa fa-bullhorn"></i>
+                        </a>
+                    <?php }?>
+                        
                     <?php if (puedeEditar("emergencia") and $row['est_ia_id'] == 2) { ?>
                         <a title="Finalizar" class="btn btn-sm btn-warning emergencia-finalizar" type="button" data-rel="<?php echo $row["eme_ia_id"] ?>" href="javascript:void(0)">
                             <i class="fa fa-thumb-tack"></i>
                         </a>
                     <?php }?>
+                        
+                    <?php if (puedeEliminar("alarma") and $row['est_ia_id'] < 2) { ?>
+                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-danger" href="#">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                    <?php } ?>
+                    </div>
                 </td>
                 
             </tr>

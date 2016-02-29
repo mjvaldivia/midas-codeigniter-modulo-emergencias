@@ -16,6 +16,7 @@ class Emergencia_Archivo_Model extends MY_Model
     public function __construct() {
         parent::__construct();
         $this->load->model("archivo_model","_archivo_model");
+        $this->load->model("archivo_tipo_model","_archivo_tipo_model");
     }
     
     /**
@@ -89,24 +90,87 @@ class Emergencia_Archivo_Model extends MY_Model
         }
     }
     
+    
     /**
-     * Lista por emergencia
+     * Lista los reportes
      * @param int $id_emergencia
      * @return array
      */
-    public function listaPorEmergencia($id_emergencia){
-        $result = $this->_query
-                       ->from($this->_tabla . " ea")
-                       ->join("archivo a", "a.arch_ia_id = ea.id_archivo", "INNER")
-                       ->join("archivo_tipo t", "t.id = a.arch_c_tipo")
-                       ->whereAND("id_emergencia", $id_emergencia)
-                       ->select("a.*, CONCAT_WS(\" - \", t.nombre, a.arch_c_descripcion) as nombre_completo ")
+    public function listarPorEmergenciaReporte($id_emergencia){
+        $result = $this->_queryPorEmergenciaReporte($id_emergencia)
+                       ->select("a.*", false)
                        ->getAllResult();
         if (!is_null($result)){
            return $result; 
         } else {
             return NULL;
         }
+    }
+    
+    /**
+     * Lista documentos que no son reportes
+     * @param int $id_emergencia
+     * @return array
+     */
+    public function listarPorEmergenciaNoReporte($id_emergencia){
+        $result = $this->_queryPorEmergenciaNoReporte($id_emergencia)
+                       ->select("a.*", false)
+                       ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Lista por emergencia
+     * @param int $id_emergencia
+     * @return array
+     */
+    public function listaPorEmergencia($id_emergencia){
+        $result = $this->_queryPorEmergencia($id_emergencia)
+                       ->select("a.*, CONCAT_WS(\" - \", t.nombre, a.arch_c_descripcion) as nombre_completo ", false)
+                       ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_emergencia
+     * @return queryBuilder
+     */
+    protected function _queryPorEmergenciaReporte($id_emergencia){
+        return $this->_queryPorEmergencia($id_emergencia)
+                    ->whereAND("t.id", Archivo_Tipo_Model::REPORTE);
+    }
+    
+    /**
+     * 
+     * @param int $id_emergencia
+     * @return queryBuilder
+     */
+    protected function _queryPorEmergenciaNoReporte($id_emergencia){
+        return $this->_queryPorEmergencia($id_emergencia)
+                    ->whereAND("t.id", Archivo_Tipo_Model::REPORTE , "<>");
+    }
+    
+    /**
+     * 
+     * @param int $id_emergencia
+     * @return queryBuilder
+     */
+    protected function _queryPorEmergencia($id_emergencia){
+        $query = $this->_query
+                       ->from($this->_tabla . " ea")
+                       ->join("archivo a", "a.arch_ia_id = ea.id_archivo", "INNER")
+                       ->join("archivo_tipo t", "t.id = a.arch_c_tipo")
+                       ->whereAND("id_emergencia", $id_emergencia);
+        return $query;
     }
 }
 

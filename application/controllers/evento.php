@@ -92,45 +92,22 @@ class Evento extends MY_Controller {
      * 
      */
     public function expediente(){
-        sessionValidation();
+        $this->load->helper(array("modulo/usuario/usuario",
+                                  "modulo/archivo/archivo",
+                                  "modulo/alarma/alarma",
+                                  "modulo/emergencia/emergencia",
+                                  "modulo/emergencia/emergencia_grilla"));
+
         $params = $this->uri->uri_to_assoc();
         
         $emergencia = $this->_emergencia_model->getById($params['id']);
+        if(!is_null($emergencia)){
+            $data = array(
+                'emergencia' => $emergencia,
+            );
 
-        $datos_alarma = unserialize($emergencia->ala_c_datos_tipo_emergencia);
-        $datos_emergencia = array();
-        if($emergencia)
-            $datos_emergencia = unserialize($emergencia->eme_c_datos_tipo_emergencia);
-        $historial = $this->AlarmaHistorial->getByAlarma($params['id']);
-
-        $arr_documentos = array();
-        $documentos = $this->ArchivoAlarmaModel->listaPorAlarma($params['id']);
-        if($documentos){
-            foreach($documentos as $doc){
-                $nombre = explode('/',$doc['arch_c_nombre']);
-                $usuario = $this->UsuarioModel->getById($doc['usu_ia_id']);
-                $arr_documentos[] = array(
-                    'nombre' => $nombre[count($nombre) - 1],
-                    'hash' => $doc['arch_c_hash'],
-                    'id' => $doc['arch_ia_id'],
-                    'usuario' => $usuario->usu_c_nombre.' '.$usuario->usu_c_apellido_paterno.' '.$usuario->usu_c_apellido_materno,
-                    'fecha' => $doc['arch_f_fecha']
-                );
-            }
+            $this->load->view('pages/evento/expediente',$data);
         }
-        $data = array(
-            'historial' => $historial,
-            'tipo_emergencia' => $tipo_emergencia,
-            'estado_alarma' => $estado_alarma,
-            'comunas' => implode(', ',$arr_comunas),
-            'datos_alarma' => $datos_alarma,
-            'emergencia' => $emergencia,
-            'datos_emergencia' => $datos_emergencia,
-            'documentos' => $arr_documentos
-        );
-
-        $this->load->view('pages/evento/expediente',$data);
-
     }
     
     /**
@@ -262,10 +239,9 @@ class Evento extends MY_Controller {
     public function editar(){
         $this->load->helper(array("modulo/emergencia/emergencia_form",
                                   "modulo/direccion/comuna"));
-        $this->load->model('emergencia_model','EmergenciaModel');
         
         $params = $this->uri->uri_to_assoc();
-        $alarma = $this->EmergenciaModel->getById($params["id"]);
+        $alarma = $this->_emergencia_model->getById($params["id"]);
 
         if(!is_null($alarma)){
             $descripcion = $alarma->eme_c_descripcion;
@@ -337,10 +313,12 @@ class Evento extends MY_Controller {
         header('Content-type: application/json');
         $id_emergencia = $this->input->post('emergencia');
 
-        $this->load->model('emergencia_model','EmergenciaModel');
-
         $json = array();
-        $update = $this->EmergenciaModel->update(array('est_ia_id' => $this->EmergenciaModel->emergencia_activa),$id_emergencia);
+        $update = $this->_emergencia_model->update(
+                array('est_ia_id' => Emergencia_Estado_Model::EN_CURSO),
+                $id_emergencia
+        );
+        
         if($update){
             $json['estado'] = true;
             $json['mensaje'] = 'Emergencia en Curso';
@@ -366,13 +344,15 @@ class Evento extends MY_Controller {
     public function ajax_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia",
                                   "modulo/alarma/alarma"));
-        $this->load->model('emergencia_model','EmergenciaModel');
+
         $params = $this->input->post(null, true);
         
-        $lista = $this->EmergenciaModel->buscar(array("id_estado" => $params["filtro_id_estado"],
-                                                  "id_tipo"   => $params["filtro_id_tipo"],
-                                                  "year"      => $params["filtro_year"],
-                                                    "nivel" => $params['filtro_nivel']));
+        $lista = $this->_emergencia_model->buscar(
+            array("id_estado" => $params["filtro_id_estado"],
+                  "id_tipo"   => $params["filtro_id_tipo"],
+                  "year"      => $params["filtro_year"],
+                  "nivel" => $params['filtro_nivel'])
+        );
         
         $this->load->view("pages/evento/grilla", array("lista" => $lista));
     }
@@ -382,13 +362,12 @@ class Evento extends MY_Controller {
      */
     public function ajax_validar_datos_generales(){
         header('Content-type: application/json');
-        $this->load->library(array("alarma/alarmavalidar"));
+        $this->load->library(array("alarma/alarma_validar"));
         
         $params = $this->input->post(null, true);
 
-        $correcto = $this->alarmavalidar->esValido($params);
-        $respuesta = array("correcto" => $correcto,
-                           "error"    => $this->alarmavalidar->getErrores());
+        $respuesta = array("correcto" => $this->alarma_validar->esValido($params),
+                           "error"    => $this->alarma_validar->getErrores());
         
         echo json_encode($respuesta);
     }

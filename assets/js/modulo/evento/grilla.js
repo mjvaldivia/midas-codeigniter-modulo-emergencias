@@ -139,8 +139,43 @@ var EventoGrilla = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 var id = $(this).attr("data");
-                var formulario = new FormEmergenciasNueva(id, yo);	
-                formulario.mostrarFormulario();
+                bootbox.dialog({
+                    title: "Activar evento",
+                    message: '¿Está seguro que desea activar la emergencia?',
+                    buttons: {
+                        success: {
+                            label: "Activar",
+                            className: "btn-success",
+                            callback: function () {
+                                var parametros = {"emergencia": id}
+                                $.ajax({         
+                                    dataType: "json",
+                                    cache: false,
+                                    async: false,
+                                    data: parametros,
+                                    type: "post",
+                                    url: siteUrl + 'evento/ajax_activar_emergencia', 
+                                    error: function(xhr, textStatus, errorThrown){
+                                        notificacionError("Error", "Ha ocurrido un error al activar la emergencia");
+                                    },
+                                    success:function(data){
+                                        if(data.estado == true){
+                                            yo.loadGridAlarma();
+                                            notificacionCorrecto("Resultado de la operacion", "Se ha activado el evento correctamente");
+                                        } else {
+                                            notificacionError("Error", "Ha ocurrido un error al activar la emergencia");
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        danger: {
+                            label: "Cancelar",
+                            className: "btn-white"
+                        }
+                    }
+                }); 
+                
             });
         });
         
