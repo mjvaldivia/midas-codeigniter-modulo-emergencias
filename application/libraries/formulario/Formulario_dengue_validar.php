@@ -64,6 +64,7 @@ Class Formulario_dengue_validar{
             $this->_error["sexo"] = "";
         }
         
+        /*
         $separada = explode("/", $params["fecha_de_nacimiento"]);
         if(count($separada) == 3 AND strlen($separada[count($separada)-1]) == 4){
             if(!$this->validar->validarFechaSpanish($params["fecha_de_nacimiento"], "d/m/Y")){
@@ -75,7 +76,7 @@ Class Formulario_dengue_validar{
         } else {
             $this->_correcto = false;
             $this->_error["fecha_de_nacimiento"] = "La fecha no es válida: formato(dd/mm/yyyy)";
-        }
+        }*/
         
         if(!$this->validar->validarVacio($params["direccion"])){
             $this->_correcto = false;
