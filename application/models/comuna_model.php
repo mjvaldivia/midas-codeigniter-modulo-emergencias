@@ -50,6 +50,7 @@ class Comuna_Model extends MY_Model
                       ->join("oficinas_vs_comunas oc", "oc.com_ia_id = c.com_ia_id", "INNER")
                       ->join("usuarios_vs_oficinas uo", "uo.ofi_ia_id = oc.ofi_ia_id", "INNER")
                       ->whereAND("uo.usu_ia_id", $id_usuario)
+                      ->orderBy("c.com_c_nombre", "ASC")
                       ->getAllResult();
 
         if(!is_null($result)){
