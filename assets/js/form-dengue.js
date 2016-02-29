@@ -19,8 +19,8 @@ $(document).ready(function() {
                         var months = moment().diff(fecha, 'months');
                         if(months == 0){
                             var days = moment().diff(fecha, 'days');
-                            $("#texto_edad").html(days + " dias");
-                            $("#edad").val(days + " dias");
+                            $("#texto_edad").html(days + " días");
+                            $("#edad").val(days + " días");
                         } else {
                             $("#texto_edad").html(months + " meses");
                             $("#edad").val(months + " meses");
