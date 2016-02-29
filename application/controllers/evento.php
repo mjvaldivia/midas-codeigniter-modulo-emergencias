@@ -69,19 +69,8 @@ class Evento extends MY_Controller {
                                   "modulo/alarma/alarma_form",
                                   "modulo/emergencia/emergencia",
                                   "modulo/emergencia/emergencia_form"));
-
-        if($this->usuario->getPermisoEditar()){
-            if(isset($params["tab"])){
-                $tab = $params["tab"];
-            } else {
-                $tab = "nuevo";
-            }
-        } else {
-            $tab = "listado";
-        }
        
         $data = array(
-            "tab_activo" => $tab,
             "year" => date('Y')
         );
         

@@ -320,6 +320,7 @@ class Formulario extends MY_Controller
                                  "id_usuario" => $caso["id_usuario"],
                                  "id_estado" => $caso["id_estado"],
                                  "fecha" => $fecha_formato,
+                                 "semana" => $propiedades->{"SEMANA EPIDEMIOLOGICA"},
                                  "run" => $propiedades->RUN,
                                  "diagnostico" => strtoupper($propiedades->{"DIAGNOSTICO CLINICO"}),
                                  "nombre" => strtoupper($propiedades->NOMBRE . " " . $propiedades->APELLIDO),

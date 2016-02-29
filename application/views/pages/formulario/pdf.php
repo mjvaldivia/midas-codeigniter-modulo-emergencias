@@ -142,6 +142,14 @@
         </td>
     </tr>
     <tr>
+        <td>
+            Edad
+        </td>
+        <td>
+            : <?php echo $edad; ?>
+        </td>
+    </tr>
+    <tr>
         <td valign="top">
             Dirección de residencia/trabajo o de estadía en Isla de Pascua
         </td>
@@ -181,11 +189,17 @@
 
 <table width="100%">
     <tr>
-        <td width="30%">
+        <td width="30%" valign="top">
             Fecha consulta 
         </td>
-        <td colspan="3">
+        <td valign="top">
             : <?php echo $fecha_de_consulta; ?>
+        </td>
+        <td width="20%" valign="top">
+            T° Axilar al momento de la consulta
+        </td>
+        <td valign="top">
+            : <?php echo $temperatura_axilar; ?>
         </td>
     </tr>
     <tr>
@@ -196,10 +210,10 @@
             : <?php echo $fecha_de_inicio_de_sintomas; ?>
         </td>
         <td width="20%" valign="top">
-            T° Axilar al momento de la consulta
+            Semana epidemiológica
         </td>
         <td valign="top">
-            : <?php echo $temperatura_axilar; ?>
+            : <?php echo $semana_epidemiologica; ?>
         </td>
     </tr>
     <tr>

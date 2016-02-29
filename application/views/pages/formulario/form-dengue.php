@@ -123,6 +123,14 @@
                                         <span class="help-block">Formato: dd/mm/aaaa</span>
                                     </div>
                                 </div>
+                                <div class="col-xs-3">
+                                    <div class="form-group clearfix">
+                                        <label for="edad" class="control-label">Edad:</label>
+                                        <div class="clearfix"></div>
+                                        <div id="texto_edad" class="label blue"><?php echo $edad; ?></div>
+                                        <input type="hidden" value="<?php echo $edad; ?>" class="form-control" name="edad" id="edad">
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
@@ -158,36 +166,42 @@
                 <div class="portlet portlet-default">
                     <div class="portlet-body" style="overflow: visible">
                         <div class="row">
-                            <div class="col-xs-3">
+                            <div class="col-xs-6">
                                 
                                 <div class="row">
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-6">
                                         <div class="form-group clearfix">
                                             <label for="fecha_de_consulta" class="control-label">Fecha consulta(*):</label>
                                             <input value="<?php echo $fecha_de_consulta; ?>" class="form-control datepicker-date" name="fecha_de_consulta" id="fecha_de_consulta">
                                             <span class="help-block">Formato: dd/mm/aaaa</span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-6">
                                         <div class="form-group clearfix">
-                                            <label for="fecha_de_inicio_de_sintomas" class="control-label">Fecha de inicio de síntomas (fiebre o exantema) (*):</label>
-                                            <input value="<?php echo $fecha_de_inicio_de_sintomas; ?>" class="form-control datepicker-date" name="fecha_de_inicio_de_sintomas" id="fecha_de_inicio_de_sintomas">
-                                            <span class="help-block">Formato: dd/mm/aaaa</span>
+                                            <label for="temperatura_axilar" class="control-label">T° Axilar al momento de la consulta(*):</label>
+                                            <input type="text" value="<?php echo $temperatura_axilar; ?>" class="form-control" name="temperatura_axilar" id="temperatura_axilar">
+                                            <span class="help-block hidden"></span>
                                         </div>
                                     </div>
                                 </div>
-                                
-                            </div>
-                            <div class="col-xs-3">
-                      
-                                    <div class="form-group clearfix">
-                                        <label for="temperatura_axilar" class="control-label">T° Axilar al momento de la consulta(*):</label>
-                                        <input value="<?php echo $temperatura_axilar; ?>" class="form-control" name="temperatura_axilar" id="temperatura_axilar">
-                                        <span class="help-block hidden"></span>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group clearfix">
+                                            <label for="fecha_de_inicio_de_sintomas" class="control-label">Fecha de inicio de síntomas (fiebre o exantema) (*):</label>
+                                            <input value="<?php echo $fecha_de_inicio_de_sintomas; ?>" class="form-control" name="fecha_de_inicio_de_sintomas" id="fecha_de_inicio_de_sintomas">
+                                            <span class="help-block">Formato: dd/mm/aaaa</span>
+                                        </div>
                                     </div>
-                    
+                                    <div class="col-xs-6">
+                                        <div class="form-group clearfix">
+                                            <label for="semana_epidemiologica" class="control-label">Semana epidemiológica:</label>
+                                            <div class="clearfix"></div>
+                                            <div class="label blue" id="texto_semana_epidemiologica"><?php echo $semana_epidemiologica; ?></div>
+                                            <input type="hidden" value="<?php echo $semana_epidemiologica; ?>" class="form-control" name="semana_epidemiologica" id="semana_epidemiologica">
+                                            <span class="help-block hidden"></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-xs-1">
                             </div>
@@ -922,7 +936,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                <small>(*) frente a casos de fiebre + exantema, considere la sospecha de Sarampión-Rubeola </small>
+                                <small> (*) frente a cualquier caso que presente exantema macular generalizado, acompañado de uno o más de los siguientes signos o síntomas: fiebre ≥ 38º C, conjuntivitis, linfoadenopatías o artralgias (puede acompañarse de tos y coriza), sospeche de Sarampión-Rubeola </small>
                             </div>
                         </div>
                         
@@ -953,24 +967,24 @@
                                             <td>
                                                 <select name="conclusion_pcr_dengue" id="conclusion_pcr_dengue" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_pcr_dengue == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_pcr_dengue == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_pcr_dengue == "Confirmado" OR $conclusion_pcr_dengue == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_pcr_dengue == "Descartado" OR $conclusion_pcr_dengue == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_pcr_dengue == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_serologia_dengue" id="conclusion_serologia_dengue" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_serologia_dengue == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_serologia_dengue == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_serologia_dengue == "Confirmado" OR $conclusion_serologia_dengue == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_serologia_dengue == "Descartado" OR $conclusion_serologia_dengue == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_serologia_dengue == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_otro_dengue" id="conclusion_otro_dengue" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_otro_dengue == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_otro_dengue == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_otro_dengue == "Confirmado" OR $conclusion_otro_dengue == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_otro_dengue == "Descartado" OR $conclusion_otro_dengue == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_otro_dengue == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
@@ -980,24 +994,24 @@
                                             <td>
                                                 <select name="conclusion_pcr_chikungunya" id="conclusion_pcr_chikungunya" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_pcr_chikungunya == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_pcr_chikungunya == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_pcr_chikungunya == "Confirmado" OR $conclusion_pcr_chikungunya == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_pcr_chikungunya == "Descartado" OR $conclusion_pcr_chikungunya == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_pcr_chikungunya == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_serologia_chikungunya" id="conclusion_serologia_chikungunya" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_serologia_chikungunya == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_serologia_chikungunya == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_serologia_chikungunya == "Confirmado" OR $conclusion_serologia_chikungunya == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_serologia_chikungunya == "Descartado" OR $conclusion_serologia_chikungunya == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_serologia_chikungunya == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_otro_chikungunya" id="conclusion_otro_chikungunya" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_otro_chikungunya == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_otro_chikungunya == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_otro_chikungunya == "Confirmado" OR $conclusion_otro_chikungunya == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_otro_chikungunya == "Descartado" OR $conclusion_otro_chikungunya == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_otro_chikungunya == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
@@ -1007,24 +1021,24 @@
                                             <td>
                                                 <select name="conclusion_pcr_zika" id="conclusion_pcr_zika" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_pcr_zika == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_pcr_zika == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_pcr_zika == "Confirmado" OR $conclusion_pcr_zika == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_pcr_zika == "Descartado" OR $conclusion_pcr_zika == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_pcr_zika == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_serologia_zika" id="conclusion_serologia_zika" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_serologia_zika == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_serologia_zika == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_serologia_zika == "Confirmado" OR $conclusion_serologia_zika == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_serologia_zika == "Descartado" OR $conclusion_serologia_zika == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_serologia_zika == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_otro_zika" id="conclusion_otro_zika" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_otro_zika == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_otro_zika == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_otro_zika == "Confirmado" OR $conclusion_otro_zika == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_otro_zika == "Descartado" OR $conclusion_otro_zika == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_otro_zika == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
@@ -1034,24 +1048,24 @@
                                             <td>
                                                 <select name="conclusion_pcr_fiebre_amarilla" id="conclusion_pcr_fiebre_amarilla" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_pcr_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_pcr_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_pcr_fiebre_amarilla == "Confirmado" OR $conclusion_pcr_fiebre_amarilla == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_pcr_fiebre_amarilla == "Descartado" OR $conclusion_pcr_fiebre_amarilla == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_pcr_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_serologia_fiebre_amarilla" id="conclusion_serologia_fiebre_amarilla" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_serologia_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_serologia_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_serologia_fiebre_amarilla == "Confirmado" OR $conclusion_serologia_fiebre_amarilla == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_serologia_fiebre_amarilla == "Descartado" OR $conclusion_serologia_fiebre_amarilla == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_serologia_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_otro_fiebre_amarilla" id="conclusion_otro_fiebre_amarilla" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_otro_fiebre_amarilla == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_otro_fiebre_amarilla == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_otro_fiebre_amarilla == "Confirmado" OR $conclusion_otro_fiebre_amarilla == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_otro_fiebre_amarilla == "Descartado" OR $conclusion_otro_fiebre_amarilla == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_otro_fiebre_amarilla == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
@@ -1061,24 +1075,24 @@
                                             <td>
                                                 <select name="conclusion_pcr_virus_del_nilo" id="conclusion_pcr_virus_del_nilo" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_pcr_virus_del_nilo == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_pcr_virus_del_nilo == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_pcr_virus_del_nilo == "Confirmado" OR $conclusion_pcr_virus_del_nilo == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_pcr_virus_del_nilo == "Descartado" OR $conclusion_pcr_virus_del_nilo == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_pcr_virus_del_nilo == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_serologia_virus_del_nilo" id="conclusion_serologia_virus_del_nilo" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_serologia_virus_del_nilo == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_serologia_virus_del_nilo == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_serologia_virus_del_nilo == "Confirmado" OR $conclusion_serologia_virus_del_nilo == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_serologia_virus_del_nilo == "Descartado" OR $conclusion_serologia_virus_del_nilo == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_serologia_virus_del_nilo == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_otro_virus_del_nilo" id="conclusion_otro_virus_del_nilo" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_otro_virus_del_nilo == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_otro_virus_del_nilo == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_otro_virus_del_nilo == "Confirmado" OR $conclusion_otro_virus_del_nilo == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_otro_virus_del_nilo == "Descartado" OR $conclusion_otro_virus_del_nilo == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_otro_virus_del_nilo == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
@@ -1088,24 +1102,24 @@
                                             <td>
                                                 <select name="conclusion_pcr_malaria" id="conclusion_pcr_malaria" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_pcr_malaria == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_pcr_malaria == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_pcr_malaria == "Confirmado" OR $conclusion_pcr_malaria == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_pcr_malaria == "Descartado" OR $conclusion_pcr_malaria == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_pcr_malaria == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_serologia_malaria" id="conclusion_serologia_malaria" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_serologia_malaria == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_serologia_malaria == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_serologia_malaria == "Confirmado" OR $conclusion_serologia_malaria == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_serologia_malaria == "Descartado" OR $conclusion_serologia_malaria == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_serologia_malaria == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select name="conclusion_otro_malaria" id="conclusion_otro_malaria" class="form-control">
                                                     <option value=""></option>
-                                                    <option value="Confirmado" <?php if($conclusion_otro_malaria == "Confirmado") echo "selected" ?>> Confirmado </option>
-                                                    <option value="Descartado" <?php if($conclusion_otro_malaria == "Descartado") echo "selected" ?>> Descartado </option>
+                                                    <option value="Positivo" <?php if($conclusion_otro_malaria == "Confirmado" OR $conclusion_otro_malaria == "Positivo") echo "selected" ?>> Positivo </option>
+                                                    <option value="Negativo" <?php if($conclusion_otro_malaria == "Descartado" OR $conclusion_otro_malaria == "Negativo") echo "selected" ?>> Negativo </option>
                                                     <option value="No concluyente" <?php if($conclusion_otro_malaria == "No concluyente") echo "selected" ?>> No concluyente </option>
                                                 </select>
                                             </td>
@@ -1119,8 +1133,8 @@
                                        <label for="conclusion_del_caso" class="control-label">Conclusión del caso:</label>
                                        <select name="conclusion_del_caso" id="conclusion_del_caso" class="form-control">
                                            <option value=""></option>
-                                           <option value="1" <?php if($conclusion_del_caso == "1") echo "selected" ?>> Confirmado </option>
-                                           <option value="2" <?php if($conclusion_del_caso == "2") echo "selected" ?>> Descartado </option>
+                                           <option value="1" <?php if($conclusion_del_caso == "1") echo "selected" ?>> Positivo </option>
+                                           <option value="2" <?php if($conclusion_del_caso == "2") echo "selected" ?>> Negativo </option>
                                            <option value="3" <?php if($conclusion_del_caso == "3") echo "selected" ?>> No concluyente </option>
 
                                        </select>
@@ -1236,7 +1250,7 @@
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="antecedentes_de_dengue_previo_fecha" class="control-label">Fecha:</label>
-                                    <input value="<?php echo $antecedentes_de_dengue_previo_fecha; ?>" class="form-control datepicker-date" name="antecedentes_de_dengue_previo_fecha" id="antecedentes_de_dengue_previo_fecha">
+                                    <input value="<?php echo $antecedentes_de_dengue_previo_fecha; ?>" class="form-control" name="antecedentes_de_dengue_previo_fecha" id="antecedentes_de_dengue_previo_fecha">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
@@ -1304,5 +1318,6 @@
     </div>
 </div>
 
+<?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>
 <?= loadJS("assets/js/modulo/mapa/formulario.js") ?>
 <?= loadJS("assets/js/form-dengue.js") ?>

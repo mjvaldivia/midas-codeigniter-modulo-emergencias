@@ -3,16 +3,17 @@
         <tr>
             <th>Código</th>
             <th width="10%">Fecha</th>
+            <th width="5%">Semana</th>
             <th width="10%">Estado</th>
             <th width="10%">Diagnostico clínico</th>
             <th width="10%">Médico</th>
             
             <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
             <th width="10%">Run</th>
-            <th width="15%">Nombre</th>
+            <th width="20%">Nombre</th>
             <?php } ?>
             
-            <th width="20%">Dirección</th>
+            <th width="15%">Dirección</th>
             <th width="5%">Opciones</th>				
         </tr>
     </thead>
@@ -22,13 +23,14 @@
         <tr>
             <td width="10%">Caso N°<?php echo $row["id"]; ?></td>
             <td width="10%"><?php echo $row["fecha"]; ?></td>
+            <td width="5%"><div class="label blue"><?php echo $row["semana"]; ?></div></td>
             <td width="10%">
                 <?php if($row["id_estado"] == ""){ ?>
                 <span class="label orange">Caso sospechoso</span>
                 <?php }elseif($row["id_estado"] == 1) { ?>
-                <span class="label red">Confirmado</span>
+                <span class="label red">Positivo</span>
                 <?php }elseif($row["id_estado"] == 2) { ?>
-                <span class="label green">Descartado</span>
+                <span class="label green">Negativo</span>
                 <?php }elseif($row["id_estado"] == 3) { ?>
                 <span class="label blue">No concluyente</span>
                 <?php } ?>
@@ -38,7 +40,7 @@
             
             <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
             <td width="10%"><?php echo $row["run"]; ?></td>
-            <td width="15%"><?php echo $row["nombre"]; ?></td>
+            <td width="20%"><?php echo $row["nombre"]; ?></td>
             <?php } ?>
             
             <td width="20%"><?php echo $row["direccion"]; ?></td>
