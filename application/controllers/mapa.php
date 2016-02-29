@@ -205,11 +205,13 @@ class Mapa extends MY_Controller {
                 $propiedades = Zend_Json::decode($row["propiedades"]);
                 $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
                 
-                unset($propiedades["RUN"]);
-                unset($propiedades["NOMBRE"]);
-                unset($propiedades["APELLIDO"]);
-                unset($propiedades["TELEFONO"]);
-                unset($propiedades["NUMERO PASAPORTE"]);
+                if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
+                    unset($propiedades["RUN"]);
+                    unset($propiedades["NOMBRE"]);
+                    unset($propiedades["APELLIDO"]);
+                    unset($propiedades["TELEFONO"]);
+                    unset($propiedades["NUMERO PASAPORTE"]);
+                }
                 
                 $coordenadas = json_decode($row["coordenadas"]);
                 $casos[] = array("id" => $row["id"],
