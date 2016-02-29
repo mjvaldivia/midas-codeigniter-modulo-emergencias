@@ -89,7 +89,7 @@ class Evento extends MY_Controller {
     }
     
     /**
-     * 
+     * Bitacora
      */
     public function expediente(){
         $this->load->helper(array("modulo/usuario/usuario",
@@ -163,21 +163,8 @@ class Evento extends MY_Controller {
                 $id = $this->_emergencia_model
                            ->insert($data);
                 
-                $params["eme_ia_id"] = $id;
-                
-                //envio de email
-                if(count($params["destinatario"])>0){
-                    $this->emergencia_email_revision->setEmergencia($id);
-                    
-                    foreach($params["destinatario"] as $email){
-                        $this->emergencia_email_revision->addTo($email);
-                    }
-                    
-                    $this->emergencia_email_revision->enviar();
-                    
-                    $se_envia_email = $this->emergencia_email_revision->boSeEnviaEmail();
-                }
-                
+                $se_envia_email = $this->_enviaEmail($id);
+
                 Evento_historial::putHistorial(
                     $id, 
                     'Se ha creado el Evento con estado ' . nombreAlarmaEstado($params['estado_emergencia']) 
@@ -370,6 +357,30 @@ class Evento extends MY_Controller {
                            "error"    => $this->alarma_validar->getErrores());
         
         echo json_encode($respuesta);
+    }
+    
+    /**
+     * 
+     * @param int $id
+     * @return boolean
+     */
+    protected function _enviaEmail($id){
+        $se_envia_email = false;
+        $params = $this->input->post(null, true);
+        //envio de email
+        if(count($params["destinatario"])>0){
+            $this->emergencia_email_revision->setEmergencia($id);
+
+            foreach($params["destinatario"] as $email){
+                $this->emergencia_email_revision->addTo($email);
+            }
+
+            $this->emergencia_email_revision->enviar();
+
+            $se_envia_email = $this->emergencia_email_revision->boSeEnviaEmail();
+        }
+        
+        return $se_envia_email;
     }
     
     /**
