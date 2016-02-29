@@ -37,12 +37,12 @@ var EventoGrilla = Class({
                     
                     var agregar = "";
                     if(bo_email_enviado){
-                        agregar = "<br/> Estado email: Enviado correctamente";
+                        agregar = "<br/> Se ha enviado correo electrónico a las direcciones seleccionadas ";
                     } else {
                         //notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
                     }
                     
-                    notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);
+                    notificacionCorrecto("Resultado de la operacion", "Se ha creado un nuevo evento" + agregar);
                 }
             });	
             formulario.mostrarFormulario();

@@ -95,7 +95,7 @@ class Emergencia_Model extends MY_Model {
      * @return array
      */
     public function listarRegionesPorEmergencia($id_emergencia){
-        $result = $this->_query->select("DISTINCT p.reg_ia_id")
+        $result = $this->_query->select("DISTINCT p.reg_ia_id, p.reg_ia_id as id_region ")
                                ->from($this->_tabla . " e")
                                ->join("emergencias_vs_comunas ec", "ec.eme_ia_id = e.eme_ia_id", "INNER")
                                ->join("comunas c", "c.com_ia_id = ec.com_ia_id", "INNER")

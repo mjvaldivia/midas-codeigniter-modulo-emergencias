@@ -1,6 +1,6 @@
 <?php
 
-Class Alarmavalidar{
+Class Alarma_validar{
     
     /**
      *

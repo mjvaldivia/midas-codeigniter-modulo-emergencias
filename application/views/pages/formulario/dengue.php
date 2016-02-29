@@ -33,7 +33,7 @@
                 <div class="portlet-body"> 
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="resultados" class="table-responsive">
+                            <div id="resultados" class="table-responsive" data-row="20">
                                 <div class="col-lg-12 text-center">
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>

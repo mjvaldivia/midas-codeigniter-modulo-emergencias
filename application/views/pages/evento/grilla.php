@@ -2,44 +2,42 @@
     <table id="grilla-alarmas" class="table table-hover datatable paginada hidden">
         <thead>
             <tr>
-
-                <th>Nombre Evento</th>
-                <th>Estado</th>
-                <th>Tipo</th>
-                <th>Nivel Evento</th>
-                <th>Comunas afectadas</th>
-                <th>Fecha Evento</th>
-                <th>Lugar</th>
-                <th>Opciones</th>
-                
+                <th width="20%">Nombre Evento</th>
+                <th width="10%">Estado</th>
+                <th width="10%">Tipo</th>
+                <th width="10%">Nivel Evento</th>
+                <th width="20%">Comunas afectadas</th>
+                <th width="10%">Fecha Evento</th>
+                <th width="10%">Lugar</th>
+                <th width="10%">Opciones</th>
             </tr>
         </thead>
         <tbody>
             <?php if(count($lista)>0){ ?>
             <?php foreach($lista as $row){ ?>
             <tr>
-                <td>
+                <td width="20%">
                     <?php echo $row["eme_c_nombre_emergencia"]; ?>
                 </td>
-                <td class="text-center">
-                    <?php echo nombreAlarmaEstado($row["est_ia_id"]); ?> 
+                <td width="10%" class="text-center">
+                    <?php echo badgeNombreAlarmaEstado($row["est_ia_id"]); ?> 
                 </td>
-                <td class="text-center">
+                <td width="10%" class="text-center">
                     <?php echo nombreEmergenciaTipo($row["tip_ia_id"]); ?> 
                 </td>
-                <td class="text-center">
+                <td width="10%" class="text-center">
                     <?php echo nivelEmergencia($row['eme_nivel']) ?>
                 </td>
-                <td> 
+                <td width="20%"> 
                     <?php echo textMoreLess(comunasAlarmaConComa($row["eme_ia_id"])); ?>
                 </td>
-                <td class="text-center">
+                <td width="10%" class="text-center">
                     <?php echo ISODateTospanish($row["eme_d_fecha_emergencia"]); ?>
                 </td>
-                <td>
+                <td width="10%">
                     <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
                 </td>
-                <td class="text-center">
+                <td width="10%" class="text-center">
                     <a class="expediente btn btn-sm btn-info" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);" title="Bitácora">
                         <i class="fa fa-files-o"></i>
                     </a>

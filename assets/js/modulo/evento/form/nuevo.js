@@ -378,7 +378,7 @@ var EventoFormNuevo = Class({
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    yo.bo_email_enviado = data.res_mail;
+                    yo.bo_email_enviado = data.se_envia_email;
                     yo.callBackGuardar(yo.bo_email_enviado);
                     salida = true;
                 } else {
@@ -400,6 +400,7 @@ var EventoFormNuevo = Class({
         this.configSteps();
         this.bindSelectEmergenciaTipo();
         this.estadoEventoChange();
+        setInputCorreos("destinatario", $("#id").val());
     },
     
     /**

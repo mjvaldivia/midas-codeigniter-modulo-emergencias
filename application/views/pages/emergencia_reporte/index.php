@@ -18,11 +18,8 @@
                     <div class="form-group">
                         <label class="col-xs-12">Escriba o deleccione el correo electrónico de los destinatarios (*)</label>
                         <div class="col-xs-12">
-                            
-                            <?php echo formElementSelectDestinatarios($id, "destinatario[]", array(), array("width" => "100%",
-                                                                                                            "data-placeholder" => "Seleccione",
-                                                                                                            "class"    => "form-control", 
-                                                                                                            "multiple" => "multiple")); ?>
+                            <select id="destinatario" class="form-control" multiple="multiple" data-placeholder="Seleccione" name="destinatario[]">
+                            </select>
                         </div>
                     </div>
                 </div>

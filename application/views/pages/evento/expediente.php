@@ -56,7 +56,7 @@
             <div class="active tab-pane fade in small" id="tab1">
                 <div class="col-xs-12 top-spaced">
                     <?php if($documentos):?>
-                        <table class="table table-hover table-condensed table-bordered tabla-expediente" style="margin-bottom: 0;">
+                        <table class="table table-hover table-condensed table-bordered datatable paginada" style="margin-bottom: 0;">
                             <thead>
                             <tr>
                                 <th width="25%">Fecha</th>
@@ -90,7 +90,7 @@
             <div class="tab-pane fade small" id="tab2">
                 <div class="col-xs-12 top-spaced">
                     <?php if($historial):?>
-                        <table class="table table-hover table-condensed table-bordered tabla-expediente" style="margin-bottom: 0;">
+                        <table class="table table-hover table-condensed table-bordered datatable paginada" style="margin-bottom: 0;">
                             <thead>
                             <tr>
                                 <th width="25%">Fecha</th>
@@ -125,36 +125,3 @@
 <div class="col-xs-12 text-right top-spaced">
     <button type="button" class="btn btn-primary btn-square" onclick="xModal.close();">Cerrar</button>
 </div>
-
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".tabla-expediente").dataTable({
-            language:
-            {
-                "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ registros",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
-                "sUrl":            "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":     "Último",
-                    "sNext":     "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-    });
-</script>

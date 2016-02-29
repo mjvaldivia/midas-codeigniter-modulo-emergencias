@@ -2347,3 +2347,11 @@ body.modal-open {
     margin: 0 3px 3px 0;
     padding: 1px 3px;
 }
+
+.label {
+    font-size: 100%;
+}
+
+.selectize-dropdown-content > div > .label{
+    color: #000;
+}

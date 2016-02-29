@@ -107,8 +107,13 @@ Class Emergencia_reporte extends MY_Controller {
             //se agregan destinatarios
             foreach($params["destinatario"] as $email){
                 $this->emergencia_email_reporte->addTo($email);
+                
                 $destinatario = $this->UsuarioModel->getByEmail($email);
-                $destinatarios[] = $destinatario['usu_c_nombre'].' '.$destinatario['usu_c_apellido_paterno'].' '.$destinatario['usu_c_apellido_materno'];
+                if(!is_null($destinatario)){
+                    $destinatarios[] = $destinatario['usu_c_nombre'].' '.$destinatario['usu_c_apellido_paterno'].' '.$destinatario['usu_c_apellido_materno'];
+                } else {
+                    $destinatarios[] = $email;
+                }
             }
             
             //se agregan archivos adjuntos

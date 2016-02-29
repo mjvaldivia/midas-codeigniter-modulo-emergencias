@@ -24,13 +24,13 @@
             <td width="10%"><?php echo $row["fecha"]; ?></td>
             <td width="10%">
                 <?php if($row["id_estado"] == ""){ ?>
-                <div class="badge alert-warning">Caso sospechoso</div>
+                <span class="label orange">Caso sospechoso</span>
                 <?php }elseif($row["id_estado"] == 1) { ?>
-                <div class="badge alert-danger">Confirmado</div>
+                <span class="label red">Confirmado</span>
                 <?php }elseif($row["id_estado"] == 2) { ?>
-                <div class="badge alert-success">Descartado</div>
+                <span class="label green">Descartado</span>
                 <?php }elseif($row["id_estado"] == 3) { ?>
-                <div class="badge alert-info">No concluyente</div>
+                <span class="label blue">No concluyente</span>
                 <?php } ?>
             </td>
             <td width="20%"><?php echo $row["diagnostico"]; ?></td>

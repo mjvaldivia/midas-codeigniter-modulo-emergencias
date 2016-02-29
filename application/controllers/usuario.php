@@ -10,6 +10,12 @@ class Usuario extends MY_Controller {
     
     /**
      *
+     * @var Usuario_Region_Model 
+     */
+    public $_usuario_region_model;
+    
+    /**
+     *
      * @var Emergencia_Model 
      */
     public $_emergencia_model;
@@ -28,6 +34,7 @@ class Usuario extends MY_Controller {
         parent::__construct();
         $this->load->library("session");
         $this->load->model("usuario_model", "_usuario_model");
+        $this->load->model("usuario_region_model", "_usuario_region_model");
         $this->load->model("emergencia_model", "_emergencia_model");
     }
     
@@ -38,15 +45,21 @@ class Usuario extends MY_Controller {
     public function emails_emergencia()
     {
         header('Content-type: application/json');
-        $params = $this->uri->uri_to_assoc();
+        $params = $this->input->post(null, true);
         
         $correos = array();
         
         
-        $lista_regiones = $this->_emergencia_model->listarRegionesPorEmergencia($params["id"]);
+        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        if(!is_null($emergencia)){
+            $lista_regiones = $this->_emergencia_model->listarRegionesPorEmergencia($params["id"]);
+        } else {
+            $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata("session_idUsuario"));
+        }
+
         if(!is_null($lista_regiones)){
             foreach ($lista_regiones as $region){
-                $lista = $this->_usuario_model->listarUsuariosPorRegion($region["reg_ia_id"]);
+                $lista = $this->_usuario_model->listarUsuariosPorRegion($region["id_region"]);
                 if(!is_null($lista)){
                     foreach($lista as $usuario){
                         $correos[] = array("email" => $usuario["usu_c_email"],
