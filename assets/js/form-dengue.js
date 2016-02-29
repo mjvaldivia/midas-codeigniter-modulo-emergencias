@@ -15,8 +15,20 @@ $(document).ready(function() {
 
                 if(fecha.isValid()){
                     var years = moment().diff(fecha, 'years');
-                    $("#texto_edad").html(years);
-                    $("#edad").val(years);
+                    if(years == 0){
+                        var months = moment().diff(fecha, 'months');
+                        if(months == 0){
+                            var days = moment().diff(fecha, 'days');
+                            $("#texto_edad").html(days + " dias");
+                            $("#edad").val(days + " dias");
+                        } else {
+                            $("#texto_edad").html(months + " meses");
+                            $("#edad").val(months + " meses");
+                        }
+                    } else {
+                        $("#texto_edad").html(years);
+                        $("#edad").val(years);
+                    }
                 } else {
                     $("#texto_edad").html("");
                     $("#edad").val("");
