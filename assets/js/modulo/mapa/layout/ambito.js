@@ -3,7 +3,7 @@ var MapaLayoutAmbitoCapa = Class({
     /**
      * Url de la ubicacion del servicio del modulo de programacion
      */
-    url_programacion : "http://development.programacion.midas.cl/sipresa/rest/",
+    url_programacion : "http://200.55.194.54/programacion/rest.php/",
     mapa : null,
     id_emergencia : null,
     
