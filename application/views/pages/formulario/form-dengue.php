@@ -1133,8 +1133,8 @@
                                        <label for="conclusion_del_caso" class="control-label">Conclusión del caso:</label>
                                        <select name="conclusion_del_caso" id="conclusion_del_caso" class="form-control">
                                            <option value=""></option>
-                                           <option value="1" <?php if($conclusion_del_caso == "1") echo "selected" ?>> Positivo </option>
-                                           <option value="2" <?php if($conclusion_del_caso == "2") echo "selected" ?>> Negativo </option>
+                                           <option value="1" <?php if($conclusion_del_caso == "1") echo "selected" ?>> Confirmado </option>
+                                           <option value="2" <?php if($conclusion_del_caso == "2") echo "selected" ?>> Descartado </option>
                                            <option value="3" <?php if($conclusion_del_caso == "3") echo "selected" ?>> No concluyente </option>
 
                                        </select>
