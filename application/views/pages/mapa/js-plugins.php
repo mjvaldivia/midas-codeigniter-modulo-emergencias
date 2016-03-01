@@ -56,10 +56,11 @@
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/archivos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/formatos/rapanui_dengue.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/casos.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/zonas.js"); ?>
 <!-- Externos -->
-<?= loadJS("assets/js/modulo/mapa/formatos/kml/sidco-conaf.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>
 
 <!-- LAYOUT -->
 <?= loadJS("assets/js/modulo/mapa/layout/input/busqueda.js"); ?>

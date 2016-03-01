@@ -64,9 +64,16 @@
                                 </li>
                                 <?php if(puedeAbrirVisorEmergencia("casos_febriles")) { ?>
                                 <li class="divider"></li>
-                                <li>
-                                    <a id="btn-importar-rapanui" href="javascript:void(0)"><input type="checkbox" name="importar_rapanui" id="importar_rapanui" value="1"/> <i class="fa fa-fire"></i> Isla de pascua - Dengue </a>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Isla de pascua</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="divider"></li>
+                                        <li><a id="btn-importar-rapanui" href="javascript:void(0)"><input type="checkbox" name="importar_rapanui_casos" id="importar_rapanui_casos" value="1"/> <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/epidemiologico/caso_sospechoso.png") ?>"></i> Casos febriles </a></li>
+                                        <li><a id="btn-importar-rapanui" href="javascript:void(0)"><input type="checkbox" name="importar_rapanui_zonas" id="importar_rapanui_zonas" value="1"/> <i style="width:20px; text-align: center" class="fa fa-circle-o"></i> Zonas </a></li>
+                                        <li class="divider"></li>
+                                    </ul>
                                 </li>
+      
                                 <li class="divider"></li>
                                 <?php } ?>
                             </ul>

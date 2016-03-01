@@ -323,12 +323,21 @@ var MapaElementos = Class({
                if(data.correcto){
                    
                    if(data.resultado.casos_febriles == 1){
-                        var sidco = new MapaRapanuiDengue();
+                        var sidco = new MapaIslaDePascuaCasos();
                             sidco.seteaMapa(yo.mapa);
                             sidco.load();
-                            $("#importar_rapanui").prop("checked", true);
+                            $("#importar_rapanui_casos").prop("checked", true);
                         } else {
-                            $("#importar_rapanui").prop("checked", false);
+                            $("#importar_rapanui_casos").prop("checked", false);
+                   }
+                   
+                   if(data.resultado.casos_febriles_zona == 1){
+                        var sidco = new MapaIslaDePascuaZonas();
+                            sidco.seteaMapa(yo.mapa);
+                            sidco.load();
+                            $("#importar_rapanui_zonas").prop("checked", true);
+                        } else {
+                            $("#importar_rapanui_zonas").prop("checked", false);
                    }
                    
                    if(data.resultado.sidco == 1){

@@ -212,7 +212,8 @@ var MapaEditor = Class({
                           "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),
                           "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
-                          "casos_febriles" : $("#importar_rapanui").is(":checked") ? 1:0,
+                          "casos_febriles" : $("#importar_rapanui_casos").is(":checked") ? 1:0,
+                          "casos_febriles_zona" : $("#importar_rapanui_zonas").is(":checked") ? 1:0,
                           "kmls" : this.class_kml.listArchivosKml(),
                           "id" : this.id_emergencia};
         Messenger().run({
@@ -278,10 +279,23 @@ var MapaEditor = Class({
         /**
          * Importar casos febriles
          */
-        $("#importar_rapanui").click(function(){
-            var rapanui = new MapaRapanuiDengue();
+        $("#importar_rapanui_casos").click(function(){
+            var rapanui = new MapaIslaDePascuaCasos();
             rapanui.seteaMapa(map);
             
+            if($(this).is(":checked")){
+                rapanui.load();
+            } else {
+                rapanui.remove();
+            }
+        });
+        
+        /**
+         * Importar casos febriles
+         */
+        $("#importar_rapanui_zonas").click(function(){
+            var rapanui = new MapaIslaDePascuaZonas();
+            rapanui.seteaMapa(map);
             if($(this).is(":checked")){
                 rapanui.load();
             } else {

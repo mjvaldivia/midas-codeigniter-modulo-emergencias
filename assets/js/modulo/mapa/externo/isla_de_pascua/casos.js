@@ -1,6 +1,6 @@
-var rapanui_ebola = [];
+var rapanui_ebola_marcador = [];
 
-var MapaRapanuiDengue = Class({  
+var MapaIslaDePascuaCasos = Class({  
     
     /**
      * Google maps
@@ -23,7 +23,7 @@ var MapaRapanuiDengue = Class({
      */
     load : function(){
         var yo = this;
-        if(rapanui_ebola.length == 0){ //si ya esta cargado no se vuelve a cargar
+        if(rapanui_ebola_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             Messenger().run({
                 action: $.ajax,
                 successMessage: 'Información del casos cargada correctamente',
@@ -91,11 +91,10 @@ var MapaRapanuiDengue = Class({
                             }
 
                            
-                            var marcador = new MapaMarcadorLugarEmergencia();
+                            var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
-                            marcador.seteaCustom(false);
-                            marcador.posicionarMarcador("rapanui_dengue_" + valor.id, valor.lng, valor.lat, zona, valor.propiedades, icono);
-                            rapanui_ebola.push("rapanui_dengue_" + valor.id);
+                            marcador.posicionarMarcador("rapanui_dengue_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
+                            rapanui_ebola_marcador.push("rapanui_dengue_" + valor.id);
                         });
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
@@ -111,16 +110,11 @@ var MapaRapanuiDengue = Class({
      */
     remove : function(){
         var marcador = new MapaMarcador();
-        $.each(rapanui_ebola, function(i, identificador){
+        $.each(rapanui_ebola_marcador, function(i, identificador){
             marcador.removerMarcadores("identificador", identificador);
         });
         
-        var poligono = new MapaPoligono();
-        $.each(rapanui_ebola, function(i, identificador){
-            poligono.removerPoligono("id", identificador);
-        });
-        
-        rapanui_ebola = [];
+        rapanui_ebola_marcador = [];
     }
 });
 

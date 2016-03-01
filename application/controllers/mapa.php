@@ -175,6 +175,7 @@ class Mapa extends MY_Controller {
                  ->setEmergencia($emergencia->eme_ia_id)
                  ->setSidcoConaf($params["sidco"])
                  ->setCasosFebriles($params["casos_febriles"])
+                 ->setCasosFebrilesZona($params["casos_febriles_zona"])
                  ->setTipoMapa($params["tipo_mapa"])
                  ->guardar();
             
@@ -395,6 +396,7 @@ class Mapa extends MY_Controller {
         if(!is_null($configuracion)){
             $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco,
                                             "casos_febriles" => $configuracion->bo_casos_febriles,
+                                            "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
                                             "tipo_mapa" => $configuracion->tipo_mapa);
         }
         
