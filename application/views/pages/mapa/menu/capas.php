@@ -26,8 +26,8 @@
                 <div class="col-xs-1"></div>
             </div>
         </a>
-    </li>
-    <li class="divider"></li>-->
+    </li>-->
+    <li class="divider"></li>
     <?php echo visorMenuCapasDetalle($id_capa, $id_emergencia); ?>
     </ul>
 </li>

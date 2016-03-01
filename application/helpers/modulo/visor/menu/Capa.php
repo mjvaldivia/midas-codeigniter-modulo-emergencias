@@ -70,7 +70,7 @@ Class Visor_Menu_Capa extends Visor_Menu_Abstract{
                                             "id_capa" => $id_capa,
                                             "nombre" => $nombre_capa
                                         ), true
-                                     );
+                                     ) . "<li class=\"divider\"></li>";
         }
     }
 }

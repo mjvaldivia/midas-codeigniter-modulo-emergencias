@@ -58,13 +58,16 @@
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> Datos externos</a>
                             <ul class="dropdown-menu">
+                                <li class="divider"></li>
                                 <li>
                                     <a id="btn-importar-sidco" href="javascript:void(0)"><input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> <i class="fa fa-fire"></i> Sidco - Conaf </a>
                                 </li>
                                 <?php if(puedeAbrirVisorEmergencia("casos_febriles")) { ?>
+                                <li class="divider"></li>
                                 <li>
                                     <a id="btn-importar-rapanui" href="javascript:void(0)"><input type="checkbox" name="importar_rapanui" id="importar_rapanui" value="1"/> <i class="fa fa-fire"></i> Isla de pascua - Dengue </a>
                                 </li>
+                                <li class="divider"></li>
                                 <?php } ?>
                             </ul>
                         </li>

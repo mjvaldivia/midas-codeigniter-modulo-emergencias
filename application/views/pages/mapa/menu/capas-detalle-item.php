@@ -1,4 +1,3 @@
-<li class="divider"></li>
 <li>
 <a href="javascript:void(0)">
     <div class="row">
@@ -18,6 +17,6 @@
     </div>
 </a>
 </li>
-
+<li class="divider"></li>
 
 
