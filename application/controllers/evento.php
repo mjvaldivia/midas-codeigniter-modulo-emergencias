@@ -309,9 +309,21 @@ class Evento extends MY_Controller {
             $json['mensaje'] = 'Problemas al activar la emergencia. Intente nuevamente';
         }
 
-        echo json_encode($json);
-
-
+        echo json_encode($json);    
+    }
+    
+    /**
+     * 
+     */
+    public function ajax_comunas_emergencia(){
+        header('Content-type: application/json');
+        $params = $this->input->post(null, true);
+        $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($params["id"]);
+        $respuesta = array("correcto" => true,
+                           "comunas" => $lista_comunas,
+                           "error"    => array());
+        
+        echo json_encode($respuesta);
     }
     
     /**

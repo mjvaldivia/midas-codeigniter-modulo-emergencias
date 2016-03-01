@@ -26,13 +26,13 @@
             <td width="5%"><div class="label blue"><?php echo $row["semana"]; ?></div></td>
             <td width="10%">
                 <?php if($row["id_estado"] == ""){ ?>
-                <span class="label orange">Caso sospechoso</span>
+                <span class="label orange"><?php echo nombreFormularioEstado($row["id_estado"]); ?></span>
                 <?php }elseif($row["id_estado"] == 1) { ?>
-                <span class="label red">Positivo</span>
+                <span class="label red"><?php echo nombreFormularioEstado($row["id_estado"]); ?></span>
                 <?php }elseif($row["id_estado"] == 2) { ?>
-                <span class="label green">Negativo</span>
+                <span class="label green"><?php echo nombreFormularioEstado($row["id_estado"]); ?></span>
                 <?php }elseif($row["id_estado"] == 3) { ?>
-                <span class="label blue">No concluyente</span>
+                <span class="label blue"><?php echo nombreFormularioEstado($row["id_estado"]); ?></span>
                 <?php } ?>
             </td>
             <td width="20%"><?php echo $row["diagnostico"]; ?></td>

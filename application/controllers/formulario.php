@@ -267,7 +267,13 @@ class Formulario extends MY_Controller
      * Genera en pdf
      */
     public function pdf(){
-        $this->load->helper("modulo/usuario/usuario");
+        
+        $this->load->helper(array(
+            "modulo/usuario/usuario",
+            "modulo/formulario/formulario"
+            )
+        );
+        
         $this->load->library("pdf");
         $params = $this->uri->uri_to_assoc();
         $formulario = $this->_rapanui_dengue_model->getById($params["id"]);
@@ -300,8 +306,12 @@ class Formulario extends MY_Controller
      * 
      */
     public function ajax_lista(){
-        $this->load->helper("modulo/emergencia/emergencia");
-        $this->load->helper("modulo/usuario/usuario");
+        $this->load->helper(array(
+            "modulo/emergencia/emergencia",
+            "modulo/usuario/usuario",
+            "modulo/formulario/formulario"
+            )
+        );
         $lista = $this->_rapanui_dengue_model->listar();
         
         $casos = array();

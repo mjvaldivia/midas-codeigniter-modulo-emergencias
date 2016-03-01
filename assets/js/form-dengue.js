@@ -64,8 +64,8 @@ $(document).ready(function() {
         locale: "es"
     }).on("dp.change", function(e) {
         if(e.date){
-            $("#texto_semana_epidemiologica").html(e.date.isoWeek() + "° Semana");
-            $("#semana_epidemiologica").val(e.date.isoWeek() + "° Semana");
+            $("#texto_semana_epidemiologica").html(e.date.week() + "° Semana");
+            $("#semana_epidemiologica").val(e.date.week() + "° Semana");
         }
     });
 

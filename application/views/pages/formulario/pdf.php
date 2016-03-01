@@ -732,16 +732,7 @@
             Conclusión del caso :
         </td>
         <td>
-            : 
-            <?php if($estado == ""){ ?>
-            Caso sospechoso
-            <?php }elseif($estado == 1) { ?>
-            Confirmado
-            <?php }elseif($estado == 2) { ?>
-            Descartado
-            <?php }elseif($estado == 3) { ?>
-            No concluyente
-            <?php } ?>
+            : <?php echo nombreFormularioEstado($estado); ?>
         </td>
     </tr>
     <tr>

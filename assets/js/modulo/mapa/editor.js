@@ -382,16 +382,10 @@ var MapaEditor = Class({
      * @returns {undefined}
      */
     controlInstalaciones : function (map) {
-        var yo = this;
-        var buttonOptions = {
-        		gmap: map,
-        		name: '<i class=\"fa fa-building\"></i> Instalaciones',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
-        		action: function(){
-        			
-        		}
-        }
-        var button1 = new buttonControl(buttonOptions, "button-map");
+        var menu = new MapaLayoutAmbitoCapa();
+        menu.seteaMapa(map);
+        menu.seteaEmergencia(this.id_emergencia);
+        menu.render();
     },
     
     /**

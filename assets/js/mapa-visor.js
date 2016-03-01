@@ -31,6 +31,7 @@ $(document).ready(function() {
     editor.seteaClaseCapa(capas);
     visor.addOnReadyFunction("editor", editor.iniciarEditor, null);
     
+    visor.addOnReadyFunction("instalaciones", editor.controlInstalaciones, null);
     visor.addOnReadyFunction("boton ubicacion emergencia", editor.controlEditar, null);
     visor.addOnReadyFunction("boton para guardar", editor.controlSave, null);
     visor.addOnReadyFunction("boton para importar", editor.controlImportar, null);

@@ -56,7 +56,14 @@
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
-                            <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> Datos externos</a>
+                            <a href="javascript:void(0)"><i class="fa fa-building"></i> Instalaciones</a>
+                            <ul id="lista-ambitos" class="dropdown-menu">
+                                
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> Otros</a>
                             <ul class="dropdown-menu">
                                 <li class="divider"></li>
                                 <li>
