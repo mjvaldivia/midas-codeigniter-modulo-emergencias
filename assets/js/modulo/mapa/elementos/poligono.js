@@ -56,8 +56,10 @@ var MapaPoligono = Class({
         
        
         $.each(geometry, function(i, coordenadas){
+            
             var puntos = [];
             $.each(coordenadas, function(j, valores){
+                
                 puntos.push(new google.maps.LatLng(parseFloat(valores[1]), parseFloat(valores[0])));
             });
            

@@ -104,6 +104,19 @@ var MapaKmlImportar = Class({
                                          baseUrl + elemento["icono"]
                                 );
                             }
+                            
+                            if(elemento["tipo"] == "MULTIPOLIGONO"){
+                                var poligono = new MapaPoligonoMulti();
+                                poligono.seteaMapa(yo.mapa);
+                                poligono.dibujarPoligono(
+                                    "kml_" + data.response.hash,
+                                    elemento["nombre"], 
+                                    null,
+                                    elemento["coordenadas"], 
+                                    {"NOMBRE" : "TEST"},
+                                    null, 
+                                    "#000000");
+                            }
                         });
                         
                         var kml = {};

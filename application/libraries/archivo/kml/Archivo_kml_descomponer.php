@@ -78,10 +78,12 @@ Class Archivo_kml_descomponer{
             foreach($this->_placemarks as $key => $placemark){
                 foreach($placemark as $elemento){
                     $this->_procesaPunto($elemento);
+                    $this->_procesaMultiPoligono($elemento);
                 }
             }
         }
         
+        //fb($this->_elementos[0]);
         //se agregan los elementos al cache
         $cache = Cache::iniciar();
         $data = $cache->load($this->_hash);
@@ -90,6 +92,68 @@ Class Archivo_kml_descomponer{
         
         return $this->_elementos;
                 
+    }
+    
+    
+    protected function _procesaMultiPoligono($elemento){
+
+        if(isset($elemento["MultiGeometry"])){
+            
+            $data = array("tipo" => "MULTIPOLIGONO");
+            
+            if(isset($elemento["name"])){
+                $data["nombre"] = $elemento["name"];
+            } else {
+                $data["nombre"] = "SIN NOMBRE";
+            }
+            
+            if(isset($elemento["description"])){
+                $data["descripcion"] = $elemento["description"];
+            } else {
+                $data["descripcion"] = "SIN DESCRIPCIÓN";
+            }
+            
+            $color = "";
+            if(isset($elemento["styleUrl"])){
+                $id = str_replace("#", "", $elemento["styleUrl"]);
+                if(isset($this->_styles[$id]["poligono"]["color"])){
+                    $color = $this->_styles[$id]["poligono"]["color"];
+                }
+                
+            }
+            
+            if(isset($elemento["MultiGeometry"]["Polygon"]["outerBoundaryIs"])){
+                $data["coordenadas"]["poligono"][] = $this->_procesaCoordenadasPoligono($elemento["MultiGeometry"]["Polygon"]);
+            } else {
+                foreach($elemento["MultiGeometry"]["Polygon"] as $poligono){
+                    $data["coordenadas"]["poligono"][] = $this->_procesaCoordenadasPoligono($poligono);
+                }
+            }
+            
+            $this->_elementos[] = $data;
+        }
+    }
+    
+    /**
+     * 
+     * @param array $data
+     * @return array
+     */
+    protected function _procesaCoordenadasPoligono($data){
+        
+        $coord = array();
+        $coordenadas = explode(" ", TRIM($data["outerBoundaryIs"]["LinearRing"]["coordinates"]));
+        if(count($coordenadas)>0){
+            foreach($coordenadas as $string){
+                $latLon = explode(",", $string);
+                $coord[] = array(
+                    0 => $latLon[0],
+                    1 => $latLon[1]
+                );
+            }
+        }
+        return $coord;
+        
     }
     
     /**
@@ -180,7 +244,9 @@ Class Archivo_kml_descomponer{
                         $this->_addStyle($style);
                     } else {
                         foreach($style as $key => $value){
-                            $this->_addStyle($value);
+                            if(isset($value["@attributes"]["id"])){
+                                $this->_addStyle($value);
+                            }
                         }
                     }
                 } else {
