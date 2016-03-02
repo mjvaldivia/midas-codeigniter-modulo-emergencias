@@ -65,10 +65,14 @@ Class Archivo_kml_descomponer{
     public function process(){
         
         foreach (glob($this->_dir_temp . "/*.kml") as $filename) {
+            
             $data = Zend_Json::decode(Zend_Json::fromXml(file_get_contents($filename), false));
+           
             $this->_findPlacemarks($data);
             $this->_findStyles($data);
         }
+        
+   
         
         if(count($this->_placemarks)>0){
             foreach($this->_placemarks as $key => $placemark){
@@ -170,39 +174,50 @@ Class Archivo_kml_descomponer{
      */
     protected function _findStyles($array){
         if(is_array($array)){
-            foreach($array as $id => $value){
+            foreach($array as $id => $style){
                 if($id == "Style"){
-                    if(isset($value["@attributes"]["id"])){
-                        
-                        $icono = array();
-                        
-                        if(isset($value["IconStyle"]["Icon"])){
-                            
-                            $icono = array(
-                                "icono" => array(
-                                    "path" => str_replace(FCPATH, "", $this->_dir_temp . "/" . $value["IconStyle"]["Icon"]["href"])
-                                )
-                            );
-                            
+                    if(isset($style["@attributes"]["id"])){
+                        $this->_addStyle($style);
+                    } else {
+                        foreach($style as $key => $value){
+                            $this->_addStyle($value);
                         }
-                        
-                        $poligono = array();
-                        
-                        if(isset($value["PolyStyle"]["color"])){
-                            $poligono = array(
-                                "poligono" => array(
-                                    "color"  =>  $this->_color($value["PolyStyle"]["color"])
-                                )
-                            );
-                        }
-                        
-                        $this->_styles[$value["@attributes"]["id"]] = array_merge($icono, $poligono);
                     }
                 } else {
-                    $this->_findStyles($value);
+                    $this->_findStyles($style);
                 }
             }
         }
+    }
+    
+    /**
+     * Agrega el estilo
+     * @param array $value
+     */
+    protected function _addStyle($value){
+        $icono = array();
+
+        if(isset($value["IconStyle"]["Icon"])){
+
+            $icono = array(
+                "icono" => array(
+                    "path" => str_replace(FCPATH, "", $this->_dir_temp . "/" . $value["IconStyle"]["Icon"]["href"])
+                )
+            );
+
+        }
+
+        $poligono = array();
+
+        if(isset($value["PolyStyle"]["color"])){
+            $poligono = array(
+                "poligono" => array(
+                    "color"  =>  $this->_color($value["PolyStyle"]["color"])
+                )
+            );
+        }
+
+        $this->_styles[$value["@attributes"]["id"]] = array_merge($icono, $poligono);
     }
     
     /**
