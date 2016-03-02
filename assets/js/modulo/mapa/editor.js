@@ -320,7 +320,8 @@ var MapaEditor = Class({
                 
                 lista_kml = jQuery.grep(lista_kml, function( a ) {
                     if(a["hash"] == id){
-                        a.setMap(null);
+                        var marcador = new MapaMarcador();
+                        marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
                         return false;
                     } else {
                         return true;

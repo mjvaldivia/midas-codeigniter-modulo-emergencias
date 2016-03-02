@@ -138,13 +138,15 @@ class Mapa extends MY_Controller {
         );
         
         header('Content-type: application/json');
-        $params = $this->input->post(null, true);
-        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        
+        //$params = $this->input->post(null, true);
+        
+        $emergencia = $this->_emergencia_model->getById($_POST["id"]);
         if(!is_null($emergencia)){
             
             $elementos = array();
-            if(isset($params["elementos"])){
-                $elementos = $params["elementos"];
+            if(isset($_POST["elementos"])){
+                $elementos = $_POST["elementos"];
             }
             
             $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
@@ -152,8 +154,8 @@ class Mapa extends MY_Controller {
             
             
             $capas = array();
-            if(isset($params["capas"])){
-                $capas = $params["capas"];
+            if(isset($_POST["capas"])){
+                $capas = $_POST["capas"];
             }
             
             $this->_emergencia_capas_model->query()
@@ -163,8 +165,8 @@ class Mapa extends MY_Controller {
                                                             $capas);
             
             $kml = array();
-            if(isset($params["kmls"])){
-                $kml = $params["kmls"];
+            if(isset($_POST["kmls"])){
+                $kml = $_POST["kmls"];
             }
             
             
@@ -173,10 +175,10 @@ class Mapa extends MY_Controller {
             
             $this->visor_guardar_configuracion
                  ->setEmergencia($emergencia->eme_ia_id)
-                 ->setSidcoConaf($params["sidco"])
-                 ->setCasosFebriles($params["casos_febriles"])
-                 ->setCasosFebrilesZona($params["casos_febriles_zona"])
-                 ->setTipoMapa($params["tipo_mapa"])
+                 ->setSidcoConaf($_POST["sidco"])
+                 ->setCasosFebriles($_POST["casos_febriles"])
+                 ->setCasosFebrilesZona($_POST["casos_febriles_zona"])
+                 ->setTipoMapa($_POST["tipo_mapa"])
                  ->guardar();
             
             

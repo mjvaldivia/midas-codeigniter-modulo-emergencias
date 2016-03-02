@@ -35,6 +35,10 @@ Class Visor_upload_temp_kml{
      */
     protected $_dir_temp  = "";
     
+    /**
+     *
+     * @var type 
+     */
     protected $_mime = "";
     
     /**
@@ -58,7 +62,7 @@ Class Visor_upload_temp_kml{
      */
     protected function _setFileConfig($nombre){
         $file = explode(".", $nombre);
-        $this->_file_ext = $file[count($file)-1];
+        $this->_file_ext = strtolower($file[count($file)-1]);
         $this->_file_name = $nombre;
     }
     

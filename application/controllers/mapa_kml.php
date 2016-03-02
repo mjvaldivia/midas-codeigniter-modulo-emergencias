@@ -8,6 +8,12 @@ class Mapa_kml extends MY_Controller {
      */
     public $_emergencia_kml_model;
     
+        /**
+     *
+     * @var Emergencia_Kml_Elemento_Model 
+     */
+    public $_emergencia_kml_elemento_model;
+    
     /**
      *
      * @var Emergencia_Model 
@@ -20,6 +26,7 @@ class Mapa_kml extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("emergencia_kml_model", "_emergencia_kml_model");
+        $this->load->model("emergencia_kml_elemento_model", "_emergencia_kml_elemento_model");
         $this->load->model("emergencia_model", "_emergencia_model");
     }
     
@@ -64,7 +71,8 @@ class Mapa_kml extends MY_Controller {
                         "hash" => "archivo_importado_" . $elemento["id"],
                         "tipo" => strtoupper($elemento["tipo"]),
                         "nombre" => strtoupper($elemento["nombre"]),
-                        "archivo" => $elemento["archivo"]
+                        "archivo" => $elemento["archivo"],
+                        "elementos" => $this->_emergencia_kml_elemento_model->listaPorKml($elemento["id"])
                     );
                     
                 }
@@ -129,8 +137,11 @@ class Mapa_kml extends MY_Controller {
     public function upload_kml(){
         header('Content-type: application/json');
         
-        $this->load->library(array(
-            "visor/upload/visor_upload_temp_kml")
+        $this->load->library(
+            array(
+                "visor/upload/visor_upload_temp_kml",
+                "archivo/kml/archivo_kml_descomponer"
+            )
         );
         
         $params = $this->input->post(null, true);
@@ -144,24 +155,29 @@ class Mapa_kml extends MY_Controller {
             $error["nombre"] = "Debe ingresar un nombre";
         }
         
+        $elementos = array();
         $retorno_archivo = $this->visor_upload_temp_kml->upload(); 
         if(!$retorno_archivo["correcto"]){
             $correcto = false;
             $error["archivo"] = $retorno_archivo["mensaje"];  
-        }  
+        } else {
+            $this->archivo_kml_descomponer->setFileHash($retorno_archivo["hash"]);
+            $elementos = $this->archivo_kml_descomponer->process();
+        }
         
         $retorno = array("correcto" => $correcto,
                          "nombre" => strtoupper($params["nombre"]),
                          "archivo" => $retorno_archivo["archivo_nombre"],
                          "tipo" => $retorno_archivo["tipo"],
                          "hash" => $retorno_archivo["hash"],
+                         "elementos" => $elementos,
                          "errores" => $error);
         
         echo json_encode($retorno);
     }
     
     /**
-     * 
+     * Genera archivo KMZ con elementos del visor
      */
     public function ajax_generar_kmz(){
         header('Content-type: application/json');

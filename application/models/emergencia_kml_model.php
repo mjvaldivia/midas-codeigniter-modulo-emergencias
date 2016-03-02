@@ -10,7 +10,7 @@ class Emergencia_Kml_Model extends MY_Model
      *
      * @var string 
      */
-    protected $_tabla = "emergencias_kml";
+    protected $_tabla = "emergencias_mapa_archivo";
     
     /**
      * Retorna por el identificador

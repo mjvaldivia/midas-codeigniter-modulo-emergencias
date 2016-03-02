@@ -56,6 +56,7 @@
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/archivos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/formatos/kml/importar/marcador.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/zonas.js"); ?>
