@@ -21,10 +21,7 @@ function formatState (state) {
 };
 
 $(document).ready(function() {
-    
-    
-    
-    
+
     $(".rut:input").mask('0000000000-A', {reverse: true});
     
     Messenger.options = {
