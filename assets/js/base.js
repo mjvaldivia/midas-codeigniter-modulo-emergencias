@@ -114,7 +114,7 @@ $(document).ready(function() {
         
         var id = $(this).attr("id");
         $(this).dataTable({
-            "lengthMenu": [[5,10, 25, 50], [5,10, 25, 50]],
+            "lengthMenu": [[5,10, 20, 25, 50], [5, 10, 20, 25, 50]],
             "pageLength": filas,
             "destroy" : true,
             "aaSorting": [],

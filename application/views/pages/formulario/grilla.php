@@ -5,7 +5,7 @@
             <th width="10%">Fecha</th>
             <th width="5%">Semana</th>
             <th width="10%">Estado</th>
-            <th width="10%">Diagnostico clínico</th>
+            <th width="10%">Diagnóstico clínico</th>
             <th width="10%">Médico</th>
             
             <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
