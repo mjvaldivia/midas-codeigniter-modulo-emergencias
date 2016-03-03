@@ -322,6 +322,10 @@ var MapaEditor = Class({
                     if(a["hash"] == id){
                         var marcador = new MapaMarcador();
                         marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
+                        
+                        var poligono = new MapaPoligono();
+                        poligono.removerPoligono("identificador", "kml_" + a["hash"]);
+                        
                         return false;
                     } else {
                         return true;

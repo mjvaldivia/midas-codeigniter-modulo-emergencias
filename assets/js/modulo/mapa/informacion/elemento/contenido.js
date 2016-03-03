@@ -56,16 +56,27 @@ var MapaInformacionElementoContenido = Class({
         var yo = this;
         
         $.each(lista_poligonos, function(i, forma){
-            
             if(forma.clave != elemento.clave){
-                var bo_forma_dentro_de_poligono = yo.elementoContainsElemento(elemento, forma, true);
-                
-                if(bo_forma_dentro_de_poligono){
-                    var data = {"informacion" : forma.informacion};
-                    if(forma.capa != null){
-                        data["CAPA"] = forma.capa;
+                var existe = jQuery.grep(yo.formas, function( a ) {
+                    if(a["clave"] == forma.clave && a.nombre == forma.nombre){
+                        return true;
                     }
-                    yo.formas.push(data);
+                });
+                
+                if(existe.length == 0){
+                
+                    var bo_forma_dentro_de_poligono = yo.elementoContainsElemento(elemento, forma, true);
+
+                    if(bo_forma_dentro_de_poligono){
+                        var data = {"clave" : forma.clave,
+                                    "nombre" : forma.nombre,
+                                    "informacion" : forma.informacion};
+                        if(forma.capa != null){
+                            data["CAPA"] = forma.capa;
+                        }
+
+                        yo.formas.push(data);
+                    }
                 }
             }
         });
@@ -186,9 +197,13 @@ var MapaInformacionElementoContenido = Class({
      * @returns {unresolved}
      */
     checkBounds : function(elemento, forma){
-        var elemento_bound = new google.maps.LatLngBounds(elemento.getBounds().getSouthWest(),elemento.getBounds().getNorthEast());
-        var forma_bound = new google.maps.LatLngBounds(forma.getBounds().getSouthWest(), forma.getBounds().getNorthEast());
-        return elemento_bound.intersects(forma_bound);        
+        if(elemento.tipo == "LINEA" || forma.tipo == "LINEA"){
+            return false;
+        } else {
+            var elemento_bound = new google.maps.LatLngBounds(elemento.getBounds().getSouthWest(),elemento.getBounds().getNorthEast());
+            var forma_bound = new google.maps.LatLngBounds(forma.getBounds().getSouthWest(), forma.getBounds().getNorthEast());
+            return elemento_bound.intersects(forma_bound);       
+        }
     },
     
     /**

@@ -122,11 +122,8 @@ var MapaArchivos = Class({
                                    if(elemento.tipo == "KMZ" || elemento.tipo == "KML"){
                                        
                                         $.each(elemento.elementos, function(i, row){
-                                           if(row["tipo"] == "PUNTO"){
-                                               
-                                                var coordenadas = jQuery.parseJSON(row.coordenadas);
-                                   
-                                               
+                                            var coordenadas = jQuery.parseJSON(row.coordenadas);
+                                            if(row["tipo"] == "PUNTO"){
                                                 var marcador = new MapaKmlImportarMarcador();
                                                 marcador.seteaMapa(mapa);
                                                 marcador.posicionarMarcador(
@@ -139,7 +136,34 @@ var MapaArchivos = Class({
                                                         row.propiedades, 
                                                         baseUrl + row.icono
                                                );
-                                           } 
+                                            } 
+                                           
+                                            if(row["tipo"] == "MULTIPOLIGONO"){
+                                               
+                                                var poligono = new MapaPoligonoMulti();
+                                                poligono.seteaMapa(mapa);
+                                                poligono.dibujarPoligono(
+                                                    "kml_" + elemento.hash,
+                                                    row.nombre, 
+                                                    null,
+                                                    coordenadas, 
+                                                    {"NOMBRE" : row.nombre,
+                                                    "TIPO" : elemento.nombre},
+                                                    null, 
+                                                    row.color);
+                                            }
+                                            
+                                            if(row["tipo"] == "LINEA"){
+                                                var linea = new MapaLineaMulti();
+                                                linea.seteaMapa(mapa);
+                                                linea.dibujarLinea(
+                                                    "kml_" + elemento.hash,
+                                                    null, 
+                                                    coordenadas.linea, 
+                                                    {"NOMBRE" : row.nombre},
+                                                    null,
+                                                    row.color);
+                                            }
                                         });
                                        
                                         kml = {

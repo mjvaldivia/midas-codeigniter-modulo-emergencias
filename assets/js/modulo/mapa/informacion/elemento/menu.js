@@ -116,8 +116,6 @@ var MapaInformacionElementoMenu = Class({
         var yo = this;
         this._hideMenu();
         
-        console.log(lista_elementos);
-        console.log(lista_elementos.length);
         if(lista_elementos.length == 1){
             funcion_popup(lista_elementos);
         } else {

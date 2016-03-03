@@ -8,7 +8,7 @@ class Mapa_kml extends MY_Controller {
      */
     public $_emergencia_kml_model;
     
-        /**
+    /**
      *
      * @var Emergencia_Kml_Elemento_Model 
      */
@@ -64,7 +64,6 @@ class Mapa_kml extends MY_Controller {
             $lista_elementos = $this->_emergencia_kml_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_elementos)>0){
                 foreach($lista_elementos as $elemento){
-
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array(
                         "id" => $elemento["id"],
@@ -85,53 +84,6 @@ class Mapa_kml extends MY_Controller {
     }
     
     /**
-     * Retorna archivo KML asociado a una emergencia
-     */
-    public function kml(){
-         $params = $this->uri->uri_to_assoc();
-         $kml = $this->_emergencia_kml_model->getById($params["id"]);
-         if(!is_null($kml)){
-            header("Content-Type: text/plain");
-            header("Content-Disposition: inline;filename=archivo." . $kml->tipo); 
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public'); 
-            echo $kml->kml;
-         }
-    }
-    
-    /**
-     * Muestra KML temporal
-     * @throws Exception
-     */
-    public function kml_temporal(){
-        $this->load->library(array("cache"));
-        $params = $this->uri->uri_to_assoc();
-        $cache = Cache::iniciar();
-        if($archivo = $cache->load($params["hash"])){
-            
-            switch ($archivo["tipo"]) {
-                case "kml":
-                    $content_type = "application/vnd.google-earth.kml+xml";  
-                    break;
-                case "kmz":
-                    $content_type = "application/vnd.google-earth.kmz"; 
-                    break;
-                default:
-                    throw new Exception(__METHOD__ . " - El tipo de archivo no es valido");
-                    break;
-            }
-
-            header("Content-Type: " . $content_type);
-            header("Content-Disposition: inline;filename=" . $archivo["archivo_nombre"]); 
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public'); 
-            echo $archivo["archivo"];
-        }
-    }
-    
-    /**
      * Sube KML a archivo temporal
      */
     public function upload_kml(){
@@ -141,7 +93,7 @@ class Mapa_kml extends MY_Controller {
         $this->load->library(
             array(
                 "visor/upload/visor_upload_temp_kml",
-                "archivo/kml/archivo_kml_descomponer"
+                "kml/kml_descomponer"
             )
         );
         
@@ -162,8 +114,8 @@ class Mapa_kml extends MY_Controller {
             $correcto = false;
             $error["archivo"] = $retorno_archivo["mensaje"];  
         } else {
-            $this->archivo_kml_descomponer->setFileHash($retorno_archivo["hash"]);
-            $elementos = $this->archivo_kml_descomponer->process();
+            $this->kml_descomponer->setFileHash($retorno_archivo["hash"]);
+            $elementos = $this->kml_descomponer->process();
         }
         
         $retorno = array("correcto" => $correcto,

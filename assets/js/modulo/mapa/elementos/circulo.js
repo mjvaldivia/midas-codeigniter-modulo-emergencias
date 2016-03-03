@@ -89,12 +89,7 @@ var MapaCirculo = Class({
 
         var informacion = new MapaInformacionElemento();
         informacion.addRightClickListener(circulo, this.mapa);
-        
-
-        
-        /*var circuloClickListener = new MapaCirculoMoveListener();
-        circuloClickListener.addMoveListener(circulo, this.mapa);*/
-        
+                
         lista_poligonos.push(circulo);
     }
     

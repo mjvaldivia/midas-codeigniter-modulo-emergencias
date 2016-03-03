@@ -1,8 +1,7 @@
 <?php
 
-Class Archivo_kml_descomponer{
+Class Kml_descomponer{
     
-        
     /**
      *
      * @var CI_Controller
@@ -46,9 +45,10 @@ Class Archivo_kml_descomponer{
     protected $_styles = array();
     
     /**
-     * 
+     * Constructor
      */
-    public function __construct() {
+    public function __construct() 
+    {
         $this->_ci =& get_instance();
         $this->_ci->load->library(
             array("string", "cache")
@@ -57,47 +57,118 @@ Class Archivo_kml_descomponer{
         $this->_dir_temp = FCPATH . "media/tmp/";
     }
     
-    
-    
     /**
      * Procesar
      */
-    public function process(){
-        
+    public function process()
+    {    
         foreach (glob($this->_dir_temp . "/*.kml") as $filename) {
             
+            //convertir KML a array
             $data = Zend_Json::decode(Zend_Json::fromXml(file_get_contents($filename), false));
-           
+
             $this->_findPlacemarks($data);
             $this->_findStyles($data);
+            $this->_findStylesMap($data);
         }
         
-   
-        
+       
+
         if(count($this->_placemarks)>0){
             foreach($this->_placemarks as $key => $placemark){
-                foreach($placemark as $elemento){
-                    $this->_procesaPunto($elemento);
-                    $this->_procesaMultiPoligono($elemento);
+                if(isset($placemark[0])){
+                    foreach($placemark as $elemento){
+                        $this->_procesaPunto($elemento);
+                        $this->_procesaMultiPoligono($elemento);
+                        $this->_procesaLinea($elemento);
+                    }
+                } else {
+                    $this->_procesaPunto($placemark);
+                    $this->_procesaMultiPoligono($placemark);
+                    $this->_procesaLinea($placemark);
                 }
             }
         }
         
-        //fb($this->_elementos[0]);
-        //se agregan los elementos al cache
+        //se agregan los elementos al cache que contiene el archivo
         $cache = Cache::iniciar();
         $data = $cache->load($this->_hash);
         $data["elementos"] = $this->_elementos;
         $cache->save($data, $this->_hash);
         
-        return $this->_elementos;
-                
+        return $this->_elementos;           
     }
     
+    /**
+     * 
+     * @param array $elemento
+     */
+    protected function _procesaLinea($elemento)
+    {
+        
+        if(isset($elemento["MultiGeometry"]["LineString"])){
+            
+            $data = array("tipo" => "LINEA");
+            
+            if(isset($elemento["name"])){
+                $data["nombre"] = $elemento["name"];
+            } else {
+                $data["nombre"] = "SIN NOMBRE";
+            }
+            
+            if(isset($elemento["description"])){
+                $data["descripcion"] = $elemento["description"];
+            } else {
+                $data["descripcion"] = "SIN DESCRIPCIÓN";
+            }
+            
+            if(isset($elemento["styleUrl"])){
+                $id = str_replace("#", "", $elemento["styleUrl"]);
+                if(isset($this->_styles[$id]["linea"]["color"])){
+                    $data["color"] = $this->_styles[$id]["linea"]["color"];
+                }
+            }
+            
+            if(isset($elemento["MultiGeometry"]["LineString"]["coordinates"])){
+                $data["coordenadas"]["linea"][] = $this->_procesaCoordenadasLinea($elemento["MultiGeometry"]["LineString"]["coordinates"]);
+            } else {
+                foreach($elemento["MultiGeometry"]["LineString"] as $linea){
+                    $data["coordenadas"]["linea"][] = $this->_procesaCoordenadasLinea($linea["coordinates"]);
+                }
+            }
+                        
+            $this->_elementos[] = $data;
+        }
+    }
     
-    protected function _procesaMultiPoligono($elemento){
-
-        if(isset($elemento["MultiGeometry"])){
+    /**
+     * 
+     * @param string $data
+     * @return array
+     */
+    protected function _procesaCoordenadasLinea($data)
+    {
+        $coord = array();
+        $coordenadas = explode(" ", TRIM($data));
+        if(count($coordenadas)>0){
+            foreach($coordenadas as $string){
+                $latLon = explode(",", $string);
+                $coord[] = array(
+                    1 => $latLon[0],
+                    0 => $latLon[1]
+                );
+            }
+        }
+        return $coord;
+    }
+    
+    /**
+     * Procesa los datos de los multipoligonos
+     * @param array $elemento
+     */
+    protected function _procesaMultiPoligono($elemento)
+    {
+        if(isset($elemento["MultiGeometry"]["Polygon"])){
             
             $data = array("tipo" => "MULTIPOLIGONO");
             
@@ -113,13 +184,11 @@ Class Archivo_kml_descomponer{
                 $data["descripcion"] = "SIN DESCRIPCIÓN";
             }
             
-            $color = "";
             if(isset($elemento["styleUrl"])){
                 $id = str_replace("#", "", $elemento["styleUrl"]);
                 if(isset($this->_styles[$id]["poligono"]["color"])){
-                    $color = $this->_styles[$id]["poligono"]["color"];
+                    $data["color"] = $this->_styles[$id]["poligono"]["color"];
                 }
-                
             }
             
             if(isset($elemento["MultiGeometry"]["Polygon"]["outerBoundaryIs"])){
@@ -139,8 +208,8 @@ Class Archivo_kml_descomponer{
      * @param array $data
      * @return array
      */
-    protected function _procesaCoordenadasPoligono($data){
-        
+    protected function _procesaCoordenadasPoligono($data)
+    {
         $coord = array();
         $coordenadas = explode(" ", TRIM($data["outerBoundaryIs"]["LinearRing"]["coordinates"]));
         if(count($coordenadas)>0){
@@ -157,10 +226,11 @@ Class Archivo_kml_descomponer{
     }
     
     /**
-     * 
+     * Procesa los datos de un punto
      * @param array $elemento
      */
-    protected function _procesaPunto($elemento){
+    protected function _procesaPunto($elemento)
+    {
         if(isset($elemento["Point"])){
 
             $coordenadas = explode("," , $elemento["Point"]["coordinates"]);
@@ -183,7 +253,6 @@ Class Archivo_kml_descomponer{
                 if(isset($this->_styles[$id]["icono"]["path"])){
                     $icono = $this->_styles[$id]["icono"]["path"];
                 }
-                
             }
             
             $this->_elementos[] = array(
@@ -201,10 +270,11 @@ Class Archivo_kml_descomponer{
     }
     
     /**
-     * Prepara el archivo del cache y lo coloca en directorio temporal
+     * Prepara el archivo y lo coloca en directorio temporal
      * @param string $hash
      */
-    public function setFileHash($hash){
+    public function setFileHash($hash)
+    {
         $this->_hash = $hash;
         $cache = Cache::iniciar();
         if($this->_file_info = $cache->load($hash)){
@@ -228,15 +298,47 @@ Class Archivo_kml_descomponer{
                     unlink($this->_dir_temp . "/" . $this->_file_info["archivo_nombre"]);
                 }
             }
-            
         }
     }
     
     /**
-     * 
+     * Busca los estilos mapeados
+     * y selecciona el primer estilo que encuentra para cada uno
+     * @param array $array
+     */
+    protected function _findStylesMap($array)
+    {
+        
+        if(is_array($array)){
+            foreach($array as $id => $styleMap){
+                if($id == "StyleMap"){
+                    if(isset($styleMap["Pair"])){
+                        if(isset($styleMap["@attributes"]["id"])){
+                            $this->_styles[$styleMap["@attributes"]["id"]] = $this->_styles[str_replace("#", "", $styleMap["Pair"][0]["styleUrl"])] ;
+                        }
+                    } else {
+                        foreach($styleMap as $propiedades){
+                            if(isset($propiedades["@attributes"]["id"])){
+                                $this->_styles[$propiedades["@attributes"]["id"]] = $this->_styles[str_replace("#", "", $propiedades["Pair"][0]["styleUrl"])] ;
+                            }
+                        }
+                    }
+                    
+                } else {
+                    if($id != "Folder" && $id!="Placement"){
+                        $this->_findStylesMap($styleMap);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Encuentra estilos para elementos
      * @param type $array
      */
-    protected function _findStyles($array){
+    protected function _findStyles($array)
+    {
         if(is_array($array)){
             foreach($array as $id => $style){
                 if($id == "Style"){
@@ -250,7 +352,9 @@ Class Archivo_kml_descomponer{
                         }
                     }
                 } else {
-                    $this->_findStyles($style);
+                    if($id != "Folder"){
+                        $this->_findStyles($style);
+                    }
                 }
             }
         }
@@ -260,17 +364,16 @@ Class Archivo_kml_descomponer{
      * Agrega el estilo
      * @param array $value
      */
-    protected function _addStyle($value){
+    protected function _addStyle($value)
+    {
         $icono = array();
 
         if(isset($value["IconStyle"]["Icon"])){
-
             $icono = array(
                 "icono" => array(
                     "path" => str_replace(FCPATH, "", $this->_dir_temp . "/" . $value["IconStyle"]["Icon"]["href"])
                 )
             );
-
         }
 
         $poligono = array();
@@ -282,21 +385,34 @@ Class Archivo_kml_descomponer{
                 )
             );
         }
+        
+        $linea = array();
 
-        $this->_styles[$value["@attributes"]["id"]] = array_merge($icono, $poligono);
+        if(isset($value["LineStyle"]["color"])){
+            $linea = array(
+                "linea" => array(
+                    "color"  =>  $this->_color($value["LineStyle"]["color"])
+                )
+            );
+        }
+
+        $this->_styles[$value["@attributes"]["id"]] = array_merge($icono, $poligono, $linea);
     }
     
     /**
      * Busca los placemarks que contienen elementos
      * @param array $array
      */
-    protected function _findPlacemarks($array){
+    protected function _findPlacemarks($array)
+    {
         if(is_array($array)){
             foreach($array as $id => $value){
-                if($id == "Placemark"){
-                    $this->_placemarks[] = $value;
-                } else {
-                    $this->_findPlacemarks($value);
+                if($id != "Style"){
+                    if($id == "Placemark"){
+                        $this->_placemarks[] = $value;
+                    } else {
+                        $this->_findPlacemarks($value);
+                    }
                 }
             }
         }
@@ -304,15 +420,15 @@ Class Archivo_kml_descomponer{
     
     /**
      * 
-     * @param type $color
-     * @return type
+     * @param string $color
+     * @return string
      */
-    protected function _color($color){
-        $azul = substr($hex, 2, 2);
-        $verde = substr($hex, 4, 2);
-        $rojo = substr($hex, 6);
+    protected function _color($color)
+    {
+        $azul = substr($color, 2, 2);
+        $verde = substr($color, 4, 2);
+        $rojo = substr($color, 6);
         
         return "#".$rojo.$verde.$azul;
     }
 }
-

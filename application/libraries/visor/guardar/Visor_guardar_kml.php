@@ -93,6 +93,10 @@ Class Visor_guardar_kml{
                                 $data_elemento["icono"] = $this->_saveIcon($id, $elemento["icono"]);
                             }
                             
+                            if($elemento["tipo"] == "MULTIPOLIGONO" || $elemento["tipo"] == "LINEA"){
+                                $data_elemento["color"] = $elemento["color"];
+                            }
+                            
                             $this->_emergencia_kml_elemento_model->insert(
                                 $data_elemento
                             );

@@ -19,21 +19,22 @@ var MapaLineaMulti = Class({ extends : MapaLinea}, {
             });
 
             var linea = new google.maps.Polyline({
-                    path: coord,
-                    identificador: id,
-                    clave : "linea_" + id,
-                    capa: capa,
-                    informacion: propiedades,
+                id : id,
+                path: coord,
+                identificador: id,
+                clave : "linea_" + id,
+                capa: capa,
+                informacion: propiedades,
+                tipo: "LINEA",
+                geodesic: true,
+                strokeColor: color,
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
 
-                    geodesic: true,
-                    strokeColor: color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2
-                });
+            linea.setMap(yo.mapa);
 
-                linea.setMap(yo.mapa);
-
-                lista_poligonos.push(linea);
+            lista_poligonos.push(linea);
         });    
     }   
 });

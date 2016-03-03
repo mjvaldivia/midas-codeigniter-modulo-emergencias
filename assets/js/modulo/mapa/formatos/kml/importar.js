@@ -113,9 +113,21 @@ var MapaKmlImportar = Class({
                                     elemento["nombre"], 
                                     null,
                                     elemento["coordenadas"], 
-                                    {"NOMBRE" : "TEST"},
+                                    {"NOMBRE" : elemento["nombre"]},
                                     null, 
-                                    "#000000");
+                                    elemento["color"]);
+                            }
+                            
+                            if(elemento["tipo"] == "LINEA"){
+                                var linea = new MapaLineaMulti();
+                                linea.seteaMapa(yo.mapa);
+                                linea.dibujarLinea(
+                                    "kml_" + data.response.hash, 
+                                    null, 
+                                    elemento["coordenadas"]["linea"],
+                                    {"NOMBRE" : elemento["nombre"]},
+                                    null,
+                                    elemento["color"]);
                             }
                         });
                         

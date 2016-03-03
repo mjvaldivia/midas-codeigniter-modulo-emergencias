@@ -200,6 +200,9 @@ var MapaInformacionElemento = Class({
                     case "CIRCULO":
                         bo_elemento_seleccionado = (google.maps.geometry.spherical.computeDistanceBetween(event.latLng, elemento_seleccionado.getCenter()) <= elemento_seleccionado.getRadius());
                         break;
+                    case "LINEA":
+                        //no se hace nada
+                        break;
                     case "POLIGONO":
                     default:
                         bo_elemento_seleccionado = elemento_seleccionado.containsLatLng(event.latLng); 
@@ -211,10 +214,7 @@ var MapaInformacionElemento = Class({
                 }
             });
 
-            console.log(seleccionado);
-
-            yo.muestraMenu(mapa, seleccionado, event.latLng);
-            
+            yo.muestraMenu(mapa, seleccionado, event.latLng);            
         });
     },
     

@@ -14,7 +14,7 @@ var MapaLinea = Class({
     },
     
     
-    dibujarLinea : function(id, capa, geometry, propiedades, zona){
+    dibujarLinea : function(id, capa, geometry, propiedades, zona, color){
         var yo = this;
         
         var linea = new google.maps.Polyline({
@@ -23,14 +23,16 @@ var MapaLinea = Class({
             clave : "poligono_" + id,
             capa: capa,
             informacion: propiedades,
-            
+            tipo: "LINEA",
             geodesic: true,
-            strokeColor: '#FF0000',
+            strokeColor: "#00000",
             strokeOpacity: 1.0,
             strokeWeight: 2
         });
 
         linea.setMap(this.mapa);
+        
+        lista_poligonos.push(linea);
     },
     
      /**
@@ -44,6 +46,7 @@ var MapaLinea = Class({
         var i;
         $.each(geometry, function(i, coordenadas){
            $.each(coordenadas, function(j, valores){
+               console.log(valores);
                poligono.push(new google.maps.LatLng(parseFloat(valores[0]), parseFloat(valores[1])));
            });
         });
