@@ -36,7 +36,8 @@ var MapaLayoutAmbitoCapa = Class({
             var id = $(this).val();
             
             if($(this).is(":checked")){
-                yo.loadMarkers(id);
+                var nombre = $(this).parent().parent().children(".nombre-ambito").html();
+                yo.loadMarkers(id, nombre);
             } else {
                 var marcador = new MapaMarcador();
                 marcador.removerMarcadores("identificador", "instalacion_ambito_" + id);
@@ -49,7 +50,7 @@ var MapaLayoutAmbitoCapa = Class({
      * @param {type} id_ambito
      * @returns {undefined}
      */
-    loadMarkers : function(id_ambito){
+    loadMarkers : function(id_ambito, nombre_ambito){
         var yo = this;
         
         var comunas = {};
@@ -95,12 +96,14 @@ var MapaLayoutAmbitoCapa = Class({
                     $.each(data.retorno, function(i, instalacion){
                         if(instalacion.ins_c_longitud != null && instalacion.ins_c_latitud != null){
                             var propiedades = {
-                                "nombre" : instalacion.ins_c_nombre_fantasia,
-                                "rut razón social" : instalacion.ins_c_rut,
-                                "nombre razón social": instalacion.ins_c_razon_social,
-                                "rut representante legal" : instalacion.ins_c_rut_representante,
-                                "nombre representante legal" : instalacion.ins_c_nombre_representante,
-                                "dirección" : instalacion.ins_c_nombre_direccion + " " + instalacion.ins_c_numero_direccion
+                                "NOMBRE" : instalacion.ins_c_nombre_fantasia,
+                                "TIPO" : "INSTALACIÓN",
+                                "AMBITO" : nombre_ambito,
+                                "RUT RAZÓN SOCIAL" : instalacion.ins_c_rut,
+                                "NOMBRE RAZÓN SOCIAL": instalacion.ins_c_razon_social,
+                                "RUT REPRESENTANTE" : instalacion.ins_c_rut_representante,
+                                "NOMBRE REPRESENTANTE" : instalacion.ins_c_nombre_representante,
+                                "DIRECCIÓN" : instalacion.ins_c_nombre_direccion + " " + instalacion.ins_c_numero_direccion
                             };
 
                             var marcador = new MapaMarcador();
@@ -158,7 +161,7 @@ var MapaLayoutAmbitoCapa = Class({
                                         + "<div style=\"float:left; margin-left:20px\">"
                                             + "<img height=\"30px\" src=\""+ icono+"\"/>"
                                         + "</div>"
-                                        + "<div style=\"margin-left:70px\">" + valores.amb_c_nombre + "</div>"
+                                        + "<div class=\"nombre-ambito\" style=\"margin-left:70px\">" + valores.amb_c_nombre + "</div>"
                                         + "</label>"
                                     + "</div>"
                                 + "</div>"
