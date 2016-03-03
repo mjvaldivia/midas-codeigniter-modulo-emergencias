@@ -67,6 +67,8 @@ Class Kml_descomponer{
             //convertir KML a array
             $data = Zend_Json::decode(Zend_Json::fromXml(file_get_contents($filename), false));
 
+            print_r($data);
+            
             $this->_findPlacemarks($data);
             $this->_findStyles($data);
             $this->_findStylesMap($data);
