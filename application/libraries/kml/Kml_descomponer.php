@@ -284,7 +284,7 @@ Class Kml_descomponer{
             
             $this->_dir_temp .= $this->_ci->string->rand_string(21);
             
-            mkdir($this->_dir_temp, "0755");
+            mkdir($this->_dir_temp, 0755);
             
             file_put_contents($this->_dir_temp . "/" . $this->_file_info["archivo_nombre"], $this->_file_info["archivo"]);
             
