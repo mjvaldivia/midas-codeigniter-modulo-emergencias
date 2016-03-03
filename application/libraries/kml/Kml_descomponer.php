@@ -62,6 +62,7 @@ Class Kml_descomponer{
      */
     public function process()
     {    
+        print_r($this->_dir_temp);
         foreach (glob($this->_dir_temp . "/*.kml") as $filename) {
             
             //convertir KML a array
