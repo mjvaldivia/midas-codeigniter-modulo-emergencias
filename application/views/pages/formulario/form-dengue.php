@@ -80,8 +80,8 @@
                                         <label for="sexo" class="control-label">Sexo(*):</label>
                                         <select name="sexo" id="sexo" class="form-control">
                                             <option value=""></option>
-                                            <option value="Masculino" <?php if($sexo == "Masculino") echo "selected" ?>> Masculino </option>
-                                            <option value="Femenino" <?php if($sexo == "Femenino") echo "selected" ?>> Femenino </option>
+                                            <option value="M" <?php if($sexo == "Masculino" || $sexo == "M") echo "selected" ?>> M </option>
+                                            <option value="F" <?php if($sexo == "Femenino" || $sexo == "F") echo "selected" ?>> F </option>
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>
