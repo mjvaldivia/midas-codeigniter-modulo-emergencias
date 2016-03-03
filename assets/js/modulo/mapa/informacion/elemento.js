@@ -119,7 +119,11 @@ var MapaInformacionElemento = Class({
             this.dialogoCapa(parametros);
         } else {
             if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
+                if(elemento.custom == true) {
                     this.dialogoEdicion(elemento.clave, parametros);
+                } else {
+                    this.dialogoInformacion(parametros);
+                }
             } else {
                 if(elemento.custom == true) {
                     parametros["radio"] = elemento.getRadius(); 
@@ -132,24 +136,6 @@ var MapaInformacionElemento = Class({
                 }
             }
         }
-        
-        /*
-        if(elemento.custom != null && elemento.custom == true){
-            if(elemento.tipo != "CIRCULO LUGAR EMERGENCIA"){
-               this.dialogoEdicion(elemento.clave, parametros); 
-            } else {
-                
-                parametros["radio"] = elemento.getRadius(); 
-                
-                this.dialogoLugarEmergencia(elemento.identificador, parametros); 
-            }
-        }  else { //es una capa
-            if(elemento.capa != null){
-                parametros["capa"] = elemento.capa;
-                this.dialogoCapa(parametros);
-            }
-            
-        }*/
     },
     
     /**
