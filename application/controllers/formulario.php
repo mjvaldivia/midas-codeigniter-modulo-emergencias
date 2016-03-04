@@ -86,7 +86,6 @@ class Formulario extends MY_Controller
             
             $estado = $this->_rapanui_dengue_estado_model->getById($caso->id_estado);
             if(!is_null($estado)){
-                fb("Estado " . $estado->id);
                 $data["conclusion_del_caso"] = $estado->id;
             }
             
@@ -173,9 +172,10 @@ class Formulario extends MY_Controller
      */
     public function excel(){
         
-        $this->load->helper(array(
-            "modulo/usuario/usuario",
-            "modulo/formulario/formulario"
+        $this->load->helper(
+            array(
+                "modulo/usuario/usuario",
+                "modulo/formulario/formulario"
             )
         );
         
@@ -186,6 +186,7 @@ class Formulario extends MY_Controller
         if(!is_null($lista)){
             foreach($lista as $caso){
                 $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
+                $datos_excel[count($datos_excel)-1]["id"] = $caso["id"];
                 $datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
                 $datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];
             }
@@ -202,9 +203,9 @@ class Formulario extends MY_Controller
 
             $columnas = reset($datos_excel);
             
-            
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "ESTADO"); 
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "MÉDICO"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "CASO"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "ESTADO"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, 1, "MÉDICO"); 
             
             $i = 2;
             foreach($columnas as $columna => $valor){
@@ -221,12 +222,13 @@ class Formulario extends MY_Controller
             $j = 2;
             foreach($datos_excel as $id => $valores){
                 
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, (string) nombreFormularioEstado($valores["id_estado"]));
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, (string) nombreUsuario($valores["id_usuario"]));
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, (string) nombreFormularioEstado($valores["id_estado"]));
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, (string) nombreUsuario($valores["id_usuario"]));
                 
                 unset($valores["id_usuario"]);
                 
-                $i = 2;
+                $i = 3;
                 foreach($valores as $columna => $valor){
                     $exportar = $this->_boExportarColumnaExcel($columna);
                     if($exportar){
@@ -247,6 +249,11 @@ class Formulario extends MY_Controller
         }
     }
     
+    /**
+     * 
+     * @param type $columna
+     * @return boolean
+     */
     protected function _boExportarColumnaExcel($columna){
         $exportar = true;
         if(!puedeVerFormularioDatosPersonales("casos_febriles")) {

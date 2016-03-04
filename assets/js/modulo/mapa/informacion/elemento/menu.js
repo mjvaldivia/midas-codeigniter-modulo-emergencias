@@ -119,7 +119,6 @@ var MapaInformacionElementoMenu = Class({
         if(lista_elementos.length == 1){
             funcion_popup(lista_elementos);
         } else {
-            
             yo._menu(mapa, lista_elementos, posicion, funcion_popup);
         }
 

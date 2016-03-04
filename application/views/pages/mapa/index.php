@@ -18,20 +18,25 @@
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
                             <ul class="dropdown-menu">
+                                <li class="divider"></li>
                                 <li>
                                     <a  id="btn-exportar-kml" href="javascript:void(0)"> <i class="fa fa-map"></i> Kmz </a>
                                 </li>
+                                <li class="divider"></li>
                             </ul>
                         </li>
+                        <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-download"></i> Importar</a>
                             <ul class="dropdown-menu">
+                                <li class="divider"></li>
                                 <li>
                                     <a  id="btn-importar-kml" href="javascript:void(0)"> <i class="fa fa-map"></i> Kml/Kmz </a>
                                 </li>
                                 <!--<li>
                                     <a id="btn-importar-excel" href="#"> <i class="fa fa-table"></i> Excel </a>
                                 </li>-->
+                                <li class="divider"></li>
                             </ul>
                         </li>
                         

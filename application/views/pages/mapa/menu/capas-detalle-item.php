@@ -9,7 +9,7 @@
                         <input <?php echo visorCapasSeleccionadasChecked($id, $seleccionadas);?> class="menu-capa-checkbox" type="checkbox" value="<?php echo $id; ?>" />
                     </div>
                     <div style="margin-left:10px; width:30px; float:left"><?php echo getSubCapaPreview($id) ?></div>
-                    <div style="margin-left:10px"><?php echo $nombre; ?></div>
+                    <div style="margin-left:50px"><?php echo $nombre; ?></div>
                 </label>
                 </div>
             </div>

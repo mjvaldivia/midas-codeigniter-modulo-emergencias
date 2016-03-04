@@ -940,7 +940,7 @@
                             </div>
                         </div>
                         
-                        <div class="<?php if(!puedeFinalizarEmergencia("casos_febriles")) echo "hidden"; ?>">
+                        <div class="">
                         
                         <div class="row top-spaced-doble">
                             <div class="col-xs-12">
@@ -1128,7 +1128,7 @@
                                 </table>
                             </div>
                             <div class="col-xs-3">
-                                 <div class="tile blue">
+                                 <div class="tile blue <?php if(!puedeFinalizarEmergencia("casos_febriles")) echo "hidden"; ?>">
                                     <div class="form-group clearfix">
                                        <label for="conclusion_del_caso" class="control-label">Conclusión del caso:</label>
                                        <select name="conclusion_del_caso" id="conclusion_del_caso" class="form-control">

@@ -148,11 +148,11 @@ var MapaInformacionElemento = Class({
         var yo = this;
         
         elemento.addListener('rightclick', function(event) {
-           
+
             // busca elementos en el punto donde se hizo click
             var seleccionado = [];
             $.each(lista_poligonos, function(j, elemento_seleccionado){
-                
+
                 var bo_elemento_seleccionado = false;
                 switch(elemento_seleccionado.tipo){
                     case "RECTANGULO":
@@ -162,7 +162,7 @@ var MapaInformacionElemento = Class({
                     case "CIRCULO LUGAR EMERGENCIA":
                         bo_elemento_seleccionado = (google.maps.geometry.spherical.computeDistanceBetween(event.latLng, elemento_seleccionado.getCenter()) <= elemento_seleccionado.getRadius());
                         if(bo_elemento_seleccionado){
-                            
+
                             //se buscan hermanas
                             var zonas = jQuery.grep(lista_poligonos, function( a ) {
                                 if(a["tipo"] == "CIRCULO LUGAR EMERGENCIA" && a["identificador"] != elemento_seleccionado.identificador){
@@ -171,7 +171,7 @@ var MapaInformacionElemento = Class({
                                     }
                                 }
                             });
-                            
+
                             //si las hermanas son mas chicas (estan contenidas dentro de la zona), entonces no se incluye esta zona en el menu
                             if(zonas.length > 0){
                                var mi_radio = elemento_seleccionado.getRadius();
@@ -194,14 +194,15 @@ var MapaInformacionElemento = Class({
                         bo_elemento_seleccionado = elemento_seleccionado.containsLatLng(event.latLng); 
                         break;
                 }
-                
+
                 if(bo_elemento_seleccionado){
                     seleccionado.push(elemento_seleccionado);
                 }
             });
 
-            yo.muestraMenu(mapa, seleccionado, event.latLng);            
+            yo.muestraMenu(mapa, seleccionado, event.latLng);       
         });
+     
     },
     
     /**
@@ -213,6 +214,7 @@ var MapaInformacionElemento = Class({
      */
     muestraMenu : function(mapa, lista_elementos, posicion){
         var yo = this;
+        
         var menu = new MapaInformacionElementoMenu();
         menu.render(
                 mapa, 
@@ -231,24 +233,35 @@ var MapaInformacionElemento = Class({
      */
     preparaPopupInformacion : function(mapa,lista_elementos){
         
-        var contenido = new MapaInformacionElementoContenido();
+        var yo = this;
         
-        var elemento_principal = null;
-        $.each(lista_elementos, function(i, elemento){
-            
-            //guardo informacion del ultimo elemento listado
-            elemento_principal = elemento;
-            
-            //se recorren marcadores, y se busca los que estan dentro del elemento
-            contenido.procesaMarcadores(elemento);
-            contenido.procesaFormas(elemento, mapa);
+        var box = bootbox.dialog({
+                message: '<div class=\"row\"><div class=\"col-xs-12 text-center\"><i class="fa fa-3x fa-spin fa-spinner"></i> <br/> Procesando información </div> </div>',
+                title: '<i class=\"fa fa-arrow-right\"></i> Datos del elemento',
+                buttons: {}
+            });
+
+        box.on("shown.bs.modal", function() {
+            var contenido = new MapaInformacionElementoContenido();
+
+            var elemento_principal = null;
+            $.each(lista_elementos, function(i, elemento){
+
+                //guardo informacion del ultimo elemento listado
+                elemento_principal = elemento;
+
+                //se recorren marcadores, y se busca los que estan dentro del elemento
+                contenido.procesaMarcadores(elemento);
+                contenido.procesaFormas(elemento, mapa);
+            });
+
+            bootbox.hideAll();
+            yo.popupInformacion(
+                contenido.retornaMarcadores(), 
+                contenido.retornaFormas(),
+                elemento_principal
+            );
         });
-  
-        this.popupInformacion(
-            contenido.retornaMarcadores(), 
-            contenido.retornaFormas(),
-            elemento_principal
-        );
 
     }
 });

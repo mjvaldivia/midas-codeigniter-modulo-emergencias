@@ -83,8 +83,24 @@ var MapaKmlImportar = Class({
                         return {"nombre" : $("#nombre").val()}
                     }
                 }).on("filebatchselected", function(event, files) {
-                    $(".modal-footer > .btn-success").attr("disabled",false);
+                    
+                    $(".modal-footer > .btn-success").attr("disabled", false);
+                    
+                }).on("filebatchpreupload", function(event, data, previewId, index){
+                    
+                    $(".modal-footer > .btn-success").removeClass("fa-check");
+
+                    
+                    $(".modal-footer > .btn-success").html("<i class=\"fa fa-spin fa-spinner\"></i> Procesando archivo");
+                    $(".modal-footer > .btn-success").attr("disabled", true);
+                    
                 }).on('filebatchuploadsuccess', function(event, data) {
+                    
+                    $(".modal-footer > .btn-success").addClass("fa-check");
+
+                    
+                    $(".modal-footer > .btn-success").html("Cargar archivo");
+                    $(".modal-footer > .btn-success").attr("disabled", false);
                     
                     if(data.response.correcto){
                         bootbox.hideAll();
