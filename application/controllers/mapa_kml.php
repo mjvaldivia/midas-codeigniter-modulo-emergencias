@@ -83,6 +83,37 @@ class Mapa_kml extends MY_Controller {
         echo json_encode($data);
     }
     
+       /**
+     * Muestra KML temporal
+     * @throws Exception
+     */
+    public function kml_temporal(){
+        $this->load->library(array("cache"));
+        $params = $this->uri->uri_to_assoc();
+        $cache = Cache::iniciar();
+        if($archivo = $cache->load($params["hash"])){
+            
+            switch ($archivo["tipo"]) {
+                case "kml":
+                    $content_type = "application/vnd.google-earth.kml+xml";  
+                    break;
+                case "kmz":
+                    $content_type = "application/vnd.google-earth.kmz"; 
+                    break;
+                default:
+                    throw new Exception(__METHOD__ . " - El tipo de archivo no es valido");
+                    break;
+            }
+
+            header("Content-Type: " . $content_type);
+            header("Content-Disposition: inline;filename=" . $archivo["archivo_nombre"]); 
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public'); 
+            echo $archivo["archivo"];
+        }
+    }
+    
     /**
      * Sube KML a archivo temporal
      */
