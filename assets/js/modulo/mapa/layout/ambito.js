@@ -45,6 +45,10 @@ var MapaLayoutAmbitoCapa = Class({
         });
     },
     
+    /**
+     * 
+     * @returns {com.com_c_nombre}
+     */
     loadComunas : function(){
         var yo = this;
         var comunas = {};
@@ -88,48 +92,57 @@ var MapaLayoutAmbitoCapa = Class({
         var parametros = {"ambito" : id_ambito,
                           "comunas" : comunas};
         
-        $.ajax({         
-            dataType: "json",
-            cache: false,
-            async: true,
-            data: parametros,
-            type: "get",
-            url: yo.url_programacion + "emergencia/", 
-            error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
-            },
-            success:function(data){
-                if(data.error == 0){
-                    $.each(data.retorno, function(i, instalacion){
-                        if(instalacion.ins_c_longitud != null && instalacion.ins_c_latitud != null){
-                            var propiedades = {
-                                "NOMBRE" : instalacion.ins_c_nombre_fantasia,
-                                "TIPO" : "INSTALACIÓN",
-                                "AMBITO" : nombre_ambito,
-                                "RUT RAZÓN SOCIAL" : instalacion.ins_c_rut,
-                                "NOMBRE RAZÓN SOCIAL": instalacion.ins_c_razon_social,
-                                "RUT REPRESENTANTE" : instalacion.ins_c_rut_representante,
-                                "NOMBRE REPRESENTANTE" : instalacion.ins_c_nombre_representante,
-                                "DIRECCIÓN" : instalacion.ins_c_nombre_direccion + " " + instalacion.ins_c_numero_direccion
-                            };
+        var box = bootbox.dialog({
+                message: '<div class=\"row\"><div class=\"col-xs-12 text-center\"><i class="fa fa-3x fa-spin fa-spinner"></i> <br/> Procesando información </div> </div>',
+                title: '<i class=\"fa fa-arrow-right\"></i> Carga de instalaciones',
+                buttons: {}
+            });
 
-                            var marcador = new MapaMarcador();
-                            marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador(
-                                "instalacion_ambito_" + id_ambito, 
-                                null, 
-                                instalacion.ins_c_longitud, 
-                                instalacion.ins_c_latitud, 
-                                propiedades, 
-                                null, 
-                                icono
-                            );
-                        }
-                    });
-                } else {
-                    notificacionError("Ha ocurrido un problema", data.mensaje);
+        box.on("shown.bs.modal", function() {
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: true,
+                data: parametros,
+                type: "get",
+                url: yo.url_programacion + "emergencia/", 
+                error: function(xhr, textStatus, errorThrown){
+                    notificacionError("Ha ocurrido un problema", errorThrown);
+                },
+                success:function(data){
+                    if(data.error == 0){
+                        $.each(data.retorno, function(i, instalacion){
+                            if(instalacion.ins_c_longitud != null && instalacion.ins_c_latitud != null){
+                                var propiedades = {
+                                    "NOMBRE" : instalacion.ins_c_nombre_fantasia,
+                                    "TIPO" : "INSTALACIÓN",
+                                    "AMBITO" : nombre_ambito,
+                                    "RUT RAZÓN SOCIAL" : instalacion.ins_c_rut,
+                                    "NOMBRE RAZÓN SOCIAL": instalacion.ins_c_razon_social,
+                                    "RUT REPRESENTANTE" : instalacion.ins_c_rut_representante,
+                                    "NOMBRE REPRESENTANTE" : instalacion.ins_c_nombre_representante,
+                                    "DIRECCIÓN" : instalacion.ins_c_nombre_direccion + " " + instalacion.ins_c_numero_direccion
+                                };
+
+                                var marcador = new MapaMarcador();
+                                marcador.seteaMapa(yo.mapa);
+                                marcador.posicionarMarcador(
+                                    "instalacion_ambito_" + id_ambito, 
+                                    null, 
+                                    instalacion.ins_c_longitud, 
+                                    instalacion.ins_c_latitud, 
+                                    propiedades, 
+                                    null, 
+                                    icono
+                                );
+                            }
+                        });
+                    } else {
+                        notificacionError("Ha ocurrido un problema", data.mensaje);
+                    }
+                     bootbox.hideAll();
                 }
-            }
+            });
         });
     },
     

@@ -94,6 +94,11 @@ var VisorLayoutRegiones = Class({
                     map.setCenter(posicion);
                     yo.loadCapas(data.id);
                     
+                    $(".menu-ambito-checkbox").each(function(i, input){
+                        if($(input).is(":checked")){
+                            $(input).trigger("click");
+                        }
+                    });
                     
                     $.each(capas_visor, function(i, capa){
                         yo.class_capa.removeCapa(capa.id);
