@@ -2,9 +2,15 @@ var VisorLayoutRegiones = Class({
     
     div : "",
     
+    class_capa : null,
+    
     __construct : function(div) {
         this.div = div;
         this.html();
+    },
+    
+    seteaClaseCapa : function(capa){
+        this.class_capa = capa;
     },
     
     /**
@@ -43,9 +49,23 @@ var VisorLayoutRegiones = Class({
                 }
             }
         });
-        
-        
-      
+    },
+    
+    loadCapas : function(id_region){
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: {"id" : id_region},
+            type: "post",
+            url:  siteUrl + "visor/ajax_capas_region", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(html){
+                $("#lista-capas").html(html);
+            }
+        });
     },
     
     /**
@@ -72,6 +92,12 @@ var VisorLayoutRegiones = Class({
                 success:function(data){
                     var posicion = new google.maps.LatLng(parseFloat(data.lat), parseFloat(data.lon));
                     map.setCenter(posicion);
+                    yo.loadCapas(data.id);
+                    
+                    
+                    $.each(capas_visor, function(i, capa){
+                        yo.class_capa.removeCapa(capa.id);
+                    });
                 }
             });
         });

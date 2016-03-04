@@ -41,12 +41,12 @@
                 <li>
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-eye"></i> Ver <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
-                        <!--<li class="dropdown-submenu">
+                        <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-object-group"></i> Capas</a>
-                            <ul class="dropdown-menu">
+                            <ul id="lista-capas" class="dropdown-menu">
                                 <?php // echo visorMenuCapasCategoria($id); ?>
                             </ul>
-                        </li>-->
+                        </li>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-building"></i> Instalaciones</a>
@@ -124,5 +124,6 @@
 <div class="clearfix"></div>
 <?= loadJS("assets/js/visor.js"); ?>
 <?= loadJS("assets/js/modulo/visor/editor.js"); ?>
+<?= loadJS("assets/js/modulo/visor/capa.js"); ?>
 <?= loadJS("assets/js/modulo/visor/layout/ambito.js"); ?>
 <?= loadJS("assets/js/modulo/visor/layout/regiones.js"); ?>

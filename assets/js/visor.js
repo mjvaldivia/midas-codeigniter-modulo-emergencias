@@ -8,7 +8,7 @@ $(document).ready(function() {
     var height = $(window).height();
     visor.seteaHeight(height - 50);
 
-    var capas = new MapaCapa();
+    var capas = new VisorCapa();
 
     //editor
     var editor = new VisorEditor();
@@ -35,13 +35,16 @@ $(document).ready(function() {
         
         $("#menu-derecho").removeClass("hidden");
         
-        $(".menu-capa-checkbox").click(function(){
-            var id = $(this).val();
-            if($(this).is(":checked")){
-                capas.addCapa(id);
-            } else {
-                capas.removeCapa(id);
-            }
+        $(".menu-capa-checkbox").livequery(function(){
+            $(this).unbind("click");
+            $(this).click(function(){
+                var id = $(this).val();
+                if($(this).is(":checked")){
+                    capas.addCapa(id);
+                } else {
+                    capas.removeCapa(id);
+                }
+            });
         });
     });
     
@@ -51,6 +54,7 @@ $(document).ready(function() {
     //visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
 
     var region = new VisorLayoutRegiones("region");
+    region.seteaClaseCapa(capas);
     visor.addOnReadyFunction("regiones", region.addToMap);
 
     //inicia mapa

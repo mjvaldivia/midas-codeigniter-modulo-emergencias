@@ -1,5 +1,7 @@
 var VisorEditor = Class({ extends : MapaEditor}, {
     
+
+    
     /**
      * Boton para mostrar instalaciones
      * @param {type} map

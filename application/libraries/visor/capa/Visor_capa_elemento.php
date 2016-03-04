@@ -72,7 +72,7 @@ Class Visor_capa_elemento{
         $lista_capas = $this->_ci->_emergencia_capa_model->listaPorEmergencia($this->_emergencia->eme_ia_id);
         if(count($lista_capas)>0){
             foreach($lista_capas as $capa){
-                $resultado = $this->_cargaCapa($capa["id_geometria"], $lista_comunas);
+                $resultado = $this->_cargaCapa($capa["id_geometria"]);
                 if(!is_null($resultado)){
                     $data["correcto"] = true;
                     $data["resultado"]["capas"][$capa["id_geometria"]] = $resultado;

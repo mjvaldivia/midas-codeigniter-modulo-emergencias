@@ -33,7 +33,24 @@ class Provincia_Model extends MY_Model{
         return $this->_query->getById("prov_c_nombre", $nombre);
     }
     
-        /**
+    /**
+     * Lista regiones por emergencia
+     * @param int $id_emergencia
+     * @return array
+     */
+    public function listaProvinciasPorRegion($id_region){
+        $result = $this->_query->select("p.*")
+                               ->from($this->_tabla . " p")
+                               ->whereAND("p.reg_ia_id", $id_region)
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * Lista regiones por emergencia
      * @param int $id_emergencia
      * @return array
