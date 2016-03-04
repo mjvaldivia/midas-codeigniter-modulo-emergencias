@@ -94,7 +94,7 @@ var MapaLayoutAmbitoCapa = Class({
         
         var box = bootbox.dialog({
                 message: '<div class=\"row\"><div class=\"col-xs-12 text-center\"><i class="fa fa-3x fa-spin fa-spinner"></i> <br/> Procesando información </div> </div>',
-                title: '<i class=\"fa fa-arrow-right\"></i> Carga de instalaciones',
+                //title: '<i class=\"fa fa-arrow-right\"></i> Carga de instalaciones',
                 buttons: {}
             });
 

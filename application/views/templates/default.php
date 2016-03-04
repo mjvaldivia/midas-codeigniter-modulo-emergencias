@@ -216,7 +216,7 @@
                 </ul>
                 <!-- /.side-nav -->
             </div>
-            <!-- /.navbar-collapse -->
+            <!-- /.navbar-collapse -->    
         </nav>
         <!-- /.navbar-side -->
         <!-- end SIDE NAVIGATION -->
