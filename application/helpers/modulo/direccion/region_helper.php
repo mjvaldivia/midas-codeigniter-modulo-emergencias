@@ -24,6 +24,6 @@ function formElementSelectRegion($input_nombre, $input_valor = array(), $atribut
 function nombreRegion($id_region){
     $nombre = New Direccion_Nombre_Region();
     $nombre->setId($id_region);
-    return $nombre;
+    return (string) $nombre;
 }
 

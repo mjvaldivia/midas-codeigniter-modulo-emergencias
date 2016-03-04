@@ -38,6 +38,28 @@ class Usuario extends MY_Controller {
         $this->load->model("emergencia_model", "_emergencia_model");
     }
     
+    public function json_regiones()
+    {
+        $this->load->helper("modulo/direccion/region");
+        header('Content-type: application/json');
+        $regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata("session_idUsuario"));
+        if(!is_null($regiones)){
+            
+            $lista_regiones = array();
+            foreach($regiones as $region){
+                $lista_regiones[] = array(
+                    "id" => $region["id_region"],
+                    "nombre" => nombreRegion($region["id_region"])
+                );
+            }
+            
+            echo json_encode(array("correcto" => true,
+                                   "regiones" => $lista_regiones));
+        } else {
+             echo json_encode(array("correcto" => false));
+        }
+    }
+    
     /**
      * Servicio para retornar oficinas
      * de acuerdo a la region

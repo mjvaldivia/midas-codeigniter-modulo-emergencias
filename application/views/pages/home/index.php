@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?php if(puedeEditar("capas")) { echo "#"; } else { echo "#"; } ?>">
+                        <a href="<?php echo site_url("visor"); ?>">
                             <div class="circle-tile-heading dark-blue">
                                 <i class="fa fa-globe fa-fw fa-3x"></i>
                             </div>
@@ -80,7 +80,7 @@
                             <div class="circle-tile-description text-faded">
                                 Visor
                             </div>
-                            <a href="<?php if(puedeEditar("capas")) { echo "#"; } else { echo "#"; } ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php echo site_url("visor"); ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>

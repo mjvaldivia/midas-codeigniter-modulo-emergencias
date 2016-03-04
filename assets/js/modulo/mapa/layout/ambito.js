@@ -45,14 +45,8 @@ var MapaLayoutAmbitoCapa = Class({
         });
     },
     
-    /**
-     * Carga marcadores
-     * @param {type} id_ambito
-     * @returns {undefined}
-     */
-    loadMarkers : function(id_ambito, nombre_ambito){
+    loadComunas : function(){
         var yo = this;
-        
         var comunas = {};
         
         $.ajax({         
@@ -76,6 +70,19 @@ var MapaLayoutAmbitoCapa = Class({
             }
         });
         
+        return comunas;
+    },
+    
+    /**
+     * Carga marcadores
+     * @param {type} id_ambito
+     * @returns {undefined}
+     */
+    loadMarkers : function(id_ambito, nombre_ambito){
+        var yo = this;
+        
+        
+        var comunas = this.loadComunas();
         var icono = yo.icono(id_ambito);
         
         var parametros = {"ambito" : id_ambito,
