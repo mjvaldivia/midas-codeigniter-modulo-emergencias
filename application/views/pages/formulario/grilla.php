@@ -68,6 +68,10 @@
                     </button>
                     <?php } ?>
                     
+                    <?php } else { ?>
+                    <button onclick="javascript:void(0)" data-toggle="tooltip" data-toogle-param="arriba" title="Enviado a delegado de epidemiología" class="btn btn-sm btn-default disabled" type="button" >
+                        <i class="fa fa-edit"></i>
+                    </button>
                     <?php } ?>
                 </div>
             </td>
