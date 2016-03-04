@@ -6,7 +6,7 @@
 
 2.- Instalación.
 
-2.1.- Ejecutar "git clone https://github.com/CarlosAyala/emergencias"
+2.1.- Ejecutar "git clone https://github.com/CarlosAyala/midas-codeigniter-modulo-emergencias"
 
 2.2.- Crear directorio media/ y dar permisos de escritura para el usuario de apache.
 
