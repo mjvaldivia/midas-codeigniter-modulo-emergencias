@@ -105,7 +105,7 @@ Class Evento_archivo{
      * @param int $tipo
      * @param int $id
      */
-    public function addArchivo($hash, $descripcion, $tipo, $id = null){
+    public function addArchivo($hash, $descripcion, $tipo, $id = null, $id_usuario){
         $cache = Cache::iniciar();
         $archivo = $this->_ci->_archivo_model->getById($id);
         if(!is_null($archivo)){
@@ -122,6 +122,7 @@ Class Evento_archivo{
                               "arch_c_mime" => $temporal["mime"],
                               "arch_c_tipo" => $tipo,
                               "arch_c_hash" => $nuevo_hash,
+                              "usu_ia_id" => $id_usuario,
                               "arch_f_fecha" => Date("Y-m-d H:i:s"));
                 $this->_agregados[] = $this->_ci->_archivo_model->insert($data);
             }

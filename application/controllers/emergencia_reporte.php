@@ -132,7 +132,7 @@ Class Emergencia_reporte extends MY_Controller {
                 if(!is_null($pdf)){
                     $hash = $this->_guardarReporteTemporal($pdf);
                     $this->evento_archivo->setEvento($emergencia->eme_ia_id);
-                    $id_reporte = $this->evento_archivo->addArchivo($hash, $params["asunto"], Archivo_Tipo_Model::REPORTE, NULL);
+                    $id_reporte = $this->evento_archivo->addArchivo($hash, $params["asunto"], Archivo_Tipo_Model::REPORTE, NULL, $this->session->userdata('session_idUsuario'));
                     $this->evento_archivo->agregarArchivosAnteriores();
                     $this->evento_archivo->guardar();
                     

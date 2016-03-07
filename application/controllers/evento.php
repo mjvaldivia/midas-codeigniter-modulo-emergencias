@@ -170,7 +170,7 @@ class Evento extends MY_Controller {
                  );
 
             $this->_guardarFormularioTipoEmergencia($id);
-            $this->_guardarArchivos($id);
+            $this->_guardarArchivos($id,$this->session->userdata('session_idUsuario'));
         }
 
         $respuesta = array(
@@ -402,7 +402,7 @@ class Evento extends MY_Controller {
      * Guarda archivos adjuntos
      * @param int $id_evento
      */
-    protected function _guardarArchivos($id_evento){
+    protected function _guardarArchivos($id_evento,$id_usuario){
         $this->load->library("evento/evento_archivo");
         
         $params = $this->input->post(null, true);
@@ -414,7 +414,8 @@ class Evento extends MY_Controller {
                     $params["archivos_hash"][$key], 
                     $params["archivos_descripcion"][$key],
                     $params["archivos_tipo"][$key], 
-                    $id_archivo
+                    $id_archivo,
+                    $id_usuario
                 );
             }
         }
