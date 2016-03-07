@@ -1,6 +1,6 @@
 <form id="form-tipos-emergencia" name="form_tipos_emergencia" enctype="application/x-www-form-urlencoded" action="" method="post">
     
-    <div class="row" style="font-size: 10px">
+    <div class="row" >
         <div class="col-md-9 text-left">
             <div class="row">
                 <div class="col-md-4 text-left">
