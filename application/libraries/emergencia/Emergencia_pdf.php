@@ -85,7 +85,7 @@ Class Emergencia_pdf{
 
         $this->_pdf->imagen_mapa = $this->_imagen;
         $this->_pdf->imagen_logo = file_get_contents(FCPATH . "/assets/img/top_logo.png");
-        $this->_pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
+        $this->_pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y H:i'));
         $this->_pdf->WriteHTML($html);
         return $this->_pdf->Output('acta.pdf', 'S');
 
