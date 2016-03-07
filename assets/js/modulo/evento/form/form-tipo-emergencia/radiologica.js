@@ -4,6 +4,7 @@ var FormTipoEmergenciaRadiologica = Class({
         this.bindRadioLugarIncidente();
         this.bindRadioRiegoPotencial();
         this.bindRadioEvaluacionRadiacion();
+
         
         $(".radio-lugar-incidente").each(function(){
             if($(this).is(':checked')){
@@ -92,6 +93,9 @@ var FormTipoEmergenciaRadiologica = Class({
             });
         });
     }
+
+
+    
       
 });
 
@@ -102,3 +106,20 @@ $(document).ready(function() {
     var form = new FormTipoEmergenciaRadiologica();	
     
 });
+
+
+function cargarDatosFuente(fuente){
+    $.post(siteUrl + 'evento/infoFuenteRadiologica',{fuente:fuente},function(response){
+        if(response.estado == true){
+            $("#form_tipo_fuente_radioactiva").val(response.info.tipo_fuente);
+            $("#form_tipo_material_radioactivo").val(response.info.actividad_fuente+' mCi');
+            $("#form_tipo_material_marcao").val(response.info.marca_fuente);
+            $("#form_tipo_material_modelo").val();
+            $("#form_tipo_material_serie").val(response.info.numero_serie_fuente);
+            $("#form_tipo_material_ano_fabricacion").val();
+            xModal.close();
+        }else{
+            xModal.danger(response.mensaje);
+        }
+    },'json');
+}

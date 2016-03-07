@@ -421,4 +421,59 @@ class Evento extends MY_Controller {
         
         $this->evento_archivo->guardar();
     }
+
+
+    public function listaFuentesRadiologicas(){
+        $this->load->model('Fuentes_Radiologicas_model','FuentesRadiologicasModel');
+
+        $listado = $this->FuentesRadiologicasModel->getListadoFuentes();
+
+        $data = array('listado_fuentes'=>$listado);
+
+        $this->load->view("pages/evento/listado_fuentes_radiologicas", $data);
+    }
+
+
+    public function cargarFuentesRadiologicas(){
+        $file = 'media/fuentes_radiologicas.csv';
+
+        $file = fopen($file,"r");
+        $this->load->model('Fuentes_Radiologicas_model','FuentesRadiologicasModel');
+        while(($data = fgetcsv($file , 0 , ";")) !== FALSE){
+          if(!empty($data[1])){
+              $datos = array(
+              'nombre_empresa_fuente' => $data[1],
+              'rut_empresa_fuente' => $data[2],
+              'comuna_empresa_fuente' => mb_strtoupper($data[8]),
+              'tipo_fuente' => $data[9],
+              'actividad_fuente' => $data[10],
+              'numero_serie_fuente' => $data[15],
+              'marca_fuente' => $data[16],
+              'coordenadax_fuente' => $data[21],
+              'coordenaday_fuente' => $data[22]
+              );
+
+              $insertar = $this->FuentesRadiologicasModel->insert($datos);  
+          }
+          
+        }
+    }
+
+
+    public function infoFuenteRadiologica(){
+        $id_fuente = $this->input->post('fuente');
+
+        $this->load->model('Fuentes_Radiologicas_model','FuentesRadiologicasModel');
+
+        $data_fuente = $this->FuentesRadiologicasModel->getById($id_fuente);
+        if($data_fuente){
+            $json['info'] = $data_fuente;
+            $json['estado'] = true;
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'];
+        }  
+        
+        echo json_encode($json);
+    }
 }
