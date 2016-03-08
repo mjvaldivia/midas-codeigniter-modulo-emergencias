@@ -116,6 +116,7 @@ class Mapa extends MY_Controller {
         $this->load->helper("modulo/visor/visor");
         $params = $this->uri->uri_to_assoc();
         
+
         $emergencia = $this->_emergencia_model->getById($params["id"]);
 
         $this->load->model('Permiso_Model','PermisoModel');
