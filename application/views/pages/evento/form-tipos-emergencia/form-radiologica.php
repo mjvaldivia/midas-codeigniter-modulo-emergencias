@@ -378,14 +378,14 @@
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_investigador_nombre" class="control-label">Nombre:</label>
-                        <input  class="form-control" name="form_tipo_investigador_nombre" id="form_tipo_investigador_nombre" value="<?php echo $form_tipo_investigador_nombre; ?>" />
+                        <input  class="form-control" name="form_tipo_investigador_nombre" id="form_tipo_investigador_nombre" value="<?php if(empty($form_tipo_investigador_nombre)) echo $investigador['nombre']; else echo $form_tipo_investigador_nombre; ?>" />
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_investigador_funcion" class="control-label">Función o cargo:</label>
-                        <input  class="form-control" name="form_tipo_investigador_funcion" id="form_tipo_investigador_funcion" value="<?php echo $form_tipo_investigador_funcion; ?>" />
+                        <input  class="form-control" name="form_tipo_investigador_funcion" id="form_tipo_investigador_funcion" value="<?php if(empty($form_tipo_investigador_funcion)) echo $investigador['cargo']; else echo $form_tipo_investigador_funcion; ?>" />
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
@@ -395,7 +395,7 @@
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_investigador_email" class="control-label">Correo electrónico:</label>
-                        <input  class="form-control" name="form_tipo_investigador_email" id="form_tipo_investigador_email" value="<?php echo $form_tipo_investigador_email; ?>" />
+                        <input  class="form-control" name="form_tipo_investigador_email" id="form_tipo_investigador_email" value="<?php if(empty($form_tipo_investigador_email)) echo $investigador['email']; else echo $form_tipo_investigador_email; ?>" />
                         <span class="help-block hidden"></span>
                     </div>
                 </div>

@@ -271,6 +271,14 @@ class Evento extends MY_Controller {
         $this->alarma_form_tipo->setAlarma($params["id"]);
                 
         $formulario = $this->alarma_form_tipo->getFormulario();
+        
+        $user_data = array(
+            'nombre' => $this->session->userdata('session_nombres'),
+            'cargo' => $this->session->userdata('session_cargo'),
+            'email' => $this->session->userdata('session_email')
+          );
+        $formulario['data']['investigador'] = $user_data;
+       
 
         if($formulario["form"]){
             $respuesta = array("html" => $this->load->view($formulario["path"], $formulario["data"], true),
