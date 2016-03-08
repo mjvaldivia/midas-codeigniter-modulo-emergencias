@@ -44,7 +44,7 @@ var MapaIslaDePascuaZonas = Class({
                             switch(valor.id_estado){
                                 case "1":
                                     var zona = {
-                                        "radio" : 100,
+                                        "radio" : 200,
                                         "propiedades" : {"TIPO" : "CASO FEBRIL",
                                                          "NOMBRE" : "CASO FEBRIL N° " + valor.id,
                                                          "ESTADO" : "CONFIRMADO",
