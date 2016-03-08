@@ -150,6 +150,17 @@ Class Permiso_Form_Attribute_Checked{
             return "";
         }
     }
+
+
+    public function visorEmergenciaGuardar(){
+        fb($this->_id_rol . " " . $this->_id_modulo);
+        $valido = $this->_permiso_model->tienePermisoVisorEmergenciaGuardar(array($this->_id_rol), $this->_id_modulo);
+        if($valido){
+            return $this->_checked();
+        } else {
+            return "";
+        }
+    }
     
     /**
      * 

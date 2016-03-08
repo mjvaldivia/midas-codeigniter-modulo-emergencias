@@ -53,6 +53,10 @@
                                     <input <?php echo permisoFormCheckedVisorEmergencia($id_rol, $row["per_ia_id"]); ?> name="visor[]" id="visor_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                                     Abrir visor
                                 </div>
+                                <div class="col-sm-4">
+                                    <input <?php echo permisoFormCheckedVisorEmergenciaGuardar($id_rol, $row["per_ia_id"]); ?> name="visor_guardar[]" id="visor_guardar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                                    Guardar visor
+                                </div>
                             <?php } ?>
                         <?php } ?>
                     </div>

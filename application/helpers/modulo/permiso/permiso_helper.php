@@ -90,6 +90,14 @@ function permisoFormCheckedVisorEmergencia($id_rol, $id_modulo){
     return $atributo->visorEmergencia();
 }
 
+
+function permisoFormCheckedVisorEmergenciaGuardar($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->visorEmergenciaGuardar();
+}
+
 /**
  * 
  * @param type $id_rol

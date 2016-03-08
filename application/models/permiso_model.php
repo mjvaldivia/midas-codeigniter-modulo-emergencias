@@ -230,6 +230,20 @@ class Permiso_Model extends MY_Model {
             
         return false;
     }
+
+
+    public function tienePermisoVisorEmergenciaGuardar($lista_roles, $id_submodulo){
+        $query = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
+                      ->whereAND("m.bo_visor_emergencia_guardar", 1)
+                      ->select("count(*) as cantidad", false);
+        $result = $query->getOneResult();
+        if(!is_null($result)){
+            if($result->cantidad > 0){
+                return true;
+            }
+        }  
+        return false;
+    }
     
     /**
      * 

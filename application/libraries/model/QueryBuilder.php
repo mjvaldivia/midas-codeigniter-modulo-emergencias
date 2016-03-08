@@ -484,10 +484,14 @@ class QueryBuilder{
      */
     protected function _condiciones($campo, $condicion, $valor){
         $sql = "";
+
         switch ($condicion) {
             case $condicion == "IN" OR $condicion == "NOT IN":
                 $arreglo = "";
                 $coma = "";
+                if(is_string($valor)){
+                    $valor = explode(',',$valor);
+                }
                 if(count($valor)>0){
                     foreach($valor as $field){
                         $arreglo .= $coma." ? ";
@@ -495,6 +499,7 @@ class QueryBuilder{
                     }
                 $sql .= $campo. " ".$condicion." (".$arreglo.")";
                 }
+
                 break;
             case $condicion == "IS NULL" OR $condicion == "IS NOT NULL":
                 $agregar_valores = false;
