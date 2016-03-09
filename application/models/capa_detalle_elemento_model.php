@@ -48,6 +48,16 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
     public function update($data, $id){
         return $this->_query->update($data, "poligono_id", $id);
     }
+
+    /**
+     * Insertar
+     * @param  [type] $data [description]
+     * @param  [type] $id   [description]
+     * @return [type]       [description]
+     */
+    public function insert($data){
+        return $this->_query->insert($data);
+    }
     
     /**
      * 

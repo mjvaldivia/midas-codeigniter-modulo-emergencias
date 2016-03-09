@@ -881,10 +881,15 @@ class Capa_Model extends MY_Model {
     }
 
 
-    public function listarItemsSubCapas($id_subcapa=null){
+    public function listarItemsSubCapas($id_subcapa=null,$limite=null){
         $where = '';
         if(!is_null($id_subcapa) and is_numeric($id_subcapa)){
             $where .= ' where cp.poligono_capitem = '.$id_subcapa;
+        }
+
+        $limit = '';
+        if(!is_null($limite) and is_numeric($limite)){
+            $limit .= ' limit '.$limite;
         }
 
         $query = "select cp.*,c.com_ia_id, c.com_c_nombre, p.prov_c_nombre,p.prov_ia_id, r.reg_ia_id,reg_c_nombre, cap.cap_c_propiedades as propiedades
@@ -893,7 +898,7 @@ class Capa_Model extends MY_Model {
           left join capas cap on cap.cap_ia_id = cg.geometria_capa
           left join comunas c on c.com_ia_id = cp.poligono_comuna
           left join provincias p on p.prov_ia_id = c.prov_ia_id
-          left join regiones r on r.reg_ia_id = p.reg_ia_id " . $where;
+          left join regiones r on r.reg_ia_id = p.reg_ia_id " . $where . $limit;
 
         $result = $this->db->query($query);
 

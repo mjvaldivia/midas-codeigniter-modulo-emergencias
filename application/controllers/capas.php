@@ -528,7 +528,8 @@ class Capas extends MY_Controller
      */
     public function editarItemSubcapa(){
         $this->load->helper(array("session", "debug"));
-        $id_item = $this->input->post('item');
+        $params = $this->uri->uri_to_assoc();
+        $id_item = $params['item'];
 
         $this->load->model('capa_model','CapaModel');
 
@@ -563,6 +564,28 @@ class Capas extends MY_Controller
         $data['js'] = $this->load->view('pages/mapa/js-plugins',array());
         $this->load->view("pages/capa/edicion_item_subcapa",$data);
     }
+
+
+    public function nuevoItemSubCapa(){
+        $params = $this->uri->uri_to_assoc();
+        $this->load->model('capa_model','CapaModel');
+
+        $subcapa = $this->CapaModel->getSubCapa($params['subcapa']);
+        $data['id_subcapa'] = $params['subcapa'];
+        $data['subcapa']    = $subcapa['geometria_nombre'];
+        $data['capa']       = $subcapa['cap_c_nombre'];
+        $propiedades = explode(',',$subcapa['cap_c_propiedades']);
+        foreach($propiedades as $prop){
+            $arr_propiedades[$prop] = '';
+        }
+        $data['propiedades'] = $arr_propiedades;
+        $data['boton_cerrar'] = true;
+        $data['id_item']    = 0;
+        $data['tipo'] = 'Point';
+
+        $data['js'] = $this->load->view('pages/mapa/js-plugins',array());
+        $this->load->view("pages/capa/edicion_item_subcapa",$data);
+    }
     
     /**
      * Guarda un elemento de una capa
@@ -574,27 +597,13 @@ class Capas extends MY_Controller
         $item = $this->uri->uri_to_assoc();
         $id_item = $item['item'];
         $params = $this->input->post();
-
+        $id_subcapa = $params['id_subcapa'];
         $data = array();
-        
-        $elemento = $this->capa_detalle_elemento_model->getById($id_item);
-        $geometria = unserialize($elemento->poligono_geometria);
 
-        switch ($geometria["type"]) {
-            case "Point":
-                $geometria["coordinates"][1] = $params["latitud"];
-                $geometria["coordinates"][0] = $params["longitud"];
-                $data["poligono_geometria"] = serialize($geometria);
-                break;
-
-            default:
-                break;
-        }
-            
         foreach($params["propiedad_nombre"] as $key => $nombre){
             $propiedades[$nombre] = $params["propiedad_valor"][$key];
         }
-        
+
         $this->load->library("capa/elemento/capa_elemento_locacion", $propiedades);
         $this->capa_elemento_locacion->process();
         $data["poligono_comuna"] = $this->capa_elemento_locacion->getComuna();
@@ -602,9 +611,48 @@ class Capas extends MY_Controller
         $data["poligono_region"] = $this->capa_elemento_locacion->getRegion();
         
         $data["poligono_propiedades"] = serialize($propiedades);
+        
+        if($id_item > 0){
+            $elemento = $this->capa_detalle_elemento_model->getById($id_item);
+            $geometria = unserialize($elemento->poligono_geometria);
+
+            switch ($geometria["type"]) {
+                case "Point":
+                    $geometria["coordinates"][1] = $params["latitud"];
+                    $geometria["coordinates"][0] = $params["longitud"];
+                    $data["poligono_geometria"] = serialize($geometria);
+                    break;
+
+                default:
+                    break;
+            }
+        }else{
+            $item_subcapa = $this->capa_model->listarItemsSubCapas($id_subcapa,1);
+            $item_subcapa = $item_subcapa[0];
+            $geometria = unserialize($item_subcapa['poligono_geometria']);
+            $data['poligono_capitem'] = $id_subcapa;
+            switch ($geometria["type"]) {
+                case "Point":
+                    $geometria["coordinates"][1] = $params["latitud"];
+                    $geometria["coordinates"][0] = $params["longitud"];
+                    $data["poligono_geometria"] = serialize($geometria);
+                    break;
+
+                default:
+                    break;
+            }
+            
+        }
+        
 
         $json = array();
-        if($this->capa_detalle_elemento_model->update($data, $id_item)){
+        if($id_item > 0){
+            $guardar = $this->capa_detalle_elemento_model->update($data, $id_item);    
+        }else{
+            $guardar = $this->capa_detalle_elemento_model->insert($data);
+        }
+        
+        if($guardar){
             $json['estado'] = true;
             $json['mensaje'] = "Datos guardados correctamente";
         }else{
@@ -735,6 +783,13 @@ class Capas extends MY_Controller
         $params = $this->uri->uri_to_assoc();
         $data = array('subcapa' => $params['subcapa']);
 
+        $this->load->model('capa_model','CapaModel');
+        $subcapa = $this->CapaModel->getSubCapa($params['subcapa']);
+        $agregarItem = false;
+        if(!empty($subcapa['icon_path']) and empty($subcapa['color']))
+            $agregarItem = true;
+
+        $data['agregar_item'] = $agregarItem;
         $this->load->view('pages/capa/listado_items_subcapa',$data);
     }
     
