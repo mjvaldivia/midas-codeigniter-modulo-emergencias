@@ -120,6 +120,10 @@ Class Emergencia_reporte extends MY_Controller {
                     $destinatarios[] = $email;
                 }
             }
+
+            if(isset($params['copia']) && $params['copia'] == 1){
+                $this->emergencia_email_reporte->addTo($this->session->userdata('session_email'));
+            }
             
             //se agregan archivos adjuntos
             if(count($params["archivos"])>0){
