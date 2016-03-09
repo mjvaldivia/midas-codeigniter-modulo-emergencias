@@ -128,6 +128,7 @@
 </table>
 <br/>
 
+<?php if(isset($mapa) and $mapa == true):?>
 <table border="0" style="page-break-inside: avoid;">
     <tr>
         <td>ANEXO: Mapa del lugar de la emergencia</td>
@@ -136,3 +137,4 @@
         <td><img src="var:imagen_mapa"/></td>
     </tr>  
 </table>
+<?php endif;?>
