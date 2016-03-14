@@ -19,10 +19,10 @@
                 <h3 class="panel-title">Casos Febriles</h3>
             </div>
             <div class="panel-body">
-                <div class="col-xs-12 col-md-9">
-                    <canvas id="pie-estados-febriles" class="" style="height: 350px"></canvas>
+                <div class="col-xs-12">
+                    <div id="pie-estados-febriles" class="" style="height: 350px"></div>
                 </div>
-                <div class="col-xs-12 col-md-3 text-center" id="pie-estados-febriles-legend"></div>
+                <div class="col-xs-12 text-center" id="pie-estados-febriles-legend"></div>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="panel-body">
                 <div class="col-xs-12">
-                    <canvas id="bar-semana-estados" class="" style="height: 350px;"></canvas>
+                    <div id="bar-semana-estados" class="" style="height: 550px;"></div>
                 </div>
                 <div class="col-xs-12" id="bar-semana-estados-legend"></div>
             </div>
@@ -44,67 +44,135 @@
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-<?php echo loadJS('assets/js/library/chartjs/Chart.StackedBar.js');?>
+<?php echo loadJS('assets/js/library/amcharts/amcharts.js');?>
+<?php echo loadJS('assets/js/library/amcharts/pie.js');?>
+<?php echo loadJS('assets/js/library/amcharts/serial.js');?>
 
 <script>
     $(document).ready(function () {
-        Chart.defaults.global.responsive = true;
+        var datos = <?php echo $estados;?>;
+        var chart = AmCharts.makeChart( "pie-estados-febriles", {
+            "type": "pie",
+            "theme": "light",
+            "dataProvider": [ {
+                "estado": "Confirmados",
+                "casos": parseInt(datos.positivo)
+            }, {
+                "estado": "Descartados",
+                "casos": parseInt(datos.negativo)
+            }, {
+                "estado": "Sospechosos",
+                "casos": parseInt(datos.sospechoso)
+            }, {
+                "estado": "No concluyentes",
+                "casos": parseInt(datos.no_concluyente)
+            }],
+            "valueField": "casos",
+            "titleField": "estado",
+            "balloon":{
+                "fixedPosition":false
+            },
+            "colors":["#e74c3c","#16a085","#f39c12","#2980b9"],
+            "export": {
+                "enabled": false
+            },
+            "legend":{
+                "position":"bottom",
+                "marginRight":100,
+                "autoMargins":false
+            },
+            "creditsPosition" : "top-right"
+        } );
 
-        /** grafico Casos Febriles **/
-        var ctx = document.getElementById("pie-estados-febriles").getContext("2d");
-        var data = <?php echo $estados?>;
-        var options = {legendTemplate: "<ul style=\"list-style: none;padding-left:0;\" class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li style=\"padding:2px;color:#fff;background-color:<%=segments[i].fillColor%>\"><span style=\"display:block;background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"};
-        var myPieChart = new Chart(ctx).Pie(data, options);
-        $("#pie-estados-febriles-legend").append(myPieChart.generateLegend());
 
+        var semanas = <?php echo $semanas_labels;?>;
+        var semanas_positivo = <?php echo $semanas_positivo;?>;
+        var semanas_negativo = <?php echo $semanas_negativo;?>;
+        var semanas_no_concluyente = <?php echo $semanas_no_concluyente;?>;
+        var semanas_sospechoso = <?php echo $semanas_sospechoso;?>;
+        var totalSemanas = semanas.length;
+        var dataSemanas = [];
+        for(var i=0; i<totalSemanas; i++){
+            var sem = {
+                "semana":semanas[i],
+                "positivo": semanas_positivo[i],
+                "negativo": semanas_negativo[i],
+                "no_concluyente": semanas_no_concluyente[i],
+                "sospechoso": semanas_sospechoso[i]
+            };
+            dataSemanas.push(sem);
+        }
 
-        /** grafico Semanas - Numero de Casos **/
-        var ctx = document.getElementById("bar-semana-estados").getContext("2d");
-        var data = {
-            labels: <?php echo $semanas_labels?>,
-            datasets: [
-                {
-                    label: "Casos Positivos",
-                    fillColor: "#e74c3c",
-                    strokeColor: "#e74c3",
-                    highlightFill: "rgba(220,220,220,0.75)",
-                    highlightStroke: "rgba(220,220,220,1)",
-                    data: <?php echo $semanas_positivo?>
-                },
-                {
-                    label: "Casos Sospechosos",
-                    fillColor: "#f39c12",
-                    strokeColor: "#f39c12",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: <?php echo $semanas_sospechoso?>
-                },
-                {
-                    label: "No Concluyente",
-                    fillColor: "#2980b9",
-                    strokeColor: "rgba(151,187,205,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: <?php echo $semanas_no_concluyente?>
-                },
-                {
-                    label: "Descartados",
-                    fillColor: "#16a085",
-                    strokeColor: "rgba(151,187,205,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: <?php echo $semanas_negativo?>
-                }
+        var chart = AmCharts.makeChart("bar-semana-estados", {
+            "type": "serial",
+            "theme": "light",
+            "creditsPosition" : "top-right",
+            "legend": {
+                "horizontalGap": 10,
+                "maxColumns": 1,
+                "position": "bottom",
+                "useGraphSettings": true,
+                "markerSize": 10
+            },
+            "dataProvider": dataSemanas,
+            "valueAxes": [{
+                "stackType": "regular",
+                "axisAlpha": 0.3,
+                "gridAlpha": 0
+            }],
+            "graphs": [{
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillColors" : ["#e74c3c"],
+                "fillAlphas": 1,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "Confirmados",
+                "type": "column",
+                "color": "#ffffff",
+                "valueField": "positivo"
+            }, {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillColors" : ["#16a085"],
+                "fillAlphas": 1,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "Descartados",
+                "type": "column",
+                "color": "#ffffff",
+                "valueField": "negativo"
+            }, {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillColors" : ["#2980b9"],
+                "fillAlphas": 1,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "No Concluyentes",
+                "type": "column",
+                "color": "#ffffff",
+                "valueField": "no_concluyente"
+            }, {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillColors" : ["#f39c12"],
+                "fillAlphas": 1,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "Sospechosos",
+                "type": "column",
+                "color": "#ffffff",
+                "valueField": "sospechoso"
+            }],
+            "categoryField": "semana",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "position": "left"
+            },
+            "export": {
+                "enabled": true
+            }
 
-            ]
-        };
-        var options = {
-            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            tooltipHideZero: true
-        };
-        var myBarChart = new Chart(ctx).StackedBar(data,options);
-        $("#bar-semana-estados-legend").append(myBarChart.generateLegend());
+        });
 
     });
 

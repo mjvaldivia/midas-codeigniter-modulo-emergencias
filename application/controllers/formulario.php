@@ -436,7 +436,7 @@ class Formulario extends MY_Controller
         $estados[] = array('value' => $arr_estados['sospechoso'], 'label' => 'Sospechoso', 'color' => '#f39c12');
 
         $data = array(
-            'estados' => json_encode($estados),
+            'estados' => json_encode($arr_estados),
             'semanas_labels' => json_encode($arr_semanas_labels),
             'semanas_positivo' => json_encode($semanas_positivo),
             'semanas_negativo' => json_encode($semanas_negativo),
