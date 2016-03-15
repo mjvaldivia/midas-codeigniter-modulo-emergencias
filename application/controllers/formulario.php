@@ -418,6 +418,20 @@ class Formulario extends MY_Controller
 
                 }
 
+
+                /* ver casos confirmados por sexo */
+                if($caso['id_estado'] == 1){
+                    $tmp = explode(" ", $propiedades->{"SEMANA EPIDEMIOLOGICA"});
+                    $i = (int)$tmp[0];
+                    $sexo = strtolower($propiedades->{"SEXO"});
+
+                    if($sexo == "m" or $sexo == "masculino"){
+                        $arr_confirmado_masculino[$i] += 1;
+                    }elseif($sexo == "f" or $sexo == "femenino"){
+                        $arr_confirmado_femenino[$i] += 1;
+                    }
+                }
+
             }
         }
 
@@ -428,6 +442,11 @@ class Formulario extends MY_Controller
             $semanas_negativo[] = $arr_semanas_negativo[$label];
             $semanas_no_concluyente[] = $arr_semanas_no_concluyente[$label];
             $semanas_sospechoso[] = $arr_semanas_sospechoso[$label];
+        }
+
+        foreach($arr_semanas_labels as $label){
+            $confirmado_masculino[] = $arr_confirmado_masculino[$label];
+            $confirmado_femenino[] = $arr_confirmado_femenino[$label];
         }
 
         $estados[] = array('value' => $arr_estados['positivo'], 'label' => 'Positivo', 'color' => '#e74c3c');
@@ -441,7 +460,9 @@ class Formulario extends MY_Controller
             'semanas_positivo' => json_encode($semanas_positivo),
             'semanas_negativo' => json_encode($semanas_negativo),
             'semanas_no_concluyente' => json_encode($semanas_no_concluyente),
-            'semanas_sospechoso' => json_encode($semanas_sospechoso)
+            'semanas_sospechoso' => json_encode($semanas_sospechoso),
+            'confirmados_masculinos' => json_encode($confirmado_masculino),
+            'confirmados_femeninos' => json_encode($confirmado_femenino)
         );
 
         $this->template->parse('default', 'pages/formulario/reporte_grafico', $data);
