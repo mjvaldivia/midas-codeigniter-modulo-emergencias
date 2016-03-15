@@ -20,7 +20,7 @@
             </div>
             <div class="panel-body">
                 <div class="col-xs-12">
-                    <div id="pie-estados-febriles" class="" style="height: 350px"></div>
+                    <div id="pie-estados-febriles" class="" style="height:550px"></div>
                 </div>
                 <div class="col-xs-12 text-center" id="pie-estados-febriles-legend"></div>
             </div>
@@ -45,6 +45,7 @@
 
 
 <?php echo loadJS('assets/js/library/amcharts/amcharts.js');?>
+<?php echo loadJS('assets/js/library/amcharts/plugins/responsive/responsive.min.js');?>
 <?php echo loadJS('assets/js/library/amcharts/pie.js');?>
 <?php echo loadJS('assets/js/library/amcharts/serial.js');?>
 
@@ -52,6 +53,9 @@
     $(document).ready(function () {
         var datos = <?php echo $estados;?>;
         var chart = AmCharts.makeChart( "pie-estados-febriles", {
+            "responsive": {
+                "enabled": true
+            },
             "type": "pie",
             "theme": "light",
             "dataProvider": [ {
@@ -76,6 +80,7 @@
             "export": {
                 "enabled": false
             },
+            "labelsEnabled" : false,
             "legend":{
                 "position":"bottom",
                 "marginRight":100,
@@ -104,6 +109,9 @@
         }
 
         var chart = AmCharts.makeChart("bar-semana-estados", {
+            "responsive": {
+                "enabled": true
+            },
             "type": "serial",
             "theme": "light",
             "creditsPosition" : "top-right",
