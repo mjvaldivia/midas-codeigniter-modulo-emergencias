@@ -94,7 +94,7 @@
         var dataSemanas = [];
         for(var i=0; i<totalSemanas; i++){
             var sem = {
-                "semana":semanas[i],
+                "semana":semanas[i]+"º",
                 "positivo": semanas_positivo[i],
                 "negativo": semanas_negativo[i],
                 "no_concluyente": semanas_no_concluyente[i],
@@ -118,7 +118,8 @@
             "valueAxes": [{
                 "stackType": "regular",
                 "axisAlpha": 0.3,
-                "gridAlpha": 0
+                "gridAlpha": 0,
+                "title" : "Nº Casos"
             }],
             "graphs": [{
                 "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
@@ -166,7 +167,8 @@
                 "gridPosition": "start",
                 "axisAlpha": 0,
                 "gridAlpha": 0,
-                "position": "left"
+                "position": "left",
+                "title": "Semanas"
             },
             "export": {
                 "enabled": true
