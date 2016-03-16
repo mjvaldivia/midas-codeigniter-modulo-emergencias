@@ -6,7 +6,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Casos Febriles </a></li>
-                <li class="active"><i class="fa fa-bell"></i> Gráficos</li>
+                <li class="active"><i class="fa fa-area-chart"></i> Gráficos</li>
             </ol>
         </div>
     </div>
