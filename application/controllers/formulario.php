@@ -187,9 +187,8 @@ class Formulario extends MY_Controller
             foreach($lista as $caso){
                 $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
                 $datos_excel[count($datos_excel)-1]["id"] = $caso["id"];
-                /*
                 $datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
-                $datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];*/
+                /*$datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];*/
             }
         
             $excel = $this->excel->nuevoExcel();
@@ -214,7 +213,8 @@ class Formulario extends MY_Controller
                 $exportar = $this->_boExportarColumnaExcel($columna);
                 
                 if($exportar){
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna); 
+                    if($columna != "id_usuario" and $columna != "id")
+                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                     $i++;
                 }
                 
@@ -233,7 +233,8 @@ class Formulario extends MY_Controller
                 foreach($valores as $columna => $valor){
                     $exportar = $this->_boExportarColumnaExcel($columna);
                     if($exportar){
-                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
+                        if($columna != "id_usuario" and $columna != "id")
+                            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
                         $i++;
                     }
                 }
