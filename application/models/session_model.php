@@ -55,6 +55,14 @@ class Session_Model extends MY_Model
               u.*,
               (
                 select
+                  group_concat(uvr.id_region)
+                from
+                  usuarios_region uvr
+                where
+                  uvr.id_usuario = u.usu_ia_id
+              ) as regiones,
+              (
+                select
                   group_concat(uvo.ofi_ia_id)
                 from
                   usuarios_vs_oficinas uvo
@@ -77,7 +85,14 @@ class Session_Model extends MY_Model
                 where
                   uvr.usu_ia_id = u.usu_ia_id
               ) as roles,
-              
+              (
+                select
+                  group_concat(cgr.crg_c_nombre)
+                from
+                  cargos cgr
+                where
+                  cgr.crg_ia_id = u.crg_ia_id
+              ) as cargo,
               (
                 select
                   count(*)
@@ -113,7 +128,8 @@ class Session_Model extends MY_Model
                 $this->session->set_userdata("session_usuario", $r["usu_c_login"]);
                 $this->session->set_userdata("session_region", $r["reg_c_nombre"]);
                 $this->session->set_userdata("session_region_codigo", $r["reg_ia_id"]);
-                $this->session->set_userdata("session_cargo", $r["crg_c_nombre"]);
+                $this->session->set_userdata("session_regiones", $r["regiones"]);
+                $this->session->set_userdata("session_cargo", $r["cargo"]);
                 $this->session->set_userdata("session_idCargo", $r["crg_ia_id"]);
                 $this->session->set_userdata("session_ambitos", $r["ambitos"]);
                 $this->session->set_userdata("session_oficinas", $r["oficinas"]);

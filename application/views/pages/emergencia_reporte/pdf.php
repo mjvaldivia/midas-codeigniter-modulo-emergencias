@@ -54,11 +54,11 @@
     </tr>
     <tr>
         <td style="text-align: center;font-size:16px" colspan="2"><span style="font-weight: bold">CONTENIDO</span><br/><?= $eme_c_nombre_emergencia ?></td>
-        <td>Región<br/><?php echo $region?></td>
+        <td style="text-align: center;font-weight: bold;">Región<br/><?php echo $region?></td>
     </tr>
     <tr>
         <td style="text-align: center;font-size:14px"><span style="font-weight: bold">ELABORADOR POR:</span><br/><?= $emisor ?></td>
-        <td>Cargo/Función</td>
+        <td style="text-align: center;"><span style="font-weight: bold">Cargo/Función</span><br/><?php echo $cargo;?></td>
         <td></td>
     </tr>
 

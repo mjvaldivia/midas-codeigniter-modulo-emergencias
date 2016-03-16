@@ -77,10 +77,16 @@ Class Emergencia_pdf{
 
         }
 
-        $data['region'] = $this->_ci->session->userdata('session_region_codigo');
-        if($data['region'] < 10){
-            $data['region'] = '0'.$data['region'];
+        $data['region'] = '';
+        $regiones = explode(',',$this->_ci->session->userdata('session_regiones'));
+        if(count($regiones) == 1){
+            if($regiones[0] == 13)
+                $data['region'] = 'RM';
+            else
+                $data['region'] = $regiones[0].'º';
         }
+
+        $data['cargo'] = $this->_ci->session->userdata('session_cargo');
         $data['mapa'] = $mapa;
         $html = $this->_ci->load->view('pages/emergencia_reporte/pdf', $data, true); 
 
