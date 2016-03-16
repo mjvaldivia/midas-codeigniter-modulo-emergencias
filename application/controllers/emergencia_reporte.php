@@ -98,9 +98,14 @@ Class Emergencia_reporte extends MY_Controller {
             $destinatarios = array();
             
             //se genera el reporte
+            $mapa = false;
             if(isset($params["adjuntar_reporte"]) && $params["adjuntar_reporte"] == 1){
-                $this->emergencia_pdf->setHashImagen($params["hash"]);
-                $pdf = $this->emergencia_pdf->generar($emergencia->eme_ia_id);
+                if(isset($params['adjuntar_mapa']) && $params['adjuntar_mapa'] == 1){
+                    $this->emergencia_pdf->setHashImagen($params["hash"]);
+                    $mapa = true;
+                }
+
+                $pdf = $this->emergencia_pdf->generar($emergencia->eme_ia_id,$mapa);
                 $reporte = $this->emergencia_email_reporte->setReporte($pdf);
             }
             
@@ -114,6 +119,10 @@ Class Emergencia_reporte extends MY_Controller {
                 } else {
                     $destinatarios[] = $email;
                 }
+            }
+
+            if(isset($params['copia']) && $params['copia'] == 1){
+                $this->emergencia_email_reporte->addTo($this->session->userdata('session_email'));
             }
             
             //se agregan archivos adjuntos

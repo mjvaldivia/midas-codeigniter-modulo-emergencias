@@ -53,7 +53,7 @@
                 </div>
                 
                 <div class="top-spaced">
-                    <div class="col-xs-6">
+                    <div class="col-xs-12 col-md-4">
                         <div class="form-group clearfix">
                             <div class="checkbox">
                                 <label>
@@ -62,11 +62,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-12 col-md-4">
                         <div class="form-group clearfix">
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" checked="checked" name="adjuntar_reporte" id="adjuntar_reporte" value="1"> Adjuntar reporte
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="form-group clearfix">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" checked="checked" name="adjuntar_mapa" id="adjuntar_mapa" value="1"> Adjuntar mapa
                                 </label>
                             </div>
                         </div>

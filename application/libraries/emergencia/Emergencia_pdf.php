@@ -54,7 +54,7 @@ Class Emergencia_pdf{
      * 
      * @param int $id_emergencia
      */
-    public function generar($id_emergencia){
+    public function generar($id_emergencia,$mapa=true){
         $emergencia = $this->_ci->emergencia_model->getById($id_emergencia);
         if(!is_null($emergencia)){    
             $data = array("eme_ia_id" => $emergencia->eme_ia_id,
@@ -81,6 +81,7 @@ Class Emergencia_pdf{
         if($data['region'] < 10){
             $data['region'] = '0'.$data['region'];
         }
+        $data['mapa'] = $mapa;
         $html = $this->_ci->load->view('pages/emergencia_reporte/pdf', $data, true); 
 
         $this->_pdf->imagen_mapa = $this->_imagen;
