@@ -133,7 +133,8 @@ Class Emergencia_reporte extends MY_Controller {
             }
             
             $this->emergencia_email_reporte->setSubject($params["asunto"]);
-            $this->emergencia_email_reporte->setMessage($params["mensaje"]);
+            $pie_mensaje = '--<p>Midas - Emergencias<br/>Ministerio de Salud - Gobierno de Chile</p>';
+            $this->emergencia_email_reporte->setMessage($params["mensaje"].$pie_mensaje);
             
             $correcto = $this->emergencia_email_reporte->send($emergencia->eme_ia_id);
             
