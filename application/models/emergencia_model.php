@@ -730,7 +730,7 @@ class Emergencia_Model extends MY_Model {
             return "01";
         }else{
             $resultado = $result->result_array();
-            $codigo = $resultado['codigo_reporte'] + 1;
+            $codigo = $resultado[0]['codigo_reporte'] + 1;
             if($codigo < 10)
                 $codigo = '0'.$codigo;
             return $codigo;
