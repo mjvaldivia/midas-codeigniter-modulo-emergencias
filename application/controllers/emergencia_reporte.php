@@ -79,7 +79,8 @@ Class Emergencia_reporte extends MY_Controller {
         
         $params = $this->uri->uri_to_assoc();
         $this->emergencia_pdf->setHashImagen($params["hash"]);
-        echo $this->emergencia_pdf->generar($params["id"]);
+        $codigo = $this->_emergencia_model->getNumeracionReporteEmergencia($params["id"]);
+        echo $this->emergencia_pdf->generar($params["id"],true,$codigo);
     }
     
     /**
@@ -93,7 +94,7 @@ Class Emergencia_reporte extends MY_Controller {
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
-
+            $codigo = $this->_emergencia_model->getNumeracionReporteEmergencia($emergencia->eme_ia_id);
             $this->load->model('usuario_model','UsuarioModel');
             $destinatarios = array();
             
@@ -105,7 +106,7 @@ Class Emergencia_reporte extends MY_Controller {
                     $mapa = true;
                 }
 
-                $pdf = $this->emergencia_pdf->generar($emergencia->eme_ia_id,$mapa);
+                $pdf = $this->emergencia_pdf->generar($emergencia->eme_ia_id,$mapa,$codigo);
                 $reporte = $this->emergencia_email_reporte->setReporte($pdf);
             }
             
@@ -140,8 +141,10 @@ Class Emergencia_reporte extends MY_Controller {
             
             if($correcto){
                 if(!is_null($pdf)){
-                    $hash = $this->_guardarReporteTemporal($pdf);
+
+                    $hash = $this->_guardarReporteTemporal($pdf,$codigo);
                     $this->evento_archivo->setEvento($emergencia->eme_ia_id);
+                    $this->_emergencia_model->guardarRegistroReporteEmergencia($emergencia->eme_ia_id,$codigo);
                     $id_reporte = $this->evento_archivo->addArchivo($hash, $params["asunto"], Archivo_Tipo_Model::REPORTE, NULL, $this->session->userdata('session_idUsuario'));
                     $this->evento_archivo->agregarArchivosAnteriores();
                     $this->evento_archivo->guardar();
@@ -185,11 +188,12 @@ Class Emergencia_reporte extends MY_Controller {
      * @param binary $file
      * @return string
      */
-    protected function _guardarReporteTemporal($file){
+    protected function _guardarReporteTemporal($file,$codigo){
+
         $hash = $this->string->rand_string(23);
         $cache = Cache::iniciar();
         $cache->save(array("archivo" => $file,
-                           "archivo_nombre" => "reporte_" . date("Y-m-d H:i:s") .  ".pdf",
+                           "archivo_nombre" => "reporte_" . $codigo .  ".pdf",
                            "mime" => "application/pdf",
                            "tipo" => "pdf") , 
         $hash);

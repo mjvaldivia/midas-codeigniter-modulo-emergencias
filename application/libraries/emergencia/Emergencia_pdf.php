@@ -54,7 +54,7 @@ Class Emergencia_pdf{
      * 
      * @param int $id_emergencia
      */
-    public function generar($id_emergencia,$mapa=true){
+    public function generar($id_emergencia,$mapa=true,$codigo){
         $emergencia = $this->_ci->emergencia_model->getById($id_emergencia);
         if(!is_null($emergencia)){    
             $data = array("eme_ia_id" => $emergencia->eme_ia_id,
@@ -76,6 +76,9 @@ Class Emergencia_pdf{
             }
 
         }
+
+        $data['codigo'] = $codigo;
+
 
         $data['region'] = '';
         $regiones = explode(',',$this->_ci->session->userdata('session_regiones'));

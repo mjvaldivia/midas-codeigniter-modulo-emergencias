@@ -721,4 +721,29 @@ class Emergencia_Model extends MY_Model {
         }
     }
 
+
+
+    public function getNumeracionReporteEmergencia($id_emergencia){
+        $query = "select codigo_reporte from emergencias_reportes where id_emergencia = ? order by id_reporte desc limit 1";
+        $result = $this->db->query($query,array($id_emergencia));
+        if($result->num_rows == 0){
+            return "01";
+        }else{
+            $resultado = $result->result_array();
+            $codigo = $resultado['codigo_reporte'] + 1;
+            if($codigo < 10)
+                $codigo = '0'.$codigo;
+            return $codigo;
+        }
+    }
+
+
+
+    public function guardarRegistroReporteEmergencia($id_emergencia,$codigo){
+        $fecha = date('Y-m-d H:i:s');
+        $query = "insert into emergencias_reportes(id_emergencia,fecha_reporte,codigo_reporte) values(?,?,?)";
+
+        $result = $this->db->query($query,array($id_emergencia,$fecha,(int)$codigo));
+    }
+
 }
