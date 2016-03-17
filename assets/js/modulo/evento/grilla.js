@@ -200,8 +200,8 @@ var EventoGrilla = Class({
                             label: "Aceptar",
                             className: "btn-primary",
                             callback: function () {
-                                $.post(siteUrl + 'evento/eliminar',{id:id}).done(function (retorno) {
-                                    if (retorno == 0) { // sin error
+                                $.post(siteUrl + 'evento/eliminar',{id:id},'json').done(function (retorno) {
+                                    if (retorno.correcto == true) { // sin error
                                         bootbox.dialog({
                                             title: "Resultado de la operacion",
                                             message: 'Se eliminó correctamente',
