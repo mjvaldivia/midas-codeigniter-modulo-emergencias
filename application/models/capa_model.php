@@ -684,13 +684,21 @@ class Capa_Model extends MY_Model {
         }
     }
 
-    public function listarCapas($id_capa=null){
+    public function listarCapas($id_capa=null,$regiones=null){
         $where = '';
         if(!is_null($id_capa)){
             $where .= ' where c.geometria_capa = '.$id_capa;
         }
+        $where_items = '';
+        if(!is_null($regiones)){
+            $where_items .= ' and r.reg_ia_id IN ('.$regiones. ') ';
+        }
         $sql = "select cc.ccb_c_categoria, c.*,cap.*, CONCAT(cap.cap_c_geozone_number,cap.cap_c_geozone_letter) geozone,
-  (select count(*) as total from capas_poligonos_informacion where poligono_capitem = c.geometria_id) as total_items from capas_geometria c
+                  (select count(*) as total from capas_poligonos_informacion 
+                    LEFT JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
+                    LEFT JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
+                    LEFT JOIN regiones r ON r.reg_ia_id = p.reg_ia_id
+                  where poligono_capitem = c.geometria_id ".$where_items.") as total_items from capas_geometria c
                 left join capas cap on cap.cap_ia_id = c.geometria_capa
                 join categorias_capas_coberturas cc on cc.ccb_ia_categoria = cap.ccb_ia_categoria
                 " . $where;

@@ -65,8 +65,7 @@ class Capas extends MY_Controller
 
         $this->load->library(array("template"));
 
-        
-        
+
         if($this->usuario->getPermisoEditar()){
             if(isset($params["tab"])){
                 $tab = $params["tab"];
@@ -104,16 +103,40 @@ class Capas extends MY_Controller
     
     
     function ajax_grilla_capas_unicas() {
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
         $this->load->helper(array("modulo/capa/capa","file"));
         $lista = $this->capa_model->listarCapasUnicas();
-        $this->load->view("pages/capa/grilla_capas", array("lista" => $lista));
+        $roles = explode(',',$this->session->userdata('session_roles'));
+        $data = array(
+            "lista" => $lista,
+            "puedeEditar" => $puedeEditar
+        );
+        $this->load->view("pages/capa/grilla_capas", $data);
     }
 
     function ajax_grilla_capas() {
         $id_capa = $this->input->post('id_capa');
         $this->load->helper(array("modulo/capa/capa","file"));
-        $lista = $this->capa_model->listarCapas($id_capa);
-        $this->load->view("pages/capa/grilla_capas_detalle", array("lista" => $lista));
+
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+
+        if(!$puedeEditar){
+            $regiones = $this->session->userdata('session_regiones');
+            $lista = $this->capa_model->listarCapas($id_capa,$regiones);
+        }else{
+            $lista = $this->capa_model->listarCapas($id_capa);
+        }
+
+
+        $data = array(
+            "lista" => $lista,
+            "puedeEditar" => $puedeEditar
+        );
+        $this->load->view("pages/capa/grilla_capas_detalle", $data);
     }
 
 
@@ -242,6 +265,13 @@ class Capas extends MY_Controller
         $query .= 'LEFT JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
                     LEFT JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
                     LEFT JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+        if(!$puedeEditar){
+            $regiones = $this->session->userdata('session_regiones');
+            $where .= ' and r.reg_ia_id IN ('.$regiones.') ';
+        }
         $query = $query . $where . $order . $limit;
         /*$this->db->where('poligono_capitem',$subcapa);
         $this->db->join('comunas c','c.com_ia_id = capas_poligonos_informacion.poligono_comuna','inner');

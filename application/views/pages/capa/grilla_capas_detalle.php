@@ -37,13 +37,13 @@
             <!--<td><?php /*echo basename(FCPATH . $row['capa']); */?></td>-->
             <!--<td><?php /*echo getLinkFileGeozone(FCPATH . $row['capa'], $row['arch_c_hash']); */?> </td>-->
             <td class="text-center">
-                <?php if (puedeEditar("capas")) { ?>
+                <?php if ($puedeEditar) { ?>
                 <a class='btn btn-sm btn-default btn-square' onclick='Layer.editarSubCapa(<?php echo $row['geometria_id']; ?>);' >
                     <i class='fa fa-edit'></i>
                 </a>
                 <?php } ?>
                 
-                <?php if (puedeEliminar("capas")) { ?>
+                <?php if ($puedeEditar) { ?>
                 <a class='btn btn-sm btn-danger btn-square' onclick='Layer.eliminarSubCapa(<?php echo $row['geometria_id']; ?>,<?php echo $row['geometria_capa']?>)'>
                     <i class='fa fa-trash'></i>
                 </a>
