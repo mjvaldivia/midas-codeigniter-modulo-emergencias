@@ -41,6 +41,10 @@
                     <button class="btn btn-sm btn-danger btn-square" type="button" title="Ver Detalle" onclick="Layer.eliminarCapa(<?php echo $row['cap_ia_id'] ?>,'<?php echo $row['cap_c_nombre'] ?>')">
                         <i class="fa fa-trash-o"></i></button>
                 <?php endif; ?>
+
+                <button type="button" class="btn btn-sm btn-info btn-square" title="Descargar GEOJSON" onclick="window.open('<?php echo site_url('capas/descargarGeoJSON/id/'.$row['cap_ia_id'])?>','_blank');" target="_blank">
+                    <i class="fa fa-download"></i>
+                </button>
                 <!--
                 <?php /*if (puedeEditar("capas")) { */ ?>
                 <a class='btn btn-xs btn-default btn-square' onclick='Layer.editarCapa(<?php /*echo $row['cap_ia_id']; */ ?>);' >

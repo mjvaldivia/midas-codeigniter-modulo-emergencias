@@ -1069,4 +1069,42 @@ class Capas extends MY_Controller
     }
 
 
+
+    public function descargarGeoJSON(){
+        $params = $this->uri->uri_to_assoc();
+
+        $this->load->model('capa_model','capaModel');
+        $capa = $this->capaModel->getCapa($params['id']);
+        $nombre_capa = str_replace(' ','',$capa->cap_c_nombre);
+        $subcapas = $this->capaModel->listarCapas($params['id']);
+
+        $geojson = array(
+            'type' => 'FeatureCollection',
+            'features' => array()
+        );
+        foreach($subcapas as $subcapa){
+            $items = $this->capaModel->listarItemsSubCapas($subcapa['geometria_id']);
+            foreach($items as $item){
+                $propiedades = unserialize($item['poligono_propiedades']);
+                $geometria = unserialize($item['poligono_geometria']);
+                $geojson['features'][] = array(
+                    'type' => 'Feature',
+                    'properties' => $propiedades,
+                    'geometry' => $geometria
+                );
+
+            }
+
+
+        }
+
+        header("Content-Type: application/json");
+        header("Content-Disposition: attachment;filename=" . $nombre_capa.".geojson");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        echo json_encode($geojson);
+    }
+
+
 }
