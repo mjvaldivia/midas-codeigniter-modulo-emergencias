@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label class="col-xs-12 col-md-3 control-label">Nombre (*)</label>
                 <div class="col-xs-12 col-md-9">
-                    <input type="text" id="nombre" name="nombre" class="form-control required" placeholder="Nombre de la(s) Capa(s)" />
+                    <input type="text" id="nombre" name="nombre" class="form-control required" placeholder="Nombre de la(s) Capa(s)"/>
                 </div>
             </div>
             <div class="form-group">
@@ -18,25 +18,41 @@
                 </div>
             </div>
 
+            <?php if (isset($cargar_regiones) and $cargar_regiones): ?>
+                <div class="form-group">
+                    <label class="col-xs-12 col-md-3 control-label">Región(*)</label>
+                    <div class="col-xs-12 col-md-7">
+                        <select class="form-control" id="region_capa" name="region_capa">
+                            <option value="0">Seleccione...</option>
+                            <?php foreach ($regiones as $reg): ?>
+                            <option value="<?php echo $reg['id']?>"><?php echo $reg['nombre']?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <div class="form-group">
                 <label class="col-md-3 col-xs-12 control-label">Capa (*)</label>
                 <div class="col-xs-12 col-md-9">
                     <div class="col-xs-12">
                         <div class="radio col-xs-6">
-                            <label><input type="radio" name="tipo_capa" value="1" onclick="Layer.mostrarContenedorCapa(this.value);" /> GeoJSON</label>
+                            <label><input type="radio" name="tipo_capa" value="1" onclick="Layer.mostrarContenedorCapa(this.value);"/>
+                                GeoJSON</label>
                         </div>
                         <div class="radio col-xs-6">
-                            <label><input type="radio" name="tipo_capa" value="2" onclick="Layer.mostrarContenedorCapa(this.value);" /> Shape</label>
+                            <label><input type="radio" name="tipo_capa" value="2" onclick="Layer.mostrarContenedorCapa(this.value);"/>
+                                Shape</label>
                         </div>
                     </div>
                     <div class="row" style="display:none" id="contenedor_tipo_geojson">
                         <div class="col-md-12 top-spaced">
-                            <input id="input-capa-geojson" name="input-capa-geojson" class="form-control"  type="file" data-show-preview="false" />
+                            <input id="input-capa-geojson" name="input-capa-geojson" class="form-control" type="file" data-show-preview="false"/>
                         </div>
                     </div>
                     <div class="row" style="display:none" id="contenedor_tipo_shape">
                         <div class="col-md-12 top-spaced">
-                            <input id="input-capa-shape" name="input-capa-shape[]" class="form-control"  type="file" data-show-preview="false" multiple/>
+                            <input id="input-capa-shape" name="input-capa-shape[]" class="form-control" type="file" data-show-preview="false" multiple/>
                         </div>
                     </div>
 
@@ -58,8 +74,8 @@
             <div id="div_color" class="hidden">
                 <label class="col-md-3 col-xs-12 control-label">Configuración de capa</label>
 
-                    <div class="col-md-9 col-xs-12">
-                        <div class="row">
+                <div class="col-md-9 col-xs-12">
+                    <div class="row">
                         <table id="tabla_colores" class="table table-bordered table-striped required" placeholder="Archivo de capa válido">
                             <thead>
                             <tr>
@@ -72,8 +88,8 @@
                             </tr>
                             </thead>
                         </table>
-                        </div>
                     </div>
+                </div>
             </div>
             <input name="tmp_file" id="tmp_file" type="hidden"/>
 
@@ -99,28 +115,30 @@
 
             <div class="text-right top-spaced">
                 <button type="button" class="btn btn-default btn-square" onclick="xModal.close();">Cerrar</button>
-                <button type="button" class="btn btn-success btn-square" id="btn-guardar-capa" disabled onclick="Layer.guardar(this.form,this)">Guardar</button>
+                <button type="button" class="btn btn-success btn-square" id="btn-guardar-capa" disabled onclick="Layer.guardar(this.form,this)">
+                    Guardar
+                </button>
             </div>
         </form>
     </div>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         Layer.initSave();
     });
-    
-    $('#input-capa-geojson').on('fileloaded', function(event, file){
+
+    $('#input-capa-geojson').on('fileloaded', function (event, file) {
         $("#cargando_geojson").fadeIn();
         $(this).fileinput("upload");
     });
 
-    $('#input-capa-shape').on('fileuploaderror', function(event, data, previewId, index) {
+    $('#input-capa-shape').on('fileuploaderror', function (event, data, previewId, index) {
         $('#input-capa-shape').fileinput('clear');
     });
 
-    $('#input-capa-shape').on('filebatchselected', function(event, files) {
-        if(files.length == 2){
+    $('#input-capa-shape').on('filebatchselected', function (event, files) {
+        if (files.length == 2) {
             $("#cargando_geojson").fadeIn();
             $(this).fileinput('upload');
         }

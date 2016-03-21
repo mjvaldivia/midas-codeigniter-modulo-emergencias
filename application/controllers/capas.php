@@ -106,12 +106,14 @@ class Capas extends MY_Controller
         $this->load->model('rol_model','rolModel');
 
         $puedeEditar = $this->usuario->tieneRol(27);
+
         $this->load->helper(array("modulo/capa/capa","file"));
         $lista = $this->capa_model->listarCapasUnicas();
         $roles = explode(',',$this->session->userdata('session_roles'));
         $data = array(
             "lista" => $lista,
-            "puedeEditar" => $puedeEditar
+            "puedeEditar" => $puedeEditar,
+            "usuario" => $this->session->userdata('session_idUsuario')
         );
         $this->load->view("pages/capa/grilla_capas", $data);
     }
@@ -419,6 +421,11 @@ class Capas extends MY_Controller
         $this->load->helper("session");
         sessionValidation();
         $params = $this->input->post();
+        $params['region'] = 0;
+        if(isset($params['region_capa']))
+            $params['region'] = $params['region_capa'];
+
+        $params['usuario'] = $this->session->userdata('session_idUsuario');
 
         $this->load->helper("session");
         $this->load->model("capa_model", "CapaModel");
@@ -795,8 +802,31 @@ class Capas extends MY_Controller
 
 
     public function nuevaCapa(){
+        $this->load->model('rol_model','rolModel');
 
-        $this->load->view('pages/capa/nueva_capa');
+        $puedeEditar = $this->usuario->tieneRol(27);
+        $cargar_regiones = false;
+
+        $data = array();
+        if(!$puedeEditar){
+            $cargar_regiones = true;
+            $this->load->model('region_model','regionModel');
+            $regiones = explode(',',$this->session->userdata('session_regiones'));
+            $arr_regiones = array();
+            foreach($regiones as $reg){
+                $region = $this->regionModel->getById($reg);
+                $arr_regiones[] = array('nombre' => $region->reg_c_nombre, 'id' => $reg);
+            }
+
+            $data = array(
+                'cargar_regiones' => $cargar_regiones,
+                'regiones' => $arr_regiones
+            );
+
+        }
+
+
+        $this->load->view('pages/capa/nueva_capa',$data);
 
     }
 
