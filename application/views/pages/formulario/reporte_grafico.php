@@ -142,7 +142,8 @@
                 "stackType": "regular",
                 "axisAlpha": 0.3,
                 "gridAlpha": 0,
-                "title": "Nº Casos"
+                "title": "Nº Casos",
+                "integersOnly": true
             }],
             "graphs": [{
                 "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
@@ -222,7 +223,8 @@
             "dataProvider": dataSemanas,
             "valueAxes": [{
                 "gridAlpha": 0,
-                "title": "Nº Casos"
+                "title": "Nº Casos",
+                "integersOnly": true
             }],
             "gridAboveGraphs": true,
             "startDuration": 1,
