@@ -7,12 +7,11 @@ class Rapanui_Dengue_Estado_Model extends MY_Model
     const DESCARTADO = 2;
     const NO_CONCLUYENTE = 3;
 
-            
     /**
      *
      * @var string 
      */
-    protected $_tabla = "rapanui_dengue_estado";
+    protected $_tabla = "casos_febriles_estado";
     
     /**
      * Retorna la por el identificador

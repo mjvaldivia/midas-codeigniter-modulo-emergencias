@@ -13,7 +13,7 @@ class Rapanui_Dengue_Model extends MY_Model {
      * Nombre de tabla
      * @var string 
      */
-    protected $_tabla = "rapanui_dengue";
+    protected $_tabla = "casos_febriles";
     
     /**
      * Retorna por el identificador

@@ -7,13 +7,13 @@ if (!defined('BASEPATH'))
  * @author Vladimir
  * @since 14-09-15
  */
-class Usuario_Model extends MY_Model {
+class Usuario2_Model extends MY_Model {
 
     /**
      * Nombre de tabla
      * @var string 
      */
-    protected $_tabla = "usuarios";
+    protected $_tabla = "usuarios2";
     
     /**
      * Se utiliza emergencias_simulacion o no
@@ -57,27 +57,6 @@ class Usuario_Model extends MY_Model {
      */
     public function getByLogin($login){
         return $this->_query->getById("usu_c_login", $login);
-    }
-    
-    /**
-     * 
-     * @param string $nombre
-     * @param string $apellido_paterno
-     * @param string $apellido_materno
-     * @return type
-     */
-    public function getByNombre($nombre, $apellido_paterno, $apellido_materno){
-        $result = $this->_query->select("*")
-                               ->from()
-                               ->whereAND("usu_c_nombre", $nombre)
-                               ->whereAND("usu_c_apellido_paterno", $apellido_paterno)
-                               ->whereAND("usu_c_apellido_materno", $apellido_materno)
-                               ->getOneResult();
-        if(!is_null($result)){
-            return $result;
-        } else {
-            return NULL;
-        }
     }
     
     /**
