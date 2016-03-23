@@ -113,8 +113,11 @@ class Formulario extends MY_Controller
 
         if ($this->formulario_dengue_validar->esValido($params)) {
 
-            $coordenadas = array("lat" => $params["latitud"],
-                "lng" => $params["longitud"]);
+            $coordenadas = array(
+                "lat" => $params["latitud"],
+                "lng" => $params["longitud"]
+            );
+            
             unset($params["latitud"]);
             unset($params["longitud"]);
 
@@ -141,27 +144,42 @@ class Formulario extends MY_Controller
             }
 
             if (is_null($caso)) {
-                $this->_rapanui_dengue_model->insert(array(
+                $this->_rapanui_dengue_model->insert(
+                    array(
                         "fecha" => date("Y-m-d H:i:s"),
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
                         "id_usuario" => $this->session->userdata("session_idUsuario"),
                         "id_estado" => $id_estado,
-                        "enviado_epidemilogico" => $enviado)
+                        "enviado_epidemilogico" => $enviado
+                    )
                 );
             } else {
-                $this->_rapanui_dengue_model->update(array("propiedades" => json_encode($arreglo),
-                    "coordenadas" => json_encode($coordenadas),
-                    "id_estado" => $id_estado,
-                    "enviado_epidemilogico" => $enviado),
-                    $caso->id);
+                $this->_rapanui_dengue_model->update(
+                    array(
+                        "propiedades" => json_encode($arreglo),
+                        "coordenadas" => json_encode($coordenadas),
+                        "id_estado" => $id_estado,
+                        "enviado_epidemilogico" => $enviado
+                    ),
+                    $caso->id
+                );
             }
 
-            echo json_encode(array("error" => array(),
-                "correcto" => true));
+            echo json_encode(
+                array(
+                    "error" => array(),
+                    "correcto" => true
+                )
+            );
+            
         } else {
-            echo json_encode(array("error" => $this->formulario_dengue_validar->getErrores(),
-                "correcto" => false));
+            echo json_encode(
+                array(
+                    "error" => $this->formulario_dengue_validar->getErrores(),
+                    "correcto" => false
+                )
+            );
         }
     }
 
