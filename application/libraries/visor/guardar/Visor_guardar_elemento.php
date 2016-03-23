@@ -29,11 +29,20 @@ Class Visor_guardar_elemento{
         $this->_emergencia_elemento_model = New Emergencia_Elemento_Model();
     }
     
+    /**
+     * 
+     * @param int $id
+     * @return \Visor_guardar_elemento
+     */
     public function setEmergencia($id){
         $this->_id_emergencia = $id;
         return $this;
     }
     
+    /**
+     * 
+     * @param array $lista_elementos
+     */
     public function guardar($lista_elementos){
         $guardados = array();
 
@@ -43,7 +52,7 @@ Class Visor_guardar_elemento{
                 $elemento = json_decode($elemento_json);
                 
                 if(is_object($elemento)){
-                    $contenenido = false;
+                    
                     $emergencia_elemento = $this->_emergencia_elemento_model->getById($elemento->id);
                     
                     $icono = "";

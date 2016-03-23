@@ -65,7 +65,7 @@ var MapaEditor = Class({
                 google.maps.drawing.OverlayType.MARKER,
                 google.maps.drawing.OverlayType.CIRCLE,
                 google.maps.drawing.OverlayType.POLYGON,
-               // google.maps.drawing.OverlayType.POLYLINE,
+                google.maps.drawing.OverlayType.POLYLINE,
                 google.maps.drawing.OverlayType.RECTANGLE
               ]
             },
@@ -87,6 +87,7 @@ var MapaEditor = Class({
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
             },
+            
             polygonOptions: {
                 clickable: true,
                 editable: true,
@@ -106,6 +107,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             }
         });
+        
         drawingManager.setMap(mapa);
         
         var ruler = new GoogleMapsRuler(mapa);
@@ -116,6 +118,7 @@ var MapaEditor = Class({
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
+            
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
@@ -143,6 +146,7 @@ var MapaEditor = Class({
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
+
         });
         
         google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
@@ -162,8 +166,32 @@ var MapaEditor = Class({
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
             });
+            
             yo.class_poligono.addClickListener(polygon, mapa);
             lista_poligonos.push(polygon);
+            
+            var elemento = new MapaElementos();
+            elemento.listaElementosVisor();
+        });
+        
+        google.maps.event.addListener(drawingManager, 'polylinecomplete', function(polyline) {
+            polyline.setOptions({
+                id : null,
+                custom : true,
+                tipo : "LINEA",
+                identificador:null,
+                clave : yo.uniqID(20),
+                capa : null,
+                informacion: {"NOMBRE" : "Linea agregada"},
+                clickable: false,
+                editable: false,
+                strokeColor: '#000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2
+            });
+            
+            yo.class_poligono.addClickListener(polyline, mapa);
+            lista_poligonos.push(polyline);
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
@@ -185,8 +213,7 @@ var MapaEditor = Class({
                 strokeWeight: 2,
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
-            })
-            
+            });
             
             var circuloClickListener = new MapaInformacionElemento();
             circuloClickListener.addRightClickListener(circle, mapa);

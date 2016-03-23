@@ -125,7 +125,7 @@ class Mapa extends MY_Controller {
 
         if(!is_null($emergencia)){
             $data = array("id" => $emergencia->eme_ia_id,
-                            "guardar" => $guardar,
+                          "guardar" => $guardar,
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
             $this->template->parse("default", "pages/mapa/index", $data);
         } else {

@@ -125,7 +125,7 @@ Class Emergencia_email_reporte{
      * @param string $to
      */
     public function addTo($to){
-        if($this->_to == ""){
+        if($this->_to != ""){
            $this->_to .= "," . $to;
         } else {
             $this->_to = $to;

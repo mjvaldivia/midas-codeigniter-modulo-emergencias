@@ -12,6 +12,26 @@ var MapaElementos = Class({
         this.id_emergencia = id;
     },
     
+    dibujarLinea : function(id, propiedades, coordenadas, color){
+        var yo = this;
+        var linea = new google.maps.Polyline({
+            custom : true,
+            path: coordenadas,
+            identificador: id,
+            clave : "linea_" + id,
+            informacion: propiedades,
+            tipo: "LINEA",
+            geodesic: true,
+            strokeColor: "#000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        linea.setMap(yo.mapa);
+        
+        lista_poligonos.push(linea);
+    },
+    
     /**
      * 
      * @param {type} id
@@ -163,6 +183,7 @@ var MapaElementos = Class({
            var data = jQuery.parseJSON(json);
            var preview = "";
            switch(data.tipo){
+               case "LINEA":
                case "POLIGONO":
                case "RECTANGULO":
                case "CIRCULO":
@@ -235,6 +256,10 @@ var MapaElementos = Class({
                             );
                             
                             bo_lugar_emergencia = true;
+                        }
+                        
+                        if(elemento.tipo == "LINEA"){
+                            yo.dibujarLinea(id, elemento.propiedades, elemento.coordenadas, elemento.color);
                         }
                         
                         if(elemento.tipo == "PUNTO"){
@@ -530,6 +555,14 @@ var MapaElementos = Class({
                             "propiedades" : elemento.informacion,
                             "coordenadas" : {"center" : elemento.getCenter(),
                                              "radio"  : elemento.getRadius()}};
+                    break;
+                case "LINEA":
+                    data = {"tipo" : "LINEA",
+                            "clave" : elemento.clave,
+                            "color" : elemento.strokeColor,
+                            "id" : elemento.id,
+                            "propiedades" : elemento.informacion,
+                            "coordenadas" : elemento.getPath().getArray()};
                     break;
                 
             }
