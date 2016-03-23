@@ -194,14 +194,14 @@ var EventoGrilla = Class({
                 var id = $(this).attr("data");
                 bootbox.dialog({
                     title: "Eliminar elemento",
-                    message: '¿Está seguro que desea eliminar esta alarma?',
+                    message: '¿Está seguro que desea eliminar este evento?',
                     buttons: {
                         success: {
                             label: "Aceptar",
                             className: "btn-primary",
                             callback: function () {
-                                $.get(siteUrl + 'alarma/eliminarAlarma/id/' + id).done(function (retorno) {
-                                    if (retorno == 0) { // sin error
+                                $.post(siteUrl + 'evento/eliminar',{id:id},'json').done(function (retorno) {
+                                    if (retorno.correcto == true) { // sin error
                                         bootbox.dialog({
                                             title: "Resultado de la operacion",
                                             message: 'Se eliminó correctamente',

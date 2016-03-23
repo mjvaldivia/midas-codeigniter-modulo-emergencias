@@ -65,8 +65,7 @@ class Capas extends MY_Controller
 
         $this->load->library(array("template"));
 
-        
-        
+
         if($this->usuario->getPermisoEditar()){
             if(isset($params["tab"])){
                 $tab = $params["tab"];
@@ -104,16 +103,42 @@ class Capas extends MY_Controller
     
     
     function ajax_grilla_capas_unicas() {
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+
         $this->load->helper(array("modulo/capa/capa","file"));
         $lista = $this->capa_model->listarCapasUnicas();
-        $this->load->view("pages/capa/grilla_capas", array("lista" => $lista));
+        $roles = explode(',',$this->session->userdata('session_roles'));
+        $data = array(
+            "lista" => $lista,
+            "puedeEditar" => $puedeEditar,
+            "usuario" => $this->session->userdata('session_idUsuario')
+        );
+        $this->load->view("pages/capa/grilla_capas", $data);
     }
 
     function ajax_grilla_capas() {
         $id_capa = $this->input->post('id_capa');
         $this->load->helper(array("modulo/capa/capa","file"));
-        $lista = $this->capa_model->listarCapas($id_capa);
-        $this->load->view("pages/capa/grilla_capas_detalle", array("lista" => $lista));
+
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+
+        if(!$puedeEditar){
+            $regiones = $this->session->userdata('session_regiones');
+            $lista = $this->capa_model->listarCapas($id_capa,$regiones);
+        }else{
+            $lista = $this->capa_model->listarCapas($id_capa);
+        }
+
+
+        $data = array(
+            "lista" => $lista,
+            "puedeEditar" => $puedeEditar
+        );
+        $this->load->view("pages/capa/grilla_capas_detalle", $data);
     }
 
 
@@ -242,6 +267,13 @@ class Capas extends MY_Controller
         $query .= 'LEFT JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
                     LEFT JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
                     LEFT JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+        if(!$puedeEditar){
+            $regiones = $this->session->userdata('session_regiones');
+            $where .= ' and r.reg_ia_id IN ('.$regiones.') ';
+        }
         $query = $query . $where . $order . $limit;
         /*$this->db->where('poligono_capitem',$subcapa);
         $this->db->join('comunas c','c.com_ia_id = capas_poligonos_informacion.poligono_comuna','inner');
@@ -389,6 +421,11 @@ class Capas extends MY_Controller
         $this->load->helper("session");
         sessionValidation();
         $params = $this->input->post();
+        $params['region'] = 0;
+        if(isset($params['region_capa']))
+            $params['region'] = $params['region_capa'];
+
+        $params['usuario'] = $this->session->userdata('session_idUsuario');
 
         $this->load->helper("session");
         $this->load->model("capa_model", "CapaModel");
@@ -765,8 +802,31 @@ class Capas extends MY_Controller
 
 
     public function nuevaCapa(){
+        $this->load->model('rol_model','rolModel');
 
-        $this->load->view('pages/capa/nueva_capa');
+        $puedeEditar = $this->usuario->tieneRol(27);
+        $cargar_regiones = false;
+
+        $data = array();
+        if(!$puedeEditar){
+            $cargar_regiones = true;
+            $this->load->model('region_model','regionModel');
+            $regiones = explode(',',$this->session->userdata('session_regiones'));
+            $arr_regiones = array();
+            foreach($regiones as $reg){
+                $region = $this->regionModel->getById($reg);
+                $arr_regiones[] = array('nombre' => $region->reg_c_nombre, 'id' => $reg);
+            }
+
+            $data = array(
+                'cargar_regiones' => $cargar_regiones,
+                'regiones' => $arr_regiones
+            );
+
+        }
+
+
+        $this->load->view('pages/capa/nueva_capa',$data);
 
     }
 
@@ -1006,6 +1066,44 @@ class Capas extends MY_Controller
                                             'properties' => $properties,
                                             'filenames' => $arr_filename,
                                             'geometry' => $tipo_geometria));
+    }
+
+
+
+    public function descargarGeoJSON(){
+        $params = $this->uri->uri_to_assoc();
+
+        $this->load->model('capa_model','capaModel');
+        $capa = $this->capaModel->getCapa($params['id']);
+        $nombre_capa = str_replace(' ','',$capa->cap_c_nombre);
+        $subcapas = $this->capaModel->listarCapas($params['id']);
+
+        $geojson = array(
+            'type' => 'FeatureCollection',
+            'features' => array()
+        );
+        foreach($subcapas as $subcapa){
+            $items = $this->capaModel->listarItemsSubCapas($subcapa['geometria_id']);
+            foreach($items as $item){
+                $propiedades = unserialize($item['poligono_propiedades']);
+                $geometria = unserialize($item['poligono_geometria']);
+                $geojson['features'][] = array(
+                    'type' => 'Feature',
+                    'properties' => $propiedades,
+                    'geometry' => $geometria
+                );
+
+            }
+
+
+        }
+
+        header("Content-Type: application/json");
+        header("Content-Disposition: attachment;filename=" . $nombre_capa.".geojson");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        echo json_encode($geojson);
     }
 
 

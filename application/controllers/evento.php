@@ -188,7 +188,7 @@ class Evento extends MY_Controller {
     public function eliminar() { 
         header('Content-type: application/json');
         $params = $this->input->post(null, true);
-        $res = $this->emergencia_model->delete($params['id']);
+        $res = $this->_emergencia_model->delete($params['id']);
         
         if($res){
             $correcto = true;

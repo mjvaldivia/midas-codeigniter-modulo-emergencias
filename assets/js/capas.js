@@ -164,6 +164,11 @@ var Layer = {};
             if(form.iCategoria_editar.value == ""){
                 message += '- Debe seleccionar categoría de la capa<br/>';
             }
+            if(form.region_capa !== undefined){
+                if(form.region_capa.value == 0){
+                    message += '- Debe seleccionar región de la capa<br/>';
+                }
+            }
             if($(".propiedades:checked").length == 0){
                 message += '- Debe seleccionar por lo menos una propiedad de la capa<br/>';
             }
