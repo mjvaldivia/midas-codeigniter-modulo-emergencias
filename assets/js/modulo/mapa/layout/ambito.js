@@ -3,8 +3,8 @@ var MapaLayoutAmbitoCapa = Class({
     /**
      * Url de la ubicacion del servicio del modulo de programacion
      */
-    url_programacion : "http://200.55.194.54:8001/programacion/rest.php/",
-    //url_programacion : "http://development.programacion.midas.cl/sipresa/rest.php/",
+    url_programacion : "http://200.55.194.54/programacion/rest.php/",
+   // url_programacion : "http://development.programacion.midas.cl/sipresa/rest.php/",
     
     mapa : null,
     id_emergencia : null,
@@ -113,7 +113,7 @@ var MapaLayoutAmbitoCapa = Class({
                 async: true,
                 data: parametros,
                 type: "get",
-                url: yo.url_programacion + "emergencia/", 
+                url: yo.url_programacion + "emergencia", 
                 error: function(xhr, textStatus, errorThrown){
                     notificacionError("Ha ocurrido un problema", errorThrown);
                 },
@@ -164,7 +164,7 @@ var MapaLayoutAmbitoCapa = Class({
             async: false,
             data: "ambito=" + ambito,
             type: "get",
-            url: yo.url_programacion + "tipoinstalacion/", 
+            url: yo.url_programacion + "tipoinstalacion", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -195,7 +195,7 @@ var MapaLayoutAmbitoCapa = Class({
             async: true,
             data: "",
             type: "get",
-            url: yo.url_programacion + "ambito/", 
+            url: yo.url_programacion + "ambito", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
