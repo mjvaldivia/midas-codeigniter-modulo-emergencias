@@ -217,7 +217,6 @@ class Formulario extends MY_Controller
                 $id = $caso->id;
             }
             
-            fb($lista_enfermedades);
             $this->_casos_febriles_enfermedades_model
                 ->query()
                 ->insertOneToMany(
