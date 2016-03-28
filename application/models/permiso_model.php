@@ -9,6 +9,12 @@ class Permiso_Model extends MY_Model {
     protected $_tabla = "roles_vs_permisos";
     
     /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
+    /**
      * 
      */
     public function __construct() {

@@ -3,7 +3,9 @@ var MapaLayoutAmbitoCapa = Class({
     /**
      * Url de la ubicacion del servicio del modulo de programacion
      */
-    url_programacion : "http://200.55.194.54/programacion/rest.php/",
+    url_programacion : "http://200.55.194.54:8001/programacion/rest.php/",
+    //url_programacion : "http://development.programacion.midas.cl/sipresa/rest.php/",
+    
     mapa : null,
     id_emergencia : null,
     
@@ -37,7 +39,9 @@ var MapaLayoutAmbitoCapa = Class({
             
             if($(this).is(":checked")){
                 var nombre = $(this).parent().parent().children(".nombre-ambito").html();
-                yo.loadMarkers(id, nombre);
+
+                yo.loadMarkers(id, nombre, $(this).attr("data"));
+            
             } else {
                 var marcador = new MapaMarcador();
                 marcador.removerMarcadores("identificador", "instalacion_ambito_" + id);
@@ -82,7 +86,7 @@ var MapaLayoutAmbitoCapa = Class({
      * @param {type} id_ambito
      * @returns {undefined}
      */
-    loadMarkers : function(id_ambito, nombre_ambito){
+    loadMarkers : function(id_ambito, nombre_ambito, id_tipo_instalacion){
         var yo = this;
         
         
@@ -91,6 +95,10 @@ var MapaLayoutAmbitoCapa = Class({
         
         var parametros = {"ambito" : id_ambito,
                           "comunas" : comunas};
+                      
+        if(id_tipo_instalacion != ""){
+            parametros["tipo"] = id_tipo_instalacion;
+        }
         
         var box = bootbox.dialog({
                 message: '<div class=\"row\"><div class=\"col-xs-12 text-center\"><i class="fa fa-3x fa-spin fa-spinner"></i> <br/> Procesando información </div> </div>',
@@ -146,6 +154,35 @@ var MapaLayoutAmbitoCapa = Class({
         });
     },
     
+    renderTiposInstalacion : function(ambito){
+        var yo = this;
+        var icono = this.icono(ambito);
+        var html = "<li class=\"divider\"></li>";
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: "ambito=" + ambito,
+            type: "get",
+            url: yo.url_programacion + "tipoinstalacion/", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                 if(data.error == 0){
+
+                    $.each(data.retorno, function(i, valores){
+                        html += yo.opcionHtml(ambito, valores.aux_c_nombre, icono, valores.aux_ia_id);
+                    });
+
+                } else {
+                    notificacionError("Ha ocurrido un problema", data.mensaje);
+                }
+            }
+        });
+        return html;
+    },
+    
     /**
      * Crea el menu de ambitos
      * @returns {undefined}
@@ -158,7 +195,7 @@ var MapaLayoutAmbitoCapa = Class({
             async: true,
             data: "",
             type: "get",
-            url: yo.url_programacion + "ambito", 
+            url: yo.url_programacion + "ambito/", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -167,28 +204,23 @@ var MapaLayoutAmbitoCapa = Class({
                     $("#lista-ambitos").html("</li><li class=\"divider\"></li>");
                     $.each(data.retorno, function(i, valores){
                         var icono = yo.icono(valores.amb_ia_id);
-                        $("#lista-ambitos").append(
-                            "<li>"
-                          + "<a href=\"javascript:void(0)\">"
-                          + "<div class=\"row\">"
-                            + "<div class=\"col-xs-12\">"
-                                + "<div class=\"checkbox checkbox-menu\">"
-                                    + "<div class=\"col-xs-12\">"
-                                        + "<label>"
-                                        + "<div style=\"float:left\">"
-                                            + "<input class=\"menu-ambito-checkbox\" type=\"checkbox\" value=\"" + valores.amb_ia_id + "\">"
-                                        + "</div>"
-                                        + "<div style=\"float:left; margin-left:20px\">"
-                                            + "<img height=\"30px\" src=\""+ icono+"\"/>"
-                                        + "</div>"
-                                        + "<div class=\"nombre-ambito\" style=\"margin-left:70px\">" + valores.amb_c_nombre + "</div>"
-                                        + "</label>"
-                                    + "</div>"
-                                + "</div>"
-                            + "</div>"
-                            + "</div>"
-                          + "</a>"
-                          + "</li><li class=\"divider\"></li>");
+                        if(valores.amb_ia_id == 1){
+                            var html = '<li class="dropdown-submenu lala">'
+                                     + '<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">' 
+
+                                            + "<img height=\"30px\" src=\""+ icono +"\"/>&nbsp;&nbsp;&nbsp;"                                    
+                                            + valores.amb_c_nombre  
+   
+                                     + '</a>'
+                                     + '<ul class="dropdown-menu">'
+                                     + yo.renderTiposInstalacion(valores.amb_ia_id)
+                                     + '</ul>'
+                                     + '</li>'
+                                     + '<li class="divider"></li>';
+                            $("#lista-ambitos").append(html);
+                        } else {
+                            yo.agregarMenu(valores.amb_ia_id, valores.amb_c_nombre);
+                        }
                     });
                     
                     yo.bindCheck();
@@ -197,6 +229,35 @@ var MapaLayoutAmbitoCapa = Class({
                 }
             }
         });
+    },
+    
+    agregarMenu : function(id, nombre){
+        var icono = this.icono(id);
+        $("#lista-ambitos").append(this.opcionHtml(id, nombre, icono, ""));
+    },
+    
+    opcionHtml : function(id, nombre, icono, data_row){
+        return "<li>"
+          + "<a href=\"javascript:void(0)\">"
+          + "<div class=\"row\">"
+            + "<div class=\"col-xs-12\">"
+                + "<div class=\"checkbox checkbox-menu\">"
+                    + "<div class=\"col-xs-12\">"
+                        + "<label>"
+                        + "<div style=\"float:left\">"
+                            + "<input data=\"" + data_row + "\" class=\"menu-ambito-checkbox\" type=\"checkbox\" value=\"" + id + "\">"
+                        + "</div>"
+                        + "<div style=\"float:left; margin-left:20px\">"
+                            + "<img height=\"30px\" src=\""+ icono +"\"/>"
+                        + "</div>"
+                        + "<div class=\"nombre-ambito\" style=\"margin-left:70px\">" + nombre + "</div>"
+                        + "</label>"
+                    + "</div>"
+                + "</div>"
+            + "</div>"
+            + "</div>"
+          + "</a>"
+          + "</li><li class=\"divider\"></li>";
     },
     
     /**
