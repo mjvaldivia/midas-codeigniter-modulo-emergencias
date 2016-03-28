@@ -208,7 +208,7 @@ class Mapa extends MY_Controller {
         $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 
         $casos = array();
-        $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
+        $this->load->model("casos_febriles_model", "_rapanui_dengue_model");
         
         $lista = $this->_rapanui_dengue_model->listar();
         if($lista != null){

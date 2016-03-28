@@ -1128,7 +1128,7 @@
                                 </table>
                             </div>
                             <div class="col-xs-3">
-                                 <div class="tile blue <?php if(!puedeFinalizarEmergencia("casos_febriles")) echo "hidden"; ?>">
+                                 <div class="tile blue <?php if(!puedeFinalizarEmergencia("casos_febriles")) echo "hidden"; ?>" style="overflow: visible">
                                     <div class="form-group clearfix">
                                        <label for="conclusion_del_caso" class="control-label">Conclusión del caso:</label>
                                        <select name="conclusion_del_caso" id="conclusion_del_caso" class="form-control">
@@ -1136,10 +1136,14 @@
                                            <option value="1" <?php if($conclusion_del_caso == "1") echo "selected" ?>> Confirmado </option>
                                            <option value="2" <?php if($conclusion_del_caso == "2") echo "selected" ?>> Descartado </option>
                                            <option value="3" <?php if($conclusion_del_caso == "3") echo "selected" ?>> No concluyente </option>
-
                                        </select>
                                        <span class="help-block hidden"></span>
                                    </div>
+                                   <div class="form-group clearfix">
+                                       <label for="enfermedades" class="control-label">Enfermedades:</label>
+                                       <?php echo formSelectEnfermedades("enfermedades[]", $conclusion_enfermedades); ?>
+                                       <span class="help-block hidden"></span>
+                                   </div>  
                                    <div class="form-group clearfix">
                                        <label for="observaciones" class="control-label">Observaciones:</label>
                                        <textarea name="observaciones" id="observaciones" class="form-control"><?php echo $observaciones; ?></textarea>

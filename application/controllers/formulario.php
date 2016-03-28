@@ -15,6 +15,12 @@ class Formulario extends MY_Controller
      * @var Rapanui_Dengue_Estado_Model
      */
     public $_rapanui_dengue_estado_model;
+    
+    /**
+     *
+     * @var Casos_Febriles_Enfermedades_model 
+     */
+    public $_casos_febriles_enfermedades_model;
 
     /**
      *
@@ -25,8 +31,9 @@ class Formulario extends MY_Controller
         sessionValidation();
         $this->load->library("session");
         $this->load->helper(array("modulo/alarma/alarma_form"));
-        $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
-        $this->load->model("rapanui_dengue_estado_model", "_rapanui_dengue_estado_model");
+        $this->load->model("casos_febriles_model", "_rapanui_dengue_model");
+        $this->load->model("casos_febriles_estado_model", "_rapanui_dengue_estado_model");
+        $this->load->model("casos_febriles_enfermedades_model", "_casos_febriles_enfermedades_model");
     }
 
     /**
@@ -56,7 +63,12 @@ class Formulario extends MY_Controller
      */
     public function form_dengue()
     {
-        $this->load->helper("modulo/emergencia/emergencia");
+        $this->load->helper(
+            array(
+                "modulo/emergencia/emergencia",
+                "modulo/formulario/formulario"
+            )
+        );
         $params = $this->uri->uri_to_assoc();
 
         $this->template->parse(
@@ -75,13 +87,26 @@ class Formulario extends MY_Controller
      */
     public function editar()
     {
-        $this->load->helper("modulo/emergencia/emergencia");
+       $this->load->helper(
+            array(
+                "modulo/emergencia/emergencia",
+                "modulo/formulario/formulario"
+            )
+        );
         $params = $this->input->get(null, true);
 
         $caso = $this->_rapanui_dengue_model->getById($params["id"]);
         if (!is_null($caso)) {
 
             $data = array("id" => $caso->id);
+            
+            $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($caso->id);
+            if(!is_null($lista_enfermedades)){
+                foreach($lista_enfermedades as $enfermedad){
+                    $data["conclusion_enfermedades"][] = $enfermedad["id_enfermedad"];
+                }
+            }
+            
             $propiedades = json_decode($caso->propiedades);
             $coordenadas = json_decode($caso->coordenadas);
             foreach ($propiedades as $nombre => $valor) {
@@ -112,7 +137,8 @@ class Formulario extends MY_Controller
         $params = $this->input->post(null, true);
 
         if ($this->formulario_dengue_validar->esValido($params)) {
-
+            
+            /** latitud y longitud **/
             $coordenadas = array(
                 "lat" => $params["latitud"],
                 "lng" => $params["longitud"]
@@ -120,31 +146,50 @@ class Formulario extends MY_Controller
             
             unset($params["latitud"]);
             unset($params["longitud"]);
+            /************************/
 
+            /** caso febril **/
             $caso = $this->_rapanui_dengue_model->getById($params["id"]);
             unset($params["id"]);
+            /*****************/
 
+            /** estado conclusion del caso **/
             $id_estado = null;
             $estado = $this->_rapanui_dengue_estado_model->getById($params["conclusion_del_caso"]);
             if (!is_null($estado)) {
                 $id_estado = $estado->id;
             }
             unset($params["conclusion_del_caso"]);
-
+            /********************************/
+            
+            /** enviado a epidemiologia **/
             $enviado = 0;
             if (isset($params["enviado"])) {
                 $enviado = $params["enviado"];
                 unset($params["enviado"]);
             }
+            /*****************************/
+            
+            /** conclusion enfermedades **/
+            $lista_enfermedades = array();
+            if(count($params["enfermedades"])>0){
+                $lista_enfermedades = $params["enfermedades"];
+            }
+            unset($params["enfermedades"]);
+            /*****************************/
 
+            /** se preparan datos del formulario **/
             $arreglo = array();
             foreach ($params as $nombre => $valor) {
                 $nombre = str_replace("_", " ", $nombre);
                 $arreglo[strtoupper($nombre)] = $valor;
             }
+            /**************************************/
+            
+            
 
             if (is_null($caso)) {
-                $this->_rapanui_dengue_model->insert(
+                $id = $this->_rapanui_dengue_model->insert(
                     array(
                         "fecha" => date("Y-m-d H:i:s"),
                         "propiedades" => json_encode($arreglo),
@@ -164,7 +209,19 @@ class Formulario extends MY_Controller
                     ),
                     $caso->id
                 );
+                $id = $caso->id;
             }
+            
+            fb($lista_enfermedades);
+            $this->_casos_febriles_enfermedades_model
+                ->query()
+                ->insertOneToMany(
+                   "id_caso_febril", 
+                   "id_enfermedad", 
+                   $id, 
+                   $lista_enfermedades
+            );
+            
 
             echo json_encode(
                 array(

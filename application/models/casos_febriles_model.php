@@ -7,7 +7,7 @@ if (!defined('BASEPATH')){
 /**
  * Alarma Model
  */
-class Rapanui_Dengue_Model extends MY_Model {
+class Casos_Febriles_Model extends MY_Model {
     
     /**
      * Nombre de tabla

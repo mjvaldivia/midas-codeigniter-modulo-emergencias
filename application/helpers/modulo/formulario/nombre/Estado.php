@@ -26,7 +26,7 @@ Class Formulario_Nombre_Estado{
      */
     public function __construct() {
         $this->_ci =& get_instance();
-        $this->_ci->load->model("rapanui_dengue_estado_model","_rapanui_dengue_estado_model");
+        $this->_ci->load->model("casos_febriles_estado_model","_rapanui_dengue_estado_model");
         $this->_rapanui_dengue_estado_model = $this->_ci->_rapanui_dengue_estado_model;
     }
     

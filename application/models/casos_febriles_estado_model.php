@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rapanui_Dengue_Estado_Model extends MY_Model
+class Casos_Febriles_Estado_Model extends MY_Model
 {    
 
     const CONFIRMADO = 1;

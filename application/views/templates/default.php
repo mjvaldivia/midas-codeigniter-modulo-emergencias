@@ -11,7 +11,7 @@
 
 
     <title>MIDAS :: Módulo de emergencias</title>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&key=AIzaSyBqmaRNgLR0AZU8l7PPITUFJ4EBQD_A_4g"></script>
     <script type='text/javascript' src="<?= base_url("/assets/js/library/jquery-2.1.4/jquery.min.js") ?>"></script>
     
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
