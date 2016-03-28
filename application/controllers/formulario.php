@@ -29,7 +29,12 @@ class Formulario extends MY_Controller
     {
         parent::__construct();
         sessionValidation();
-        $this->load->library("session");
+        $this->load->library(
+            array(
+                "string",
+                "session"
+            )
+        );
         $this->load->helper(array("modulo/alarma/alarma_form"));
         $this->load->model("casos_febriles_model", "_rapanui_dengue_model");
         $this->load->model("casos_febriles_estado_model", "_rapanui_dengue_estado_model");
@@ -426,17 +431,30 @@ class Formulario extends MY_Controller
                 }
 
                 $propiedades = json_decode($caso["propiedades"]);
-
+                
+                $confirmado_enfermedad = "";
+                if($caso["id_estado"] == Casos_Febriles_Estado_Model::CONFIRMADO){
+                    $confirmado_enfermedad = $this->string->arrayToString(
+                        $this->_casos_febriles_enfermedades_model->listarPorCaso($caso["id"]),
+                        ", ",
+                        "nombre"
+                    );
+                }
+                
+                
                 $casos[] = array("id" => $caso["id"],
                     "enviado" => $caso["enviado_epidemilogico"],
                     "id_usuario" => $caso["id_usuario"],
                     "id_estado" => $caso["id_estado"],
+                    "confirmado_enfermedad" => $confirmado_enfermedad,
                     "fecha" => $fecha_formato,
                     "semana" => $propiedades->{"SEMANA EPIDEMIOLOGICA"},
                     "run" => $propiedades->RUN,
                     "diagnostico" => strtoupper($propiedades->{"DIAGNOSTICO CLINICO"}),
                     "nombre" => strtoupper($propiedades->NOMBRE . " " . $propiedades->APELLIDO),
                     "direccion" => strtoupper($propiedades->DIRECCION));
+                    
+                
             }
         }
 

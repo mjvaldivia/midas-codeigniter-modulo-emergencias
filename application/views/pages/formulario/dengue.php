@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="resultados" class="table-responsive" data-row="20">
-                                <div class="col-lg-12 text-center">
+                                <div class="col-lg-12 text-center" style="height: 100px;">
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>
                             </div>

@@ -28,7 +28,7 @@
                 <?php if($row["id_estado"] == ""){ ?>
                 <span class="label orange"><?php echo nombreFormularioEstado($row["id_estado"]); ?></span>
                 <?php }elseif($row["id_estado"] == 1) { ?>
-                <span class="label red"><?php echo nombreFormularioEstado($row["id_estado"]); ?></span>
+                <span class="label red"><?php echo nombreFormularioEstado($row["id_estado"]); ?>: <?php echo $row["confirmado_enfermedad"] ?></span>
                 <?php }elseif($row["id_estado"] == 2) { ?>
                 <span class="label green"><?php echo nombreFormularioEstado($row["id_estado"]); ?></span>
                 <?php }elseif($row["id_estado"] == 3) { ?>

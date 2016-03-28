@@ -24,8 +24,9 @@ class Casos_Febriles_Enfermedades_Model extends MY_Model
      * @return array
      */
     public function listarPorCaso($id_caso){
-         $result = $this->_query->select("*")
-                               ->from()
+         $result = $this->_query->select("ce.id, ce.id_enfermedad, e.nombre")
+                               ->from($this->_tabla . " ce")
+                               ->join("enfermedades e", "e.id = ce.id_enfermedad ", "INNER")
                                ->whereAND("id_caso_febril", $id_caso)
                                ->getAllResult();
         if (!is_null($result)){
