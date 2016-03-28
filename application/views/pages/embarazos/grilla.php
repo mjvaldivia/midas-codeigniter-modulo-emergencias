@@ -4,7 +4,7 @@
             <th>Código</th>
             <th width="10%">Fecha ingreso</th>
             <th width="10%">FPP</th>
-            <th width="10%">Médico</th>
+            <th width="10%">Ingresado por</th>
             
             <?php if(puedeVerFormularioDatosPersonales("casos_febriles")) { ?>
             <th width="10%">Run</th>
