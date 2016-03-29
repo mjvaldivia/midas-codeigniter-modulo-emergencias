@@ -56,6 +56,27 @@ class Embarazos_Model extends MY_Model {
      * @param array $parametros
      * @return array
      */
+    public function listarPorFecha($fecha){
+        
+        
+        $query = $this->_query->select("a.*")
+                               ->from($this->_tabla . " a")
+                               ->addWhere("FUR", $fecha, "<=")
+                               ->addWhere("FPP", $fecha, ">=")
+                               ->orderBy("id", "DESC");
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Lista alarmas de acuerdo a parametros
+     * @param array $parametros
+     * @return array
+     */
     public function listar(){
         $query = $this->_query->select("a.*")
                                ->from($this->_tabla . " a")

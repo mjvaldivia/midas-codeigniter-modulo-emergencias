@@ -207,7 +207,7 @@ class Mapa extends MY_Controller {
         $casos = array();
         $this->load->model("embarazos_model", "_embarazos_model");
         
-        $lista = $this->_embarazos_model->listar();
+        $lista = $this->_embarazos_model->listarPorFecha(date("Y-m-d"));
         if($lista != null){
             foreach($lista as $row){
                 
