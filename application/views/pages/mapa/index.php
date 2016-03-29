@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="collapse navbar-collapse hidden" id="menu-derecho">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-left">
                 
                 <li>
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
@@ -63,13 +63,6 @@
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
-                            <a href="javascript:void(0)"><i class="fa fa-building"></i> Instalaciones</a>
-                            <ul id="lista-ambitos" class="dropdown-menu">
-                                
-                            </ul>
-                        </li>
-                        <li class="divider"></li>
-                        <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> Otros</a>
                             <ul class="dropdown-menu">
                                 <li class="divider"></li>
@@ -97,6 +90,32 @@
                         </li>
                     </ul>
                 </li>
+                <li class="dropdown dropdown-large">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-building"></i> Instalaciones <b class="caret"></b></a>
+				
+				<ul class="dropdown-menu dropdown-menu-large row" style="height: 600px; overflow-y: scroll">
+                                    <li class="col-sm-3">
+                                        <ul id="instalaciones-columna-1" class="instalaciones-columna">
+                                            
+                                        </ul>
+                                    </li>
+                                    <li class="col-sm-3">
+                                        <ul id="instalaciones-columna-2" class="instalaciones-columna">
+                                            
+                                        </ul>
+                                    </li>
+                                    <li class="col-sm-3">
+                                        <ul id="instalaciones-columna-3" class="instalaciones-columna">
+                                            
+                                        </ul>
+                                    </li>
+                                    <li class="col-sm-3">
+                                        <ul id="instalaciones-columna-4" class="instalaciones-columna">
+                                            
+                                        </ul>
+                                    </li>
+				</ul>
+			</li>
                 </ul>
              </div><!-- /.navbar-collapse -->
         </div>

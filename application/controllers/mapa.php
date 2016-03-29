@@ -213,6 +213,7 @@ class Mapa extends MY_Controller {
                 
                 $propiedades = Zend_Json::decode($row["propiedades"]);
                 $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "EMBARAZADA";
                 
                 if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
                     unset($propiedades["RUN"]);
