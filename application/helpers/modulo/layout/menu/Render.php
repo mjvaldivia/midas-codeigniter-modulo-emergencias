@@ -86,6 +86,17 @@ Class Layout_Menu_Render{
                                                "action"     => "index")
                                             )
                                     ),
+                                    "Usuarios" => array("icon_class" => "fa-users",
+                                                        "rol" => "administrador",
+                                                        "controller" => "",
+                                                        "action" => "",
+                                                        "child" => array("Personas" => array(
+                                                                                        "controller" => "mantenedor_usuario",
+                                                                                        "action"     => "index"),
+                                                                         "Roles" => array(
+                                                                                        "controller" => "mantenedor_rol",
+                                                                                        "action"     => "index")
+                                                                         )),
                                    "Mesa de ayuda" => array("icon_class" => "fa-question-circle",
                                               
                                                             "child" => array("Mensajes" => array(
@@ -101,17 +112,7 @@ Class Layout_Menu_Render{
                                                                                             "action"     => "bandeja_soportes_central")
                                                                              )
                                                                     ),
-                                    "Usuarios" => array("icon_class" => "fa-users",
-                                                        "rol" => "administrador",
-                                                        "controller" => "",
-                                                        "action" => "",
-                                                        "child" => array("Personas" => array(
-                                                                                        "controller" => "mantenedor_usuario",
-                                                                                        "action"     => "index"),
-                                                                         "Roles" => array(
-                                                                                        "controller" => "mantenedor_rol",
-                                                                                        "action"     => "index")
-                                                                         )),
+                                    
                                 );
     
     
