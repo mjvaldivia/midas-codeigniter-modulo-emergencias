@@ -314,9 +314,9 @@ var MapaLayoutAmbitoCapa = Class({
                             + valores.amb_c_nombre 
                             + " <input type=\"checkbox\" class=\"menu-ambito-checkbox\" value=\"" + valores.amb_ia_id + "\"> </li>");
                         
-                        if(valores.amb_ia_id == 1){
+                        //if(valores.amb_ia_id == 1){
                             yo.renderTiposInstalacion(valores.amb_ia_id, columna);
-                        }
+                        //}
 
                     });
                     
