@@ -26,10 +26,10 @@ var MapaIslaDePascuaCasos = Class({
         if(rapanui_ebola_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             Messenger().run({
                 action: $.ajax,
-                successMessage: 'Información del casos cargada correctamente',
-                errorMessage: 'No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
+                successMessage: '<strong> Casos febriles </strong> <br> Ok',
+                errorMessage: '<strong> Casos febriles <strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
                 showCloseButton: true,
-                progressMessage: '<i class=\"fa fa-spin fa-spinner\"></i> Cargando información de casos...'
+                progressMessage: '<strong> Casos febriles </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
             },{        
                 dataType: "json",
                 cache: false,

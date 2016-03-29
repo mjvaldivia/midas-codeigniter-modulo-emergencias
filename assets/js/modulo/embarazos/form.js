@@ -67,7 +67,7 @@ $(document).ready(function() {
     });
         
     var mapa = new MapaFormulario("mapa");
-    mapa.seteaIcono("assets/img/firstaid.png");
+    mapa.seteaIcono("assets/img/markers/otros/embarazada.png");
     mapa.seteaPlaceInput("direccion");
     mapa.seteaLongitud($("#longitud").val());
     mapa.seteaLatitud($("#latitud").val());

@@ -201,6 +201,42 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    public function info_rapanui_embarazadas(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("embarazos_model", "_embarazos_model");
+        
+        $lista = $this->_embarazos_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+                
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                
+                if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
+                    unset($propiedades["RUN"]);
+                    unset($propiedades["NOMBRE"]);
+                    unset($propiedades["APELLIDO"]);
+                    unset($propiedades["TELEFONO"]);
+                    unset($propiedades["NUMERO PASAPORTE"]);
+                }
+                
+                $coordenadas = json_decode($row["coordenadas"]);
+                $casos[] = array("id" => $row["id"],
+                                 "id_estado" => $row["id_estado"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $coordenadas->lat,
+                                 "lng" => $coordenadas->lng);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
     /**
      * Trae datos de casos de fiebre
      */

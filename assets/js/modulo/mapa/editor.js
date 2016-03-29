@@ -331,6 +331,19 @@ var MapaEditor = Class({
         });
         
         /**
+         * Importar embarazadas
+         */
+        $("#importar_rapanui_embarazo").click(function(){
+            var rapanui = new MapaIslaDePascuaEmbarazadas();
+            rapanui.seteaMapa(map);
+            if($(this).is(":checked")){
+                rapanui.load();
+            } else {
+                rapanui.remove();
+            }
+        });
+        
+        /**
          * Exportar mapa a kml
          */
         $("#btn-exportar-kml").click(function(){

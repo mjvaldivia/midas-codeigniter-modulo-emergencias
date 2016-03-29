@@ -27,18 +27,17 @@
 <div class="row">
     <div class="col-lg-12">                        
         <div id="pResultados" class="portlet portlet-default">
-                <div class="portlet-body"> 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div id="resultados" class="table-responsive" data-row="20">
-                                <div class="col-lg-12 text-center" style="height: 100px;">
-                                    <i class="fa fa-4x fa-spin fa-spinner"></i>
-                                </div>
+            <div class="portlet-body"> 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="resultados" class="table-responsive" data-row="20">
+                            <div class="col-lg-12 text-center" style="height: 100px;">
+                                <i class="fa fa-4x fa-spin fa-spinner"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-     
+            </div>
         </div>
     </div>
 </div>
