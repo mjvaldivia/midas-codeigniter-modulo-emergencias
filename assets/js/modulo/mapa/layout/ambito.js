@@ -324,6 +324,10 @@ var MapaLayoutAmbitoCapa = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.mensaje);
                 }
+                
+                var height = $(window).height();
+
+                $("#instalaciones-menu").css("height", height - 150);
             }
         });
     },

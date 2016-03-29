@@ -93,7 +93,7 @@
                 <li class="dropdown dropdown-large">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-building"></i> Instalaciones <b class="caret"></b></a>
 				
-				<ul class="dropdown-menu dropdown-menu-large row" style="height: 600px; overflow-y: scroll">
+				<ul id="instalaciones-menu" class="dropdown-menu dropdown-menu-large row" style="overflow-y: scroll">
                                     <li class="col-sm-3">
                                         <ul id="instalaciones-columna-1" class="instalaciones-columna">
                                             
