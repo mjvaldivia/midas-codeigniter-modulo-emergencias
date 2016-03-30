@@ -32,6 +32,7 @@ class Mapa_capas extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
+        
         $this->load->model("emergencia_capa_model", "_emergencia_capa_model");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("capa_detalle_model", "_capa_detalle_model");
@@ -72,6 +73,47 @@ class Mapa_capas extends MY_Controller {
         } else {
             throw new Exception(__METHOD__ . " - La capa no existe");
         }
+    }
+    
+    public function ajax_capas_disponibles_emergencia(){
+        header('Content-type: application/json');        
+        
+        $this->load->library("emergencia/emergencia_capas_disponibles");
+        
+        $params = $this->input->post(null, true);
+        $this->emergencia_capas_disponibles->setEmergencia($params["id"]);
+        
+        echo json_encode(array("lista" => $this->emergencia_capas_disponibles->getListaCapas()));
+    }
+    
+    /**
+     * Informacion de emergencia
+     */
+    protected function _informacionEmergencia($id_emergencia){
+        $this->load->model("emergencia_comuna_model", "_emergencia_comuna_model");
+
+        $retorno = array(
+            "comunas" => array(),
+            "provincias" => array(),
+            "regiones" => array()
+        );
+        
+        $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($id_emergencia);
+        foreach($lista_comunas as $comuna){
+            $retorno["comunas"][] = $comuna["com_ia_id"];
+        }
+        
+        $lista_provincias = $this->_emergencia_comuna_model->listaProvinciasPorEmergencia($id_emergencia);
+        foreach($lista_provincias as $provincia){
+            $retorno["provincias"][] = $provincia["prov_ia_id"];
+        }
+        
+        $lista_regiones = $this->_emergencia_comuna_model->listaRegionesPorEmergencia($id_emergencia);
+        foreach($lista_regiones as $region){
+            $retorno["regiones"][] = $region["reg_ia_id"];
+        }
+        
+        return $retorno;
     }
     
     /**

@@ -419,6 +419,11 @@ var MapaEditor = Class({
         $("#btn-capas-gestionar").click(function(){
             yo.popupCapasComuna(); 
         });  
+        
+        var menu = new MapaLayoutCapas();
+        menu.seteaMapa(map);
+        menu.seteaEmergencia(this.id_emergencia);
+        menu.render();
     },
     
     /**
