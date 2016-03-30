@@ -38,14 +38,22 @@ $(document).ready(function() {
         delay: 600
     });
     
+    $("#fecha_de_inicio_de_sintomas").datetimepicker({
+        format: "DD/MM/YYYY",
+        locale: "es"
+    }).on("dp.change", function(e) {
+        if(e.date){
+            $("#texto_semana_epidemiologica").html(e.date.week() + "° Semana");
+            $("#semana_epidemiologica").val(e.date.week() + "° Semana");
+        }
+    });
+    
     $("#antecedentes_de_dengue_previo_fecha").datetimepicker({
-        format: " YYYY", // Notice the Extra space at the beginning
+        format: " YYYY", 
         viewMode: "years", 
         locale: "es"
     });
-    
 
-    
     $("#enviar").click(function(e){
        e.preventDefault();
        var parametros = $("#form-dengue").serializeArray();
@@ -59,16 +67,6 @@ $(document).ready(function() {
        guardar(parametros);
     });
     
-    $("#fecha_de_inicio_de_sintomas").datetimepicker({
-        format: "DD/MM/YYYY",
-        locale: "es"
-    }).on("dp.change", function(e) {
-        if(e.date){
-            $("#texto_semana_epidemiologica").html(e.date.week() + "° Semana");
-            $("#semana_epidemiologica").val(e.date.week() + "° Semana");
-        }
-    });
-
     var mapa = new MapaFormulario("mapa");
     mapa.seteaIcono("assets/img/firstaid.png");
     mapa.seteaPlaceInput("direccion");

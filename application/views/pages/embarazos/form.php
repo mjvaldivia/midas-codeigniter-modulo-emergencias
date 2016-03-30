@@ -139,9 +139,10 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group clearfix">
-                                        <label for="fecha_fpp" class="control-label">FPP (*):</label>
-                                        <input value="<?php echo $fecha_fpp; ?>" class="form-control" name="fecha_fpp" id="fecha_fpp">
-                                        <span class="help-block">Formato: dd/mm/aaaa</span>
+                                        <label for="fecha_fpp" class="control-label">FPP:</label>
+                                        <div class="clearfix"></div>
+                                        <div id="texto_fecha_fpp" class="label blue"><?php echo $fecha_fpp; ?></div>
+                                        <input type="hidden" value="<?php echo $fecha_fpp; ?>" class="form-control" name="fecha_fpp" id="fecha_fpp">                                        
                                     </div>
                                 </div>
                             </div>		

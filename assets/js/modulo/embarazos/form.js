@@ -6,7 +6,6 @@ $(document).ready(function() {
     
     $("#fecha_fur").typing({
         stop: function (event, $elem) {
-            
             var valor = $elem.val().split("/");
             if(valor.length == 3){
                 if(parseInt(valor[valor.length-1]) > 99){
@@ -14,10 +13,10 @@ $(document).ready(function() {
                 } else {
                     var fecha = moment($elem.val(), "DD/MM/YY");
                 }
-
                 if(fecha.isValid()){
                     fecha.add(280, 'days');
                     $("#fecha_fpp").val(fecha.format("D/M/YYYY"));
+                    $("#texto_fecha_fpp").html(fecha.format("D/M/YYYY"));
                 }
             }
         },
@@ -26,7 +25,6 @@ $(document).ready(function() {
     
     $("#fecha_de_nacimiento").typing({
         stop: function (event, $elem) {
-            
             var valor = $elem.val().split("/");
             if(valor.length == 3){
                 if(parseInt(valor[valor.length-1]) > 99){
@@ -34,7 +32,6 @@ $(document).ready(function() {
                 } else {
                     var fecha = moment($elem.val(), "DD/MM/YY");
                 }
-
                 if(fecha.isValid()){
                     var years = moment().diff(fecha, 'years');
                     if(years == 0){
@@ -71,7 +68,6 @@ $(document).ready(function() {
     mapa.seteaPlaceInput("direccion");
     mapa.seteaLongitud($("#longitud").val());
     mapa.seteaLatitud($("#latitud").val());
-    
     mapa.inicio();
     mapa.cargaMapa(); 
 });
@@ -81,7 +77,6 @@ $(document).ready(function() {
  * @returns {undefined}
  */
 function guardar(parametros){
-    
     $.ajax({         
          dataType: "json",
          cache: false,

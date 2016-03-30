@@ -210,10 +210,17 @@ class Mapa extends MY_Controller {
         $lista = $this->_embarazos_model->listarPorFecha(date("Y-m-d"));
         if($lista != null){
             foreach($lista as $row){
-                
+
                 $propiedades = Zend_Json::decode($row["propiedades"]);
                 $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
                 $propiedades["TIPO"] = "EMBARAZADA";
+               
+                $fecha_fur = DateTime::createFromFormat("Y-m-d", $row["FUR"]);
+                if($fecha_fur instanceof DateTime){
+                    $hoy = New DateTime("now");
+                    $interval = $fecha_fur->diff($hoy);
+                    $semana = (int) ( ( ((int) $interval->format('%R%a'))/7 ) - ((int) $interval->format('%R%a'))%7 );
+                }
                 
                 if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
                     unset($propiedades["RUN"]);
@@ -228,7 +235,8 @@ class Mapa extends MY_Controller {
                                  "id_estado" => $row["id_estado"],
                                  "propiedades" => $propiedades,
                                  "lat" => $coordenadas->lat,
-                                 "lng" => $coordenadas->lng);
+                                 "lng" => $coordenadas->lng,
+                                 "semana" => $semana);
             }
         }
         
@@ -245,6 +253,9 @@ class Mapa extends MY_Controller {
         $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 
         $casos = array();
+        
+        $this->load->model("casos_febriles_estado_model");
+        $this->load->model("casos_febriles_enfermedades_model", "_casos_febriles_enfermedades_model");
         $this->load->model("casos_febriles_model", "_rapanui_dengue_model");
         
         $lista = $this->_rapanui_dengue_model->listar();
@@ -262,12 +273,25 @@ class Mapa extends MY_Controller {
                     unset($propiedades["NUMERO PASAPORTE"]);
                 }
                 
+                $enfermedades_confirmadas = array();
+                if($row["id_estado"] == Casos_Febriles_Estado_Model::CONFIRMADO){
+                    $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($row["id"]);
+                    if(!is_null($lista_enfermedades)){
+                        foreach($lista_enfermedades as $enfermedad){
+                            $enfermedades_confirmadas[] = strtoupper(substr($enfermedad["nombre"], 0, 1));
+                        }
+                    }
+                }
+                
                 $coordenadas = json_decode($row["coordenadas"]);
-                $casos[] = array("id" => $row["id"],
-                                 "id_estado" => $row["id_estado"],
-                                 "propiedades" => $propiedades,
-                                 "lat" => $coordenadas->lat,
-                                 "lng" => $coordenadas->lng);
+                $casos[] = array(
+                    "id" => $row["id"],
+                    "id_estado" => $row["id_estado"],
+                    "propiedades" => $propiedades,
+                    "enfermedades" => $enfermedades_confirmadas,
+                    "lat" => $coordenadas->lat,
+                    "lng" => $coordenadas->lng
+                );
             }
         }
         

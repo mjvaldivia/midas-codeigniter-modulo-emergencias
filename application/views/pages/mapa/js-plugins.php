@@ -18,6 +18,7 @@
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.polygon.containsLatLng.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.contextmenu.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.buttons.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/markerwithlabel.js"); ?>
 
 <!-- Popup con informacion de un elemento -->
 <?= loadJS("assets/js/modulo/mapa/informacion/elemento/contenido.js"); ?>
@@ -42,6 +43,7 @@
 
 <!-- Marcadores -->
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/label.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_alarma.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_emergencia.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/move_listener.js"); ?>

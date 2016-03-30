@@ -124,7 +124,7 @@ var Visor = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud), parseFloat(yo.longitud));
 
         var mapOptions = {
-          zoom: 14,
+          zoom: 17,
           scaleControl: true,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP

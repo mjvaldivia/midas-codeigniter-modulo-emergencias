@@ -40,9 +40,9 @@ var MapaIslaDePascuaEmbarazadas = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             var icono = baseUrl + "assets/img/markers/otros/embarazada.png"
-                            var marcador = new MapaMarcador();
+                            var marcador = new MapaMarcadorLabel();
                             marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador("rapanui_embarazadas_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
+                            marcador.posicionarMarcador("rapanui_embarazadas_" + valor.id, valor.semana , valor.lng, valor.lat, null, valor.propiedades, icono);
                             rapanui_embarazadas_marcador.push("rapanui_embarazadas_" + valor.id);
                         });
                     } else {

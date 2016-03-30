@@ -41,59 +41,43 @@ var MapaIslaDePascuaCasos = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
+                            var con_label = false;
+                            
                             switch(valor.id_estado){
                                 case "1":
+                                    var label = "";
                                     var icono = baseUrl + "assets/img/markers/epidemiologico/confirmado.png"
-                                    var zona = {
-                                       0 : 
-                                        {
-                                            "radio" : 100,
-                                            "propiedades" : {"TIPO" : "CASO FEBRIL",
-                                                             "NOMBRE" : "CASO FEBRIL N° " + valor.id,
-                                                             "ESTADO" : "CONFIRMADO",
-                                                             "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
-                                            "color" : "#ff0000"
+                                    con_label = true;
+                                    
+                                    $.each(valor.enfermedades, function(i, enfermedad){
+                                        if(label != ""){
+                                            label = label + "|";
                                         }
-                                    };
+                                        label = label + enfermedad;
+                                    });
+
                                     break;
                                 case "2":
                                     var icono = baseUrl + "assets/img/markers/epidemiologico/descartado.png"
-                                    var zona = {};
                                     break;
                                 case "3":
                                     var icono = baseUrl + "assets/img/markers/epidemiologico/no_concluyente.png"
-                                    var zona = {
-                                       0 : 
-                                        {
-                                            "radio" : 100,
-                                            "propiedades" : {"TIPO" : "CASO FEBRIL",
-                                                             "NOMBRE" : "CASO FEBRIL N° " + valor.id,
-                                                             "ESTADO" : "NO CONCLUYENTE",
-                                                             "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
-                                            "color" : "#486ff0"
-                                        }
-                                    };
                                     break;
                                 default:
                                     var icono = baseUrl + "assets/img/markers/epidemiologico/caso_sospechoso.png"
-                                    var zona = {
-                                       0 : 
-                                        {
-                                            "radio" : 100,
-                                            "propiedades" : {"TIPO" : "CASO FEBRIL",
-                                                             "NOMBRE" : "CASO FEBRIL N° " + valor.id,
-                                                             "ESTADO" : "SOSPECHOSO",
-                                                             "DIAGNOSTICO" : valor.propiedades["DIAGNOSTICO CLINICO"]},
-                                            "color" : "#ffff00"
-                                        }
-                                    };
                                     break;
                             }
 
-                           
-                            var marcador = new MapaMarcador();
-                            marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador("rapanui_dengue_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
+                            if(con_label){
+                                var marcador = new MapaMarcadorLabel();
+                                marcador.seteaMapa(yo.mapa);
+                               
+                                marcador.posicionarMarcador("rapanui_dengue_" + valor.id, label , valor.lng, valor.lat, null, valor.propiedades, icono);
+                            } else {
+                                var marcador = new MapaMarcador();
+                                marcador.seteaMapa(yo.mapa);
+                                marcador.posicionarMarcador("rapanui_dengue_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
+                            }
                             rapanui_ebola_marcador.push("rapanui_dengue_" + valor.id);
                         });
                     } else {
