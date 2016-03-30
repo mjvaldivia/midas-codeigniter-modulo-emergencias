@@ -11,7 +11,7 @@
         
                     <a href="<?php echo base_url("embarazo/nuevo"); ?>" id="nueva" class="btn btn-square btn-green">
                         <i class="fa fa-plus"></i>
-                        Nuevo caso
+                        Nuevo embarazo
                     </a>
 
                 </div>
