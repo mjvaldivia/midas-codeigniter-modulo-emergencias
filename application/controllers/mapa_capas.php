@@ -75,6 +75,9 @@ class Mapa_capas extends MY_Controller {
         }
     }
     
+    /**
+     * 
+     */
     public function ajax_capas_disponibles_emergencia(){
         header('Content-type: application/json');        
         

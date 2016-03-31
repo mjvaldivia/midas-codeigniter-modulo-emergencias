@@ -34,7 +34,7 @@ Class Emergencia_capas_disponibles{
         $this->_emergencia_zonas = $this->_ci->emergencia_zonas;
     }
     
-        /**
+    /**
      * 
      * @param int $id_emergencia
      */
@@ -105,7 +105,7 @@ Class Emergencia_capas_disponibles{
                 $lista[] = array(
                     "id" => $subcapa["geometria_id"],
                     "nombre" => $subcapa["geometria_nombre"],
-                    "icono" => $subcapa["icon_path"],
+                    "icono" => $subcapa["geometria_icono"],
                     "color" => $subcapa["color"]
                 );
             }

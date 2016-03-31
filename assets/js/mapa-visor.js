@@ -54,13 +54,15 @@ $(document).ready(function() {
         
         $("#menu-derecho").removeClass("hidden");
         
-        $(".menu-capa-checkbox").click(function(){
-            var id = $(this).val();
-            if($(this).is(":checked")){
-                capas.addCapa(id);
-            } else {
-                capas.removeCapa(id);
-            }
+        $(".menu-capa-checkbox").livequery(function(){
+            $(this).click(function(){
+                var id = $(this).val();
+                if($(this).is(":checked")){
+                    capas.addCapa(id);
+                } else {
+                    capas.removeCapa(id);
+                }
+            });
         });
     });
     

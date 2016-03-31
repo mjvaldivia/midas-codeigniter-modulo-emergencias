@@ -182,7 +182,8 @@
 }
 .dropdown-menu-large .dropdown-header {
   color: #428bca;
-  font-size: 18px;
+  font-size: 15px;
+  white-space: normal; 
 }
 @media (max-width: 768px) {
   .dropdown-menu-large {
@@ -210,4 +211,8 @@
     width: 40px;     
     border: 2px solid black;
     white-space: nowrap;
+}
+
+.en-linea{
+    display: inline-block;
 }

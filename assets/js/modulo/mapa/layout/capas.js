@@ -1,4 +1,5 @@
 var MapaLayoutCapas = Class({
+    
     mapa : null,
     id_emergencia : null,
     
@@ -62,25 +63,46 @@ var MapaLayoutCapas = Class({
                         yo.renderCapas(valores.lista, columna);
                     }
                 });   
+                
+                var height = $(window).height();
+                $("#capas-menu").css("max-height:", height - 150);
             }
         });
     },
     
+    /**
+     * 
+     * @param {type} lista
+     * @param {type} columna
+     * @returns {undefined}
+     */
     renderCapas : function(lista, columna){
         var yo = this;
-        $.each(lista, function(i, valores){
-            if(valores.lista.length > 0){
-                
-                if(valores.lista.length == 1){
-                    yo.renderSubcapas(valores.lista, columna, valores.icono, valores.color);
-                } else {
-                    $("#" + columna).append("<li><a href=\"#\">" + valores.nombre + "</a></li>");
-                    yo.renderSubcapas(valores.lista, columna, valores.icono, valores.color);
+        
+        if(lista.length == 1){
+            yo.renderSubcapas(lista[0].lista, columna, lista[0].icono, lista[0].color);
+        } else {
+            $.each(lista, function(i, valores){
+                if(valores.lista.length > 0){
+                    if(valores.lista.length == 1){
+                        yo.renderSubcapas(valores.lista, columna, valores.icono, valores.color);
+                    } else {
+                        $("#" + columna).append("<li><a href=\"#\">" + valores.nombre + "</a></li>");
+                        yo.renderSubcapas(valores.lista, columna, valores.icono, valores.color);
+                    }
                 }
-            }
-        });
+            });
+        }
     },
     
+    /**
+     * 
+     * @param {type} lista
+     * @param {type} columna
+     * @param {type} icono
+     * @param {type} color
+     * @returns {undefined}
+     */
     renderSubcapas : function(lista, columna, icono, color){
         var yo = this;
         $.each(lista, function(i, valores){
@@ -106,7 +128,7 @@ var MapaLayoutCapas = Class({
             $("#" + columna).append(
                 "<li>"
                 + "<a href=\"javascript:void(0)\">" 
-                + "<input class=\"menu-capa-checkbox\" type=\"checkbox\" value=\"" + valores.id + "\" /> "
+                + "<input class=\"menu-capa-checkbox en-linea\" type=\"checkbox\" value=\"" + valores.id + "\" /> "
                 + preview + " "
                 + valores.nombre 
                 + "</a>"
@@ -116,8 +138,13 @@ var MapaLayoutCapas = Class({
         
     },
     
+    /**
+     * 
+     * @param {type} color
+     * @returns {String}
+     */
     getColor : function(color){
-      return "<span class=\"color-capa-preview\" style=\"background-color:" + color + ";\"></span>";  
+      return "<div class=\"color-capa-preview en-linea\" style=\"background-color:" + color + ";\"></div>";  
     },
     
     /**
@@ -126,7 +153,7 @@ var MapaLayoutCapas = Class({
      * @returns {String}
      */
     getIcono : function(icono){
-        return "<img src=\"" +  baseUrl + icono + "\" title=\"Icono de capa\" style=\"height: 15px;\"  >";
+        return "<img src=\"" +  baseUrl + icono + "\" class=\"en-linea\" title=\"Icono de capa\" style=\"height: 15px;\"  >";
     }
 });
 
