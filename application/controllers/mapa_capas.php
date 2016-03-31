@@ -152,6 +152,12 @@ class Mapa_capas extends MY_Controller {
         echo json_encode($data);
     }
     
+    public function ajax_capas_emergencia(){
+        $params = $this->input->post(null, true);
+        $lista_capas = $this->_emergencia_capa_model->listaIdsPorEmergencia($params["id"]);
+        echo json_encode($lista_capas);
+    }
+    
     /**
      * Retorna las capas asociadas a una emergencia y comuna
      */

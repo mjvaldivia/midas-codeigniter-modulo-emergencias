@@ -45,6 +45,23 @@ class Emergencia_Capa_Model extends MY_Model
     }
     
     /**
+     * Lista de comunas por emergencia
+     * @param int $id_emergencia
+     * @return array
+     */
+    public function listaIdsPorEmergencia($id_emergencia){
+        $query = $this->_query->select("cg.id_geometria as id")
+                              ->from($this->_tabla . " cg") 
+                              ->whereAND("cg.id_emergencia", $id_emergencia);
+        $result = $query->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
      * 
      * @param int $id_emergencia
      * @return QueryBuilder

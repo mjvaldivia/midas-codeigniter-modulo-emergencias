@@ -39,6 +39,30 @@ var MapaLayoutCapas = Class({
             },
             success:function(data){
                 yo.renderCategorias(data.lista);
+                yo.checkCapasRelacionadas();
+            }
+        });
+    },
+    
+    checkCapasRelacionadas : function(){
+        var yo = this;
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: true,
+            data: "id=" + this.id_emergencia,
+            type: "POST",
+            url:  siteUrl + "mapa_capas/ajax_capas_emergencia", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(data){
+                $.each(data, function(i, valor){
+                    $('.menu-capa-checkbox').filter(function(){
+                        return this.value == valor.id}
+                     ).prop('checked', true);;
+                });
+                
             }
         });
     },
