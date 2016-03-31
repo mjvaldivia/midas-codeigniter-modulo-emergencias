@@ -76,7 +76,14 @@ class Mapa_capas extends MY_Controller {
     }
     
     /**
-     * 
+     * Devuelve menu de capas fijas
+     */
+    public function ajax_menu_capas_fijas(){
+        $this->load->view("pages/mapa_capas/menu-capas-fijas", array());
+    }
+    
+    /**
+     * Devuelve json con capas validas para la emergencia
      */
     public function ajax_capas_disponibles_emergencia(){
         header('Content-type: application/json');        

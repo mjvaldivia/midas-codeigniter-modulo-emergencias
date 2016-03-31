@@ -7,6 +7,7 @@ $(document).ready(function() {
     
     var height = $(window).height();
     visor.seteaHeight(height - 50);
+    visor.seteaZoom(13);
 
     var capas = new VisorCapa();
 

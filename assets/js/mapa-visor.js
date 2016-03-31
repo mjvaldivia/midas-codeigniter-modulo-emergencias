@@ -52,6 +52,11 @@ $(document).ready(function() {
     visor.addOnReadyFunction("menu derecho",function(map){
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('menu-derecho'));
         
+        var menu = new MapaLayoutCapas();
+        menu.seteaMapa(map);
+        menu.seteaEmergencia(id);
+        menu.render();
+        
         $("#menu-derecho").removeClass("hidden");
         
         $(".menu-capa-checkbox").livequery(function(){

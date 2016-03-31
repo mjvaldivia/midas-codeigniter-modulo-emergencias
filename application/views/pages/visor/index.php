@@ -148,5 +148,6 @@
 <?= loadJS("assets/js/visor.js"); ?>
 <?= loadJS("assets/js/modulo/visor/editor.js"); ?>
 <?= loadJS("assets/js/modulo/visor/capa.js"); ?>
+<?= loadJS("assets/js/modulo/visor/layout/capas.js"); ?>
 <?= loadJS("assets/js/modulo/visor/layout/ambito.js"); ?>
 <?= loadJS("assets/js/modulo/visor/layout/regiones.js"); ?>

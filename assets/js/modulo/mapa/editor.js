@@ -292,55 +292,63 @@ var MapaEditor = Class({
         /**
          * Importar datos externos de conaf
          */
-        $("#importar_sidco").click(function(){
-            var sidco = new MapaKmlSidcoConaf();
-            sidco.seteaMapa(map);
+        $("#importar_sidco").livequery(function(){
+            $(this).click(function(){
+                var sidco = new MapaKmlSidcoConaf();
+                sidco.seteaMapa(map);
 
-            if($(this).is(":checked")){
-                sidco.loadKml();
-            } else {
-                sidco.remove();
-            }
+                if($(this).is(":checked")){
+                    sidco.loadKml();
+                } else {
+                    sidco.remove();
+                }
+            });
         });
         
         /**
          * Importar casos febriles
          */
-        $("#importar_rapanui_casos").click(function(){
-            var rapanui = new MapaIslaDePascuaCasos();
-            rapanui.seteaMapa(map);
-            
-            if($(this).is(":checked")){
-                rapanui.load();
-            } else {
-                rapanui.remove();
-            }
+        $("#importar_rapanui_casos").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaCasos();
+                rapanui.seteaMapa(map);
+
+                if($(this).is(":checked")){
+                    rapanui.load();
+                } else {
+                    rapanui.remove();
+                }
+            });
         });
         
         /**
          * Importar casos febriles
          */
-        $("#importar_rapanui_zonas").click(function(){
-            var rapanui = new MapaIslaDePascuaZonas();
-            rapanui.seteaMapa(map);
-            if($(this).is(":checked")){
-                rapanui.load();
-            } else {
-                rapanui.remove();
-            }
+        $("#importar_rapanui_zonas").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaZonas();
+                rapanui.seteaMapa(map);
+                if($(this).is(":checked")){
+                    rapanui.load();
+                } else {
+                    rapanui.remove();
+                }
+            });
         });
         
         /**
          * Importar embarazadas
          */
-        $("#importar_rapanui_embarazo").click(function(){
-            var rapanui = new MapaIslaDePascuaEmbarazadas();
-            rapanui.seteaMapa(map);
-            if($(this).is(":checked")){
-                rapanui.load();
-            } else {
-                rapanui.remove();
-            }
+        $("#importar_rapanui_embarazo").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaEmbarazadas();
+                rapanui.seteaMapa(map);
+                if($(this).is(":checked")){
+                    rapanui.load();
+                } else {
+                    rapanui.remove();
+                }
+            });
         });
         
         /**
@@ -419,11 +427,6 @@ var MapaEditor = Class({
         $("#btn-capas-gestionar").click(function(){
             yo.popupCapasComuna(); 
         });  
-        
-        var menu = new MapaLayoutCapas();
-        menu.seteaMapa(map);
-        menu.seteaEmergencia(this.id_emergencia);
-        menu.render();
     },
     
     /**

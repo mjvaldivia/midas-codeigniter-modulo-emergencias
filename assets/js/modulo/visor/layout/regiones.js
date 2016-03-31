@@ -52,20 +52,8 @@ var VisorLayoutRegiones = Class({
     },
     
     loadCapas : function(id_region){
-        $.ajax({         
-            dataType: "html",
-            cache: false,
-            async: true,
-            data: {"id" : id_region},
-            type: "post",
-            url:  siteUrl + "visor/ajax_capas_region", 
-            error: function(xhr, textStatus, errorThrown){
-                notificacionError("Ha ocurrido un problema", errorThrown);
-            },
-            success:function(html){
-                $("#lista-capas").html(html);
-            }
-        });
+        var menu = new VisorLayoutCapas();
+        menu.render();
     },
     
     /**

@@ -7,6 +7,7 @@ var Visor = Class({
     id_div_mapa : "",
     latitud : "-36.82013519999999",
     longitud : "-73.0443904",
+    zoom: 17,
     callback : null,
     
     on_ready_functions : {},
@@ -28,6 +29,10 @@ var Visor = Class({
      */
     seteaEmergencia : function(id){
         this.id_emergencia = id;
+    },
+    
+    seteaZoom : function(zoom){
+        this.zoom = zoom;
     },
     
     /**
@@ -124,7 +129,7 @@ var Visor = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud), parseFloat(yo.longitud));
 
         var mapOptions = {
-          zoom: 17,
+          zoom: yo.zoom,
           scaleControl: true,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP

@@ -22,52 +22,85 @@ var MapaLayoutCapas = Class({
     },
     
     /**
-     * Crea el menu de ambitos
+     * 
      * @returns {undefined}
      */
-    render : function(){
+    callCapas : function(){
         var yo = this;
         $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
-            data: "id=" + yo.id_emergencia,
+            data: "id=" + this.id_emergencia,
             type: "POST",
             url:  siteUrl + "mapa_capas/ajax_capas_disponibles_emergencia", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
             success:function(data){
-                //$(".capas-columna").html("");
-                $.each(data.lista, function(i, valores){
-                    
-                    if(valores.lista.length > 0){
-
-                        var columna = "capas-columna-1";
-                        $(".capas-columna").each(function(){
-                            if($("#" + $(this).attr("id") + " li").length < $("#" + columna + " li").length){
-                                columna = $(this).attr("id");
-                            }
-                        });
-
-                        if($("#" + columna + " li").length != 0){
-                            $("#" + columna).append("<li class=\"divider\"></li>");
-                        }
-
-                        $("#" + columna).append(
-                            "<li class=\"dropdown-header\">"
-                            + valores.nombre 
-                            + "</li>"
-                        );
-
-                        yo.renderCapas(valores.lista, columna);
-                    }
-                });   
-                
-                var height = $(window).height();
-                $("#capas-menu").css("max-height:", height - 150);
+                yo.renderCategorias(data.lista);
             }
         });
+    },
+    
+    /**
+     * Crea el menu de ambitos
+     * @returns {undefined}
+     */
+    render : function(){
+        $(".capas-columna").html("");
+        this.callCapas();
+                
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: "",
+            type: "POST",
+            url:  siteUrl + "mapa_capas/ajax_menu_capas_fijas", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(html){
+                $("#capas-columna-4").append(html);
+            }
+        });
+    },
+    
+    /**
+     * 
+     * @param {type} lista
+     * @returns {undefined}
+     */
+    renderCategorias : function(lista){
+        var yo = this;
+        $.each(lista, function(i, valores){
+
+            if(valores.lista.length > 0){
+
+                var columna = "capas-columna-1";
+                $(".capas-columna").each(function(){
+                    if($("#" + $(this).attr("id") + " li").length < $("#" + columna + " li").length){
+                        columna = $(this).attr("id");
+                    }
+                });
+
+                if($("#" + columna + " li").length != 0){
+                    $("#" + columna).append("<li class=\"divider\"></li>");
+                }
+
+                $("#" + columna).append(
+                    "<li class=\"dropdown-header\">"
+                    + valores.nombre 
+                    + "</li>"
+                );
+
+                yo.renderCapas(valores.lista, columna);
+            }
+        });   
+
+        var height = $(window).height();
+        $("#capas-menu").css("max-height:", height - 150);
     },
     
     /**

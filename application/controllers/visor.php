@@ -30,9 +30,14 @@ class Visor extends MY_Controller {
      * Carga capas para region
      */
     public function ajax_capas_region(){
-        $this->load->helper("modulo/visor/visor");
-        $id = $this->input->post('id');
-        $this->load->view("pages/visor/capas", array("id" => $id), false);
+         header('Content-type: application/json');        
+        
+        $this->load->library("capa/Capa_region_disponibles");
+        
+        $params = $this->input->post(null, true);
+        $this->capa_region_disponibles->setRegion($params["id"]);
+        
+        echo json_encode(array("lista" => $this->capa_region_disponibles->getListaCapas()));
     }
 }
 
