@@ -82,6 +82,7 @@ Class Layout_Menu_Render{
                                                 "action"     => "index"
                                             ),
                                             "Embarazos" => array(
+                                               "permiso" => "embarazada",
                                                "controller" => "embarazo",
                                                "action"     => "index")
                                             )
@@ -231,12 +232,21 @@ Class Layout_Menu_Render{
     protected function _ver($datos){
         $ver = true;
         if(isset($datos["permiso"])){
-            if($datos["permiso"]!="casos_febriles"){
-                $this->usuario->setModulo($datos["permiso"]);
-                $ver = $this->usuario->getPermisoVer();
-            } else {
-                $this->usuario->setModulo($datos["permiso"]);
-                $ver = $this->usuario->getPermisoReporteEmergencia() || $this->usuario->getPermisoEditar() || $this->usuario->getPermisoEliminar() || $this->usuario->getPermisoActivarAlarma();
+            
+            switch ($datos["permiso"]) {
+                case "casos_febriles":
+                    $this->usuario->setModulo($datos["permiso"]);
+                    $ver = $this->usuario->getPermisoReporteEmergencia() || $this->usuario->getPermisoEditar() || $this->usuario->getPermisoEliminar() || $this->usuario->getPermisoActivarAlarma();
+                    break;
+                case "embarazada":
+                    $this->usuario->setModulo("casos_febriles");
+                    $ver = $this->usuario->getPermisoEmbarazada();
+                    
+                    break;
+                default:
+                    $this->usuario->setModulo($datos["permiso"]);
+                    $ver = $this->usuario->getPermisoVer();
+                    break;
             }
         }
 

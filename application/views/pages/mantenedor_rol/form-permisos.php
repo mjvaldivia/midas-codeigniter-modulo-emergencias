@@ -91,6 +91,10 @@
                         <input <?php echo permisoFormCheckedFormularioDatosPersonales($id_rol, $row["per_ia_id"]); ?> name="datos_personales[]" id="datos_personales_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                         Ver datos personales paciente
                     </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedEmbarazada($id_rol, $row["per_ia_id"]); ?> name="embarazadas[]" id="embarazadas_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Embarazadas
+                    </div>
                     <?php } ?>
                 </div>
             </div>

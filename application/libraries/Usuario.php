@@ -201,6 +201,19 @@ Class Usuario{
     }
     
     /**
+     * 
+     * @return boolean
+     */
+    public function getPermisoEmbarazada(){
+        $permiso = $this->_permiso_model->tienePermisoEmbarazadas($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * Si tiene o no permisos para ver el modulo
      * @return boolean
      */

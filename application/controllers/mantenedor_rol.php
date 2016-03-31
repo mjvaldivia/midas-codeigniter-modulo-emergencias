@@ -141,6 +141,7 @@ class Mantenedor_rol extends MY_Controller {
                 $visor_guardar = $this->_setearPermiso($permiso["per_ia_id"], $params["visor_guardar"]);
                 $activar_alarma = $this->_setearPermiso($permiso["per_ia_id"], $params["activar_alarma"]);
                 $formulario_ver_datos_personales = $this->_setearPermiso($permiso["per_ia_id"], $params["datos_personales"]);
+                $embarazada = $this->_setearPermiso($permiso["per_ia_id"], $params["embarazadas"]);
                 
                 $data = array("bo_editar" => $editar,
                               "bo_eliminar" => $eliminar,
@@ -149,7 +150,8 @@ class Mantenedor_rol extends MY_Controller {
                               "bo_visor_emergencia" => $visor,
                               "bo_activar_alarma" => $activar_alarma,
                               "bo_formulario_datos_personales" => $formulario_ver_datos_personales,
-                              "bo_visor_emergencia_guardar" => $visor_guardar);
+                              "bo_visor_emergencia_guardar" => $visor_guardar,
+                              "bo_embarazadas" => $embarazada);
                 
                 $this->permiso_model->update($data, $permiso["rvsp_ia_id"]);
             }
