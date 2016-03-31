@@ -82,6 +82,88 @@ class Embarazo extends MY_Controller
             "correcto" => true));
     }
     
+    public function cargaExcel(){
+        $filtro = New Zend_Filter_Alpha();
+        $this->load->library("excel");
+        $excel = $this->excel->leerExcel(BASEPATH . "../media/embarazos.xlsx");
+        
+        $columnas = array();
+        
+        $worksheet = $excel->setActiveSheetIndex(0);
+
+        $primera = true;
+        
+        foreach ($worksheet->getRowIterator() as $row) {
+            
+            if(!$primera){
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(true); // Loop all cells, even if it is not set
+
+                $apellido_paterno = "";
+                $apellido_materno = "";
+                $propiedades = array();
+                $FPP = "";
+                $FUR = "";
+
+                foreach ($cellIterator as $cell) {
+
+                        if (!is_null($cell) AND $cell->getCalculatedValue()!="") {
+
+                                if($filtro->filter(trim(substr($cell->getCoordinate(),0, 2)))=="A"){
+                                    $propiedades["RUN"] = $cell->getCalculatedValue();
+                                }
+
+                                if($filtro->filter(trim(substr($cell->getCoordinate(),0, 2)))=="B"){
+                                    $apellido_paterno = $cell->getCalculatedValue();
+                                }
+
+                                if($filtro->filter(trim(substr($cell->getCoordinate(),0, 2)))=="C"){
+                                    $apellido_materno = $cell->getCalculatedValue();
+                                }
+
+                                if($filtro->filter(trim(substr($cell->getCoordinate(),0, 2)))=="D"){
+                                    $propiedades["NOMBRE"] = $cell->getCalculatedValue();
+                                }
+
+                                if($filtro->filter(trim(substr($cell->getCoordinate(),0, 2)))=="E"){
+                                    $propiedades["EDAD"] = $cell->getCalculatedValue();
+                                }
+
+                                if($filtro->filter(trim(substr($cell->getCoordinate(),0, 2)))=="F"){
+                                    
+                                    if(PHPExcel_Shared_Date::isDateTime($cell)) {
+                                        $fecha = date("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP($cell->getValue()));
+                                        $FPP = $fecha;
+                                    }
+                                }
+
+                                if($filtro->filter(trim(substr($cell->getCoordinate(),0, 2)))=="G"){
+                                     if(PHPExcel_Shared_Date::isDateTime($cell)) {
+                                        $fecha = date("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP($cell->getValue()));
+                                        $FUR = $fecha;
+                                    }
+                                }
+                        }
+                }
+
+                $propiedades["APELLIDO"] = $apellido_paterno . " " . $apellido_materno;
+                
+                
+                $this->_embarazos_model->insert(
+                    array("fecha" => DATE("Y-m-d"),
+                          "propiedades" => json_encode($propiedades),
+                          "FUR" => $FUR,
+                          "id_usuario" => 1,
+                          "FPP" => $FPP)
+                );
+            }
+            
+            $primera = false;
+        }   
+        
+       // print_r($columnas);
+    }
+    
       /**
      *
      */
