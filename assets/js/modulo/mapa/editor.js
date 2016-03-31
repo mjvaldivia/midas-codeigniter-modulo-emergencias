@@ -289,59 +289,6 @@ var MapaEditor = Class({
             kml.popupUpload();
         });
         
-        /**
-         * Importar datos externos de conaf
-         */
-        $("#importar_sidco").click(function(){
-            var sidco = new MapaKmlSidcoConaf();
-            sidco.seteaMapa(map);
-
-            if($(this).is(":checked")){
-                sidco.loadKml();
-            } else {
-                sidco.remove();
-            }
-        });
-        
-        /**
-         * Importar casos febriles
-         */
-        $("#importar_rapanui_casos").click(function(){
-            var rapanui = new MapaIslaDePascuaCasos();
-            rapanui.seteaMapa(map);
-            
-            if($(this).is(":checked")){
-                rapanui.load();
-            } else {
-                rapanui.remove();
-            }
-        });
-        
-        /**
-         * Importar casos febriles
-         */
-        $("#importar_rapanui_zonas").click(function(){
-            var rapanui = new MapaIslaDePascuaZonas();
-            rapanui.seteaMapa(map);
-            if($(this).is(":checked")){
-                rapanui.load();
-            } else {
-                rapanui.remove();
-            }
-        });
-        
-        /**
-         * Importar embarazadas
-         */
-        $("#importar_rapanui_embarazo").click(function(){
-            var rapanui = new MapaIslaDePascuaEmbarazadas();
-            rapanui.seteaMapa(map);
-            if($(this).is(":checked")){
-                rapanui.load();
-            } else {
-                rapanui.remove();
-            }
-        });
         
         /**
          * Exportar mapa a kml
@@ -385,14 +332,7 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlEditar : function (map) {
-        var yo = this;
-        
-        $("#btn-ubicacion-emergencia").click(function(){
-            var marcador = new MapaMarcadorLugarEmergencia();
-            marcador.seteaMapa(map);
-            marcador.seteaEmergencia(yo.id_emergencia);
-            marcador.addMarcador();
-        });
+       
     },
     
     /**
@@ -414,11 +354,7 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlCapas : function (map) {
-        var yo = this;
-        
-        $("#btn-capas-gestionar").click(function(){
-            yo.popupCapasComuna(); 
-        });  
+         
     },
     
     /**
@@ -427,10 +363,7 @@ var MapaEditor = Class({
      * @returns {undefined}
      */
     controlInstalaciones : function (map) {
-        var menu = new MapaLayoutAmbitoCapa();
-        menu.seteaMapa(map);
-        menu.seteaEmergencia(this.id_emergencia);
-        menu.render();
+        
     },
     
     /**
