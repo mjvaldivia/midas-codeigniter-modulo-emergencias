@@ -30,6 +30,7 @@ class Mapa_capas extends MY_Controller {
      * 
      */
     public function __construct() {
+        header("Access-Control-Allow-Origin: *");
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
         $this->load->model("emergencia_capa_model", "_emergencia_capa_model");

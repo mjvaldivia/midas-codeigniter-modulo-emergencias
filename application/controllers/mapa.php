@@ -91,8 +91,9 @@ class Mapa extends MY_Controller {
      * 
      */
     public function __construct() {
+        header("Access-Control-Allow-Origin: *");
         parent::__construct();
-        sessionValidation();
+        //sessionValidation();
         $this->load->library("emergencia/emergencia_comuna");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
@@ -119,15 +120,15 @@ class Mapa extends MY_Controller {
 
         $emergencia = $this->_emergencia_model->getById($params["id"]);
 
-        $this->load->model('Permiso_Model','PermisoModel');
+        //$this->load->model('Permiso_Model','PermisoModel');
         $this->load->model('Modulo_Model','ModuloModel');
-        $guardar = $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
+        $guardar = true; // $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
 
         if(!is_null($emergencia)){
             $data = array("id" => $emergencia->eme_ia_id,
                           "guardar" => $guardar,
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
-            $this->template->parse("default", "pages/mapa/index", $data);
+            $this->load->view("pages/mapa/index", $data);
         } else {
             throw new Exception(__METHOD__ . " - La emergencia no existe");
         }

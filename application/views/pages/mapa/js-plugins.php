@@ -1,3 +1,7 @@
+
+<?= loadCSS("assets/js/library/messenger/messenger.css", true) ?>
+<?= loadCSS("assets/js/library/messenger/messenger-theme-flat.css", true) ?>
+<?= loadJS("assets/js/library/livequery/jquery.livequery.min.js", true) ?>
 <!-- Estilos mapa mapa -->
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
 

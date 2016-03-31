@@ -25,6 +25,7 @@ class Mapa_kml extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
+        header("Access-Control-Allow-Origin: *");
         $this->load->model("emergencia_kml_model", "_emergencia_kml_model");
         $this->load->model("emergencia_kml_elemento_model", "_emergencia_kml_elemento_model");
         $this->load->model("emergencia_model", "_emergencia_model");

@@ -8,7 +8,7 @@ $(document).ready(function() {
     var visor = new Visor("mapa");
     
     var height = $(window).height();
-    visor.seteaHeight(height - 50);
+    visor.seteaHeight(height);
     visor.seteaEmergencia(id);
 
      //custom

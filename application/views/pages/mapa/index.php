@@ -1,5 +1,110 @@
-<?php echo $js; ?>
+<!DOCTYPE html>
+<html lang="en">
 
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>MIDAS :: Módulo de emergencias</title>    
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&key=AIzaSyBqmaRNgLR0AZU8l7PPITUFJ4EBQD_A_4g"></script>
+    <script type='text/javascript' src="<?= base_url("/assets/js/library/jquery-2.1.4/jquery.min.js") ?>"></script>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
+    
+    <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
+    <?= loadCSS("assets/js/library/pace/pace.css", true) ?>
+    <?= loadJS("assets/js/library/pace/pace.js", true) ?>    
+    
+    <?= loadCSS("assets/js/library/messenger/messenger.css", true) ?>
+    <?= loadCSS("assets/js/library/messenger/messenger-theme-flat.css", true) ?>
+    
+    <?= loadJS("assets/js/library/joii-3.1.3/joii.min.js", true) ?>
+    <?= loadCSS("assets/js/library/selectize-0.12.1/css/selectize.bootstrap3.css") ?>
+    <!-- GLOBAL STYLES - Include these on every page. -->
+    <?= loadCSS("assets/js/library/bootstrap-3.3.5/css/bootstrap.css", true) ?>
+    <?= loadCSS("assets/css/bootstrap.vertical-tabs.css", true) ?>
+    <?= loadCSS("assets/js/library/qtip/jquery.qtip.min.css", true) ?>
+
+    <?= loadCSS("assets/js/library/font-awesome-4.4.0/css/font-awesome.css", true) ?>
+    <?= loadCSS("assets/js/library/spectrum-colorpicker/spectrum.css") ?>
+    
+    <!-- THEME STYLES - Include these on every page. -->
+    <?= loadCSS("assets/css/style.css", true) ?>
+    <?= loadJS("assets/js/Modal_Sipresa.js") ?>
+    <?= loadJS("assets/js/xmodal.js") ?>
+    
+    <script type="text/javascript">
+        
+        siteUrl = '<?= site_url("/") ?>';
+        baseUrl = '<?= base_url("/") ?>';
+        $(document).ready(function(){
+            $('body').on('click', '.modal-sipresa', function (event) {
+                event.preventDefault();
+
+
+                // $($(this).attr('data-target')).removeData('bs.modal').modal({remote: $(this).attr('href') });
+
+                var a = $(this);
+                var id = a.attr('data-target').replace('#', '');
+                //$('#'+id).remove();
+                // $('.dynamic-modal .modal-content').empty();
+                var style = (a.attr('data-style') != '') ? a.attr('data-style') : 'width:70%;';
+
+                $("body").append("<div class='modal fade dynamic-modal' data-backdrop='static' data-keyboard='false' id=" + id + " tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                        "<div class='modal-dialog modal-lg' style='" + style + "'>" +
+                        "</div>" +
+                        "</div>");
+                ModalSipresa.addSuccess(id, a, $(this).attr('data-href'));
+            });
+            });
+    </script>
+
+     <?= loadJS("assets/js/library/bootstrap-3.3.5/js/bootstrap.js", true) ?>
+        <?= loadJS("assets/js/library/popupoverlay/jquery.popupoverlay.js", true) ?>
+        <?= loadJS("assets/js/library/livequery/jquery.livequery.min.js", true) ?>
+        <?= loadJS("assets/js/library/popupoverlay/defaults.js", true) ?>
+        <?= loadJS("assets/js/library/popupoverlay/logout.js", true) ?>
+        <?= loadJS("assets/js/library/jquery.jcombo/jquery.jcombo.js", true) ?>
+        <?= loadJS("assets/js/library/qtip/jquery.qtip.min.js", true) ?>
+        
+        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.min.css") ?>
+        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.boostrap.css") ?>
+        <?= loadJS("assets/js/library/chosen_v1.4.2/chosen.jquery.min.js") ?>
+        <?= loadCSS("assets/js/library/select2-4.0.0/css/select2.css", true) ?>
+        <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>
+        <?= loadJS("assets/js/library/select2-4.0.0/js/select2.js", true) ?>
+        
+        <?= loadJS("assets/js/library/jquery.mask-1.10.8/jquery.mask.js") ?>
+        
+        <?= loadJS("assets/js/library/moment-2.11.2/moment.min.js") ?>
+        <?= loadJS("assets/js/library/moment-2.11.2/es.js") ?>
+        <?= loadCSS("assets/js/library/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css") ?>
+        <?= loadJS("assets/js/library/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js") ?>
+        
+        <?= loadJS("assets/js/library/messenger/messenger.min.js", true) ?>
+        <?= loadJS("assets/js/library/messenger/messenger-theme-flat.js", true) ?>
+        <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
+        <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.min.js") ?>
+        <?= loadJS("assets/js/base.js") ?>
+        <?= loadJS("assets/js/utils.js") ?>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Utils.listenerCambioRapido();
+                Utils.toggleNavbarMethod();
+                Utils.ajaxRequestMonitor();
+                $(window).resize(Utils.toggleNavbarMethod);
+            });
+        </script>
+
+<?php echo $js; ?>
+</head>
 <div class="row-mapa">
 
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
@@ -69,7 +174,7 @@
                                 <li>
                                     <a id="btn-importar-sidco" href="javascript:void(0)"><input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> <i class="fa fa-fire"></i> Sidco - Conaf </a>
                                 </li>
-                                <?php if(puedeAbrirVisorEmergencia("casos_febriles")) { ?>
+                                <?php // if(puedeAbrirVisorEmergencia("casos_febriles")) { ?>
                                 <li class="divider"></li>
                                 <li class="dropdown-submenu">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Isla de pascua</a>
@@ -85,7 +190,7 @@
                                 </li>
       
                                 <li class="divider"></li>
-                                <?php } ?>
+                                <?php // } ?>
                             </ul>
                         </li>
                     </ul>
@@ -158,4 +263,6 @@
         <div class="clearfix"></div>
 </div>
 <div class="clearfix"></div>
-<?= loadJS("assets/js/mapa-visor.js"); ?>
+<?= loadJS("assets/js/mapa-visor.js") ?>
+
+</html>
