@@ -32,7 +32,7 @@ class Mapa_capas extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
-        
+        $this->load->model("emergencia_mapa_configuracion_model", "_emergencia_mapa_configuracion_model");
         $this->load->model("emergencia_capa_model", "_emergencia_capa_model");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("capa_detalle_model", "_capa_detalle_model");
@@ -154,8 +154,20 @@ class Mapa_capas extends MY_Controller {
     
     public function ajax_capas_emergencia(){
         $params = $this->input->post(null, true);
+        
         $lista_capas = $this->_emergencia_capa_model->listaIdsPorEmergencia($params["id"]);
-        echo json_encode($lista_capas);
+        $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
+        
+        echo json_encode(
+            array(
+                "capas" => $lista_capas,
+                "capas_fijas" => array(
+                    "conaf" => $configuracion->kml_sidco,
+                    "casos_febriles" => $configuracion->bo_casos_febriles,
+                    "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona
+                )
+            )
+        );
     }
     
     /**

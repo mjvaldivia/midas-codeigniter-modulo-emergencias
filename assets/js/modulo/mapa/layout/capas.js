@@ -57,12 +57,24 @@ var MapaLayoutCapas = Class({
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
             success:function(data){
-                $.each(data, function(i, valor){
+                
+                $.each(data.capas, function(i, valor){
                     $('.menu-capa-checkbox').filter(function(){
                         return this.value == valor.id}
-                     ).prop('checked', true);;
+                     ).prop('checked', true);
                 });
                 
+                if(data.capas_fijas.conaf == 1){
+                    $("#importar_sidco").prop('checked', true);
+                }
+                
+                if(data.capas_fijas.casos_febriles == 1){
+                    $("#importar_rapanui_casos").prop('checked', true);
+                }
+                
+                if(data.capas_fijas.casos_febriles_zona == 1){
+                    $("#importar_rapanui_zonas").prop('checked', true);
+                }
             }
         });
     },
