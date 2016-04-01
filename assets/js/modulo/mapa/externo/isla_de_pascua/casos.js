@@ -71,17 +71,17 @@ var MapaIslaDePascuaCasos = Class({
                                     var icono = baseUrl + "assets/img/markers/epidemiologico/caso_sospechoso.png"
                                     break;
                             }
-                            /*
+                            
                             if(con_label){
                                 var marcador = new MapaMarcadorLabel();
                                 marcador.seteaMapa(yo.mapa);
                                
                                 marcador.posicionarMarcador("rapanui_dengue_" + valor.id, label , valor.lng, valor.lat, null, valor.propiedades, icono);
-                            } else {*/
+                            } else {
                                 var marcador = new MapaMarcador();
                                 marcador.seteaMapa(yo.mapa);
                                 marcador.posicionarMarcador("rapanui_dengue_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
-                            /*}*/
+                            }
                             rapanui_ebola_marcador.push("rapanui_dengue_" + valor.id);
                         });
                     } else {
