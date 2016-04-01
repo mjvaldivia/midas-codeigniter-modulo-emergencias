@@ -71,6 +71,7 @@
 <?= loadJS("assets/js/modulo/mapa/layout/input/busqueda.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/layout/ambito.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/layout/capas.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/form/casos_febriles_rango_fecha.js"); ?>
 
 <!-- Permite editar mapa -->
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>

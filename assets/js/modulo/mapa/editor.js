@@ -280,6 +280,9 @@ var MapaEditor = Class({
      */
     controlImportar : function (map) {
         
+        
+        
+        
         /**
          * Popup para subir kml
          */
@@ -315,8 +318,10 @@ var MapaEditor = Class({
 
                 if($(this).is(":checked")){
                     rapanui.load();
+                    $("#formulario-casos-rango").removeClass("hidden");
                 } else {
                     rapanui.remove();
+                    $("#formulario-casos-rango").addClass("hidden");
                 }
             });
         });
@@ -330,8 +335,10 @@ var MapaEditor = Class({
                 rapanui.seteaMapa(map);
                 if($(this).is(":checked")){
                     rapanui.load();
+                    $("#formulario-casos-rango").removeClass("hidden");
                 } else {
                     rapanui.remove();
+                    $("#formulario-casos-rango").addClass("hidden");
                 }
             });
         });

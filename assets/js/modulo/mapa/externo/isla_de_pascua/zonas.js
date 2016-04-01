@@ -24,6 +24,10 @@ var MapaIslaDePascuaZonas = Class({
     load : function(){
         var yo = this;
         if(rapanui_ebola_zonas.length == 0){ //si ya esta cargado no se vuelve a cargar
+            
+            var parametros = {"desde" : $("#fecha_desde_casos").val(),
+                              "hasta" : $("#fecha_hasta_casos").val()};
+            
             Messenger().run({
                 action: $.ajax,
                 successMessage: 'Información del casos cargada correctamente',
@@ -34,7 +38,7 @@ var MapaIslaDePascuaZonas = Class({
                 dataType: "json",
                 cache: false,
                 async: true,
-                data: "",
+                data: parametros ,
                 type: "post",
                 url: siteUrl + "mapa/info_rapanui_dengue", 
                 success:function(json){
@@ -100,6 +104,7 @@ var MapaIslaDePascuaZonas = Class({
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
+                    $("#formulario-casos-rango").removeClass("hidden");
                }
             });
         }

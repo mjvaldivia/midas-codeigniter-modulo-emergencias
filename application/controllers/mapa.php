@@ -254,6 +254,22 @@ class Mapa extends MY_Controller {
         header('Content-type: application/json'); 
         $casos = array();
         
+        $params = $this->input->post(null, true);
+        
+        $fecha_desde = null;
+        $fecha_hasta = null;
+        
+        $fecha = DateTime::createFromFormat("d/m/Y", $params["desde"]);
+        if($fecha instanceof DateTime){
+            $fecha_desde = $fecha;
+        }
+        
+        $fecha = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
+        if($fecha instanceof DateTime){
+            $fecha_hasta = $fecha;
+        }
+        
+        
         $this->load->model("casos_febriles_estado_model");
         $this->load->model("casos_febriles_enfermedades_model", "_casos_febriles_enfermedades_model");
         $this->load->model("casos_febriles_model", "_rapanui_dengue_model");
@@ -261,37 +277,59 @@ class Mapa extends MY_Controller {
         $lista = $this->_rapanui_dengue_model->listar();
         if($lista != null){
             foreach($lista as $row){
-                
+                $ok = true;
                 $propiedades = Zend_Json::decode($row["propiedades"]);
-                $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
                 
-                if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
-                    unset($propiedades["RUN"]);
-                    unset($propiedades["NOMBRE"]);
-                    unset($propiedades["APELLIDO"]);
-                    unset($propiedades["TELEFONO"]);
-                    unset($propiedades["NUMERO PASAPORTE"]);
-                }
-                
-                $enfermedades_confirmadas = array();
-                if($row["id_estado"] == Casos_Febriles_Estado_Model::CONFIRMADO){
-                    $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($row["id"]);
-                    if(!is_null($lista_enfermedades)){
-                        foreach($lista_enfermedades as $enfermedad){
-                            $enfermedades_confirmadas[] = strtoupper(substr($enfermedad["nombre"], 0, 1));
+                $fecha_sintomas = DateTime::createFromFormat("d/m/Y", $propiedades["FECHA DE INICIO DE SINTOMAS"]);
+                if($fecha_desde instanceof DateTime){
+                   
+                    if($fecha_sintomas instanceof DateTime){
+                        if($fecha_desde > $fecha_sintomas){
+                            $ok = false;
                         }
                     }
                 }
                 
-                $coordenadas = json_decode($row["coordenadas"]);
-                $casos[] = array(
-                    "id" => $row["id"],
-                    "id_estado" => $row["id_estado"],
-                    "propiedades" => $propiedades,
-                    "enfermedades" => $enfermedades_confirmadas,
-                    "lat" => $coordenadas->lat,
-                    "lng" => $coordenadas->lng
-                );
+                if($fecha_hasta instanceof DateTime){
+                   
+                    if($fecha_sintomas instanceof DateTime){
+                        if($fecha_hasta < $fecha_sintomas){
+                            $ok = false;
+                        }
+                    }
+                }
+
+                if($ok){
+                    $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
+
+                    if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
+                        unset($propiedades["RUN"]);
+                        unset($propiedades["NOMBRE"]);
+                        unset($propiedades["APELLIDO"]);
+                        unset($propiedades["TELEFONO"]);
+                        unset($propiedades["NUMERO PASAPORTE"]);
+                    }
+
+                    $enfermedades_confirmadas = array();
+                    if($row["id_estado"] == Casos_Febriles_Estado_Model::CONFIRMADO){
+                        $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($row["id"]);
+                        if(!is_null($lista_enfermedades)){
+                            foreach($lista_enfermedades as $enfermedad){
+                                $enfermedades_confirmadas[] = strtoupper(substr($enfermedad["nombre"], 0, 1));
+                            }
+                        }
+                    }
+
+                    $coordenadas = json_decode($row["coordenadas"]);
+                    $casos[] = array(
+                        "id" => $row["id"],
+                        "id_estado" => $row["id_estado"],
+                        "propiedades" => $propiedades,
+                        "enfermedades" => $enfermedades_confirmadas,
+                        "lat" => $coordenadas->lat,
+                        "lng" => $coordenadas->lng
+                    );
+                }
             }
         }
         

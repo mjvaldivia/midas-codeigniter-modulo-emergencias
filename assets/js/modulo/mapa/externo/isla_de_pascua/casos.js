@@ -24,6 +24,10 @@ var MapaIslaDePascuaCasos = Class({
     load : function(){
         var yo = this;
         if(rapanui_ebola_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
+            
+            var parametros = {"desde" : $("#fecha_desde_casos").val(),
+                              "hasta" : $("#fecha_hasta_casos").val()};
+            
             Messenger().run({
                 action: $.ajax,
                 successMessage: '<strong> Casos febriles </strong> <br> Ok',
@@ -34,13 +38,13 @@ var MapaIslaDePascuaCasos = Class({
                 dataType: "json",
                 cache: false,
                 async: true,
-                data: "",
+                data: parametros,
                 type: "post",
                 url: siteUrl + "mapa/info_rapanui_dengue", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
-                            
+                            console.log(valor);
                             var con_label = false;
                             
                             switch(valor.id_estado){
@@ -67,22 +71,24 @@ var MapaIslaDePascuaCasos = Class({
                                     var icono = baseUrl + "assets/img/markers/epidemiologico/caso_sospechoso.png"
                                     break;
                             }
-
+                            /*
                             if(con_label){
                                 var marcador = new MapaMarcadorLabel();
                                 marcador.seteaMapa(yo.mapa);
                                
                                 marcador.posicionarMarcador("rapanui_dengue_" + valor.id, label , valor.lng, valor.lat, null, valor.propiedades, icono);
-                            } else {
+                            } else {*/
                                 var marcador = new MapaMarcador();
                                 marcador.seteaMapa(yo.mapa);
                                 marcador.posicionarMarcador("rapanui_dengue_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
-                            }
+                            /*}*/
                             rapanui_ebola_marcador.push("rapanui_dengue_" + valor.id);
                         });
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
+                    
+                    $("#formulario-casos-rango").removeClass("hidden");
                }
             });
         }

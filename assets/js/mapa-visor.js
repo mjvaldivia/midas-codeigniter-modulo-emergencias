@@ -75,7 +75,10 @@ $(document).ready(function() {
     var buscador = new MapaLayoutInputBusqueda("busqueda");
     visor.addOnReadyFunction("buscador de direcciones", buscador.addToMap);
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
-
+    
+    var formulario = new MapaLayoutFormCasosFebrilesFecha();
+    visor.addOnReadyFunction("buscador", formulario.addToMap);
+    
     //inicia mapa
     visor.bindMapa();
     
