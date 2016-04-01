@@ -40,7 +40,7 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
                 
                         + "</div>"
                         + "<div id=\"bluePortlet\" class=\"panel-collapse in\" style=\"height: auto;\">"
-                            + "<div class=\"portlet-body\">"
+                            + "<div class=\"portlet-body\" style=\"overflow: visible\" >"
                                 + "<div class=\"form-group clearfix\">"
                                      + "<label for=\"fecha_desde_casos\" class=\"col-sm-4 text-right control-label required\">Desde :</label>"
                                      + "<div class=\"col-sm-8\">"
