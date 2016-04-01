@@ -25,9 +25,22 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
         
         var yo = this;
       $("body").append("<div id=\"formulario-casos-rango\" class=\"form-busqueda hidden\">"
-                     + "<div class=\"panel panel-primary panel-mapa\">"
-                        + "<div class=\"panel-heading\">Rangos de fecha</div>"
-                            + "<div class=\"panel-body\">"
+                     + "<div class=\"portlet portlet-blue\">"
+             
+                        + "<div class=\"portlet-heading\">"
+                        + "<div class=\"portlet-title\"><h5>Filtros: Rangos de fecha</h5></div>"
+                
+                        + "<div class=\"portlet-widgets\">"
+
+                        + "<a class=\"\" href=\"#bluePortlet\" data-parent=\"#accordion\" data-toggle=\"collapse\">"
+                        + "<i class=\"fa fa-chevron-down\"></i>"
+                        + "</a>"
+                        + "</div>"
+                        + "<div class=\"clearfix\"></div>"
+                
+                        + "</div>"
+                        + "<div id=\"bluePortlet\" class=\"panel-collapse in\" style=\"height: auto;\">"
+                            + "<div class=\"portlet-body\">"
                                 + "<div class=\"form-group clearfix\">"
                                      + "<label for=\"fecha_desde_casos\" class=\"col-sm-4 text-right control-label required\">Desde :</label>"
                                      + "<div class=\"col-sm-8\">"
@@ -47,6 +60,7 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
                                 + "<div class=\"col-sm-8\"><input type\"button\" id=\"btn-buscar-casos-febriles\" class=\"btn btn-xs btn-primary\" value=\"Filtrar\" /></div>"
                                 + "</div>"
                             + "</div>"
+                        + "</div>"
                         + "</div>"
                      + "</div>"
                      + "</div>");
