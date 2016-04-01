@@ -3,90 +3,124 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
     mapa : null,
 
     __construct : function(div) {
-        this.html();
+
     },
-    
+
     /**
      * Agrega el buscador al mapa
      * @param {type} map
      * @returns {undefined}
      */
     addToMap : function(map){
-        this.mapa = map;
-        map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('formulario-casos-rango'));
-        $("#formulario-casos-rango").css("top", "60px");
-    },
-
-     /**
-     * Carga el HTML del buscador
-     * @returns {undefined}
-     */
-    html : function(){
         
         var yo = this;
-      $("body").append("<div id=\"formulario-casos-rango\" class=\"form-busqueda hidden\">"
-                     + "<div class=\"portlet portlet-blue\">"
-             
-                        + "<div class=\"portlet-heading\">"
-                        + "<div class=\"portlet-title\"><h5>Filtros: Rangos de fecha</h5></div>"
-                
-                        + "<div class=\"portlet-widgets\">"
+        
+        this.mapa = map;
+        
+        $.ajax({         
+            dataType: "html",
+            cache: false,
+            async: true,
+            data: {},
+            type: "post",
+            url:  siteUrl + "mapa_capas/ajax_form_filtros_casos_febriles", 
+            error: function(xhr, textStatus, errorThrown){
+                notificacionError("Ha ocurrido un problema", errorThrown);
+            },
+            success:function(html){
+                $("body").append(html);
 
-                        + "<a class=\"\" href=\"#bluePortlet\" data-parent=\"#accordion\" data-toggle=\"collapse\">"
-                        + "<i class=\"fa fa-chevron-down\"></i>"
-                        + "</a>"
-                        + "</div>"
-                        + "<div class=\"clearfix\"></div>"
                 
-                        + "</div>"
-                        + "<div id=\"bluePortlet\" class=\"panel-collapse in\" style=\"height: auto;\">"
-                            + "<div class=\"portlet-body\" style=\"overflow: visible\" >"
-                                + "<div class=\"form-group clearfix\">"
-                                     + "<label for=\"fecha_desde_casos\" class=\"col-sm-4 text-right control-label required\">Desde :</label>"
-                                     + "<div class=\"col-sm-8\">"
-                                     + "<input id=\"fecha_desde_casos\" type\"text\" class=\"form-control datepicker-date\" />"
-                                     + "<span class=\"help-block hidden\"></span>"
-                                     + "</div>"
-                                + "</div>"
-                                + "<div class=\"form-group clearfix\">"
-                                     + "<label for=\"fecha_hasta_casos\" class=\"col-sm-4 text-right control-label required\">Hasta :</label>"
-                                     + "<div class=\"col-sm-8\">"
-                                     + "<input id=\"fecha_hasta_casos\" type\"text\" value=\"\" class=\"form-control datepicker-date\" />"
-                                     + "<span class=\"help-block hidden\"></span>"
-                                     + "</div>"
-                                + "</div>"
-                                + "<div class=\"form-group clearfix\">"
-                                + "<div class=\"col-sm-4\"></div>"
-                                + "<div class=\"col-sm-8\"><input type\"button\" id=\"btn-buscar-casos-febriles\" class=\"btn btn-xs btn-primary\" value=\"Filtrar\" /></div>"
-                                + "</div>"
-                            + "</div>"
-                        + "</div>"
-                        + "</div>"
-                     + "</div>"
-                     + "</div>");
-             
-             
-        $("#btn-buscar-casos-febriles").click(function(){
-           
-           var rapanui_casos = new MapaIslaDePascuaCasos();
-           var rapanui_zonas = new MapaIslaDePascuaZonas();
-           
-           rapanui_casos.seteaMapa(yo.mapa);
-           rapanui_zonas.seteaMapa(yo.mapa);
-           
-           rapanui_casos.remove();
-           rapanui_zonas.remove();
-           
-           if($("#importar_rapanui_casos").is(":checked")){
-               rapanui_casos.load();
-           }
-           
-           if($("#importar_rapanui_zonas").is(":checked")){
-               rapanui_zonas.load();
-           }
-           
+                
+                map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('formulario-casos-rango'));
+                $("#formulario-casos-rango").css("top", "60px");
+                
+                $("#configuracion-filtros-casos").click(function(){
+                    if ($('#filtros-casos').css("display") == "none") {    // you get the idea...
+                        $("#filtros-casos").show("slow");
+                    } else {
+                        $("#filtros-casos").hide("slow");
+                    }
+                });
+                
+                $("#fecha_desde_casos").datetimepicker({
+                    format: "DD/MM/YYYY",
+                    locale: "es"
+                });
+                
+                $("#fecha_hasta_casos").datetimepicker({
+                    format: "DD/MM/YYYY",
+                    locale: "es"
+                });
+                
+                $("#estado_casos").change(function(){
+                   if($(this).val()==1){
+                       $("#enfermedades_casos").removeClass("hidden");
+                   } else {
+                       $("#enfermedades_casos").addClass("hidden");
+                   }
+                });
+                
+                $("#btn-buscar-casos-febriles").click(function(){
+                   yo.filtrar(); 
+                });
+            }
         });
-    }
+    },
+    
+    filtrar : function(){
+        var yo = this;
+        var rapanui_casos = new MapaIslaDePascuaCasos();
+        var rapanui_zonas = new MapaIslaDePascuaZonas();
 
+        rapanui_casos.seteaMapa(yo.mapa);
+        rapanui_zonas.seteaMapa(yo.mapa);
+
+        rapanui_casos.remove();
+        rapanui_zonas.remove();
+
+        if($("#importar_rapanui_casos").is(":checked")){
+            rapanui_casos.load();
+        }
+
+        if($("#importar_rapanui_zonas").is(":checked")){
+            rapanui_zonas.load();
+        }
+        
+        var resumen = "";
+        
+        if($("#fecha_desde_casos").val()!="" || $("#fecha_hasta_casos").val()!=""){
+            
+            if($("#fecha_desde_casos").val()!=""){
+                resumen += "Desde: " + $("#fecha_desde_casos").val();
+            }
+            
+            if($("#fecha_hasta_casos").val()!=""){
+                resumen = yo.agregaComa(resumen);
+                resumen += "Hasta: " + $("#fecha_hasta_casos").val();
+            }
+            
+        } else {
+            resumen += "Fechas: todas";
+        }
+        
+        if($("#estado_casos").val() != ""){
+            resumen = yo.agregaComa(resumen);
+            resumen += "Estado: " + $("#estado_casos option:selected").text();
+        } else {
+            resumen = yo.agregaComa(resumen);
+            resumen += "Estado: todos";
+        }
+        
+        $("#configuracion-filtros-resumen").html(resumen);
+    },
+    
+    
+    agregaComa : function(resumen){
+        if(resumen != ""){
+            resumen = resumen + ", ";
+        }
+        return resumen;
+    }
 });
 

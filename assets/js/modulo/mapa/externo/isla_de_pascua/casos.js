@@ -26,7 +26,8 @@ var MapaIslaDePascuaCasos = Class({
         if(rapanui_ebola_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             
             var parametros = {"desde" : $("#fecha_desde_casos").val(),
-                              "hasta" : $("#fecha_hasta_casos").val()};
+                              "hasta" : $("#fecha_hasta_casos").val(),
+                              "estado" : $("#estado_casos").val()};
             
             Messenger().run({
                 action: $.ajax,
@@ -44,7 +45,7 @@ var MapaIslaDePascuaCasos = Class({
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
-                            console.log(valor);
+                            
                             var con_label = false;
                             
                             switch(valor.id_estado){

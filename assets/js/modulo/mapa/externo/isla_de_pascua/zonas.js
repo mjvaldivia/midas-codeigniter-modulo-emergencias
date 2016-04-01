@@ -26,7 +26,8 @@ var MapaIslaDePascuaZonas = Class({
         if(rapanui_ebola_zonas.length == 0){ //si ya esta cargado no se vuelve a cargar
             
             var parametros = {"desde" : $("#fecha_desde_casos").val(),
-                              "hasta" : $("#fecha_hasta_casos").val()};
+                              "hasta" : $("#fecha_hasta_casos").val(),
+                              "estado" : $("#estado_casos").val()};
             
             Messenger().run({
                 action: $.ajax,

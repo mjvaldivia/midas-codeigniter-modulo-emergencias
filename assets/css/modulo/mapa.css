@@ -219,10 +219,10 @@
 }
 
 .form-busqueda{
-    top: 60px !important;
+    top: 50px !important;
     left: 10px !important;
+    background-color: transparent;
     width: 300px;
-    background-color: #fff;
     z-index:90 !important;
  }
  
@@ -232,4 +232,8 @@
 
 .portlet {
     margin-bottom: 0px;
+}
+
+.portlet .filtros-header {
+    padding: 0px;
 }

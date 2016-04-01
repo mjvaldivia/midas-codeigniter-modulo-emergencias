@@ -82,6 +82,14 @@ class Mapa_capas extends MY_Controller {
         $this->load->view("pages/mapa_capas/menu-capas-fijas", array());
     }
     
+    public function ajax_form_filtros_casos_febriles(){
+        $this->load->helper(array(
+                "modulo/formulario/formulario"
+            )
+        );
+        $this->load->view("pages/mapa_capas/form-filtros-casos", array());
+    }
+    
     /**
      * Devuelve json con capas validas para la emergencia
      */
