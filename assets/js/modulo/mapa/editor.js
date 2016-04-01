@@ -321,7 +321,10 @@ var MapaEditor = Class({
                     $("#formulario-casos-rango").removeClass("hidden");
                 } else {
                     rapanui.remove();
-                    $("#formulario-casos-rango").addClass("hidden");
+                    
+                    if(!$("#importar_rapanui_zonas").is(":checked")){
+                        $("#formulario-casos-rango").addClass("hidden");
+                    }
                 }
             });
         });
@@ -338,7 +341,10 @@ var MapaEditor = Class({
                     $("#formulario-casos-rango").removeClass("hidden");
                 } else {
                     rapanui.remove();
-                    $("#formulario-casos-rango").addClass("hidden");
+                    
+                    if(!$("#importar_rapanui_casos").is(":checked")){
+                        $("#formulario-casos-rango").addClass("hidden");
+                    }
                 }
             });
         });
