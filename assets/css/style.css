@@ -2355,3 +2355,7 @@ body.modal-open {
 .selectize-dropdown-content > div > .label{
     color: #000;
 }
+
+.bootstrap-datetimepicker-widget{
+    color: #000;
+}

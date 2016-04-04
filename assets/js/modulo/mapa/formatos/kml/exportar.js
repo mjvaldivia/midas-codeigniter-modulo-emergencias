@@ -15,7 +15,9 @@ var MapaKmlExportar = Class({
         
 
         $.each(lista_markers, function(i, marker){
-            marcador.addMarcador(marker);
+            if(marker.getVisible()){
+                marcador.addMarcador(marker);
+            }
         });
         
         if(elemento_kml.exportar(marcador.retornaMarcadores())){

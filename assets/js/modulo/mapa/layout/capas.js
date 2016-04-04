@@ -57,12 +57,13 @@ var MapaLayoutCapas = Class({
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
             success:function(data){
-                
-                $.each(data.capas, function(i, valor){
-                    $('.menu-capa-checkbox').filter(function(){
-                        return this.value == valor.id}
-                     ).prop('checked', true);
-                });
+                if(data.capas != null){
+                    $.each(data.capas, function(i, valor){
+                        $('.menu-capa-checkbox').filter(function(){
+                            return this.value == valor.id}
+                         ).prop('checked', true);
+                    });
+                }
                 
                 if(data.capas_fijas.conaf == 1){
                     $("#importar_sidco").prop('checked', true);

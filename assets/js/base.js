@@ -54,7 +54,6 @@ $(document).ready(function() {
             placeholder_text_multiple: "Seleccione un valor",
             no_results_text: "No se encontraron resultados",
             width: '100%',
-            tags: true,
             allowClear: true
         });
     });

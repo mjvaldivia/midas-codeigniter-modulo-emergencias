@@ -201,6 +201,9 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    /**
+     * 
+     */
     public function info_rapanui_embarazadas(){
         $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 
@@ -256,7 +259,7 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         
-        $fecha_desde = null;
+        /*$fecha_desde = null;
         $fecha_hasta = null;
         
         $fecha = DateTime::createFromFormat("d/m/Y", $params["desde"]);
@@ -267,7 +270,7 @@ class Mapa extends MY_Controller {
         $fecha = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
         if($fecha instanceof DateTime){
             $fecha_hasta = $fecha;
-        }
+        }*/
         
         
         $this->load->model("casos_febriles_estado_model");
@@ -280,7 +283,7 @@ class Mapa extends MY_Controller {
                 $ok = true;
                 $propiedades = Zend_Json::decode($row["propiedades"]);
                 
-                $fecha_sintomas = DateTime::createFromFormat("d/m/Y", $propiedades["FECHA DE INICIO DE SINTOMAS"]);
+                /*$fecha_sintomas = DateTime::createFromFormat("d/m/Y", $propiedades["FECHA DE INICIO DE SINTOMAS"]);
                 if($fecha_desde instanceof DateTime){
                    
                     if($fecha_sintomas instanceof DateTime){
@@ -297,7 +300,7 @@ class Mapa extends MY_Controller {
                             $ok = false;
                         }
                     }
-                }
+                }*/
 
                 if($ok){
                     $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
@@ -315,14 +318,22 @@ class Mapa extends MY_Controller {
                         $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($row["id"]);
                         if(!is_null($lista_enfermedades)){
                             foreach($lista_enfermedades as $enfermedad){
-                                $enfermedades_confirmadas[] = strtoupper(substr($enfermedad["nombre"], 0, 1));
+                                $enfermedades_confirmadas[] = array(
+                                    "id" => $enfermedad["id"],
+                                    "letra" => strtoupper(substr($enfermedad["nombre"], 0, 1)),
+                                    "nombre" => strtoupper($enfermedad["nombre"])
+                                );
                             }
                         }
                     }
 
                     $coordenadas = json_decode($row["coordenadas"]);
+                    
+                    $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $row["fecha"]);
+                    
                     $casos[] = array(
                         "id" => $row["id"],
+                        "fecha_ingreso" => $fecha->format("d/m/Y"),
                         "id_estado" => $row["id_estado"],
                         "propiedades" => $propiedades,
                         "enfermedades" => $enfermedades_confirmadas,

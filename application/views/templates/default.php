@@ -246,9 +246,9 @@
         <?= loadJS("assets/js/library/jquery.jcombo/jquery.jcombo.js", true) ?>
         <?= loadJS("assets/js/library/qtip/jquery.qtip.min.js", true) ?>
         
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.min.css") ?>
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.boostrap.css") ?>
-        <?= loadJS("assets/js/library/chosen_v1.4.2/chosen.jquery.min.js") ?>
+        <?= loadCSS("assets/js/library/chosen_v1.5.1/chosen.min.css") ?>
+       
+        <?= loadJS("assets/js/library/chosen_v1.5.1/chosen.jquery.min.js") ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2.css", true) ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>
         <?= loadJS("assets/js/library/select2-4.0.0/js/select2.js", true) ?>

@@ -1,6 +1,6 @@
 var rapanui_ebola_zonas = [];
 
-var MapaIslaDePascuaZonas = Class({  
+var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
     
     /**
      * Google maps
@@ -46,8 +46,15 @@ var MapaIslaDePascuaZonas = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
+                            var lista_id_enfermedades = [];
+                            
                             switch(valor.id_estado){
                                 case "1":
+                                    
+                                    $.each(valor.enfermedades, function(i, enfermedad){
+                                        lista_id_enfermedades.push(enfermedad.id);
+                                    });
+                                    
                                     var zona = {
                                         "radio" : 200,
                                         "propiedades" : {"TIPO" : "CASO FEBRIL",
@@ -97,9 +104,21 @@ var MapaIslaDePascuaZonas = Class({
                                                        posicion, 
                                                        zona.radio, 
                                                        zona.color);
+                                                       
+                                var fecha_inicio = moment(valor.propiedades["FECHA DE INICIO DE SINTOMAS"], "DD/MM/YYYY", true);
+                                var fecha_ingreso = moment(valor.fecha_ingreso, "DD/MM/YYYY", true);
+                                var fecha_confirmacion = moment(valor.propiedades["CONCLUSION FECHA"], "DD/MM/YYYY", true);
 
-
-                                rapanui_ebola_zonas.push("rapanui_dengue_" + valor.id);
+                                rapanui_ebola_zonas.push(
+                                    {
+                                        "identificador" : identificador,
+                                        "fecha_inicio" : fecha_inicio,
+                                        "fecha_ingreso" : fecha_ingreso,
+                                        "fecha_confirmacion" : fecha_confirmacion,
+                                        "estado" : valor.id_estado,
+                                        "enfermedades" : lista_id_enfermedades
+                                    }
+                                );
                             }
                         });
                     } else {
@@ -109,6 +128,30 @@ var MapaIslaDePascuaZonas = Class({
                }
             });
         }
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    filtrar : function(){
+        var yo = this;
+        $.each(rapanui_ebola_zonas, function(i, marker){
+            var ok = yo.verFiltros(marker);
+            if(!ok){
+                jQuery.grep(lista_poligonos, function( a ) {
+                    if(a["identificador"] == marker.identificador){
+                        a.setMap(null);
+                    }
+                });
+            } else {
+                jQuery.grep(lista_poligonos, function( a ) {
+                    if(a["identificador"] == marker.identificador){
+                        a.setMap(yo.mapa);
+                    }
+                });
+            }
+        });
     },
     
     /**

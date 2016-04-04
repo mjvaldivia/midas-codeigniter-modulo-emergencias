@@ -1139,6 +1139,11 @@
                                        </select>
                                        <span class="help-block hidden"></span>
                                    </div>
+                                    <div class="form-group clearfix">
+                                        <label for="conclusion_fecha" class="control-label">Fecha conclusión:</label>
+                                        <input value="<?php echo $conclusion_fecha; ?>" class="form-control datepicker-date" name="conclusion_fecha" id="conclusion_fecha">
+                                        <span class="help-block hidden"></span>
+                                    </div>
                                    <div class="form-group clearfix">
                                        <label for="enfermedades" class="control-label">Enfermedades:</label>
                                        <?php echo formSelectEnfermedades("enfermedades[]", $conclusion_enfermedades); ?>

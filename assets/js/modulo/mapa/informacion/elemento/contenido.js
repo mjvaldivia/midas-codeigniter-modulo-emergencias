@@ -216,18 +216,19 @@ var MapaInformacionElementoContenido = Class({
         
         //se recorren marcadores, y se busca los que estan dentro del elemento
         $.each(lista_markers, function(i, marker){
-            var bo_marcador_dentro_de_poligono = yo.elementoContainsPoint(elemento, marker.getPosition());
-            
+            if(marker.getVisible()){
+                var bo_marcador_dentro_de_poligono = yo.elementoContainsPoint(elemento, marker.getPosition());
 
-            if(bo_marcador_dentro_de_poligono){
-                var data = {"informacion" : marker.informacion};
-                
-                //el marcador pertenece a una capa
-                if(marker.capa != null){
-                    data["CAPA"] = marker.capa;
+                if(bo_marcador_dentro_de_poligono){
+                    var data = {"informacion" : marker.informacion};
+
+                    //el marcador pertenece a una capa
+                    if(marker.capa != null){
+                        data["CAPA"] = marker.capa;
+                    }
+
+                    yo.marcadores.push(data);
                 }
-                
-                yo.marcadores.push(data);
             }
         });
     }
