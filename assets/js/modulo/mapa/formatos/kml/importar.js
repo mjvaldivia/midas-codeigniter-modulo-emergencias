@@ -121,6 +121,19 @@ var MapaKmlImportar = Class({
                                 );
                             }
                             
+                            if(elemento["tipo"] == "POLIGONO"){
+                                var poligono = new MapaPoligono();
+                                poligono.seteaMapa(yo.mapa);
+                                poligono.dibujarPoligono(
+                                    "kml_" + data.response.hash,
+                                    elemento["nombre"], 
+                                    null,
+                                    elemento["coordenadas"], 
+                                    {"NOMBRE" : elemento["nombre"]},
+                                    null, 
+                                    elemento["color"]);
+                            }
+                            
                             if(elemento["tipo"] == "MULTIPOLIGONO"){
                                 var poligono = new MapaPoligonoMulti();
                                 poligono.seteaMapa(yo.mapa);

@@ -73,18 +73,20 @@ Class Kml_descomponer{
             $this->_findStylesMap($data);
         }
         
-       
-
+        fb($this->_placemarks);
+        
         if(count($this->_placemarks)>0){
             foreach($this->_placemarks as $key => $placemark){
                 if(isset($placemark[0])){
                     foreach($placemark as $elemento){
                         $this->_procesaPunto($elemento);
+                        $this->_procesaPoligono($elemento);
                         $this->_procesaMultiPoligono($elemento);
                         $this->_procesaLinea($elemento);
                     }
                 } else {
                     $this->_procesaPunto($placemark);
+                    $this->_procesaPoligono($placemark);
                     $this->_procesaMultiPoligono($placemark);
                     $this->_procesaLinea($placemark);
                 }
@@ -164,6 +166,46 @@ Class Kml_descomponer{
     }
     
     /**
+     * 
+     * @param type $elemento
+     */
+    protected function _procesaPoligono($elemento){
+        if(isset($elemento["Polygon"])){
+            
+            $data = array("tipo" => "POLIGONO");
+            
+            if(isset($elemento["name"])){
+                $data["nombre"] = $elemento["name"];
+            } else {
+                $data["nombre"] = "SIN NOMBRE";
+            }
+            
+            if(isset($elemento["description"])){
+                $data["descripcion"] = $elemento["description"];
+            } else {
+                $data["descripcion"] = "SIN DESCRIPCIÓN";
+            }
+            
+            if(isset($elemento["styleUrl"])){
+                $id = str_replace("#", "", $elemento["styleUrl"]);
+                if(isset($this->_styles[$id]["poligono"]["color"])){
+                    $data["color"] = $this->_styles[$id]["poligono"]["color"];
+                }
+            }
+            
+            if(isset($elemento["Polygon"]["outerBoundaryIs"])){
+                $data["coordenadas"]["poligono"] = $this->_procesaCoordenadasPoligono($elemento["Polygon"]);
+            } else {
+                foreach($elemento["Polygon"] as $poligono){
+                    $data["coordenadas"]["poligono"] = $this->_procesaCoordenadasPoligono($poligono);
+                }
+            }
+            
+            $this->_elementos[] = $data;
+        }
+    }
+    
+    /**
      * Procesa los datos de los multipoligonos
      * @param array $elemento
      */
@@ -212,7 +254,9 @@ Class Kml_descomponer{
     protected function _procesaCoordenadasPoligono($data)
     {
         $coord = array();
-        $coordenadas = explode(" ", TRIM($data["outerBoundaryIs"]["LinearRing"]["coordinates"]));
+        
+        $texto = str_replace("\n", " ", TRIM($data["outerBoundaryIs"]["LinearRing"]["coordinates"]));
+        $coordenadas = explode(" ", $texto);
         if(count($coordenadas)>0){
             foreach($coordenadas as $string){
                 $latLon = explode(",", $string);

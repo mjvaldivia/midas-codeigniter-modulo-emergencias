@@ -80,7 +80,7 @@ var MapaPoligono = Class({
             });
 
             poligono.setMap(yo.mapa);
-
+          
             //se agrega evento de click para ver instalaciones
             //dentro de poligono
             yo.addClickListener(poligono, yo.mapa);
