@@ -1,5 +1,16 @@
 <li class="dropdown-header"> OTROS </li>
-<li><a id="btn-importar-sidco" href="javascript:void(0)"><input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> <i class="fa fa-fire"></i> Sidco - Conaf </a></li>
+<li>
+    <a id="btn-importar-sidco" href="javascript:void(0)">
+        <input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> 
+        <i class="fa fa-fire"></i> Sidco - Conaf 
+    </a>
+</li>
+<li>
+    <a id="btn-importar-sidco" href="javascript:void(0)">
+        <input type="checkbox" name="rabia_vacunacion" id="rabia_vacunacion" value="1"/> 
+        <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/otros/animal.png") ?>"></i> Rabia - vacunación 
+    </a>
+</li>
 <?php if(puedeAbrirVisorEmergencia("casos_febriles")) { ?>
 <li class="divider"></li>
 <li class="dropdown-header"> ISLA DE PASCUA </li>

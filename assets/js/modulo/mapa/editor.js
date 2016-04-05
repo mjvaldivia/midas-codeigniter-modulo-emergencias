@@ -366,6 +366,21 @@ var MapaEditor = Class({
         });
         
         /**
+         * Vacunacion rabia
+         */
+        $("#rabia_vacunacion").livequery(function(){
+            $(this).click(function(){
+                var carga = new MapaRabiaVacunacion();
+                carga.seteaMapa(map);
+                if($(this).is(":checked")){
+                    carga.load();
+                } else {
+                    carga.remove();
+                }
+            });
+        });
+        
+        /**
          * Exportar mapa a kml
          */
         $("#btn-exportar-kml").click(function(){

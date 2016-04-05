@@ -63,7 +63,7 @@
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/zonas.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/embarazadas.js"); ?>
-
+<?= loadJS("assets/js/modulo/mapa/externo/rabia/vacunacion.js"); ?>
 <!-- Externos -->
 <?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>
 
