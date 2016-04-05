@@ -151,7 +151,7 @@ var MapaIslaDePascuaCasos = Class({
             
         ok = yo.filtroFechas(ok, marker, "fecha_inicio");
         ok = yo.filtroFechas(ok, marker, "fecha_ingreso");
-        ok = yo.filtroFechas(ok, marker, "fecha_confirmacion");
+        
 
         if($("#estado_casos").val()!=""){
             switch($("#estado_casos").val()){
@@ -168,32 +168,37 @@ var MapaIslaDePascuaCasos = Class({
             }
         }
 
-        //no funciona el $(this).val() para el plugin chosen, se efectua parche
-        var enfermedades_seleccionadas = jQuery.grep($("#formulario-casos").serializeArray(), function( a ) {
-            if(a.name == "enfermedades_casos[]"){
-                return true;
-            }
-        });
+        if($("#estado_casos").val() == 1){
+            ok = yo.filtroFechas(ok, marker, "fecha_confirmacion");
 
-        if(enfermedades_seleccionadas.length > 0){
-            
-            var enfermedades = jQuery.grep(marker.enfermedades , function( e ) {
-                
-                var encontrados = jQuery.grep(enfermedades_seleccionadas, function( a ) {
-                    if(a.value == e){
-                        return true;
-                    }
-                });
-
-                if(encontrados.length > 0){
+            //no funciona el $(this).val() para el plugin chosen, se efectua parche
+            var enfermedades_seleccionadas = jQuery.grep($("#formulario-casos").serializeArray(), function( a ) {
+                if(a.name == "enfermedades_casos[]"){
                     return true;
                 }
             });
 
-            if(enfermedades.length == 0){
-                ok = false;
+            if(enfermedades_seleccionadas.length > 0){
+
+                var enfermedades = jQuery.grep(marker.enfermedades , function( e ) {
+
+                    var encontrados = jQuery.grep(enfermedades_seleccionadas, function( a ) {
+                        if(a.value == e){
+                            return true;
+                        }
+                    });
+
+                    if(encontrados.length > 0){
+                        return true;
+                    }
+                });
+
+                if(enfermedades.length == 0){
+                    ok = false;
+                }
             }
         }
+        
         return ok;
     },
     

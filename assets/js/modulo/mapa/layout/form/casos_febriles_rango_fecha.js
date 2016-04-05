@@ -104,6 +104,7 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
                     if($(this).val()==1){
                        $("#enfermedades_casos").removeClass("hidden");
                     } else {
+                        
                        $("#enfermedades_casos").addClass("hidden");
                     }
                     yo.filtrar(); 
@@ -160,8 +161,22 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
             resumen += "Estado: " + $("#estado_casos option:selected").text();
             
             if($("#estado_casos").val() == 1){
-               
                 resumen = this.resumenFecha(resumen, "Fecha confirmación", "confirmacion");
+                
+                //no funciona el $(this).val() para el plugin chosen, se efectua parche
+                var enfermedades_seleccionadas = jQuery.grep($("#formulario-casos").serializeArray(), function( a ) {
+                    if(a.name == "enfermedades_casos[]"){
+                        return true;
+                    }
+                });
+
+                if(enfermedades_seleccionadas.length > 0){
+                    resumen = this.agregaComa(resumen);
+                    resumen += "Enfermedades: ";
+                    $.each(enfermedades_seleccionadas, function(i, val){
+                        resumen += $("#enfermedades_casos option[value='"+val.value+"']").text() + " ";
+                    });
+                }
             }
             
         } else {
@@ -169,20 +184,7 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
             resumen += "Estado: todos";
         }
         
-        //no funciona el $(this).val() para el plugin chosen, se efectua parche
-        var enfermedades_seleccionadas = jQuery.grep($("#formulario-casos").serializeArray(), function( a ) {
-            if(a.name == "enfermedades_casos[]"){
-                return true;
-            }
-        });
         
-        if(enfermedades_seleccionadas.length > 0){
-            resumen = this.agregaComa(resumen);
-            resumen += "Enfermedades: ";
-            $.each(enfermedades_seleccionadas, function(i, val){
-                resumen += $("#enfermedades_casos option[value='"+val.value+"']").text() + " ";
-            });
-        }
 
         $("#configuracion-filtros-resumen").html(resumen);
     },

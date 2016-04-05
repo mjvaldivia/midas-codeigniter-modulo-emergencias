@@ -299,8 +299,9 @@ var MapaEditor = Class({
             $(this).click(function(){
                 var sidco = new MapaKmlSidcoConaf();
                 sidco.seteaMapa(map);
-
+                
                 if($(this).is(":checked")){
+                    console.log("cargando sidco");
                     sidco.loadKml();
                 } else {
                     sidco.remove();
