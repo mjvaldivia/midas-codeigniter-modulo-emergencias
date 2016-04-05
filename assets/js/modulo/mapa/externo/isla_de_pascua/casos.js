@@ -1,4 +1,4 @@
-var rapanui_ebola_marcador = [];
+var casos_febriles_marcador = [];
 
 var MapaIslaDePascuaCasos = Class({  
     
@@ -23,7 +23,7 @@ var MapaIslaDePascuaCasos = Class({
      */
     load : function(){
         var yo = this;
-        if(rapanui_ebola_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
+        if(casos_febriles_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             
             var parametros = {"desde" : $("#fecha_desde_casos").val(),
                               "hasta" : $("#fecha_hasta_casos").val(),
@@ -89,7 +89,7 @@ var MapaIslaDePascuaCasos = Class({
                             var fecha_ingreso = moment(valor.fecha_ingreso, "DD/MM/YYYY", true);
                             var fecha_confirmacion = moment(valor.propiedades["CONCLUSION FECHA"], "DD/MM/YYYY", true);
                             
-                            rapanui_ebola_marcador.push(
+                            casos_febriles_marcador.push(
                                 {
                                     "identificador" : "rapanui_dengue_" + valor.id,
                                     "fecha_inicio" : fecha_inicio,
@@ -100,6 +100,7 @@ var MapaIslaDePascuaCasos = Class({
                                 }
                             );
                         });
+                        yo.filtrar();
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
@@ -167,7 +168,6 @@ var MapaIslaDePascuaCasos = Class({
             }
         }
 
-
         //no funciona el $(this).val() para el plugin chosen, se efectua parche
         var enfermedades_seleccionadas = jQuery.grep($("#formulario-casos").serializeArray(), function( a ) {
             if(a.name == "enfermedades_casos[]"){
@@ -175,11 +175,10 @@ var MapaIslaDePascuaCasos = Class({
             }
         });
 
-
-
         if(enfermedades_seleccionadas.length > 0){
+            
             var enfermedades = jQuery.grep(marker.enfermedades , function( e ) {
-
+                
                 var encontrados = jQuery.grep(enfermedades_seleccionadas, function( a ) {
                     if(a.value == e){
                         return true;
@@ -204,7 +203,7 @@ var MapaIslaDePascuaCasos = Class({
      */
     filtrar : function(){
         var yo = this;
-        $.each(rapanui_ebola_marcador, function(i, marker){
+        $.each(casos_febriles_marcador, function(i, marker){
 
             var ok = yo.verFiltros(marker);
 
@@ -230,11 +229,11 @@ var MapaIslaDePascuaCasos = Class({
      */
     remove : function(){
         var marcador = new MapaMarcador();
-        $.each(rapanui_ebola_marcador, function(i, marker){
+        $.each(casos_febriles_marcador, function(i, marker){
             marcador.removerMarcadores("identificador", marker.identificador);
         });
         
-        rapanui_ebola_marcador = [];
+        casos_febriles_marcador = [];
     }
 });
 

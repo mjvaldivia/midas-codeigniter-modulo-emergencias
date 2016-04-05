@@ -319,7 +319,7 @@ class Mapa extends MY_Controller {
                         if(!is_null($lista_enfermedades)){
                             foreach($lista_enfermedades as $enfermedad){
                                 $enfermedades_confirmadas[] = array(
-                                    "id" => $enfermedad["id"],
+                                    "id" => $enfermedad["id_enfermedad"],
                                     "letra" => strtoupper(substr($enfermedad["nombre"], 0, 1)),
                                     "nombre" => strtoupper($enfermedad["nombre"])
                                 );

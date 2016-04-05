@@ -1,4 +1,4 @@
-var rapanui_ebola_zonas = [];
+var casos_febriles_zonas = [];
 
 var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
     
@@ -23,7 +23,7 @@ var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
      */
     load : function(){
         var yo = this;
-        if(rapanui_ebola_zonas.length == 0){ //si ya esta cargado no se vuelve a cargar
+        if(casos_febriles_zonas.length == 0){ //si ya esta cargado no se vuelve a cargar
             
             var parametros = {"desde" : $("#fecha_desde_casos").val(),
                               "hasta" : $("#fecha_hasta_casos").val(),
@@ -109,7 +109,7 @@ var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
                                 var fecha_ingreso = moment(valor.fecha_ingreso, "DD/MM/YYYY", true);
                                 var fecha_confirmacion = moment(valor.propiedades["CONCLUSION FECHA"], "DD/MM/YYYY", true);
 
-                                rapanui_ebola_zonas.push(
+                                casos_febriles_zonas.push(
                                     {
                                         "identificador" : identificador,
                                         "fecha_inicio" : fecha_inicio,
@@ -121,6 +121,7 @@ var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
                                 );
                             }
                         });
+                        yo.filtrar();
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
@@ -136,7 +137,7 @@ var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
      */
     filtrar : function(){
         var yo = this;
-        $.each(rapanui_ebola_zonas, function(i, marker){
+        $.each(casos_febriles_zonas, function(i, marker){
             var ok = yo.verFiltros(marker);
             if(!ok){
                 jQuery.grep(lista_poligonos, function( a ) {
@@ -160,10 +161,10 @@ var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
      */
     remove : function(){        
         var poligono = new MapaPoligono();
-        $.each(rapanui_ebola_zonas, function(i, zona){
+        $.each(casos_febriles_zonas, function(i, zona){
             poligono.removerPoligono("clave", zona.identificador);
         });
-        rapanui_ebola_zonas = [];
+        casos_febriles_zonas = [];
     }
 });
 
