@@ -33,6 +33,10 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
                 map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('formulario-casos-rango'));
                 $("#formulario-casos-rango").css("top", "60px");
                 
+                $("#cerrar-filtros-casos-febriles").click(function(){
+                    $("#configuracion-filtros-casos").trigger("click");
+                });
+                
                 $("#configuracion-filtros-casos").click(function(e){
                     e.preventDefault();
                     if ($('#filtros-casos').css("display") == "none") {    // you get the idea...

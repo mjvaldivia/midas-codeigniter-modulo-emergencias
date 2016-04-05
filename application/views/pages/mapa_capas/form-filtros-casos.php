@@ -17,16 +17,19 @@
         <div class="panel panel-primary">
             <div class="panel-body">
             <div class="form-group clearfix">
-                <label class="col-sm-12 control-label required">Fecha ingreso :</label>
+                <label class="col-sm-12 control-label required"> <strong> Fecha ingreso </strong>:</label>
             </div>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group clearfix">
                         
-                        <label for="fecha_ingreso_desde_casos" class="col-sm-4 text-right control-label required">Desde :</label>
-                        <div class="col-sm-8">
-                            <input id="fecha_ingreso_desde_casos" type=="text" class="form-control" />
-                            <span class="help-block hidden"></span>
+                        <label for="fecha_ingreso_desde_casos" class="col-sm-3 text-left control-label required">Desde:</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input id="fecha_ingreso_desde_casos" type=="text" class="form-control" />
+                                <span class="help-block hidden"></span>
+                            </div>
                         </div>
                      
                     </div>
@@ -34,26 +37,32 @@
                 <div class="col-sm-6">
                     <div class="form-group clearfix">
                         
-                        <label for="fecha_ingreso_hasta_casos" class="col-sm-4 text-right control-label required">Hasta :</label>
-                        <div class="col-sm-8">
-                            <input id="fecha_ingreso_hasta_casos" type="text" value="" class="form-control" />
-                            <span class="help-block hidden"></span>
+                        <label for="fecha_ingreso_hasta_casos" class="col-sm-3 text-right control-label required">Hasta:</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input id="fecha_ingreso_hasta_casos" type="text" value="" class="form-control" />
+                                <span class="help-block hidden"></span>
+                            </div>
                         </div>
                         
                     </div>
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="col-sm-12 control-label required">Fecha inicio sintomas :</label>
+                <label class="col-sm-12 control-label required"> <strong> Fecha inicio sintomas </strong>:</label>
             </div>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group clearfix">
                         
-                        <label for="fecha_inicio_desde_casos" class="col-sm-4 text-right control-label required">Desde :</label>
-                        <div class="col-sm-8">
-                            <input id="fecha_inicio_desde_casos" type=="text" class="form-control" />
-                            <span class="help-block hidden"></span>
+                        <label for="fecha_inicio_desde_casos" class="col-sm-3 text-left control-label required">Desde:</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input id="fecha_inicio_desde_casos" type=="text" class="form-control" />
+                                <span class="help-block hidden"></span>
+                            </div>
                         </div>
                      
                     </div>
@@ -61,17 +70,20 @@
                 <div class="col-sm-6">
                     <div class="form-group clearfix">
                         
-                        <label for="fecha_inicio_hasta_casos" class="col-sm-4 text-right control-label required">Hasta :</label>
-                        <div class="col-sm-8">
-                            <input id="fecha_inicio_hasta_casos" type="text" value="" class="form-control" />
-                            <span class="help-block hidden"></span>
+                        <label for="fecha_inicio_hasta_casos" class="col-sm-3 text-right control-label required">Hasta:</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input id="fecha_inicio_hasta_casos" type="text" value="" class="form-control" />
+                                <span class="help-block hidden"></span>
+                            </div>
                         </div>
                         
                     </div>
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label for="estado_casos" class="col-sm-12 control-label required">Estado :</label>
+                <label for="estado_casos" class="col-sm-12 control-label required"> <strong> Estado </strong> :</label>
                 <div class="col-sm-6">
                      <select name="estado_casos" id="estado_casos" class="form-control">
                         <option value="">Todos</option>
@@ -86,16 +98,19 @@
             
             <div id="enfermedades_casos" class="hidden">
                 <div class="form-group clearfix">
-                    <label class="col-sm-12 control-label required">Fecha confirmación :</label>
+                    <label class="col-sm-12 control-label required"> <strong> Fecha confirmación </strong>:</label>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group clearfix">
 
-                            <label for="fecha_confirmacion_desde_casos" class="col-sm-4 text-right control-label required">Desde :</label>
-                            <div class="col-sm-8">
-                                <input id="fecha_confirmacion_desde_casos" type=="text" class="form-control" />
-                                <span class="help-block hidden"></span>
+                            <label for="fecha_confirmacion_desde_casos" class="col-sm-3 text-left control-label required">Desde:</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input id="fecha_confirmacion_desde_casos" type=="text" class="form-control" />
+                                    <span class="help-block hidden"></span>
+                                </div>
                             </div>
 
                         </div>
@@ -103,10 +118,13 @@
                     <div class="col-sm-6">
                         <div class="form-group clearfix">
 
-                            <label for="fecha_confirmacion_hasta_casos" class="col-sm-4 text-right control-label required">Hasta :</label>
-                            <div class="col-sm-8">
-                                <input id="fecha_confirmacion_hasta_casos" type="text" value="" class="form-control" />
-                                <span class="help-block hidden"></span>
+                            <label for="fecha_confirmacion_hasta_casos" class="col-sm-3 text-right control-label required">Hasta:</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input id="fecha_confirmacion_hasta_casos" type="text" value="" class="form-control" />
+                                    <span class="help-block hidden"></span>
+                                </div>
                             </div>
 
                         </div>
@@ -114,19 +132,21 @@
                 </div>
 
                 <div class="form-group clearfix">
-                    <label for="enfermedades_casos" class="col-sm-12 control-label">Enfermedades:</label>
+                    <label for="enfermedades_casos" class="col-sm-12 control-label"> <strong> Enfermedades </strong>:</label>
                     <div class="col-sm-12">
                         <?php echo formSelectEnfermedades("enfermedades_casos[]", array()); ?>
                         <span class="help-block hidden"></span>
                     </div>
                 </div> 
             </div>
-            <!--<div class="form-group clearfix">
+            <div class="form-group clearfix">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-8 text-right">
-                    <input type="button" id="btn-buscar-casos-febriles" class="btn btn-primary" value="Filtrar" />
+                    <a href="#">
+                        <i id="cerrar-filtros-casos-febriles" class="fa fa-chevron-up" title="Cerrar filtros"></i>
+                    </a>
                 </div>
-           </div>-->
+           </div>
         </div>
         </div>
     </div>    
