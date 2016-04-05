@@ -207,9 +207,7 @@ var MapaIslaDePascuaCasos = Class({
         $.each(rapanui_ebola_marcador, function(i, marker){
 
             var ok = yo.verFiltros(marker);
-            
-            
-            
+
             if(!ok){
                 jQuery.grep(lista_markers, function( a ) {
                     if(a["identificador"] == marker.identificador){

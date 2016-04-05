@@ -160,10 +160,9 @@ var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
      */
     remove : function(){        
         var poligono = new MapaPoligono();
-        $.each(rapanui_ebola_zonas, function(i, identificador){
-            poligono.removerPoligono("id", identificador);
+        $.each(rapanui_ebola_zonas, function(i, zona){
+            poligono.removerPoligono("clave", zona.identificador);
         });
-        
         rapanui_ebola_zonas = [];
     }
 });
