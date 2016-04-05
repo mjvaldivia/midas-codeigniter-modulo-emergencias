@@ -84,8 +84,15 @@ Class Layout_Menu_Render{
                                             "Embarazos" => array(
                                                "permiso" => "embarazada",
                                                "controller" => "embarazo",
-                                               "action"     => "index")
-                                            )
+                                               "action"     => "index"
+                                            ),
+                                            
+                                            /*"Rabia vacunación" => array(
+                                              
+                                               "controller" => "rabia_vacunacion",
+                                               "action"     => "index"
+                                            )*/
+                                        ),
                                     ),
                                     "Usuarios" => array("icon_class" => "fa-users",
                                                         "rol" => "administrador",
