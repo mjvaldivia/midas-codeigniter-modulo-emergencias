@@ -7,9 +7,9 @@ class Rabia_vacunacion extends MY_Controller
     
     /**
      *
-     * @var Embarazos_Model 
+     * @var Rabia_Vacunacion_Model 
      */
-    public $_embarazos_model;
+    public $_rabia_vacunacion_model;
     
     /**
      *
@@ -18,7 +18,7 @@ class Rabia_vacunacion extends MY_Controller
     {
         parent::__construct();
         sessionValidation();
-        $this->load->model("embarazos_model", "_embarazos_model");
+        $this->load->model("rabia_vacunacion_model", "_rabia_vacunacion_model");
     }
     
     /**
@@ -26,7 +26,7 @@ class Rabia_vacunacion extends MY_Controller
      */
     public function index()
     {
-        $this->template->parse("default", "pages/rabia_vacunacion/index", array());
+        $this->template->parse("default", "pages/rabia_vacunacion/index", array("vacuna_fecha" => date("d/m/Y")));
     }
     
     /**
@@ -42,11 +42,10 @@ class Rabia_vacunacion extends MY_Controller
         );
         $params = $this->input->get(null, true);
 
-        $caso = $this->_embarazos_model->getById($params["id"]);
+        $caso = $this->_rabia_vacunacion_model->getById($params["id"]);
         if (!is_null($caso)) {
 
             $data = array("id" => $caso->id);
-            
             
             $propiedades = json_decode($caso->propiedades);
             $coordenadas = json_decode($caso->coordenadas);
@@ -57,17 +56,8 @@ class Rabia_vacunacion extends MY_Controller
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
             
-            $fecha = DateTime::createFromFormat("Y-m-d", $caso->FUR);
-            if($fecha instanceof DateTime){
-                $data["fecha_fur"] = $fecha->format("d/m/Y");
-            }
-            
-            $fecha = DateTime::createFromFormat("Y-m-d", $caso->FPP);
-            if($fecha instanceof DateTime){
-                $data["fecha_fpp"] = $fecha->format("d/m/Y");
-            }
 
-            $this->template->parse("default", "pages/embarazos/form", $data);
+            $this->template->parse("default", "pages/rabia_vacunacion/form", $data);
         }
     }
     
@@ -77,7 +67,7 @@ class Rabia_vacunacion extends MY_Controller
     public function eliminar()
     {
         $params = $this->input->post(null, true);
-        $this->_embarazos_model->delete($params["id"]);
+        $this->_rabia_vacunacion_model->delete($params["id"]);
         echo json_encode(array("error" => array(),
             "correcto" => true));
     }
@@ -87,13 +77,18 @@ class Rabia_vacunacion extends MY_Controller
      */
     public function guardar()
     {
-        $this->load->library(array("rut", "formulario/formulario_embarazada_validar"));
+        $this->load->library(
+            array(
+                "rut", 
+                "rabia/rabia_vacunacion_validar"
+            )
+        );
 
         header('Content-type: application/json');
 
         $params = $this->input->post(null, true);
 
-        if ($this->formulario_embarazada_validar->esValido($params)) {
+        if ($this->rabia_vacunacion_validar->esValido($params)) {
             
             /** latitud y longitud **/
             $coordenadas = array(
@@ -105,8 +100,8 @@ class Rabia_vacunacion extends MY_Controller
             unset($params["longitud"]);
             /************************/
 
-            /** caso febril **/
-            $caso = $this->_embarazos_model->getById($params["id"]);
+           
+            $caso = $this->_rabia_vacunacion_model->getById($params["id"]);
             unset($params["id"]);
             /*****************/
 
@@ -117,38 +112,22 @@ class Rabia_vacunacion extends MY_Controller
                 $arreglo[strtoupper($nombre)] = $valor;
             }
             /**************************************/
-            $fecha_fur = NULL;
-            $fecha = DateTime::createFromFormat("d/m/Y", $params["fecha_fur"]);
-            if($fecha instanceof DateTime){
-                $fecha_fur = $fecha->format("Y-m-d");
-            }
-            unset($params["fecha_fur"]);
-            
-            $fecha_fpp = NULL;
-            $fecha = DateTime::createFromFormat("d/m/Y", $params["fecha_fpp"]);
-            if($fecha instanceof DateTime){
-                $fecha_fpp = $fecha->format("Y-m-d");
-            }
-            unset($params["fecha_fpp"]);
+
 
             if (is_null($caso)) {
-                $id = $this->_embarazos_model->insert(
+                $id = $this->_rabia_vacunacion_model->insert(
                     array(
                         "fecha" => date("Y-m-d H:i:s"),
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
-                        "id_usuario" => $this->session->userdata("session_idUsuario"),
-                        "FUR" => $fecha_fur,
-                        "FPP" => $fecha_fpp
+                        "id_usuario" => $this->session->userdata("session_idUsuario")
                     )
                 );
             } else {
-                $this->_embarazos_model->update(
+                $this->_rabia_vacunacion_model->update(
                     array(
                         "propiedades" => json_encode($arreglo),
-                        "coordenadas" => json_encode($coordenadas),
-                        "FUR" => $fecha_fur,
-                        "FPP" => $fecha_fpp
+                        "coordenadas" => json_encode($coordenadas)
                     ),
                     $caso->id
                 );
@@ -165,7 +144,7 @@ class Rabia_vacunacion extends MY_Controller
         } else {
             echo json_encode(
                 array(
-                    "error" => $this->formulario_embarazada_validar->getErrores(),
+                    "error" => $this->rabia_vacunacion_validar->getErrores(),
                     "correcto" => false
                 )
             );
@@ -186,11 +165,11 @@ class Rabia_vacunacion extends MY_Controller
 
         $this->template->parse(
             "default",
-            "pages/embarazos/form",
+            "pages/rabia_vacunacion/form",
             array(
                 "ingresado" => $params["ingreso"],
-                "latitud" => "-27.11299",
-                "longitud" => "-109.34958059999997"
+                "latitud" => "-36.82013519999999",
+                "longitud" => "-73.0443904"
             )
         );
     }
@@ -205,37 +184,34 @@ class Rabia_vacunacion extends MY_Controller
                 "modulo/usuario/usuario",
             )
         );
-        $lista = $this->_embarazos_model->listar();
+        $lista = $this->_rabia_vacunacion_model->listar();
 
         $casos = array();
 
         if (!is_null($lista)) {
             foreach ($lista as $caso) {
                 
-                $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $caso["fecha"]);
+                $fecha_formato = "";
+                $fecha = DateTime::createFromFormat("Y-m-d", $caso["fecha"]);
                 if ($fecha instanceof DateTime) {
                     $fecha_formato = $fecha->format("d/m/Y");
                 }
                 
-                $fecha = DateTime::createFromFormat("Y-m-d", $caso["FPP"]);
-                if ($fecha instanceof DateTime) {
-                    $fecha_parto = $fecha->format("d/m/Y");
-                }
-
                 $propiedades = json_decode($caso["propiedades"]);
 
                 $casos[] = array("id" => $caso["id"],
                     "id_usuario" => $caso["id_usuario"],
                     "fecha" => $fecha_formato,
-                    "fpp" => $fecha_parto,
+                    "nombre_animal" => $propiedades->{"NOMBRE ANIMAL"},
+                    "especie" => $propiedades->{"ESPECIE ANIMAL"},
                     "run" => $propiedades->RUN,
                     "nombre" => strtoupper($propiedades->NOMBRE . " " . $propiedades->APELLIDO),
-                    "direccion" => strtoupper($propiedades->DIRECCION));
-
+                    "direccion" => strtoupper($propiedades->DIRECCION)
+                );
             }
         }
 
-        $this->load->view("pages/embarazos/grilla", array("lista" => $casos));
+        $this->load->view("pages/rabia_vacunacion/grilla", array("lista" => $casos));
     }
 }
 

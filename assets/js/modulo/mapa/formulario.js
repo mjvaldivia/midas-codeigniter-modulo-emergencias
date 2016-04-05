@@ -148,7 +148,7 @@ var MapaFormulario = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud),parseFloat(yo.longitud));
 
         var mapOptions = {
-          zoom: 13,
+          zoom: 4,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.HYBRID
         };
@@ -156,18 +156,7 @@ var MapaFormulario = Class({
         map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
 
 
-        marker = new google.maps.Marker({
-            position: myLatlng,
-            draggable:true,
-            map: map,
-            icon: baseUrl + yo.icon
-        });  
         
-        google.maps.event.addListener(marker, 'dragend', function (){
-            yo.setInputs(marker.getPosition());
-        });
-
-        this.marker = marker;
         this.mapa = map;
     },
     
@@ -196,6 +185,10 @@ var MapaFormulario = Class({
                     $('#longitud').val(parseFloat(place.geometry.location.lng()));
                     $('#latitud').val(parseFloat(place.geometry.location.lat()));
                     $('.mapa-coordenadas').trigger("change");
+                    
+                   
+                    
+                    
                 });
             });
         }
@@ -218,7 +211,28 @@ var MapaFormulario = Class({
      * @returns {undefined}
      */
     setMarkerInputs : function(){
+        var yo = this;
+        
+        if(this.marker != null){
+            this.marker.setMap(null);
+            this.marker = null;
+        }
+        
+        var marker = new google.maps.Marker({
+            draggable:true,
+            map: yo.mapa,
+            icon: baseUrl + yo.icon
+        });  
+
+        google.maps.event.addListener(marker, 'dragend', function (){
+            yo.setInputs(marker.getPosition());
+        });
+
+        this.marker = marker;
+        
+        
         this.marker.setPosition( new google.maps.LatLng( parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
+        this.mapa.setZoom(18);
         this.mapa.panTo( new google.maps.LatLng(parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
     },
     

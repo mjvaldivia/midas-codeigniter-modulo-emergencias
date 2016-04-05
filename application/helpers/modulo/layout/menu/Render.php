@@ -77,21 +77,23 @@ Class Layout_Menu_Render{
                                         "icon_class" => "fa-warning",      
                                         "permiso" => "casos_febriles",
                                         "child" => array(
+                                            
                                             "Casos febriles" => array(
                                                 "controller" => "formulario",
                                                 "action"     => "index"
                                             ),
+                                            
                                             "Embarazos" => array(
                                                "permiso" => "embarazada",
                                                "controller" => "embarazo",
                                                "action"     => "index"
                                             ),
                                             
-                                            /*"Rabia vacunación" => array(
+                                            "Rabia vacunación" => array(
                                               
                                                "controller" => "rabia_vacunacion",
                                                "action"     => "index"
-                                            )*/
+                                            )
                                         ),
                                     ),
                                     "Usuarios" => array("icon_class" => "fa-users",

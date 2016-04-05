@@ -46,11 +46,15 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <input type="hidden" name="id_propietario" id="id_propietario" value="<?php echo $id_propietario; ?>" />
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <legend> Propietario </legend>
+                                </div>
+                            </div>
                              <div class="row">
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
-                                        <label for="run" class="control-label">RUN:</label>
+                                        <label for="run" class="control-label">RUN(*):</label>
                                         <input value="<?php echo $run; ?>" class="form-control rut" name="run" id="run">
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -81,41 +85,158 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col-xs-12">
+                                <div class="col-xs-8">
                                     <div class="form-group clearfix">
                                         <label for="direccion" class="control-label">Dirección (*):</label>
                                         <input value="<?php echo $direccion; ?>" class="form-control" name="direccion" id="direccion">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                            </div>
-                           
-                           
-                            <div class="row">
-                                
-                                <div class="col-xs-5">
+                                <div class="col-xs-4">
                                     <div class="form-group clearfix">
                                         <label for="telefono" class="control-label">Teléfono(s) de contacto:</label>
                                         <input value="<?php echo $telefono; ?>" class="form-control" name="telefono" id="telefono">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                          
-
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <legend> Animal </legend>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="form-group clearfix">
+                                        <label for="nombre_animal" class="control-label">Nombre animal(*):</label>
+                                        <input value="<?php echo $nombre_animal; ?>" class="form-control" name="nombre_animal" id="nombre_animal">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2">
+                                    <div class="form-group clearfix">
+                                        <label for="sexo_animal" class="control-label">Sexo:</label>
+                                        <select name="sexo_animal" id="sexo_animal" class="form-control">
+                                            <option value=""></option>
+                                            <option value="M" <?php if($sexo_animal == "Masculino" || $sexo_animal == "M") echo "selected" ?>> M </option>
+                                            <option value="F" <?php if($sexo_animal == "Femenino" || $sexo_animal == "F") echo "selected" ?>> F </option>
+                                        </select>
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2">
+                                    <div class="form-group clearfix">
+                                        <label for="edad_animal" class="control-label">Edad:</label>
+                                        <input value="<?php echo $edad_animal; ?>" class="form-control" name="edad_animal" id="nombre_animal">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                 <div class="col-xs-3">
+                                    <div class="form-group clearfix">
+                                        <label for="especie_animal" class="control-label">Especie(*):</label>
+                                        <input value="<?php echo $especie_animal; ?>" class="form-control" name="especie_animal" id="especie_animal">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
                                 <div class="col-xs-3">
-                                    
+                                    <div class="form-group clearfix">
+                                        <label for="raza_animal" class="control-label">Raza:</label>
+                                        <input value="<?php echo $raza_animal; ?>" class="form-control" name="raza_animal" id="raza_animal">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="form-group clearfix">
+                                        <label for="tamano_animal" class="control-label">Tamaño:</label>
+                                        <input value="<?php echo $tamano_animal; ?>" class="form-control" name="tamano_animal" id="tamano_animal">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="form-group clearfix">
+                                        <label for="color_animal" class="control-label">Color:</label>
+                                        <input value="<?php echo $color_animal; ?>" class="form-control" name="color_animal" id="color_animal">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="form-group clearfix">
+                                        <label for="identificacion_animal" class="control-label">N° Identificación:</label>
+                                        <input value="<?php echo $identificacion_animal; ?>" class="form-control" name="identificacion_animal" id="identificacion_animal">
+                                        <span class="help-block hidden"></span>
+                                    </div>
                                 </div>
                             </div>
                             
-                           	
-   	
                         </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <legend> Vacunación </legend>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="vacuna_tipo" class="control-label">Tipo(*):</label>
+                                    <input value="<?php echo $vacuna_tipo; ?>" class="form-control" name="vacuna_tipo" id="vacuna_tipo">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="vacuna_nombre" class="control-label">Nombre comercial(*):</label>
+                                    <input value="<?php echo $vacuna_nombre; ?>" class="form-control" name="vacuna_nombre" id="vacuna_nombre">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="vacuna_laboratorio" class="control-label">Laboratorio(*):</label>
+                                    <input value="<?php echo $vacuna_laboratorio; ?>" class="form-control" name="vacuna_laboratorio" id="vacuna_laboratorio">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="vacuna_numero_serie" class="control-label">Numero serie(*):</label>
+                                    <input value="<?php echo $vacuna_numero_serie; ?>" class="form-control" name="vacuna_numero_serie" id="vacuna_numero_serie">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="vacuna_periodo_proteccion" class="control-label">Periodo de protección:</label>
+                                    <input value="<?php echo $vacuna_periodo_proteccion; ?>" class="form-control" name="vacuna_periodo_proteccion" id="vacuna_periodo_proteccion">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="vacuna_fecha" class="control-label">Fecha vacunación(*):</label>
+                                    <input value="<?php echo $vacuna_fecha; ?>" class="form-control datepicker-date" name="vacuna_fecha" id="vacuna_fecha">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group clearfix">
+                                    <label for="vacuna_fecha_revacunacion" class="control-label">Fecha revacunación(*):</label>
+                                    <input value="<?php echo $vacuna_fecha_revacunacion; ?>" class="form-control datepicker-date" name="vacuna_fecha_revacunacion" id="vacuna_fecha_revacunacion">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                               
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-           
-                            
+                                   
             <div class="row">
                 <div class="col-md-12 text-left">
                     <div class="col-md-12">
@@ -145,4 +266,4 @@
 
 <?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>
 <?= loadJS("assets/js/modulo/mapa/formulario.js") ?>
-<?= loadJS("assets/js/modulo/embarazos/form.js") ?>
+<?= loadJS("assets/js/modulo/rabia/form.js") ?>
