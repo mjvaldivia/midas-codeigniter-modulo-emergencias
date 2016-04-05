@@ -97,7 +97,7 @@ var MapaPoligono = Class({
      */
     addClickListener : function(elemento, mapa){
         
-        var informacion = new MapaInformacionElemento();
+        var informacion = new MapaPoligonoInformacion();
         informacion.addRightClickListener(elemento, mapa);
         
     }

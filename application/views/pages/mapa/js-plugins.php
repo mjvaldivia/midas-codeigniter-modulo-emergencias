@@ -21,10 +21,12 @@
 <?= loadJS("assets/js/modulo/mapa/google/extension/markerwithlabel.js"); ?>
 
 <!-- Popup con informacion de un elemento -->
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/contenido.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/edicion.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/menu.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/contenido.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/edicion.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/menu.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion.js"); ?>
+
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/editar.js"); ?>
 
 <!-- ELEMENTOS -->
 <!-- Circulo -->

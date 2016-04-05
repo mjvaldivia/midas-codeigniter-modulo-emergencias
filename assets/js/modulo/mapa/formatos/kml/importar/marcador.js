@@ -12,7 +12,7 @@ var MapaKmlImportarMarcador = Class({ extends : MapaMarcador}, {
         
         var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
 
-        marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             position: posicion,
             identificador: id,
             clave : "marcador_" + id,
@@ -25,6 +25,10 @@ var MapaKmlImportarMarcador = Class({ extends : MapaMarcador}, {
         });  
 
         this.informacionMarcador(marker);
+       
+        var click = new MapaMarcadorEditar();
+        click.seteaMarker(marker);
+        click.clickListener();
        
         lista_markers.push(marker);
         google.maps.event.trigger(yo.mapa, 'marcador_cargado');
@@ -42,10 +46,11 @@ var MapaKmlImportarMarcador = Class({ extends : MapaMarcador}, {
             content: marker.informacion_html
         });  
           
-          
         google.maps.event.addListener(marker, 'click', function () {
             infoWindow.open(yo.mapa, this);
         });
+        
+        marker.html = marker.informacion_html;
     }
 });
 

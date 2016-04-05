@@ -114,11 +114,17 @@ var MapaEditor = Class({
         ruler.button();
         
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+            
+            marker.html = "";
+            
             lista_markers.push(marker);
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
-            
+
+            var click = new MapaMarcadorEditar();
+            click.seteaMarker(marker);
+            click.clickListener();
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
@@ -139,7 +145,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             });
             
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(rectangle, mapa);
             
             lista_poligonos.push(rectangle);
@@ -215,7 +221,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             });
             
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(circle, mapa);
             
             lista_poligonos.push(circle);

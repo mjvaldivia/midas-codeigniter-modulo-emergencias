@@ -253,6 +253,8 @@
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>
         <?= loadJS("assets/js/library/select2-4.0.0/js/select2.js", true) ?>
         
+        <?= loadJS("assets/js/library/ckeditor-4.5.7/ckeditor.js") ?>
+        <?= loadJS("assets/js/library/bootstrap-ckeditor-modal-fix.js") ?>
         <?= loadJS("assets/js/library/jquery.mask-1.10.8/jquery.mask.js") ?>
         
         <?= loadJS("assets/js/library/moment-2.11.2/moment.min.js") ?>

@@ -2359,3 +2359,9 @@ body.modal-open {
 .bootstrap-datetimepicker-widget{
     color: #000;
 }
+
+.cke_dialog
+{
+    z-index: 1000002 !important;
+}
+

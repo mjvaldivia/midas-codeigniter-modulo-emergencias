@@ -382,6 +382,12 @@ class Mapa extends MY_Controller {
         );
     }
     
+    public function popup_marcador_editar(){
+        $this->load->library("String");
+        $params = $this->input->post(null, true);        
+        $this->load->view("pages/mapa/popup-marcador-editar", array("html" => $params["html"]));
+    }
+    
     /**
      * 
      */
