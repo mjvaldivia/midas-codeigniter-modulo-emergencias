@@ -140,7 +140,6 @@ class Session_Model extends MY_Model
                 $resultadoOperacion = true;
                 break;
             }
-//            dump($this->session->all_userdata());die;
         }
         return $resultadoOperacion;
     }

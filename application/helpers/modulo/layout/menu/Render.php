@@ -89,11 +89,11 @@ Class Layout_Menu_Render{
                                                "action"     => "index"
                                             ),
                                             
-                                           /* "Rabia vacunación" => array(
+                                            "Rabia vacunación" => array(
                                               
                                                "controller" => "rabia_vacunacion",
                                                "action"     => "index"
-                                            )*/
+                                            )
                                         ),
                                     ),
                                     "Usuarios" => array("icon_class" => "fa-users",
