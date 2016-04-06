@@ -26,9 +26,9 @@ var MapaKmlImportarMarcador = Class({ extends : MapaMarcador}, {
 
         this.informacionMarcador(marker);
        
-        var click = new MapaMarcadorEditar();
+        /*var click = new MapaMarcadorEditar();
         click.seteaMarker(marker);
-        click.clickListener();
+        click.clickListener();*/
        
         lista_markers.push(marker);
         google.maps.event.trigger(yo.mapa, 'marcador_cargado');

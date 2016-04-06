@@ -7,7 +7,7 @@ var MapaMarcadorEditar = Class({
     },
     
     clickListener : function(){
-        var yo = this;
+       /* var yo = this;
         this.marker.addListener('rightclick', function(event) {
             var parametros = {"html" : yo.marker.html,
                               "icono" : yo.marker.getIcon(),
@@ -44,7 +44,7 @@ var MapaMarcadorEditar = Class({
                     CKEDITOR.replace( "texto-marcador" );
                 }
             }); 
-        });
+        });*/
     }
 });
 
