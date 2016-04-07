@@ -9,6 +9,7 @@ require_once(APPPATH . "helpers/modulo/layout/usuario/Roles.php");
 require_once(APPPATH . "helpers/modulo/layout/sistema/Simulacion.php");
 require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
 require_once(APPPATH . "helpers/modulo/layout/text/MoreLess.php");
+require_once(APPPATH . "helpers/modulo/layout/usuario/Imagen.php");
 
 /**
  * Despliega el menu
@@ -146,6 +147,11 @@ function textMoreLess($string, $largo = 30){
 function htmlSimulacion(){
     $simulacion = New Layout_Sistema_Simulacion();
     return $simulacion->render();
+}
+
+function imagenPerfilUsuario(){
+    $imagen = New Layout_Usuario_Imagen();
+    return $imagen->render();
 }
 
 function estaLogeado(){

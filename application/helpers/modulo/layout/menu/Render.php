@@ -89,7 +89,7 @@ Class Layout_Menu_Render{
                                                "action"     => "index"
                                             ),
                                             
-                                            "Rabia vacunación" => array(
+                                            "Vacunación Antirrábica" => array(
                                               
                                                "controller" => "rabia_vacunacion",
                                                "action"     => "index"

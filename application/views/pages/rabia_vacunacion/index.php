@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1>  Rabia - <small> Vacunación </small>
+            <h1>   Vacunación Antirrábica 
                 <div class="pull-right">
 
                     <!--<a href="<?php echo base_url("embarazo/excel"); ?>" target="_blank" id="descargar" class="btn btn-default btn-square">
@@ -18,7 +18,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
-                <li class="active"><i class="fa fa-bell"></i> Rabia </li>
+                <li class="active"><i class="fa fa-bell"></i>  Vacunación Antirrábica </li>
             </ol>
         </div>
     </div>

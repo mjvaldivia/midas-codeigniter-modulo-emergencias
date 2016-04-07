@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1> Vacunación rabia </h1>
+            <h1>  Vacunación Antirrábica <small> <i class="fa fa-arrow-right"></i> Certificado de Vacunación Antirrábica  </small> </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
-                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("rabia_vacunacion/index") ?>"> Rabia</a></li>
-                <li class="active"><i class="fa fa-bell"></i> Vacunacion </li>
+                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("rabia_vacunacion/index") ?>"> Vacunación Antirrábica</a></li>
+                <li class="active"><i class="fa fa-bell"></i> Formulario  </li>
                 <li class="pull-right"><a href="<?php echo base_url("rabia_vacunacion/index") ?>"> <i class="fa fa-backward"></i> Volver </a></li>
             </ol>
         </div>
@@ -20,7 +20,7 @@
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
                 <legend>
-                    Identificación <div class="pull-right"><small>(*) Campos obligatorios</small></div>
+                    Formulario  <div class="pull-right"><small>(*) Campos obligatorios</small></div>
                 </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body" style="overflow: visible">
@@ -118,8 +118,8 @@
                                         <label for="sexo_animal" class="control-label">Sexo:</label>
                                         <select name="sexo_animal" id="sexo_animal" class="form-control">
                                             <option value=""></option>
-                                            <option value="M" <?php if($sexo_animal == "Masculino" || $sexo_animal == "M") echo "selected" ?>> M </option>
-                                            <option value="F" <?php if($sexo_animal == "Femenino" || $sexo_animal == "F") echo "selected" ?>> F </option>
+                                            <option value="M" <?php if($sexo_animal == "M") echo "selected" ?>> M </option>
+                                            <option value="F" <?php if($sexo_animal == "H") echo "selected" ?>> H </option>
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -208,13 +208,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <label for="vacuna_periodo_proteccion" class="control-label">Periodo de protección:</label>
-                                    <input value="<?php echo $vacuna_periodo_proteccion; ?>" class="form-control" name="vacuna_periodo_proteccion" id="vacuna_periodo_proteccion">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="vacuna_fecha" class="control-label">Fecha vacunación(*):</label>

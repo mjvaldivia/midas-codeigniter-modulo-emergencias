@@ -114,21 +114,6 @@
                     <!-- begin MESSAGES DROPDOWN -->
                     <?= htmlSimulacion(); ?>
 
-                    
-                    <!--<li class="dropdown">
-                        <a href="#" class="-link dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-scroll dropdown-alerts">
-
-                        
-                            <li class="dropdown-header">
-                                <i class="fa fa-envelope"></i> No hay mensajes nuevos
-                            </li>
-
-                            
-                        </ul>
-                    </li>-->
                     <!-- /.dropdown -->
                     <!-- end MESSAGES DROPDOWN -->
                     <!-- begin USER ACTIONS DROPDOWN -->
@@ -195,6 +180,17 @@
             <div class="navbar-collapse sidebar-collapse <?= menuCollapsed("sidebar"); ?>">
                 <ul id="side" class="nav navbar-nav side-nav">
                     <li class="side-user hidden-xs">
+                        <?php echo imagenPerfilUsuario(); ?>
+                        <p class="welcome">
+                            <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
+                        </p>
+                        <p class="name tooltip-sidebar-logout">
+                            {session_nombres}
+                             <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
+                        </p>
+                        <div class="clearfix"></div>
+                    </li>
+                    <!--<li class="side-user hidden-xs">
                         
                         <p class="welcome">
                             <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
@@ -203,7 +199,7 @@
                             {session_nombres} <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
                         </p>
                         <div class="clearfix"></div>
-                    </li>
+                    </li>-->
                     <!--<li class="nav-search">
                         <form role="form">
                             <input type="search" class="form-control" placeholder="Buscar...">
