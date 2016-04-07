@@ -168,8 +168,8 @@ class Rabia_vacunacion extends MY_Controller
             "pages/rabia_vacunacion/form",
             array(
                 "ingresado" => $params["ingreso"],
-                "latitud" => "-36.82013519999999",
-                "longitud" => "-73.0443904"
+                "latitud" => "",
+                "longitud" => ""
             )
         );
     }

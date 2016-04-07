@@ -271,8 +271,8 @@ class Embarazo extends MY_Controller
             "pages/embarazos/form",
             array(
                 "ingresado" => $params["ingreso"],
-                "latitud" => "-27.11299",
-                "longitud" => "-109.34958059999997"
+                "latitud" => "",
+                "longitud" => ""
             )
         );
     }

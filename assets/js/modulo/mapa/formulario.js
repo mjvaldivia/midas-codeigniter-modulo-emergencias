@@ -74,7 +74,9 @@ var MapaFormulario = Class({
      * @returns {undefined}
      */
     seteaLatitud : function(latitud){
-      this.latitud = latitud;  
+        if(latitud != ""){
+            this.latitud = latitud;
+        }
     },
     
     /**
@@ -83,7 +85,9 @@ var MapaFormulario = Class({
      * @returns {undefined}
      */
     seteaLongitud : function(longitud){
-      this.longitud = longitud;  
+        if(longitud != ""){
+            this.longitud = longitud;
+        }
     },
     
     /**
@@ -185,10 +189,7 @@ var MapaFormulario = Class({
                     $('#longitud').val(parseFloat(place.geometry.location.lng()));
                     $('#latitud').val(parseFloat(place.geometry.location.lat()));
                     $('.mapa-coordenadas').trigger("change");
-                    
-                   
-                    
-                    
+
                 });
             });
         }
@@ -211,29 +212,31 @@ var MapaFormulario = Class({
      * @returns {undefined}
      */
     setMarkerInputs : function(){
-        var yo = this;
-        
-        if(this.marker != null){
-            this.marker.setMap(null);
-            this.marker = null;
+        if($('#latitud').val() != "" && $('#longitud').val() != ""){
+            var yo = this;
+
+            if(this.marker != null){
+                this.marker.setMap(null);
+                this.marker = null;
+            }
+
+            var marker = new google.maps.Marker({
+                draggable:true,
+                map: yo.mapa,
+                icon: baseUrl + yo.icon
+            });  
+
+            google.maps.event.addListener(marker, 'dragend', function (){
+                yo.setInputs(marker.getPosition());
+            });
+
+            this.marker = marker;
+
+
+            this.marker.setPosition( new google.maps.LatLng( parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
+            this.mapa.setZoom(18);
+            this.mapa.panTo( new google.maps.LatLng(parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
         }
-        
-        var marker = new google.maps.Marker({
-            draggable:true,
-            map: yo.mapa,
-            icon: baseUrl + yo.icon
-        });  
-
-        google.maps.event.addListener(marker, 'dragend', function (){
-            yo.setInputs(marker.getPosition());
-        });
-
-        this.marker = marker;
-        
-        
-        this.marker.setPosition( new google.maps.LatLng( parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
-        this.mapa.setZoom(18);
-        this.mapa.panTo( new google.maps.LatLng(parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
     },
     
     /**

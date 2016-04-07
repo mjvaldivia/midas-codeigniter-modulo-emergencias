@@ -30,7 +30,7 @@ Class Layout_Usuario_Imagen{
             if(!is_null($usuario)){
                 $rut = explode("-",  $usuario->usu_c_rut);
                 $url = "http://midas.minsal.cl/static/images/personas/".$rut[0].".jpg";
-                $headers = get_headers($url);
+                $headers = @get_headers($url);
                 if(stripos($headers[0],"200 OK")){
                     $imagen = "<img width=\"90px\" class=\"img-circle\" src=\"" . $url . "\" alt=\"\">";
                 }

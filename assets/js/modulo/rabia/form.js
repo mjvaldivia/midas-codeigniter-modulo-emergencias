@@ -13,6 +13,27 @@ $(document).ready(function() {
     mapa.seteaLatitud($("#latitud").val());
     mapa.inicio();
     mapa.cargaMapa(); 
+    
+    if($("#id").val()!=""){
+        mapa.setMarkerInputs();
+    }
+    
+    var opciones = [{"name" : "Perro"},
+                    {"name" : "Gato"}];
+    
+    if($("#especie_animal").val() != ""){
+        opciones.push({"name" : $("#especie_animal").val()});
+    }
+    
+    $('#especie_animal').selectize({
+        persist: false,
+        maxItems: 1,
+        create: true,
+        valueField: 'name',
+        labelField: 'name',
+        searchField: ['name'],
+        options: opciones
+    });
 });
 
 /**

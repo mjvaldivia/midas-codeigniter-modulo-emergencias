@@ -119,7 +119,7 @@
                                         <select name="sexo_animal" id="sexo_animal" class="form-control">
                                             <option value=""></option>
                                             <option value="M" <?php if($sexo_animal == "M") echo "selected" ?>> M </option>
-                                            <option value="F" <?php if($sexo_animal == "H") echo "selected" ?>> H </option>
+                                            <option value="H" <?php if($sexo_animal == "H") echo "selected" ?>> H </option>
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -180,7 +180,7 @@
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
-                                    <label for="vacuna_tipo" class="control-label">Tipo(*):</label>
+                                    <label for="vacuna_tipo" class="control-label">Vacuna Aplicada(*):</label>
                                     <input value="<?php echo $vacuna_tipo; ?>" class="form-control" name="vacuna_tipo" id="vacuna_tipo">
                                     <span class="help-block hidden"></span>
                                 </div>
