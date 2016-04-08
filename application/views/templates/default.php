@@ -180,7 +180,7 @@
             <div class="navbar-collapse sidebar-collapse <?= menuCollapsed("sidebar"); ?>">
                 <ul id="side" class="nav navbar-nav side-nav">
                     <li class="side-user hidden-xs">
-                        <?php echo imagenPerfilUsuario(); ?>
+                        <?php //echo imagenPerfilUsuario(); ?>
                         <p class="welcome">
                             <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
                         </p>
