@@ -181,29 +181,25 @@
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="vacuna_tipo" class="control-label">Vacuna Aplicada(*):</label>
-                                    <input value="<?php echo $vacuna_tipo; ?>" class="form-control" name="vacuna_tipo" id="vacuna_tipo">
+                                    <?php echo formElementSelectVacuna("vacuna_tipo", $vacuna_tipo, array("class" => "form-control")); ?>
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
-                                <div class="form-group clearfix">
-                                    <label for="vacuna_nombre" class="control-label">Nombre comercial(*):</label>
-                                    <input value="<?php echo $vacuna_nombre; ?>" class="form-control" name="vacuna_nombre" id="vacuna_nombre">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
+
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="vacuna_laboratorio" class="control-label">Laboratorio(*):</label>
-                                    <input value="<?php echo $vacuna_laboratorio; ?>" class="form-control" name="vacuna_laboratorio" id="vacuna_laboratorio">
-                                    <span class="help-block hidden"></span>
+                                    <div class="clearfix"></div>
+                                    <div id="texto_vacuna_laboratorio" class="label blue"><?php echo $vacuna_laboratorio; ?></div>
+                                    <input type="hidden" value="<?php echo $vacuna_laboratorio; ?>" class="form-control" name="vacuna_laboratorio" id="vacuna_laboratorio">
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group clearfix">
                                     <label for="vacuna_numero_serie" class="control-label">Numero serie(*):</label>
-                                    <input value="<?php echo $vacuna_numero_serie; ?>" class="form-control" name="vacuna_numero_serie" id="vacuna_numero_serie">
-                                    <span class="help-block hidden"></span>
+                                    <div class="clearfix"></div>
+                                    <div id="texto_vacuna_numero_serie" class="label blue"><?php echo $vacuna_numero_serie; ?></div>
+                                    <input type="hidden" value="<?php echo $vacuna_numero_serie; ?>" class="form-control" name="vacuna_numero_serie" id="vacuna_numero_serie">
                                 </div>
                             </div>
                         </div>

@@ -37,7 +37,8 @@ class Rabia_vacunacion extends MY_Controller
        $this->load->helper(
             array(
                 "modulo/emergencia/emergencia",
-                "modulo/formulario/formulario"
+                "modulo/formulario/formulario",
+                "modulo/vacuna/vacuna"
             )
         );
         $params = $this->input->get(null, true);
@@ -158,7 +159,8 @@ class Rabia_vacunacion extends MY_Controller
         $this->load->helper(
             array(
                 "modulo/emergencia/emergencia",
-                "modulo/formulario/formulario"
+                "modulo/formulario/formulario",
+                "modulo/vacuna/vacuna"
             )
         );
         $params = $this->uri->uri_to_assoc();
@@ -172,6 +174,25 @@ class Rabia_vacunacion extends MY_Controller
                 "longitud" => ""
             )
         );
+    }
+    
+    /**
+     * 
+     */
+    public function json_vacuna(){
+        header('Content-type: application/json');
+        $params = $this->input->post(null, true);
+        
+        $this->load->model("vacuna_model","_vacuna_model");
+        $vacuna = $this->_vacuna_model->getById($params["id"]);
+        if(!is_null($vacuna)){
+            $json = array("correcto" => true,
+                          "laboratorio" => $vacuna->nombre_laboratorio,
+                          "numero" => $vacuna->numero_serie);
+            echo Zend_Json::encode($json);
+        } else {
+            echo Zend_Json::encode(array("correcto" => false)); 
+        }
     }
     
     /**

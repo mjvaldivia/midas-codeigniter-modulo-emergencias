@@ -5,6 +5,41 @@ $(document).ready(function() {
        var parametros = $("#form").serializeArray();
        guardar(parametros);
     });
+    
+    $("#vacuna_tipo").change(function(){
+        
+        if($(this).val() != ""){
+            var parametros = {"id" : $(this).val()};
+
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: true,
+                data: parametros,
+                type: "post",
+                url: siteUrl + "rabia_vacunacion/json_vacuna", 
+                error: function(xhr, textStatus, errorThrown){},
+                success:function(data){
+                    if(data.correcto == true){
+
+                        $("#texto_vacuna_laboratorio").html(data.laboratorio);
+                        $("#vacuna_laboratorio").val(data.laboratorio);
+                        
+                        $("#texto_vacuna_numero_serie").html(data.numero);
+                        $("#vacuna_numero_serie").val(data.numero);
+                    } else {
+
+                    }
+                }
+            });
+        } else {
+            $("#texto_vacuna_laboratorio").html("");
+            $("#vacuna_laboratorio").val("");
+
+            $("#texto_vacuna_numero_serie").html("");
+            $("#vacuna_numero_serie").val("");
+        }
+    });
         
     var mapa = new MapaFormulario("mapa");
     mapa.seteaIcono("assets/img/markers/otros/animal.png");

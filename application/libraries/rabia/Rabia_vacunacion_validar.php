@@ -94,27 +94,13 @@ Class Rabia_vacunacion_validar{
             $this->_error["vacuna_tipo"] = "";
         }
         
-        if(!$this->validar->validarVacio($params["vacuna_nombre"])){
+        if(!$this->validar->validarVacio($params["vacuna_tipo"])){
             $this->_correcto = false;
-            $this->_error["vacuna_nombre"] = "Este dato no puede estar vacío";
+            $this->_error["vacuna_tipo"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["vacuna_nombre"] = "";
+            $this->_error["vacuna_tipo"] = "";
         }
-        
-        if(!$this->validar->validarVacio($params["vacuna_laboratorio"])){
-            $this->_correcto = false;
-            $this->_error["vacuna_laboratorio"] = "Este dato no puede estar vacío";
-        } else {
-            $this->_error["vacuna_laboratorio"] = "";
-        }
-        
-        if(!$this->validar->validarVacio($params["vacuna_numero_serie"])){
-            $this->_correcto = false;
-            $this->_error["vacuna_numero_serie"] = "Este dato no puede estar vacío";
-        } else {
-            $this->_error["vacuna_numero_serie"] = "";
-        }
-        
+                
         $separada = explode("/", $params["vacuna_fecha"]);
         if(count($separada) == 3 AND strlen($separada[count($separada)-1]) == 4){
             if(!$this->validar->validarFechaSpanish($params["vacuna_fecha"], "d/m/Y")){
