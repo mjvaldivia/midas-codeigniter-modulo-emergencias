@@ -22,7 +22,7 @@ Class Layout_Usuario_Imagen{
      */
     public function render(){
         
-        $imagen = "";
+      /*  $imagen = "";
         
         $cache = Cache::iniciar();
         if(!($imagen = $cache->load("imagen_perfil_" . $this->_ci->session->userdata('session_idUsuario')))){
@@ -37,6 +37,6 @@ Class Layout_Usuario_Imagen{
             }
             $cache->save($imagen, "imagen_perfil_" . $this->_ci->session->userdata('session_idUsuario'));
         }
-        return $imagen;
+        return $imagen;*/
     }
 }
