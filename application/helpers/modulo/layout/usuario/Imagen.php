@@ -29,7 +29,7 @@ Class Layout_Usuario_Imagen{
             $usuario = $this->_ci->_usuario_model->getById($this->_ci->session->userdata('session_idUsuario'));
             if(!is_null($usuario)){
                 $rut = explode("-",  $usuario->usu_c_rut);
-                $url = "http://midas.minsal.cl/static/images/personas/".$rut[0].".jpg";
+                $url = "http://192.168.10.165/static/images/personas/".$rut[0].".jpg";
                 $headers = @get_headers($url);
                 if(stripos($headers[0],"200 OK")){
                     $imagen = "<img width=\"90px\" class=\"img-circle\" src=\"" . $url . "\" alt=\"\">";

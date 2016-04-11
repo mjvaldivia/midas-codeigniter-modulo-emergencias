@@ -176,11 +176,12 @@
         <!-- end TOP NAVIGATION -->
 
         <!-- begin SIDE NAVIGATION -->
-        <nav class="navbar-side <?= menuCollapsed("navbar"); ?> <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
-            <div class="navbar-collapse sidebar-collapse <?= menuCollapsed("sidebar"); ?>">
+        <nav class="navbar-side <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
+            <div class="navbar-collapse sidebar-collapse collapse">
                 <ul id="side" class="nav navbar-nav side-nav">
+
                     <li class="side-user hidden-xs">
-                        <?php //echo imagenPerfilUsuario(); ?>
+                        <?php echo imagenPerfilUsuario(); ?>
                         <p class="welcome">
                             <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
                         </p>
@@ -218,7 +219,7 @@
         <!-- end SIDE NAVIGATION -->
 
         <!-- begin MAIN PAGE CONTENT -->
-        <div id="page-wrapper" class="<?= menuCollapsed("navbar"); ?>">
+        <div id="page-wrapper">
 
             <div class="page-content">
                 {body}

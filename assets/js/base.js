@@ -174,7 +174,7 @@ $(document).ready(function() {
         });  
     });
     
-    $("#sidebar-toggle").click(function(e) {
+   /* $("#sidebar-toggle").click(function(e) {
         e.preventDefault();
         $(".navbar-side").toggleClass("collapsed");
         $("#page-wrapper").toggleClass("collapsed");
@@ -200,7 +200,7 @@ $(document).ready(function() {
             }
         });
         
-    });
+    });*/
     
     
     /**
