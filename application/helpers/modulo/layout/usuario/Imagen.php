@@ -30,9 +30,10 @@ Class Layout_Usuario_Imagen{
             if(!is_null($usuario)){
                 $rut = explode("-",  $usuario->usu_c_rut);
                 $url = "http://192.168.10.165/static/images/personas/".$rut[0].".jpg";
+                $url_midas = "http://midas.minsal.cl/static/images/personas/".$rut[0].".jpg";
                 $headers = @get_headers($url);
                 if(stripos($headers[0],"200 OK")){
-                    $imagen = "<img width=\"90px\" class=\"img-circle\" src=\"" . $url . "\" alt=\"\">";
+                    $imagen = "<img width=\"90px\" class=\"img-circle\" src=\"" . $url_midas . "\" alt=\"\">";
                 }
             }
             $cache->save($imagen, "imagen_perfil_" . $this->_ci->session->userdata('session_idUsuario'));
