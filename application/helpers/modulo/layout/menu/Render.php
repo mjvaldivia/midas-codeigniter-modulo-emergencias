@@ -137,7 +137,7 @@ Class Layout_Menu_Render{
         $this->_controller = $this->ci->router->fetch_class();
         $this->_action = $this->ci->router->fetch_method();
         $this->usuario = New Usuario();
-        $this->_session       = New CI_Session();
+        $this->_session = New CI_Session();
     }
        
     /**
