@@ -73,7 +73,7 @@ Class Layout_Menu_Render{
                                                             "controller" => "mantenedor_documentos",
                                                             "action" => "index",
                                                             "child" => array()), 
-                                    "Vigilancia" => array(
+                                    /*"Vigilancia" => array(
                                         "icon_class" => "fa-warning",      
                                         "permiso" => "casos_febriles",
                                         "child" => array(
@@ -95,7 +95,7 @@ Class Layout_Menu_Render{
                                                "action"     => "index"
                                             )
                                         ),
-                                    ),
+                                    ),*/
                                     "Usuarios" => array("icon_class" => "fa-users",
                                                         "rol" => "administrador",
                                                         "controller" => "",
