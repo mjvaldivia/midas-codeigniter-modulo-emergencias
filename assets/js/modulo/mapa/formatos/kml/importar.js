@@ -107,15 +107,19 @@ var MapaKmlImportar = Class({
                         
                         $.each(data.response.elementos, function(i, elemento){
                             if(elemento["tipo"] == "PUNTO"){
+                                
                                  var marcador = new MapaKmlImportarMarcador();
                                  marcador.seteaMapa(yo.mapa);
+                                 
+                             
+                                 
+                                 
                                  marcador.posicionarMarcador(
                                          "kml_" + data.response.hash, 
                                          null, 
                                          elemento["coordenadas"]["lat"], 
                                          elemento["coordenadas"]["lon"], 
-                                         {"NOMBRE" : elemento["nombre"],
-                                          "TIPO" : data.response.nombre}, 
+                                         elemento["propiedades"], 
                                          elemento["descripcion"], 
                                          baseUrl + elemento["icono"]
                                 );

@@ -284,10 +284,30 @@ Class Kml_descomponer{
                 $nombre = "SIN NOMBRE";
             }
             
+            
+            
+            
             if(isset($elemento["description"])){
                 $descripcion = $elemento["description"];
             } else {
                 $descripcion = "SIN DESCRIPCIÓN";
+            }
+            
+            if(isset($elemento["ExtendedData"])){
+                if(isset($elemento["ExtendedData"]["SchemaData"])){
+                    foreach($elemento["ExtendedData"]["SchemaData"]["SimpleData"] as $simple_data){
+                        if(isset($simple_data["@text"])){
+                            
+                            if($simple_data["@attributes"]["name"] == "PopupInfo"){
+                                $descripcion = $simple_data["@text"];
+                            }
+                            
+                            $propiedades[$simple_data["@attributes"]["name"]] = $simple_data["@text"];
+                        }
+                    }
+                }
+            } else {
+                $propiedades = array("NOMBRE" => $nombre);
             }
             
             //marcador por defecto
@@ -303,6 +323,7 @@ Class Kml_descomponer{
                 "nombre" => $nombre,
                 "icono" => $icono,
                 "descripcion" => $descripcion,
+                "propiedades" => $propiedades,
                 "tipo" => "PUNTO",
                 "coordenadas" => 
                     array(
