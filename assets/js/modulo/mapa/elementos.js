@@ -12,6 +12,14 @@ var MapaElementos = Class({
         this.id_emergencia = id;
     },
     
+    /**
+     * 
+     * @param {type} id
+     * @param {type} propiedades
+     * @param {type} coordenadas
+     * @param {type} color
+     * @returns {undefined}
+     */
     dibujarLinea : function(id, propiedades, coordenadas, color){
         var yo = this;
         var linea = new google.maps.Polyline({

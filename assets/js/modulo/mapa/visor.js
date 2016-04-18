@@ -31,6 +31,11 @@ var Visor = Class({
         this.id_emergencia = id;
     },
     
+    /**
+     * 
+     * @param {type} zoom
+     * @returns {undefined}
+     */
     seteaZoom : function(zoom){
         this.zoom = zoom;
     },

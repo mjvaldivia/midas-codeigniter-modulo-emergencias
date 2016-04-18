@@ -245,6 +245,7 @@ class Mapa_kml extends MY_Controller {
                 $this->kml_create->addPoligon("PRUEBA", $elemento["coordenadas"], $elemento["color"], $elemento["informacion"]);
             }
             
+    
             $lista_marcadores = Zend_Json::decode($params["marcadores"]);
             foreach($lista_marcadores as $marcador){
                 $this->kml_create->addMarker($marcador["posicion"], $marcador["icono"], $marcador["informacion"]);

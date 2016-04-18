@@ -285,10 +285,7 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlImportar : function (map) {
-        
-        
-        
-        
+
         /**
          * Popup para subir kml
          */
@@ -497,9 +494,7 @@ var MapaEditor = Class({
                         }
                     }
             });
-            
-           
-            
+
             var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                               "id" : this.id_emergencia};
             

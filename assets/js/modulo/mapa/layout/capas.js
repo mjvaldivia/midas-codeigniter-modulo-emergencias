@@ -44,6 +44,10 @@ var MapaLayoutCapas = Class({
         });
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     checkCapasRelacionadas : function(){
         var yo = this;
         $.ajax({         

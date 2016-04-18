@@ -106,22 +106,18 @@ var MapaKmlImportar = Class({
                         bootbox.hideAll();
                         
                         $.each(data.response.elementos, function(i, elemento){
+                            
                             if(elemento["tipo"] == "PUNTO"){
-                                
-                                 var marcador = new MapaKmlImportarMarcador();
-                                 marcador.seteaMapa(yo.mapa);
-                                 
-                             
-                                 
-                                 
-                                 marcador.posicionarMarcador(
-                                         "kml_" + data.response.hash, 
-                                         null, 
-                                         elemento["coordenadas"]["lat"], 
-                                         elemento["coordenadas"]["lon"], 
-                                         elemento["propiedades"], 
-                                         elemento["descripcion"], 
-                                         baseUrl + elemento["icono"]
+                                var marcador = new MapaKmlImportarMarcador();
+                                marcador.seteaMapa(yo.mapa);
+                                marcador.posicionarMarcador(
+                                    "kml_" + data.response.hash, 
+                                    null, 
+                                    elemento["coordenadas"]["lat"], 
+                                    elemento["coordenadas"]["lon"], 
+                                    elemento["propiedades"], 
+                                    elemento["descripcion"], 
+                                    baseUrl + elemento["icono"]
                                 );
                             }
                             
@@ -135,7 +131,8 @@ var MapaKmlImportar = Class({
                                     elemento["coordenadas"], 
                                     {"NOMBRE" : elemento["nombre"]},
                                     null, 
-                                    elemento["color"]);
+                                    elemento["color"]
+                                );
                             }
                             
                             if(elemento["tipo"] == "MULTIPOLIGONO"){
@@ -148,7 +145,8 @@ var MapaKmlImportar = Class({
                                     elemento["coordenadas"], 
                                     {"NOMBRE" : elemento["nombre"]},
                                     null, 
-                                    elemento["color"]);
+                                    elemento["color"]
+                                );
                             }
                             
                             if(elemento["tipo"] == "LINEA"){
@@ -160,7 +158,8 @@ var MapaKmlImportar = Class({
                                     elemento["coordenadas"]["linea"],
                                     {"NOMBRE" : elemento["nombre"]},
                                     null,
-                                    elemento["color"]);
+                                    elemento["color"]
+                                );
                             }
                         });
                         
@@ -175,6 +174,7 @@ var MapaKmlImportar = Class({
                         lista_kml.push(kml);
 
                         var archivos = new MapaArchivos();
+                        archivos.seteaMapa(yo.mapa);
                         archivos.updateListaArchivosAgregados();
                     } else {
                         procesaErrores(data.response.errores);
