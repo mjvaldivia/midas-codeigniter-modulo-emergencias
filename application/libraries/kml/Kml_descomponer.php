@@ -311,12 +311,19 @@ Class Kml_descomponer{
             }
             
             //marcador por defecto
-            $icono = "assets/img/markers/spotlight-poi.png";
+            $icono = "";
             if(isset($elemento["styleUrl"])){
                 $id = str_replace("#", "", $elemento["styleUrl"]);
                 if(isset($this->_styles[$id]["icono"]["path"])){
                     $icono = $this->_styles[$id]["icono"]["path"];
                 }
+            }
+            
+            //si no se encuentra un marcador, se copia el marcador por defecto
+            if($icono == ""){
+                $file = "marker_" . $this->_ci->string->rand_string(10) . ".png";
+                copy(FCPATH . "assets/img/markers/spotlight-poi.png", $this->_dir_temp . "/" . $file);
+                $icono = str_replace(FCPATH, "", $this->_dir_temp . "/" . $file);
             }
             
             $this->_elementos[] = array(
