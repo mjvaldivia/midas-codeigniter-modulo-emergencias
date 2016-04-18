@@ -290,7 +290,8 @@ Class Kml_descomponer{
                 $descripcion = "SIN DESCRIPCIÓN";
             }
             
-            $icono = "";
+            //marcador por defecto
+            $icono = "assets/img/markers/spotlight-poi.png";
             if(isset($elemento["styleUrl"])){
                 $id = str_replace("#", "", $elemento["styleUrl"]);
                 if(isset($this->_styles[$id]["icono"]["path"])){
