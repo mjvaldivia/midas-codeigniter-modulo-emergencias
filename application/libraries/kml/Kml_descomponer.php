@@ -72,9 +72,7 @@ Class Kml_descomponer{
             $this->_findStyles($data);
             $this->_findStylesMap($data);
         }
-        
-        fb($this->_placemarks);
-        
+                
         if(count($this->_placemarks)>0){
             foreach($this->_placemarks as $key => $placemark){
                 if(isset($placemark[0])){

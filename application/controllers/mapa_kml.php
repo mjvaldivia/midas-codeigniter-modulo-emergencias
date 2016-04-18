@@ -118,7 +118,6 @@ class Mapa_kml extends MY_Controller {
      * Sube KML a archivo temporal
      */
     public function upload_kml(){
-        error_reporting(0);
         header('Content-type: application/json');
         
         $this->load->library(

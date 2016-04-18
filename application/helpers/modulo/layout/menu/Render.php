@@ -73,7 +73,7 @@ Class Layout_Menu_Render{
                                                             "controller" => "mantenedor_documentos",
                                                             "action" => "index",
                                                             "child" => array()), 
-                                    /*"Vigilancia" => array(
+                                    "Vigilancia" => array(
                                         "icon_class" => "fa-warning",      
                                         "permiso" => "casos_febriles",
                                         "child" => array(
@@ -88,14 +88,14 @@ Class Layout_Menu_Render{
                                                "controller" => "embarazo",
                                                "action"     => "index"
                                             ),
-                                            
+                                            /*
                                             "Vacunación Antirrábica" => array(
                                               
                                                "controller" => "rabia_vacunacion",
                                                "action"     => "index"
-                                            )
+                                            )*/
                                         ),
-                                    ),*/
+                                    ),
                                     "Usuarios" => array("icon_class" => "fa-users",
                                                         "rol" => "administrador",
                                                         "controller" => "",
