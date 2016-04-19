@@ -170,7 +170,6 @@ class Mantenedor_rol extends MY_Controller {
     {
         $params = $this->input->post(null, true);
         $lista = $this->modulo_model->listarModulosEmergencia();
-        fb($lista);
         $this->load->view("pages/mantenedor_rol/form-permisos", 
                           array("lista" => $lista,
                                 "id_rol" => $params["id"]));

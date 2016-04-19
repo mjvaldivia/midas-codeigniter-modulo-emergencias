@@ -204,6 +204,39 @@ class Mapa extends MY_Controller {
     /**
      * 
      */
+    public function info_hospitales(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("hospital_model", "_hospital_model");
+        
+        $lista = $this->_hospital_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "HOSPITAL";
+
+                
+                $coordenadas = json_decode($row["coordenadas"]);
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
+                                 "id_estado" => $row["id_estado"],
+                                 "lat" => $coordenadas->lat,
+                                 "lng" => $coordenadas->lng);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    /**
+     * 
+     */
     public function info_rabia_vacunacion(){
         $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 

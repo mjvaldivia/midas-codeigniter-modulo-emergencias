@@ -1,6 +1,12 @@
 <li class="dropdown-header"> OTROS </li>
 <li>
     <a id="btn-importar-sidco" href="javascript:void(0)">
+        <input type="checkbox" name="hospitales" id="hospitales" value="1"/> 
+        <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/hospital-verde.png") ?>"></i> Hospitales
+    </a>
+</li>
+<li>
+    <a id="btn-importar-sidco" href="javascript:void(0)">
         <input type="checkbox" name="importar_sidco" id="importar_sidco" value="1"/> 
         <i class="fa fa-fire"></i> Sidco - Conaf 
     </a>

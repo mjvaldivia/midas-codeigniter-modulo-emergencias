@@ -68,7 +68,7 @@
 <?= loadJS("assets/js/modulo/mapa/externo/rabia/vacunacion.js"); ?>
 <!-- Externos -->
 <?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>
-
+<?= loadJS("assets/js/modulo/mapa/externo/hospital.js"); ?>
 <!-- LAYOUT -->
 <?= loadJS("assets/js/modulo/mapa/layout/input/busqueda.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/layout/ambito.js"); ?>

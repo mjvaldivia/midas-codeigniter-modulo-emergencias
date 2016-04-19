@@ -72,7 +72,15 @@ Class Layout_Menu_Render{
                                                             "permiso" => "documentacion",
                                                             "controller" => "mantenedor_documentos",
                                                             "action" => "index",
-                                                            "child" => array()), 
+                                                            "child" => array()),
+           
+                                    "Hospitales" => array(
+                                        "icon_class" => "fa-hospital-o",
+                                        "controller" => "hospital",
+                                        "action" => "index",
+                                        "child" => array()
+                                    ), 
+           
                                     "Vigilancia" => array(
                                         "icon_class" => "fa-warning",      
                                         "permiso" => "casos_febriles",

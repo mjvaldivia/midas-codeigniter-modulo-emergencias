@@ -356,6 +356,21 @@ var MapaEditor = Class({
         /**
          * Importar embarazadas
          */
+        $("#hospitales").livequery(function(){
+            $(this).click(function(){
+                var hospitales = new MapaHospital();
+                hospitales.seteaMapa(map);
+                if($(this).is(":checked")){
+                    hospitales.load();
+                } else {
+                    hospitales.remove();
+                }
+            });
+        });
+        
+        /**
+         * Importar embarazadas
+         */
         $("#importar_rapanui_embarazo").livequery(function(){
             $(this).click(function(){
                 var rapanui = new MapaIslaDePascuaEmbarazadas();
