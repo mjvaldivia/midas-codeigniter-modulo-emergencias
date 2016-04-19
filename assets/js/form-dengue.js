@@ -75,9 +75,9 @@ $(document).ready(function() {
     mapa.inicio();
     mapa.cargaMapa(); 
     
-    if($("#id").val()!=""){
+    //if($("#id").val()!=""){
         mapa.setMarkerInputs();
-    }
+    //}
 });
 
 /**

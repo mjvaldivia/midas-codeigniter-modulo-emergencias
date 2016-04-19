@@ -81,8 +81,8 @@ class Formulario extends MY_Controller
             "pages/formulario/form-dengue",
             array(
                 "ingresado" => $params["ingreso"],
-                "latitud" => "",
-                "longitud" => ""
+                "latitud" => "-27.11299",
+                "longitud" => "-109.34958059999997"
             )
         );
     }
