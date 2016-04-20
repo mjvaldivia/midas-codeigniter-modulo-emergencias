@@ -717,7 +717,7 @@
                                         <th width="20%">TIPO DE MUESTRA</th>
                                         <th width="10%">Sangre</th>
                                         <th width="10%">Orina</th>
-                                        <th width="10%">LCE</th>
+                                        <th width="10%">LCR</th>
                                         <th width="25%">Fecha de toma</th>
                                         <th width="25%">Rechaza toma de muestra</th>
                                     </tr>
@@ -744,8 +744,8 @@
                                             <td align="center">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input name="muestra_pcr_lce" type="hidden" value="No" />
-                                                        <input id="muestra_pcr_lce" name="muestra_pcr_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_pcr_lce); ?>>
+                                                        <input name="muestra_pcr_lcr" type="hidden" value="No" />
+                                                        <input id="muestra_pcr_lcr" name="muestra_pcr_lcr" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_pcr_lcr); ?>>
                                                     </label>
                                                 </div>
                                             </td>
@@ -780,8 +780,8 @@
                                             <td align="center">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input name="muestra_serologia_lce" type="hidden" value="No" />
-                                                        <input id="muestra_serologia_lce" name="muestra_serologia_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_serologia_lce); ?>>
+                                                        <input name="muestra_serologia_lcr" type="hidden" value="No" />
+                                                        <input id="muestra_serologia_lcr" name="muestra_serologia_lcr" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_serologia_lcr); ?>>
                                                     </label>
                                                 </div>
                                             </td>
@@ -816,8 +816,8 @@
                                             <td align="center">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input name="muestra_frotis_lce" type="hidden" value="No" />
-                                                        <input id="muestra_frotis_lce" name="muestra_frotis_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_frotis_lce); ?>>
+                                                        <input name="muestra_frotis_lcr" type="hidden" value="No" />
+                                                        <input id="muestra_frotis_lcr" name="muestra_frotis_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_frotis_lcr); ?>>
                                                     </label>
                                                 </div>
                                             </td>
@@ -854,8 +854,8 @@
                                             <td align="center">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input name="muestra_otro_lce" type="hidden" value="No" />
-                                                        <input id="muestra_otro_lce" name="muestra_otro_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_lce); ?>>
+                                                        <input name="muestra_otro_lcr" type="hidden" value="No" />
+                                                        <input id="muestra_otro_lcr" name="muestra_otro_lcr" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_lcr); ?>>
                                                     </label>
                                                 </div>
                                             </td>
