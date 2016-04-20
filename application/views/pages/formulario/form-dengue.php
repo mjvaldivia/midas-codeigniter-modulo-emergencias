@@ -854,8 +854,8 @@
                                             <td align="center">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input name="muestra_otro_lce" type="hidden" value="No" />
-                                                        <input id="muestra_otro_lce" name="muestra_otro_lce" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_lce); ?>>
+                                                        <input name="muestra_otro_lcr" type="hidden" value="No" />
+                                                        <input id="muestra_otro_lcr" name="muestra_otro_lcr" type="checkbox" <?= formValueEmergenciaTipoChecked("Si", $muestra_otro_lcr); ?>>
                                                     </label>
                                                 </div>
                                             </td>
