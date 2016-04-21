@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1>  Gestión de vigilancia de Trampas
+            <h1>  Monitoreo de Trampas
                 <div class="pull-right">
 
                     <!--<a href="<?php echo base_url("trampas/excel"); ?>" target="_blank" id="descargar" class="btn btn-default btn-square">

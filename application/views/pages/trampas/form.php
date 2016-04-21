@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1> Gestión de vigilancia de Trampas </h1>
+            <h1> Monitoreo de Trampas </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
                 <li><i class="fa fa-list"></i> <a href="<?php echo base_url("trampas/index") ?>"> Trampas</a></li>
@@ -65,15 +65,17 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-xs-12 col-md-8">
+                                        <div class="col-xs-12">
                                             <div class="form-group clearfix">
-                                                <label for="direccion" class="control-label">Dirección de
-                                                    residencia/trabajo o de estadía (*):</label>
+                                                <label for="direccion" class="control-label">Dirección de la trampa
+                                                    (*):</label>
                                                 <input value="<?php echo $direccion; ?>" class="form-control"
                                                        name="direccion" id="direccion">
                                                 <span class="help-block hidden"></span>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-xs-12 col-md-4">
                                             <div class="form-group clearfix">
                                                 <label class="control-label">Fecha instalación (*)</label>
@@ -87,12 +89,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="form-group clearfix">
+                                                <label class="control-label">Tipo (*)</label>
+                                                <select class="form-control" name="tipo" id="tipo">
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="1" <?php if($tipo == 1):?> selected <?php endif;?> >Vigilancia</option>
+                                                    <option value="2" <?php if($tipo == 2):?> selected <?php endif;?> >Hallazgo</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="form-group clearfix">
-                                                <label class="control-label">Acciones (*)</label>
+                                                <label class="control-label">Observaciones (*)</label>
                                                 <textarea class="form-control col-xs-12" rows="8" name="acciones"
                                                           id="acciones"><?php echo $acciones ?></textarea>
                                             </div>
@@ -144,7 +156,7 @@
                         <div class="col-xs-12">
                             <form class="form-horizontal" role="form" id="form-inspeccion">
                                 <legend>Nueva inspección</legend>
-                                <input type="hidden" name="id_trampa" name="id_trampa" value="<?php echo $id?>" />
+                                <input type="hidden" name="id_trampa" name="id_trampa" value="<?php echo $id ?>"/>
                                 <div class="row">
                                     <div class="col-xs-12 col-md-5">
                                         <div class="form-group clearfix">
@@ -161,7 +173,7 @@
                                         </div>
                                         <div class="form-group clearfix">
                                             <div class="col-xs-12 col-md-3">
-                                                <label class="control-label">Hallazgo</label>
+                                                <label class="control-label">Presencia</label>
                                                 <select class="form-control" name="hallazgo_inspeccion"
                                                         id="hallazgo_inspeccion">
                                                     <option value="">------</option>
@@ -189,12 +201,14 @@
                                         </div>
                                         <div class="form-group clearfix">
                                             <div class="col-xs-12" style="margin-top:10px">
-                                                <button type="button" class="btn btn-primary" id="agregar_inspeccion">Agregar</button>
+                                                <button type="button" class="btn btn-primary" id="agregar_inspeccion">
+                                                    Agregar
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-md-7" id="contenedor-grilla-inspecciones">
-                                        <?php echo $grilla_inspecciones?>
+                                        <?php echo $grilla_inspecciones ?>
                                     </div>
                                 </div>
                             </form>

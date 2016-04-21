@@ -42,11 +42,14 @@ class Trampas extends CI_Controller
 
                 $propiedades = json_decode($caso["gl_propiedades_trampa"]);
 
-                $casos[] = array("id" => $caso["id_trampa"],
+                $casos[] = array(
+                    "id" => $caso["id_trampa"],
                     "id_usuario" => $caso["cd_usuario_trampa"],
                     "fecha" => $fecha_formato,
                     "direccion" => strtoupper($propiedades->DIRECCION),
-                    "fecha_instalacion" => $propiedades->FECHA);
+                    "fecha_instalacion" => $propiedades->FECHA,
+                    "tipo" => $propiedades->TIPO
+                    );
 
             }
         }
@@ -125,9 +128,9 @@ class Trampas extends CI_Controller
                         "gl_propiedades_trampa" => json_encode($arreglo),
                         "gl_coordenadas_trampa" => json_encode($coordenadas)
                     ),
-                    $caso->id
+                    $caso->id_trampa
                 );
-                $id = $caso->id;
+                $id = $caso->id_trampa;
             }
 
             echo json_encode(
