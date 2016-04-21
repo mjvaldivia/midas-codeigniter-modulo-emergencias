@@ -31,7 +31,7 @@ $(document).ready(function() {
     
     $(".datepicker:input").livequery(function(){
         $(this).datetimepicker({
-            format: "DD-MM-YYYY hh:mm",
+            format: "DD-MM-YYYY HH:mm",
             locale: "es"
         });
     });
