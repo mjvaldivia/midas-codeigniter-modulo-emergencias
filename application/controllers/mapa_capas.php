@@ -30,14 +30,31 @@ class Mapa_capas extends MY_Controller {
      * 
      */
     public function __construct() {
+        header("Access-Control-Allow-Origin: *");
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
         $this->load->model("emergencia_mapa_configuracion_model", "_emergencia_mapa_configuracion_model");
         $this->load->model("emergencia_capa_model", "_emergencia_capa_model");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("capa_detalle_model", "_capa_detalle_model");
+        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
         $this->load->model("capa_model", "_capa_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
+    }
+    
+    /**
+     * 
+     */
+    public function json_capa_hospital(){
+        header('Content-type: application/json');  
+        $params = $this->uri->uri_to_assoc();
+        $lista = $this->_capa_detalle_elemento_model->listarPorComunaRegion($params["subcapa"], $params["region"]);
+        
+        $retorno = array();
+        foreach($lista as $capa){
+            $retorno[] = unserialize($capa["poligono_propiedades"]);
+        }
+        echo Zend_Json::encode($retorno);
     }
     
     /**
