@@ -68,7 +68,20 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
             $lista_comunas[] = $com->com_ia_id;
         }
         
-        return $this->listarPorSubcapa($id_subcapa, $lista_comunas, array(0), array(0));
+        $query = $this->_query->select("p.*")
+                              ->from($this->_tabla . " p")
+                              ->whereAND("p.poligono_capitem", $id_subcapa, "=");
+        
+        $query->addWhere("(p.poligono_comuna IN (".  implode(",", $lista_comunas)  . ")");
+   
+        $result = $query->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+        
+        
     }
     
     /**
