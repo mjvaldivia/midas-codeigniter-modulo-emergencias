@@ -72,7 +72,7 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
                               ->from($this->_tabla . " p")
                               ->whereAND("p.poligono_capitem", $id_subcapa, "=");
         
-        $query->addWhere("(p.poligono_comuna IN (".  implode(",", $lista_comunas)  . ")");
+        $query->addWhere("p.poligono_comuna IN (".  implode(",", $lista_comunas)  . ")");
    
         $result = $query->getAllResult();
         if (!is_null($result)){
