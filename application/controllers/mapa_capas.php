@@ -47,14 +47,24 @@ class Mapa_capas extends MY_Controller {
      */
     public function json_capa_hospital(){
         header('Content-type: application/json');  
-        $params = $this->uri->uri_to_assoc();
+        $params = $this->input->post(null, true);
         $lista = $this->_capa_detalle_elemento_model->listarPorComunaRegion($params["subcapa"], $params["region"]);
         
         $retorno = array();
         foreach($lista as $capa){
-            $retorno[] = unserialize($capa["poligono_propiedades"]);
+            $retorno[] = array(
+                "id" => $capa["poligono_id"],
+                "propiedades" => unserialize($capa["poligono_propiedades"])
+            );
         }
         echo Zend_Json::encode($retorno);
+    }
+    
+    public function json_capa_elemento(){
+        header('Content-type: application/json');  
+        $params = $this->input->post(null, true);
+        $lista = $this->_capa_detalle_elemento_model->getById($params["id"]);
+        echo Zend_Json::encode($lista);
     }
     
     /**
