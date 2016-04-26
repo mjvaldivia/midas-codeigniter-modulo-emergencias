@@ -52,7 +52,7 @@
 
                                   <?php } ?>
                                   
-                                  <?php if (puedeFinalizarEmergencia()) { ?>
+                                  <?php if (puedeFinalizarEmergencia("emergencia")) { ?>
 
                                       <button title="Finalizar emergencia" class="btn btn-sm btn-warning emergencia-cerrar" type="button" data="<?php echo $row["eme_ia_id"] ?>" href="#">
                                           <i class="fa fa-thumb-tack"></i> 
@@ -67,14 +67,6 @@
                                       </button>
 
                                   <?php } ?>
-                                  
-                                  <?php if (puedeEliminar("emergencia")) { ?>
-
-                                      <button title="Eliminar" class="btn btn-sm btn-danger emergencia-eliminar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" href="#" >
-                                          <i class="fa fa-trash"></i>
-                                      </button>
-                                  <?php } ?>
-
                         </div>
                     </div>
                 </td>                

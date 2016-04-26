@@ -25,7 +25,7 @@ function ISODateTospanish($sDate, $time = true) {
         return null;
     if ($time) {
         $formatos = array(
-            array("Y#m#d H#i#s", "d-m-Y H:i"),
+            array("Y#m#d H#i#s", "d/m/Y H:i"),
             array("Y#m#d H#i", "d-m-Y H:i"),
             array("Y#m#d", "d-m-Y")
         );

@@ -56,7 +56,7 @@ Class Direccion_Form_Element_SelectComuna{
      * @return string html
      */
     public function render($default = array()){
-        $this->_element->addAtributos(array("multiple" => "true", "class" => "select2-tags", "data-placeholder" => "Seleccione una opción"));
+        $this->_element->addAtributos(array("multiple" => "true", "class" => "form-control select2-tags", "data-placeholder" => "Seleccione una opción"));
         $this->_element->setNombre($this->_nombre);
         $this->_element->populate($this->_listar());
         $this->_element->setOptionId("com_ia_id");

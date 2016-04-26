@@ -19,7 +19,25 @@ class Evento extends MY_Controller {
      *
      * @var Emergencia_Model 
      */
-    public $emergencia_model;
+    public $_emergencia_model;
+    
+    /**
+     *
+     * @var Emergencia_Comuna_Model 
+     */
+    public $_emergencia_comuna_model;
+    
+    /**
+     *
+     * @var Emergencia_Estado_Model 
+     */
+    public $_emergencia_estado_model;
+    
+    /**
+     *
+     * @var Tipo_Emergencia_Model 
+     */
+    public $_emergencia_tipo_model;
     
     /**
      * 
@@ -36,12 +54,10 @@ class Evento extends MY_Controller {
         
         $this->usuario->setModulo("alarma");
         
-        $this->load->model('emergencia_model','emergencia_model');
-        $this->load->model("alarma_model", "AlarmaModel");
-        $this->load->model("emergencia_comuna_model", "EmergenciaComunaModel");
-        $this->load->model("emergencia_estado_model", "EmergenciaEstadoModel");
-        $this->load->model("alarma_estado_model", "AlarmaEstadoModel");
-        $this->load->model("tipo_emergencia_model", "emergencia_tipo_model");
+        $this->load->model('emergencia_model','_emergencia_model');
+        $this->load->model("emergencia_comuna_model", "_emergencia_comuna_model");
+        $this->load->model("emergencia_estado_model", "_emergencia_estado_model");
+        $this->load->model("tipo_emergencia_model", "_emergencia_tipo_model");
         sessionValidation();
     }
     
@@ -53,35 +69,8 @@ class Evento extends MY_Controller {
                                   "modulo/alarma/alarma_form",
                                   "modulo/emergencia/emergencia",
                                   "modulo/emergencia/emergencia_form"));
-
-        if($this->usuario->getPermisoEditar()){
-            if(isset($params["tab"])){
-                $tab = $params["tab"];
-            } else {
-                $tab = "nuevo";
-            }
-        } else {
-            $tab = "listado";
-        }
-        
-        $id_estado = Alarma_Estado_Model::REVISION;
-        if(isset($params["estado"])){
-            switch ($params["estado"]) {
-                case "activo":
-                    $id_estado = Alarma_Estado_Model::ACTIVADO;
-                    break;
-                case "rechazado":
-                    $id_estado = Alarma_Estado_Model::RECHAZADO;
-                    break;
-                default:
-                    $id_estado = Alarma_Estado_Model::REVISION;
-                    break;
-            }
-        }
-      
+       
         $data = array(
-            "tab_activo" => $tab,
-            "id_estado" => $id_estado,
             "year" => date('Y')
         );
         
@@ -89,74 +78,25 @@ class Evento extends MY_Controller {
     }
     
     /**
-     * 
+     * Bitacora
      */
     public function expediente(){
-        sessionValidation();
+        $this->load->helper(array("modulo/usuario/usuario",
+                                  "modulo/archivo/archivo",
+                                  "modulo/alarma/alarma",
+                                  "modulo/emergencia/emergencia",
+                                  "modulo/emergencia/emergencia_grilla"));
+
         $params = $this->uri->uri_to_assoc();
+        
+        $emergencia = $this->_emergencia_model->getById($params['id']);
+        if(!is_null($emergencia)){
+            $data = array(
+                'emergencia' => $emergencia,
+            );
 
-        $this->load->model('alarma_historial_model','AlarmaHistorial');
-        $this->load->model('alarma_model','AlarmaModel');
-        $this->load->model('emergencia_model','EmergenciaModel');
-        $this->load->model('tipo_emergencia_model','TipoEmergenciaModel');
-        $this->load->model('alarma_comuna_model','AlarmaComunaModel');
-        $this->load->model('emergencia_comuna_model','EmergenciaComunaModel');
-        $this->load->model('comuna_model','ComunaModel');
-        $this->load->model('alarma_estado_model','AlarmaEstadoModel');
-        $this->load->model('archivo_alarma_model','ArchivoAlarmaModel');
-        $this->load->model('usuario_model','UsuarioModel');
-
-
-        $emergencia = $this->EmergenciaModel->getById($params['id']);
-
-        $tipo_emergencia = $this->TipoEmergenciaModel->getById($emergencia->tip_ia_id);
-        $estado_alarma = $this->AlarmaEstadoModel->getById($emergencia->est_ia_id);
-        $comunas_alarma = $this->EmergenciaComunaModel->listaComunasPorEmergencia($emergencia->eme_ia_id);
-
-        /*$comunas_emergencia = $this->EmergenciaComunaModel->listaComunasPorEmergencia($emergencia->eme_ia_id);*/
-
-        $arr_comunas = array();
-        $arr_comunas_emergencia = array();
-        foreach($comunas_alarma as $comuna){
-            $com = $this->ComunaModel->getById($comuna['com_ia_id']);
-            $arr_comunas[] = $com->com_c_nombre;
+            $this->load->view('pages/evento/expediente',$data);
         }
-
-
-        $datos_alarma = unserialize($emergencia->ala_c_datos_tipo_emergencia);
-        $datos_emergencia = array();
-        if($emergencia)
-            $datos_emergencia = unserialize($emergencia->eme_c_datos_tipo_emergencia);
-        $historial = $this->AlarmaHistorial->getByAlarma($params['id']);
-
-        $arr_documentos = array();
-        $documentos = $this->ArchivoAlarmaModel->listaPorAlarma($params['id']);
-        if($documentos){
-            foreach($documentos as $doc){
-                $nombre = explode('/',$doc['arch_c_nombre']);
-                $usuario = $this->UsuarioModel->getById($doc['usu_ia_id']);
-                $arr_documentos[] = array(
-                    'nombre' => $nombre[count($nombre) - 1],
-                    'hash' => $doc['arch_c_hash'],
-                    'id' => $doc['arch_ia_id'],
-                    'usuario' => $usuario->usu_c_nombre.' '.$usuario->usu_c_apellido_paterno.' '.$usuario->usu_c_apellido_materno,
-                    'fecha' => $doc['arch_f_fecha']
-                );
-            }
-        }
-        $data = array(
-            'historial' => $historial,
-            'tipo_emergencia' => $tipo_emergencia,
-            'estado_alarma' => $estado_alarma,
-            'comunas' => implode(', ',$arr_comunas),
-            'datos_alarma' => $datos_alarma,
-            'emergencia' => $emergencia,
-            'datos_emergencia' => $datos_emergencia,
-            'documentos' => $arr_documentos
-        );
-
-        $this->load->view('pages/evento/expediente',$data);
-
     }
     
     /**
@@ -164,15 +104,17 @@ class Evento extends MY_Controller {
      */
     public function guardar() { 
         header('Content-type: application/json');
-        $this->load->library(array("alarma/alarmavalidar", 
-                                   "emergencia/emergencia_guardar"));
+        $this->load->helper(array("modulo/alarma/alarma"));
+        $this->load->library(array("alarma/alarma_validar",
+                                   "emergencia/email/emergencia_email_revision"));
         
+        
+        $se_envia_email = false;
+        
+ 
         $params = $this->input->post(null, true);
 
-        $respuesta = array();
-        $correcto = $this->alarmavalidar->esValido($params);
-        
-        if($correcto){
+        if($this->alarma_validar->esValido($params)){
 
             $data = array(
                 "eme_c_nombre_informante" => $params['nombre_informante'],
@@ -181,16 +123,16 @@ class Evento extends MY_Controller {
                 "est_ia_id"               => $params['estado_emergencia'],
                 "eme_c_lugar_emergencia"  => $params['nombre_lugar'],
                 "eme_d_fecha_emergencia"  => spanishDateToISO($params['fecha_emergencia']),
-                "rol_ia_id"               => $this->session->userdata('session_idCargo'),
-                "usu_ia_id"               => $this->session->userdata('session_idUsuario'),
-                "eme_c_descripcion"       => $params['descripcion_emergencia'],
-                "eme_c_observacion"       => $params['observacion'],
+                "rol_ia_id"          => $this->session->userdata('session_idCargo'),
+                "usu_ia_id"          => $this->session->userdata('session_idUsuario'),
+                "eme_c_descripcion"  => $params['descripcion_emergencia'],
+                "eme_c_observacion"  => $params['observacion'],
                 "eme_c_utm_lat" => $params['latitud'],
                 "eme_c_utm_lng" => $params['longitud'],
                 "eme_nivel" => $params['nivel_emergencia']
             );
 
-            $evento = $this->emergencia_model
+            $evento = $this->_emergencia_model
                            ->query()
                            ->getById("eme_ia_id", $params["eme_id"]);
 
@@ -198,60 +140,46 @@ class Evento extends MY_Controller {
             if(!is_null($evento)){
                 $id = $evento->eme_ia_id;
                 
-                $this->emergencia_model
+                $this->_emergencia_model
                      ->update(
                         $data, 
                         $evento->eme_ia_id
-                      );
-                
-                $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $alerta->eme_ia_id, $params['comunas']);
-                $respuesta_email = "";
+                     );
+               
             } else {
                 $data["eme_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
                 
-                $id = $this->emergencia_model
+                $id = $this->_emergencia_model
                            ->insert($data);
                 
-                $this->EmergenciaComunaModel->query()->insertOneToMany("eme_ia_id", "com_ia_id", $id, $params['comunas']);
-                
-                $params["eme_id"] = $id;
+                $se_envia_email = $this->_enviaEmail($id);
 
-                if($params['estado_emergencia'] == Emergencia_Estado_Model::EN_ALERTA and !empty($params['correos_evento'])){
-                    $respuesta_email = $this->AlarmaModel->enviaCorreo($params);
-                }
-
-                if($params['estado_emergencia'] == Emergencia_Estado_Model::EN_ALERTA){
-                    $estado_emergencia = 'En Alerta';
-                }elseif($params['estado_emergencia'] == Emergencia_Estado_Model::EN_CURSO){
-                    $estado_emergencia = 'Emergencia Activa';
-                }elseif($params['estado_emergencia'] == Emergencia_Estado_Model::FINALIZADA){
-                    $estado_emergencia = 'Emergencia Finalizada';
-                }
-                
                 Evento_historial::putHistorial(
                     $id, 
-                    'Se ha creado el Evento con estado ' . $estado_emergencia
+                    'Se ha creado el Evento con estado ' . nombreAlarmaEstado($params['estado_emergencia']) 
                 );
             }
             
-            
-            
-            
-            
-            
-            $params['form_tipo_acciones'] = nl2br($params['form_tipo_acciones']);
+            $this->_emergencia_comuna_model
+                 ->query()
+                 ->insertOneToMany(
+                    "eme_ia_id", 
+                    "com_ia_id", 
+                    $id, 
+                    $params['comunas']
+                 );
 
-            $this->emergencia_guardar->setEmergencia($params["eme_id"]);
-            $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
-            $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
-
+            $this->_guardarFormularioTipoEmergencia($id);
+            $this->_guardarArchivos($id,$this->session->userdata('session_idUsuario'));
         }
-        
-        $respuesta["res_mail"] = $respuesta_email;
-        $respuesta["correcto"] = $correcto;
-        $respuesta["error"]    = $this->alarmavalidar->getErrores();
-        
-        echo json_encode($respuesta);
+
+        $respuesta = array(
+            "se_envia_email" => $se_envia_email,
+            "correcto" => $this->alarma_validar->getCorrecto(),
+            "error" => $this->alarma_validar->getErrores()
+        );
+
+        echo Zend_Json::encode($respuesta);
     }
     
     /**
@@ -260,7 +188,7 @@ class Evento extends MY_Controller {
     public function eliminar() { 
         header('Content-type: application/json');
         $params = $this->input->post(null, true);
-        $res = $this->emergencia_model->delete($params['id']);
+        $res = $this->_emergencia_model->delete($params['id']);
         
         if($res){
             $correcto = true;
@@ -287,10 +215,9 @@ class Evento extends MY_Controller {
     public function editar(){
         $this->load->helper(array("modulo/emergencia/emergencia_form",
                                   "modulo/direccion/comuna"));
-        $this->load->model('emergencia_model','EmergenciaModel');
         
         $params = $this->uri->uri_to_assoc();
-        $alarma = $this->EmergenciaModel->getById($params["id"]);
+        $alarma = $this->_emergencia_model->getById($params["id"]);
 
         if(!is_null($alarma)){
             $descripcion = $alarma->eme_c_descripcion;
@@ -317,28 +244,10 @@ class Evento extends MY_Controller {
             }
 
 
-            $lista_comunas = $this->EmergenciaComunaModel->listaComunasPorEmergencia($alarma->eme_ia_id);
+            $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($alarma->eme_ia_id);
             
             foreach($lista_comunas as $comuna){
                 $data["lista_comunas"][] = $comuna["com_ia_id"];
-            }
-
-            /* revisar adjuntos de emergencia */
-            $adjuntos = array();
-            $dir_adjuntos = 'media/doc/emergencia/'.$params['id'].'/adjuntos/';
-            if(is_dir($dir_adjuntos)){
-                $readDir = array_diff(scandir($dir_adjuntos), array('..', '.'));
-                if(count($readDir) > 0){
-                    $this->load->model('archivo_model','ArchivoModel');
-                    foreach($readDir as $file){
-                        $data_adjunto = $this->ArchivoModel->getByPath($dir_adjuntos.$file);
-                        $data_adjunto[0]['nombre'] = $file;
-                        $data_adjunto[0]['path'] = site_url() . '/archivo/download_file/k/'.$data_adjunto[0]['arch_c_hash'];
-                        $adjuntos[] = $data_adjunto[0];
-
-                    }
-                    $data['adjuntos'] = $adjuntos;
-                }
             }
             
             $data["form_name"] = "form_editar";
@@ -362,6 +271,14 @@ class Evento extends MY_Controller {
         $this->alarma_form_tipo->setAlarma($params["id"]);
                 
         $formulario = $this->alarma_form_tipo->getFormulario();
+        
+        $user_data = array(
+            'nombre' => $this->session->userdata('session_nombres'),
+            'cargo' => $this->session->userdata('session_cargo'),
+            'email' => $this->session->userdata('session_email')
+          );
+        $formulario['data']['investigador'] = $user_data;
+       
 
         if($formulario["form"]){
             $respuesta = array("html" => $this->load->view($formulario["path"], $formulario["data"], true),
@@ -380,10 +297,12 @@ class Evento extends MY_Controller {
         header('Content-type: application/json');
         $id_emergencia = $this->input->post('emergencia');
 
-        $this->load->model('emergencia_model','EmergenciaModel');
-
         $json = array();
-        $update = $this->EmergenciaModel->update(array('est_ia_id' => $this->EmergenciaModel->emergencia_activa),$id_emergencia);
+        $update = $this->_emergencia_model->update(
+                array('est_ia_id' => Emergencia_Estado_Model::EN_CURSO),
+                $id_emergencia
+        );
+        
         if($update){
             $json['estado'] = true;
             $json['mensaje'] = 'Emergencia en Curso';
@@ -398,9 +317,21 @@ class Evento extends MY_Controller {
             $json['mensaje'] = 'Problemas al activar la emergencia. Intente nuevamente';
         }
 
-        echo json_encode($json);
-
-
+        echo json_encode($json);    
+    }
+    
+    /**
+     * 
+     */
+    public function ajax_comunas_emergencia(){
+        header('Content-type: application/json');
+        $params = $this->input->post(null, true);
+        $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($params["id"]);
+        $respuesta = array("correcto" => true,
+                           "comunas" => $lista_comunas,
+                           "error"    => array());
+        
+        echo json_encode($respuesta);
     }
     
     /**
@@ -409,13 +340,15 @@ class Evento extends MY_Controller {
     public function ajax_grilla_alarmas(){
         $this->load->helper(array("modulo/emergencia/emergencia",
                                   "modulo/alarma/alarma"));
-        $this->load->model('emergencia_model','EmergenciaModel');
+
         $params = $this->input->post(null, true);
         
-        $lista = $this->EmergenciaModel->buscar(array("id_estado" => $params["filtro_id_estado"],
-                                                  "id_tipo"   => $params["filtro_id_tipo"],
-                                                  "year"      => $params["filtro_year"],
-                                                    "nivel" => $params['filtro_nivel']));
+        $lista = $this->_emergencia_model->buscar(
+            array("id_estado" => $params["filtro_id_estado"],
+                  "id_tipo"   => $params["filtro_id_tipo"],
+                  "year"      => $params["filtro_year"],
+                  "nivel" => $params['filtro_nivel'])
+        );
         
         $this->load->view("pages/evento/grilla", array("lista" => $lista));
     }
@@ -425,14 +358,131 @@ class Evento extends MY_Controller {
      */
     public function ajax_validar_datos_generales(){
         header('Content-type: application/json');
-        $this->load->library(array("alarma/alarmavalidar"));
+        $this->load->library(array("alarma/alarma_validar"));
         
         $params = $this->input->post(null, true);
 
-        $correcto = $this->alarmavalidar->esValido($params);
-        $respuesta = array("correcto" => $correcto,
-                           "error"    => $this->alarmavalidar->getErrores());
+        $respuesta = array("correcto" => $this->alarma_validar->esValido($params),
+                           "error"    => $this->alarma_validar->getErrores());
         
         echo json_encode($respuesta);
+    }
+    
+    /**
+     * 
+     * @param int $id
+     * @return boolean
+     */
+    protected function _enviaEmail($id){
+        $se_envia_email = false;
+        $params = $this->input->post(null, true);
+        //envio de email
+        if(count($params["destinatario"])>0){
+            $this->emergencia_email_revision->setEmergencia($id);
+
+            foreach($params["destinatario"] as $email){
+                $this->emergencia_email_revision->addTo($email);
+            }
+
+            $this->emergencia_email_revision->enviar();
+
+            $se_envia_email = $this->emergencia_email_revision->boSeEnviaEmail();
+        }
+        
+        return $se_envia_email;
+    }
+    
+    /**
+     * Guarda el fomulario especial para tipo de emergencia
+     * @param int $id
+     */
+    protected function _guardarFormularioTipoEmergencia($id){
+        $this->load->library(array("emergencia/emergencia_guardar"));
+        
+        $params = $this->input->post(null, true);
+        
+        $this->emergencia_guardar->setEmergencia($id);
+        $this->emergencia_guardar->setTipo($params["tipo_emergencia"]);
+        $this->emergencia_guardar->guardarDatosTipoEmergencia($params);
+    }
+    
+    /**
+     * Guarda archivos adjuntos
+     * @param int $id_evento
+     */
+    protected function _guardarArchivos($id_evento,$id_usuario){
+        $this->load->library("evento/evento_archivo");
+        
+        $params = $this->input->post(null, true);
+        
+        $this->evento_archivo->setEvento($id_evento);
+        if(count($params["archivos"])>0){
+            foreach($params["archivos"] as $key => $id_archivo){
+                $this->evento_archivo->addArchivo(
+                    $params["archivos_hash"][$key], 
+                    $params["archivos_descripcion"][$key],
+                    $params["archivos_tipo"][$key], 
+                    $id_archivo,
+                    $id_usuario
+                );
+            }
+        }
+        
+        $this->evento_archivo->guardar();
+    }
+
+
+    public function listaFuentesRadiologicas(){
+        $this->load->model('Fuentes_Radiologicas_model','FuentesRadiologicasModel');
+
+        $listado = $this->FuentesRadiologicasModel->getListadoFuentes();
+
+        $data = array('listado_fuentes'=>$listado);
+
+        $this->load->view("pages/evento/listado_fuentes_radiologicas", $data);
+    }
+
+
+    public function cargarFuentesRadiologicas(){
+        $file = 'media/fuentes_radiologicas.csv';
+
+        $file = fopen($file,"r");
+        $this->load->model('Fuentes_Radiologicas_model','FuentesRadiologicasModel');
+        while(($data = fgetcsv($file , 0 , ";")) !== FALSE){
+          if(!empty($data[1])){
+              $datos = array(
+              'nombre_empresa_fuente' => $data[1],
+              'rut_empresa_fuente' => $data[2],
+              'comuna_empresa_fuente' => mb_strtoupper($data[8]),
+              'tipo_fuente' => $data[9],
+              'actividad_fuente' => $data[10],
+              'numero_serie_fuente' => $data[15],
+              'marca_fuente' => $data[16],
+              'coordenadax_fuente' => $data[21],
+              'coordenaday_fuente' => $data[22]
+              );
+
+              $insertar = $this->FuentesRadiologicasModel->insert($datos);  
+          }
+          
+        }
+    }
+
+
+    public function infoFuenteRadiologica(){
+        $id_fuente = $this->input->post('fuente');
+
+        $this->load->model('Fuentes_Radiologicas_model','FuentesRadiologicasModel');
+
+        $data_fuente = $this->FuentesRadiologicasModel->getById($id_fuente);
+        if($data_fuente){
+            $json['info'] = $data_fuente;
+            $json['estado'] = true;
+        }else{
+            $json['estado'] = false;
+            $json['mensaje'];
+        }  
+        
+        echo json_encode($json);
     }
 }

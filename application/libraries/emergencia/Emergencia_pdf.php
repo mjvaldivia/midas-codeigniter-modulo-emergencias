@@ -54,7 +54,7 @@ Class Emergencia_pdf{
      * 
      * @param int $id_emergencia
      */
-    public function generar($id_emergencia){
+    public function generar($id_emergencia,$mapa=true,$codigo){
         $emergencia = $this->_ci->emergencia_model->getById($id_emergencia);
         if(!is_null($emergencia)){    
             $data = array("eme_ia_id" => $emergencia->eme_ia_id,
@@ -77,15 +77,25 @@ Class Emergencia_pdf{
 
         }
 
-        $data['region'] = $this->_ci->session->userdata('session_region_codigo');
-        if($data['region'] < 10){
-            $data['region'] = '0'.$data['region'];
+        $data['codigo'] = $codigo;
+
+
+        $data['region'] = '';
+        $regiones = explode(',',$this->_ci->session->userdata('session_regiones'));
+        if(count($regiones) == 1){
+            if($regiones[0] == 13)
+                $data['region'] = 'RM';
+            else
+                $data['region'] = $regiones[0].'º';
         }
+
+        $data['cargo'] = $this->_ci->session->userdata('session_cargo');
+        $data['mapa'] = $mapa;
         $html = $this->_ci->load->view('pages/emergencia_reporte/pdf', $data, true); 
 
         $this->_pdf->imagen_mapa = $this->_imagen;
         $this->_pdf->imagen_logo = file_get_contents(FCPATH . "/assets/img/top_logo.png");
-        $this->_pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
+        $this->_pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y H:i'));
         $this->_pdf->WriteHTML($html);
         return $this->_pdf->Output('acta.pdf', 'S');
 

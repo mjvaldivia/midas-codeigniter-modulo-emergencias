@@ -1,16 +1,27 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1> Gestión de vigilancia de casos febriles
+            <h1>  Gestión de vigilancia de casos febriles/exantemáticos ISLA DE PASCUA 
                 <div class="pull-right">
-                    <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-xs btn-default btn-square hide">
+                    <?php if(puedeVerGraficos):?>
+                    <a href="<?php echo base_url("formulario/dengue_reporte_grafico"); ?>"  class="btn btn-orange btn-square">
+                        <i class="fa fa-bar-chart"></i>
+                        Reporte Gráfico
+                    </a>
+                    <?php endif;?>
+                    <?php if(puedeVerReporteEmergencia("casos_febriles")) { ?>
+                    <a href="<?php echo base_url("formulario/excel"); ?>" target="_blank" id="descargar" class="btn btn-default btn-square">
                         <i class="fa fa-download"></i>
                         Descargar excel
                     </a>
-                    <a href="<?php echo base_url("formulario/form_dengue"); ?>" id="nueva" class="btn btn-xs btn-green btn-square">
+                    <?php } ?>
+                    
+                    <?php if(puedeActivarAlarma("casos_febriles")) { ?>
+                    <a href="<?php echo base_url("formulario/form_dengue"); ?>" id="nueva" class="btn btn-square btn-green">
                         <i class="fa fa-plus"></i>
                         Nuevo caso
                     </a>
+                    <?php } ?>
                 </div>
             </h1>
             <ol class="breadcrumb">
@@ -27,8 +38,8 @@
                 <div class="portlet-body"> 
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="resultados" class="table-responsive">
-                                <div class="col-lg-12 text-center">
+                            <div id="resultados" class="table-responsive" data-row="20">
+                                <div class="col-lg-12 text-center" style="height: 100px;">
                                     <i class="fa fa-4x fa-spin fa-spinner"></i>
                                 </div>
                             </div>

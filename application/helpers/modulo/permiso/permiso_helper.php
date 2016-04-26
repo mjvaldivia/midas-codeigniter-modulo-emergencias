@@ -66,6 +66,32 @@ function permisoFormCheckedReporteEmergencia($id_rol, $id_modulo){
 
 /**
  * 
+ * @param int $id_rol
+ * @param int $id_modulo
+ * @return string html
+ */
+function permisoFormCheckedFormularioDatosPersonales($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->formularioDatosPersonales();
+}
+
+/**
+ * 
+ * @param int $id_rol
+ * @param int $id_modulo
+ * @return string html
+ */
+function permisoFormCheckedEmbarazada($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->formularioEmbarazadas();
+}
+
+/**
+ * 
  * @param type $id_rol
  * @param type $id_modulo
  * @return type
@@ -75,6 +101,14 @@ function permisoFormCheckedVisorEmergencia($id_rol, $id_modulo){
     $atributo->setRol($id_rol);
     $atributo->setModulo($id_modulo);
     return $atributo->visorEmergencia();
+}
+
+
+function permisoFormCheckedVisorEmergenciaGuardar($id_rol, $id_modulo){
+    $atributo = New Permiso_Form_Attribute_Checked();
+    $atributo->setRol($id_rol);
+    $atributo->setModulo($id_modulo);
+    return $atributo->visorEmergenciaGuardar();
 }
 
 /**

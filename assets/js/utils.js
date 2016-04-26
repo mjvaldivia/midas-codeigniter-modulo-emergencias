@@ -130,8 +130,8 @@ var Utils = {};
         }
     };
 
-    this.ajaxRequestMonitor = function() {
-        $(document).ajaxComplete(function(event, xhr, opts) {
+    //this.ajaxRequestMonitor = function() {
+        /*$(document).ajaxComplete(function(event, xhr, opts) {
             switch (xhr.status) {
                 case 401:
                   //  location.href = "http://asdigital.minsal.cl/acceso";
@@ -143,7 +143,7 @@ var Utils = {};
                     alert("Ha ocurrido un error interno, contacte un administrador");
                     break;
             }
-        });
-    };
+        });*/
+    //};
     
 }).apply(Utils);

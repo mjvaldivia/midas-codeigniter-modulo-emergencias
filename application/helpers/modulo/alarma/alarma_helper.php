@@ -16,7 +16,7 @@ function comunasAlarmaConComa($id_alarma){
 
 /**
  * Retorna el nombre del tipo de emergencia
- * @param int $id_tipo_emergencia
+ * @param int $id_estado
  * @return string
  */
 function nombreAlarmaEstado($id_estado){
@@ -25,7 +25,31 @@ function nombreAlarmaEstado($id_estado){
     return $nombre->getString();
 }
 
+function badgeNombreAlarmaEstado($id_estado){
+    
+    $nombre = nombreAlarmaEstado($id_estado);
+    
+    switch ($id_estado) {
+        case Emergencia_Estado_Model::EN_ALERTA:
+            $badge = "label orange";
+            break;
+        case Emergencia_Estado_Model::EN_CURSO:
+            $badge = "label red";
+            break;
+        default:
+            $badge = "label green";
+            break;
+    }
+    
+    return "<span class=\"".$badge."\">" . $nombre . "</span>";
+    
+}
 
+/**
+ * 
+ * @param int $nivel
+ * @return string
+ */
 function nivelEmergencia($nivel){
     if($nivel == 1){
         return 'Nivel I';

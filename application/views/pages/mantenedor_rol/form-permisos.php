@@ -53,21 +53,47 @@
                                     <input <?php echo permisoFormCheckedVisorEmergencia($id_rol, $row["per_ia_id"]); ?> name="visor[]" id="visor_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                                     Abrir visor
                                 </div>
+                                <div class="col-sm-4">
+                                    <input <?php echo permisoFormCheckedVisorEmergenciaGuardar($id_rol, $row["per_ia_id"]); ?> name="visor_guardar[]" id="visor_guardar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                                    Guardar visor
+                                </div>
                             <?php } ?>
                         <?php } ?>
                     </div>
                     <?php } else { ?>
+                    <input type="hidden" data-rel="<?php echo $row["per_ia_id"] ?>" name="ver[]" id="ver_<?php echo $row["per_ia_id"] ?>" value="<?php echo $row["per_ia_id"] ?>" />
+                    
                     <div class="col-sm-4">
-                        <input <?php echo permisoFormCheckedVer($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="ver[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
-                        Solo ingresar
+                        <input <?php echo permisoFormCheckedActivarAlarma($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="activar_alarma[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Ingresar
                     </div>
                     <div class="col-sm-4">
-                        <input <?php echo permisoFormCheckedEditar($id_rol, $row["per_ia_id"]); ?> data-rel="<?php echo $row["per_ia_id"] ?>" name="editar[]" id="ver_<?php echo $row["per_ia_id"] ?>" class="ver" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
-                        Ver y editar
+                        <input <?php echo permisoFormCheckedEditar($id_rol, $row["per_ia_id"]); ?> name="editar[]" id="editar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Editar
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedEliminar($id_rol, $row["per_ia_id"]); ?> name="eliminar[]" id="eliminar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Eliminar
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedFinalizar($id_rol, $row["per_ia_id"]); ?> name="finalizar[]" id="finalizar_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Ingreso de conclusiones
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedReporteEmergencia($id_rol, $row["per_ia_id"]); ?> name="reporte[]" id="reporte_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Exportar datos
                     </div>
                     <div class="col-sm-4">
                         <input <?php echo permisoFormCheckedVisorEmergencia($id_rol, $row["per_ia_id"]); ?> name="visor[]" id="visor_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
                         Ver en visor
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedFormularioDatosPersonales($id_rol, $row["per_ia_id"]); ?> name="datos_personales[]" id="datos_personales_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Ver datos personales paciente
+                    </div>
+                    <div class="col-sm-4">
+                        <input <?php echo permisoFormCheckedEmbarazada($id_rol, $row["per_ia_id"]); ?> name="embarazadas[]" id="embarazadas_<?php echo $row["per_ia_id"] ?>" type="checkbox" value="<?php echo $row["per_ia_id"] ?>">
+                        Embarazadas
                     </div>
                     <?php } ?>
                 </div>

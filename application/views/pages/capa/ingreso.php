@@ -10,6 +10,11 @@
         <div class="page-title">
             <h1>Capas
                 <small><i class="fa fa-arrow-right"></i> Administrador de capas</small>
+                <div class="pull-right">
+                    <a class="btn btn-square btn-green" href="#" onclick="xModal.open('<?php echo site_url('capas/nuevaCapa');?>','Nueva Capa','lg');">
+                        <i class="fa fa-plus"></i> Nueva Capa
+                    </a>
+                </div>
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="<?= site_url() ?>"> Inicio </a></li>
@@ -26,14 +31,6 @@
 </div>
 <!-- /.row -->
 <!-- end PAGE TITLE AREA -->
-
-<div class="top-spaced">
-    <h1 class="">Listado de capas
-        <button type="button" class="btn btn-square btn-lg btn-success pull-right" onclick="xModal.open('<?php echo site_url('capas/nuevaCapa');?>','Nueva Capa','lg');">Nueva Capa</button>
-    </h1>
-
-</div>
-
 
 <div class="col-xs-12 top-spaced">
     <div class="row">

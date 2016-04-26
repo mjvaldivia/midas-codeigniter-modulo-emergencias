@@ -5,6 +5,9 @@ if (!defined('BASEPATH'))
 
 class Archivo_Tipo_Model extends MY_Model {
     
+    
+    const REPORTE = 1;
+    
     /**
      * Nombre de tabla
      * @var string 

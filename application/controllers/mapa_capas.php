@@ -32,6 +32,7 @@ class Mapa_capas extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library("emergencia/emergencia_comuna");
+        $this->load->model("emergencia_mapa_configuracion_model", "_emergencia_mapa_configuracion_model");
         $this->load->model("emergencia_capa_model", "_emergencia_capa_model");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("capa_detalle_model", "_capa_detalle_model");
@@ -75,6 +76,65 @@ class Mapa_capas extends MY_Controller {
     }
     
     /**
+     * Devuelve menu de capas fijas
+     */
+    public function ajax_menu_capas_fijas(){
+        $this->load->view("pages/mapa_capas/menu-capas-fijas", array());
+    }
+    
+    public function ajax_form_filtros_casos_febriles(){
+        $this->load->helper(array(
+                "modulo/formulario/formulario"
+            )
+        );
+        $this->load->view("pages/mapa_capas/form-filtros-casos", array());
+    }
+    
+    /**
+     * Devuelve json con capas validas para la emergencia
+     */
+    public function ajax_capas_disponibles_emergencia(){
+        header('Content-type: application/json');        
+        
+        $this->load->library("emergencia/emergencia_capas_disponibles");
+        
+        $params = $this->input->post(null, true);
+        $this->emergencia_capas_disponibles->setEmergencia($params["id"]);
+        
+        echo json_encode(array("lista" => $this->emergencia_capas_disponibles->getListaCapas()));
+    }
+    
+    /**
+     * Informacion de emergencia
+     */
+    protected function _informacionEmergencia($id_emergencia){
+        $this->load->model("emergencia_comuna_model", "_emergencia_comuna_model");
+
+        $retorno = array(
+            "comunas" => array(),
+            "provincias" => array(),
+            "regiones" => array()
+        );
+        
+        $lista_comunas = $this->_emergencia_comuna_model->listaComunasPorEmergencia($id_emergencia);
+        foreach($lista_comunas as $comuna){
+            $retorno["comunas"][] = $comuna["com_ia_id"];
+        }
+        
+        $lista_provincias = $this->_emergencia_comuna_model->listaProvinciasPorEmergencia($id_emergencia);
+        foreach($lista_provincias as $provincia){
+            $retorno["provincias"][] = $provincia["prov_ia_id"];
+        }
+        
+        $lista_regiones = $this->_emergencia_comuna_model->listaRegionesPorEmergencia($id_emergencia);
+        foreach($lista_regiones as $region){
+            $retorno["regiones"][] = $region["reg_ia_id"];
+        }
+        
+        return $retorno;
+    }
+    
+    /**
      * Retorna cantidad de capas por emergencia
      */
     public function ajax_contar_capas_comuna(){
@@ -98,6 +158,24 @@ class Mapa_capas extends MY_Controller {
         $data = $this->visor_capa_elemento->cargaCapa($params["id"]);
         
         echo json_encode($data);
+    }
+    
+    public function ajax_capas_emergencia(){
+        $params = $this->input->post(null, true);
+        
+        $lista_capas = $this->_emergencia_capa_model->listaIdsPorEmergencia($params["id"]);
+        $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
+        
+        echo json_encode(
+            array(
+                "capas" => $lista_capas,
+                "capas_fijas" => array(
+                    "conaf" => $configuracion->kml_sidco,
+                    "casos_febriles" => $configuracion->bo_casos_febriles,
+                    "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona
+                )
+            )
+        );
     }
     
     /**

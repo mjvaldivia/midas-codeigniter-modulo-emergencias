@@ -1,9 +1,14 @@
 <?php
 require_once(__DIR__ . "/menu/Categorias.php");
+require_once(__DIR__ . "/menu/CategoriasRegion.php");
 require_once(__DIR__ . "/menu/categorias/CantidadCapas.php");
+require_once(__DIR__ . "/menu/categorias/CantidadCapasRegion.php");
 require_once(__DIR__ . "/menu/CapaDetalleItem.php");
+require_once(__DIR__ . "/menu/CapaDetalleItemRegion.php");
 require_once(__DIR__ . "/menu/CapaDetalle.php");
+require_once(__DIR__ . "/menu/CapaDetalleRegion.php");
 require_once(__DIR__ . "/menu/Capa.php");
+require_once(__DIR__ . "/menu/CapaRegion.php");
 require_once(__DIR__ . "/propiedades/Informacion.php");
 require_once(__DIR__ . "/elemento/Editar.php");
 require_once(__DIR__ . "/elemento/editar/LugarEmergencia.php");
@@ -33,9 +38,28 @@ function visorCapasSeleccionadasChecked($valor, $seleccionados){
  * 
  * @return html
  */
+function visorMenuCapasCategoriaRegion($id_region){
+    $html = New Visor_Menu_CategoriasRegion($id_region);
+    return $html->render();
+}
+
+/**
+ * 
+ * @return html
+ */
 function visorMenuCapasCategoria($id_emergencia){
     $html = New Visor_Menu_Categorias($id_emergencia);
     return $html->render();
+}
+
+/**
+ * 
+ * @param int $id_categoria
+ * @return int
+ */
+function cantidadCapasCategoriaRegion($id_categoria, $id_region){
+    $cantidad = New Visor_Menu_Categorias_CantidadCapasRegion($id_region);
+    return $cantidad->cantidad($id_categoria);
 }
 
 /**
@@ -61,6 +85,25 @@ function visorMenuCapas($id_emergencia, $id_categoria){
  * 
  * @return html
  */
+function visorMenuCapasRegion($id_region, $id_categoria){
+    $html = New Visor_Menu_CapaRegion($id_region);
+    return $html->render($id_categoria);
+}
+
+/**
+ * 
+ * @return html
+ */
+function visorMenuCapasDetalleItemRegion($id_detalle, $id_region){
+    $html = New Visor_Menu_CapaDetalleItemRegion($id_detalle);
+    $html->setRegion($id_region);
+    return $html->render();
+}
+
+/**
+ * 
+ * @return html
+ */
 function visorMenuCapasDetalleItem($id_detalle, $id_emergencia){
     $html = New Visor_Menu_CapaDetalleItem($id_detalle);
     $html->setEmergencia($id_emergencia);
@@ -73,6 +116,15 @@ function visorMenuCapasDetalleItem($id_detalle, $id_emergencia){
  */
 function visorMenuCapasDetalle($id_capa, $id_emergencia){
     $html = New Visor_Menu_CapaDetalle($id_emergencia);
+    return $html->render($id_capa);
+}
+
+/**
+ * 
+ * @return html
+ */
+function visorMenuCapasDetalleRegion($id_capa, $id_region){
+    $html = New Visor_Menu_CapaDetalleRegion($id_region);
     return $html->render($id_capa);
 }
 

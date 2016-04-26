@@ -15,6 +15,34 @@ var MapaElementos = Class({
     /**
      * 
      * @param {type} id
+     * @param {type} propiedades
+     * @param {type} coordenadas
+     * @param {type} color
+     * @returns {undefined}
+     */
+    dibujarLinea : function(id, propiedades, coordenadas, color){
+        var yo = this;
+        var linea = new google.maps.Polyline({
+            custom : true,
+            path: coordenadas,
+            identificador: id,
+            clave : "linea_" + id,
+            informacion: propiedades,
+            tipo: "LINEA",
+            geodesic: true,
+            strokeColor: "#000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        linea.setMap(yo.mapa);
+        
+        lista_poligonos.push(linea);
+    },
+    
+    /**
+     * 
+     * @param {type} id
      * @param {type} clave
      * @param {type} propiedades
      * @param {type} coordenadas
@@ -163,6 +191,7 @@ var MapaElementos = Class({
            var data = jQuery.parseJSON(json);
            var preview = "";
            switch(data.tipo){
+               case "LINEA":
                case "POLIGONO":
                case "RECTANGULO":
                case "CIRCULO":
@@ -202,7 +231,7 @@ var MapaElementos = Class({
     loadCustomElements : function(mapa, mensaje_carga){
         
         this.mapa = mapa;
-        this.loadConfiguracion(mensaje_carga);
+        
         
         var yo = this;
         
@@ -237,6 +266,10 @@ var MapaElementos = Class({
                             bo_lugar_emergencia = true;
                         }
                         
+                        if(elemento.tipo == "LINEA"){
+                            yo.dibujarLinea(id, elemento.propiedades, elemento.coordenadas, elemento.color);
+                        }
+                        
                         if(elemento.tipo == "PUNTO"){
                             yo.dibujarMarcador(id, elemento.clave, elemento.propiedades, elemento.coordenadas, elemento.icono);
                         }
@@ -261,6 +294,7 @@ var MapaElementos = Class({
                     }
                     
                     yo.listaElementosVisor();
+                    
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -297,7 +331,9 @@ var MapaElementos = Class({
                     var lugar_alarma = new MapaMarcadorLugarAlarma();
                     lugar_alarma.seteaEmergencia(yo.id_emergencia);
                     lugar_alarma.marcador(yo.mapa);
+                    
                 }
+                yo.loadConfiguracion(mensaje_carga);
             }
         });
     },
@@ -318,6 +354,24 @@ var MapaElementos = Class({
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                if(data.correcto){
+                   
+                   if(data.resultado.casos_febriles == 1){
+                        var sidco = new MapaIslaDePascuaCasos();
+                            sidco.seteaMapa(yo.mapa);
+                            sidco.load();
+                            $("#importar_rapanui_casos").prop("checked", true);
+                        } else {
+                            $("#importar_rapanui_casos").prop("checked", false);
+                   }
+                   
+                   if(data.resultado.casos_febriles_zona == 1){
+                        var sidco = new MapaIslaDePascuaZonas();
+                            sidco.seteaMapa(yo.mapa);
+                            sidco.load();
+                            $("#importar_rapanui_zonas").prop("checked", true);
+                        } else {
+                            $("#importar_rapanui_zonas").prop("checked", false);
+                   }
                    
                    if(data.resultado.sidco == 1){
                         var sidco = new MapaKmlSidcoConaf();
@@ -509,6 +563,14 @@ var MapaElementos = Class({
                             "propiedades" : elemento.informacion,
                             "coordenadas" : {"center" : elemento.getCenter(),
                                              "radio"  : elemento.getRadius()}};
+                    break;
+                case "LINEA":
+                    data = {"tipo" : "LINEA",
+                            "clave" : elemento.clave,
+                            "color" : elemento.strokeColor,
+                            "id" : elemento.id,
+                            "propiedades" : elemento.informacion,
+                            "coordenadas" : elemento.getPath().getArray()};
                     break;
                 
             }

@@ -149,6 +149,10 @@ var EventoReporteForm = Class({
             },
             success:function(html){
                 $("#contenido-popup-reporte").html(html);
+                
+
+                setInputCorreos("destinatario", $("#id").val());
+              
             }
         });
     }

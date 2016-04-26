@@ -56,8 +56,10 @@ var MapaPoligono = Class({
         
        
         $.each(geometry, function(i, coordenadas){
+            
             var puntos = [];
             $.each(coordenadas, function(j, valores){
+                
                 puntos.push(new google.maps.LatLng(parseFloat(valores[1]), parseFloat(valores[0])));
             });
            
@@ -78,7 +80,7 @@ var MapaPoligono = Class({
             });
 
             poligono.setMap(yo.mapa);
-
+          
             //se agrega evento de click para ver instalaciones
             //dentro de poligono
             yo.addClickListener(poligono, yo.mapa);
@@ -95,7 +97,7 @@ var MapaPoligono = Class({
      */
     addClickListener : function(elemento, mapa){
         
-        var informacion = new MapaInformacionElemento();
+        var informacion = new MapaPoligonoInformacion();
         informacion.addRightClickListener(elemento, mapa);
         
     }

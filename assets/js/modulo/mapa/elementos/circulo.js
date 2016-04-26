@@ -87,14 +87,9 @@ var MapaCirculo = Class({
             radius: parseInt(radio)
         });
 
-        var informacion = new MapaInformacionElemento();
+        var informacion = new MapaPoligonoInformacion();
         informacion.addRightClickListener(circulo, this.mapa);
-        
-
-        
-        /*var circuloClickListener = new MapaCirculoMoveListener();
-        circuloClickListener.addMoveListener(circulo, this.mapa);*/
-        
+                
         lista_poligonos.push(circulo);
     }
     

@@ -42,12 +42,7 @@
                         <div class="col-lg-3">
                             <div class="form-group clearfix">
                                 <label for="iEstadoAlarma" class="control-label">Estado</label>
-                                <!--<?/*= formElementSelectAlarmaEstados("filtro_id_estado", $id_estado, array("class" => "form-control")) */?>-->
-                                <select class="form-control" id="filtro_id_estado" name="filtro_id_estado">
-                                    <option value="2">Emergencia en Curso</option>
-                                    <option value="1">En Alerta</option>
-                                    <option value="3">Emergencia Finalizada</option>
-                                </select>
+                                <?php echo formElementSelectAlarmaEstados("filtro_id_estado", $id_estado, array("class" => "form-control"))?>
                             </div>
                         </div>
                         <div class="col-lg-1">

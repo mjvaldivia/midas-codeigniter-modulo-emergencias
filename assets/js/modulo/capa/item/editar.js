@@ -32,4 +32,18 @@ $(document).ready(function(){
 }); 
 
 
+function bindMapa (){
+    var mapa = new MapaFormulario("mapa");
+    mapa.seteaPlaceInput("nombre_lugar_item");
+    
+    if($("#longitud").val() != "" && $("#latitud").val() != ""){
+        mapa.setLongitud($("#longitud").val());
+        mapa.setLatitud($("#latitud").val());
+    }
+
+    mapa.inicio();
+    mapa.cargaMapa(); 
+}
+
+
 

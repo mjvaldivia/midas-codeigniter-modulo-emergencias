@@ -25,6 +25,16 @@ Class Layout_Usuario_Permiso{
     }
     
     /**
+     * 
+     * @param string $modulo
+     * @return type
+     */
+    public function puedeVerFormularioDatosPersonales($modulo){
+        $this->usuario->setModulo($modulo);
+        return $this->usuario->getPermisoVerFormularioDatosPersonales();
+    }
+    
+    /**
      * Retorna si el usuario puede ver o no el modulo
      * @param modulo $modulo
      * @return boolean

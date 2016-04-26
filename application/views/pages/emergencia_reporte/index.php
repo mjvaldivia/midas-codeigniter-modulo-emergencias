@@ -2,6 +2,7 @@
 <div class="col-lg-12">
     <form name="form_reporte_emergencia" id ="form_reporte_emergencia">
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"/>
+        <input type="hidden" name="id_region" id="id_region" value="<?php echo $id_region; ?>" />
         <input type="hidden" name="lat" id="lat" value="<?php echo $lat?>"/>
         <input type="hidden" name="lon" id="lon" value="<?php echo $lon?>"/>
         <div class="row">
@@ -15,12 +16,10 @@
             <div class="col-lg-6">
                 <div class="row">
                     <div class="form-group">
-                        <label class="col-xs-12">Seleccione destinatarios (*)</label>
+                        <label class="col-xs-12">Escriba o deleccione el correo electrónico de los destinatarios (*)</label>
                         <div class="col-xs-12">
-                            <?php echo formElementSelectDestinatarios($id, "destinatario[]", array(), array("width" => "100%",
-                                                                                                            "data-placeholder" => "Seleccione",
-                                                                                                            "class"    => "form-control select2-tags", 
-                                                                                                            "multiple" => "multiple")); ?>
+                            <select id="destinatario" class="form-control" multiple="multiple" data-placeholder="Seleccione" name="destinatario[]">
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -54,7 +53,7 @@
                 </div>
                 
                 <div class="top-spaced">
-                    <div class="col-xs-6">
+                    <div class="col-xs-12 col-md-4">
                         <div class="form-group clearfix">
                             <div class="checkbox">
                                 <label>
@@ -63,11 +62,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-12 col-md-4">
                         <div class="form-group clearfix">
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" checked="checked" name="adjuntar_reporte" id="adjuntar_reporte" value="1"> Adjuntar reporte
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="form-group clearfix">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" checked="checked" name="adjuntar_mapa" id="adjuntar_mapa" value="1"> Adjuntar mapa
                                 </label>
                             </div>
                         </div>

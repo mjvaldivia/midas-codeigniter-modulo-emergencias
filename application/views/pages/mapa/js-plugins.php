@@ -18,12 +18,15 @@
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.polygon.containsLatLng.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.contextmenu.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.buttons.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/google/extension/markerwithlabel.js"); ?>
 
 <!-- Popup con informacion de un elemento -->
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/contenido.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/edicion.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/menu.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/contenido.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/edicion.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/menu.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion.js"); ?>
+
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/editar.js"); ?>
 
 <!-- ELEMENTOS -->
 <!-- Circulo -->
@@ -42,6 +45,7 @@
 
 <!-- Marcadores -->
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/label.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_alarma.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/lugar_emergencia.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/elementos/marcador/move_listener.js"); ?>
@@ -56,14 +60,20 @@
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/exportar.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/archivos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/formatos/rapanui_dengue.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/formatos/kml/importar/marcador.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/casos.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/zonas.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/embarazadas.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/rabia/vacunacion.js"); ?>
 <!-- Externos -->
-<?= loadJS("assets/js/modulo/mapa/formatos/kml/sidco-conaf.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>
 
 <!-- LAYOUT -->
 <?= loadJS("assets/js/modulo/mapa/layout/input/busqueda.js"); ?>
-
+<?= loadJS("assets/js/modulo/mapa/layout/ambito.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/capas.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/form/casos_febriles_rango_fecha.js"); ?>
 
 <!-- Permite editar mapa -->
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>

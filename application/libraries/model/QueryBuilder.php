@@ -458,6 +458,7 @@ class QueryBuilder{
      * @param string $valor valor a comparar
      */
     protected function _valores($condicion, $valor){
+
         if($condicion == "IS NULL" OR $condicion == "IS NOT NULL"){
             $agregar_valores = false;
         } else {
@@ -465,6 +466,9 @@ class QueryBuilder{
         }
         
         if($agregar_valores){
+            if(is_string($valor)){
+                $valor = explode(',',$valor);
+            }
             if(is_array($valor)){
                 foreach($valor as $key => $value){
                     $this->valores[] = $value;
@@ -484,10 +488,15 @@ class QueryBuilder{
      */
     protected function _condiciones($campo, $condicion, $valor){
         $sql = "";
+
         switch ($condicion) {
             case $condicion == "IN" OR $condicion == "NOT IN":
                 $arreglo = "";
                 $coma = "";
+                if(is_string($valor)){
+                    
+                    $valor = explode(',',$valor);
+                }
                 if(count($valor)>0){
                     foreach($valor as $field){
                         $arreglo .= $coma." ? ";
@@ -495,6 +504,7 @@ class QueryBuilder{
                     }
                 $sql .= $campo. " ".$condicion." (".$arreglo.")";
                 }
+
                 break;
             case $condicion == "IS NULL" OR $condicion == "IS NOT NULL":
                 $agregar_valores = false;
@@ -504,6 +514,7 @@ class QueryBuilder{
                 $sql .= $campo. " " . $condicion . " ? ";
                 break;
         }
+
         return $sql;
     }
     

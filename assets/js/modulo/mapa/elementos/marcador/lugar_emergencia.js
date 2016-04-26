@@ -3,9 +3,27 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
     mapa : null,
 
     draggable : true,
+    
+    /**
+     * identificador de la emergencia
+     */
     id_emergencia : null,
+    
+    /**
+     * 
+     */
     drawing_manager : null,
+    
+    /**
+     * id unico generado
+     */
     unique_id : null,
+    
+    /**
+     * Si es o no un elemento que se debe guardar
+     */
+    custom : true,
+    
     
     /**
     * Carga de dependencias
@@ -22,6 +40,15 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      */
     setearMapa : function(mapa) {
         this.mapa = mapa;
+    },
+    
+    /**
+     * 
+     * @param {boolean} custom
+     * @returns {undefined}
+     */
+    seteaCustom : function(custom){
+        this.custom = custom;
     },
     
     /**
@@ -45,7 +72,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             var circulo = new MapaCirculo();
             circulo.seteaTipo("CIRCULO LUGAR EMERGENCIA");
             circulo.seteaMapa(yo.mapa);
-            //circulo.seteaCustom(false);
+            circulo.seteaCustom(yo.custom);
             circulo.seteaUniqueId(yo.unique_id);
             circulo.seteaEditable(false);
             circulo.seteaIdentificador(identificador);
@@ -88,7 +115,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
             identificador: id,
             clave : yo.unique_id,
             capa: null,
-            custom: true,
+            custom: yo.custom,
             informacion : propiedades,
             draggable: draggable,
             map: yo.mapa,
@@ -117,98 +144,100 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
      */
     listenerRightClick : function(marker){
         
-        google.maps.event.clearListeners(marker, 'rightclick');
+        if(marker.custom == true){
         
-        var yo = this;
+            google.maps.event.clearListeners(marker, 'rightclick');
 
-        var contextMenuOptions={}; 
-        
-        contextMenuOptions.classNames = {
-            menu:'context_menu', 
-            menuSeparator:'context_menu_separator'
-        }; 
+            var yo = this;
 
-        var menuItems=[]; 
-       
-        menuItems.push({
-            className:'context_menu_item', 
-            eventName:'agregar_zona_lugar_emergencia', 
-            label:'<i class=\"fa fa-plus\"></i> Agregar zona '
-        });
-        
-        menuItems.push({});
-        
-        var zonas = jQuery.grep(lista_poligonos, function( a ) {
-            if(a["clave"] == marker.clave){
-                return true;
-            }
-        });
-        
-        $.each(zonas, function(i, circulo){
+            var contextMenuOptions={}; 
+
+            contextMenuOptions.classNames = {
+                menu:'context_menu', 
+                menuSeparator:'context_menu_separator'
+            }; 
+
+            var menuItems=[]; 
+
             menuItems.push({
                 className:'context_menu_item', 
-                eventName:'eliminar_zona__' + circulo.identificador, 
-                label:'<div class=\"row\"><div class=\"col-xs-9\"><i class=\"fa fa-remove\"></i> Eliminar zona </div><div class=\"col-xs-3\"><div class="color-capa-preview" style="background-color:' + circulo.fillColor + '"></div></div></div>'
+                eventName:'agregar_zona_lugar_emergencia', 
+                label:'<i class=\"fa fa-plus\"></i> Agregar zona '
             });
-        });
-        
-        
-        menuItems.push({
-            className:'context_menu_item', 
-            eventName:'eliminar_lugar_emergencia_click', 
-            label:'<i class=\"fa fa-remove\"></i> Eliminar lugar de la emergencia'
-        });
-         
-        contextMenuOptions.menuItems = menuItems; 
 
-        var contextMenu = new ContextMenu(
-            this.mapa , 
-            contextMenuOptions
-        ); 
+            menuItems.push({});
 
-        google.maps.event.addListener(marker, 'rightclick', function(mouseEvent){ 
-            contextMenu.show(mouseEvent.latLng); 
-        }); 
-        
-        
-        google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
-            switch(eventName){
-                case 'agregar_zona_lugar_emergencia':
-                    contextMenu.hide();
-                    yo.popupMetros(yo.mapa, marker, contextMenu);
-                break;
-                case 'eliminar_lugar_emergencia_click':
-                    contextMenu.hide();
-                    delete contextMenu;
-                    var elemento = new MapaElementos();
-                    elemento.removeOneCustomElements("clave", marker.clave);
-                break;
-                default:
-                    var separar = eventName.split("__");
-                   
-                    var eliminar = jQuery.grep(lista_poligonos, function( a ) {
-                        if(a["identificador"] == separar[1]){
-                            return true;
-                        }
-                    });
-                    
-                    $.each(eliminar, function(i, elemento){
-                       elemento.setMap(null); 
-                    });
-                    
-                    lista_poligonos = jQuery.grep(lista_poligonos, function( a ) {
-                        if(a["identificador"] != separar[1]){
-                            return true;
-                        }
-                    });
-                    contextMenu.hide();
-                    delete contextMenu;
-                    
-                    yo.listenerRightClick(marker);
-                break;
-            }
-	});
-        
+            var zonas = jQuery.grep(lista_poligonos, function( a ) {
+                if(a["clave"] == marker.clave){
+                    return true;
+                }
+            });
+
+            $.each(zonas, function(i, circulo){
+                menuItems.push({
+                    className:'context_menu_item', 
+                    eventName:'eliminar_zona__' + circulo.identificador, 
+                    label:'<div class=\"row\"><div class=\"col-xs-9\"><i class=\"fa fa-remove\"></i> Eliminar zona </div><div class=\"col-xs-3\"><div class="color-capa-preview" style="background-color:' + circulo.fillColor + '"></div></div></div>'
+                });
+            });
+
+
+            menuItems.push({
+                className:'context_menu_item', 
+                eventName:'eliminar_lugar_emergencia_click', 
+                label:'<i class=\"fa fa-remove\"></i> Eliminar lugar de la emergencia'
+            });
+
+            contextMenuOptions.menuItems = menuItems; 
+
+            var contextMenu = new ContextMenu(
+                this.mapa , 
+                contextMenuOptions
+            ); 
+
+            google.maps.event.addListener(marker, 'rightclick', function(mouseEvent){ 
+                contextMenu.show(mouseEvent.latLng); 
+            }); 
+
+
+            google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
+                switch(eventName){
+                    case 'agregar_zona_lugar_emergencia':
+                        contextMenu.hide();
+                        yo.popupMetros(yo.mapa, marker, contextMenu);
+                    break;
+                    case 'eliminar_lugar_emergencia_click':
+                        contextMenu.hide();
+                        delete contextMenu;
+                        var elemento = new MapaElementos();
+                        elemento.removeOneCustomElements("clave", marker.clave);
+                    break;
+                    default:
+                        var separar = eventName.split("__");
+
+                        var eliminar = jQuery.grep(lista_poligonos, function( a ) {
+                            if(a["identificador"] == separar[1]){
+                                return true;
+                            }
+                        });
+
+                        $.each(eliminar, function(i, elemento){
+                           elemento.setMap(null); 
+                        });
+
+                        lista_poligonos = jQuery.grep(lista_poligonos, function( a ) {
+                            if(a["identificador"] != separar[1]){
+                                return true;
+                            }
+                        });
+                        contextMenu.hide();
+                        delete contextMenu;
+
+                        yo.listenerRightClick(marker);
+                    break;
+                }
+            });
+        }
     },
     
     /**
@@ -236,7 +265,7 @@ var MapaMarcadorLugarEmergencia = Class({ extends : MapaMarcador}, {
                             identificador: null,
                             draggable: true,
                             clave : yo.unique_id,
-                            custom : true,
+                            custom : yo.custom,
                             icon: baseUrl + "assets/img/emergencia.png",
                             informacion: {"TIPO" : "LUGAR EMERGENCIA",
                                           "NOMBRE" : ""}

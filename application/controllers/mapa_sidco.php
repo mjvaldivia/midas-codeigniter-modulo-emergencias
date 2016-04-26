@@ -2,8 +2,16 @@
 
 class Mapa_sidco extends MY_Controller {
     
+    /**
+     * Ubicacion URL del KML con incendios
+     * @var string
+     */
     protected $_kml_path = "http://sidco.conaf.cl/mapa/earth-data.php?key=2gTkrf%2FkZkN4pvHtRclb7c%2FUobAO57i0o8AdyhFdAwA%3D";
         
+    /**
+     * Retorna URL que contiene informacion
+     * de incendio
+     */
     public function info(){
         header('Content-type: application/json');    
         try{
@@ -61,8 +69,6 @@ class Mapa_sidco extends MY_Controller {
                         }
                     }
                 }
-            
-            
             if($identificador != null){
                 break;
             }
@@ -87,7 +93,6 @@ class Mapa_sidco extends MY_Controller {
                 $zfClient->request()->getBody()
             )
         );
-        fb($kml);
         return $kml;
     }
 }

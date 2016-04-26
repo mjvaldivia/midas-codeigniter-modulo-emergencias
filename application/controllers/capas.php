@@ -65,8 +65,7 @@ class Capas extends MY_Controller
 
         $this->load->library(array("template"));
 
-        
-        
+
         if($this->usuario->getPermisoEditar()){
             if(isset($params["tab"])){
                 $tab = $params["tab"];
@@ -104,16 +103,42 @@ class Capas extends MY_Controller
     
     
     function ajax_grilla_capas_unicas() {
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+
         $this->load->helper(array("modulo/capa/capa","file"));
         $lista = $this->capa_model->listarCapasUnicas();
-        $this->load->view("pages/capa/grilla_capas", array("lista" => $lista));
+        $roles = explode(',',$this->session->userdata('session_roles'));
+        $data = array(
+            "lista" => $lista,
+            "puedeEditar" => $puedeEditar,
+            "usuario" => $this->session->userdata('session_idUsuario')
+        );
+        $this->load->view("pages/capa/grilla_capas", $data);
     }
 
     function ajax_grilla_capas() {
         $id_capa = $this->input->post('id_capa');
         $this->load->helper(array("modulo/capa/capa","file"));
-        $lista = $this->capa_model->listarCapas($id_capa);
-        $this->load->view("pages/capa/grilla_capas_detalle", array("lista" => $lista));
+
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+
+        if(!$puedeEditar){
+            $regiones = $this->session->userdata('session_regiones');
+            $lista = $this->capa_model->listarCapas($id_capa,$regiones);
+        }else{
+            $lista = $this->capa_model->listarCapas($id_capa);
+        }
+
+
+        $data = array(
+            "lista" => $lista,
+            "puedeEditar" => $puedeEditar
+        );
+        $this->load->view("pages/capa/grilla_capas_detalle", $data);
     }
 
 
@@ -242,6 +267,13 @@ class Capas extends MY_Controller
         $query .= 'LEFT JOIN comunas c ON c.com_ia_id = capas_poligonos_informacion.poligono_comuna
                     LEFT JOIN provincias p ON p.prov_ia_id = c.prov_ia_id
                     LEFT JOIN regiones r ON r.reg_ia_id = p.reg_ia_id ';
+        $this->load->model('rol_model','rolModel');
+
+        $puedeEditar = $this->usuario->tieneRol(27);
+        if(!$puedeEditar){
+            $regiones = $this->session->userdata('session_regiones');
+            $where .= ' and r.reg_ia_id IN ('.$regiones.') ';
+        }
         $query = $query . $where . $order . $limit;
         /*$this->db->where('poligono_capitem',$subcapa);
         $this->db->join('comunas c','c.com_ia_id = capas_poligonos_informacion.poligono_comuna','inner');
@@ -389,6 +421,11 @@ class Capas extends MY_Controller
         $this->load->helper("session");
         sessionValidation();
         $params = $this->input->post();
+        $params['region'] = 0;
+        if(isset($params['region_capa']))
+            $params['region'] = $params['region_capa'];
+
+        $params['usuario'] = $this->session->userdata('session_idUsuario');
 
         $this->load->helper("session");
         $this->load->model("capa_model", "CapaModel");
@@ -528,7 +565,8 @@ class Capas extends MY_Controller
      */
     public function editarItemSubcapa(){
         $this->load->helper(array("session", "debug"));
-        $id_item = $this->input->post('item');
+        $params = $this->uri->uri_to_assoc();
+        $id_item = $params['item'];
 
         $this->load->model('capa_model','CapaModel');
 
@@ -563,6 +601,28 @@ class Capas extends MY_Controller
         $data['js'] = $this->load->view('pages/mapa/js-plugins',array());
         $this->load->view("pages/capa/edicion_item_subcapa",$data);
     }
+
+
+    public function nuevoItemSubCapa(){
+        $params = $this->uri->uri_to_assoc();
+        $this->load->model('capa_model','CapaModel');
+
+        $subcapa = $this->CapaModel->getSubCapa($params['subcapa']);
+        $data['id_subcapa'] = $params['subcapa'];
+        $data['subcapa']    = $subcapa['geometria_nombre'];
+        $data['capa']       = $subcapa['cap_c_nombre'];
+        $propiedades = explode(',',$subcapa['cap_c_propiedades']);
+        foreach($propiedades as $prop){
+            $arr_propiedades[$prop] = '';
+        }
+        $data['propiedades'] = $arr_propiedades;
+        $data['boton_cerrar'] = true;
+        $data['id_item']    = 0;
+        $data['tipo'] = 'Point';
+
+        $data['js'] = $this->load->view('pages/mapa/js-plugins',array());
+        $this->load->view("pages/capa/edicion_item_subcapa",$data);
+    }
     
     /**
      * Guarda un elemento de una capa
@@ -574,27 +634,13 @@ class Capas extends MY_Controller
         $item = $this->uri->uri_to_assoc();
         $id_item = $item['item'];
         $params = $this->input->post();
-
+        $id_subcapa = $params['id_subcapa'];
         $data = array();
-        
-        $elemento = $this->capa_detalle_elemento_model->getById($id_item);
-        $geometria = unserialize($elemento->poligono_geometria);
 
-        switch ($geometria["type"]) {
-            case "Point":
-                $geometria["coordinates"][1] = $params["latitud"];
-                $geometria["coordinates"][0] = $params["longitud"];
-                $data["poligono_geometria"] = serialize($geometria);
-                break;
-
-            default:
-                break;
-        }
-            
         foreach($params["propiedad_nombre"] as $key => $nombre){
             $propiedades[$nombre] = $params["propiedad_valor"][$key];
         }
-        
+
         $this->load->library("capa/elemento/capa_elemento_locacion", $propiedades);
         $this->capa_elemento_locacion->process();
         $data["poligono_comuna"] = $this->capa_elemento_locacion->getComuna();
@@ -602,9 +648,48 @@ class Capas extends MY_Controller
         $data["poligono_region"] = $this->capa_elemento_locacion->getRegion();
         
         $data["poligono_propiedades"] = serialize($propiedades);
+        
+        if($id_item > 0){
+            $elemento = $this->capa_detalle_elemento_model->getById($id_item);
+            $geometria = unserialize($elemento->poligono_geometria);
+
+            switch ($geometria["type"]) {
+                case "Point":
+                    $geometria["coordinates"][1] = $params["latitud"];
+                    $geometria["coordinates"][0] = $params["longitud"];
+                    $data["poligono_geometria"] = serialize($geometria);
+                    break;
+
+                default:
+                    break;
+            }
+        }else{
+            $item_subcapa = $this->capa_model->listarItemsSubCapas($id_subcapa,1);
+            $item_subcapa = $item_subcapa[0];
+            $geometria = unserialize($item_subcapa['poligono_geometria']);
+            $data['poligono_capitem'] = $id_subcapa;
+            switch ($geometria["type"]) {
+                case "Point":
+                    $geometria["coordinates"][1] = $params["latitud"];
+                    $geometria["coordinates"][0] = $params["longitud"];
+                    $data["poligono_geometria"] = serialize($geometria);
+                    break;
+
+                default:
+                    break;
+            }
+            
+        }
+        
 
         $json = array();
-        if($this->capa_detalle_elemento_model->update($data, $id_item)){
+        if($id_item > 0){
+            $guardar = $this->capa_detalle_elemento_model->update($data, $id_item);    
+        }else{
+            $guardar = $this->capa_detalle_elemento_model->insert($data);
+        }
+        
+        if($guardar){
             $json['estado'] = true;
             $json['mensaje'] = "Datos guardados correctamente";
         }else{
@@ -619,7 +704,7 @@ class Capas extends MY_Controller
     public function subir_CapaIconTemp(){
         $error = false;
         $this->load->helper(array("session", "debug"));
-        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+        $this->load->library("cache");
         sessionValidation();
         if (!isset($_FILES)) {
             show_error("No se han detectado archivos", 500, "Error interno");
@@ -646,7 +731,9 @@ class Capas extends MY_Controller
             'type'=> $type
 
         );
-        $this->cache->save($nombre_cache_id, $arr_cache, 28800);
+        $cache = Cache::iniciar();
+        $cache->save($arr_cache, $nombre_cache_id);
+       
 
         echo json_encode(array("uploaded" => 1, 'nombre_cache_id' => $nombre_cache_id, 'ruta'=>base_url($binary_path)));
     }
@@ -715,8 +802,31 @@ class Capas extends MY_Controller
 
 
     public function nuevaCapa(){
+        $this->load->model('rol_model','rolModel');
 
-        $this->load->view('pages/capa/nueva_capa');
+        $puedeEditar = $this->usuario->tieneRol(27);
+        $cargar_regiones = false;
+
+        $data = array();
+        if(!$puedeEditar){
+            $cargar_regiones = true;
+            $this->load->model('region_model','regionModel');
+            $regiones = explode(',',$this->session->userdata('session_regiones'));
+            $arr_regiones = array();
+            foreach($regiones as $reg){
+                $region = $this->regionModel->getById($reg);
+                $arr_regiones[] = array('nombre' => $region->reg_c_nombre, 'id' => $reg);
+            }
+
+            $data = array(
+                'cargar_regiones' => $cargar_regiones,
+                'regiones' => $arr_regiones
+            );
+
+        }
+
+
+        $this->load->view('pages/capa/nueva_capa',$data);
 
     }
 
@@ -733,6 +843,13 @@ class Capas extends MY_Controller
         $params = $this->uri->uri_to_assoc();
         $data = array('subcapa' => $params['subcapa']);
 
+        $this->load->model('capa_model','CapaModel');
+        $subcapa = $this->CapaModel->getSubCapa($params['subcapa']);
+        $agregarItem = false;
+        if(!empty($subcapa['icon_path']) and empty($subcapa['color']))
+            $agregarItem = true;
+
+        $data['agregar_item'] = $agregarItem;
         $this->load->view('pages/capa/listado_items_subcapa',$data);
     }
     
@@ -949,6 +1066,44 @@ class Capas extends MY_Controller
                                             'properties' => $properties,
                                             'filenames' => $arr_filename,
                                             'geometry' => $tipo_geometria));
+    }
+
+
+
+    public function descargarGeoJSON(){
+        $params = $this->uri->uri_to_assoc();
+
+        $this->load->model('capa_model','capaModel');
+        $capa = $this->capaModel->getCapa($params['id']);
+        $nombre_capa = str_replace(' ','',$capa->cap_c_nombre);
+        $subcapas = $this->capaModel->listarCapas($params['id']);
+
+        $geojson = array(
+            'type' => 'FeatureCollection',
+            'features' => array()
+        );
+        foreach($subcapas as $subcapa){
+            $items = $this->capaModel->listarItemsSubCapas($subcapa['geometria_id']);
+            foreach($items as $item){
+                $propiedades = unserialize($item['poligono_propiedades']);
+                $geometria = unserialize($item['poligono_geometria']);
+                $geojson['features'][] = array(
+                    'type' => 'Feature',
+                    'properties' => $propiedades,
+                    'geometry' => $geometria
+                );
+
+            }
+
+
+        }
+
+        header("Content-Type: application/json");
+        header("Content-Disposition: attachment;filename=" . $nombre_capa.".geojson");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        echo json_encode($geojson);
     }
 
 

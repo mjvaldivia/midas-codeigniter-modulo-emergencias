@@ -276,7 +276,6 @@ var MapaCapa = Class({
      * @returns {void}
      */
     elemento : function(id, nombre, geometry, propiedades, subcapa, zona, icono, color){
-        console.log(geometry);
         var yo = this;
         switch (geometry.type) {
             case "LineString":

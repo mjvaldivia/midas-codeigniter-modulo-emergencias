@@ -31,6 +31,8 @@ Class Direccion_Nombre_Region{
     public function __toString() {
         if(!is_null($this->_region)){
             return $this->_region->reg_c_nombre;
+        } else {
+            return "";
         }
     }
     

@@ -65,7 +65,7 @@ var MapaEditor = Class({
                 google.maps.drawing.OverlayType.MARKER,
                 google.maps.drawing.OverlayType.CIRCLE,
                 google.maps.drawing.OverlayType.POLYGON,
-               // google.maps.drawing.OverlayType.POLYLINE,
+                google.maps.drawing.OverlayType.POLYLINE,
                 google.maps.drawing.OverlayType.RECTANGLE
               ]
             },
@@ -87,6 +87,7 @@ var MapaEditor = Class({
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
             },
+            
             polygonOptions: {
                 clickable: true,
                 editable: true,
@@ -106,16 +107,24 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             }
         });
+        
         drawingManager.setMap(mapa);
         
         var ruler = new GoogleMapsRuler(mapa);
         ruler.button();
         
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+            
+            marker.html = "";
+            
             lista_markers.push(marker);
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
+
+            var click = new MapaMarcadorEditar();
+            click.seteaMarker(marker);
+            click.clickListener();
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
@@ -136,13 +145,14 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             });
             
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(rectangle, mapa);
             
             lista_poligonos.push(rectangle);
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
+
         });
         
         google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
@@ -162,8 +172,32 @@ var MapaEditor = Class({
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
             });
+            
             yo.class_poligono.addClickListener(polygon, mapa);
             lista_poligonos.push(polygon);
+            
+            var elemento = new MapaElementos();
+            elemento.listaElementosVisor();
+        });
+        
+        google.maps.event.addListener(drawingManager, 'polylinecomplete', function(polyline) {
+            polyline.setOptions({
+                id : null,
+                custom : true,
+                tipo : "LINEA",
+                identificador:null,
+                clave : yo.uniqID(20),
+                capa : null,
+                informacion: {"NOMBRE" : "Linea agregada"},
+                clickable: false,
+                editable: false,
+                strokeColor: '#000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2
+            });
+            
+            yo.class_poligono.addClickListener(polyline, mapa);
+            lista_poligonos.push(polyline);
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
@@ -185,10 +219,9 @@ var MapaEditor = Class({
                 strokeWeight: 2,
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
-            })
+            });
             
-            
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(circle, mapa);
             
             lista_poligonos.push(circle);
@@ -212,6 +245,8 @@ var MapaEditor = Class({
                           "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),
                           "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
+                          "casos_febriles" : $("#importar_rapanui_casos").is(":checked") ? 1:0,
+                          "casos_febriles_zona" : $("#importar_rapanui_zonas").is(":checked") ? 1:0,
                           "kmls" : this.class_kml.listArchivosKml(),
                           "id" : this.id_emergencia};
         Messenger().run({
@@ -250,7 +285,7 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlImportar : function (map) {
-        
+
         /**
          * Popup para subir kml
          */
@@ -263,29 +298,89 @@ var MapaEditor = Class({
         /**
          * Importar datos externos de conaf
          */
-        $("#importar_sidco").click(function(){
-            var sidco = new MapaKmlSidcoConaf();
-            sidco.seteaMapa(map);
-            
-            if($(this).is(":checked")){
-                sidco.loadKml();
-            } else {
-                sidco.remove();
-            }
+        $("#importar_sidco").livequery(function(){
+            $(this).click(function(){
+                var sidco = new MapaKmlSidcoConaf();
+                sidco.seteaMapa(map);
+                
+                if($(this).is(":checked")){
+                    console.log("cargando sidco");
+                    sidco.loadKml();
+                } else {
+                    sidco.remove();
+                }
+            });
         });
         
         /**
-         * Importar casos de ebola
+         * Importar casos febriles
          */
-        $("#importar_rapanui").click(function(){
-            var sidco = new MapaRapanuiDengue();
-            sidco.seteaMapa(map);
-            
-            if($(this).is(":checked")){
-                sidco.load();
-            } else {
-                sidco.remove();
-            }
+        $("#importar_rapanui_casos").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaCasos();
+                rapanui.seteaMapa(map);
+
+                if($(this).is(":checked")){
+                    rapanui.load();
+                    $("#formulario-casos-rango").removeClass("hidden");
+                } else {
+                    rapanui.remove();
+                    
+                    if(!$("#importar_rapanui_zonas").is(":checked")){
+                        $("#formulario-casos-rango").addClass("hidden");
+                    }
+                }
+            });
+        });
+        
+        /**
+         * Importar casos febriles
+         */
+        $("#importar_rapanui_zonas").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaZonas();
+                rapanui.seteaMapa(map);
+                if($(this).is(":checked")){
+                    rapanui.load();
+                    $("#formulario-casos-rango").removeClass("hidden");
+                } else {
+                    rapanui.remove();
+                    
+                    if(!$("#importar_rapanui_casos").is(":checked")){
+                        $("#formulario-casos-rango").addClass("hidden");
+                    }
+                }
+            });
+        });
+        
+        /**
+         * Importar embarazadas
+         */
+        $("#importar_rapanui_embarazo").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaEmbarazadas();
+                rapanui.seteaMapa(map);
+                if($(this).is(":checked")){
+                    rapanui.load();
+                } else {
+                    rapanui.remove();
+                }
+            });
+        });
+        
+        /**
+         * Vacunacion rabia
+         */
+        $("#rabia_vacunacion").livequery(function(){
+            $(this).click(function(){
+                var carga = new MapaRabiaVacunacion();
+                carga.seteaMapa(map);
+                if($(this).is(":checked")){
+                    carga.load();
+                } else {
+                    carga.remove();
+                }
+            });
         });
         
         /**
@@ -305,7 +400,12 @@ var MapaEditor = Class({
                 
                 lista_kml = jQuery.grep(lista_kml, function( a ) {
                     if(a["hash"] == id){
-                        a.setMap(null);
+                        var marcador = new MapaMarcador();
+                        marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
+                        
+                        var poligono = new MapaPoligono();
+                        poligono.removerPoligono("identificador", "kml_" + a["hash"]);
+                        
                         return false;
                     } else {
                         return true;
@@ -367,16 +467,10 @@ var MapaEditor = Class({
      * @returns {undefined}
      */
     controlInstalaciones : function (map) {
-        var yo = this;
-        var buttonOptions = {
-        		gmap: map,
-        		name: '<i class=\"fa fa-building\"></i> Instalaciones',
-        		position: google.maps.ControlPosition.TOP_RIGHT,
-        		action: function(){
-        			
-        		}
-        }
-        var button1 = new buttonControl(buttonOptions, "button-map");
+        var menu = new MapaLayoutAmbitoCapa();
+        menu.seteaMapa(map);
+        menu.seteaEmergencia(this.id_emergencia);
+        menu.render();
     },
     
     /**
@@ -400,9 +494,7 @@ var MapaEditor = Class({
                         }
                     }
             });
-            
-           
-            
+
             var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                               "id" : this.id_emergencia};
             

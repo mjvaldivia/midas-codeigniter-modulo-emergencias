@@ -69,6 +69,18 @@ class Mantenedor_usuario extends MY_Controller {
         $this->template->parse("default", "pages/mantenedor_usuarios/index", array());
     }
     
+    public function correccion_usuarios(){
+        $lista = $this->usuario_model->listar();
+        $data = array();
+        foreach($lista as $usuario){
+            $data["usu_c_login"] = $this->_getLogin(str_replace(" ", ".", strtolower(substr(trim($usuario["usu_c_nombre"]), 0, 1) . "." .trim($usuario["usu_c_apellido_paterno"]))));
+                
+            $rut = explode("-", $usuario["usu_c_rut"]);
+            $data["usu_c_clave"] = sha1(substr($rut[0], strlen($rut[0])-4, 4));
+            $this->usuario_model->update($data, $usuario["usu_ia_id"]);
+        }
+    }
+    
     /**
      * Guardar
      */
@@ -101,10 +113,11 @@ class Mantenedor_usuario extends MY_Controller {
                 $id_usuario = $usuario->usu_ia_id;
             } else {
                 
-                $data["usu_c_login"] = str_replace(" ", ".", strtolower(substr($params["nombre"], 0, 1) . "." .$params["apellido_paterno"]));
-                $data["usu_c_clave"] = sha1("123");
+                $data["usu_c_login"] = $this->_getLogin(str_replace(" ", ".", strtolower(substr(trim($params["nombre"]), 0, 1) . "." .trim($params["apellido_paterno"]))));
                 
-                
+                $rut = explode("-", $params["rut"]);
+                $data["usu_c_clave"] = sha1(substr($rut[0], strlen($rut[0])-4, 4));
+
                 $id_usuario = $this->usuario_model->insert($data);
             }
             
@@ -195,6 +208,26 @@ class Mantenedor_usuario extends MY_Controller {
         $lista = $this->usuario_model->listarUsuariosEmergencia($params["filtro_rut"],$params["filtro_nombre"], $params["filtro_id_region"]);
         
         $this->load->view("pages/mantenedor_usuarios/grilla/grilla-usuarios", array("lista" => $lista));
+    }
+    
+    /**
+     * Retorna login
+     * @param string $login
+     * @param int $intento
+     * @return string
+     */
+    protected function _getLogin($login, $intento = 0){
+
+        if($intento != 0){
+            $login .= "." . $intento;
+        }
+        
+        $existe = $this->usuario_model->getByLogin($login);
+        if(!is_null($existe)){
+            $login = $this->_getLogin($login, $intento + 1);
+        }
+        
+        return $login;
     }
 }
 

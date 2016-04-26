@@ -23,38 +23,40 @@ class Archivo extends MY_Controller {
         $error    = "";
           
         $retorno_archivo = $this->visor_upload_temp_kml->upload(
-            array('png',
-                  'jpg',
-                    'jpeg',
-                    'bmp',
-                    'pdf',
-                    'doc',
-                    'dot',
-                    'docx',
-                    'dotx',
-                    'docm',
-                    'dotm',
-                    'xls',
-                    'xlt',
-                    'xla',
-                    'xlsx',
-                    'xltx',
-                    'xlsm',
-                    'xltm',
-                    'xlam',
-                    'xlsb',
-                    'ppt',
-                    'pot',
-                    'pps',
-                    'ppa',
-                    'pptx',
-                    'potx',
-                    'ppsx',
-                    'ppam',
-                    'pptm',
-                    'potm',
-                    'ppsm',
-                    'txt')); 
+            array(
+                'png',
+                'jpg',
+                'jpeg',
+                'bmp',
+                'pdf',
+                'doc',
+                'dot',
+                'docx',
+                'dotx',
+                'docm',
+                'dotm',
+                'xls',
+                'xlt',
+                'xla',
+                'xlsx',
+                'xltx',
+                'xlsm',
+                'xltm',
+                'xlam',
+                'xlsb',
+                'ppt',
+                'pot',
+                'pps',
+                'ppa',
+                'pptx',
+                'potx',
+                'ppsx',
+                'ppam',
+                'pptm',
+                'potm',
+                'ppsm',
+                'txt')
+        ); 
         
         if(!$retorno_archivo["correcto"]){
             $correcto = false;
@@ -137,7 +139,7 @@ class Archivo extends MY_Controller {
         sessionValidation();
         $params = $this->uri->uri_to_assoc();
         $this->load->model("archivo_model", "ArchivoModel");
-        $this->ArchivoModel->descargar($params['k']);
+        $this->ArchivoModel->descargar($params['hash']);
     }
 
 

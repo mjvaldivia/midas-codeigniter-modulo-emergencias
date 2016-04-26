@@ -6,7 +6,7 @@ class Comuna extends MY_Controller {
      *
      * @var Comuna_Model 
      */
-    protected $comuna_model;
+    public $comuna_model;
     
     /**
      * Constructor
@@ -15,6 +15,26 @@ class Comuna extends MY_Controller {
     {
         parent::__construct();
         $this->load->model("comuna_model", "comuna_model");
+    }
+    
+    public function json_comunas_region(){
+        header('Content-type: application/json');
+        $id = $this->input->post('id');
+        $lista_comunas = $this->comuna_model->getComunasPorRegion($id);
+        
+        $salida = array();
+        
+        foreach($lista_comunas as $comuna){
+            $salida[] = array(
+                "com_ia_id" => $comuna->com_ia_id,
+                "com_c_nombre" => $comuna->com_c_nombre);
+        }
+        
+        echo Zend_Json_Encoder::encode(
+                array(
+                    "correcto" => true,
+                    "comunas" => $salida)
+        );
     }
     
     /**

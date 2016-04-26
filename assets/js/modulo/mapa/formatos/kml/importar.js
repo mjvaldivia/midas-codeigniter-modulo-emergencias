@@ -24,40 +24,6 @@ var MapaKmlImportar = Class({
     
     /**
      * 
-     * @param {type} hash
-     * @param {type} tipo
-     * @param {type} nombre
-     * @param {type} archivo
-     * @returns {undefined}
-     */
-    cargarKmlTemporal : function(
-        hash, 
-        tipo, 
-        nombre, 
-        archivo
-    ){
-        var kmzLayer = new google.maps.KmlLayer( 
-            siteUrl + 'mapa_kml/kml_temporal/hash/' + hash + "/file." + tipo,
-            {
-                suppressInfoWindows: false,
-                preserveViewport: true
-            }
-        );
-        
-        kmzLayer.setMap(this.mapa);
-        kmzLayer.id = null;
-        kmzLayer.tipo = tipo;
-        kmzLayer.archivo = archivo;
-        kmzLayer.hash = hash;
-        kmzLayer.nombre = nombre;
-       
-        lista_kml.push(kmzLayer);
-        
-        notificacionCorrecto("KML", "Archivo " + nombre + " cargado");
-    },
-    
-    /**
-     * 
      * @returns {undefined}
      */
     popupUpload : function(){
@@ -117,18 +83,98 @@ var MapaKmlImportar = Class({
                         return {"nombre" : $("#nombre").val()}
                     }
                 }).on("filebatchselected", function(event, files) {
-                    $(".modal-footer > .btn-success").attr("disabled",false);
+                    
+                    $(".modal-footer > .btn-success").attr("disabled", false);
+                    
+                }).on("filebatchpreupload", function(event, data, previewId, index){
+                    
+                    $(".modal-footer > .btn-success").removeClass("fa-check");
+
+                    
+                    $(".modal-footer > .btn-success").html("<i class=\"fa fa-spin fa-spinner\"></i> Procesando archivo");
+                    $(".modal-footer > .btn-success").attr("disabled", true);
+                    
                 }).on('filebatchuploadsuccess', function(event, data) {
+                    
+                    $(".modal-footer > .btn-success").addClass("fa-check");
+
+                    
+                    $(".modal-footer > .btn-success").html("Cargar archivo");
+                    $(".modal-footer > .btn-success").attr("disabled", false);
                     
                     if(data.response.correcto){
                         bootbox.hideAll();
-                        yo.cargarKmlTemporal(
-                            data.response.hash, 
-                            data.response.tipo, 
-                            data.response.nombre,
-                            data.response.archivo
-                        );
+                        
+                        $.each(data.response.elementos, function(i, elemento){
+                            
+                            if(elemento["tipo"] == "PUNTO"){
+                                var marcador = new MapaKmlImportarMarcador();
+                                marcador.seteaMapa(yo.mapa);
+                                marcador.posicionarMarcador(
+                                    "kml_" + data.response.hash, 
+                                    null, 
+                                    elemento["coordenadas"]["lat"], 
+                                    elemento["coordenadas"]["lon"], 
+                                    elemento["propiedades"], 
+                                    elemento["descripcion"], 
+                                    baseUrl + elemento["icono"]
+                                );
+                            }
+                            
+                            if(elemento["tipo"] == "POLIGONO"){
+                                var poligono = new MapaPoligono();
+                                poligono.seteaMapa(yo.mapa);
+                                poligono.dibujarPoligono(
+                                    "kml_" + data.response.hash,
+                                    elemento["nombre"], 
+                                    null,
+                                    elemento["coordenadas"], 
+                                    {"NOMBRE" : elemento["nombre"]},
+                                    null, 
+                                    elemento["color"]
+                                );
+                            }
+                            
+                            if(elemento["tipo"] == "MULTIPOLIGONO"){
+                                var poligono = new MapaPoligonoMulti();
+                                poligono.seteaMapa(yo.mapa);
+                                poligono.dibujarPoligono(
+                                    "kml_" + data.response.hash,
+                                    elemento["nombre"], 
+                                    null,
+                                    elemento["coordenadas"], 
+                                    {"NOMBRE" : elemento["nombre"]},
+                                    null, 
+                                    elemento["color"]
+                                );
+                            }
+                            
+                            if(elemento["tipo"] == "LINEA"){
+                                var linea = new MapaLineaMulti();
+                                linea.seteaMapa(yo.mapa);
+                                linea.dibujarLinea(
+                                    "kml_" + data.response.hash, 
+                                    null, 
+                                    elemento["coordenadas"]["linea"],
+                                    {"NOMBRE" : elemento["nombre"]},
+                                    null,
+                                    elemento["color"]
+                                );
+                            }
+                        });
+                        
+                        var kml = {};
+                        kml = {
+                            "id" : null,
+                            "tipo" : data.response.tipo,
+                            "hash" : data.response.hash,
+                            "nombre" : data.response.nombre, 
+                            "archivo" : data.response.archivo
+                        };                        
+                        lista_kml.push(kml);
+
                         var archivos = new MapaArchivos();
+                        archivos.seteaMapa(yo.mapa);
                         archivos.updateListaArchivosAgregados();
                     } else {
                         procesaErrores(data.response.errores);

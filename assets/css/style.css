@@ -508,7 +508,7 @@ a:focus {
 .navbar-side .side-user img {
     display: block;
     margin-bottom: 15px;
-    margin-left: 20px;
+    margin-left: 50px;
 }
 
 .navbar-side .side-user .welcome {
@@ -2097,7 +2097,7 @@ input[type="checkbox"]:checked::after,
 
 .nav-tabs{margin-bottom:0;}
 .nav-tabs>li>a{background-color:#ecf0f1;border-bottom:1px solid #ddd;}
-/*.portlet-heading, .portlet-body{overflow:hidden;}*/
+.portlet-heading, .portlet-body{overflow:hidden;}
 
 
 .tab-content{border-left:1px solid #ddd;overflow:hidden;border-bottom:1px solid #ddd;border-right:1px solid #ddd;}
@@ -2338,3 +2338,30 @@ body.modal-open {
 .alert.alert-danger:not(.messenger-message):after {
 	content: "\f00d";
 }
+
+.selectize-control.multi .selectize-input > div {
+    background: #2980b9 none repeat scroll 0 0;
+    border: 0 solid rgba(0, 0, 0, 0);
+    color: #FFF;
+    cursor: pointer;
+    margin: 0 3px 3px 0;
+    padding: 1px 3px;
+}
+
+.label {
+    font-size: 100%;
+}
+
+.selectize-dropdown-content > div > .label{
+    color: #000;
+}
+
+.bootstrap-datetimepicker-widget{
+    color: #000;
+}
+
+.cke_dialog
+{
+    z-index: 1000002 !important;
+}
+

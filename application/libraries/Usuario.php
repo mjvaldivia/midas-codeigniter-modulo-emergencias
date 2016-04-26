@@ -114,7 +114,7 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoFinalizarEmergencia(){
-        $permiso = $this->_permiso_model->tienePermisoFinalizarEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        $permiso = $this->_permiso_model->tienePermisoFinalizarEmergencia($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {
@@ -127,7 +127,7 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoReporteEmergencia(){
-        $permiso = $this->_permiso_model->tienePermisoReporteEmergencia($this->listarRoles(), Modulo_Model::SUB_MODULO_EMERGENCIA);
+        $permiso = $this->_permiso_model->tienePermisoReporteEmergencia($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {
@@ -140,7 +140,7 @@ Class Usuario{
      * @return boolean
      */
     public function getPermisoActivarAlarma(){
-        $permiso = $this->_permiso_model->tienePermisoActivarAlarma($this->listarRoles(), Modulo_Model::SUB_MODULO_ALARMA);
+        $permiso = $this->_permiso_model->tienePermisoActivarAlarma($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {
@@ -180,6 +180,32 @@ Class Usuario{
      */
     public function getPermisoEditar(){
         $permiso = $this->_permiso_model->tienePermisoEditar($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getPermisoVerFormularioDatosPersonales(){
+        $permiso = $this->_permiso_model->tienePermisoVerFormularioDatosPersonales($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getPermisoEmbarazada(){
+        $permiso = $this->_permiso_model->tienePermisoEmbarazadas($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {

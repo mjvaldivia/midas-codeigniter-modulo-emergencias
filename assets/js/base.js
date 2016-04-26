@@ -21,21 +21,25 @@ function formatState (state) {
 };
 
 $(document).ready(function() {
+
+    $(".rut:input").mask('0000000000-A', {reverse: true});
     
     Messenger.options = {
         extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
         theme: 'flat'
     };
     
-    $(".datepicker").livequery(function(){
+    $(".datepicker:input").livequery(function(){
         $(this).datetimepicker({
-            format: "DD-MM-YYYY hh:mm"
+            format: "DD-MM-YYYY hh:mm",
+            locale: "es"
         });
     });
     
-    $(".datepicker-date").livequery(function(){
+    $(".datepicker-date:input").livequery(function(){
         $(this).datetimepicker({
-            format: "DD/MM/YYYY"
+            format: "DD/MM/YYYY",
+            locale: "es"
         });
     });
     
@@ -47,9 +51,9 @@ $(document).ready(function() {
     
     $(".select2-tags").livequery(function(){
         $(this).chosen({
+            placeholder_text_multiple: "Seleccione un valor",
             no_results_text: "No se encontraron resultados",
             width: '100%',
-            tags: true,
             allowClear: true
         });
     });
@@ -107,7 +111,7 @@ $(document).ready(function() {
         
         var id = $(this).attr("id");
         $(this).dataTable({
-            "lengthMenu": [[5,10, 25, 50], [5,10, 25, 50]],
+            "lengthMenu": [[5,10, 20, 25, 50], [5, 10, 20, 25, 50]],
             "pageLength": filas,
             "destroy" : true,
             "aaSorting": [],
@@ -170,7 +174,7 @@ $(document).ready(function() {
         });  
     });
     
-    $("#sidebar-toggle").click(function(e) {
+   /* $("#sidebar-toggle").click(function(e) {
         e.preventDefault();
         $(".navbar-side").toggleClass("collapsed");
         $("#page-wrapper").toggleClass("collapsed");
@@ -196,7 +200,7 @@ $(document).ready(function() {
             }
         });
         
-    });
+    });*/
     
     
     /**
@@ -323,3 +327,112 @@ function notificacionEspera(titulo){
     });
 }
 
+/**
+ * Boquea el boton despues de hacer click
+ * @param {type} boton
+ * @param {type} e
+ * @returns {buttonStartProcess.retorno}
+ */
+function buttonStartProcess(boton, e){
+    e.preventDefault();
+    $(boton).prop('disabled', true);
+    
+    var clase_boton = $(boton).children("i").attr("class");
+    $(boton).children("i").attr("class","fa fa-refresh fa-spin"); 
+    
+    var retorno = {"boton" : boton, "clase" : clase_boton};
+    return retorno;
+}
+
+/**
+ * Desbloquea el boton
+ * @param {type} retorno
+ * @returns {undefined}
+ */
+function buttonEndProcess(retorno){
+    $(retorno.boton).prop('disabled', false);
+    $(retorno.boton).children("i").attr("class", retorno.clase);
+}
+
+
+function setInputCorreos(id_input, id_emergencia){
+    
+    var parametros = {"id" : id_emergencia};
+    
+    $.ajax({         
+        dataType: "json",
+        cache: false,
+        async: true,
+        data: parametros,
+        type: "post",
+        url: siteUrl + "usuario/emails_emergencia", 
+        error: function(xhr, textStatus, errorThrown){
+
+        },
+        success:function(data){
+            inputCorreos(id_input, data);
+        }
+    });
+   
+}
+
+function inputCorreos(id_input, options){
+    var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
+                  '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
+
+    $('#' + id_input).selectize({
+        persist: false,
+        maxItems: null,
+        create: true,
+        valueField: 'email',
+        labelField: 'name',
+        searchField: ['name', 'email'],
+        options: options,
+        render: {
+            item: function(item, escape) {
+                return '<div>' +
+                    (item.name ? ' <span class="name">' + escape(item.name) + '</span> ' : '') +
+                    (item.email ? '<span><i class="fa fa-chevron-left"></i>' + escape(item.email) + '<i class="fa fa-chevron-right"></i></span>' : '') +
+                '</div>';
+            },
+            option: function(item, escape) {
+                var label = item.name || item.email;
+                var caption = item.name ? item.email : null;
+                return '<div>' +
+                    ' <span class="label">' + escape(label) + '</span> ' +
+                    (caption ? '<span class="caption"><i class="fa fa-chevron-left"></i>' + escape(caption) + '<i class="fa fa-chevron-right"></i></span>' : '') +
+                '</div>';
+            }
+        },
+
+        createFilter: function(input) {
+            var match, regex;
+
+            // email@address.com
+            regex = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+            match = input.match(regex);
+            if (match) return !this.options.hasOwnProperty(match[0]);
+
+            // name <email@address.com>
+            regex = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
+            match = input.match(regex);
+            if (match) return !this.options.hasOwnProperty(match[2]);
+
+            return false;
+        },
+        create: function(input) {
+            if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
+                return {email: input};
+            }
+            var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
+            if (match) {
+                return {
+                    email : match[2],
+                    name  : $.trim(match[1])
+                };
+            }
+            alert('El email ingresado no es válido.');
+            return false;
+        }
+    });
+}

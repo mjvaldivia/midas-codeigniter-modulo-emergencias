@@ -37,12 +37,12 @@ var EventoGrilla = Class({
                     
                     var agregar = "";
                     if(bo_email_enviado){
-                        agregar = "<br/> Estado email: Enviado correctamente";
+                        agregar = "<br/> Se ha enviado correo electrónico a las direcciones seleccionadas ";
                     } else {
-                        notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
+                        //notificacionError("Estado del envío de email", "Ha ocurrido un error al enviar el email")
                     }
                     
-                    notificacionCorrecto("Resultado de la operacion", "Se ha insertado correctamente" + agregar);
+                    notificacionCorrecto("Resultado de la operacion", "Se ha creado un nuevo evento" + agregar);
                 }
             });	
             formulario.mostrarFormulario();
@@ -139,8 +139,43 @@ var EventoGrilla = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 var id = $(this).attr("data");
-                var formulario = new FormEmergenciasNueva(id, yo);	
-                formulario.mostrarFormulario();
+                bootbox.dialog({
+                    title: "Activar evento",
+                    message: '¿Está seguro que desea activar la emergencia?',
+                    buttons: {
+                        success: {
+                            label: "Activar",
+                            className: "btn-success",
+                            callback: function () {
+                                var parametros = {"emergencia": id}
+                                $.ajax({         
+                                    dataType: "json",
+                                    cache: false,
+                                    async: false,
+                                    data: parametros,
+                                    type: "post",
+                                    url: siteUrl + 'evento/ajax_activar_emergencia', 
+                                    error: function(xhr, textStatus, errorThrown){
+                                        notificacionError("Error", "Ha ocurrido un error al activar la emergencia");
+                                    },
+                                    success:function(data){
+                                        if(data.estado == true){
+                                            yo.loadGridAlarma();
+                                            notificacionCorrecto("Resultado de la operacion", "Se ha activado el evento correctamente");
+                                        } else {
+                                            notificacionError("Error", "Ha ocurrido un error al activar la emergencia");
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        danger: {
+                            label: "Cancelar",
+                            className: "btn-white"
+                        }
+                    }
+                }); 
+                
             });
         });
         
@@ -159,14 +194,14 @@ var EventoGrilla = Class({
                 var id = $(this).attr("data");
                 bootbox.dialog({
                     title: "Eliminar elemento",
-                    message: '¿Está seguro que desea eliminar esta alarma?',
+                    message: '¿Está seguro que desea eliminar este evento?',
                     buttons: {
                         success: {
                             label: "Aceptar",
                             className: "btn-primary",
                             callback: function () {
-                                $.get(siteUrl + 'alarma/eliminarAlarma/id/' + id).done(function (retorno) {
-                                    if (retorno == 0) { // sin error
+                                $.post(siteUrl + 'evento/eliminar',{id:id},'json').done(function (retorno) {
+                                    if (retorno.correcto == true) { // sin error
                                         bootbox.dialog({
                                             title: "Resultado de la operacion",
                                             message: 'Se eliminó correctamente',

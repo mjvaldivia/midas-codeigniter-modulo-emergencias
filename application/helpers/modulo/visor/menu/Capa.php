@@ -28,7 +28,8 @@ Class Visor_Menu_Capa extends Visor_Menu_Abstract{
         $html = "";
         $lista_capas = $this->_ci->_capa_model->listarCapasPorCategoria($id_categoria);
         if(count($lista_capas)>0){
-            $html .= "<ul class=\"dropdown-menu\">";
+            $html .= "<ul class=\"dropdown-menu\">\n"
+                    . "<li class=\"divider\"></li>";
             foreach($lista_capas as $capa){
                 $html .= $this->_getHtmlCapa($capa["cap_ia_id"], $capa["cap_c_nombre"]);
             }
@@ -69,7 +70,7 @@ Class Visor_Menu_Capa extends Visor_Menu_Abstract{
                                             "id_capa" => $id_capa,
                                             "nombre" => $nombre_capa
                                         ), true
-                                     );
+                                     ) . "<li class=\"divider\"></li>";
         }
     }
 }

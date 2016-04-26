@@ -41,6 +41,10 @@ var EventoFormNuevo = Class({
         this.callBackGuardar = options.callBackGuardar;
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     bindUpload : function (){
         $("#upload-adjunto").fileinput({
             language: "es",
@@ -66,24 +70,27 @@ var EventoFormNuevo = Class({
                 
                 $("#upload-adjunto-lista").append(
                         "<div id=\"archivo-" + data.response.hash + "\">"
-                        + "<input type=\"hidden\" name=\"archivos[]\" value=\"\" />"
-                        + "<input type=\"hidden\" name=\"archivos_hash[]\" value=\""+data.response.hash+"\" />"
-                        + "<hr/>"
-                        + "<div class=\"col-md-3\">"
-                        + data.response.descripcion
-                        + "</div>"
-                        + "<div class=\"col-md-3\">"
-                        + "<input type=\"hidden\" name=\"archivos_tipo[]\" value=\"" + data.response.tipo + "\" />"
-                        + data.response.nombre_tipo
-                        + "</div>"
-                        + "<div class=\"col-md-4\">"
-                        + "<a href=\"" + siteUrl + "archivo/download_temporal/hash/" + data.response.hash + "\" target=\"_blank\" >"
-                        + data.response.archivo
-                        + "</a>"
-                        + "</div>"
-                        + "<div class=\"col-md-2 text-center\">"
-                        + "<button class=\"btn btn-xs btn-danger\"> <i class=\"fa fa-remove\"></i> </button>"
-                        + "</div>" 
+                            + "<input type=\"hidden\" name=\"archivos[]\" value=\"\" />"
+                            + "<input type=\"hidden\" name=\"archivos_hash[]\" value=\""+data.response.hash+"\" />"
+                            + "<hr/>"
+                            + "<div class=\"row\">"
+                                + "<div class=\"col-md-3\">"
+                                    + "<input type=\"hidden\" name=\"archivos_descripcion[]\" value=\"" + data.response.descripcion + "\" />"
+                                    + data.response.descripcion
+                                + "</div>"
+                                + "<div class=\"col-md-3\">"
+                                    + "<input type=\"hidden\" name=\"archivos_tipo[]\" value=\"" + data.response.tipo + "\" />"
+                                    + data.response.nombre_tipo
+                                + "</div>"
+                                + "<div class=\"col-md-4\">"
+                                    + "<a href=\"" + siteUrl + "archivo/download_temporal/hash/" + data.response.hash + "\" target=\"_blank\" >"
+                                    + data.response.archivo
+                                    + "</a>"
+                                + "</div>"
+                                + "<div class=\"col-md-2 text-center\">"
+                                    + "<button class=\"btn btn-xs btn-danger quitar-archivo\"> <i class=\"fa fa-remove\"></i> </button>"
+                                + "</div>" 
+                            + "</div>"
                         + "</div>"
                 );
                 
@@ -107,6 +114,13 @@ var EventoFormNuevo = Class({
             $('#upload-adjunto').fileinput('cancel');    
 
         });  
+        
+        $(".quitar-archivo").livequery(function(){
+            $(this).click(function(e){
+                e.preventDefault();
+                $(this).parent().parent().parent().remove();
+            });
+        });
         
         $("#upload-adjunto-start").click(function(e){
             e.preventDefault();
@@ -278,36 +292,20 @@ var EventoFormNuevo = Class({
      * 
      * @returns {undefined}
      */
-    bindMapa : function(){
+    bindMapa : function(){        
         var mapa = new MapaFormulario("mapa");
+        mapa.seteaIcono("assets/img/referencia.png");
         mapa.seteaPlaceInput("nombre_lugar");
-        
         if($("#longitud").val() != "" && $("#latitud").val() != ""){
             mapa.setLongitud($("#longitud").val());
             mapa.setLatitud($("#latitud").val());
-            
-            /*if($("#geozone").val() == ""){
-                $.ajax({         
-                    dataType: "json",
-                    cache: false,
-                    async: false,
-                    data: "",
-                    type: "post",
-                    url: siteUrl + "session/getMinMaxUsr", 
-                    error: function(xhr, textStatus, errorThrown){
-
-                    },
-                    success:function(data){
-                        $("#geozone").val(data.com_c_geozone);
-                    }
-                }); 
-            } 
-            
-            mapa.setGeozone($("#geozone").val());*/
         }
-
         mapa.inicio();
         mapa.cargaMapa(); 
+
+        if($("#eme_id").val()!=""){
+            mapa.setMarkerInputs();
+        }
     } ,
     
 
@@ -368,7 +366,7 @@ var EventoFormNuevo = Class({
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    yo.bo_email_enviado = data.res_mail;
+                    yo.bo_email_enviado = data.se_envia_email;
                     yo.callBackGuardar(yo.bo_email_enviado);
                     salida = true;
                 } else {
@@ -390,6 +388,7 @@ var EventoFormNuevo = Class({
         this.configSteps();
         this.bindSelectEmergenciaTipo();
         this.estadoEventoChange();
+        setInputCorreos("destinatario", $("#id").val());
     },
     
     /**

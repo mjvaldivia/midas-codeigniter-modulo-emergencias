@@ -29,7 +29,7 @@ class Archivo_Model extends MY_Model {
      */
     public function __construct() {
         parent::__construct();
-        
+        $this->load->library("String");
         if($this->_enviroment->esSimulacion()){
             $this->DOC_FOLDER = 'media/simulacion/';
             $this->EMERGENCIA_FOLDER = $this->DOC_FOLDER . "emergencia/";
@@ -49,6 +49,31 @@ class Archivo_Model extends MY_Model {
     
     /**
      * 
+     * @param array $data
+     * @return int
+     */
+    public function insert($data){
+        return $this->_query->insert($data);
+    }
+    
+    /**
+     * Borra el archivo
+     * @param int $id_archivo
+     */
+    public function delete($id_archivo){
+        $archivo = $this->getById($id_archivo);
+        if(!is_null($archivo)){
+            
+            if(is_file($archivo->path)){
+                unlink($archivo->path);
+            }
+            
+            $this->_query->delete("arch_ia_id", $archivo->arch_ia_id);
+        }
+    }
+    
+    /**
+     * 
      * @param string $hash
      * @return object
      */
@@ -62,6 +87,20 @@ class Archivo_Model extends MY_Model {
         }else{
             return NULL;
         }
+    }
+    
+    /**
+     * Genera nuevo hash para archivo
+     * @return string
+     */
+    public function newHash(){
+        $hash = $this->string->rand_string(20);
+        $existe = $this->getByHash($hash);
+        if(!is_null($existe)){
+            $hash = $this->newHash();
+        }
+        
+        return $hash;
     }
     
     /**
@@ -220,8 +259,8 @@ class Archivo_Model extends MY_Model {
         $this->load->helper("session");
 
 
-        $sql = "    INSERT INTO archivo (arch_ia_id, arch_c_nombre, arch_c_mime, arch_c_tipo, arch_c_hash, ins_ia_id,usu_ia_id,arch_c_tamano)
-                    values('',null,'$mimetype',$tipo,null,null," . $this->session->userdata('session_idUsuario') . ",'$size')";
+        $sql = "    INSERT INTO archivo (arch_ia_id, arch_c_nombre, arch_c_mime, arch_c_tipo, arch_c_hash,usu_ia_id,arch_c_tamano)
+                    values('',null,'$mimetype',$tipo,null," . $this->session->userdata('session_idUsuario') . ",'$size')";
 
         if ($this->db->query($sql)) {
 
@@ -326,16 +365,16 @@ class Archivo_Model extends MY_Model {
         if ($k != null) {
             $archivo = $this->get_file_from_key($k);
 
-            $arr_ruta = explode('/', $archivo['arch_c_nombre']);
-            $nombre = $arr_ruta[sizeof($arr_ruta) - 1];
 
-            if (is_file($archivo['arch_c_nombre'])) {
+            $nombre = $archivo['arch_c_nombre'];
+
+            if (is_file(FCPATH . $archivo['path'])) {
                 header("Content-Type: " . $archivo['arch_c_mime'] . "; charset: UTF-8");
                 header("filename=" . $nombre);
 
                 header("Content-Disposition:  ; filename=\"" . $nombre . "\"");
                 ob_end_clean();
-                readfile(FCPATH . $archivo['arch_c_nombre']);
+                readfile(FCPATH . $archivo['path']);
             } else {
                 show_404();
             }
@@ -406,7 +445,7 @@ class Archivo_Model extends MY_Model {
         }
     }
 
-    public function delete($path) {
+    public function deleteDirectory($path) {
         if (is_dir($path) === true) {
             $files = array_diff(scandir($path), array('.', '..'));
 

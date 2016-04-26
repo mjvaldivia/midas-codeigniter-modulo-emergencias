@@ -49,11 +49,20 @@ Class Layout_Menu_Render{
                                                       "controller" => "evento",
                                                       "action" => "index",
                                                       "child" => array()), 
-                                   "Capas" => array("icon_class" => "fa-globe",
-                                                      "permiso" => "capas",
-                                                      "controller" => "capas",
-                                                      "action" => "ingreso",
-                                                      "child" => array()),  
+                                   "Visor" => array(
+                                        "icon_class" => "fa-globe",      
+                                        "permiso" => "capas",
+                                        "child" => array(
+                                            "Capas" => array(
+                                                "controller" => "capas",
+                                                "action"     => "ingreso"
+                                            ),
+                                            "Mapa" => array(
+                                               "controller" => "visor",
+                                               "action"     => "index")
+                                            )
+                                    ),
+ 
                                    "Simulación" => array("icon_class" => "fa-flag-checkered",
                                                          "permiso" => "simulacion",
                                                          "controller" => "session",
@@ -64,29 +73,29 @@ Class Layout_Menu_Render{
                                                             "controller" => "mantenedor_documentos",
                                                             "action" => "index",
                                                             "child" => array()), 
-                                   "Casos febriles" => array("icon_class" => "fa-plus-square",
-                                                            "permiso" => "casos_febriles",
-                                                            "controller" => "formulario",
-                                                            "action" => "index",
-                                                            "child" => array()), 
-                                   "Soportes" => array("icon_class" => "fa-question-circle",
-                                                       "rol" => "administrador",
-                                                            "controller" => "",
-                                                            "action" => "",
-                                                            "child" => array("Mesa Regional" => array(
-                                                                                            "controller" => "soportes",
-                                                                                            "action"     => "bandeja_soportes"),
-                                                                            "Mesa Central" => array(
-                                                                                            "controller" => "soportes",
-                                                                                            "action"     => "bandeja_soportes_central")
-                                                                             )),
-           
-                                   "Mesa de ayuda" => array("icon_class" => "fa-question-circle",
-                                                            "child" => array("Mensajes" => array(
-                                                                                            "controller" => "soportes",
-                                                                                            "action"     => "bandeja_usuario")
-                                                                             )
-                                                                    ),
+                                    "Vigilancia" => array(
+                                        "icon_class" => "fa-warning",      
+                                        "permiso" => "casos_febriles",
+                                        "child" => array(
+                                            
+                                            "Casos febriles" => array(
+                                                "controller" => "formulario",
+                                                "action"     => "index"
+                                            ),
+                                            
+                                            "Embarazos" => array(
+                                               "permiso" => "embarazada",
+                                               "controller" => "embarazo",
+                                               "action"     => "index"
+                                            ),
+                                            /*
+                                            "Vacunación Antirrábica" => array(
+                                              
+                                               "controller" => "rabia_vacunacion",
+                                               "action"     => "index"
+                                            )*/
+                                        ),
+                                    ),
                                     "Usuarios" => array("icon_class" => "fa-users",
                                                         "rol" => "administrador",
                                                         "controller" => "",
@@ -98,6 +107,22 @@ Class Layout_Menu_Render{
                                                                                         "controller" => "mantenedor_rol",
                                                                                         "action"     => "index")
                                                                          )),
+                                   "Mesa de ayuda" => array("icon_class" => "fa-question-circle",
+                                              
+                                                            "child" => array("Mensajes" => array(
+                                                                                            "controller" => "soportes",
+                                                                                            "action"     => "bandeja_usuario"),
+                                                                             "Mesa Regional" => array(
+                                                                                            "rol" => "administrador",
+                                                                                            "controller" => "soportes",
+                                                                                            "action"     => "bandeja_soportes"),
+                                                                             "Mesa Central" => array(
+                                                                                            "rol" => "administrador",
+                                                                                            "controller" => "soportes",
+                                                                                            "action"     => "bandeja_soportes_central")
+                                                                             )
+                                                                    ),
+                                    
                                 );
     
     
@@ -112,9 +137,8 @@ Class Layout_Menu_Render{
         $this->_controller = $this->ci->router->fetch_class();
         $this->_action = $this->ci->router->fetch_method();
         $this->usuario = New Usuario();
-        $this->_session       = New CI_Session();
+        $this->_session = New CI_Session();
     }
-       
        
     /**
      * Genera el menu izquierdo
@@ -122,22 +146,9 @@ Class Layout_Menu_Render{
     public function render(){
         $html = "";
         foreach($this->_paginas as $name => $datos){
-            $ver = true;
             
-            if(isset($datos["permiso"])){
-                $this->usuario->setModulo($datos["permiso"]);
-                $ver = $this->usuario->getPermisoVer();
-            }
             
-            if(isset($datos["rol"]) and $datos["rol"] == "administrador"){
-                $roles = explode(",", $this->_session->userdata("session_roles"));
-                $existe = array_search(Rol_Model::ADMINISTRADOR, $roles);
-                if($existe === false){
-                    $ver = false;
-                }
-            }
-            
-            if($ver){
+            if($this->_ver($datos)){
                 if(count($datos['child'])>0){
                     $target = strtolower(str_replace(" ", "", $name));
 
@@ -184,38 +195,78 @@ Class Layout_Menu_Render{
         $active = false;
         if(count($paginas)>0){
             foreach($paginas as $name => $datos){
-                $class = "";
                 
-                if(is_array($datos['controller'])){
-                    if($this->_action == $datos['action'] AND in_array($this->_controller , $datos['controller'])){
-                        $class = "active";
-                        $active = true;
+                if($this->_ver($datos)){
+                
+                    $class = "";
+
+                    if(is_array($datos['controller'])){
+                        if($this->_action == $datos['action'] AND in_array($this->_controller , $datos['controller'])){
+                            $class = "active";
+                            $active = true;
+                        }
+                        $controller = $datos['controller'][0];
+                    } else {
+                        if($this->_action == $datos['action'] AND $this->_controller == $datos['controller']){
+                            $class = "active";
+                            $active = true;
+                        }
+                        $controller = $datos['controller'];
                     }
-                    $controller = $datos['controller'][0];
-                } else {
-                    if($this->_action == $datos['action'] AND $this->_controller == $datos['controller']){
-                        $class = "active";
-                        $active = true;
+
+
+                    if(isset($datos["wildcard"])){
+                        $action = $datos["wildcard"];
+                    } else {
+                        $action = $datos['action'];
                     }
-                    $controller = $datos['controller'];
+
+                    $html .= $this->ci->load->view("pages/layout/menu-item", 
+                                                   array("name" => $name,
+                                                         "class" => $class,
+                                                         "url" => "/" . $controller . "/" . $action), true);
                 }
-                
-                
-                if(isset($datos["wildcard"])){
-                    $action = $datos["wildcard"];
-                } else {
-                    $action = $datos['action'];
-                }
-                
-                $html .= $this->ci->load->view("pages/layout/menu-item", 
-                                               array("name" => $name,
-                                                     "class" => $class,
-                                                     "url" => "/" . $controller . "/" . $action), true);
 
             }
         }
         return array("html" => $html,
                      "active" => $active);
+    }
+    
+    /**
+     * Si el usuario puede ver el menu o no
+     * @param array $datos
+     * @return boolean
+     */
+    protected function _ver($datos){
+        $ver = true;
+        if(isset($datos["permiso"])){
+            
+            switch ($datos["permiso"]) {
+                case "casos_febriles":
+                    $this->usuario->setModulo($datos["permiso"]);
+                    $ver = $this->usuario->getPermisoReporteEmergencia() || $this->usuario->getPermisoEditar() || $this->usuario->getPermisoEliminar() || $this->usuario->getPermisoActivarAlarma();
+                    break;
+                case "embarazada":
+                    $this->usuario->setModulo("casos_febriles");
+                    $ver = $this->usuario->getPermisoEmbarazada();
+                    
+                    break;
+                default:
+                    $this->usuario->setModulo($datos["permiso"]);
+                    $ver = $this->usuario->getPermisoVer();
+                    break;
+            }
+        }
+
+        if(isset($datos["rol"]) and $datos["rol"] == "administrador"){
+            $roles = explode(",", $this->_session->userdata("session_roles"));
+            $existe = array_search(Rol_Model::ADMINISTRADOR, $roles);
+            if($existe === false){
+                $ver = false;
+            }
+        }
+        return $ver;
     }
 }
 

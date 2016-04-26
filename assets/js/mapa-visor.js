@@ -20,6 +20,30 @@ $(document).ready(function() {
     archivos.seteaEmergencia(id);
     visor.addOnReadyFunction("Carga kml", archivos.loadArchivos, true);
 
+    // menu superior derecho
+    visor.addOnReadyFunction("menu derecho",function(map){
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('menu-derecho'));
+        
+        var menu = new MapaLayoutCapas();
+        menu.seteaMapa(map);
+        menu.seteaEmergencia(id);
+        menu.render();
+        
+        $("#menu-derecho").removeClass("hidden");
+        
+        $(".menu-capa-checkbox").livequery(function(){
+            $(this).click(function(){
+                var id = $(this).val();
+                if($(this).is(":checked")){
+                    capas.addCapa(id);
+                } else {
+                    capas.removeCapa(id);
+                }
+            });
+        });
+    });
+
+
     //capas
     var capas = new MapaCapa();
     capas.emergencia(id);
@@ -31,6 +55,7 @@ $(document).ready(function() {
     editor.seteaClaseCapa(capas);
     visor.addOnReadyFunction("editor", editor.iniciarEditor, null);
     
+    visor.addOnReadyFunction("instalaciones", editor.controlInstalaciones, null);
     visor.addOnReadyFunction("boton ubicacion emergencia", editor.controlEditar, null);
     visor.addOnReadyFunction("boton para guardar", editor.controlSave, null);
     visor.addOnReadyFunction("boton para importar", editor.controlImportar, null);
@@ -47,27 +72,16 @@ $(document).ready(function() {
             , null
     );
     
-    // menu superior derecho
-    visor.addOnReadyFunction("menu derecho",function(map){
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('menu-derecho'));
-        
-        $("#menu-derecho").removeClass("hidden");
-        
-        $(".menu-capa-checkbox").click(function(){
-            var id = $(this).val();
-            if($(this).is(":checked")){
-                capas.addCapa(id);
-            } else {
-                capas.removeCapa(id);
-            }
-        });
-    });
+    
     
     // input de busqueda de direcciones
     var buscador = new MapaLayoutInputBusqueda("busqueda");
     visor.addOnReadyFunction("buscador de direcciones", buscador.addToMap);
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
-
+    
+    var formulario = new MapaLayoutFormCasosFebrilesFecha();
+    visor.addOnReadyFunction("buscador", formulario.addToMap);
+    
     //inicia mapa
     visor.bindMapa();
     

@@ -1,3 +1,4 @@
+<link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css"/>
 <form  id="form-tipos-emergencia" name="form_tipos_emergencia" enctype="application/x-www-form-urlencoded" action="" method="post">
     
     <div class="row">
@@ -21,7 +22,8 @@
         <div class="col-lg-8">
             <div class="row">
                 <div class="col-lg-12">
-                    <legend> Material radioactivo </legend>
+                    <legend> Material radioactivo <button type="button" class="btn btn-primary btn-sm pull-right" onclick="xModal.open('<?php echo site_url('evento/listaFuentesRadiologicas')?>','Listado Fuentes Radiológicas',75);">Listado de Fuentes Radiológicas <i class="ionicons ion-nuclear"></i></button></legend>
+
                 </div>
             </div>
 
@@ -29,14 +31,14 @@
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_fuente_radioactiva" class="control-label">Equipo y/o fuente radioactiva:</label>
-                        <input  class="form-control" name="form_tipo_fuente_radioactiva" id="form_tipo_fuente_radioactiva" value="<?php echo $form_tipo_fuente_radioactiva; ?>" />
+                        <input  class="form-control" name="form_tipo_fuente_radioactiva" id="form_tipo_fuente_radioactiva" value="<?php echo $form_tipo_fuente_radioactiva; ?>" readonly />
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_material_radioactivo" class="control-label">Actividad de material radioactivo:</label>
-                        <input  class="form-control" name="form_tipo_material_radioactivo" id="form_tipo_material_radioactivo" value="<?php echo $form_tipo_material_radioactivo; ?>" />
+                        <input  class="form-control" name="form_tipo_material_radioactivo" id="form_tipo_material_radioactivo" value="<?php echo $form_tipo_material_radioactivo; ?>"  readonly/>
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
@@ -46,28 +48,28 @@
                 <div class="col-lg-3">
                     <div class="form-group clearfix">
                         <label for="form_tipo_material_marca" class="control-label">Marca:</label>
-                        <input  class="form-control" name="form_tipo_material_marca" id="form_tipo_material_marcao" value="<?php echo $form_tipo_material_marca; ?>" />
+                        <input  class="form-control" name="form_tipo_material_marca" id="form_tipo_material_marcao" value="<?php echo $form_tipo_material_marca; ?>"  readonly/>
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group clearfix">
                         <label for="form_tipo_material_modelo" class="control-label">Modelo:</label>
-                        <input  class="form-control" name="form_tipo_material_modelo" id="form_tipo_material_modelo" value="<?php echo $form_tipo_material_modelo; ?>" />
+                        <input  class="form-control" name="form_tipo_material_modelo" id="form_tipo_material_modelo" value="<?php echo $form_tipo_material_modelo; ?>"  readonly/>
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group clearfix">
                         <label for="form_tipo_material_serie" class="control-label">N° Serie:</label>
-                        <input  class="form-control" name="form_tipo_material_serie" id="form_tipo_material_serie" value="<?php echo $form_tipo_material_serie; ?>" />
+                        <input  class="form-control" name="form_tipo_material_serie" id="form_tipo_material_serie" value="<?php echo $form_tipo_material_serie; ?>"  readonly/>
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group clearfix">
                         <label for="form_tipo_material_ano_fabricacion" class="control-label">Año fabricación:</label>
-                        <input  class="form-control" name="form_tipo_material_ano_fabricacion" id="form_tipo_material_ano_fabricacion" value="<?php echo $form_tipo_material_ano_fabricacion; ?>" />
+                        <input  class="form-control" name="form_tipo_material_ano_fabricacion" id="form_tipo_material_ano_fabricacion" value="<?php echo $form_tipo_material_ano_fabricacion; ?>" readonly/>
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
@@ -376,14 +378,14 @@
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_investigador_nombre" class="control-label">Nombre:</label>
-                        <input  class="form-control" name="form_tipo_investigador_nombre" id="form_tipo_investigador_nombre" value="<?php echo $form_tipo_investigador_nombre; ?>" />
+                        <input  class="form-control" name="form_tipo_investigador_nombre" id="form_tipo_investigador_nombre" value="<?php if(empty($form_tipo_investigador_nombre)) echo $investigador['nombre']; else echo $form_tipo_investigador_nombre; ?>" />
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_investigador_funcion" class="control-label">Función o cargo:</label>
-                        <input  class="form-control" name="form_tipo_investigador_funcion" id="form_tipo_investigador_funcion" value="<?php echo $form_tipo_investigador_funcion; ?>" />
+                        <input  class="form-control" name="form_tipo_investigador_funcion" id="form_tipo_investigador_funcion" value="<?php if(empty($form_tipo_investigador_funcion)) echo $investigador['cargo']; else echo $form_tipo_investigador_funcion; ?>" />
                         <span class="help-block hidden"></span>
                     </div>
                 </div>
@@ -393,7 +395,7 @@
                 <div class="col-lg-6">
                     <div class="form-group clearfix">
                         <label for="form_tipo_investigador_email" class="control-label">Correo electrónico:</label>
-                        <input  class="form-control" name="form_tipo_investigador_email" id="form_tipo_investigador_email" value="<?php echo $form_tipo_investigador_email; ?>" />
+                        <input  class="form-control" name="form_tipo_investigador_email" id="form_tipo_investigador_email" value="<?php if(empty($form_tipo_investigador_email)) echo $investigador['email']; else echo $form_tipo_investigador_email; ?>" />
                         <span class="help-block hidden"></span>
                     </div>
                 </div>

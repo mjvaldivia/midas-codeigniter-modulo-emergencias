@@ -6,7 +6,7 @@ Class Alarma_Nombre_Estado{
      *
      * @var CI_Controller
      */
-    protected $ci;
+    protected $_ci;
     
     /**
      *
@@ -16,7 +16,7 @@ Class Alarma_Nombre_Estado{
     
     /**
      *
-     * @var Alarma_Estado_Model
+     * @var Emergencia_Estado_Model
      */
     public $alarma_estado_model;
     
@@ -25,9 +25,9 @@ Class Alarma_Nombre_Estado{
      * @param type $ci
      */
     public function __construct() {
-        $this->ci =& get_instance();
-        $this->ci->load->model("alarma_estado_model");
-        $this->alarma_estado_model = New Alarma_Estado_Model();
+        $this->_ci =& get_instance();
+        $this->_ci->load->model("emergencia_estado_model");
+        $this->alarma_estado_model = $this->_ci->emergencia_estado_model;
     }
     
     /**
@@ -45,6 +45,8 @@ Class Alarma_Nombre_Estado{
     public function getString(){
         if(!is_null($this->_estado_alarma)){
             return $this->_estado_alarma->est_c_nombre;
+        } else {
+            return "";
         }
     }
 }

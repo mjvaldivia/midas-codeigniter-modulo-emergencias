@@ -10,6 +10,12 @@ class Mapa_kml extends MY_Controller {
     
     /**
      *
+     * @var Emergencia_Kml_Elemento_Model 
+     */
+    public $_emergencia_kml_elemento_model;
+    
+    /**
+     *
      * @var Emergencia_Model 
      */
     public $_emergencia_model;
@@ -20,6 +26,7 @@ class Mapa_kml extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("emergencia_kml_model", "_emergencia_kml_model");
+        $this->load->model("emergencia_kml_elemento_model", "_emergencia_kml_elemento_model");
         $this->load->model("emergencia_model", "_emergencia_model");
     }
     
@@ -57,14 +64,14 @@ class Mapa_kml extends MY_Controller {
             $lista_elementos = $this->_emergencia_kml_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_elementos)>0){
                 foreach($lista_elementos as $elemento){
-
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array(
                         "id" => $elemento["id"],
                         "hash" => "archivo_importado_" . $elemento["id"],
                         "tipo" => strtoupper($elemento["tipo"]),
                         "nombre" => strtoupper($elemento["nombre"]),
-                        "archivo" => $elemento["archivo"]
+                        "archivo" => $elemento["archivo"],
+                        "elementos" => $this->_emergencia_kml_elemento_model->listaPorKml($elemento["id"])
                     );
                     
                 }
@@ -76,23 +83,7 @@ class Mapa_kml extends MY_Controller {
         echo json_encode($data);
     }
     
-    /**
-     * Retorna archivo KML asociado a una emergencia
-     */
-    public function kml(){
-         $params = $this->uri->uri_to_assoc();
-         $kml = $this->_emergencia_kml_model->getById($params["id"]);
-         if(!is_null($kml)){
-            header("Content-Type: text/plain");
-            header("Content-Disposition: inline;filename=archivo." . $kml->tipo); 
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public'); 
-            echo $kml->kml;
-         }
-    }
-    
-    /**
+       /**
      * Muestra KML temporal
      * @throws Exception
      */
@@ -129,8 +120,11 @@ class Mapa_kml extends MY_Controller {
     public function upload_kml(){
         header('Content-type: application/json');
         
-        $this->load->library(array(
-            "visor/upload/visor_upload_temp_kml")
+        $this->load->library(
+            array(
+                "visor/upload/visor_upload_temp_kml",
+                "kml/kml_descomponer"
+            )
         );
         
         $params = $this->input->post(null, true);
@@ -144,24 +138,29 @@ class Mapa_kml extends MY_Controller {
             $error["nombre"] = "Debe ingresar un nombre";
         }
         
+        $elementos = array();
         $retorno_archivo = $this->visor_upload_temp_kml->upload(); 
         if(!$retorno_archivo["correcto"]){
             $correcto = false;
             $error["archivo"] = $retorno_archivo["mensaje"];  
-        }  
+        } else {
+            $this->kml_descomponer->setFileHash($retorno_archivo["hash"]);
+            $elementos = $this->kml_descomponer->process();
+        }
         
         $retorno = array("correcto" => $correcto,
                          "nombre" => strtoupper($params["nombre"]),
                          "archivo" => $retorno_archivo["archivo_nombre"],
                          "tipo" => $retorno_archivo["tipo"],
                          "hash" => $retorno_archivo["hash"],
+                         "elementos" => $elementos,
                          "errores" => $error);
         
         echo json_encode($retorno);
     }
     
     /**
-     * 
+     * Genera archivo KMZ con elementos del visor
      */
     public function ajax_generar_kmz(){
         header('Content-type: application/json');
@@ -246,6 +245,7 @@ class Mapa_kml extends MY_Controller {
                 $this->kml_create->addPoligon("PRUEBA", $elemento["coordenadas"], $elemento["color"], $elemento["informacion"]);
             }
             
+    
             $lista_marcadores = Zend_Json::decode($params["marcadores"]);
             foreach($lista_marcadores as $marcador){
                 $this->kml_create->addMarker($marcador["posicion"], $marcador["icono"], $marcador["informacion"]);

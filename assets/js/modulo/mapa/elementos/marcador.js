@@ -3,7 +3,9 @@ var lista_markers = [];
 var MapaMarcador = Class({
     
     mapa : null,
+    
     draggable : false,
+
     
     /**
      * Setea mapa
@@ -56,6 +58,7 @@ var MapaMarcador = Class({
 
         marker = new google.maps.Marker({
             position: posicion,
+            custom : false,
             identificador: id,
             clave : "marcador_" + id,
             capa: capa,
@@ -66,10 +69,12 @@ var MapaMarcador = Class({
         });  
 
         this.informacionMarcador(marker);
-        console.log(marker);
+       
         lista_markers.push(marker);
         google.maps.event.trigger(yo.mapa, 'marcador_cargado');
     },
+    
+
     
     /**
      * Popup con informacion
@@ -83,7 +88,7 @@ var MapaMarcador = Class({
         
         
         $.each(propiedades, function(nombre, valor){
-            if(valor.trim() != ""){
+            if(valor != ""){
                 markerContent += '<div class="col-xs-12"><strong>' + nombre +':</strong> ' + valor + '</div>';
             }
         });

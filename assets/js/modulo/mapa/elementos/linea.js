@@ -13,24 +13,35 @@ var MapaLinea = Class({
         this.mapa = mapa;
     },
     
-    
-    dibujarLinea : function(id, capa, geometry, propiedades, zona){
+    /**
+     * 
+     * @param {type} id
+     * @param {type} capa
+     * @param {type} geometry
+     * @param {type} propiedades
+     * @param {type} zona
+     * @param {type} color
+     * @returns {undefined}
+     */
+    dibujarLinea : function(id, capa, geometry, propiedades, zona, color){
         var yo = this;
         
         var linea = new google.maps.Polyline({
-            path: yo.coordenadas(geometry, zona),
+            path: yo.coordenadas(geometry),
             identificador: id,
             clave : "poligono_" + id,
             capa: capa,
             informacion: propiedades,
-            
+            tipo: "LINEA",
             geodesic: true,
-            strokeColor: '#FF0000',
+            strokeColor: "#00000",
             strokeOpacity: 1.0,
             strokeWeight: 2
         });
 
         linea.setMap(this.mapa);
+        
+        lista_poligonos.push(linea);
     },
     
      /**
@@ -39,7 +50,7 @@ var MapaLinea = Class({
      * @param {string} zona
      * @returns {Array}
      */
-    coordenadas : function(geometry, zona){
+    coordenadas : function(geometry){
         var poligono = [];
         var i;
         $.each(geometry, function(i, coordenadas){
@@ -47,7 +58,6 @@ var MapaLinea = Class({
                poligono.push(new google.maps.LatLng(parseFloat(valores[0]), parseFloat(valores[1])));
            });
         });
-        
         return poligono;
     }
 });

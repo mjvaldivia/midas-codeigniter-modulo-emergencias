@@ -92,6 +92,7 @@ class Mapa extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
+        sessionValidation();
         $this->load->library("emergencia/emergencia_comuna");
         $this->load->model("emergencia_model", "_emergencia_model");
         $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
@@ -114,10 +115,20 @@ class Mapa extends MY_Controller {
     public function index(){
         $this->load->helper("modulo/visor/visor");
         $params = $this->uri->uri_to_assoc();
+        
+
         $emergencia = $this->_emergencia_model->getById($params["id"]);
+
+        $this->load->model('Permiso_Model','PermisoModel');
+        $this->load->model('Modulo_Model','ModuloModel');
+        $guardar = $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
+
         if(!is_null($emergencia)){
-            $data = array("id" => $emergencia->eme_ia_id,
+            $data = array("id" => $params["id"],
+                          "guardar" => $guardar,
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
+
+            
             $this->template->parse("default", "pages/mapa/index", $data);
         } else {
             throw new Exception(__METHOD__ . " - La emergencia no existe");
@@ -138,13 +149,15 @@ class Mapa extends MY_Controller {
         );
         
         header('Content-type: application/json');
-        $params = $this->input->post(null, true);
-        $emergencia = $this->_emergencia_model->getById($params["id"]);
+        
+        //$params = $this->input->post(null, true);
+        
+        $emergencia = $this->_emergencia_model->getById($_POST["id"]);
         if(!is_null($emergencia)){
             
             $elementos = array();
-            if(isset($params["elementos"])){
-                $elementos = $params["elementos"];
+            if(isset($_POST["elementos"])){
+                $elementos = $_POST["elementos"];
             }
             
             $this->visor_guardar_elemento->setEmergencia($emergencia->eme_ia_id)
@@ -152,8 +165,8 @@ class Mapa extends MY_Controller {
             
             
             $capas = array();
-            if(isset($params["capas"])){
-                $capas = $params["capas"];
+            if(isset($_POST["capas"])){
+                $capas = $_POST["capas"];
             }
             
             $this->_emergencia_capas_model->query()
@@ -163,8 +176,8 @@ class Mapa extends MY_Controller {
                                                             $capas);
             
             $kml = array();
-            if(isset($params["kmls"])){
-                $kml = $params["kmls"];
+            if(isset($_POST["kmls"])){
+                $kml = $_POST["kmls"];
             }
             
             
@@ -173,8 +186,10 @@ class Mapa extends MY_Controller {
             
             $this->visor_guardar_configuracion
                  ->setEmergencia($emergencia->eme_ia_id)
-                 ->setSidcoConaf($params["sidco"])
-                 ->setTipoMapa($params["tipo_mapa"])
+                 ->setSidcoConaf($_POST["sidco"])
+                 ->setCasosFebriles($_POST["casos_febriles"])
+                 ->setCasosFebrilesZona($_POST["casos_febriles_zona"])
+                 ->setTipoMapa($_POST["tipo_mapa"])
                  ->guardar();
             
             
@@ -188,16 +203,27 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
-    public function info_rapanui_dengue(){
+    /**
+     * 
+     */
+    public function info_rabia_vacunacion(){
+        $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 
         $casos = array();
-        $this->load->model("rapanui_dengue_model", "_rapanui_dengue_model");
+        $this->load->model("rabia_vacunacion_model", "_rabia_vacunacion_model");
         
-        $lista = $this->_rapanui_dengue_model->listar();
+        $lista = $this->_rabia_vacunacion_model->listar();
         if($lista != null){
             foreach($lista as $row){
+
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "VACUNACIÓN RABIA";
+
+                
                 $coordenadas = json_decode($row["coordenadas"]);
-                $casos[] = array("propiedades" => json_decode($row["propiedades"]),
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
                                  "lat" => $coordenadas->lat,
                                  "lng" => $coordenadas->lng);
             }
@@ -207,6 +233,161 @@ class Mapa extends MY_Controller {
             "correcto" => true,
             "lista" => $casos)
         );
+    }
+    
+    /**
+     * 
+     */
+    public function info_rapanui_embarazadas(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("embarazos_model", "_embarazos_model");
+        
+        $lista = $this->_embarazos_model->listarPorFecha(date("Y-m-d"));
+        if($lista != null){
+            foreach($lista as $row){
+
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "EMBARAZADA";
+               
+                $fecha_fur = DateTime::createFromFormat("Y-m-d", $row["FUR"]);
+                if($fecha_fur instanceof DateTime){
+                    $hoy = New DateTime("now");
+                    $interval = $fecha_fur->diff($hoy);
+                    $semana = (int) ( ( ((int) $interval->format('%R%a'))/7 ) - ((int) $interval->format('%R%a'))%7 );
+                }
+                
+                if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
+                    unset($propiedades["RUN"]);
+                    unset($propiedades["NOMBRE"]);
+                    unset($propiedades["APELLIDO"]);
+                    unset($propiedades["TELEFONO"]);
+                    unset($propiedades["NUMERO PASAPORTE"]);
+                }
+                
+                $coordenadas = json_decode($row["coordenadas"]);
+                $casos[] = array("id" => $row["id"],
+                                 "id_estado" => $row["id_estado"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $coordenadas->lat,
+                                 "lng" => $coordenadas->lng,
+                                 "semana" => $semana);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    /**
+     * Trae datos de casos de fiebre
+     */
+    public function info_rapanui_dengue(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        
+        $params = $this->input->post(null, true);
+        
+        /*$fecha_desde = null;
+        $fecha_hasta = null;
+        
+        $fecha = DateTime::createFromFormat("d/m/Y", $params["desde"]);
+        if($fecha instanceof DateTime){
+            $fecha_desde = $fecha;
+        }
+        
+        $fecha = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
+        if($fecha instanceof DateTime){
+            $fecha_hasta = $fecha;
+        }*/
+        
+        
+        $this->load->model("casos_febriles_estado_model");
+        $this->load->model("casos_febriles_enfermedades_model", "_casos_febriles_enfermedades_model");
+        $this->load->model("casos_febriles_model", "_rapanui_dengue_model");
+        
+        $lista = $this->_rapanui_dengue_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+                $ok = true;
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                
+                /*$fecha_sintomas = DateTime::createFromFormat("d/m/Y", $propiedades["FECHA DE INICIO DE SINTOMAS"]);
+                if($fecha_desde instanceof DateTime){
+                   
+                    if($fecha_sintomas instanceof DateTime){
+                        if($fecha_desde > $fecha_sintomas){
+                            $ok = false;
+                        }
+                    }
+                }
+                
+                if($fecha_hasta instanceof DateTime){
+                   
+                    if($fecha_sintomas instanceof DateTime){
+                        if($fecha_hasta < $fecha_sintomas){
+                            $ok = false;
+                        }
+                    }
+                }*/
+
+                if($ok){
+                    $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
+
+                    if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
+                        unset($propiedades["RUN"]);
+                        unset($propiedades["NOMBRE"]);
+                        unset($propiedades["APELLIDO"]);
+                        unset($propiedades["TELEFONO"]);
+                        unset($propiedades["NUMERO PASAPORTE"]);
+                    }
+
+                    $enfermedades_confirmadas = array();
+                    if($row["id_estado"] == Casos_Febriles_Estado_Model::CONFIRMADO){
+                        $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($row["id"]);
+                        if(!is_null($lista_enfermedades)){
+                            foreach($lista_enfermedades as $enfermedad){
+                                $enfermedades_confirmadas[] = array(
+                                    "id" => $enfermedad["id_enfermedad"],
+                                    "letra" => strtoupper(substr($enfermedad["nombre"], 0, 1)),
+                                    "nombre" => strtoupper($enfermedad["nombre"])
+                                );
+                            }
+                        }
+                    }
+
+                    $coordenadas = json_decode($row["coordenadas"]);
+                    
+                    $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $row["fecha"]);
+                    
+                    $casos[] = array(
+                        "id" => $row["id"],
+                        "fecha_ingreso" => $fecha->format("d/m/Y"),
+                        "id_estado" => $row["id_estado"],
+                        "propiedades" => $propiedades,
+                        "enfermedades" => $enfermedades_confirmadas,
+                        "lat" => $coordenadas->lat,
+                        "lng" => $coordenadas->lng
+                    );
+                }
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    public function popup_marcador_editar(){
+        $this->load->library("String");
+        $params = $this->input->post(null, true);        
+        $this->load->view("pages/mapa/popup-marcador-editar", array("html" => $params["html"]));
     }
     
     /**
@@ -226,6 +407,30 @@ class Mapa extends MY_Controller {
      */
     public function popup_lugar_emergencia(){
         $this->load->view("pages/mapa/popup-lugar-emergencia", array());
+    }
+    
+    /**
+     * 
+     */
+    public function popup_elemento_info(){
+        $this->load->helper(array("modulo/visor/visor"));
+        
+        $params = $this->input->post(null, true);
+        $informacion = json_decode($params["informacion"]);
+        
+        $this->load->view(
+            "pages/mapa/popup-elemento-informacion", 
+            array(
+                "tipo" => $params["tipo"],
+                "color" => $params["color"],
+                "radio" => $params["radio"],
+                "informacion" => $informacion,
+                "identificador" => $params["identificador"],
+                "clave" => $params["clave"],
+                "lista_formas" => json_decode($params["formas"]),
+                "lista_marcadores"  => json_decode($params["marcadores"])
+            )
+        );
     }
     
     /**
@@ -351,6 +556,8 @@ class Mapa extends MY_Controller {
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
         if(!is_null($configuracion)){
             $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco,
+                                            "casos_febriles" => $configuracion->bo_casos_febriles,
+                                            "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
                                             "tipo_mapa" => $configuracion->tipo_mapa);
         }
         

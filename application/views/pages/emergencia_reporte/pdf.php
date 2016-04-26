@@ -54,12 +54,12 @@
     </tr>
     <tr>
         <td style="text-align: center;font-size:16px" colspan="2"><span style="font-weight: bold">CONTENIDO</span><br/><?= $eme_c_nombre_emergencia ?></td>
-        <td>Región<br/><?php echo $region?></td>
+        <td style="text-align: center;"><?php echo $codigo;?></td>
     </tr>
     <tr>
         <td style="text-align: center;font-size:14px"><span style="font-weight: bold">ELABORADOR POR:</span><br/><?= $emisor ?></td>
-        <td>Cargo/Función</td>
-        <td></td>
+        <td style="text-align: center;"><span style="font-weight: bold">Cargo/Función</span><br/><?php echo $cargo;?></td>
+        <td style="text-align: center;"><span style="font-weight: bold">Región</span><br/><?php echo $region?></td>
     </tr>
 
 </table>
@@ -98,12 +98,12 @@
     </tr>
     <tr>
         <td colspan="5">7.- ESTA EN RIESGO LA SEGURIDAD DE NUESTRO PERSONAL:<br/>
-        <?php echo $form_tipo_riesgo?>
+        <?php echo nl2br($form_tipo_riesgo) ?>
         </td>
     </tr>
     <tr>
         <td colspan="5">8.- ¿EN QUE HA SIDO SUPERADA SU CAPACIDAD PARA UNA RESPUESTA EFICIENTE Y EFECTIVA?<br/>
-        <?php echo $form_tipo_superada?>
+        <?php echo nl2br($form_tipo_superada) ?>
         </td>
     </tr>
 </table>
@@ -112,7 +112,7 @@
 <table class="tabla_detalle">
     <tr>
         <td>9.- DESCRIPCIÓN DEL EVENTO<br/>
-        <?php echo $eme_c_descripcion?>
+        <?php echo nl2br($eme_c_descripcion) ?>
         </td>
     </tr>
 </table>
@@ -122,14 +122,14 @@
 <table class="tabla_detalle">
     <tr>
         <td>10.- ACCIONES<br/>
-            <?php echo $form_tipo_acciones?>
+            <?php echo nl2br($form_tipo_acciones) ?>
         </td>
     </tr>
 </table>
 <br/>
-<!--<pagebreak></pagebreak>-->
-<div style="page-break-after: always"></div>
-<table border="0">
+
+<?php if(isset($mapa) and $mapa == true):?>
+<table border="0" style="page-break-inside: avoid;">
     <tr>
         <td>ANEXO: Mapa del lugar de la emergencia</td>
     </tr>
@@ -137,3 +137,4 @@
         <td><img src="var:imagen_mapa"/></td>
     </tr>  
 </table>
+<?php endif;?>

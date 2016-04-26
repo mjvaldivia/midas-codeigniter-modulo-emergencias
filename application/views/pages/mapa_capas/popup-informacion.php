@@ -46,7 +46,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
                     <a href="#instalaciones" aria-controls="instalaciones" role="tab" data-toggle="tab">
-                        <i class="fa fa-home"></i> Instalaciones <div class="badge"><?php echo count($lista_marcadores) ?></div>
+                        <i class="fa fa-home"></i> Marcadores <div class="badge"><?php echo count($lista_marcadores) ?></div>
                     </a>
                 </li>
                 <li role="presentation">

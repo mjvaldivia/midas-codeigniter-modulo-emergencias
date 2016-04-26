@@ -52,6 +52,36 @@ class Usuario_Model extends MY_Model {
     
     /**
      * 
+     * @param string $login
+     * @return type
+     */
+    public function getByLogin($login){
+        return $this->_query->getById("usu_c_login", $login);
+    }
+    
+    /**
+     * 
+     * @param string $nombre
+     * @param string $apellido_paterno
+     * @param string $apellido_materno
+     * @return type
+     */
+    public function getByNombre($nombre, $apellido_paterno, $apellido_materno){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->whereAND("usu_c_nombre", $nombre)
+                               ->whereAND("usu_c_apellido_paterno", $apellido_paterno)
+                               ->whereAND("usu_c_apellido_materno", $apellido_materno)
+                               ->getOneResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
      * @param string $usuario
      * @param string $password
      * @return array
@@ -102,6 +132,24 @@ class Usuario_Model extends MY_Model {
      */
     public function insert($data){
         return $this->_query->insert($data);
+    }
+    
+    /**
+     * 
+     * @param int $id_region
+     * @return array
+     */
+    public function listarUsuariosPorRegion($id_region){
+        $result = $this->_query->select("DISTINCT u.*")
+                               ->from($this->_tabla . " u")
+                               ->join("usuarios_region r", "r.id_usuario = u.usu_ia_id", "INNER")
+                               ->whereAND("r.id_region", $id_region)
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
     
     /**

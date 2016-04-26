@@ -17,5 +17,24 @@ Class String{
 	}
 	return $str;
     }
+    
+    /**
+     * 
+     * @param array $arreglo
+     * @param separador $separador
+     * @param indice de los valores del array $subindice
+     * @return string
+     */
+    public function arrayToString($arreglo, $separador, $subindice){
+        $string = "";
+        $coma   = "";
+        if(count($arreglo)>0){
+            foreach($arreglo as $valor){
+                $string .= $coma.$valor[$subindice];
+                $coma = ",";
+            }
+        }
+        return $string;
+    }
 }
 

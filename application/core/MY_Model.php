@@ -48,6 +48,7 @@ Class MY_Model extends CI_Model {
         } else {
             return $this->load->database(ENVIRONMENT, true);
         }
+
     }
     
     /**
