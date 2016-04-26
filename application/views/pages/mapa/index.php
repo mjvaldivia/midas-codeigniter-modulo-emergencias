@@ -1,7 +1,7 @@
 <?php echo $js; ?>
 
 <div class="row-mapa">
-
+        <?php echo $id; ?>
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
 
         <div class="row">
