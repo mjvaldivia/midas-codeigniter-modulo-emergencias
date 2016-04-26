@@ -124,9 +124,12 @@ class Mapa extends MY_Controller {
         $guardar = $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
 
         if(!is_null($emergencia)){
-            $data = array("id" => $emergencia->eme_ia_id,
+            $data = array("id" => $params["id"],
                           "guardar" => $guardar,
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
+            
+            print_r($data);
+            
             $this->template->parse("default", "pages/mapa/index", $data);
         } else {
             throw new Exception(__METHOD__ . " - La emergencia no existe");
