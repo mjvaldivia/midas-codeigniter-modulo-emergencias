@@ -65,7 +65,7 @@ $autoload['libraries'] = array("enviroment","session","template");
 */
 
 
-$autoload['helper'] = array("assets","session","utils");
+$autoload['helper'] = array("assets","session","utils","modulo/usuario/usuario");
 
 
 
