@@ -42,5 +42,13 @@ Class Validar{
             return false;
         }
     }
+
+    public function validarNumero($number){
+        if(is_numeric($number)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
