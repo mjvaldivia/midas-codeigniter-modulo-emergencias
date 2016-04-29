@@ -353,6 +353,18 @@ var MapaEditor = Class({
             });
         });
         
+        $("#marea_roja").livequery(function(){
+            $(this).click(function(){
+                var marea_roja = new MapaMareaRojaCasos();
+                marea_roja.seteaMapa(map);
+                if($(this).is(":checked")){
+                    marea_roja.load();
+                } else {
+                    marea_roja.remove();
+                }
+            });
+        });
+        
         /**
          * Importar embarazadas
          */

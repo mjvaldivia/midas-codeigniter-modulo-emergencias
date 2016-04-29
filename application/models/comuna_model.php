@@ -43,6 +43,28 @@ class Comuna_Model extends MY_Model
      * @param int $id_usuario
      * @return array
      */
+    public function listarComunasPorRegion($id_region){
+        $result = $this->_query
+                      ->select("c.*")
+                      ->from($this->_tabla . " c")
+                      ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                      ->join("regiones r", "r.reg_ia_id = p.reg_ia_id", "INNER")
+                      ->whereAND("r.reg_ia_id", $id_region)
+                      ->orderBy("c.com_c_nombre", "ASC")
+                      ->getAllResult();
+
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_usuario
+     * @return array
+     */
     public function listarComunasPorUsuario($id_usuario){
         $result = $this->_query
                       ->select("DISTINCT c.*")
@@ -87,7 +109,7 @@ class Comuna_Model extends MY_Model
         $query = "select c.* from ".$this->_tabla." c
                 left join provincias p on p.prov_ia_id = c.prov_ia_id 
                 left join regiones r on r.reg_ia_id = p.reg_ia_id 
-                where r.reg_ia_id = ?";
+                where r.reg_ia_id = ? ORDER BY c.com_c_nombre ASC";
         $result = $this->db->query($query,array($id_region));
 
         if($result->num_rows() > 0){

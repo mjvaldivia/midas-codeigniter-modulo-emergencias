@@ -238,6 +238,39 @@ class Mapa extends MY_Controller {
     /**
      * 
      */
+    public function info_marea_roja(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("marea_roja_model", "_marea_roja_model");
+        
+        $lista = $this->_marea_roja_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "MAREA ROJA";
+ 
+                
+                $coordenadas = json_decode($row["coordenadas"]);
+                $casos[] = array("id" => $row["id"],
+                                 "resultado" => $propiedades["RESULTADO"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $coordenadas->lat,
+                                 "lng" => $coordenadas->lng);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    /**
+     * 
+     */
     public function info_rapanui_embarazadas(){
         $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 

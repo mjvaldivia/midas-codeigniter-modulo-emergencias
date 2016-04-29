@@ -22,7 +22,7 @@ $(document).ready(function() {
                                  async: true,
                                  data: parametro,
                                  type: "post",
-                                 url: siteUrl + "embarazo/eliminar", 
+                                 url: siteUrl + "marea_roja/eliminar", 
                                  error: function(xhr, textStatus, errorThrown){
 
                                  },
@@ -53,7 +53,7 @@ function recargaGrilla(){
         async: true,
         data: "",
         type: "post",
-        url: siteUrl + "embarazo/ajax_lista", 
+        url: siteUrl + "marea_roja/ajax_lista", 
         error: function(xhr, textStatus, errorThrown){
 
         },
