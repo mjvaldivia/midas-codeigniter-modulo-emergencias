@@ -50,6 +50,7 @@ class Embarazo extends MY_Controller
             
             $propiedades = json_decode($caso->propiedades);
             $coordenadas = json_decode($caso->coordenadas);
+            
             foreach ($propiedades as $nombre => $valor) {
                 $data[str_replace(" ", "_", strtolower($nombre))] = $valor;
             }
@@ -82,6 +83,9 @@ class Embarazo extends MY_Controller
             "correcto" => true));
     }
     
+    /**
+     * 
+     */
     public function cargaExcel(){
         $filtro = New Zend_Filter_Alpha();
         $this->load->library("excel");

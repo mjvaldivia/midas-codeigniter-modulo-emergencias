@@ -88,6 +88,10 @@ Class Layout_Menu_Render{
                                                "controller" => "embarazo",
                                                "action"     => "index"
                                             ),
+                                            "Marea roja" => array(
+                                               "controller" => "marea_roja",
+                                               "action"     => "index"
+                                            ),
                                             /*
                                             "Vacunación Antirrábica" => array(
                                               
