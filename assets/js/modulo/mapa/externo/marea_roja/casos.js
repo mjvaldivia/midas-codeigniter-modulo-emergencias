@@ -42,15 +42,15 @@ var MapaMareaRojaCasos = Class({
                             
                           
                             
-                            if(valor.resultado > 1000){
+                            if(parseInt(valor.resultado) > 1000){
                                 var icono = baseUrl + "assets/img/markers/marisco/rojo.png"
                             }
                             
-                            if(valor.resultado <= 1000 && valor.resultado > 200){
+                            if(parseInt(valor.resultado) <= 1000 && parseInt(valor.resultado) > 200){
                                 var icono = baseUrl + "assets/img/markers/marisco/amarillo.png"
                             }
                             
-                            if(valor.resultado <= 200){
+                            if(parseInt(valor.resultado) <= 200){
                                 var icono = baseUrl + "assets/img/markers/marisco/azul.png"
                             }
                             
