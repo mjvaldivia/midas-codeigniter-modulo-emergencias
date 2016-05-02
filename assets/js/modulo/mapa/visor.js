@@ -95,7 +95,9 @@ var Visor = Class({
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
+                    yo.mapa.setZoom(parseInt(data.resultado.zoom));
                     yo.centrarMapa(data.resultado.lat, data.resultado.lon);
+                    
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }

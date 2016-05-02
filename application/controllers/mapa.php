@@ -187,6 +187,8 @@ class Mapa extends MY_Controller {
             $this->visor_guardar_configuracion
                  ->setEmergencia($emergencia->eme_ia_id)
                  ->setZoom($_POST["zoom"])
+                 ->setLatitud($_POST["latitud"])
+                 ->setLongitud($_POST["longitud"])
                  ->setSidcoConaf($_POST["sidco"])
                  ->setCasosFebriles($_POST["casos_febriles"])
                  ->setCasosFebrilesZona($_POST["casos_febriles_zona"])

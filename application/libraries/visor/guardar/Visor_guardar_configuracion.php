@@ -16,6 +16,18 @@ Class Visor_guardar_configuracion{
     
     /**
      *
+     * @var float 
+     */
+    protected $_latitud;
+    
+    /**
+     *
+     * @var float
+     */
+    protected $_longitud;
+    
+    /**
+     *
      * @var boolean 
      */
     protected $_bo_sidco_conaf;
@@ -85,6 +97,20 @@ Class Visor_guardar_configuracion{
         return $this;
     }
     
+    public function setLatitud($lat){
+        if($lat != ""){
+            $this->_latitud = $lat;
+        }
+        return $this;
+    }
+    
+    public function setLongitud($lng){
+        if($lng != ""){
+            $this->_longitud = $lng;
+        }
+        return $this;
+    }
+    
     /**
      * 
      * @param string $string
@@ -140,6 +166,8 @@ Class Visor_guardar_configuracion{
         $data = array("id_emergencia" => $this->_id_emergencia,
                       "tipo_mapa" => $this->_tipo_mapa,
                       "zoom" => $this->_zoom,
+                      "latitud" => $this->_latitud,
+                      "longitud" => $this->_longitud,
                       "kml_sidco"     => $this->_bo_sidco_conaf,
                       "bo_casos_febriles" => $this->_bo_casos_febriles,
                       "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona,

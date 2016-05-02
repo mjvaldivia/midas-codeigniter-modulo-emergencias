@@ -243,6 +243,8 @@ var MapaEditor = Class({
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                           "zoom" : this.mapa.getZoom(),
+                          "latitud" : this.mapa.getCenter().lat(),
+                          "longitud" : this.mapa.getCenter().lng(),
                           //"posicion" : yo.mapa.getCenter(),
                           "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),

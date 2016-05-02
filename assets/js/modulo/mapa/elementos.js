@@ -393,6 +393,8 @@ var MapaElementos = Class({
                    if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
                        yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
                    }
+                   
+                   
                }
             }
         });
