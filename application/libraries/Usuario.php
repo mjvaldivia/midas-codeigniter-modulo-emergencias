@@ -80,6 +80,9 @@ Class Usuario{
             case "casos_febriles":
                 $this->_id_modulo = Modulo_Model::SUB_CASOS_FEBRILES;
                 break;
+            case "marea_roja":
+                $this->_id_modulo = Modulo_Model::SUB_MAREA_ROJA;
+                break;
             default:
                 throw new Exception("No se encontro el modulo");
                 break;
