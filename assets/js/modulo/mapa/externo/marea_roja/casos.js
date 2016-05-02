@@ -40,20 +40,20 @@ var MapaMareaRojaCasos = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                      
-                            if(parseInt(valor.resultado) > 80){
+                          
+                            
+                            if(valor.resultado >= 80){
                                 var icono = baseUrl + "assets/img/markers/marisco/rojo.png"
                             }
                             
-                            if(parseInt(valor.resultado) <= 80 ){
+                            if(valor.resultado <= 80 ){
                                 var icono = baseUrl + "assets/img/markers/marisco/azul.png"
                             }
 										
                             if(valor.resultado == "ND"){
-                                var icono = baseUrl + "assets/img/markers/marisco/rojo.png"
+                                var icono = baseUrl + "assets/img/markers/marisco/verde.png"
                             }
                             
-                           
                             var marcador = new MapaMarcadorLabel();
                             marcador.seteaMapa(yo.mapa);
                             marcador.posicionarMarcador("marea_roja_" + valor.id, valor.semana , valor.lng, valor.lat, null, valor.propiedades, icono);
