@@ -214,7 +214,7 @@ class Marea_roja extends MY_Controller
 
                 $propiedades = json_decode($caso["propiedades"]);
                 
-                $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $propiedades->FECHA);
+                $fecha = DateTime::createFromFormat("d-m-Y", $propiedades->FECHA);
                 if ($fecha instanceof DateTime) {
                     $fecha_formato = $fecha->format("d/m/Y");
                 }
