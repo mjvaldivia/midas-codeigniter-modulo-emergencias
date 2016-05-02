@@ -80,9 +80,10 @@
                                         <label for="fuente_de_la_informacion" class="control-label">Fuente de la información:</label>
                                         <select name="fuente_de_la_informacion" id="fuente_de_la_informacion" class="form-control">
                                             <option value="">-- Seleccione un valor --</option>
-                                            <option <?php if($recurso == "SEREMI") echo "selected"; ?> value="SEREMI"> SEREMI </option>
+                                            <option <?php if($recurso == "SEREMI Monitoreo") echo "selected"; ?> value="SEREMI Monitoreo"> SEREMI Monitoreo </option>
                                             <option <?php if($recurso == "PSMB") echo "selected"; ?> value="PSMB"> PSMB </option>
-                                            <option <?php if($recurso == "Control de desembarco") echo "selected"; ?> value="Control de desembarco"> Control de desembarco </option>
+                                            <option <?php if($recurso == "SEREMI Control de desembarco") echo "selected"; ?> value="SEREMI Control de desembarco">SEREMI Control de desembarco </option>
+                                            <option <?php if($recurso == "IFOP") echo "selected"; ?> value="IFOP"> IFOP </option>
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>

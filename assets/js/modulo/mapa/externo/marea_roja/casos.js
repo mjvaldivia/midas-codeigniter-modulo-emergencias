@@ -41,7 +41,7 @@ var MapaMareaRojaCasos = Class({
                         $.each(json.lista, function(i, valor){
                             
                             if(valor.resultado == "ND" || valor.resultado == "nd"){
-                                var icono = baseUrl + "assets/img/markers/marisco/gris-cruz.png"
+                                var icono = baseUrl + "assets/img/markers/marisco/gris-cruz-chico.png"
                             } else {
                        
                                 if(parseInt(valor.resultado) >= 80){
@@ -49,11 +49,11 @@ var MapaMareaRojaCasos = Class({
                                 }
 
                                 if(parseInt(valor.resultado) > 50 && parseInt(valor.resultado) < 80 ){
-                                    var icono = baseUrl + "assets/img/markers/spotlight-poi-yellow-chico.png"
+                                    var icono = baseUrl + "assets/img/markers/marisco/amarillo-chico.png"
                                 }
 
                                 if(parseInt(valor.resultado) <= 50){
-                                    var icono = baseUrl + "assets/img/markers/marisco/verde.png"
+                                    var icono = baseUrl + "assets/img/markers/marisco/verde-chico.png"
                                 }
 
                             
