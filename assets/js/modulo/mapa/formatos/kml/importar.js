@@ -123,6 +123,7 @@ var MapaKmlImportar = Class({
                             
                             if(elemento["tipo"] == "POLIGONO"){
                                 var poligono = new MapaPoligono();
+                                poligono.seteaEditable(true);
                                 poligono.seteaMapa(yo.mapa);
                                 poligono.dibujarPoligono(
                                     "kml_" + data.response.hash,
@@ -137,6 +138,7 @@ var MapaKmlImportar = Class({
                             
                             if(elemento["tipo"] == "MULTIPOLIGONO"){
                                 var poligono = new MapaPoligonoMulti();
+                                poligono.seteaEditable(true);
                                 poligono.seteaMapa(yo.mapa);
                                 poligono.dibujarPoligono(
                                     "kml_" + data.response.hash,

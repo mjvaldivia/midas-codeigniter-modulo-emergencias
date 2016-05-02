@@ -249,11 +249,18 @@ class Mapa extends MY_Controller {
         $lista = $this->_marea_roja_model->listar();
         if($lista != null){
             foreach($lista as $row){
-
-                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades = array("MUESTREO N°" => $row["id"]);
+                
+                $json = Zend_Json::decode($row["propiedades"]);
+                foreach($json as $key => $value){
+                    $propiedades[$key] = $value;
+                }
+                
+                
                 $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
                 $propiedades["TIPO"] = "MAREA ROJA";
  
+                
                 
                 $coordenadas = json_decode($row["coordenadas"]);
                 $casos[] = array("id" => $row["id"],
