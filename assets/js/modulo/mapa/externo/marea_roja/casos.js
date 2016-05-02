@@ -116,7 +116,7 @@ var MapaMareaRojaCasos = Class({
 
 
         if($("#marea_roja_recurso").val() != ""){
-            if(marker["recurso"] != $("#marea_roja_recurso").val()){
+            if(marker["recurso"].toUpperCase() != $("#marea_roja_recurso").val()){
                 ok = false;
             }
         }
