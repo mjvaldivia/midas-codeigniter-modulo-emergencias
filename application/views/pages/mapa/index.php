@@ -18,6 +18,8 @@
                         </li>
                         <?php endif;?>
                         <li class="divider"></li>
+                        <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
+                        <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
                             <ul class="dropdown-menu">
@@ -42,14 +44,6 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        
-                    </ul>
-                </li>
-                
-                <li>
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears"></i> Herramientas <b class="caret"></b></a>
-                    <ul class="dropdown-menu multi-level">
-                        <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
                         
                     </ul>
                 </li>
