@@ -39,10 +39,12 @@ var MapaRabiaVacunacion = Class({
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
+                            
                             var icono = baseUrl + "assets/img/markers/otros/animal.png"
-                            var marcador = new MapaMarcadorLabel();
+                            
+                            var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador("rabia_vacunacion_" + valor.id, valor.semana , valor.lng, valor.lat, null, valor.propiedades, icono);
+                            marcador.posicionarMarcador("rabia_vacunacion_" + valor.id, null , valor.lng, valor.lat, valor.propiedades, null, icono);
                             rabia_vacunacion_marcador.push("rabia_vacunacion_" + valor.id);
                         });
                     } else {

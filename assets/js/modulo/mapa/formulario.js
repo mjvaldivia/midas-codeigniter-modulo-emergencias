@@ -154,12 +154,19 @@ var MapaFormulario = Class({
         var mapOptions = {
           zoom: 4,
           center: myLatlng,
+          disableDoubleClickZoom: true,
           mapTypeId: google.maps.MapTypeId.HYBRID
         };
 
         map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
 
-
+        google.maps.event.addListener(map, "dblclick", function (e) { 
+            var lat = e.latLng.lat();
+            var lon = e.latLng.lng();
+            $("#latitud").val(lat);
+            $("#longitud").val(lon);
+            $('.mapa-coordenadas').trigger("change");
+        });
         
         this.mapa = map;
     },
@@ -234,7 +241,7 @@ var MapaFormulario = Class({
 
 
             this.marker.setPosition( new google.maps.LatLng( parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
-            this.mapa.setZoom(18);
+            this.mapa.setZoom(10);
             this.mapa.panTo( new google.maps.LatLng(parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
         }
     },

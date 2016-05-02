@@ -2,6 +2,8 @@
 
 class Region_Model extends MY_Model{    
     
+    const LOS_LAGOS = 10;
+    
     /**
      *
      * @var string 

@@ -17,6 +17,9 @@ class Comuna extends MY_Controller {
         $this->load->model("comuna_model", "comuna_model");
     }
     
+    /**
+     * 
+     */
     public function json_comunas_region(){
         header('Content-type: application/json');
         $id = $this->input->post('id');
