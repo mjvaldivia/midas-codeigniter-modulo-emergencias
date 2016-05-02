@@ -7,7 +7,7 @@ var Visor = Class({
     id_div_mapa : "",
     latitud : "-36.82013519999999",
     longitud : "-73.0443904",
-    zoom: 17,
+    zoom: 5,
     callback : null,
     
     on_ready_functions : {},
