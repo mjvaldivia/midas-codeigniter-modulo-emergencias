@@ -210,13 +210,15 @@ class Marea_roja extends MY_Controller
         if (!is_null($lista)) {
             foreach ($lista as $caso) {
                 
-                $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $caso["fecha"]);
+                
+
+                $propiedades = json_decode($caso["propiedades"]);
+                
+                $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $propiedades->FECHA);
                 if ($fecha instanceof DateTime) {
                     $fecha_formato = $fecha->format("d/m/Y");
                 }
-
-                $propiedades = json_decode($caso["propiedades"]);
-
+                
                 $casos[] = array(
                     "id" => $caso["id"],
                     "id_usuario" => $caso["id_usuario"],

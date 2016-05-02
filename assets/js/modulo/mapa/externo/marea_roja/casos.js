@@ -130,6 +130,7 @@ var MapaMareaRojaCasos = Class({
      * @returns {undefined}
      */
     filtrar : function(){
+        console.log("filtrando");
         var yo = this;
         $.each(marea_roja_marcador, function(i, marker){
 

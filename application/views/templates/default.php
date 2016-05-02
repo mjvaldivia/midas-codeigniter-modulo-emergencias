@@ -263,6 +263,7 @@
         <?= loadJS("assets/js/library/messenger/messenger-theme-flat.js", true) ?>
         <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
         <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.js") ?>
+        <?= loadJS("assets/js/library/jquery.wait.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
 
