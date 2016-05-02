@@ -19,7 +19,15 @@
             <td width="10%"><?php echo $row["fecha"]; ?></td>
             <td width="10%"><?php echo $row["recurso"]; ?></td>
             <td width="10%"><?php echo $row["origen"]; ?></td>
-            <td width="10%"><?php echo $row["comuna"]; ?></td>
+            <td width="10%" align="center">
+                <?php 
+                if($row["comuna"]!=""){
+                    echo $row["comuna"];
+                } else {
+                    echo "------";
+                }
+                ?>
+            </td>
             
             <td width="20%"><?php echo $row["resultado"]; ?></td>
             
