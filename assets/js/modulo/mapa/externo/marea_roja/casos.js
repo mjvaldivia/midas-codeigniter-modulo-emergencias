@@ -49,7 +49,7 @@ var MapaMareaRojaCasos = Class({
                                 }
 
                                 if(parseInt(valor.resultado) > 50 && parseInt(valor.resultado) < 80 ){
-                                    var icono = baseUrl + "assets/img/markers/marisco/azul.png"
+                                    var icono = baseUrl + "assets/img/markers/marisco/amarillo.png"
                                 }
 
                                 if(parseInt(valor.resultado) <= 50){
@@ -63,14 +63,91 @@ var MapaMareaRojaCasos = Class({
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
                             marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
-                            marea_roja_marcador.push("marea_roja_" + valor.id);
+                            
+                             var fecha_muestra = moment(valor.propiedades["FECHA"], "DD-MM-YYYY", true);
+                            
+                            marea_roja_marcador.push(
+                                {
+                                    "identificador" : "marea_roja_" + valor.id,
+                                    "fecha_muestra" : fecha_muestra,
+                                    "recurso": valor.propiedades["RECURSO"]
+                                }
+                            );
+
                         });
+                        
+                        yo.filtrar();
                     } else {
                         notificacionError("", "No es posible encontrar la información de la marea roja.");
                     }
+                    
+                    $("#formulario-marea-roja").removeClass("hidden");
                }
             });
         }
+    },
+    
+    
+    verFiltros : function(marker){
+        var yo = this;
+        var ok = true;
+            
+        if($("#marea_roja_fecha_muestra_desde").val() != ""){
+            if(marker["fecha_muestra"].isValid()){
+                var fecha_desde = moment($("#marea_roja_fecha_muestra_desde").val(), "DD/MM/YYYY", true);
+                if(fecha_desde.isValid() && marker["fecha_muestra"].isBefore(fecha_desde)){
+                    ok = false;
+                }
+            } else {
+                ok = false;
+            }
+        }
+
+        if($("#marea_roja_fecha_muestra_hasta").val() != ""){
+            if(marker["fecha_muestra"].isValid()){
+                var fecha_hasta = moment($("#marea_roja_fecha_muestra_hasta").val(), "DD/MM/YYYY", true);
+                if(fecha_hasta.isValid() && marker["fecha_muestra"].isAfter(fecha_hasta)){
+                    ok = false;
+                }
+            } else {
+                ok = false;
+            }
+        }
+
+
+        if($("#marea_roja_recurso").val() != ""){
+            if(marker["recurso"] != $("#marea_roja_recurso").val()){
+                ok = false;
+            }
+        }
+        
+        
+        return ok;
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    filtrar : function(){
+        var yo = this;
+        $.each(marea_roja_marcador, function(i, marker){
+
+            var ok = yo.verFiltros(marker);
+            if(!ok){
+                jQuery.grep(lista_markers, function( a ) {
+                    if(a["identificador"] == marker.identificador){
+                        a.setVisible(false);
+                    }
+                });
+            } else {
+                jQuery.grep(lista_markers, function( a ) {
+                    if(a["identificador"] == marker.identificador){
+                        a.setVisible(true);
+                    }
+                });
+            }
+        });
     },
     
     /**
@@ -78,9 +155,10 @@ var MapaMareaRojaCasos = Class({
      * @returns {undefined}
      */
     remove : function(){
+        
         var marcador = new MapaMarcador();
-        $.each(marea_roja_marcador, function(i, identificador){
-            marcador.removerMarcadores("identificador", identificador);
+        $.each(marea_roja_marcador, function(i, marker){
+            marcador.removerMarcadores("identificador", marker.identificador);
         });
         
         marea_roja_marcador = [];

@@ -75,15 +75,10 @@ var MapaIslaDePascuaCasos = Class({
                                     break;
                             }
                             
-                           /* if(con_label){
-                                var marcador = new MapaMarcadorLabel();
-                                marcador.seteaMapa(yo.mapa);
-                                marcador.posicionarMarcador("rapanui_dengue_" + valor.id, label , valor.lng, valor.lat, null, valor.propiedades, icono);
-                            } else {*/
-                                var marcador = new MapaMarcador();
-                                marcador.seteaMapa(yo.mapa);
-                                marcador.posicionarMarcador("rapanui_dengue_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
-                            //}
+                           
+                            var marcador = new MapaMarcador();
+                            marcador.seteaMapa(yo.mapa);
+                            marcador.posicionarMarcador("rapanui_dengue_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
                             
                             var fecha_inicio = moment(valor.propiedades["FECHA DE INICIO DE SINTOMAS"], "DD/MM/YYYY", true);
                             var fecha_ingreso = moment(valor.fecha_ingreso, "DD/MM/YYYY", true);

@@ -81,6 +81,9 @@ $(document).ready(function() {
     var formulario = new MapaLayoutFormCasosFebrilesFecha();
     visor.addOnReadyFunction("buscador", formulario.addToMap);
     
+    var formulario = new MapaLayoutFormMareaRoja();
+    visor.addOnReadyFunction("buscador marea roja", formulario.addToMap);
+    
     //inicia mapa
     visor.bindMapa();
     

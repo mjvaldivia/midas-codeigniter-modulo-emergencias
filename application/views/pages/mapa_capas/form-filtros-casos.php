@@ -7,7 +7,7 @@
                     <img width="20px" src="http://development.emergencias.midas.cl/assets/img/markers/epidemiologico/caso_sospechoso.png">
                 </i> 
                 <div id="configuracion-filtros-resumen" class="en-linea">
-                    Fechas: todas, Estado: todos
+                    <strong>Casos febriles:</strong> Fechas: todas, Estado: todos
                 </div>
             </button>
         </div>

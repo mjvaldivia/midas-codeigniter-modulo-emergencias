@@ -90,6 +90,14 @@ class Mapa_capas extends MY_Controller {
         $this->load->view("pages/mapa_capas/form-filtros-casos", array());
     }
     
+     public function ajax_form_filtros_marea_roja(){
+        $this->load->helper(array(
+                "modulo/formulario/formulario"
+            )
+        );
+        $this->load->view("pages/mapa_capas/form-filtros-marea-roja", array());
+    }
+    
     /**
      * Devuelve json con capas validas para la emergencia
      */

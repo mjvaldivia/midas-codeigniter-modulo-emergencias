@@ -1,3 +1,4 @@
+<div data-row="100">
 <table id="grilla-emergencia" class="table table-hover datatable paginada hidden">
     <thead>
         <tr>
@@ -74,3 +75,4 @@
     </tbody>
 </table>
 
+</div>
