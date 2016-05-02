@@ -42,17 +42,21 @@ var MapaMareaRojaCasos = Class({
                             
                           
                             
-                            if(valor.resultado >= 80){
+
+                            
+                       
+                            if(parseInt(valor.resultado) > 80){
                                 var icono = baseUrl + "assets/img/markers/marisco/rojo.png"
                             }
-                            
-                            if(valor.resultado <= 80 ){
+
+                            if(parseInt(valor.resultado) <= 80 ){
                                 var icono = baseUrl + "assets/img/markers/marisco/azul.png"
                             }
-										
-                            if(valor.resultado == "ND"){
+
+                            if(valor.resultado == "ND" || valor.resultado == "nd"){
                                 var icono = baseUrl + "assets/img/markers/marisco/verde.png"
                             }
+
                             
                             var marcador = new MapaMarcadorLabel();
                             marcador.seteaMapa(yo.mapa);
