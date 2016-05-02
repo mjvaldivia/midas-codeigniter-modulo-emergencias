@@ -45,7 +45,7 @@ var MapaMareaRojaCasos = Class({
                             } else {
                        
                                 if(parseInt(valor.resultado) >= 80){
-                                    var icono = baseUrl + "assets/img/markers/marisco/rojo.png"
+                                    var icono = baseUrl + "assets/img/markers/marisco/rojo-chico.png"
                                 }
 
                                 if(parseInt(valor.resultado) > 50 && parseInt(valor.resultado) < 80 ){
