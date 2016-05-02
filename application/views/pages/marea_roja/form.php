@@ -76,7 +76,16 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-5">
-                                    
+                                    <div class="form-group clearfix">
+                                        <label for="fuente_de_la_informacion" class="control-label">Fuente de la información:</label>
+                                        <select name="fuente_de_la_informacion" id="fuente_de_la_informacion" class="form-control">
+                                            <option value="">-- Seleccione un valor --</option>
+                                            <option <?php if($recurso == "SEREMI") echo "selected"; ?> value="SEREMI"> SEREMI </option>
+                                            <option <?php if($recurso == "PSMB") echo "selected"; ?> value="PSMB"> PSMB </option>
+                                            <option <?php if($recurso == "Control de desembarco") echo "selected"; ?> value="Control de desembarco"> Control de desembarco </option>
+                                        </select>
+                                        <span class="help-block hidden"></span>
+                                    </div>
                                 </div>
                              
                                 <div class="col-xs-2">
