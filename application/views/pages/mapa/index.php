@@ -80,7 +80,14 @@
                         </li>
                     </ul>
                 </li>
-                
+                 <li class="dropdown dropdown-large">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-warning"></i> Vigilancia <b class="caret"></b></a>
+
+                    <ul id="capas-fijas-menu" class="dropdown-menu dropdown-menu-large row" style="overflow-y: scroll; width:90%">
+                        
+                        
+                    </ul>
+                </li>
                 <li class="dropdown dropdown-large">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-building"></i> Instalaciones <b class="caret"></b></a>
 

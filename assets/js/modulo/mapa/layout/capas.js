@@ -103,7 +103,7 @@ var MapaLayoutCapas = Class({
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
             success:function(html){
-                $("#capas-columna-4").append(html);
+                $("#capas-fijas-menu").append(html);
             }
         });
     },
