@@ -2,14 +2,14 @@
 
 if (!defined("BASEPATH")) exit("No direct script access allowed");
 
-class Embarazo extends MY_Controller
+class Intoxicacion extends MY_Controller
 {
     
     /**
      *
-     * @var Embarazos_Model 
+     * @var $_intoxicacion_model 
      */
-    public $_embarazos_model;
+    public $_intoxicacion_model;
     
     /**
      *
@@ -18,7 +18,7 @@ class Embarazo extends MY_Controller
     {
         parent::__construct();
         sessionValidation();
-        $this->load->model("embarazos_model", "_embarazos_model");
+        $this->load->model("intoxicacion_model", "_intoxicacion_model");
     }
     
     /**
@@ -26,7 +26,7 @@ class Embarazo extends MY_Controller
      */
     public function index()
     {
-        $this->template->parse("default", "pages/embarazos/index", array());
+        $this->template->parse("default", "pages/intoxicacion/index", array());
     }
     
     /**
@@ -42,7 +42,7 @@ class Embarazo extends MY_Controller
         );
         $params = $this->input->get(null, true);
 
-        $caso = $this->_embarazos_model->getById($params["id"]);
+        $caso = $this->_intoxicacion_model->getById($params["id"]);
         if (!is_null($caso)) {
 
             $data = array("id" => $caso->id);
@@ -77,7 +77,7 @@ class Embarazo extends MY_Controller
     public function eliminar()
     {
         $params = $this->input->post(null, true);
-        $this->_embarazos_model->delete($params["id"]);
+        $this->_intoxicacion_model->delete($params["id"]);
         echo json_encode(array("error" => array(),
             "correcto" => true));
     }
@@ -149,7 +149,7 @@ class Embarazo extends MY_Controller
                 $propiedades["APELLIDO"] = $apellido_paterno . " " . $apellido_materno;
                 
                 
-                $this->_embarazos_model->insert(
+                $this->_intoxicacion_model->insert(
                     array("fecha" => DATE("Y-m-d"),
                           "propiedades" => json_encode($propiedades),
                           "FUR" => $FUR,
@@ -169,13 +169,13 @@ class Embarazo extends MY_Controller
      */
     public function guardar()
     {
-        $this->load->library(array("rut", "formulario/formulario_intoxicacion_validar"));
+        $this->load->library(array("rut", "formulario/formulario_embarazada_validar"));
 
         header('Content-type: application/json');
 
         $params = $this->input->post(null, true);
 
-        if ($this->formulario_intoxicacion_validar->esValido($params)) {
+        if ($this->formulario_embarazada_validar->esValido($params)) {
             
             /** latitud y longitud **/
             $coordenadas = array(
@@ -188,7 +188,7 @@ class Embarazo extends MY_Controller
             /************************/
 
             /** caso febril **/
-            $caso = $this->_embarazos_model->getById($params["id"]);
+            $caso = $this->_intoxicacion_model->getById($params["id"]);
             unset($params["id"]);
             /*****************/
 
@@ -214,7 +214,7 @@ class Embarazo extends MY_Controller
             unset($params["fecha_fpp"]);
 
             if (is_null($caso)) {
-                $id = $this->_embarazos_model->insert(
+                $id = $this->_intoxicacion_model->insert(
                     array(
                         "fecha" => date("Y-m-d H:i:s"),
                         "propiedades" => json_encode($arreglo),
@@ -225,7 +225,7 @@ class Embarazo extends MY_Controller
                     )
                 );
             } else {
-                $this->_embarazos_model->update(
+                $this->_intoxicacion_model->update(
                     array(
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
@@ -268,7 +268,7 @@ class Embarazo extends MY_Controller
 
         $this->template->parse(
             "default",
-            "pages/embarazos/form",
+            "pages/intoxicacion/form",
             array(
                 "ingresado" => $params["ingreso"],
                 "latitud" => "",
@@ -287,7 +287,7 @@ class Embarazo extends MY_Controller
                 "modulo/usuario/usuario",
             )
         );
-        $lista = $this->_embarazos_model->listar();
+        $lista = $this->_intoxicacion_model->listar();
 
         $casos = array();
 
