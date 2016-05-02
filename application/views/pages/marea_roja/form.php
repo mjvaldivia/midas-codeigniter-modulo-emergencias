@@ -38,28 +38,39 @@
                             <div id="mapa" style="height: 400px"></div>
                             <div class="alert alert-info">Puede mover el marcador para ajustar la ubicación del caso</div>
                             
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="nombre" class="control-label">Latitud(*):</label>
                                     <input type="text" class="form-control mapa-coordenadas" name="latitud" id="latitud" value="<?php echo $latitud; ?>">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="nombre" class="control-label">Longitud(*):</label>
                                     <input type="text" class="form-control mapa-coordenadas" name="longitud" id="longitud" value="<?php echo $longitud; ?>">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-                           
+                            <div class="col-xs-4">
+                                <div class="form-group clearfix">
+                                    <label for="nombre" class="control-label">Calidad de georeferenciación(*):</label>
+                                    <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion" class="form-control">
+                                        <option value="">-- seleccione un valor --</option>
+                                        <option <?php if($calidad_de_georeferenciacion == "GPS (Exacta)"); ?> value="GPS (Exacta)">GPS Exacta</option>
+                                        <option <?php if($calidad_de_georeferenciacion == "Aproximación confiable"); ?> value="Aproximación confiable">Aproximación confiable</option>
+                                        <option <?php if($calidad_de_georeferenciacion == "Requiere confirmación"); ?> value="Requiere confirmación">Requiere confirmación</option>
+                                    </select>
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="row">
                                
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
-                                        <label for="fecha" class="control-label">Fecha(*):</label>
+                                        <label for="fecha" class="control-label">Fecha de toma de muestra(*):</label>
                                         <input value="<?php echo $fecha; ?>" class="form-control datepicker-date" name="fecha" id="fecha">
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -119,7 +130,7 @@
                         
                                 <div class="col-xs-4">
                                     <div class="form-group clearfix">
-                                        <label for="fecha_de_nacimiento" class="control-label">Comuna (*):</label>
+                                        <label for="fecha_de_nacimiento" class="control-label">Comuna:</label>
                                         <?php echo formElementSelectComuna("comuna", $comuna, $region); ?>
                                         
                                         <span class="help-block hidden"></span>
