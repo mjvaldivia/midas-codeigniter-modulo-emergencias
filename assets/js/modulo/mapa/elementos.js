@@ -355,23 +355,32 @@ var MapaElementos = Class({
             success:function(data){
                if(data.correcto){
                    
-                   if(data.resultado.casos_febriles == 1){
+                    if(data.resultado.casos_febriles == 1){
                         var sidco = new MapaIslaDePascuaCasos();
                             sidco.seteaMapa(yo.mapa);
                             sidco.load();
                             $("#importar_rapanui_casos").prop("checked", true);
-                        } else {
+                    } else {
                             $("#importar_rapanui_casos").prop("checked", false);
-                   }
+                    }
                    
-                   if(data.resultado.casos_febriles_zona == 1){
+                    if(data.resultado.casos_febriles_zona == 1){
                         var sidco = new MapaIslaDePascuaZonas();
-                            sidco.seteaMapa(yo.mapa);
-                            sidco.load();
-                            $("#importar_rapanui_zonas").prop("checked", true);
-                        } else {
-                            $("#importar_rapanui_zonas").prop("checked", false);
-                   }
+                        sidco.seteaMapa(yo.mapa);
+                        sidco.load();
+                        $("#importar_rapanui_zonas").prop("checked", true);
+                    } else {
+                        $("#importar_rapanui_zonas").prop("checked", false);
+                    }
+                   
+                    if(data.resultado.marea_roja == 1){
+                       var marea_roja = new MapaMareaRojaCasos();
+                        marea_roja.seteaMapa(yo.mapa);
+                        marea_roja.load(yo.mapa);
+                        $("#marea_roja").prop("checked", true);
+                    } else {
+                        $("#marea_roja").prop("checked", false);
+                    }
                    
                    if(data.resultado.sidco == 1){
                         var sidco = new MapaKmlSidcoConaf();

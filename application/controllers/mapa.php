@@ -190,6 +190,7 @@ class Mapa extends MY_Controller {
                  ->setCasosFebriles($_POST["casos_febriles"])
                  ->setCasosFebrilesZona($_POST["casos_febriles_zona"])
                  ->setTipoMapa($_POST["tipo_mapa"])
+                 ->setMareaRoja($_POST["marea_roja"])
                  ->guardar();
             
             
@@ -588,10 +589,13 @@ class Mapa extends MY_Controller {
 
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
         if(!is_null($configuracion)){
-            $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco,
-                                            "casos_febriles" => $configuracion->bo_casos_febriles,
-                                            "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
-                                            "tipo_mapa" => $configuracion->tipo_mapa);
+            $resultado["resultado"] = array(
+                "sidco" => $configuracion->kml_sidco,
+                "casos_febriles" => $configuracion->bo_casos_febriles,
+                "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
+                "marea_roja" => $configuracion->bo_marea_roja,
+                "tipo_mapa" => $configuracion->tipo_mapa
+            );
         }
         
         echo json_encode($resultado);
