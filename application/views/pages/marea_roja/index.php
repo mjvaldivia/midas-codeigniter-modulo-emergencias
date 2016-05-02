@@ -11,7 +11,7 @@
         
                     <a href="<?php echo base_url("marea_roja/nuevo"); ?>" id="nueva" class="btn btn-square btn-green">
                         <i class="fa fa-plus"></i>
-                        Nuevo caso
+                        Nuevo muestreo
                     </a>
 
                 </div>

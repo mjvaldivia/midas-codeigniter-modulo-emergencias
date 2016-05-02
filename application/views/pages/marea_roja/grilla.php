@@ -15,7 +15,7 @@
         <?php if(count($lista)>0){ ?>
         <?php foreach($lista as $row){ ?>
         <tr>
-            <td width="10%">Caso N°<?php echo $row["id"]; ?></td>
+            <td width="10%">Muestreo N°<?php echo $row["id"]; ?></td>
             <td width="10%"><?php echo $row["fecha"]; ?></td>
             <td width="10%"><?php echo $row["recurso"]; ?></td>
             <td width="10%"><?php echo $row["origen"]; ?></td>
@@ -24,23 +24,26 @@
             <td width="20%"><?php echo $row["resultado"]; ?></td>
             
             <td width="20%">
-                <?php
-                if(((int)$row["resultado"]) > 1000) {
-                ?>
-                <span class="label red"> Rojo </span>
-                <?php } ?>
                 
                 <?php
-                if(((int)$row["resultado"]) <= 1000 AND ((int)$row["resultado"])>200) {
+                if($row["resultado"] == "ND") {
                 ?>
-                <span class="label yellow"> Amarillo </span>
+                <span class="label blue"> No detectado </span>
+                <?php } else { ?>
+                
+                    <?php
+                    if(((int)$row["resultado"]) >= 80) {
+                    ?>
+                    <span class="label red"> Supera </span>
+                    <?php } ?>
+
+                    <?php
+                    if(((int)$row["resultado"]) < 80 ) {
+                    ?>
+                    <span class="label yellow"> No supera </span>
+                    <?php } ?>
                 <?php } ?>
                 
-                <?php
-                if(((int)$row["resultado"]) <= 200) {
-                ?>
-                <span class="label blue"> Azul </span>
-                <?php } ?>
             </td>
             
             <td align="center" width="5%">

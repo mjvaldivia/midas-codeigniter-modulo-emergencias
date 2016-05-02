@@ -29,7 +29,7 @@
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
                 <legend>
-                    Identificación del caso <div class="pull-right"><small>(*) Campos obligatorios</small></div>
+                    Identificación Toma de Muestra <div class="pull-right"><small>(*) Campos obligatorios</small></div>
                 </legend>
                 <div class="portlet portlet-default">
                     <div class="portlet-body" style="overflow: visible">
@@ -77,7 +77,23 @@
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="recurso" class="control-label">Recurso (*):</label>
-                                        <input value="<?php echo $recurso; ?>" class="form-control" name="recurso" id="recurso">
+                                        <select name="recurso" id="recurso" class="form-control">
+                                            <option value="">-- Seleccione un valor --</option>
+                                            <option <?php if($recurso == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
+                                            <option <?php if($recurso == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
+                                            <option <?php if($recurso == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
+                                            <option <?php if($recurso == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
+                                            <option <?php if($recurso == "CHORO") echo "selected"; ?> value="CHORO"> CHORO </option>
+                                            <option <?php if($recurso == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>
+                                            <option <?php if($recurso == "CULENGUE") echo "selected"; ?> value="CULENGUE"> CULENGUE </option>
+                                            <option <?php if($recurso == "LOCO") echo "selected"; ?> value="LOCO"> LOCO </option>
+                                            <option <?php if($recurso == "MACHAS") echo "selected"; ?> value="MACHAS"> MACHAS </option>
+                                            <option <?php if($recurso == "NAVAJUELA") echo "selected"; ?> value="NAVAJUELA"> NAVAJUELA </option>
+                                            <option <?php if($recurso == "OSTRA CH") echo "selected"; ?> value="OSTRA CH"> OSTRA CH </option>
+                                            <option <?php if($recurso == "OSTRAS") echo "selected"; ?> value="OSTRAS"> OSTRAS </option>
+                                            <option <?php if($recurso == "PIURE") echo "selected"; ?> value="PIURE"> PIURE </option>
+                                            <option <?php if($recurso == "TUMBAO") echo "selected"; ?> value="TUMBAO"> TUMBAO </option>
+                                        </select>
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
@@ -146,7 +162,13 @@
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-                                        <input value="<?php echo $laboratorio; ?>" class="form-control" name="laboratorio" id="laboratorio">
+                                        <select name="laboratorio" id="laboratorio" class="form-control">
+                                            <option value="">-- Seleccione un valor --</option>
+                                            <option <?php if($laboratorio == "Puerto Montt") echo "selected" ?> value="Puerto Montt"> Puerto Montt </option>
+                                            <option <?php if($laboratorio == "Quellón") echo "selected" ?> value="Quellón"> Quellón  </option>
+                                            <option <?php if($laboratorio == "Castro") echo "selected" ?> value="Castro"> Castro </option>
+                                        </select>
+                                        
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
