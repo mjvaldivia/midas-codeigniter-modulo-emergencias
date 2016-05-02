@@ -19,6 +19,7 @@ class Marea_roja extends MY_Controller
         parent::__construct();
         sessionValidation();
         $this->load->model("marea_roja_model", "_marea_roja_model");
+        $this->load->model("region_model", "_region_model");
     }
     
     /**
@@ -176,6 +177,7 @@ class Marea_roja extends MY_Controller
                 "modulo/direccion/comuna"
             )
         );
+        
         $params = $this->uri->uri_to_assoc();
 
         $this->template->parse(
@@ -184,8 +186,9 @@ class Marea_roja extends MY_Controller
             array(
                 "fecha" => DATE("d/m/Y"),
                 "ingresado" => $params["ingreso"],
-                "latitud" => "",
-                "longitud" => ""
+                "region" => Region_Model::LOS_LAGOS,
+                "latitud" => "-42.92",
+                "longitud" => "-73.17"
             )
         );
     }
@@ -220,7 +223,7 @@ class Marea_roja extends MY_Controller
                     "fecha" => $fecha_formato,
                     "recurso" => strtoupper($propiedades->RECURSO),
                     "origen" => strtoupper($propiedades->ORIGEN),
-                    "comuna" => $propiedades->id_comuna,
+                    "comuna" => $caso->id_comuna,
                     "resultado" => $propiedades->RESULTADO
                 );
 

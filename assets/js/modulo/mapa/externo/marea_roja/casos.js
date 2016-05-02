@@ -42,26 +42,29 @@ var MapaMareaRojaCasos = Class({
                             
                           
                             
-                            if(parseInt(valor.resultado) > 80){
+                            if(parseInt(valor.resultado) >= 80){
                                 var icono = baseUrl + "assets/img/markers/marisco/rojo.png"
                             }
 
-                            if(parseInt(valor.resultado) <= 80 ){
+                            if(parseInt(valor.resultado) > 50 && parseInt(valor.resultado) < 80 ){
                                 var icono = baseUrl + "assets/img/markers/marisco/azul.png"
                             }
-
-                            if(valor.resultado == "ND" || valor.resultado == "nd"){
+                            
+                            if(parseInt(valor.resultado) <= 50){
                                 var icono = baseUrl + "assets/img/markers/marisco/verde.png"
                             }
 
-                            
-                            var marcador = new MapaMarcadorLabel();
+                            if(valor.resultado == "ND" || valor.resultado == "nd"){
+                                var icono = baseUrl + "assets/img/markers/marisco/gris-cruz.png"
+                            }
+
+                            var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador("marea_roja_" + valor.id, valor.semana , valor.lng, valor.lat, null, valor.propiedades, icono);
+                            marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
                             marea_roja_marcador.push("marea_roja_" + valor.id);
                         });
                     } else {
-                        notificacionError("", "No es posible encontrar la información de los casos febriles.");
+                        notificacionError("", "No es posible encontrar la información de la marea roja.");
                     }
                }
             });
