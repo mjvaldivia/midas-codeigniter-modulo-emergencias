@@ -287,11 +287,11 @@ var MapaElementos = Class({
                         }
                     });
                     
-                    if(!bo_lugar_emergencia){
+                    /*if(!bo_lugar_emergencia){
                         var lugar_alarma = new MapaMarcadorLugarAlarma();
                         lugar_alarma.seteaEmergencia(yo.id_emergencia);
                         lugar_alarma.marcador(yo.mapa);   
-                    }
+                    }*/
                     
                     yo.listaElementosVisor();
                     
@@ -305,7 +305,7 @@ var MapaElementos = Class({
          $.ajax({         
             dataType: "json",
             cache: false,
-            async: false,
+            async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa/ajax_contar_elementos", 
@@ -328,10 +328,9 @@ var MapaElementos = Class({
                         $.ajax(ajax);
                     }
                 } else {
-                    var lugar_alarma = new MapaMarcadorLugarAlarma();
+                   /* var lugar_alarma = new MapaMarcadorLugarAlarma();
                     lugar_alarma.seteaEmergencia(yo.id_emergencia);
-                    lugar_alarma.marcador(yo.mapa);
-                    
+                    lugar_alarma.marcador(yo.mapa);  */ 
                 }
                 yo.loadConfiguracion(mensaje_carga);
             }

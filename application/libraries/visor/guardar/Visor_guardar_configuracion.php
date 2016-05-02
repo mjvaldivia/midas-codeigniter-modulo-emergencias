@@ -10,6 +10,12 @@ Class Visor_guardar_configuracion{
     
     /**
      *
+     * @var int 
+     */
+    protected $_zoom = 17;
+    
+    /**
+     *
      * @var boolean 
      */
     protected $_bo_sidco_conaf;
@@ -72,6 +78,15 @@ Class Visor_guardar_configuracion{
     
     /**
      * 
+     * @param int $zoom
+     */
+    public function setZoom($zoom){
+        $this->_zoom = $zoom;
+        return $this;
+    }
+    
+    /**
+     * 
      * @param string $string
      */
     public function setTipoMapa($string){
@@ -124,6 +139,7 @@ Class Visor_guardar_configuracion{
     public function guardar(){
         $data = array("id_emergencia" => $this->_id_emergencia,
                       "tipo_mapa" => $this->_tipo_mapa,
+                      "zoom" => $this->_zoom,
                       "kml_sidco"     => $this->_bo_sidco_conaf,
                       "bo_casos_febriles" => $this->_bo_casos_febriles,
                       "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona,

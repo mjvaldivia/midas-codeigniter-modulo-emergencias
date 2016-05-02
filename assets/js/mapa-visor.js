@@ -54,7 +54,6 @@ $(document).ready(function() {
     editor.seteaEmergencia(id);
     editor.seteaClaseCapa(capas);
     visor.addOnReadyFunction("editor", editor.iniciarEditor, null);
-    
     visor.addOnReadyFunction("instalaciones", editor.controlInstalaciones, null);
     visor.addOnReadyFunction("boton ubicacion emergencia", editor.controlEditar, null);
     visor.addOnReadyFunction("boton para guardar", editor.controlSave, null);

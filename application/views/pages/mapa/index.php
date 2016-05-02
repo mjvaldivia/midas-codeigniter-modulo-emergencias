@@ -3,7 +3,8 @@
 <div class="row-mapa">
 
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
-
+        
+        
         <div class="row">
             <div class="collapse navbar-collapse hidden" id="menu-derecho">
                 <ul class="nav navbar-nav navbar-left">
