@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th>Código</th>
+            <th width="10%">Fecha ingreso</th>
             <th width="10%">Fecha toma de muestra</th>
             <th width="10%">Recurso</th>
             <th width="10%">Origen</th>
@@ -17,7 +18,8 @@
         <?php foreach($lista as $row){ ?>
         <tr>
             <td width="10%">Muestreo N°<?php echo $row["id"]; ?></td>
-            <td width="10%"><?php echo $row["fecha"]; ?></td>
+            <td width="10%"><?php echo $row["fecha_ingreso"]; ?></td>
+            <td width="10%"><?php echo $row["fecha_muestra"]; ?></td>
             <td width="10%"><?php echo $row["recurso"]; ?></td>
             <td width="10%"><?php echo $row["origen"]; ?></td>
             <td width="10%" align="center">

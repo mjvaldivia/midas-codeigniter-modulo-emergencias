@@ -211,9 +211,7 @@ class Marea_roja extends MY_Controller
                 "modulo/formulario/formulario"
             )
         );
-        
-        
-        
+
         $fecha_desde = null;
         if($params["fecha_desde"]!=""){
             $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
@@ -231,35 +229,33 @@ class Marea_roja extends MY_Controller
         //DIE();
         $datos_excel = array();
         if (!is_null($lista)) {
+            
             foreach ($lista as $caso) {
                 $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
-
                 $datos_excel[count($datos_excel)-1]["id"] = $caso["id"];
                 $datos_excel[count($datos_excel)-1]["fecha_ingreso"] = $caso["fecha"];
-                //$datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
-                /*$datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];*/
             }
 
             $excel = $this->excel->nuevoExcel();
+            
             $excel->getProperties()
                 ->setCreator("Midas - Emergencias")
                 ->setLastModifiedBy("Midas - Emergencias")
-                ->setTitle("Exportación de casos febriles")
+                ->setTitle("Exportación de marea roja")
                 ->setSubject("Emergencias")
-                ->setDescription("Casos febriles")
+                ->setDescription("Marea roja")
                 ->setKeywords("office 2007 openxml php sumanet")
                 ->setCategory("Midas");
 
             $columnas = reset($datos_excel);
 
-            
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MUESTREO"); 
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "FECHA DE TOMA DE MUESTRA"); 
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, 1, "FECHA INGRESO"); 
             
             $i = 3;
             foreach($columnas as $columna => $valor){
-                if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso" and $columna!="CALIDAD DE GEOREFERENCIACION" and $columna!="FUENTE DE LA INFORMACION"){
+                if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                 $i++;
                 }
@@ -271,11 +267,12 @@ class Marea_roja extends MY_Controller
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $valores["FECHA"]);
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, $valores["fecha_ingreso"]);
+                
                 $i = 3;
-                foreach ($valores as $columna => $valor) {
+                foreach ($columnas as $columna => $valor) {
                
-                    if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso" and $columna!="CALIDAD DE GEOREFERENCIACION" and $columna!="FUENTE DE LA INFORMACION"){
-                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
+                    if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
+                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
                     $i++;
                     }
                     
@@ -311,7 +308,8 @@ class Marea_roja extends MY_Controller
             foreach ($lista as $caso) {
                 
                 $fecha_formato = "";
-
+                $fecha_ingreso = "";
+                
                 $propiedades = json_decode($caso["propiedades"]);
                 
                 $fecha = DateTime::createFromFormat("d-m-Y", $propiedades->FECHA);
@@ -324,13 +322,19 @@ class Marea_roja extends MY_Controller
                     }
                 }
                 
+                $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $caso["fecha"]);
+                if($fecha instanceof DateTime){
+                    $fecha_ingreso = $fecha->format("d/m/Y");
+                }
+                
                 $casos[] = array(
                     "id" => $caso["id"],
                     "id_usuario" => $caso["id_usuario"],
-                    "fecha" => $fecha_formato,
+                    "fecha_ingreso" => $fecha_ingreso,
+                    "fecha_muestra" => $fecha_formato,
                     "recurso" => strtoupper($propiedades->RECURSO),
                     "origen" => strtoupper($propiedades->ORIGEN),
-                    "comuna" => $caso->id_comuna,
+                    "comuna" => $caso["id_comuna"],
                     "resultado" => $propiedades->RESULTADO
                 );
 
