@@ -129,16 +129,21 @@ var MapaLayoutFormMareaRoja = Class({
            // resumen += descripcion + ": todas";
         }
         
-        
-        if($("#marea_roja_recurso").val() != ""){
+         var recursos_seleccionados = jQuery.grep($("#formulario-marea-roja").serializeArray(), function( a ) {
+            if(a.name == "marea_roja_recurso[]"){
+                return true;
+            }
+        });
+
+        if(recursos_seleccionados.length > 0){
             resumen = this.agregaComa(resumen);
             resumen += "Recurso: " + $("#marea_roja_recurso option:selected").text();
-        } else {
-            resumen = this.agregaComa(resumen);
-            resumen += "Estado: todos";
         }
+
         
-        
+        var slider = $("#marea_roja_resultados").data("ionRangeSlider");
+        resumen = this.agregaComa(resumen);
+        resumen += "Resultados: " + slider.result.from + " a " + slider.result.to;
 
         $("#configuracion-filtros-marea-roja-resumen").html("<strong>Marea roja:</strong> " + resumen);
     },
