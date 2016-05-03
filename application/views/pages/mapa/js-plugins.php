@@ -1,5 +1,6 @@
 <!-- Estilos mapa mapa -->
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
+<?= loadCSS("assets/js/library/jQRangeSlider-5.7.2/demo/lib/jquery-ui/css/smoothness/jquery-ui-1.8.10.custom.css"); ?>
 
 <!-- Plugin para menu slider up -->
 <?= loadCSS("assets/js/library/slideupmenu-1.0/style.css"); ?>
@@ -92,3 +93,5 @@
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
+<?= loadJS("assets/js/library/jQRangeSlider-5.7.2/demo/lib/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"); ?>
+<?= loadJS("assets/js/library/jQRangeSlider-5.7.2/jQRangeSlider-min.js"); ?>
