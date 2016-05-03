@@ -259,9 +259,10 @@ class Marea_roja extends MY_Controller
             
             $i = 3;
             foreach($columnas as $columna => $valor){
-                if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso" and $columna!="CALIDAD DE GEOREFERENCIACION" and $columna!="FUENTE DE LA INFORMACION")
+                if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso" and $columna!="CALIDAD DE GEOREFERENCIACION" and $columna!="FUENTE DE LA INFORMACION"){
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                 $i++;
+                }
             }
 
             $j = 2;
@@ -273,9 +274,10 @@ class Marea_roja extends MY_Controller
                 $i = 3;
                 foreach ($valores as $columna => $valor) {
                
-                    if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso" and $columna!="CALIDAD DE GEOREFERENCIACION" and $columna!="FUENTE DE LA INFORMACION")
+                    if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso" and $columna!="CALIDAD DE GEOREFERENCIACION" and $columna!="FUENTE DE LA INFORMACION"){
                         $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
                     $i++;
+                    }
                     
                 }
                 $j++;
