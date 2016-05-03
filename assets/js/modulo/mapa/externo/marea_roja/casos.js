@@ -45,19 +45,19 @@ var MapaMareaRojaCasos = Class({
                             } else {
                        
                                 if(parseInt(valor.resultado) > 80 && parseInt(valor.resultado) <= 120){
-                                    var icono = baseUrl + "assets/img/markers/marisco/2.png";
+                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
                                 }
 
                                 if(parseInt(valor.resultado) > 120 && parseInt(valor.resultado) <= 200 ){
-                                    var icono = baseUrl + "assets/img/markers/marisco/3.png";
+                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
                                 }
 
                                 if(parseInt(valor.resultado) > 200 && parseInt(valor.resultado) <= 1000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/4.png";
+                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
                                 } 
                                 
                                 if(parseInt(valor.resultado) > 1000 && parseInt(valor.resultado) <= 3000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/5.png";
+                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
                                 } 
                                 
                                 if(parseInt(valor.resultado) > 3000){
