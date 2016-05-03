@@ -40,20 +40,28 @@ var MapaMareaRojaCasos = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            if(valor.resultado == "ND" || valor.resultado == "nd"){
-                                var icono = baseUrl + "assets/img/markers/marisco/gris-cruz-chico.png"
+                            if(valor.resultado == "ND" || parseInt(valor.resultado) <= 80){
+                                var icono = baseUrl + "assets/img/markers/marisco/1.png"
                             } else {
                        
-                                if(parseInt(valor.resultado) >= 80){
-                                    var icono = baseUrl + "assets/img/markers/marisco/rojo-chico.png"
+                                if(parseInt(valor.resultado) > 80 && parseInt(valor.resultado) <= 120){
+                                    var icono = baseUrl + "assets/img/markers/marisco/2.png";
                                 }
 
-                                if(parseInt(valor.resultado) > 50 && parseInt(valor.resultado) < 80 ){
-                                    var icono = baseUrl + "assets/img/markers/marisco/amarillo-chico.png"
+                                if(parseInt(valor.resultado) > 120 && parseInt(valor.resultado) <= 200 ){
+                                    var icono = baseUrl + "assets/img/markers/marisco/3.png";
                                 }
 
-                                if(parseInt(valor.resultado) <= 50){
-                                    var icono = baseUrl + "assets/img/markers/marisco/verde-chico.png"
+                                if(parseInt(valor.resultado) > 200 && parseInt(valor.resultado) <= 1000){
+                                    var icono = baseUrl + "assets/img/markers/marisco/4.png";
+                                } 
+                                
+                                if(parseInt(valor.resultado) > 1000 && parseInt(valor.resultado) <= 3000){
+                                    var icono = baseUrl + "assets/img/markers/marisco/5.png";
+                                } 
+                                
+                                if(parseInt(valor.resultado) > 3000){
+                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
                                 } 
                             }
                             
