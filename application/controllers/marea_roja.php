@@ -240,7 +240,7 @@ class Marea_roja extends MY_Controller
             foreach($columnas as $columna => $valor){
                 
                 
-                if($columna != "FECHA" and $columna != "id")
+                if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario")
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                 $i++;
                 
@@ -258,7 +258,7 @@ class Marea_roja extends MY_Controller
                 $i = 2;
                 foreach ($valores as $columna => $valor) {
                
-                    if($columna != "FECHA" and $columna != "id")
+                    if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario")
                         $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
                     $i++;
                     
