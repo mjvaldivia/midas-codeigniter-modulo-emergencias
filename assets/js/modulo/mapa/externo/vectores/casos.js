@@ -40,7 +40,7 @@ var MapaVectores = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            var icono = baseUrl + "assets/img/markers/otros/animal.png"
+                            var icono = baseUrl + "assets/img/markers/vectores.png"
                             
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
@@ -50,6 +50,8 @@ var MapaVectores = Class({
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
+                    
+                    console.log(lista_markers);
                }
             });
         }
