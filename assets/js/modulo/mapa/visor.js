@@ -195,6 +195,9 @@ var Visor = Class({
      * @returns {void}
      */
     resizeMap : function(){
+        //var height = $(window).height();
+        //$("#" + this.id_div_mapa).css("height", height - 50);
+
         var yo = this;
         if(typeof this.mapa =="undefined") return;
         setTimeout( function(){yo.resize();} , 400);

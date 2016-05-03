@@ -6,7 +6,7 @@ $(document).ready(function() {
     var visor = new Visor("mapa");
     
     var height = $(window).height();
-    visor.seteaHeight(height - 50);
+    visor.seteaHeight(height - 60);
     visor.seteaZoom(13);
 
     var capas = new VisorCapa();
