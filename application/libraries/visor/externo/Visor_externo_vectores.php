@@ -3,7 +3,7 @@
 Class Visor_externo_vectores{
     
     protected $_url = array(
-        "development" => "http://development.emergencias.midas.cl/rest/getDataVectores",
+        "development" => "http://development.vigilancia.midas.cl/rest/getDataVectores/rest/getDataVectores",
         "testing" => "http://200.55.194.54:8001/vigilancia/rest/getDataVectores",
         "production" => "http://200.55.194.54/vigilancia/rest/getDataVectores"
     );
