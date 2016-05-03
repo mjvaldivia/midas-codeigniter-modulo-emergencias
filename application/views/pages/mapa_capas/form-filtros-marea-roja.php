@@ -82,13 +82,13 @@
             <div class="form-group clearfix">
                 <label class="col-sm-12 control-label required"> <strong> Resultados </strong>:</label>
             </div>
-            
-            <div class="col-sm-12">
-                <div id="marea_roja_resultados"></div>
+            <div class="form-group clearfix">
+                <div class="col-sm-12">
+                    <div id="marea_roja_resultados"></div>
+                </div>
             </div>
             
-            
-            <div class="form-group clearfix">
+            <div class="form-group clearfix top-spaced">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-8 text-right">
                     <a href="#">

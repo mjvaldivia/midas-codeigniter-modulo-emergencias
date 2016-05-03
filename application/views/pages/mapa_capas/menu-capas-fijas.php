@@ -1,5 +1,5 @@
 <li class="col-sm-3">
-    <ul id="vigilancia-columna-1" class="capas-columna">
+    <ul id="vigilancia-columna-1" class="capas-columna-vigilancia">
         <li class="dropdown-header"> OTROS </li>
         <li>
             <a id="btn-importar-sidco" href="javascript:void(0)">
@@ -22,7 +22,7 @@
     </ul>
 </li>
 <li class="col-sm-3">
-    <ul id="vigilancia-columna-2" class="capas-columna">
+    <ul id="vigilancia-columna-2" class="capas-columna-vigilancia">
         <?php if(puedeAbrirVisorEmergencia("casos_febriles")) { ?>
         <li class="dropdown-header"> ISLA DE PASCUA </li>
         <li><a id="btn-importar-rapanui-casos" href="javascript:void(0)"><input type="checkbox" name="importar_rapanui_casos" id="importar_rapanui_casos" value="1"/> <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/epidemiologico/caso_sospechoso.png") ?>"></i> Casos febriles </a></li>
