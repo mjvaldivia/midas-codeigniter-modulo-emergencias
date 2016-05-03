@@ -8,7 +8,7 @@ $(document).ready(function() {
     var visor = new Visor("mapa");
     
     var height = $(window).height();
-    visor.seteaHeight(height - 50);
+    visor.seteaHeight(height - 60);
     visor.seteaEmergencia(id);
 
      //custom
@@ -54,7 +54,6 @@ $(document).ready(function() {
     editor.seteaEmergencia(id);
     editor.seteaClaseCapa(capas);
     visor.addOnReadyFunction("editor", editor.iniciarEditor, null);
-    
     visor.addOnReadyFunction("instalaciones", editor.controlInstalaciones, null);
     visor.addOnReadyFunction("boton ubicacion emergencia", editor.controlEditar, null);
     visor.addOnReadyFunction("boton para guardar", editor.controlSave, null);
@@ -81,6 +80,9 @@ $(document).ready(function() {
     
     var formulario = new MapaLayoutFormCasosFebrilesFecha();
     visor.addOnReadyFunction("buscador", formulario.addToMap);
+    
+    var formulario = new MapaLayoutFormMareaRoja();
+    visor.addOnReadyFunction("buscador marea roja", formulario.addToMap);
     
     //inicia mapa
     visor.bindMapa();

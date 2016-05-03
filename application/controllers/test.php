@@ -2,6 +2,28 @@
 
 class Test extends MY_Controller 
 {
+    
+    
+    public function arcgis(){
+        
+        $zfClient = new Zend_Http_Client("http://www.arcgis.com/sharing/rest/content/items/3762f644adb644b484c8a74c26d125ed/data?f=json");        
+        $zfClient->setConfig(array(
+          'timeout' => 45
+        ));
+        $zfClient->setMethod(Zend_Http_Client::GET);
+
+        $kml = json_decode(
+            
+                $zfClient->request()->getBody()
+            
+        );
+        
+        echo "<pre>";
+        print_r($kml);
+        echo "</pre>";
+        
+    }
+    
     public function codificacion(){
         $string =  "IQUIQUE";
         echo mb_detect_encoding($string);

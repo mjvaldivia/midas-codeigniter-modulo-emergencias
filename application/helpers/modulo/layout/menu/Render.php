@@ -82,8 +82,9 @@ Class Layout_Menu_Render
                                         "action" => "index",
                                         "child" => array()
                                     ), 
-           
-                                    "Vigilancia" => array(
+
+                                    "Isla de pascua" => array(
+
                                         "icon_class" => "fa-warning",      
                                         "permiso" => "casos_febriles",
                                         "child" => array(
@@ -111,6 +112,11 @@ Class Layout_Menu_Render
                                             )*/
                                         ),
                                     ),
+                                    "Marea roja" => array("icon_class" => "fa-warning",
+                                                            "permiso" => "marea_roja",
+                                                            "controller" => "marea_roja",
+                                                            "action" => "index",
+                                                            "child" => array()), 
                                     "Usuarios" => array("icon_class" => "fa-users",
                                                         "rol" => "administrador",
                                                         "controller" => "",

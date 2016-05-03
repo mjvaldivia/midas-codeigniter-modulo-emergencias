@@ -3,7 +3,8 @@
 <div class="row-mapa">
 
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
-
+        
+        
         <div class="row">
             <div class="collapse navbar-collapse hidden" id="menu-derecho">
                 <ul class="nav navbar-nav navbar-left">
@@ -16,6 +17,8 @@
                             <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
                         </li>
                         <?php endif;?>
+                        <li class="divider"></li>
+                        <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
@@ -41,14 +44,6 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        
-                    </ul>
-                </li>
-                
-                <li>
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears"></i> Herramientas <b class="caret"></b></a>
-                    <ul class="dropdown-menu multi-level">
-                        <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
                         
                     </ul>
                 </li>
@@ -79,7 +74,14 @@
                         </li>
                     </ul>
                 </li>
-                
+                 <li class="dropdown dropdown-large">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-warning"></i> Vigilancia <b class="caret"></b></a>
+
+                    <ul id="capas-fijas-menu" class="dropdown-menu dropdown-menu-large row" style="overflow-y: scroll; width:90%">
+                        
+                        
+                    </ul>
+                </li>
                 <li class="dropdown dropdown-large">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-building"></i> Instalaciones <b class="caret"></b></a>
 

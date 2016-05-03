@@ -120,7 +120,7 @@
                     <?php if(estaLogeado()) { ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i> {session_nombres} <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-user"></i> <?php echo nombreUsuario(); ?> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             
@@ -186,7 +186,7 @@
                             <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
                         </p>
                         <p class="name tooltip-sidebar-logout">
-                            {session_nombres}
+                            <?php echo nombreUsuario(); ?>
                              <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
                         </p>
                         <div class="clearfix"></div>
@@ -263,6 +263,7 @@
         <?= loadJS("assets/js/library/messenger/messenger-theme-flat.js", true) ?>
         <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
         <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.js") ?>
+        <?= loadJS("assets/js/library/jquery.wait.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
 

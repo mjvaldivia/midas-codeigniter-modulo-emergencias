@@ -176,6 +176,7 @@ var MapaArchivos = Class({
                                        
                                         $.each(elemento.elementos, function(i, row){
                                             var coordenadas = jQuery.parseJSON(row.coordenadas);
+                                            
                                             if(row["tipo"] == "PUNTO"){
                                                 var marcador = new MapaKmlImportarMarcador();
                                                 marcador.seteaMapa(mapa);
@@ -194,6 +195,21 @@ var MapaArchivos = Class({
                                             if(row["tipo"] == "MULTIPOLIGONO"){
                                                
                                                 var poligono = new MapaPoligonoMulti();
+                                                poligono.seteaMapa(mapa);
+                                                poligono.dibujarPoligono(
+                                                    "kml_" + elemento.hash,
+                                                    row.nombre, 
+                                                    null,
+                                                    coordenadas, 
+                                                    {"NOMBRE" : row.nombre,
+                                                    "TIPO" : elemento.nombre},
+                                                    null, 
+                                                    row.color);
+                                            }
+                                            
+                                            if(row["tipo"] == "POLIGONO"){
+                                               
+                                                var poligono = new MapaPoligono();
                                                 poligono.seteaMapa(mapa);
                                                 poligono.dibujarPoligono(
                                                     "kml_" + elemento.hash,

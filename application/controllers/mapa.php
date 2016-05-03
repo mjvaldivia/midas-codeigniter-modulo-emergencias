@@ -124,9 +124,11 @@ class Mapa extends MY_Controller {
         $guardar = $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
 
         if(!is_null($emergencia)){
-            $data = array("id" => $emergencia->eme_ia_id,
+            $data = array("id" => $params["id"],
                           "guardar" => $guardar,
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
+
+            
             $this->template->parse("default", "pages/mapa/index", $data);
         } else {
             throw new Exception(__METHOD__ . " - La emergencia no existe");
@@ -184,10 +186,14 @@ class Mapa extends MY_Controller {
             
             $this->visor_guardar_configuracion
                  ->setEmergencia($emergencia->eme_ia_id)
+                 ->setZoom($_POST["zoom"])
+                 ->setLatitud($_POST["latitud"])
+                 ->setLongitud($_POST["longitud"])
                  ->setSidcoConaf($_POST["sidco"])
                  ->setCasosFebriles($_POST["casos_febriles"])
                  ->setCasosFebrilesZona($_POST["casos_febriles_zona"])
                  ->setTipoMapa($_POST["tipo_mapa"])
+                 ->setMareaRoja($_POST["marea_roja"])
                  ->guardar();
             
             
@@ -263,6 +269,49 @@ class Mapa extends MY_Controller {
         echo json_encode(array(
             "correcto" => true,
             "lista" => $casos)
+        );
+    }
+    
+    /**
+     * 
+     */
+    public function info_marea_roja(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("marea_roja_model", "_marea_roja_model");
+        
+        $lista = $this->_marea_roja_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+                $propiedades = array("MUESTREO N°" => $row["id"]);
+                
+                $json = Zend_Json::decode($row["propiedades"]);
+                
+                foreach($json as $key => $value){
+                    $propiedades[$key] = $value;
+                }
+                
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "MAREA ROJA";
+ 
+                $coordenadas = Zend_Json::decode($row["coordenadas"]);
+                
+                $casos[] = array(
+                    "id" => $row["id"],
+                    "resultado" => $propiedades["RESULTADO"],
+                    "propiedades" => $propiedades,
+                    "lat" => $coordenadas["lat"],
+                    "lng" => $coordenadas["lng"]
+                );
+            }
+        }
+        
+        echo Zend_Json::encode(
+            array(
+                "correcto" => true,
+                "lista" => $casos
+            )
         );
     }
     
@@ -586,10 +635,13 @@ class Mapa extends MY_Controller {
 
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
         if(!is_null($configuracion)){
-            $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco,
-                                            "casos_febriles" => $configuracion->bo_casos_febriles,
-                                            "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
-                                            "tipo_mapa" => $configuracion->tipo_mapa);
+            $resultado["resultado"] = array(
+                "sidco" => $configuracion->kml_sidco,
+                "casos_febriles" => $configuracion->bo_casos_febriles,
+                "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
+                "marea_roja" => $configuracion->bo_marea_roja,
+                "tipo_mapa" => $configuracion->tipo_mapa
+            );
         }
         
         echo json_encode($resultado);
@@ -675,30 +727,33 @@ class Mapa extends MY_Controller {
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
             
-            $lugar_emergencia = $this->_emergencia_elementos_model->getPrimerLugarEmergencia($emergencia->eme_ia_id);
-            if(!is_null($lugar_emergencia)){
-                
-                $coordenadas = Zend_Json::decode($lugar_emergencia->coordenadas);
-  
-                $data = array(
-                    "correcto"  => true,
-                    "resultado" => array(
-                        "lat" => $coordenadas["center"]["lat"],
-                        "lon" => $coordenadas["center"]["lng"],
-                        "nombre" => $emergencia->eme_c_nombre_emergencia,
-                        "zona" => "")
-                );
+            $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($emergencia->eme_ia_id);
+            if(!is_null($configuracion) && ($configuracion->latitud!="" && $configuracion->longitud!="")){
+                $latitud = $configuracion->latitud;
+                $longitud = $configuracion->longitud;
+                $zoom = $configuracion->zoom;
             } else {
-                if($emergencia->eme_c_utm_lat != "" AND $emergencia->eme_c_utm_lng!=""){
-                    $data = array("correcto"  => true,
-                                  "resultado" => array("lat" => $emergencia->eme_c_utm_lat,
-                                                       "lon" => $emergencia->eme_c_utm_lng,
-                                                       "nombre" => $emergencia->eme_c_nombre_emergencia,
-                                                       "zona" => ""));
+                $lugar_emergencia = $this->_emergencia_elementos_model->getPrimerLugarEmergencia($emergencia->eme_ia_id);
+                if(!is_null($lugar_emergencia)){
+                    $coordenadas = Zend_Json::decode($lugar_emergencia->coordenadas);
+                    $latitud = $coordenadas["center"]["lat"];
+                    $longitud = $coordenadas["center"]["lng"];
                 } else {
-                    $data["error"] = "El lugar de la emergencia no fue encontrado";
+                    $latitud = $emergencia->eme_c_utm_lat;
+                    $longitud = $emergencia->eme_c_utm_lng;
                 }
+                $zoom = 17;
             }
+
+            $data = array(
+                "correcto"  => true,
+                "resultado" => array(
+                    "lat" => $latitud,
+                    "lon" => $longitud,
+                    "nombre" => $emergencia->eme_c_nombre_emergencia,
+                    "zoom" => $zoom)
+            );
+            
         } else {
             $data["error"] = "La emergencia no existe";
         }

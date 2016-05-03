@@ -186,7 +186,7 @@ var MapaLayoutFormCasosFebrilesFecha = Class({
         
         
 
-        $("#configuracion-filtros-resumen").html(resumen);
+        $("#configuracion-filtros-resumen").html("<strong>Casos febriles:</strong> " + resumen);
     },
     
     /**

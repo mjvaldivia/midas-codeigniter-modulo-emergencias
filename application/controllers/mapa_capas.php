@@ -109,12 +109,26 @@ class Mapa_capas extends MY_Controller {
         $this->load->view("pages/mapa_capas/menu-capas-fijas", array());
     }
     
+    /**
+     * 
+     */
     public function ajax_form_filtros_casos_febriles(){
         $this->load->helper(array(
                 "modulo/formulario/formulario"
             )
         );
         $this->load->view("pages/mapa_capas/form-filtros-casos", array());
+    }
+    
+    /**
+     * 
+     */
+    public function ajax_form_filtros_marea_roja(){
+        $this->load->helper(array(
+                "modulo/formulario/formulario"
+            )
+        );
+        $this->load->view("pages/mapa_capas/form-filtros-marea-roja", array());
     }
     
     /**
@@ -187,6 +201,9 @@ class Mapa_capas extends MY_Controller {
         echo json_encode($data);
     }
     
+    /**
+     * 
+     */
     public function ajax_capas_emergencia(){
         $params = $this->input->post(null, true);
         

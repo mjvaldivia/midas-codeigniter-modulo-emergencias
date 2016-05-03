@@ -10,6 +10,24 @@ Class Visor_guardar_configuracion{
     
     /**
      *
+     * @var int 
+     */
+    protected $_zoom = 17;
+    
+    /**
+     *
+     * @var float 
+     */
+    protected $_latitud;
+    
+    /**
+     *
+     * @var float
+     */
+    protected $_longitud;
+    
+    /**
+     *
      * @var boolean 
      */
     protected $_bo_sidco_conaf;
@@ -25,6 +43,12 @@ Class Visor_guardar_configuracion{
      * @var boolean 
      */
     protected $_bo_casos_febriles_zona;
+    
+    /**
+     *
+     * @var boolean 
+     */
+    protected $_bo_marea_roja;
     
     /**
      *
@@ -66,10 +90,43 @@ Class Visor_guardar_configuracion{
     
     /**
      * 
+     * @param int $zoom
+     */
+    public function setZoom($zoom){
+        $this->_zoom = $zoom;
+        return $this;
+    }
+    
+    public function setLatitud($lat){
+        if($lat != ""){
+            $this->_latitud = $lat;
+        }
+        return $this;
+    }
+    
+    public function setLongitud($lng){
+        if($lng != ""){
+            $this->_longitud = $lng;
+        }
+        return $this;
+    }
+    
+    /**
+     * 
      * @param string $string
      */
     public function setTipoMapa($string){
         $this->_tipo_mapa = $string;
+        return $this;
+    }
+    
+   /**
+    * 
+    * @param type $boolean
+    * @return \Visor_guardar_configuracion
+    */
+    public function setMareaRoja($boolean){
+        $this->_bo_marea_roja = $boolean;
         return $this;
     }
     
@@ -108,9 +165,13 @@ Class Visor_guardar_configuracion{
     public function guardar(){
         $data = array("id_emergencia" => $this->_id_emergencia,
                       "tipo_mapa" => $this->_tipo_mapa,
+                      "zoom" => $this->_zoom,
+                      "latitud" => $this->_latitud,
+                      "longitud" => $this->_longitud,
                       "kml_sidco"     => $this->_bo_sidco_conaf,
                       "bo_casos_febriles" => $this->_bo_casos_febriles,
-                      "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona);
+                      "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona,
+                      "bo_marea_roja" => $this->_bo_marea_roja);
         
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($this->_id_emergencia);
         if(is_null($configuracion)){

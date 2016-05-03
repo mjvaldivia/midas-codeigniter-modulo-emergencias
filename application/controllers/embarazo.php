@@ -50,6 +50,7 @@ class Embarazo extends MY_Controller
             
             $propiedades = json_decode($caso->propiedades);
             $coordenadas = json_decode($caso->coordenadas);
+            
             foreach ($propiedades as $nombre => $valor) {
                 $data[str_replace(" ", "_", strtolower($nombre))] = $valor;
             }
@@ -82,6 +83,9 @@ class Embarazo extends MY_Controller
             "correcto" => true));
     }
     
+    /**
+     * 
+     */
     public function cargaExcel(){
         $filtro = New Zend_Filter_Alpha();
         $this->load->library("excel");
@@ -169,13 +173,13 @@ class Embarazo extends MY_Controller
      */
     public function guardar()
     {
-        $this->load->library(array("rut", "formulario/formulario_embarazada_validar"));
+        $this->load->library(array("rut", "formulario/formulario_intoxicacion_validar"));
 
         header('Content-type: application/json');
 
         $params = $this->input->post(null, true);
 
-        if ($this->formulario_embarazada_validar->esValido($params)) {
+        if ($this->formulario_intoxicacion_validar->esValido($params)) {
             
             /** latitud y longitud **/
             $coordenadas = array(

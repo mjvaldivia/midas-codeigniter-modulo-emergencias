@@ -287,11 +287,11 @@ var MapaElementos = Class({
                         }
                     });
                     
-                    if(!bo_lugar_emergencia){
+                    /*if(!bo_lugar_emergencia){
                         var lugar_alarma = new MapaMarcadorLugarAlarma();
                         lugar_alarma.seteaEmergencia(yo.id_emergencia);
                         lugar_alarma.marcador(yo.mapa);   
-                    }
+                    }*/
                     
                     yo.listaElementosVisor();
                     
@@ -305,7 +305,7 @@ var MapaElementos = Class({
          $.ajax({         
             dataType: "json",
             cache: false,
-            async: false,
+            async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
             url: siteUrl + "mapa/ajax_contar_elementos", 
@@ -328,10 +328,9 @@ var MapaElementos = Class({
                         $.ajax(ajax);
                     }
                 } else {
-                    var lugar_alarma = new MapaMarcadorLugarAlarma();
+                   /* var lugar_alarma = new MapaMarcadorLugarAlarma();
                     lugar_alarma.seteaEmergencia(yo.id_emergencia);
-                    lugar_alarma.marcador(yo.mapa);
-                    
+                    lugar_alarma.marcador(yo.mapa);  */ 
                 }
                 yo.loadConfiguracion(mensaje_carga);
             }
@@ -355,36 +354,56 @@ var MapaElementos = Class({
             success:function(data){
                if(data.correcto){
                    
-                   if(data.resultado.casos_febriles == 1){
-                        var sidco = new MapaIslaDePascuaCasos();
-                            sidco.seteaMapa(yo.mapa);
-                            sidco.load();
-                            $("#importar_rapanui_casos").prop("checked", true);
+                    $("#importar_rapanui_casos").waitUntilExists(function(){
+                        if(parseInt(data.resultado.casos_febriles) == 1){
+                            var sidco = new MapaIslaDePascuaCasos();
+                                sidco.seteaMapa(yo.mapa);
+                                sidco.load();
+                                $("#importar_rapanui_casos").prop("checked", true);
                         } else {
-                            $("#importar_rapanui_casos").prop("checked", false);
-                   }
-                   
-                   if(data.resultado.casos_febriles_zona == 1){
-                        var sidco = new MapaIslaDePascuaZonas();
+                                $("#importar_rapanui_casos").prop("checked", false);
+                        }
+                    });
+                    
+                    $("#importar_rapanui_zonas").waitUntilExists(function(){
+                        if(parseInt(data.resultado.casos_febriles_zona) == 1){
+                            var sidco = new MapaIslaDePascuaZonas();
                             sidco.seteaMapa(yo.mapa);
                             sidco.load();
                             $("#importar_rapanui_zonas").prop("checked", true);
                         } else {
                             $("#importar_rapanui_zonas").prop("checked", false);
-                   }
+                        }
+                    });
                    
-                   if(data.resultado.sidco == 1){
-                        var sidco = new MapaKmlSidcoConaf();
-                        sidco.seteaMapa(yo.mapa);
-                        sidco.loadKml(mensaje_carga);
-                        $("#importar_sidco").prop("checked", true);
-                   } else {
-                       $("#importar_sidco").prop("checked", false);
-                   }
+                    $("#marea_roja").waitUntilExists(function(){
+                        if(parseInt(data.resultado.marea_roja) == 1){
+                            var marea_roja = new MapaMareaRojaCasos();
+                            marea_roja.seteaMapa(yo.mapa);
+                            marea_roja.load(yo.mapa);
+                            $("#marea_roja").prop("checked", true);
+                        } else {
+                            $("#marea_roja").prop("checked", false);
+                        }
+                    });
+                    
                    
-                   if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
-                       yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
-                   }
+                    $("#importar_sidco").waitUntilExists(function(){
+                        if(parseInt(data.resultado.sidco) == 1){
+                             var sidco = new MapaKmlSidcoConaf();
+                             sidco.seteaMapa(yo.mapa);
+                             sidco.loadKml(mensaje_carga);
+                             $("#importar_sidco").prop("checked", true);
+                        } else {
+                            $("#importar_sidco").prop("checked", false);
+                        }
+                    });
+                    
+                    if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
+                        yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
+                    }
+                   
+                   
                }
             }
         });
