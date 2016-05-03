@@ -235,7 +235,8 @@ class Marea_roja extends MY_Controller
                 $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
 
                 $datos_excel[count($datos_excel)-1]["id"] = $caso["id"];
-                $datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
+                $datos_excel[count($datos_excel)-1]["fecha_ingreso"] = $caso["fecha"];
+                //$datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
                 /*$datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];*/
             }
 
@@ -254,11 +255,11 @@ class Marea_roja extends MY_Controller
             
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MUESTREO"); 
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "FECHA DE TOMA DE MUESTRA"); 
-
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, 1, "FECHA INGRESO"); 
             
-            $i = 2;
+            $i = 3;
             foreach($columnas as $columna => $valor){
-                if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario")
+                if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso")
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                 $i++;
             }
@@ -268,11 +269,11 @@ class Marea_roja extends MY_Controller
 
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $valores["FECHA"]);
-
-                $i = 2;
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, $valores["fecha_ingreso"]);
+                $i = 3;
                 foreach ($valores as $columna => $valor) {
                
-                    if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario")
+                    if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario" and $columna!="fecha_ingreso")
                         $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
                     $i++;
                     
