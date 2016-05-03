@@ -4,7 +4,7 @@
             <h1>  Marea roja
                 <div class="pull-right">
 
-                    <a href="<?php echo base_url("marea_roja/excel"); ?>" target="_blank" id="descargar" class="btn btn-default btn-square">
+                    <a target="_blank" id="descargar" class="btn btn-default btn-square">
                         <i class="fa fa-download"></i>
                         Descargar excel
                     </a>

@@ -193,22 +193,42 @@ class Marea_roja extends MY_Controller
         );
     }
     
+    public function ajax_form_excel(){
+        $this->load->view("pages/marea_roja/form_excel", array());
+    }
+    
     /**
      * Genera excel para casos de dengue
      */
     public function excel()
     {
 
+        $params = $this->uri->uri_to_assoc();
+        
         $this->load->helper(
             array(
                 "modulo/usuario/usuario",
                 "modulo/formulario/formulario"
             )
         );
+        
+        
+        
+        $fecha_desde = null;
+        if($params["fecha_desde"]!=""){
+            $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
+        }
+        
+        $fecha_hasta = null;
+        if($params["fecha_hasta"]!=""){
+            $fecha_hasta = DateTime::createFromFormat("d_m_Y", $params["fecha_hasta"]);
+        }
+        
+
 
         $this->load->library("excel");
-        $lista = $this->_marea_roja_model->listar();
-
+        $lista = $this->_marea_roja_model->listar(array("fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta));
+        //DIE();
         $datos_excel = array();
         if (!is_null($lista)) {
             foreach ($lista as $caso) {
@@ -238,13 +258,9 @@ class Marea_roja extends MY_Controller
             
             $i = 2;
             foreach($columnas as $columna => $valor){
-                
-                
                 if($columna != "FECHA" and $columna != "id" and $columna != "id_usuario")
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                 $i++;
-                
-
             }
 
             $j = 2;
@@ -252,9 +268,7 @@ class Marea_roja extends MY_Controller
 
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $valores["FECHA"]);
-                
-                //unset($valores["id_usuario"]);
-                
+
                 $i = 2;
                 foreach ($valores as $columna => $valor) {
                
