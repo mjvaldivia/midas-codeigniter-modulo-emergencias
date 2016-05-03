@@ -11,6 +11,7 @@ require_once( __DIR__ . "/nombre/Regiones.php");
 function nombreUsuario($id_usuario = null){
     $_ci =& get_instance();
     $_ci->load->library("session");
+    
     if($id_usuario == NULL){
         $id_usuario = $_ci->session->userdata("session_idUsuario");
     }

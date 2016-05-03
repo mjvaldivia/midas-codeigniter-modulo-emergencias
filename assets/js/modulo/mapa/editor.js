@@ -367,10 +367,10 @@ var MapaEditor = Class({
                 marea_roja.seteaMapa(map);
                 if($(this).is(":checked")){
                     marea_roja.load();
-                    $("#formulario-marea-roja").removeClass("hidden");
+                    $("#formulario-marea-roja-contenedor").removeClass("hidden");
                 } else {
                     marea_roja.remove();
-                    $("#formulario-marea-roja").addClass("hidden");
+                    $("#formulario-marea-roja-contenedor").addClass("hidden");
                 }
             });
         });

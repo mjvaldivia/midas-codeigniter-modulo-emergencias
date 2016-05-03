@@ -1,4 +1,4 @@
-<div id="formulario-marea-roja" class="form-busqueda hidden">
+<div id="formulario-marea-roja-contenedor" class="form-busqueda hidden">
     <form id="formulario-marea-roja">
     <div class="row">
         <div class="col-lg-12">
@@ -52,9 +52,8 @@
            
             <div class="form-group clearfix">
                 <label for="marea_roja_recurso" class="col-sm-12 control-label required"> <strong> Recurso </strong> :</label>
-                <div class="col-sm-6">
-                     <select name="marea_roja_recurso" id="marea_roja_recurso" class="form-control">
-                        <option value="">Todos</option>
+                <div class="col-sm-12">
+                     <select name="marea_roja_recurso[]" id="marea_roja_recurso" class="form-control select2-tags" multiple="true">
                         <option value="ALMEJAS"> ALMEJAS </option>
                         <option value="CHOLGAS"> CHOLGAS </option>
                         <option value="CHORITO"> CHORITO </option>

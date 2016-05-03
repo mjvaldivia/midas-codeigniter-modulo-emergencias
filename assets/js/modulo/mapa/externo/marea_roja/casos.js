@@ -54,17 +54,14 @@ var MapaMareaRojaCasos = Class({
 
                                 if(parseInt(valor.resultado) <= 50){
                                     var icono = baseUrl + "assets/img/markers/marisco/verde-chico.png"
-                                }
-
-                            
-                                
+                                } 
                             }
-
+                            
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
                             marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
                             
-                             var fecha_muestra = moment(valor.propiedades["FECHA"], "DD-MM-YYYY", true);
+                            var fecha_muestra = moment(valor.propiedades["FECHA"], "DD-MM-YYYY", true);
                             
                             marea_roja_marcador.push(
                                 {
@@ -81,7 +78,7 @@ var MapaMareaRojaCasos = Class({
                         notificacionError("", "No es posible encontrar la información de la marea roja.");
                     }
                     
-                    $("#formulario-marea-roja").removeClass("hidden");
+                    $("#formulario-marea-roja-contenedor").removeClass("hidden");
                }
             });
         }
@@ -102,26 +99,45 @@ var MapaMareaRojaCasos = Class({
                 ok = false;
             }
         }
-
-        if($("#marea_roja_fecha_muestra_hasta").val() != ""){
-            if(marker["fecha_muestra"].isValid()){
-                var fecha_hasta = moment($("#marea_roja_fecha_muestra_hasta").val(), "DD/MM/YYYY", true);
-                if(fecha_hasta.isValid() && marker["fecha_muestra"].isAfter(fecha_hasta)){
+        
+        if(ok){
+            if($("#marea_roja_fecha_muestra_hasta").val() != ""){
+                if(marker["fecha_muestra"].isValid()){
+                    var fecha_hasta = moment($("#marea_roja_fecha_muestra_hasta").val(), "DD/MM/YYYY", true);
+                    if(fecha_hasta.isValid() && marker["fecha_muestra"].isAfter(fecha_hasta)){
+                        ok = false;
+                    }
+                } else {
                     ok = false;
                 }
-            } else {
-                ok = false;
-            }
-        }
-
-
-        if($("#marea_roja_recurso").val() != ""){
-            if(marker["recurso"].toUpperCase() != $("#marea_roja_recurso").val()){
-                ok = false;
             }
         }
         
-        
+        if(ok){
+            
+            //console.log($("#formulario-marea-roja").serializeArray());
+            //no funciona el $(this).val() para el plugin chosen, se efectua parche
+            var recursos_seleccionados = jQuery.grep($("#formulario-marea-roja").serializeArray(), function( a ) {
+                if(a.name == "marea_roja_recurso[]"){
+                    return true;
+                }
+            });
+            
+           
+            
+            if(recursos_seleccionados.length > 0){
+
+                var encontrados = jQuery.grep(recursos_seleccionados, function( a ) {
+                    if(a.value == marker["recurso"].toUpperCase()){
+                        return true;
+                    }
+                });
+
+                if(encontrados.length == 0){
+                    ok = false;
+                }
+            }        
+        }
         return ok;
     },
     
@@ -130,11 +146,11 @@ var MapaMareaRojaCasos = Class({
      * @returns {undefined}
      */
     filtrar : function(){
-        console.log("filtrando");
         var yo = this;
         $.each(marea_roja_marcador, function(i, marker){
-
+            
             var ok = yo.verFiltros(marker);
+
             if(!ok){
                 jQuery.grep(lista_markers, function( a ) {
                     if(a["identificador"] == marker.identificador){
@@ -156,7 +172,6 @@ var MapaMareaRojaCasos = Class({
      * @returns {undefined}
      */
     remove : function(){
-        
         var marcador = new MapaMarcador();
         $.each(marea_roja_marcador, function(i, marker){
             marcador.removerMarcadores("identificador", marker.identificador);

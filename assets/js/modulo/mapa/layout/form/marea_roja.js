@@ -30,9 +30,9 @@ var MapaLayoutFormMareaRoja = Class({
             success:function(html){
                 $("body").append(html);
 
-                map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('formulario-marea-roja'));
+                map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('formulario-marea-roja-contenedor'));
                 
-                $("#formulario-marea-roja").css("top", "60px");
+                $("#formulario-marea-roja-contenedor").css("top", "60px");
                 
                 $("#cerrar-filtros-marea-roja").click(function(){
                     $("#configuracion-filtros-marea-roja").trigger("click");

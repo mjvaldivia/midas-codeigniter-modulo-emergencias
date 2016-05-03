@@ -254,28 +254,31 @@ class Mapa extends MY_Controller {
                 $propiedades = array("MUESTREO N°" => $row["id"]);
                 
                 $json = Zend_Json::decode($row["propiedades"]);
+                
                 foreach($json as $key => $value){
                     $propiedades[$key] = $value;
                 }
                 
-                
                 $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
                 $propiedades["TIPO"] = "MAREA ROJA";
  
+                $coordenadas = Zend_Json::decode($row["coordenadas"]);
                 
-                
-                $coordenadas = json_decode($row["coordenadas"]);
-                $casos[] = array("id" => $row["id"],
-                                 "resultado" => $propiedades["RESULTADO"],
-                                 "propiedades" => $propiedades,
-                                 "lat" => $coordenadas->lat,
-                                 "lng" => $coordenadas->lng);
+                $casos[] = array(
+                    "id" => $row["id"],
+                    "resultado" => $propiedades["RESULTADO"],
+                    "propiedades" => $propiedades,
+                    "lat" => $coordenadas["lat"],
+                    "lng" => $coordenadas["lng"]
+                );
             }
         }
         
-        echo json_encode(array(
-            "correcto" => true,
-            "lista" => $casos)
+        echo Zend_Json::encode(
+            array(
+                "correcto" => true,
+                "lista" => $casos
+            )
         );
     }
     
