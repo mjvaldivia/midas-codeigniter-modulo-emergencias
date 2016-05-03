@@ -63,11 +63,11 @@ class Marea_Roja_Model extends MY_Model {
         
         if(!empty($parametros["fecha_desde"]) && $parametros["fecha_desde"] instanceof DateTime){
             
-            $query->whereAND("a.fecha", $parametros["fecha_desde"]->format("Y-m-d H:i:s"), ">=");
+            $query->whereAND("DATE_FORMAT(a.fecha,'%Y-%m-%d')", $parametros["fecha_desde"]->format("Y-m-d"), ">=");
         }
         
         if(!empty($parametros["fecha_hasta"]) && $parametros["fecha_hasta"] instanceof DateTime){
-            $query->whereAND("a.fecha", $parametros["fecha_hasta"]->format("Y-m-d H:i:s"), "<=");
+            $query->whereAND("DATE_FORMAT(a.fecha ,'%Y-%m-%d')", $parametros["fecha_hasta"]->format("Y-m-d"), "<=");
         }
         
         

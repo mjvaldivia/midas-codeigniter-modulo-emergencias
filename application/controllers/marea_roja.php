@@ -193,8 +193,11 @@ class Marea_roja extends MY_Controller
         );
     }
     
+    /**
+     * 
+     */
     public function ajax_form_excel(){
-        $this->load->view("pages/marea_roja/form_excel", array());
+        $this->load->view("pages/marea_roja/form_excel", array("fecha" => date("d/m/Y")));
     }
     
     /**

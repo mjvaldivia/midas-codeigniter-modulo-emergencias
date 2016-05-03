@@ -9,7 +9,7 @@
             <div class="col-sm-9">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input id="fecha_desde" type=="text" class="form-control datepicker-date" />
+                    <input value="<?php echo $fecha; ?>" id="fecha_desde" type=="text" class="form-control datepicker-date" />
                     <span class="help-block hidden"></span>
                 </div>
             </div>
@@ -23,7 +23,7 @@
             <div class="col-sm-9">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input id="fecha_hasta" type="text" value="" class="form-control datepicker-date" />
+                    <input value="<?php echo $fecha; ?>" id="fecha_hasta" type="text" value="" class="form-control datepicker-date" />
                     <span class="help-block hidden"></span>
                 </div>
             </div>
