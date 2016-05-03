@@ -194,6 +194,89 @@ class Marea_roja extends MY_Controller
     }
     
     /**
+     * Genera excel para casos de dengue
+     */
+    public function excel()
+    {
+
+        $this->load->helper(
+            array(
+                "modulo/usuario/usuario",
+                "modulo/formulario/formulario"
+            )
+        );
+
+        $this->load->library("excel");
+        $lista = $this->_marea_roja_model->listar();
+
+        $datos_excel = array();
+        if (!is_null($lista)) {
+            foreach ($lista as $caso) {
+                $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
+
+                $datos_excel[count($datos_excel)-1]["id"] = $caso["id"];
+                $datos_excel[count($datos_excel)-1]["id_usuario"] = $caso["id_usuario"];
+                /*$datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];*/
+            }
+
+            $excel = $this->excel->nuevoExcel();
+            $excel->getProperties()
+                ->setCreator("Midas - Emergencias")
+                ->setLastModifiedBy("Midas - Emergencias")
+                ->setTitle("Exportación de casos febriles")
+                ->setSubject("Emergencias")
+                ->setDescription("Casos febriles")
+                ->setKeywords("office 2007 openxml php sumanet")
+                ->setCategory("Midas");
+
+            $columnas = reset($datos_excel);
+
+            
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MUESTREO"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "FECHA DE TOMA DE MUESTRA"); 
+
+            
+            $i = 2;
+            foreach($columnas as $columna => $valor){
+                
+                
+                if($columna != "FECHA" and $columna != "id")
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
+                $i++;
+                
+
+            }
+
+            $j = 2;
+            foreach ($datos_excel as $id => $valores) {
+
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $valores["FECHA"]);
+                
+                //unset($valores["id_usuario"]);
+                
+                $i = 2;
+                foreach ($valores as $columna => $valor) {
+               
+                    if($columna != "FECHA" and $columna != "id")
+                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valor));
+                    $i++;
+                    
+                }
+                $j++;
+            }
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="marea_roja_'.date('d-m-Y').'.xlsx"');
+            header('Cache-Control: max-age=0');
+            $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $objWriter->save('php://output');
+        } else {
+            echo "No hay registros para generar el excel";
+        }
+    }
+    
+    /**
      *
      */
     public function ajax_lista()
