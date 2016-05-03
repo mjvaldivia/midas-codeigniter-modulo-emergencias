@@ -19,11 +19,14 @@
             <div class="form-group clearfix">
                 <label class="col-sm-12 control-label required"> <strong> Fecha de toma de muestra </strong>:</label>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div id="marea_roja_rango_fechas"></div>
-                </div>
+  
+            
+            
+            <div class="col-lg-12">
+                <div id="marea_roja_rango_fechas"></div>
             </div>
+            
+        
            
             <div class="form-group clearfix">
                 <label for="marea_roja_recurso" class="col-sm-12 control-label required"> <strong> Recurso </strong> :</label>
@@ -48,6 +51,14 @@
                 </div>
             </div>
             
+            <div class="form-group clearfix">
+                <label class="col-sm-12 control-label required"> <strong> Resultado </strong>:</label>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="marea_roja_resultados"></div>
+                </div>
+            </div>
             
             <div class="form-group clearfix">
                 <div class="col-sm-4"></div>

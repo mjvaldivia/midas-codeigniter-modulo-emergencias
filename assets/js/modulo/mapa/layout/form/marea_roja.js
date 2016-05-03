@@ -47,7 +47,16 @@ var MapaLayoutFormMareaRoja = Class({
                     }
                 });
                 
-                $("#marea_roja_rango_fechas").dateRangeSlider();
+                $("#marea_roja_rango_fechas").ionRangeSlider({
+                    type: "double",
+                    min: + moment().subtract(12, "days").format("d"),
+                    max: + moment().format("d"),
+                    prettify: function (num) {
+                        return moment(num, "X").format("MMM Do");
+                    }
+                });
+                
+
                 
                 /*$("#marea_roja_fecha_muestra_desde").datetimepicker({
                     format: "DD/MM/YYYY",
