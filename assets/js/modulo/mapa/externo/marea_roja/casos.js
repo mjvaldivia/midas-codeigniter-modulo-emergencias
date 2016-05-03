@@ -75,7 +75,8 @@ var MapaMareaRojaCasos = Class({
                                 {
                                     "identificador" : "marea_roja_" + valor.id,
                                     "fecha_muestra" : fecha_muestra,
-                                    "recurso": valor.propiedades["RECURSO"]
+                                    "recurso": valor.propiedades["RECURSO"],
+                                    "resultados": valor.propiedades["RESULTADO"]
                                 }
                             );
 
@@ -122,6 +123,25 @@ var MapaMareaRojaCasos = Class({
         }
         
         if(ok){
+            var slider = $("#marea_roja_resultados").data("ionRangeSlider");
+            //console.log(marker["resultados"]);
+            if(slider.result.from != 0 && marker["resultados"] == "ND"){
+                ok = false;
+            } else {
+                if(marker["resultados"] != "ND"){
+                    if(slider.result.from > parseInt(marker["resultados"])){
+                        ok = false;
+                    }
+                    
+                    if(slider.result.to < parseInt(marker["resultados"])){
+                        ok = false;
+                    }
+                }
+                
+            }
+        }
+        
+        if(ok){
             
             //console.log($("#formulario-marea-roja").serializeArray());
             //no funciona el $(this).val() para el plugin chosen, se efectua parche
@@ -130,9 +150,7 @@ var MapaMareaRojaCasos = Class({
                     return true;
                 }
             });
-            
-           
-            
+
             if(recursos_seleccionados.length > 0){
 
                 var encontrados = jQuery.grep(recursos_seleccionados, function( a ) {

@@ -16,6 +16,10 @@
     <div id="filtros-marea-roja" style="display:none">
         <div class="panel panel-primary">
             <div class="panel-body">
+
+  
+            
+            
             <div class="form-group clearfix">
                 <label class="col-sm-12 control-label required"> <strong> Fecha de toma de muestra </strong>:</label>
             </div>
@@ -49,6 +53,8 @@
                     </div>
                 </div>
             </div>
+            
+        
            
             <div class="form-group clearfix">
                 <label for="marea_roja_recurso" class="col-sm-12 control-label required"> <strong> Recurso </strong> :</label>
@@ -71,6 +77,14 @@
                     </select>
                     <span class="help-block hidden"></span>
                 </div>
+            </div>
+            
+            <div class="form-group clearfix">
+                <label class="col-sm-12 control-label required"> <strong> Resultados </strong>:</label>
+            </div>
+            
+            <div class="col-sm-12">
+                <div id="marea_roja_resultados"></div>
             </div>
             
             

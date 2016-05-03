@@ -47,6 +47,21 @@ var MapaLayoutFormMareaRoja = Class({
                     }
                 });
                 
+                $("#marea_roja_resultados").ionRangeSlider({
+                    type: "double",
+                    min: 0,
+                    max: 4000,
+                    grid: true,
+                    step: 10,
+                    keyboard: true,
+                    keyboard_step: 1,
+                    onFinish: function (data) {
+                        yo.filtrar(); 
+                    }
+                });
+                
+
+                
                 $("#marea_roja_fecha_muestra_desde").datetimepicker({
                     format: "DD/MM/YYYY",
                     locale: "es"
