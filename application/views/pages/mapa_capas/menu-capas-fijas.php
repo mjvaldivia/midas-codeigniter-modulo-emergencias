@@ -20,6 +20,12 @@
                 <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/marisco/rojo.png") ?>"></i> Marea roja 
             </a>
         </li>
+        <li>
+            <a id="btn-importar-marea-roja" href="javascript:void(0)">
+                <input type="checkbox" name="vectores" id="vectores" value="1"/> 
+                <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/marisco/rojo.png") ?>"></i> Vectores
+            </a>
+        </li>
     </ul>
 </li>
 <li class="col-sm-3">

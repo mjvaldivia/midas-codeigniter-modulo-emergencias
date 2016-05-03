@@ -240,6 +240,32 @@ class Mapa extends MY_Controller {
         );
     }
     
+    public function info_vectores(){
+        $this->load->library("visor/externo/visor_externo_vectores");
+        header('Content-type: application/json'); 
+        $casos = array();
+
+        
+        $lista = $this->visor_externo_vectores->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+
+                $propiedades = $row;
+             
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $row["lat"],
+                                 "lng" => $row["lon"]);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
     /**
      * 
      */
