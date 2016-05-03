@@ -47,23 +47,25 @@ var MapaLayoutFormMareaRoja = Class({
                     }
                 });
                 
-                $("#marea_roja_fecha_muestra_desde").datetimepicker({
+                $("#marea_roja_rango_fechas").dateRangeSlider();
+                
+                /*$("#marea_roja_fecha_muestra_desde").datetimepicker({
                     format: "DD/MM/YYYY",
                     locale: "es"
-                });
+                });*/
                 
-                $("#marea_roja_fecha_muestra_hasta").datetimepicker({
+                /*$("#marea_roja_fecha_muestra_hasta").datetimepicker({
                     format: "DD/MM/YYYY",
                     locale: "es"
-                });
+                });*/
                 
-                $("#marea_roja_fecha_muestra_desde").on("dp.change", function(){
+                /*$("#marea_roja_fecha_muestra_desde").on("dp.change", function(){
                     yo.filtrar(); 
                 });
                 
                 $("#marea_roja_fecha_muestra_hasta").on("dp.change", function(){
                     yo.filtrar(); 
-                });
+                });*/
                 
                 $("#marea_roja_recurso").change(function(){
                     yo.filtrar(); 
