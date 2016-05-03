@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <th>Código</th>
-            <th width="10%">Fecha ingreso</th>
+            <th width="10%">Fecha toma de muestra</th>
             <th width="10%">Recurso</th>
             <th width="10%">Origen</th>
             <th width="15%">Comuna</th>
