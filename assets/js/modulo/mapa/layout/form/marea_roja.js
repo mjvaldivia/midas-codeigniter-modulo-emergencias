@@ -50,7 +50,7 @@ var MapaLayoutFormMareaRoja = Class({
                 $("#marea_roja_resultados").ionRangeSlider({
                     type: "double",
                     min: 0,
-                    max: 4000,
+                    max: 5000,
                     grid: true,
                     step: 10,
                     keyboard: true,
