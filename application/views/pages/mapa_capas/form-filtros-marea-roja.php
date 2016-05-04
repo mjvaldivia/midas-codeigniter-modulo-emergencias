@@ -91,13 +91,13 @@
                 <div class="col-lg-3">
                     <input type="checkbox" checked="checked" data-from="81" data-to="" value="1" name="" class="marea-roja-color">
                     <i class="fa">
-                    <img src="http://development.emergencias.midas.cl/assets/img/markers/marisco/marcador-rojo.png">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
                     </i>
                 </div>
                 <div class="col-lg-3">
                     <input type="checkbox" checked="checked" data-add="ND" data-from="0" data-to="80" value="1" name="" class="marea-roja-color">
                     <i class="fa">
-                    <img src="http://development.emergencias.midas.cl/assets/img/markers/marisco/marcador-verde.png">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-verde.png") ?>">
                     </i>
                 </div>
             </div>
@@ -105,25 +105,25 @@
                 <div class="col-lg-3">
                     <input type="checkbox" checked="checked" data-from="1001" data-to="" value="1" name="" class="marea-roja-color">
                     <i class="fa">
-                    <img src="http://development.emergencias.midas.cl/assets/img/markers/marisco/marcador-rojo.png">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
                     </i>
                 </div>
                 <div class="col-lg-3">
                     <input type="checkbox" checked="checked" data-from="200" data-to="1000" value="1" name="" class="marea-roja-color">
                     <i class="fa">
-                    <img src="http://development.emergencias.midas.cl/assets/img/markers/marisco/marcador-amarillo.png">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-amarillo.png") ?>">
                     </i>
                 </div>
                 <div class="col-lg-3">
                     <input type="checkbox" checked="checked" data-from="1" data-to="199" value="1" name="" class="marea-roja-color">
                     <i class="fa">
-                    <img src="http://development.emergencias.midas.cl/assets/img/markers/marisco/marcador-azul.png">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-azul.png") ?>">
                     </i>
                 </div>
                 <div class="col-lg-3">
                     <input type="checkbox" checked="checked" data-only="ND" value="1" name="" class="marea-roja-color">
                     <i class="fa">
-                    <img src="http://development.emergencias.midas.cl/assets/img/markers/marisco/marcador-verde.png">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-verde.png") ?>">
                     </i>
                 </div>
             </div>
