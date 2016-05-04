@@ -243,10 +243,21 @@ class Mapa extends MY_Controller {
      * 
      */
     public function info_marea_roja(){
-        $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 
-        $casos = array();
+        
+        $this->load->helper(
+            "modulo/usuario/usuario"
+        );
+        
+        $this->load->library(
+            array(
+                "core/fecha/fecha_conversion"
+            )
+        );
+        
         $this->load->model("marea_roja_model", "_marea_roja_model");
+        
+        $casos = array();
         
         $lista = $this->_marea_roja_model->listar();
         if($lista != null){
@@ -266,6 +277,15 @@ class Mapa extends MY_Controller {
                 
                 $casos[] = array(
                     "id" => $row["id"],
+                    
+                    "fecha_muestra" => $this->fecha_conversion->fechaToDateTime(
+                        $propiedades["FECHA"],
+                        array(
+                            "d-m-Y",
+                            "d/m/Y"
+                        )
+                    )->format("d-m-Y"),
+                    
                     "resultado" => $propiedades["RESULTADO"],
                     "fecha" => $propiedades["FECHA"],
                     "propiedades" => $propiedades,

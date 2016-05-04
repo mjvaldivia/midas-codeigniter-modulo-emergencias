@@ -303,6 +303,13 @@ class Marea_roja extends MY_Controller
                 "modulo/usuario/usuario",
             )
         );
+        
+        $this->load->library(
+            array(
+                "core/fecha/fecha_conversion"
+            )
+        );
+        
         $lista = $this->_marea_roja_model->listar();
 
         $casos = array();
@@ -315,14 +322,17 @@ class Marea_roja extends MY_Controller
                 
                 $propiedades = json_decode($caso["propiedades"]);
                 
-                $fecha = DateTime::createFromFormat("d-m-Y", $propiedades->FECHA);
+                
+                $fecha = $this->fecha_conversion->fechaToDateTime(
+                    $propiedades->FECHA,
+                    array(
+                        "d-m-Y",
+                        "d/m/Y"
+                    )
+                );
+                
                 if ($fecha instanceof DateTime) {
                     $fecha_formato = $fecha->format("d/m/Y");
-                } else {
-                    $fecha = DateTime::createFromFormat("d/m/Y", $propiedades->FECHA);
-                    if ($fecha instanceof DateTime) {
-                        $fecha_formato = $fecha->format("d/m/Y");
-                    }
                 }
                 
                 $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $caso["fecha"]);
