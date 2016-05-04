@@ -31,11 +31,11 @@
                     <div style="width: 220px">
                         <div class="row">
 						
-
+                            <?php if(puedeVerReporteEmergencia("emergencia")) { ?>
                             <button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
                                     <i class="fa fa-files-o"></i>
                             </button>
-
+                            <?php } ?>
                                     
                                   <?php if (puedeEditar("emergencia")) { ?>
                                       <button title="Editar" class="btn btn-sm btn-success emergencia-editar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
