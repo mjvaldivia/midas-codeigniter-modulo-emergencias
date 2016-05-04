@@ -194,6 +194,7 @@ class Mapa extends MY_Controller {
                  ->setCasosFebrilesZona($_POST["casos_febriles_zona"])
                  ->setTipoMapa($_POST["tipo_mapa"])
                  ->setMareaRoja($_POST["marea_roja"])
+                 ->setMareaRojaPm($_POST["marea_roja_pm"])
                  ->guardar();
             
             
@@ -628,6 +629,7 @@ class Mapa extends MY_Controller {
                 "casos_febriles" => $configuracion->bo_casos_febriles,
                 "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
                 "marea_roja" => $configuracion->bo_marea_roja,
+                "marea_roja_pm" => $configuracion->bo_marea_roja_pm,
                 "tipo_mapa" => $configuracion->tipo_mapa
             );
         }

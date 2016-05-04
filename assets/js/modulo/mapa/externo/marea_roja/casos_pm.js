@@ -7,7 +7,7 @@ var MapaMareaRojaCasosPm = Class({ extends : MapaMareaRojaCasos}, {
      */
     coloresIcono : function(valor){
         var icono = "";
-        if(valor.resultado == "ND"){
+        if(valor.resultado == "ND" || valor.resultado == "nd"){
             icono = baseUrl + "assets/img/markers/marisco/marcador-verde.png"
         } else {
             
