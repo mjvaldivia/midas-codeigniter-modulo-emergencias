@@ -267,6 +267,7 @@ class Mapa extends MY_Controller {
                 $casos[] = array(
                     "id" => $row["id"],
                     "resultado" => $propiedades["RESULTADO"],
+                    "fecha" => $propiedades["FECHA"],
                     "propiedades" => $propiedades,
                     "lat" => $coordenadas["lat"],
                     "lng" => $coordenadas["lng"]

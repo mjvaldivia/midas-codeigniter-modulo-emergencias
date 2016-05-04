@@ -40,11 +40,7 @@ var MapaMareaRojaCasos = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            if(valor.resultado == "ND" || parseInt(valor.resultado) <= 80){
-                                var icono = baseUrl + "assets/img/markers/marisco/marcador-verde.png"
-                            } else {
-                                var icono = baseUrl + "assets/img/markers/marisco/marcador-rojo.png";
-                            }
+                            var icono = yo.coloresIcono(valor);
                             
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
@@ -74,7 +70,27 @@ var MapaMareaRojaCasos = Class({
         }
     },
     
+    /**
+     * 
+     * @param {object} valor
+     * @returns {String}
+     */
+    coloresIcono : function(valor){
+        var icono = "";
+        if(valor.resultado == "ND" || parseInt(valor.resultado) <= 80){
+            icono = baseUrl + "assets/img/markers/marisco/marcador-verde.png"
+        } else {
+            icono = baseUrl + "assets/img/markers/marisco/marcador-rojo.png";
+        }
+        
+        return icono;
+    },
     
+    /**
+     * 
+     * @param {type} marker
+     * @returns {Boolean}
+     */
     verFiltros : function(marker){
         var yo = this;
         var ok = true;

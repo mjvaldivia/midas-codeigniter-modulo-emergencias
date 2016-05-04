@@ -180,6 +180,7 @@ class Session extends MY_Controller {
     }
 
     public function autentificar() {
+
         $this->load->library(array(
             "template"
         ));

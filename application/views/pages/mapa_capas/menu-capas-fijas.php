@@ -21,14 +21,14 @@
                 </i> Marea roja 
             </a>
         </li>
-        <!--<li>
+        <li>
             <a id="btn-importar-marea-roja" href="javascript:void(0)">
                 <input type="checkbox" name="marea_roja_pm" id="marea_roja_pm" value="1"/> 
                 <i class="fa">
                     <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
                 </i> Marea roja - PM
             </a>
-        </li>-->
+        </li>
     </ul>
 </li>
 <li class="col-sm-3">
