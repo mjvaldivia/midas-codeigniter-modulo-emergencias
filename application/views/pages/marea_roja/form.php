@@ -101,6 +101,7 @@
                                         <select name="recurso" id="recurso" class="form-control">
                                             <option value="">-- Seleccione un valor --</option>
                                             <option <?php if($recurso == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
+                                            <option <?php if($recurso == "CHOCHAYUYO") echo "selected"; ?> value="CHOCHAYUYO"> CHOCHAYUYO </option>
                                             <option <?php if($recurso == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
                                             <option <?php if($recurso == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
                                             <option <?php if($recurso == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
@@ -108,11 +109,16 @@
                                             <option <?php if($recurso == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>
                                             <option <?php if($recurso == "CULENGUE") echo "selected"; ?> value="CULENGUE"> CULENGUE </option>
                                             <option <?php if($recurso == "LOCO") echo "selected"; ?> value="LOCO"> LOCO </option>
+                                            <option <?php if($recurso == "LUCHE") echo "selected"; ?> value="LUCHE"> LUCHE </option>
                                             <option <?php if($recurso == "MACHAS") echo "selected"; ?> value="MACHAS"> MACHAS </option>
                                             <option <?php if($recurso == "NAVAJUELA") echo "selected"; ?> value="NAVAJUELA"> NAVAJUELA </option>
                                             <option <?php if($recurso == "OSTRA CH") echo "selected"; ?> value="OSTRA CH"> OSTRA CH </option>
+                                            <option <?php if($recurso == "OSTRA JP") echo "selected"; ?> value="OSTRA JP"> OSTRA JP </option>
                                             <option <?php if($recurso == "OSTRAS") echo "selected"; ?> value="OSTRAS"> OSTRAS </option>
+                                            
+                                            <option <?php if($recurso == "PICOROCO") echo "selected"; ?> value="PICOROCO"> PICOROCO </option>
                                             <option <?php if($recurso == "PIURE") echo "selected"; ?> value="PIURE"> PIURE </option>
+                                            
                                             <option <?php if($recurso == "TUMBAO") echo "selected"; ?> value="TUMBAO"> TUMBAO </option>
                                         </select>
                                         <span class="help-block hidden"></span>

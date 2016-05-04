@@ -61,6 +61,7 @@
                 <div class="col-sm-12">
                      <select name="marea_roja_recurso[]" id="marea_roja_recurso" class="form-control select2-tags" multiple="true">
                         <option value="ALMEJAS"> ALMEJAS </option>
+                        <option value="COCHAYUYO"> COCHAYUYO </option>
                         <option value="CHOLGAS"> CHOLGAS </option>
                         <option value="CHORITO"> CHORITO </option>
                         <option value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
@@ -68,10 +69,13 @@
                         <option value="CHORO ZAPATO"> CHORO ZAPATO </option>
                         <option value="CULENGUE"> CULENGUE </option>
                         <option value="LOCO"> LOCO </option>
+                        <option value="LUCHE"> LUCHE </option>
                         <option value="MACHAS"> MACHAS </option>
                         <option value="NAVAJUELA"> NAVAJUELA </option>
                         <option value="OSTRA CH"> OSTRA CH </option>
+                        <option value="OSTRAS JP"> OSTRAS JP </option>
                         <option value="OSTRAS"> OSTRAS </option>
+                        <option value="PICOROCO"> PICOROCO </option>
                         <option value="PIURE"> PIURE </option>
                         <option value="TUMBAO"> TUMBAO </option>
                     </select>

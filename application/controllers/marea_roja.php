@@ -20,6 +20,7 @@ class Marea_roja extends MY_Controller
         sessionValidation();
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
+        $this->load->model("modulo_model", "_modulo_model");
     }
     
     /**
