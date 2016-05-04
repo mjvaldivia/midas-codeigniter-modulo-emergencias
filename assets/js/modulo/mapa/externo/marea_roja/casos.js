@@ -23,6 +23,10 @@ var MapaMareaRojaCasos = Class({
     load : function(){
         var yo = this;
         if(marea_roja_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
+            
+            $("#marea_roja").attr("disabled", true);
+            $("#marea_roja_pm").attr("disabled", true);
+            
             Messenger().run({
                 action: $.ajax,
                 successMessage: '<strong> Marea roja </strong> <br> Ok',
@@ -65,6 +69,9 @@ var MapaMareaRojaCasos = Class({
                     }
                     
                     $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    $("#marea_roja").attr("disabled", false);
+                    $("#marea_roja_pm").attr("disabled", false);
                }
             });
         }

@@ -13,8 +13,9 @@
                 <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/otros/animal.png") ?>"></i> Rabia - vacunación 
             </a>
         </li>
+        <li class="divider"></li>
         <li>
-            <a id="btn-importar-marea-roja" href="javascript:void(0)">
+            <a id="btn-importar-marea-roja" href="javascript:void(0)" class="btn-importar-marea-roja">
                 <input type="checkbox" name="marea_roja" id="marea_roja" value="1"/> 
                 <i class="fa">
                     <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
@@ -22,13 +23,14 @@
             </a>
         </li>
         <li>
-            <a id="btn-importar-marea-roja" href="javascript:void(0)">
+            <a id="btn-importar-marea-roja" href="javascript:void(0)" class="btn-importar-marea-roja">
                 <input type="checkbox" name="marea_roja_pm" id="marea_roja_pm" value="1"/> 
                 <i class="fa">
                     <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
                 </i> Marea roja - PM
             </a>
         </li>
+        
     </ul>
 </li>
 <li class="col-sm-3">
