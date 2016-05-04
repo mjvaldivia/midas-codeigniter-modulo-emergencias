@@ -51,7 +51,7 @@
                     <?php
                     if(((int)$row["resultado"]) < 80 ) {
                     ?>
-                    <span class="label yellow"> No supera </span>
+                    <span class="label green"> No supera </span>
                     <?php } ?>
                 <?php } ?>
                 

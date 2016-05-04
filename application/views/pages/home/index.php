@@ -18,7 +18,7 @@
             <div class="row">
                 
                 <?php if(puedeVer("alarma")) { ?>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?php if(puedeEditar("alarma")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
@@ -34,26 +34,25 @@
                     </div>
                 </div>
                 <?php } ?>
+
                 
-                <?php /*if(puedeVer("emergencia")) { */?><!--
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <?php if(puedeVer("capas")) { ?>
+                
+                <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?/*= site_url("emergencia/listado/estado/en_curso") */?>">
-                            <div class="circle-tile-heading red">
-                                <i class="fa fa-bullhorn fa-fw fa-3x"></i>
+                        <a href="<?php echo site_url("visor"); ?>">
+                            <div class="circle-tile-heading dark-blue">
+                                <i class="fa fa-globe fa-fw fa-3x"></i>
                             </div>
                         </a>
-                        <div class="circle-tile-content red">
+                        <div class="circle-tile-content dark-blue">
                             <div class="circle-tile-description text-faded">
-                                Emergencias
+                                Visor
                             </div>
-                            <a href="<?/*= site_url("emergencia/listado/estado/en_curso") */?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php echo site_url("visor"); ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
-                --><?php /*} */?>
-                
-                <?php if(puedeVer("capas")) { ?>
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>">
@@ -69,21 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div class="circle-tile">
-                        <a href="<?php echo site_url("visor"); ?>">
-                            <div class="circle-tile-heading dark-blue">
-                                <i class="fa fa-globe fa-fw fa-3x"></i>
-                            </div>
-                        </a>
-                        <div class="circle-tile-content dark-blue">
-                            <div class="circle-tile-description text-faded">
-                                Visor
-                            </div>
-                            <a href="<?php echo site_url("visor"); ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
+                
                 <?php } ?>
                 
                 <?php if(puedeVer("simulacion")) { ?>
