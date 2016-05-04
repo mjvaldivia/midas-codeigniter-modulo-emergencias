@@ -41,28 +41,9 @@ var MapaMareaRojaCasos = Class({
                         $.each(json.lista, function(i, valor){
                             
                             if(valor.resultado == "ND" || parseInt(valor.resultado) <= 80){
-                                var icono = baseUrl + "assets/img/markers/marisco/1.png"
+                                var icono = baseUrl + "assets/img/markers/marisco/marcador-verde.png"
                             } else {
-                       
-                                if(parseInt(valor.resultado) > 80 && parseInt(valor.resultado) <= 120){
-                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
-                                }
-
-                                if(parseInt(valor.resultado) > 120 && parseInt(valor.resultado) <= 200 ){
-                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
-                                }
-
-                                if(parseInt(valor.resultado) > 200 && parseInt(valor.resultado) <= 1000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
-                                } 
-                                
-                                if(parseInt(valor.resultado) > 1000 && parseInt(valor.resultado) <= 3000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
-                                } 
-                                
-                                if(parseInt(valor.resultado) > 3000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
-                                } 
+                                var icono = baseUrl + "assets/img/markers/marisco/marcador-rojo.png";
                             }
                             
                             var marcador = new MapaMarcador();
