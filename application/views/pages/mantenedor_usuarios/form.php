@@ -139,7 +139,7 @@
                         </div>
                         <div class="col-md-3 text-left">
                             <div class="form-group clearfix">
-                                <label for="sexo" class="control-label">Nacional:</label>
+                                <label for="sexo" class="control-label">Perfil Nacional:</label>
                                 <div class="input-group col-sm-12">
                                     <?php echo formElementSelectNacional("nacional", $nacional, array("class" => "form-control")) ?>
                                 </div>
