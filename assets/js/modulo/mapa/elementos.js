@@ -387,6 +387,17 @@ var MapaElementos = Class({
                         }
                     });
                     
+                    $("#marea_roja_pm").waitUntilExists(function(){
+                        if(parseInt(data.resultado.marea_roja_pm) == 1){
+                            var marea_roja = new MapaMareaRojaCasosPm();
+                            marea_roja.seteaMapa(yo.mapa);
+                            marea_roja.load(yo.mapa);
+                            $("#marea_roja_pm").prop("checked", true);
+                        } else {
+                            $("#marea_roja_pm").prop("checked", false);
+                        }
+                    });
+                    
                    
                     $("#importar_sidco").waitUntilExists(function(){
                         if(parseInt(data.resultado.sidco) == 1){

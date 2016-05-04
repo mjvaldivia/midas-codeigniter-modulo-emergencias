@@ -93,11 +93,17 @@ var MapaLayoutFormMareaRoja = Class({
      */
     filtrar : function(){
         var yo = this;
-        var marea_roja = new MapaMareaRojaCasos();
-
-        marea_roja.seteaMapa(yo.mapa);
         
         if($("#marea_roja").is(":checked")){
+            var marea_roja = new MapaMareaRojaCasos();
+        } else if($("#marea_roja_pm").is(":checked")){
+            var marea_roja = new MapaMareaRojaCasosPm();
+        }
+        
+        
+        marea_roja.seteaMapa(yo.mapa);
+        
+        if($("#marea_roja").is(":checked") || $("#marea_roja_pm").is(":checked")){
             marea_roja.filtrar();
         }
         this.resumen();
