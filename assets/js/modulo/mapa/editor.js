@@ -374,7 +374,16 @@ var MapaEditor = Class({
                     
                     marea_roja.load();
                     
+                    // muestra el formulario
                     $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    //muestra filtro de colores
+                    $("#marea-roja-contenedor-filtro-colores").removeClass("hidden");
+                    $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
+                    
+                    //se quita seleccion de colores en filtro
+                    $(".marea-roja-color").prop("checked", true);
+                    $("#marea-roja-pm-contenedor-filtro-colores").find("input").prop("checked", false);
                 } else {
                     marea_roja.remove();
                     $("#formulario-marea-roja-contenedor").addClass("hidden");
@@ -399,7 +408,16 @@ var MapaEditor = Class({
                     
                      marea_roja_pm.load();
                     
+                    // muestra el formulario
                     $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    //muestra filtro de colores
+                    $("#marea-roja-contenedor-filtro-colores").addClass("hidden");
+                    $("#marea-roja-pm-contenedor-filtro-colores").removeClass("hidden");
+                    
+                    //se quita seleccion de colores en filtro
+                    $(".marea-roja-color").prop("checked", true);
+                    $("#marea-roja-contenedor-filtro-colores").find("input").prop("checked", false);
                 } else {
                      marea_roja_pm.remove();
                     $("#formulario-marea-roja-contenedor").addClass("hidden");

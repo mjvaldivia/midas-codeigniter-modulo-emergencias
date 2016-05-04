@@ -60,8 +60,6 @@ var MapaLayoutFormMareaRoja = Class({
                     }
                 });
                 
-
-                
                 $("#marea_roja_fecha_muestra_desde").datetimepicker({
                     format: "DD/MM/YYYY",
                     locale: "es"
@@ -81,6 +79,10 @@ var MapaLayoutFormMareaRoja = Class({
                 });
                 
                 $("#marea_roja_recurso").change(function(){
+                    yo.filtrar(); 
+                });
+                
+                $(".marea-roja-color").click(function(){
                     yo.filtrar(); 
                 });
             }
@@ -106,6 +108,9 @@ var MapaLayoutFormMareaRoja = Class({
         if($("#marea_roja").is(":checked") || $("#marea_roja_pm").is(":checked")){
             marea_roja.filtrar();
         }
+        
+        console.log("Filtrando");
+        
         this.resumen();
     },
     

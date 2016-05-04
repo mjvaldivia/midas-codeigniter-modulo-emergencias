@@ -161,6 +161,41 @@ var MapaMareaRojaCasos = Class({
                 }
             }        
         }
+        
+        if(ok){
+            var retorno = false;
+            $(".marea-roja-color").each(function(i, obj){
+                if($(obj).is(":checked")){
+                    if($(obj).data("only")){
+                        if(marker["resultados"].toUpperCase() == $(obj).data("only")){
+                            retorno = true;
+                        }
+                    } else {
+                        
+                        if($(obj).data("add")){
+                            if(marker["resultados"].toUpperCase() == $(obj).data("add")){
+                                retorno = true;
+                            }
+                        }
+                        
+                        
+                        if($(obj).data("to") && $(obj).data("to")!=""){
+                            if(parseInt(marker["resultados"]) >= parseInt($(obj).data("from")) && parseInt(marker["resultados"]) <= parseInt($(obj).data("to"))){
+                                retorno = true;
+                            }
+                        } else {
+                            if(parseInt(marker["resultados"]) >= parseInt($(obj).data("from"))){
+                                retorno = true;
+                            }
+                        }
+                    }
+                }
+            });
+            
+            ok = retorno;
+        }
+        
+        
         return ok;
     },
     
