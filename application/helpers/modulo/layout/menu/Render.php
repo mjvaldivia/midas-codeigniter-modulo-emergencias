@@ -112,7 +112,7 @@ Class Layout_Menu_Render{
                                                                                         "controller" => "mantenedor_rol",
                                                                                         "action"     => "index")
                                                                          )),
-                                   "Mesa de ayuda" => array("icon_class" => "fa-question-circle",
+                                   /*"Mesa de ayuda" => array("icon_class" => "fa-question-circle",
                                               
                                                             "child" => array("Mensajes" => array(
                                                                                             "controller" => "soportes",
@@ -126,7 +126,7 @@ Class Layout_Menu_Render{
                                                                                             "controller" => "soportes",
                                                                                             "action"     => "bandeja_soportes_central")
                                                                              )
-                                                                    ),
+                                                                    ),*/
                                     
                                 );
     

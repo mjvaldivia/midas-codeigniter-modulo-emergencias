@@ -122,7 +122,7 @@
                 </div>
                 <?php } ?>
                 
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <!--<div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("soportes/bandeja_usuario") ?>">
                             <div class="circle-tile-heading gray">
@@ -136,7 +136,7 @@
                             <a href="<?= site_url("soportes/bandeja_usuario") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
