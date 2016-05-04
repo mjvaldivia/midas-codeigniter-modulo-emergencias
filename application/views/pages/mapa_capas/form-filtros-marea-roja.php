@@ -89,19 +89,46 @@
                 
             <div id="marea-roja-contenedor-filtro-colores" class="form-group clearfix">
                 
-                <div class="col-lg-3">
-                    <input type="checkbox" checked="checked" data-add="ND" data-from="0" data-to="80" value="1" name="" class="marea-roja-color">
-                    <i class="fa">
-                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-verde.png") ?>">
-                    </i> &LT; 80
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <input type="checkbox" checked="checked" data-only="ND" value="1" name="" class="marea-roja-color">
+                            <i class="fa">
+                            <img src="<?php echo base_url("assets/img/markers/marisco/marcador-verde.png") ?>">
+                            </i> &equals; ND
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input type="checkbox" checked="checked" data-from="-1" data-to="49" value="1" name="" class="marea-roja-color">
+                            0 &LT;
+                            <i class="fa">
+                            <img src="<?php echo base_url("assets/img/markers/marisco/marcador-azul.png") ?>">
+                            </i> 
+                            &LT; 50
+                        </div>
+                    </div>
+                </div>    
+                <div class="row top-spaced">
+                    <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <input type="checkbox" checked="checked" data-from="50" data-to="79" value="1" name="" class="marea-roja-color">
+                            50 &LT; &equals;
+                            <i class="fa">
+                            <img src="<?php echo base_url("assets/img/markers/marisco/marcador-amarillo.png") ?>">
+                            </i> &LT; 80
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input type="checkbox" checked="checked" data-from="80" data-to="" value="1" name="" class="marea-roja-color">
+                            80 &LT; &equals;
+                            <i class="fa">
+                            <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
+                            </i> 
+                            
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-3">
-                    <input type="checkbox" checked="checked" data-from="81" data-to="" value="1" name="" class="marea-roja-color">
-                    80 &GT;
-                    <i class="fa">
-                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
-                    </i> 
-                </div>
+                
                 
             </div>
             <div id="marea-roja-pm-contenedor-filtro-colores" class="form-group clearfix">

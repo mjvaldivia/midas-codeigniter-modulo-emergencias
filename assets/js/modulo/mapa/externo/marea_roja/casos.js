@@ -84,10 +84,22 @@ var MapaMareaRojaCasos = Class({
      */
     coloresIcono : function(valor){
         var icono = "";
-        if(valor.resultado == "ND" || parseInt(valor.resultado) <= 80){
+        if(valor.resultado == "ND" || valor.resultado == "nd"){
             icono = baseUrl + "assets/img/markers/marisco/marcador-verde.png"
         } else {
-            icono = baseUrl + "assets/img/markers/marisco/marcador-rojo.png";
+            
+            if(50 > parseInt(valor.resultado)){
+                icono = baseUrl + "assets/img/markers/marisco/marcador-azul.png";
+            }
+            
+            if( 80 > parseInt(valor.resultado) && parseInt(valor.resultado) >= 50){
+                icono = baseUrl + "assets/img/markers/marisco/marcador-amarillo.png";
+            }
+            
+            if(parseInt(valor.resultado) >= 80){
+                icono = baseUrl + "assets/img/markers/marisco/marcador-rojo.png";
+            }
+            
         }
         
         return icono;
