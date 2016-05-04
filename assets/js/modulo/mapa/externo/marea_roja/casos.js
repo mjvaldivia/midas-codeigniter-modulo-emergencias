@@ -50,7 +50,7 @@ var MapaMareaRojaCasos = Class({
                             marcador.seteaMapa(yo.mapa);
                             marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
                             
-                            var fecha_muestra = moment(valor.propiedades["FECHA"], "DD-MM-YYYY", true);
+                            var fecha_muestra = moment(valor.fecha_muestra, "DD-MM-YYYY", true);
                             
                             marea_roja_marcador.push(
                                 {
