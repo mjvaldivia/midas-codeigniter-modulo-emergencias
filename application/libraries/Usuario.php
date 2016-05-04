@@ -83,6 +83,9 @@ Class Usuario{
             case "marea_roja":
                 $this->_id_modulo = Modulo_Model::SUB_MAREA_ROJA;
                 break;
+             case "marea_roja":
+                $this->_id_modulo = Modulo_Model::SUB_MAREA_ROJA;
+                break;
             default:
                 throw new Exception("No se encontro el modulo");
                 break;

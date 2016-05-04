@@ -59,13 +59,13 @@
             
             <td align="center" width="5%">
                 <div style="width: 150px">
-                    <?php if(puedeEditar(Modulo_Model::SUB_MAREA_ROJA)) { ?>
+                    <?php if(puedeEditar("marea_roja")) { ?>
                     <button onclick="document.location.href='<?php echo base_url("marea_roja/editar/?id=" . $row["id"]); ?>'" title="editar" class="btn btn-sm btn-success" type="button" >
                         <i class="fa fa-edit"></i>
                     </button>
                     <?php } ?>
                     
-                    <?php if(puedeEliminar(Modulo_Model::SUB_MAREA_ROJA)) { ?>
+                    <?php if(puedeEliminar("marea_roja")) { ?>
                     <button title="Eliminar" class="btn btn-sm btn-danger caso-eliminar" type="button"  data="<?php echo $row["id"] ?>" href="#" >
                         <i class="fa fa-trash"></i>
                     </button>
