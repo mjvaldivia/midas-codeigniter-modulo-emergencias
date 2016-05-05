@@ -69,9 +69,10 @@
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/embarazadas.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/rabia/vacunacion.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos_pm.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/vectores/hallazgos.js"); ?>
 
 <!-- Externos -->
 <?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>

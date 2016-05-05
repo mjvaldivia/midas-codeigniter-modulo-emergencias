@@ -267,7 +267,7 @@ class Mapa extends MY_Controller {
         );
     }
     
-    public function info_hallazgos(){
+    public function info_vectores_hallazgos(){
         $this->load->library("visor/externo/visor_externo_hallazgos");
         header('Content-type: application/json'); 
         $casos = array();

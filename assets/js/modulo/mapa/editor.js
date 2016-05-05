@@ -470,9 +470,6 @@ var MapaEditor = Class({
             });
         });
         
-        /**
-         * Vacunacion rabia
-         */
         $("#vectores").livequery(function(){
             $(this).click(function(){
                 var carga = new MapaVectores();
@@ -484,6 +481,20 @@ var MapaEditor = Class({
                 }
             });
         });
+        
+        $("#vectores_hallazgos").livequery(function(){
+            $(this).click(function(){
+                var carga = new MapaVectoresHallazgos();
+                carga.seteaMapa(map);
+                if($(this).is(":checked")){
+                    carga.load();
+                } else {
+                    carga.remove();
+                }
+            });
+        });
+        
+        
         
         /**
          * Exportar mapa a kml

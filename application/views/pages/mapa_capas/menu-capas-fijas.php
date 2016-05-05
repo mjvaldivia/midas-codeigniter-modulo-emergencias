@@ -31,13 +31,19 @@
                 </i> Marea roja - PM
             </a>
         </li>
+        <li class="divider"></li>
         <li>
             <a id="btn-importar-marea-roja" href="javascript:void(0)">
                 <input type="checkbox" name="vectores" id="vectores" value="1"/> 
                 <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/vectores.png") ?>"></i> Vectores
             </a>
         </li>
-        
+        <li>
+            <a id="btn-importar-marea-roja" href="javascript:void(0)">
+                <input type="checkbox" name="vectores_hallazgos" id="vectores_hallazgos" value="1"/> 
+                <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/vectores.png") ?>"></i> Hallazgos
+            </a>
+        </li>
 
     </ul>
 </li>
