@@ -76,12 +76,12 @@ Class Layout_Menu_Render
                                                             "action" => "index",
                                                             "child" => array()),
            
-                                    "Hospitales" => array(
+                                    /*"Hospitales" => array(
                                         "icon_class" => "fa-hospital-o",
                                         "controller" => "hospital",
                                         "action" => "index",
                                         "child" => array()
-                                    ), 
+                                    ),*/ 
 
                                     "Isla de pascua" => array(
 
@@ -99,10 +99,10 @@ Class Layout_Menu_Render
                                                "controller" => "embarazo",
                                                "action"     => "index"
                                             ),
-                                            "Monitoreo de Trampas" => array(
+                                            /*"Monitoreo de Trampas" => array(
                                                 "controller" => "trampas",
                                                 "action" => "index"
-                                            )
+                                            )*/
                                             /*
                                             "Vacunación Antirrábica" => array(
 

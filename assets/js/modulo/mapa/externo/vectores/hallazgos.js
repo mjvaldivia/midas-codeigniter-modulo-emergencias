@@ -45,6 +45,7 @@ var MapaVectoresHallazgos = Class({
                             } else {
                                 var icono = baseUrl + "assets/img/markers/otros/mosquito-rojo.png"
                             }
+                            
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
                             marcador.posicionarMarcador("vectores_hallazgos_" + valor.id, null , valor.lng, valor.lat, valor.propiedades, null, icono);

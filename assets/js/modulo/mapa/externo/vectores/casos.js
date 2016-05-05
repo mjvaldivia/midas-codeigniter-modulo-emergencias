@@ -40,7 +40,12 @@ var MapaVectores = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            var icono = baseUrl + "assets/img/markers/vectores.png"
+                            if(valor.propiedades.resultado == "Negativo"){
+                                var icono = baseUrl + "assets/img/markers/otros/radar.png"
+                            } else {
+                                var icono = baseUrl + "assets/img/markers/otros/radar_rojo.png"
+                            }
+                            //var icono = baseUrl + "assets/img/markers/vectores.png"
                             
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
