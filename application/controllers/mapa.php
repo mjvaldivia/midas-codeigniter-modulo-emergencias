@@ -266,6 +266,32 @@ class Mapa extends MY_Controller {
         );
     }
     
+    public function info_hallazgos(){
+        $this->load->library("visor/externo/visor_externo_hallazgos");
+        header('Content-type: application/json'); 
+        $casos = array();
+
+        
+        $lista = $this->visor_externo_hallazgos->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+
+                $propiedades = $row;
+             
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $row["lat"],
+                                 "lng" => $row["lon"]);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
     /**
      * 
      */
