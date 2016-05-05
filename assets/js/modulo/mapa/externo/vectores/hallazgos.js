@@ -40,8 +40,11 @@ var MapaVectoresHallazgos = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            var icono = baseUrl + "assets/img/markers/vectores.png"
-                            
+                            if(valor.propiedades.resultado == "Negativo"){
+                                var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
+                            } else {
+                                var icono = baseUrl + "assets/img/markers/otros/mosquito-rojo.png"
+                            }
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
                             marcador.posicionarMarcador("vectores_hallazgos_" + valor.id, null , valor.lng, valor.lat, valor.propiedades, null, icono);
