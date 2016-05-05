@@ -383,9 +383,11 @@ var MapaElementos = Class({
                             marea_roja.load(yo.mapa);
                             $("#marea_roja").prop("checked", true);
                             
-                            $("#marea-roja-contenedor-filtro-colores").removeClass("hidden");
-                            $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
-                            $("#marea-roja-pm-contenedor-filtro-colores").find("input").prop("checked", false);
+                            $("#marea-roja-contenedor-filtro-colores").waitUntilExists(function(){
+                                $("#marea-roja-contenedor-filtro-colores").removeClass("hidden");
+                                $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
+                                $("#marea-roja-pm-contenedor-filtro-colores").find("input").prop("checked", false);
+                            });
                         } else {
                             $("#marea_roja").prop("checked", false);
                         }
@@ -398,9 +400,11 @@ var MapaElementos = Class({
                             marea_roja.load(yo.mapa);
                             $("#marea_roja_pm").prop("checked", true);
                             
-                            $("#marea-roja-contenedor-filtro-colores").addClass("hidden");
-                            $("#marea-roja-pm-contenedor-filtro-colores").removeClass("hidden");
-                            $("#marea-roja-contenedor-filtro-colores").find("input").prop("checked", false);
+                            $("#marea-roja-contenedor-filtro-colores").waitUntilExists(function(){
+                                $("#marea-roja-contenedor-filtro-colores").addClass("hidden");
+                                $("#marea-roja-pm-contenedor-filtro-colores").removeClass("hidden");
+                                $("#marea-roja-contenedor-filtro-colores").find("input").prop("checked", false);
+                            });
                         } else {
                             $("#marea_roja_pm").prop("checked", false);
                         }
