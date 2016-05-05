@@ -47,6 +47,19 @@ var MapaLayoutFormMareaRoja = Class({
                     }
                 });
                 
+                $("#marea_roja_resultados").ionRangeSlider({
+                    type: "double",
+                    min: 0,
+                    max: 5000,
+                    grid: true,
+                    step: 10,
+                    keyboard: true,
+                    keyboard_step: 1,
+                    onFinish: function (data) {
+                        yo.filtrar(); 
+                    }
+                });
+                
                 $("#marea_roja_fecha_muestra_desde").datetimepicker({
                     format: "DD/MM/YYYY",
                     locale: "es"
@@ -68,6 +81,10 @@ var MapaLayoutFormMareaRoja = Class({
                 $("#marea_roja_recurso").change(function(){
                     yo.filtrar(); 
                 });
+                
+                $(".marea-roja-color").click(function(){
+                    yo.filtrar(); 
+                });
             }
         });
     },
@@ -78,13 +95,22 @@ var MapaLayoutFormMareaRoja = Class({
      */
     filtrar : function(){
         var yo = this;
-        var marea_roja = new MapaMareaRojaCasos();
-
-        marea_roja.seteaMapa(yo.mapa);
         
         if($("#marea_roja").is(":checked")){
+            var marea_roja = new MapaMareaRojaCasos();
+        } else if($("#marea_roja_pm").is(":checked")){
+            var marea_roja = new MapaMareaRojaCasosPm();
+        }
+        
+        
+        marea_roja.seteaMapa(yo.mapa);
+        
+        if($("#marea_roja").is(":checked") || $("#marea_roja_pm").is(":checked")){
             marea_roja.filtrar();
         }
+        
+        console.log("Filtrando");
+        
         this.resumen();
     },
     
@@ -114,16 +140,21 @@ var MapaLayoutFormMareaRoja = Class({
            // resumen += descripcion + ": todas";
         }
         
-        
-        if($("#marea_roja_recurso").val() != ""){
+         var recursos_seleccionados = jQuery.grep($("#formulario-marea-roja").serializeArray(), function( a ) {
+            if(a.name == "marea_roja_recurso[]"){
+                return true;
+            }
+        });
+
+        if(recursos_seleccionados.length > 0){
             resumen = this.agregaComa(resumen);
             resumen += "Recurso: " + $("#marea_roja_recurso option:selected").text();
-        } else {
-            resumen = this.agregaComa(resumen);
-            resumen += "Estado: todos";
         }
+
         
-        
+        var slider = $("#marea_roja_resultados").data("ionRangeSlider");
+        resumen = this.agregaComa(resumen);
+        resumen += "Resultados: " + slider.result.from + " a " + slider.result.to;
 
         $("#configuracion-filtros-marea-roja-resumen").html("<strong>Marea roja:</strong> " + resumen);
     },

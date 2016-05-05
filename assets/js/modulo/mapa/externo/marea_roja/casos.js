@@ -23,6 +23,10 @@ var MapaMareaRojaCasos = Class({
     load : function(){
         var yo = this;
         if(marea_roja_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
+            
+            $("#marea_roja").attr("disabled", true);
+            $("#marea_roja_pm").attr("disabled", true);
+            
             Messenger().run({
                 action: $.ajax,
                 successMessage: '<strong> Marea roja </strong> <br> Ok',
@@ -40,42 +44,20 @@ var MapaMareaRojaCasos = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            if(valor.resultado == "ND" || parseInt(valor.resultado) <= 80){
-                                var icono = baseUrl + "assets/img/markers/marisco/1.png"
-                            } else {
-                       
-                                if(parseInt(valor.resultado) > 80 && parseInt(valor.resultado) <= 120){
-                                    var icono = baseUrl + "assets/img/markers/marisco/2.png";
-                                }
-
-                                if(parseInt(valor.resultado) > 120 && parseInt(valor.resultado) <= 200 ){
-                                    var icono = baseUrl + "assets/img/markers/marisco/3.png";
-                                }
-
-                                if(parseInt(valor.resultado) > 200 && parseInt(valor.resultado) <= 1000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/4.png";
-                                } 
-                                
-                                if(parseInt(valor.resultado) > 1000 && parseInt(valor.resultado) <= 3000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/5.png";
-                                } 
-                                
-                                if(parseInt(valor.resultado) > 3000){
-                                    var icono = baseUrl + "assets/img/markers/marisco/6.png";
-                                } 
-                            }
+                            var icono = yo.coloresIcono(valor);
                             
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
                             marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
                             
-                            var fecha_muestra = moment(valor.propiedades["FECHA"], "DD-MM-YYYY", true);
+                            var fecha_muestra = moment(valor.fecha_muestra, "DD-MM-YYYY", true);
                             
                             marea_roja_marcador.push(
                                 {
                                     "identificador" : "marea_roja_" + valor.id,
                                     "fecha_muestra" : fecha_muestra,
-                                    "recurso": valor.propiedades["RECURSO"]
+                                    "recurso": valor.propiedades["RECURSO"],
+                                    "resultados": valor.propiedades["RESULTADO"]
                                 }
                             );
 
@@ -87,12 +69,47 @@ var MapaMareaRojaCasos = Class({
                     }
                     
                     $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    $("#marea_roja").attr("disabled", false);
+                    $("#marea_roja_pm").attr("disabled", false);
                }
             });
         }
     },
     
+    /**
+     * 
+     * @param {object} valor
+     * @returns {String}
+     */
+    coloresIcono : function(valor){
+        var icono = "";
+        if(valor.resultado == "ND" || valor.resultado == "nd"){
+            icono = baseUrl + "assets/img/markers/marisco/marcador-verde.png"
+        } else {
+            
+            if(50 > parseInt(valor.resultado)){
+                icono = baseUrl + "assets/img/markers/marisco/marcador-azul.png";
+            }
+            
+            if( 80 > parseInt(valor.resultado) && parseInt(valor.resultado) >= 50){
+                icono = baseUrl + "assets/img/markers/marisco/marcador-amarillo.png";
+            }
+            
+            if(parseInt(valor.resultado) >= 80){
+                icono = baseUrl + "assets/img/markers/marisco/marcador-rojo.png";
+            }
+            
+        }
+        
+        return icono;
+    },
     
+    /**
+     * 
+     * @param {type} marker
+     * @returns {Boolean}
+     */
     verFiltros : function(marker){
         var yo = this;
         var ok = true;
@@ -122,6 +139,25 @@ var MapaMareaRojaCasos = Class({
         }
         
         if(ok){
+            var slider = $("#marea_roja_resultados").data("ionRangeSlider");
+            //console.log(marker["resultados"]);
+            if(slider.result.from != 0 && marker["resultados"] == "ND"){
+                ok = false;
+            } else {
+                if(marker["resultados"] != "ND"){
+                    if(slider.result.from > parseInt(marker["resultados"])){
+                        ok = false;
+                    }
+                    
+                    if(slider.result.to < parseInt(marker["resultados"])){
+                        ok = false;
+                    }
+                }
+                
+            }
+        }
+        
+        if(ok){
             
             //console.log($("#formulario-marea-roja").serializeArray());
             //no funciona el $(this).val() para el plugin chosen, se efectua parche
@@ -130,9 +166,7 @@ var MapaMareaRojaCasos = Class({
                     return true;
                 }
             });
-            
-           
-            
+
             if(recursos_seleccionados.length > 0){
 
                 var encontrados = jQuery.grep(recursos_seleccionados, function( a ) {
@@ -146,6 +180,41 @@ var MapaMareaRojaCasos = Class({
                 }
             }        
         }
+        
+        if(ok){
+            var retorno = false;
+            $(".marea-roja-color").each(function(i, obj){
+                if($(obj).is(":checked")){
+                    if($(obj).data("only")){
+                        if(marker["resultados"].toUpperCase() == $(obj).data("only")){
+                            retorno = true;
+                        }
+                    } else {
+                        
+                        if($(obj).data("add")){
+                            if(marker["resultados"].toUpperCase() == $(obj).data("add")){
+                                retorno = true;
+                            }
+                        }
+                        
+                        
+                        if($(obj).data("to") && $(obj).data("to")!=""){
+                            if(parseInt(marker["resultados"]) >= parseInt($(obj).data("from")) && parseInt(marker["resultados"]) <= parseInt($(obj).data("to"))){
+                                retorno = true;
+                            }
+                        } else {
+                            if(parseInt(marker["resultados"]) >= parseInt($(obj).data("from"))){
+                                retorno = true;
+                            }
+                        }
+                    }
+                }
+            });
+            
+            ok = retorno;
+        }
+        
+        
         return ok;
     },
     

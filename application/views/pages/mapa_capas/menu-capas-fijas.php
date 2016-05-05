@@ -1,6 +1,6 @@
 
 <li class="col-sm-3">
-    <ul id="vigilancia-columna-1" class="capas-columna">
+    <ul id="vigilancia-columna-1" class="capas-columna-vigilancia">
         <li class="dropdown-header"> OTROS </li>
         <li>
             <a id="btn-importar-sidco" href="javascript:void(0)">
@@ -14,10 +14,21 @@
                 <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/otros/animal.png") ?>"></i> Rabia - vacunación 
             </a>
         </li>
+        <li class="divider"></li>
         <li>
-            <a id="btn-importar-marea-roja" href="javascript:void(0)">
+            <a id="btn-importar-marea-roja" href="javascript:void(0)" class="btn-importar-marea-roja">
                 <input type="checkbox" name="marea_roja" id="marea_roja" value="1"/> 
-                <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/marisco/rojo.png") ?>"></i> Marea roja 
+                <i class="fa">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
+                </i> Marea roja 
+            </a>
+        </li>
+        <li>
+            <a id="btn-importar-marea-roja" href="javascript:void(0)" class="btn-importar-marea-roja">
+                <input type="checkbox" name="marea_roja_pm" id="marea_roja_pm" value="1"/> 
+                <i class="fa">
+                    <img src="<?php echo base_url("assets/img/markers/marisco/marcador-rojo.png") ?>">
+                </i> Marea roja - PM
             </a>
         </li>
         <li>
@@ -26,10 +37,12 @@
                 <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/vectores.png") ?>"></i> Vectores
             </a>
         </li>
+        
+
     </ul>
 </li>
 <li class="col-sm-3">
-    <ul id="vigilancia-columna-2" class="capas-columna">
+    <ul id="vigilancia-columna-2" class="capas-columna-vigilancia">
         <?php if(puedeAbrirVisorEmergencia("casos_febriles")) { ?>
         <li class="dropdown-header"> ISLA DE PASCUA </li>
         <li><a id="btn-importar-rapanui-casos" href="javascript:void(0)"><input type="checkbox" name="importar_rapanui_casos" id="importar_rapanui_casos" value="1"/> <i class="fa"><img width="20px" src="<?php echo base_url("assets/img/markers/epidemiologico/caso_sospechoso.png") ?>"></i> Casos febriles </a></li>

@@ -20,6 +20,7 @@ class Marea_roja extends MY_Controller
         sessionValidation();
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
+        $this->load->model("modulo_model", "_modulo_model");
     }
     
     /**
@@ -194,6 +195,106 @@ class Marea_roja extends MY_Controller
     }
     
     /**
+     * 
+     */
+    public function ajax_form_excel(){
+        $this->load->view("pages/marea_roja/form_excel", array("fecha" => date("d/m/Y")));
+    }
+    
+    /**
+     * Genera excel para casos de dengue
+     */
+    public function excel()
+    {
+
+        $params = $this->uri->uri_to_assoc();
+        
+        $this->load->helper(
+            array(
+                "modulo/usuario/usuario",
+                "modulo/formulario/formulario"
+            )
+        );
+
+        $fecha_desde = null;
+        if($params["fecha_desde"]!=""){
+            $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
+        }
+        
+        $fecha_hasta = null;
+        if($params["fecha_hasta"]!=""){
+            $fecha_hasta = DateTime::createFromFormat("d_m_Y", $params["fecha_hasta"]);
+        }
+        
+
+
+        $this->load->library("excel");
+        $lista = $this->_marea_roja_model->listar(array("fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta));
+        //DIE();
+        $datos_excel = array();
+        if (!is_null($lista)) {
+            
+            foreach ($lista as $caso) {
+                $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
+                $datos_excel[count($datos_excel)-1]["id"] = $caso["id"];
+                $datos_excel[count($datos_excel)-1]["fecha_ingreso"] = $caso["fecha"];
+            }
+
+            $excel = $this->excel->nuevoExcel();
+            
+            $excel->getProperties()
+                ->setCreator("Midas - Emergencias")
+                ->setLastModifiedBy("Midas - Emergencias")
+                ->setTitle("Exportación de marea roja")
+                ->setSubject("Emergencias")
+                ->setDescription("Marea roja")
+                ->setKeywords("office 2007 openxml php sumanet")
+                ->setCategory("Midas");
+
+            $columnas = reset($datos_excel);
+
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MUESTREO"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "FECHA DE TOMA DE MUESTRA"); 
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, 1, "FECHA INGRESO"); 
+            
+            $i = 3;
+            foreach($columnas as $columna => $valor){
+                if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
+                $i++;
+                }
+            }
+
+            $j = 2;
+            foreach ($datos_excel as $id => $valores) {
+
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $valores["FECHA"]);
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, $valores["fecha_ingreso"]);
+                
+                $i = 3;
+                foreach ($columnas as $columna => $valor) {
+               
+                    if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
+                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
+                    $i++;
+                    }
+                    
+                }
+                $j++;
+            }
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="marea_roja_'.date('d-m-Y').'.xlsx"');
+            header('Cache-Control: max-age=0');
+            $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $objWriter->save('php://output');
+        } else {
+            echo "No hay registros para generar el excel";
+        }
+    }
+    
+    /**
      *
      */
     public function ajax_lista()
@@ -203,6 +304,13 @@ class Marea_roja extends MY_Controller
                 "modulo/usuario/usuario",
             )
         );
+        
+        $this->load->library(
+            array(
+                "core/fecha/fecha_conversion"
+            )
+        );
+        
         $lista = $this->_marea_roja_model->listar();
 
         $casos = array();
@@ -210,22 +318,37 @@ class Marea_roja extends MY_Controller
         if (!is_null($lista)) {
             foreach ($lista as $caso) {
                 
+                $fecha_formato = "";
+                $fecha_ingreso = "";
                 
-
                 $propiedades = json_decode($caso["propiedades"]);
                 
-                $fecha = DateTime::createFromFormat("d-m-Y", $propiedades->FECHA);
+                
+                $fecha = $this->fecha_conversion->fechaToDateTime(
+                    $propiedades->FECHA,
+                    array(
+                        "d-m-Y",
+                        "d/m/Y"
+                    )
+                );
+                
                 if ($fecha instanceof DateTime) {
                     $fecha_formato = $fecha->format("d/m/Y");
+                }
+                
+                $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $caso["fecha"]);
+                if($fecha instanceof DateTime){
+                    $fecha_ingreso = $fecha->format("d/m/Y");
                 }
                 
                 $casos[] = array(
                     "id" => $caso["id"],
                     "id_usuario" => $caso["id_usuario"],
-                    "fecha" => $fecha_formato,
+                    "fecha_ingreso" => $fecha_ingreso,
+                    "fecha_muestra" => $fecha_formato,
                     "recurso" => strtoupper($propiedades->RECURSO),
                     "origen" => strtoupper($propiedades->ORIGEN),
-                    "comuna" => $caso->id_comuna,
+                    "comuna" => $caso["id_comuna"],
                     "resultado" => $propiedades->RESULTADO
                 );
 

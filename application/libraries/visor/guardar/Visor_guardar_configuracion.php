@@ -52,6 +52,12 @@ Class Visor_guardar_configuracion{
     
     /**
      *
+     * @var boolean 
+     */
+    protected $_bo_marea_roja_pm;
+    
+    /**
+     *
      * @var string 
      */
     protected $_tipo_mapa;
@@ -97,6 +103,11 @@ Class Visor_guardar_configuracion{
         return $this;
     }
     
+    /**
+     * 
+     * @param float $lat
+     * @return \Visor_guardar_configuracion
+     */
     public function setLatitud($lat){
         if($lat != ""){
             $this->_latitud = $lat;
@@ -104,6 +115,11 @@ Class Visor_guardar_configuracion{
         return $this;
     }
     
+    /**
+     * 
+     * @param float $lng
+     * @return \Visor_guardar_configuracion
+     */
     public function setLongitud($lng){
         if($lng != ""){
             $this->_longitud = $lng;
@@ -127,6 +143,16 @@ Class Visor_guardar_configuracion{
     */
     public function setMareaRoja($boolean){
         $this->_bo_marea_roja = $boolean;
+        return $this;
+    }
+    
+    /**
+    * 
+    * @param type $boolean
+    * @return \Visor_guardar_configuracion
+    */
+    public function setMareaRojaPm($boolean){
+        $this->_bo_marea_roja_pm = $boolean;
         return $this;
     }
     
@@ -171,7 +197,8 @@ Class Visor_guardar_configuracion{
                       "kml_sidco"     => $this->_bo_sidco_conaf,
                       "bo_casos_febriles" => $this->_bo_casos_febriles,
                       "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona,
-                      "bo_marea_roja" => $this->_bo_marea_roja);
+                      "bo_marea_roja" => $this->_bo_marea_roja,
+                      "bo_marea_roja_pm" => $this->_bo_marea_roja_pm);
         
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($this->_id_emergencia);
         if(is_null($configuracion)){

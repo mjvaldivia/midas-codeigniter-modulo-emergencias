@@ -57,9 +57,9 @@
                                     <label for="nombre" class="control-label">Calidad de georeferenciación(*):</label>
                                     <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion" class="form-control">
                                         <option value="">-- seleccione un valor --</option>
-                                        <option <?php if($calidad_de_georeferenciacion == "GPS (Exacta)"); ?> value="GPS (Exacta)">GPS Exacta</option>
-                                        <option <?php if($calidad_de_georeferenciacion == "Aproximación confiable"); ?> value="Aproximación confiable">Aproximación confiable</option>
-                                        <option <?php if($calidad_de_georeferenciacion == "Requiere confirmación"); ?> value="Requiere confirmación">Requiere confirmación</option>
+                                        <option <?php if($calidad_de_georeferenciacion == "GPS (Exacta)") echo "selected"; ?> value="GPS (Exacta)">GPS Exacta</option>
+                                        <option <?php if($calidad_de_georeferenciacion == "Aproximación confiable") echo "selected"; ?> value="Aproximación confiable">Aproximación confiable</option>
+                                        <option <?php if($calidad_de_georeferenciacion == "Requiere confirmación") echo "selected"; ?> value="Requiere confirmación">Requiere confirmación</option>
                                     </select>
                                     <span class="help-block hidden"></span>
                                 </div>
@@ -101,6 +101,7 @@
                                         <select name="recurso" id="recurso" class="form-control">
                                             <option value="">-- Seleccione un valor --</option>
                                             <option <?php if($recurso == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
+                                            <option <?php if($recurso == "CHOCHAYUYO") echo "selected"; ?> value="CHOCHAYUYO"> CHOCHAYUYO </option>
                                             <option <?php if($recurso == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
                                             <option <?php if($recurso == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
                                             <option <?php if($recurso == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
@@ -108,11 +109,16 @@
                                             <option <?php if($recurso == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>
                                             <option <?php if($recurso == "CULENGUE") echo "selected"; ?> value="CULENGUE"> CULENGUE </option>
                                             <option <?php if($recurso == "LOCO") echo "selected"; ?> value="LOCO"> LOCO </option>
+                                            <option <?php if($recurso == "LUCHE") echo "selected"; ?> value="LUCHE"> LUCHE </option>
                                             <option <?php if($recurso == "MACHAS") echo "selected"; ?> value="MACHAS"> MACHAS </option>
                                             <option <?php if($recurso == "NAVAJUELA") echo "selected"; ?> value="NAVAJUELA"> NAVAJUELA </option>
                                             <option <?php if($recurso == "OSTRA CH") echo "selected"; ?> value="OSTRA CH"> OSTRA CH </option>
+                                            <option <?php if($recurso == "OSTRA JP") echo "selected"; ?> value="OSTRA JP"> OSTRA JP </option>
                                             <option <?php if($recurso == "OSTRAS") echo "selected"; ?> value="OSTRAS"> OSTRAS </option>
+                                            
+                                            <option <?php if($recurso == "PICOROCO") echo "selected"; ?> value="PICOROCO"> PICOROCO </option>
                                             <option <?php if($recurso == "PIURE") echo "selected"; ?> value="PIURE"> PIURE </option>
+                                            
                                             <option <?php if($recurso == "TUMBAO") echo "selected"; ?> value="TUMBAO"> TUMBAO </option>
                                         </select>
                                         <span class="help-block hidden"></span>

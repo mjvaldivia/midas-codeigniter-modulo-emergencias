@@ -22,7 +22,9 @@ class Template
 
     function load($tpl_view, $body_view = null, $data = null)
     {
+
         //$data = array_merge($data, $this->ci->session->all_userdata());
+
 
         if ( ! is_null( $body_view ) )
         {

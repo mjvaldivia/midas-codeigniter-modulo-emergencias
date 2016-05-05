@@ -56,10 +56,22 @@ class Marea_Roja_Model extends MY_Model {
      * @param array $parametros
      * @return array
      */
-    public function listar(){
+    public function listar($parametros = array()){
         $query = $this->_query->select("a.*")
                                ->from($this->_tabla . " a")
                                ->orderBy("id", "DESC");
+        
+        if(!empty($parametros["fecha_desde"]) && $parametros["fecha_desde"] instanceof DateTime){
+            
+            $query->whereAND("DATE_FORMAT(a.fecha,'%Y-%m-%d')", $parametros["fecha_desde"]->format("Y-m-d"), ">=");
+        }
+        
+        if(!empty($parametros["fecha_hasta"]) && $parametros["fecha_hasta"] instanceof DateTime){
+            $query->whereAND("DATE_FORMAT(a.fecha ,'%Y-%m-%d')", $parametros["fecha_hasta"]->format("Y-m-d"), "<=");
+        }
+        
+        
+        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;

@@ -237,7 +237,6 @@ var MapaEditor = Class({
      * @returns {void}
      */
     guardar : function(){
-        console.log("Zoom de mapa " + this.mapa.getZoom() );
         var custom = new MapaElementos();
         
         var yo = this;
@@ -253,7 +252,7 @@ var MapaEditor = Class({
                           "casos_febriles" : $("#importar_rapanui_casos").is(":checked") ? 1:0,
                           "casos_febriles_zona" : $("#importar_rapanui_zonas").is(":checked") ? 1:0,
                           "marea_roja" : $("#marea_roja").is(":checked") ? 1:0,
-                          
+                          "marea_roja_pm" : $("#marea_roja_pm").is(":checked") ? 1:0,
                           "kmls" : this.class_kml.listArchivosKml(),
                           
                           "id" : this.id_emergencia};
@@ -366,10 +365,61 @@ var MapaEditor = Class({
                 var marea_roja = new MapaMareaRojaCasos();
                 marea_roja.seteaMapa(map);
                 if($(this).is(":checked")){
+                    
+                    if($("#marea_roja_pm").is(":checked")){
+                        var marea_roja_pm = new MapaMareaRojaCasosPm();
+                        marea_roja_pm.remove();
+                        $("#marea_roja_pm").prop("checked", false);
+                    }
+                    
                     marea_roja.load();
+                    
+                    // muestra el formulario
                     $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    //muestra filtro de colores
+                    $("#marea-roja-contenedor-filtro-colores").removeClass("hidden");
+                    $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
+                    
+                    //se quita seleccion de colores en filtro
+                    $(".marea-roja-color").prop("checked", true);
+                    $("#marea-roja-pm-contenedor-filtro-colores").find("input").prop("checked", false);
                 } else {
                     marea_roja.remove();
+                    $("#formulario-marea-roja-contenedor").addClass("hidden");
+                }
+            });
+        });
+        
+        $("#marea_roja_pm").livequery(function(){
+            $(this).click(function(){
+                
+                var marea_roja_pm = new MapaMareaRojaCasosPm();
+                
+                marea_roja_pm.seteaMapa(map);
+                
+                if($(this).is(":checked")){
+                    
+                    if($("#marea_roja").is(":checked")){
+                        var marea_roja = new MapaMareaRojaCasos();
+                        marea_roja.remove();
+                        $("#marea_roja").prop("checked", false);
+                    }
+                    
+                     marea_roja_pm.load();
+                    
+                    // muestra el formulario
+                    $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    //muestra filtro de colores
+                    $("#marea-roja-contenedor-filtro-colores").addClass("hidden");
+                    $("#marea-roja-pm-contenedor-filtro-colores").removeClass("hidden");
+                    
+                    //se quita seleccion de colores en filtro
+                    $(".marea-roja-color").prop("checked", true);
+                    $("#marea-roja-contenedor-filtro-colores").find("input").prop("checked", false);
+                } else {
+                     marea_roja_pm.remove();
                     $("#formulario-marea-roja-contenedor").addClass("hidden");
                 }
             });
