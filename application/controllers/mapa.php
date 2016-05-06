@@ -375,6 +375,8 @@ class Mapa extends MY_Controller {
                 $propiedades["REGION"] = nombreRegion($propiedades["REGION"]);
                 $propiedades["COMUNA"] = nombreComuna($propiedades["COMUNA"]);
                 
+                unset($propiedades["INGRESADO POR"]);
+                
                 $coordenadas = Zend_Json::decode($row["coordenadas"]);
                 
                 $casos[] = array(
