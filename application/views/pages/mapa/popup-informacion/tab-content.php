@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="table-responsive" data-row="5" style="width:100%">
-                        <table class="table table-hover table-letra-pequena datatable paginada">
+                        <table data-export="excel" class="table table-hover table-letra-pequena datatable paginada">
                             <thead>
                                 <tr>
                                 <?php 
@@ -82,7 +82,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="table-responsive" data-row="5" style="width:100%">
-                        <table class="table table-hover table-letra-pequena datatable paginada">
+                        <table data-export="excel" class="table table-hover table-letra-pequena datatable paginada">
                             <thead>
                                 <tr>
                                 <?php 
