@@ -10,7 +10,7 @@ function nombreComuna($id_comuna){
     $_ci->load->model("comuna_model", "_comuna_model");
     $comuna = $_ci->_comuna_model->getById($id_comuna);
     if(!is_null($comuna)){
-        return $comuna->nombre;
+        return $comuna->com_c_nombre;
     }
 }
 
