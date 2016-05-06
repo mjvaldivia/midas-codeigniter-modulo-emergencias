@@ -14,7 +14,6 @@ $(document).ready(function() {
                 success:function(data){
                     $("#comuna").html("<option value=\"\"> -- Seleccione un valor -- </option>");
                     $.each(data.comunas, function(i, val){
-                        console.log(val);
                         $("#comuna").append("<option value=\"" + val.com_ia_id +"\">" + val.com_c_nombre + "</option>")
                     });
                 }

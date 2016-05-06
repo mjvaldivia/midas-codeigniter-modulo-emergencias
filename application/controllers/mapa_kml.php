@@ -187,7 +187,7 @@ class Mapa_kml extends MY_Controller {
         $this->zip->add($hash . ".kml", $file_path);
         unlink($file_path);
         
-        
+        if(count($params["images"])>0){
         foreach($params["images"] as $codigo){
             if($imagen = $cache->load($codigo)){
                 $file_path = FCPATH . "media/tmp/" . $imagen["name"];
@@ -195,6 +195,7 @@ class Mapa_kml extends MY_Controller {
                 $this->zip->add("icons/" . $imagen["name"], $file_path);
                 unlink($file_path);
             }
+        }
         }
 
         $kmz = file_get_contents($this->zip->create());
