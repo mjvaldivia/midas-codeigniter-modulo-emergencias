@@ -21,7 +21,9 @@
             
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="instalaciones">
-                    <?php echo visorElementoInstalaciones($lista_marcadores); ?>
+                    <div class="top-spaced">
+                        <?php echo visorElementoInstalaciones($lista_marcadores); ?>
+                    </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="zonas">
                     <?php echo visorElementoFormas($lista_formas); ?>

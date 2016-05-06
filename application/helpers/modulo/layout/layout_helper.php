@@ -19,6 +19,11 @@ function menuRender(){
     return $menu->render();
 }
 
+function jsDatatable(){
+    $ci =& get_instance();
+    return $ci->load->view("templates/js-datatable", array(), true);
+}
+
 /**
  * Muestra cerrado o abierto el menu
  * @return string

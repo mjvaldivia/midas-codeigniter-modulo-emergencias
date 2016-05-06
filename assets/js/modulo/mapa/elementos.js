@@ -134,7 +134,7 @@ var MapaElementos = Class({
             bounds: coordenadas
         });
         
-        var circuloClickListener = new MapaInformacionElemento();
+        var circuloClickListener = new MapaPoligonoInformacion();
         circuloClickListener.addRightClickListener(rectangle, this.mapa);
         
 

@@ -1,3 +1,5 @@
+var tablas = {};
+
 $.fn.hasAttr = function(name) {  
    return this.attr(name) !== undefined;
 };
@@ -21,7 +23,15 @@ function formatState (state) {
 };
 
 $(document).ready(function() {
-
+    
+    //boton para exportar tabla a excel
+    $(".buttons-excel").livequery(function(){
+       $(this).html("<i class=\"fa fa-download\"></i> Exportar tabla a excel");
+       $(this).removeClass("dt-button");
+       $(this).addClass("btn btn-primary btn-xs");
+    });
+    
+    
     $(".rut:input").mask('0000000000-A', {reverse: true});
     
     Messenger.options = {
@@ -103,6 +113,7 @@ $(document).ready(function() {
     });
 
     $(".datatable.paginada").livequery(function(){
+        
         if($(this).parent().hasAttr('data-row')) {
             var filas = parseInt($(this).parent().attr("data-row"));
         } else {
@@ -110,12 +121,22 @@ $(document).ready(function() {
         }
         
         var id = $(this).attr("id");
-        $(this).dataTable({
-            "lengthMenu": [[5,10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        
+        var buttons = [];
+        if($(this).data("export")){
+            buttons = [
+                'excel'
+            ];
+        }
+        
+        var tb = $(this).dataTable({
+            "lengthMenu": [[5,10, 20, 25, 50, 100], [5, 10, 20, 25, 50, 100]],
             "pageLength": filas,
             "destroy" : true,
             "aaSorting": [],
             "deferRender": true,
+            dom: 'Bfrtip',
+            buttons: buttons,
             language: 
             {
                 "sProcessing":     "Procesando...",

@@ -258,7 +258,9 @@ class Mapa extends MY_Controller {
 
 
                 $propiedades = $row;
-             
+                
+                $propiedades["TIPO"] = "VECTORES";
+                
                 $casos[] = array("id" => $row["id"],
                                  "propiedades" => $propiedades,
                                  "lat" => $row["lat"],
@@ -287,7 +289,7 @@ class Mapa extends MY_Controller {
 
 
                 $propiedades = $row;
-             
+                $propiedades["TIPO"] = "HALLAZGOS VECTORES";
                 $casos[] = array("id" => $row["id"],
                                  "propiedades" => $propiedades,
                                  "lat" => $row["lat"],
@@ -340,7 +342,11 @@ class Mapa extends MY_Controller {
         header('Content-type: application/json'); 
         
         $this->load->helper(
-            "modulo/usuario/usuario"
+            array(
+                "modulo/usuario/usuario",
+                "modulo/direccion/region",
+                "modulo/comuna/default"
+            )
         );
         
         $this->load->library(
@@ -366,7 +372,9 @@ class Mapa extends MY_Controller {
                 
                 $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
                 $propiedades["TIPO"] = "MAREA ROJA";
- 
+                $propiedades["REGION"] = nombreRegion($propiedades["REGION"]);
+                $propiedades["COMUNA"] = nombreComuna($propiedades["COMUNA"]);
+                
                 $coordenadas = Zend_Json::decode($row["coordenadas"]);
                 
                 $casos[] = array(

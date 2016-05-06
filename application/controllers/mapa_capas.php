@@ -60,6 +60,9 @@ class Mapa_capas extends MY_Controller {
         echo Zend_Json::encode($retorno);
     }
     
+    /**
+     * 
+     */
     public function json_capa_elemento(){
         header('Content-type: application/json');  
         $params = $this->input->post(null, true);
@@ -86,17 +89,20 @@ class Mapa_capas extends MY_Controller {
             $nombre_tipo     = $tipo["ccb_c_categoria"];
              
 
-            $this->load->view("pages/mapa_capas/popup-informacion", 
-                              array("nombre_subcapa" => $nombre_subcapa,
-                                    "tipo" => $params["tipo"],
-                                    "color" => $params["color"],
-                                    "identificador" => $params["identificador"],
-                                    "clave" => $params["clave"],
-                                    "nombre_capa"    => $nombre_capa,
-                                    "nombre_tipo"   => $nombre_tipo,
-                                    "informacion" => $informacion,
-                                    "lista_formas" => json_decode($params["formas"]),
-                                    "lista_marcadores"  => json_decode($params["marcadores"])));
+            $this->load->view(
+                "pages/mapa_capas/popup-informacion", 
+                array(
+                    "nombre_subcapa" => $nombre_subcapa,
+                    "tipo" => $params["tipo"],
+                    "color" => $params["color"],
+                    "identificador" => $params["identificador"],
+                    "clave" => $params["clave"],
+                    "nombre_capa"    => $nombre_capa,
+                    "nombre_tipo"   => $nombre_tipo,
+                    "informacion" => $informacion,
+                    "lista_formas" => json_decode($params["formas"]),
+                    "lista_marcadores"  => json_decode($params["marcadores"]))
+                );
         } else {
             throw new Exception(__METHOD__ . " - La capa no existe");
         }

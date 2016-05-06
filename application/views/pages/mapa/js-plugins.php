@@ -93,10 +93,11 @@
 <!-- Base del visor-->
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 
-<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
+
+
+<?php echo jsDatatable(); ?>
+
 
 <?= loadJS("assets/js/library/ionslider/js/ion-rangeSlider/ion.rangeSlider.min.js"); ?>
 

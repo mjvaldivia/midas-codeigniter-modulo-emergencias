@@ -13,6 +13,12 @@ Class Visor_Elemento_Informacion_Marcadores{
     protected $_lista_capas = array();
     
     /**
+     * Lista de marcadores pertenecientes a capas externas
+     * @var array
+     */
+    protected $_lista_externos = array();
+    
+    /**
      * Lista de marcadores agregados
      * @var array
      */
@@ -71,19 +77,21 @@ Class Visor_Elemento_Informacion_Marcadores{
      * @return string html
      */
     public function render(){
-        if((count($this->_lista_capas) + count($this->_lista_otros))>0){
+        if((count($this->_lista_capas) + count($this->_lista_otros) + count($this->_lista_externos))>0){
             $html = $this->_ci->load->view(
                     "pages/mapa/popup-informacion/tab-header", 
                     array("prefix" => $this->_prefix,
                           "lista_capas" => $this->_lista_capas,
-                          "lista_otros" => $this->_lista_otros), 
+                          "lista_otros" => $this->_lista_otros,
+                          "lista_externos" => $this->_lista_externos), 
                     true);
             
             $html .= $this->_ci->load->view(
                     "pages/mapa/popup-informacion/tab-content", 
                     array("prefix" => $this->_prefix,
                           "lista_capas" => $this->_lista_capas,
-                          "lista_otros" => $this->_lista_otros), 
+                          "lista_otros" => $this->_lista_otros,
+                          "lista_externos" => $this->_lista_externos), 
                     true);
             
             return $html;
@@ -113,7 +121,11 @@ Class Visor_Elemento_Informacion_Marcadores{
                     $this->_lista_capas[$subcapa->geometria_id]["marcadores"][] = $marcador;
                 } else {
                     if(count($marcador)>0){
-                        $this->_lista_otros[] = $marcador;
+                        if(isset($marcador->informacion->TIPO)){
+                            $this->_lista_externos[$marcador->informacion->TIPO][] = $marcador;
+                        } else {
+                            $this->_lista_otros[] = $marcador;
+                        }
                     }
                 }
             }
