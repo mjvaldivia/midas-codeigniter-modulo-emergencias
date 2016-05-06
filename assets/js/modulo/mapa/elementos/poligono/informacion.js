@@ -235,13 +235,14 @@ var MapaPoligonoInformacion = Class({
         
         var yo = this;
         
-        var box = bootbox.dialog({
-                message: '<div class=\"row\"><div class=\"col-xs-12 text-center\"><i class="fa fa-3x fa-spin fa-spinner"></i> <br/> Procesando información </div> </div>',
-                //title: '<i class=\"fa fa-arrow-right\"></i> Datos del elemento',
-                buttons: {}
-            });
 
-        box.on("shown.bs.modal", function() {
+        
+        /*var box = bootbox.dialog({
+                message: '<div class=\"row\"><div class=\"col-xs-12 text-center\"><i class="fa fa-3x fa-spin fa-spinner"></i> <br/> Procesando información </div> </div>',
+                buttons: {}
+            });*/
+
+    
             var contenido = new MapaInformacionElementoContenido();
 
             var elemento_principal = null;
@@ -255,13 +256,13 @@ var MapaPoligonoInformacion = Class({
                 contenido.procesaFormas(elemento, mapa);
             });
 
-            bootbox.hideAll();
+          
+            
             yo.popupInformacion(
                 contenido.retornaMarcadores(), 
                 contenido.retornaFormas(),
                 elemento_principal
             );
-        });
 
     }
 });
