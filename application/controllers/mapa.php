@@ -122,7 +122,7 @@ class Mapa extends MY_Controller {
         $this->load->model('Permiso_Model','PermisoModel');
         $this->load->model('Modulo_Model','ModuloModel');
         $guardar = $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
-
+        
         if(!is_null($emergencia)){
             $data = array("id" => $params["id"],
                           "guardar" => $guardar,

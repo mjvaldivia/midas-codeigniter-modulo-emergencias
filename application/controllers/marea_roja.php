@@ -321,11 +321,11 @@ class Marea_roja extends MY_Controller
                 $fecha_formato = "";
                 $fecha_ingreso = "";
                 
-                $propiedades = json_decode($caso["propiedades"]);
+                $propiedades = Zend_Json::decode($caso["propiedades"]);
                 
                 
                 $fecha = $this->fecha_conversion->fechaToDateTime(
-                    $propiedades->FECHA,
+                    $propiedades["FECHA"],
                     array(
                         "d-m-Y",
                         "d/m/Y"
@@ -346,10 +346,10 @@ class Marea_roja extends MY_Controller
                     "id_usuario" => $caso["id_usuario"],
                     "fecha_ingreso" => $fecha_ingreso,
                     "fecha_muestra" => $fecha_formato,
-                    "recurso" => strtoupper($propiedades->RECURSO),
-                    "origen" => strtoupper($propiedades->ORIGEN),
+                    "recurso" => strtoupper($propiedades["RECURSO"]),
+                    "origen" => strtoupper($propiedades["ORIGEN"]),
                     "comuna" => $caso["id_comuna"],
-                    "resultado" => $propiedades->RESULTADO
+                    "resultado" => $propiedades["RESULTADO"]
                 );
 
             }

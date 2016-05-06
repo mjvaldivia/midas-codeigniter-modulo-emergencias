@@ -13,13 +13,13 @@
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
                         <?php if($guardar):?>
-                        <li>
-                            <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
-                        </li>
+                            <li>
+                                <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
+                            <li class="divider"></li>
                         <?php endif;?>
-                        <li class="divider"></li>
-                        <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
-                        <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
                             <ul class="dropdown-menu">
@@ -30,6 +30,7 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
+                        <?php if($guardar):?>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-download"></i> Importar</a>
@@ -44,7 +45,7 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        
+                        <?php endif;?>
                     </ul>
                 </li>
                 
