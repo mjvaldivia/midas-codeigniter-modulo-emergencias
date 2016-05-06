@@ -25,10 +25,10 @@ var MapaVectoresHallazgos = Class({
         if(vectores_hallazgos_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             Messenger().run({
                 action: $.ajax,
-                successMessage: '<strong> Vectores </strong> <br> Ok',
-                errorMessage: '<strong> Vectores </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
+                successMessage: '<strong> Hallazgos </strong> <br> Ok',
+                errorMessage: '<strong> Hallazgos </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
                 showCloseButton: true,
-                progressMessage: '<strong> Vectores</strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
+                progressMessage: '<strong> Hallazgos </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
             },{        
                 dataType: "json",
                 cache: false,

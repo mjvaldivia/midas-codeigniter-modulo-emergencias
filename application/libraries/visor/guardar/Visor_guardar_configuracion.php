@@ -58,6 +58,18 @@ Class Visor_guardar_configuracion{
     
     /**
      *
+     * @var boolean 
+     */
+    protected $_bo_vectores;
+    
+    /**
+     *
+     * @var boolean 
+     */
+    protected $_bo_vectores_hallazgos;
+    
+    /**
+     *
      * @var string 
      */
     protected $_tipo_mapa;
@@ -138,7 +150,7 @@ Class Visor_guardar_configuracion{
     
    /**
     * 
-    * @param type $boolean
+    * @param boolean $boolean
     * @return \Visor_guardar_configuracion
     */
     public function setMareaRoja($boolean){
@@ -148,11 +160,31 @@ Class Visor_guardar_configuracion{
     
     /**
     * 
-    * @param type $boolean
+    * @param boolean $boolean
     * @return \Visor_guardar_configuracion
     */
     public function setMareaRojaPm($boolean){
         $this->_bo_marea_roja_pm = $boolean;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param boolean $boolean
+     * @return \Visor_guardar_configuracion
+     */
+    public function setVectores($boolean){
+        $this->_bo_vectores = $boolean;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param boolean $boolean
+     * @return \Visor_guardar_configuracion
+     */
+    public function setVectoresHallazgos($boolean){
+        $this->_bo_vectores_hallazgos = $boolean;
         return $this;
     }
     
@@ -189,16 +221,23 @@ Class Visor_guardar_configuracion{
      * 
      */
     public function guardar(){
-        $data = array("id_emergencia" => $this->_id_emergencia,
-                      "tipo_mapa" => $this->_tipo_mapa,
-                      "zoom" => $this->_zoom,
-                      "latitud" => $this->_latitud,
-                      "longitud" => $this->_longitud,
-                      "kml_sidco"     => $this->_bo_sidco_conaf,
-                      "bo_casos_febriles" => $this->_bo_casos_febriles,
-                      "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona,
-                      "bo_marea_roja" => $this->_bo_marea_roja,
-                      "bo_marea_roja_pm" => $this->_bo_marea_roja_pm);
+        $data = array(
+            "id_emergencia" => $this->_id_emergencia,
+            "tipo_mapa" => $this->_tipo_mapa,
+            "zoom" => $this->_zoom,
+            "latitud" => $this->_latitud,
+            "longitud" => $this->_longitud,
+            "kml_sidco"     => $this->_bo_sidco_conaf,
+            
+            "bo_casos_febriles" => $this->_bo_casos_febriles,
+            "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona,
+            
+            "bo_marea_roja" => $this->_bo_marea_roja,
+            "bo_marea_roja_pm" => $this->_bo_marea_roja_pm,
+            
+            "bo_vectores" => $this->_bo_vectores,
+            "bo_vectores_hallazgos" => $this->_bo_vectores_hallazgos
+        );
         
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($this->_id_emergencia);
         if(is_null($configuracion)){

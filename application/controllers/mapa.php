@@ -195,6 +195,8 @@ class Mapa extends MY_Controller {
                  ->setTipoMapa($_POST["tipo_mapa"])
                  ->setMareaRoja($_POST["marea_roja"])
                  ->setMareaRojaPm($_POST["marea_roja_pm"])
+                 ->setVectores($_POST["vectores"])
+                 ->setVectoresHallazgos($_POST["vectores_hallazgos"])
                  ->guardar();
             
             
@@ -241,6 +243,9 @@ class Mapa extends MY_Controller {
         );
     }
     
+    /**
+     * 
+     */
     public function info_vectores(){
         $this->load->library("visor/externo/visor_externo_vectores");
         header('Content-type: application/json'); 
@@ -267,6 +272,9 @@ class Mapa extends MY_Controller {
         );
     }
     
+    /**
+     * 
+     */
     public function info_vectores_hallazgos(){
         $this->load->library("visor/externo/visor_externo_hallazgos");
         header('Content-type: application/json'); 
@@ -538,6 +546,9 @@ class Mapa extends MY_Controller {
         );
     }
     
+    /**
+     * 
+     */
     public function popup_marcador_editar(){
         $this->load->library("String");
         $params = $this->input->post(null, true);        
@@ -715,6 +726,8 @@ class Mapa extends MY_Controller {
                 "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
                 "marea_roja" => $configuracion->bo_marea_roja,
                 "marea_roja_pm" => $configuracion->bo_marea_roja_pm,
+                "vectores" => $configuracion->bo_vectores,
+                "vectores_hallazgos" => $configuracion->bo_vectores_hallazgos,
                 "tipo_mapa" => $configuracion->tipo_mapa
             );
         }

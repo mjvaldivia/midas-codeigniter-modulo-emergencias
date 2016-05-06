@@ -354,6 +354,7 @@ var MapaElementos = Class({
             success:function(data){
                if(data.correcto){
                    
+                    // ************ carga de capas de casos febriles *******************
                     $("#importar_rapanui_casos").waitUntilExists(function(){
                         if(parseInt(data.resultado.casos_febriles) == 1){
                             var sidco = new MapaIslaDePascuaCasos();
@@ -375,7 +376,10 @@ var MapaElementos = Class({
                             $("#importar_rapanui_zonas").prop("checked", false);
                         }
                     });
-                   
+                    
+                    // ****************************************************************
+                    //************ carga de capas de marea roja ***********************
+                    
                     $("#marea_roja").waitUntilExists(function(){
                         if(parseInt(data.resultado.marea_roja) == 1){
                             var marea_roja = new MapaMareaRojaCasos();
@@ -397,7 +401,7 @@ var MapaElementos = Class({
                         if(parseInt(data.resultado.marea_roja_pm) == 1){
                             var marea_roja = new MapaMareaRojaCasosPm();
                             marea_roja.seteaMapa(yo.mapa);
-                            marea_roja.load(yo.mapa);
+                            marea_roja.load();
                             $("#marea_roja_pm").prop("checked", true);
                             
                             $("#marea-roja-contenedor-filtro-colores").waitUntilExists(function(){
@@ -410,7 +414,32 @@ var MapaElementos = Class({
                         }
                     });
                     
-                   
+                    // ****************************************************************
+                    //************ carga de capas vectores ***********************
+                    $("#vectores").waitUntilExists(function(){
+                        if(parseInt(data.resultado.vectores) == 1){
+                            var vectores = new MapaVectores();
+                            vectores.seteaMapa(yo.mapa);
+                            vectores.load();
+                            $("#vectores").prop("checked", true);
+                        } else {
+                            $("#vectores").prop("checked", false);
+                        }
+                    });
+                    
+                    $("#vectores_hallazgos").waitUntilExists(function(){
+                        if(parseInt(data.resultado.vectores) == 1){
+                            var vectores = new MapaVectoresHallazgos();
+                            vectores.seteaMapa(yo.mapa);
+                            vectores.load();
+                            $("#vectores_hallazgos").prop("checked", true);
+                        } else {
+                            $("#vectores_hallazgos").prop("checked", false);
+                        }
+                    });
+                    // ***************************************************************
+                    //*************** capa de incendios de conaf *********************
+                    
                     $("#importar_sidco").waitUntilExists(function(){
                         if(parseInt(data.resultado.sidco) == 1){
                              var sidco = new MapaKmlSidcoConaf();
