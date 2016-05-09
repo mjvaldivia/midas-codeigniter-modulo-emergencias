@@ -753,7 +753,7 @@ class vectores extends MY_Controller
             $data['boton'] = true;
         }
 
-        echo $this->load->view('pages/vectores/ver_imagen', $data, true);
+        echo $this->load->view('pages/vectores/denuncias/ver_imagen', $data, true);
     }
 
 
