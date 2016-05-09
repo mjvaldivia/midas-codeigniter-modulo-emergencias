@@ -104,10 +104,19 @@ var MapaInformacionElementoEdicion = Class({
                         $.each(lista_poligonos, function(i, elem){
                             if(funcion_elemento(elem, clave)){
                                 if(funcion_tipo(elem)){
+                                    
                                     elem.setOptions(
                                         {fillColor : $("#color_editar").val()}
                                     );
-                            
+                                    
+                                    if($("#editar_forma").val() == "No"){
+                                        elem.setEditable(false);
+                                    } else {
+                                        if($("#editar_forma").val() == "Si"){
+                                            elem.setEditable(true);
+                                        }
+                                    }
+                                    
                                     if(elem.tipo == "CIRCULO LUGAR EMERGENCIA"){
                                         elem.setRadius(parseInt($("#metros_editar").val()));
                                     }

@@ -89,7 +89,7 @@ var MapaElementos = Class({
             capa: null,
             informacion: propiedades,
             clickable: true,
-            editable: true,
+            editable: false,
             strokeColor: '#000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
@@ -137,7 +137,6 @@ var MapaElementos = Class({
         var circuloClickListener = new MapaPoligonoInformacion();
         circuloClickListener.addRightClickListener(rectangle, this.mapa);
         
-
         lista_poligonos.push(rectangle);
     },
     
@@ -231,7 +230,6 @@ var MapaElementos = Class({
     loadCustomElements : function(mapa, mensaje_carga){
         
         this.mapa = mapa;
-        
         
         var yo = this;
         
