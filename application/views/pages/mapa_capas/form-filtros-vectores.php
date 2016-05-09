@@ -55,9 +55,9 @@
                 <div class="col-sm-6">
                      <select name="vectores_resultado" id="vectores_resultado" class="form-control">
                         <option value="">TODOS</option>
-                        <option value="Positivo">POSITIVO</option>
-                        <option value="Negativo">NEGATIVO</option>
-                        <option value="No concluyente">NO CONCLUYENTE</option>
+                        <option value="POSITIVO">POSITIVO</option>
+                        <option value="NEGATIVO">NEGATIVO</option>
+                        <option value="NO CONCLUYENTE">NO CONCLUYENTE</option>
                     </select>
                     <span class="help-block hidden"></span>
                 </div>

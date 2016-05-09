@@ -165,26 +165,28 @@ var MapaVectores = Class({
         
         if(ok){
             
-            //console.log($("#formulario-marea-roja").serializeArray());
-            //no funciona el $(this).val() para el plugin chosen, se efectua parche
-            var recursos_seleccionados = jQuery.grep($("#formulario-vectores").serializeArray(), function( a ) {
-                if(a.name == "vectores_estadio[]"){
-                    return true;
-                }
-            });
-
-            if(recursos_seleccionados.length > 0){
-
-                var encontrados = jQuery.grep(recursos_seleccionados, function( a ) {
-                    if(a.value == marker["estadio"].toUpperCase()){
+            if(marker["estadio"]){
+                //console.log($("#formulario-marea-roja").serializeArray());
+                //no funciona el $(this).val() para el plugin chosen, se efectua parche
+                var recursos_seleccionados = jQuery.grep($("#formulario-vectores").serializeArray(), function( a ) {
+                    if(a.name == "vectores_estadio[]"){
                         return true;
                     }
                 });
 
-                if(encontrados.length == 0){
-                    ok = false;
-                }
-            }        
+                if(recursos_seleccionados.length > 0){
+
+                    var encontrados = jQuery.grep(recursos_seleccionados, function( a ) {
+                        if(a.value == marker["estadio"].toUpperCase()){
+                            return true;
+                        }
+                    });
+
+                    if(encontrados.length == 0){
+                        ok = false;
+                    }
+                }        
+            }
         }
         
         if(ok){
