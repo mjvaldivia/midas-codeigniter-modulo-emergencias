@@ -535,7 +535,7 @@ class Vectores_hallazgos extends MY_Controller
             $data['boton'] = true;
         }
 
-        echo $this->load->view('pages/hallazgos/ver_imagen', $data, true);
+        echo $this->load->view('pages/vectores/hallazgos/ver_imagen', $data, true);
     }
 
 
