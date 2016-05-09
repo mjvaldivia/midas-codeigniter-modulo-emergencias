@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-<a class="btn btn-primary pull-right btn-square" href="<?php echo base_url('hallazgos/index')?>">Volver</a>
+<a class="btn btn-primary pull-right btn-square" href="<?php echo base_url('vectores_hallazgos/index')?>">Volver</a>
 <div class="row" style="margin-top:15px">
     <div class="col-xs-12">
 
@@ -19,7 +19,7 @@
             <div class="portlet-body">
 
                 <form class="form-horizontal" role="form" enctype="multipart/form-data"
-                      action="<?php echo base_url("hallazgos/subirImagenInspeccion") ?>" method="post">
+                      action="<?php echo base_url("vectores_hallazgos/subirImagenInspeccion") ?>" method="post">
                     <input type="hidden" name="id" id="id" value="<?php echo $id ?>"/>
                     <legend>Galería de imágenes para caso Nº I-<?php echo $id ?>
 
@@ -55,7 +55,7 @@
                             <div class="col-xs-6 col-md-3" style="padding:5px;border:1px solid #111;">
                                 <button type="button" class="btn btn-danger btn-sm btn-square pull-right" style="margin-bottom:5px" title="Eliminar Imagen" onclick="Hallazgos.eliminarImagen(<?php echo $imagen['id']?>,<?php echo $id;?>)"><i class="fa fa-trash-o"></i></button>
                                 <img src="<?php echo base_url($imagen['ruta'].'/'.$imagen['nombre']) ?>" class="img-responsive" style="height: 300px;cursor:pointer;"
-                                     onclick="xModal.open('<?php echo base_url('hallazgos/verImagenInspeccion/id/' . $imagen['id'] . '/sha/' . $imagen['sha'].'/otra/true') ?>','Imagen Denuncia H-<?php echo $id ?>','lg');"/>
+                                     onclick="xModal.open('<?php echo base_url('vectores_hallazgos/verImagenInspeccion/id/' . $imagen['id'] . '/sha/' . $imagen['sha'].'/otra/true') ?>','Imagen Denuncia H-<?php echo $id ?>','lg');"/>
                             </div>
                         <?php endforeach; ?>
                         </div>
@@ -67,5 +67,5 @@
 </div>
 
 
-
-
+<?= loadJS("assets/js/modulo/mapa/formulario.js"); ?>
+<?= loadJS("assets/js/modulo/vectores/hallazgos/denuncias.js"); ?>

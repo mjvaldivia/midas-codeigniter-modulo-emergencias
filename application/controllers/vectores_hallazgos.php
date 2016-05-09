@@ -7,7 +7,7 @@ class Vectores_hallazgos extends MY_Controller
     function __construct()
     {
         parent::__construct();
-        $this->login_authentificate->validar();
+       // $this->login_authentificate->validar();
 
         $this->load->model('hallazgos_model', '_hallazgos_model');
         $this->load->model('usuario_rol_model', '_usuario_rol_model');
@@ -22,7 +22,7 @@ class Vectores_hallazgos extends MY_Controller
         $rol_model = new Rol_Model();
         $listar = $this->_hallazgos_model->listar();
 
-        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('id'));
+        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $entomologo = false;
         foreach ($roles as $rol) {
             if ($rol['id'] == $rol_model::ENTOMOLOGO) {
@@ -32,11 +32,13 @@ class Vectores_hallazgos extends MY_Controller
         }
 
         $data = array(
-            'grilla' => $this->load->view('pages/hallazgos/grilla', array('listado' => $listar, 'entomologo' => $entomologo), true),
+            'grilla' => $this->load->view('pages/vectores/hallazgos/grilla', array('listado' => $listar, 'entomologo' => $entomologo), true),
             'entomologo' => $entomologo
         );
-        $this->layout_assets->addJs("hallazgos/index.js");
-        $this->layout_template->view('default', 'pages/hallazgos/index', $data);
+        
+        $this->template->parse("default", "pages/vectores/hallazgos/index", $data);
+        //$this->layout_assets->addJs("hallazgos/index.js");
+        //$this->layout_template->view('default', 'pages/hallazgos/index', $data);
     }
 
     public function denuncias()
@@ -44,9 +46,9 @@ class Vectores_hallazgos extends MY_Controller
 
         $this->load->library('Fechas');
         $data = array();
-        $this->layout_assets->addMapaFormulario();
-        $this->layout_assets->addJs("hallazgos/denuncias.js");
-        $this->layout_template->view('default', 'pages/hallazgos/denuncias', $data);
+        //$this->layout_assets->addMapaFormulario();
+        //$this->layout_assets->addJs("hallazgos/denuncias.js");
+        $this->template->parse("default", "pages/vectores/hallazgos/denuncias", $data);
     }
 
 
@@ -419,9 +421,9 @@ class Vectores_hallazgos extends MY_Controller
             'id' => $params['id'],
             'imagenes' => $arr_imagenes
         );
-
-        $this->layout_assets->addJs("hallazgos/denuncias.js");
-        $this->layout_template->view('default', 'pages/hallazgos/upload_imagenes', $data);
+        $this->template->parse("default", "pages/vectores/hallazgos/upload_imagenes", $data);
+        //$this->layout_assets->addJs("hallazgos/denuncias.js");
+        //$this->layout_template->view('default', 'pages/vectores/hallazgos/upload_imagenes', $data);
     }
 
 
@@ -505,8 +507,8 @@ class Vectores_hallazgos extends MY_Controller
         }
 
         $data['imagenes'] = $arr_imagenes;
-
-        $this->layout_template->view('default', 'pages/hallazgos/upload_imagenes', $data);
+        $this->template->parse("default", "pages/vectores/hallazgos/upload_imagenes", $data);
+        //$this->layout_template->view('default', 'pages/hallazgos/upload_imagenes', $data);
 
 
     }
@@ -584,7 +586,7 @@ class Vectores_hallazgos extends MY_Controller
     public function excel()
     {
 
-        $this->load->library("core/excel");
+        $this->load->library("excel");
         $this->load->library("Fechas");
 
         $lista = $this->_hallazgos_model->listar();

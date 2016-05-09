@@ -1,7 +1,7 @@
 $(document).ready(function(){
-
+    if($("#mapa").length > 0){
     var mapa = new MapaFormulario("mapa");
-    mapa.seteaIcono("assets/img/markers/firstaid.png");
+    mapa.seteaIcono("assets/img/markers/epidemiologico/descartado.png");
     mapa.seteaPlaceInput("direccion");
     if($("#id").val() ==""){
         $("#longitud").val(-70.2075248);
@@ -13,7 +13,7 @@ $(document).ready(function(){
     mapa.inicio();
     mapa.cargaMapa();
     mapa.setMarkerInputs();
-
+    }
 
 
 
@@ -55,7 +55,7 @@ var Hallazgos = {
             var parametros = $(form).serializeArray();
 
             $.ajax({
-                url : siteUrl + 'hallazgos/guardarDenuncia',
+                url : siteUrl + 'vectores_hallazgos/guardarDenuncia',
                 data : parametros,
                 dataType : 'json',
                 type : 'post',
@@ -67,7 +67,7 @@ var Hallazgos = {
                 success : function(response){
                     if(response.estado == true){
                         xModal.success(response.mensaje,function(){
-                            location.href = siteUrl + 'hallazgos/index';
+                            location.href = siteUrl + 'vectores_hallazgos/index';
                         });
                     }else{
                         xModal.danger(response.mensaje,function(){
@@ -105,7 +105,7 @@ var Hallazgos = {
             var parametros = $(form).serializeArray();
 
             $.ajax({
-                url : siteUrl + 'hallazgos/guardarResultado',
+                url : siteUrl + 'vectores_hallazgos/guardarResultado',
                 data : parametros,
                 dataType : 'json',
                 type : 'post',
@@ -117,7 +117,7 @@ var Hallazgos = {
                 success : function(response){
                     if(response.estado == true){
                         xModal.success(response.mensaje,function(){
-                            location.href = siteUrl + 'hallazgos/index';
+                            location.href = siteUrl + 'vectores_hallazgos/index';
                         });
                     }else{
                         xModal.danger(response.mensaje,function(){
@@ -137,7 +137,7 @@ var Hallazgos = {
         var parametros = $(form).serializeArray();
 
         $.ajax({
-            url : siteUrl + 'hallazgos/enviarResultado',
+            url : siteUrl + 'vectores_hallazgos/enviarResultado',
             data : parametros,
             dataType : 'json',
             type : 'post',
@@ -149,7 +149,7 @@ var Hallazgos = {
             success : function(response){
                 if(response.estado == true){
                     xModal.success(response.mensaje,function(){
-                        location.href = siteUrl + 'hallazgos/index';
+                        location.href = siteUrl + 'vectores_hallazgos/index';
                     });
                 }else{
                     xModal.danger(response.mensaje,function(){
@@ -178,10 +178,10 @@ var Hallazgos = {
 
     eliminarImagen : function(imagen,denuncia){
         xModal.confirm('Desea eliminar esta imagen?',function(){
-            $.post(siteUrl + 'hallazgos/eliminarImagen/',{imagen:imagen,denuncia:denuncia},function(response){
+            $.post(siteUrl + 'vectores_hallazgos/eliminarImagen/',{imagen:imagen,denuncia:denuncia},function(response){
                 if(response.estado == true){
                     xModal.success(response.mensaje,function(){
-                        location.href = siteUrl + 'hallazgos/adjuntarImagenesInspeccion/id/'+denuncia;
+                        location.href = siteUrl + 'vectores_hallazgos/adjuntarImagenesInspeccion/id/'+denuncia;
                     })
                 }else{
                     xModal.danger(response.mensaje);
@@ -198,7 +198,7 @@ var Hallazgos = {
             var lon = $("#longitud").val();
             var lat = $("#latitud").val();
 
-            $.post(siteUrl + 'hallazgos/cambiarCoordenadas',{lat:lat,lon:lon,id:id},function(response){
+            $.post(siteUrl + 'vectores_hallazgos/cambiarCoordenadas',{lat:lat,lon:lon,id:id},function(response){
                 if(response.estado == true){
                     xModal.success(response.mensaje);
                 }else{

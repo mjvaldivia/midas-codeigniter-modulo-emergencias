@@ -72,7 +72,7 @@
                         <?php endif; ?>
 
                         <?php if ($row['cd_estado_hallazgo'] == 0 and !$entomologo): ?>
-                            <a href="<?php echo base_url('hallazgos/adjuntarImagenesInspeccion/id/' . $row['id_hallazgo']) ?>"
+                            <a href="<?php echo base_url('vectores_hallazgos/adjuntarImagenesInspeccion/id/' . $row['id_hallazgo']) ?>"
                                title="Adjuntar Imagenes" class="btn btn-sm btn-square btn-warning">
                                 <i class="fa fa-file-image-o"></i>
                             </a>

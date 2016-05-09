@@ -4,7 +4,7 @@ $(document).ready(function(){
 
         $(this).click(function(){
             var vector = $(this).data('hallazgo');
-            location.href = siteUrl + 'hallazgos/revisar/id/'+vector;
+            location.href = siteUrl + 'vectores_hallazgos/revisar/id/'+vector;
         });
 
     });
@@ -13,7 +13,7 @@ $(document).ready(function(){
 
         $(this).click(function(){
             var vector = $(this).data('hallazgo');
-            location.href = siteUrl + 'hallazgos/revisarDenuncia/id/'+vector;
+            location.href = siteUrl + 'vectores_hallazgos/revisarDenuncia/id/'+vector;
         });
 
     });
