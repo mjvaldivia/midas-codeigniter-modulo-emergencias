@@ -96,9 +96,9 @@ var MapaVectores = Class({
                     $.each(json.lista, function(i, valor){
 
                         if(valor.propiedades.resultado == "Negativo"){
-                            var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
-                        } else {
                             var icono = baseUrl + "assets/img/markers/otros/mosquito.png"
+                        } else {
+                            var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
                         }
 
                         var marcador = new MapaMarcador();
