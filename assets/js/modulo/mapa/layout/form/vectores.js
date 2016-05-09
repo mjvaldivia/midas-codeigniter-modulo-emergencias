@@ -134,7 +134,7 @@ var MapaLayoutFormVectores = Class({
             resumen += "Estadío: " + $("#vectores_estadio option:selected").text();
         }
 
-        
+        resumen = this.agregaComa(resumen);
         resumen += "Resultados: " + $("#vectores_resultado option:selected").text();
         
        
