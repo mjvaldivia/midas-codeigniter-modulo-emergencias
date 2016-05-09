@@ -117,6 +117,26 @@ Class Layout_Menu_Render
                                                             "controller" => "marea_roja",
                                                             "action" => "index",
                                                             "child" => array()), 
+                                    "Vectores" => array(
+
+                                        "icon_class" => "fa-warning",      
+                                        "permiso" => "vectores",
+                                        "child" => array(
+                                            "Denuncias" => array(
+                                                "controller" => "vectores",
+                                                "action"     => "index"
+                                            ),
+                                            "Trampas" => array(
+                                               "controller" => "vectores_trampas",
+                                               "action"     => "index"
+                                            ),
+                                            "Inspecciones" => array(
+                                               "controller" => "vectores_hallazgos",
+                                               "action"     => "index"
+                                            ),
+
+                                        ),
+                                    ),
                                     "Usuarios" => array("icon_class" => "fa-users",
                                                         "rol" => "administrador",
                                                         "controller" => "",

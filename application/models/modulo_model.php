@@ -15,6 +15,8 @@ class Modulo_Model extends MY_Model {
     const SUB_DOCUMENTACION = 43;
     const SUB_CASOS_FEBRILES = 44;
     const SUB_MAREA_ROJA = 46;
+    const SUB_VECTORES = 47;
+    
     /**
      *
      * @var string 

@@ -1,7 +1,7 @@
 <?php
 if (!defined("BASEPATH")) exit("No direct script access allowed");
 
-class Trampas extends CI_Controller
+class Vectores_trampas extends MY_Controller
 {
 
     public $_trampas_model;
@@ -10,22 +10,59 @@ class Trampas extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        sessionValidation();
+        $this->login_authentificate->validar();
         $this->load->model("trampas_model", "_trampas_model");
     }
 
 
     public function index()
     {
-        $this->template->parse("default", "pages/trampas/index", array());
+        /*$this->layout_assets->addMapaFormulario();
+        $this->layout_assets->addJs("trampas/form.js");*/
+        $this->load->helper(array(
+                "module/emergencia/emergencia",
+                "module/usuario/usuario",
+            )
+        );
+        $lista = $this->_trampas_model->listar();
+
+        $trampas = array();
+
+        if (!is_null($lista)) {
+            foreach ($lista as $caso) {
+
+                $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $caso["fc_fecha_trampa"]);
+                if ($fecha instanceof DateTime) {
+                    $fecha_formato = $fecha->format("d/m/Y");
+                }
+
+                $propiedades = json_decode($caso["gl_propiedades_trampa"]);
+
+                $casos[] = array(
+                    "id" => $caso["id_trampa"],
+                    "id_usuario" => $caso["cd_usuario_trampa"],
+                    "fecha" => $fecha_formato,
+                    "direccion" => strtoupper($propiedades->DIRECCION),
+                    "fecha_instalacion" => $propiedades->FECHA,
+                    "tipo" => $propiedades->TIPO
+                );
+
+            }
+        }
+
+        $data = array(
+            'grilla' => $this->load->view('pages/trampas/grilla', array('lista' => $casos), true)
+        );
+
+        $this->layout_template->view("default", "pages/trampas/index", $data);
     }
 
 
     public function ajax_lista()
     {
         $this->load->helper(array(
-                "modulo/emergencia/emergencia",
-                "modulo/usuario/usuario",
+                "module/emergencia/emergencia",
+                "module/usuario/usuario",
             )
         );
         $lista = $this->_trampas_model->listar();
@@ -62,13 +99,17 @@ class Trampas extends CI_Controller
     {
         $this->load->helper(
             array(
-                "modulo/emergencia/emergencia",
-                "modulo/formulario/formulario"
+                "module/emergencia/emergencia",
+                "module/formulario/formulario"
             )
         );
         $params = $this->uri->uri_to_assoc();
 
-        $this->template->parse(
+        $this->layout_assets->addMapaFormulario();
+        //$this->layout_assets->addJs("mapa/formulario.js");
+        /*<?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>*/
+        $this->layout_assets->addJs("trampas/form.js");
+        $this->layout_template->view(
             "default",
             "pages/trampas/form",
             array(
@@ -117,7 +158,7 @@ class Trampas extends CI_Controller
                 $id = $this->_trampas_model->insert(
                     array(
                         "fc_fecha_trampa" => date("Y-m-d H:i:s"),
-                        "cd_usuario_trampa" => $this->session->userdata("session_idUsuario"),
+                        "cd_usuario_trampa" => $this->session->userdata("id"),
                         "gl_propiedades_trampa" => json_encode($arreglo),
                         "gl_coordenadas_trampa" => json_encode($coordenadas)
                     )
@@ -155,10 +196,13 @@ class Trampas extends CI_Controller
     {
         $this->load->helper(
             array(
-                "modulo/emergencia/emergencia",
-                "modulo/formulario/formulario"
+                "module/emergencia/emergencia",
+                "module/formulario/formulario"
             )
         );
+
+        $this->load->library('Fechas');
+
         $params = $this->input->get(null, true);
 
         $caso = $this->_trampas_model->getById($params["id"]);
@@ -176,6 +220,7 @@ class Trampas extends CI_Controller
 
             $arr_inspecciones = array();
             $inspecciones = $this->_trampas_model->getInspeccionesTrampa($caso->id_trampa);
+
             if($inspecciones){
                 foreach($inspecciones as $inspeccion){
                     $arr_inspecciones['inspecciones'][] = $inspeccion;
@@ -187,7 +232,11 @@ class Trampas extends CI_Controller
             $data["inspecciones"] = $inspecciones;
             $data["grilla_inspecciones"] = $this->load->view('pages/trampas/grilla_inspecciones',$arr_inspecciones , true);
 
-            $this->template->parse("default", "pages/trampas/form", $data);
+            $this->layout_assets->addMapaFormulario();
+            //$this->layout_assets->addJs("mapa/formulario.js");
+            /*<?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>*/
+            $this->layout_assets->addJs("trampas/form.js");
+            $this->layout_template->view("default", "pages/trampas/form", $data);
         }
     }
 
@@ -195,20 +244,20 @@ class Trampas extends CI_Controller
     public function guardarInspeccion()
     {
 
-        $this->load->library(array("formulario/formulario_trampas_validar"));
+        $this->load->library(array("formulario/formulario_trampas_validar","Fechas"));
 
         header('Content-type: application/json');
 
         $params = $this->input->post(null, true);
 
-        $date = DateTime::createFromFormat("d-m-Y H:i", $params["fecha_inspeccion"]);
+        $date = Fechas::formatearBaseDatos($params["fecha_inspeccion"]);
 
 
         if ($this->formulario_trampas_validar->validarInspeccion($params)) {
             $data = array(
                 'trampa' => $params['id_trampa'],
-                'usuario' => $this->session->userdata("session_idUsuario"),
-                'fecha' => $date->format('Y-m-d H:i:s'),
+                'usuario' => $this->session->userdata('id'),
+                'fecha' => $date,
                 'hallazgo' => $params['hallazgo_inspeccion'],
                 'cantidad' => $params['cantidad_inspeccion'],
                 'observaciones' => $params['observaciones_inspeccion']
@@ -223,7 +272,7 @@ class Trampas extends CI_Controller
                         $arr_inspecciones['inspecciones'][] = $inspeccion;
                     }
                 }
-                
+
                 $grilla = $this->load->view('pages/trampas/grilla_inspecciones', $arr_inspecciones, true);
                 echo json_encode(
                     array(
