@@ -6,7 +6,7 @@
                 <i class="fa en-linea">
                     <img width="20px" src="<?php echo base_url("assets/img/markers/otros/radar.png") ; ?>">
                 </i> 
-                <div id="configuracion-filtros-resumen" class="en-linea">
+                <div id="configuracion-filtros-vectores-resumen" class="en-linea">
                     <strong>Vectores:</strong> Fechas hallasgo: todas, Resultado: todos, Estadío: todos
                 </div>
             </button>

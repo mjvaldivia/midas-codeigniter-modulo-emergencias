@@ -104,17 +104,17 @@ var MapaLayoutFormVectores = Class({
     resumen : function(){
        var resumen = "";
        
-        if($("#marea_roja_fecha_muestra_desde").val()!="" || $("#marea_roja_fecha_muestra_hasta").val()!=""){
+        if($("#fecha_hallazgo_desde_casos").val()!="" || $("#fecha_hallazgo_hasta_casos").val()!=""){
             resumen = this.agregaComa(resumen);
-            resumen += "Fecha muestra: "
-            if($("#marea_roja_fecha_muestra_desde").val()!=""){
-                resumen += $("#marea_roja_fecha_muestra_desde").val();
+            resumen += "Fecha hallazgo: "
+            if($("#fecha_hallazgo_desde_casos").val()!=""){
+                resumen += $("#fecha_hallazgo_desde_casos").val();
             } else{
                 resumen += "∞";
             }
             
-            if($("#marea_roja_fecha_muestra_hasta").val()!=""){
-                resumen += " - " + $("#marea_roja_fecha_muestra_hasta").val();
+            if($("#fecha_hallazgo_hasta_casos").val()!=""){
+                resumen += " - " + $("#fecha_hallazgo_hasta_casos").val();
             } else {
                 resumen += " - ∞";
             }
@@ -123,23 +123,22 @@ var MapaLayoutFormVectores = Class({
            // resumen += descripcion + ": todas";
         }
         
-         var recursos_seleccionados = jQuery.grep($("#formulario-marea-roja").serializeArray(), function( a ) {
-            if(a.name == "marea_roja_recurso[]"){
+         var recursos_seleccionados = jQuery.grep($("#formulario-vectores").serializeArray(), function( a ) {
+            if(a.name == "vectores_estadio[]"){
                 return true;
             }
         });
 
         if(recursos_seleccionados.length > 0){
             resumen = this.agregaComa(resumen);
-            resumen += "Recurso: " + $("#marea_roja_recurso option:selected").text();
+            resumen += "Estadío: " + $("#vectores_estadio option:selected").text();
         }
 
         
-        var slider = $("#marea_roja_resultados").data("ionRangeSlider");
-        resumen = this.agregaComa(resumen);
-        resumen += "Resultados: " + slider.result.from + " a " + slider.result.to;
-
-        $("#configuracion-filtros-marea-roja-resumen").html("<strong>Marea roja:</strong> " + resumen);
+        resumen += "Resultados: " + $("#vectores_resultado option:selected").text();
+        
+       
+        $("#configuracion-filtros-vectores-resumen").html("<strong>Vectores:</strong> " + resumen);
     },
        
     /**
