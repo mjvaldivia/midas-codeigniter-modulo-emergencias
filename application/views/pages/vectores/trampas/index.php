@@ -9,7 +9,7 @@
                         Descargar excel
                     </a>-->
 
-                    <a href="<?php echo base_url("trampas/nuevo"); ?>" id="nueva" class="btn btn-square btn-green">
+                    <a href="<?php echo base_url("vectores_trampas/nuevo"); ?>" id="nueva" class="btn btn-square btn-green">
                         <i class="fa fa-plus"></i>
                         Nueva Trampa
                     </a>
@@ -40,8 +40,4 @@
     </div>
 </div>
 
-<!--<script src="<?php /*echo base_url("assets/js/library/bootbox-4.4.0/bootbox.min.js") */?>"></script>
-<link href="<?/*= base_url("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css"); */?>" rel="stylesheet" />
-<script src="<?/*= base_url("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js"); */?>"></script>
-<script src="<?/*= base_url("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js"); */?>"></script>
-<script src="<?/*= base_url("assets/js/module/trampas/form.js") */?>"></script>-->
+<?php echo jsDatatable(); ?>

@@ -10,7 +10,7 @@ class Vectores_trampas extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->login_authentificate->validar();
+        //$this->login_authentificate->validar();
         $this->load->model("trampas_model", "_trampas_model");
     }
 
@@ -20,8 +20,8 @@ class Vectores_trampas extends MY_Controller
         /*$this->layout_assets->addMapaFormulario();
         $this->layout_assets->addJs("trampas/form.js");*/
         $this->load->helper(array(
-                "module/emergencia/emergencia",
-                "module/usuario/usuario",
+                //"module/emergencia/emergencia",
+                //"module/usuario/usuario",
             )
         );
         $lista = $this->_trampas_model->listar();
@@ -51,10 +51,11 @@ class Vectores_trampas extends MY_Controller
         }
 
         $data = array(
-            'grilla' => $this->load->view('pages/trampas/grilla', array('lista' => $casos), true)
+            'grilla' => $this->load->view('pages/vectores/trampas/grilla', array('lista' => $casos), true)
         );
 
-        $this->layout_template->view("default", "pages/trampas/index", $data);
+        $this->template->parse("default", "pages/vectores/trampas/index", $data);
+       // $this->layout_template->view("default", "pages/trampas/index", $data);
     }
 
 
@@ -97,27 +98,24 @@ class Vectores_trampas extends MY_Controller
 
     public function nuevo()
     {
-        $this->load->helper(
-            array(
-                "module/emergencia/emergencia",
-                "module/formulario/formulario"
-            )
-        );
+
         $params = $this->uri->uri_to_assoc();
 
-        $this->layout_assets->addMapaFormulario();
+        //$this->layout_assets->addMapaFormulario();
         //$this->layout_assets->addJs("mapa/formulario.js");
         /*<?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>*/
-        $this->layout_assets->addJs("trampas/form.js");
-        $this->layout_template->view(
+        //$this->layout_assets->addJs("trampas/form.js");
+        $this->template->parse(
             "default",
-            "pages/trampas/form",
+            "pages/vectores/trampas/form",
             array(
                 "ingresado" => $params["ingreso"],
                 "latitud" => "",
                 "longitud" => ""
             )
         );
+        
+        //$this->template->parse("default", "pages/vectores/trampas/index", $data);
     }
 
 
@@ -158,7 +156,7 @@ class Vectores_trampas extends MY_Controller
                 $id = $this->_trampas_model->insert(
                     array(
                         "fc_fecha_trampa" => date("Y-m-d H:i:s"),
-                        "cd_usuario_trampa" => $this->session->userdata("id"),
+                        "cd_usuario_trampa" => $this->session->userdata("session_idUsuario"),
                         "gl_propiedades_trampa" => json_encode($arreglo),
                         "gl_coordenadas_trampa" => json_encode($coordenadas)
                     )
@@ -194,12 +192,7 @@ class Vectores_trampas extends MY_Controller
 
     public function editar()
     {
-        $this->load->helper(
-            array(
-                "module/emergencia/emergencia",
-                "module/formulario/formulario"
-            )
-        );
+        
 
         $this->load->library('Fechas');
 
@@ -230,13 +223,20 @@ class Vectores_trampas extends MY_Controller
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
             $data["inspecciones"] = $inspecciones;
-            $data["grilla_inspecciones"] = $this->load->view('pages/trampas/grilla_inspecciones',$arr_inspecciones , true);
+            $data["grilla_inspecciones"] = $this->load->view('pages/vectores/trampas/grilla_inspecciones',$arr_inspecciones , true);
 
-            $this->layout_assets->addMapaFormulario();
+            //$this->layout_assets->addMapaFormulario();
             //$this->layout_assets->addJs("mapa/formulario.js");
             /*<?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>*/
-            $this->layout_assets->addJs("trampas/form.js");
-            $this->layout_template->view("default", "pages/trampas/form", $data);
+            //$this->layout_assets->addJs("trampas/form.js");
+            
+            $this->template->parse(
+            "default",
+            "pages/vectores/trampas/form",
+            $data
+        );
+            
+            //$this->layout_template->view("default", "pages/trampas/form", $data);
         }
     }
 
@@ -273,7 +273,7 @@ class Vectores_trampas extends MY_Controller
                     }
                 }
 
-                $grilla = $this->load->view('pages/trampas/grilla_inspecciones', $arr_inspecciones, true);
+                $grilla = $this->load->view('pages/vectores/trampas/grilla_inspecciones', $arr_inspecciones, true);
                 echo json_encode(
                     array(
                         "error" => array(),

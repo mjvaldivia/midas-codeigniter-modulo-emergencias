@@ -70,8 +70,8 @@ class Trampas_Model extends MY_Model
 
 
     public function getInspeccionesTrampa($id_trampa){
-        $query = "select t.*, u.nombre, u.apellido_paterno, u.apellido_materno from trampas_inspecciones t 
-                    left join usuario u on u.id = t.cd_usuario_inspeccion 
+        $query = "select t.*, u.usu_c_nombre, u.usu_c_apellido_paterno, u.usu_c_apellido_materno from trampas_inspecciones t 
+                    left join usuarios u on u.usu_ia_id = t.cd_usuario_inspeccion 
                     where cd_trampa_inspeccion = ? order by fc_fecha_inspeccion DESC";
 
         $consulta = $this->db->query($query,array($id_trampa));

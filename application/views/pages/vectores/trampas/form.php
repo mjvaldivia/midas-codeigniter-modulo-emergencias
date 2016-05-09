@@ -4,9 +4,9 @@
             <h1> Monitoreo de Trampas </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
-                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("trampas/index") ?>"> Trampas</a></li>
+                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("vectores_trampas/index") ?>"> Trampas</a></li>
                 <li class="active"><i class="fa fa-bell"></i> Formulario</li>
-                <li class="pull-right"><a href="<?php echo base_url("trampas/index") ?>"> <i class="fa fa-backward"></i>
+                <li class="pull-right"><a href="<?php echo base_url("vectores_trampas/index") ?>"> <i class="fa fa-backward"></i>
                         Volver </a></li>
             </ol>
         </div>
@@ -27,7 +27,7 @@
 
 
             <form id="form-trampa" autocomplete="off" class="form-vertical"
-                  action="<?php echo base_url("trampas/guardar") ?>" method="post" role="form">
+                  action="<?php echo base_url("vectores_trampas/guardar") ?>" method="post" role="form">
                 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"/>
                 <div class="col-md-12">
                     <legend>
@@ -123,7 +123,7 @@
                                                 Guardar
                                             </button>
                                             <button class="btn btn-white" type="reset"
-                                                    onClick="document.location.href='<?php echo base_url("trampas/index") ?>'">
+                                                    onClick="document.location.href='<?php echo base_url("vectores_trampas/index") ?>'">
                                                 <i
                                                     class="fa fa-ban"></i> Cancelar
                                             </button>
@@ -163,7 +163,7 @@
                                             <div class="col-xs-12 col-md-5">
                                                 <label class="control-label">Fecha Inspección</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control datepicker-datetime"
+                                                    <input type="text" class="form-control datepicker-date"
                                                            name="fecha_inspeccion" id="fecha_inspeccion"/>
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
@@ -221,3 +221,5 @@
     </div>
 </div>
 
+<?= loadJS("assets/js/modulo/mapa/formulario.js"); ?>
+<?= loadJS("assets/js/modulo/vectores/trampas/form.js"); ?>

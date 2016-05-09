@@ -31,7 +31,7 @@
                     <div style="width: 150px">
 
                         <button
-                            onclick="document.location.href='<?php echo base_url("trampas/editar/?id=" . $row["id"]); ?>'"
+                            onclick="document.location.href='<?php echo base_url("vectores_trampas/editar/?id=" . $row["id"]); ?>'"
                             title="editar" class="btn btn-sm btn-success" type="button">
                             <i class="fa fa-edit"></i>
                         </button>

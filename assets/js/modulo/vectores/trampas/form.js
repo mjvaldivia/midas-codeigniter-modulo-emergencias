@@ -38,12 +38,12 @@ function guardar(parametros){
         async: false,
         data: parametros,
         type: "post",
-        url: siteUrl + "trampas/guardar",
+        url: siteUrl + "vectores_trampas/guardar",
         error: function(xhr, textStatus, errorThrown){},
         success:function(data){
             if(data.correcto == true){
                 procesaErrores(data.error);
-                document.location.href = siteUrl + "trampas/index/ingresado/correcto";
+                document.location.href = siteUrl + "vectores_trampas/index/ingresado/correcto";
             } else {
                 $("#form_error").removeClass("hidden");
                 procesaErrores(data.error);
@@ -60,7 +60,7 @@ function guardarInspeccion(parametros){
         async: false,
         data: parametros,
         type: "post",
-        url: siteUrl + "trampas/guardarInspeccion",
+        url: siteUrl + "vectores_trampas/guardarInspeccion",
         error: function(xhr, textStatus, errorThrown){},
         success:function(data){
             if(data.correcto == true){
