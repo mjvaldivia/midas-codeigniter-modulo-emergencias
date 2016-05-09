@@ -593,7 +593,7 @@ class vectores extends MY_Controller
         if (!@mkdir($ruta_pdf, 0777, true) && !is_dir($ruta_pdf)) {
 
         } else {
-            $documento = $pdf->Output(FCPATH .
+            $documento = $pdf->Output(
                 'docs/vectores/' . $vector->id_vector . '/comprobante_denuncia_' . $num_denuncia . '.pdf', 'S');
 
             //$ruta = array(FCPATH . '/'.$ruta_pdf.'/comprobante_denuncia_'.$num_denuncia.'.pdf');
