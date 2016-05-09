@@ -710,7 +710,7 @@ class vectores extends MY_Controller
 
         $this->load->library('Fechas');
 
-        $arr_imagenes = array();
+        $arr_imagenes = array();    
         if ($imagenes) {
             foreach ($imagenes as $img) {
                 $arr_imagenes[] = array(

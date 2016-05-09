@@ -5,7 +5,7 @@
     </div>
     <?php if($boton):?>
     <div class="text-right" style="margin:5px;">
-        <button type="button" class="btn btn-primary btn-square" onclick="window.open('<?php echo base_url('hallazgos/verImagenInspeccion/id/' . $id . '/sha/' . $sha) ?>','_blank')">Ver en otra pestaña</button>
+        <button type="button" class="btn btn-primary btn-square" onclick="window.open('<?php echo base_url('vectores_hallazgos/verImagenInspeccion/id/' . $id . '/sha/' . $sha) ?>','_blank')">Ver en otra pestaña</button>
     </div>
     <?php endif;?>
 </div>
