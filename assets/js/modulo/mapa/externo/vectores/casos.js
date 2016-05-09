@@ -164,33 +164,33 @@ var MapaVectores = Class({
         
         
         if(ok){
-            
-            if(marker["estadio"]){
-                //console.log($("#formulario-marea-roja").serializeArray());
-                //no funciona el $(this).val() para el plugin chosen, se efectua parche
-                var recursos_seleccionados = jQuery.grep($("#formulario-vectores").serializeArray(), function( a ) {
-                    if(a.name == "vectores_estadio[]"){
-                        return true;
-                    }
-                });
-
-                if(recursos_seleccionados.length > 0){
-
-                    var encontrados = jQuery.grep(recursos_seleccionados, function( a ) {
-                        if(a.value == marker["estadio"].toUpperCase()){
+            if($("#vectores_resultado").val() == "POSITIVO"){
+                if(marker["estadio"]){
+                    //console.log($("#formulario-marea-roja").serializeArray());
+                    //no funciona el $(this).val() para el plugin chosen, se efectua parche
+                    var recursos_seleccionados = jQuery.grep($("#formulario-vectores").serializeArray(), function( a ) {
+                        if(a.name == "vectores_estadio[]"){
                             return true;
                         }
                     });
 
-                    if(encontrados.length == 0){
-                        ok = false;
-                    }
-                }        
+                    if(recursos_seleccionados.length > 0){
+
+                        var encontrados = jQuery.grep(recursos_seleccionados, function( a ) {
+                            if(a.value == marker["estadio"].toUpperCase()){
+                                return true;
+                            }
+                        });
+
+                        if(encontrados.length == 0){
+                            ok = false;
+                        }
+                    }        
+                }
             }
         }
         
         if(ok){
-            
             if($("#vectores_resultado").val()!=""){
                 if(marker["resultado"] &&  $("#vectores_resultado").val() != marker["resultado"].toUpperCase()){
                     ok = false;
