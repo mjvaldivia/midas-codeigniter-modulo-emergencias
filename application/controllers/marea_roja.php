@@ -212,7 +212,8 @@ class Marea_roja extends MY_Controller
         $this->load->helper(
             array(
                 "modulo/usuario/usuario",
-                "modulo/formulario/formulario"
+                "modulo/formulario/formulario",
+                "modulo/comuna/default"
             )
         );
 
@@ -276,7 +277,11 @@ class Marea_roja extends MY_Controller
                 foreach ($columnas as $columna => $valor) {
                
                     if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
-                        $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
+                        if($columna == "COMUNA"){
+                            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreComuna($valores[$columna]));
+                        } else {
+                            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
+                        }
                     $i++;
                     }
                     
@@ -302,6 +307,7 @@ class Marea_roja extends MY_Controller
         $this->load->helper(array(
                 "modulo/emergencia/emergencia",
                 "modulo/usuario/usuario",
+                "modulo/comuna/default"
             )
         );
         
