@@ -57,25 +57,25 @@
                         <option value="">TODOS</option>
                         <option value="POSITIVO">POSITIVO</option>
                         <option value="NEGATIVO">NEGATIVO</option>
-                        <option value="NO CONCLUYENTE">NO CONCLUYENTE</option>
                     </select>
                     <span class="help-block hidden"></span>
                 </div>
             </div>
             
-            <div class="form-group clearfix">
-                <label for="vectores_estadio" class="col-sm-12 control-label required"> <strong> Estadío </strong> :</label>
-                <div class="col-sm-12">
-                     <select name="vectores_estadio[]" id="vectores_estadio" class="form-control select2-tags" multiple="true">
-                        <option value=""></option>
-                        <option value="LARVA">LARVA</option>
-                        <option value="PUPA">PUPA</option>
-                        <option value="ADULTO">ADULTO</option>
-                    </select>
-                    <span class="help-block hidden"></span>
+            <div id="contenedor-estadio" class="hidden"> 
+                <div class="form-group clearfix">
+                    <label for="vectores_estadio" class="col-sm-12 control-label required"> <strong> Estadío </strong> :</label>
+                    <div class="col-sm-12">
+                         <select name="vectores_estadio[]" id="vectores_estadio" class="form-control select2-tags" multiple="true">
+                            <option value=""></option>
+                            <option value="LARVA">LARVA</option>
+                            <option value="PUPA">PUPA</option>
+                            <option value="ADULTO">ADULTO</option>
+                        </select>
+                        <span class="help-block hidden"></span>
+                    </div>
                 </div>
             </div>
-            
             
             <div class="form-group clearfix">
                 <div class="col-sm-4"></div>

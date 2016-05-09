@@ -68,6 +68,12 @@ var MapaLayoutFormVectores = Class({
                 
                 $("#vectores_resultado").change(function(){
                     yo.filtrar(); 
+                    if($(this).val() == "POSITIVO"){
+                        $("#contenedor-estadio").removeClass("hidden");
+                    } else {
+                        $("#contenedor-estadio").addClass("hidden");
+                        $("#vectores_estadio").val();
+                    }
                 });
 
                 $("#vectores_estadio").change(function(){
