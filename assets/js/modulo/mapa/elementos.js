@@ -416,16 +416,22 @@ var MapaElementos = Class({
                     //************ carga de capas vectores ***********************
                     $("#vectores").waitUntilExists(function(){
                         if(parseInt(data.resultado.vectores) == 1){
+                            
                             var vectores = new MapaVectores();
                             vectores.seteaMapa(yo.mapa);
                             vectores.load();
+                            
+                            /*var hallazgos = new MapaVectoresHallazgos();
+                            hallazgos.seteaMapa(yo.mapa);
+                            hallazgos.load();*/
+                            
                             $("#vectores").prop("checked", true);
                         } else {
                             $("#vectores").prop("checked", false);
                         }
                     });
                     
-                    $("#vectores_hallazgos").waitUntilExists(function(){
+                    /*$("#vectores_hallazgos").waitUntilExists(function(){
                         if(parseInt(data.resultado.vectores) == 1){
                             var vectores = new MapaVectoresHallazgos();
                             vectores.seteaMapa(yo.mapa);
@@ -434,7 +440,7 @@ var MapaElementos = Class({
                         } else {
                             $("#vectores_hallazgos").prop("checked", false);
                         }
-                    });
+                    });*/
                     // ***************************************************************
                     //*************** capa de incendios de conaf *********************
                     

@@ -129,6 +129,17 @@ class Mapa_capas extends MY_Controller {
     /**
      * 
      */
+    public function ajax_form_filtros_vectores(){
+        $this->load->helper(array(
+                "modulo/formulario/formulario"
+            )
+        );
+        $this->load->view("pages/mapa_capas/form-filtros-vectores", array());
+    }
+    
+    /**
+     * 
+     */
     public function ajax_form_filtros_marea_roja(){
         $this->load->helper(array(
                 "modulo/formulario/formulario"

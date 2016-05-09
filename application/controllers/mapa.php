@@ -289,7 +289,7 @@ class Mapa extends MY_Controller {
 
 
                 $propiedades = $row;
-                $propiedades["TIPO"] = "HALLAZGOS VECTORES";
+                $propiedades["TIPO"] = "INSPECCIONES";
                 $casos[] = array("id" => $row["id"],
                                  "propiedades" => $propiedades,
                                  "lat" => $row["lat"],

@@ -1,4 +1,4 @@
-var vectores_hallazgos_marcador = [];
+var vectores_marcador = [];
 
 var MapaVectoresHallazgos = Class({  
     
@@ -25,10 +25,10 @@ var MapaVectoresHallazgos = Class({
         if(vectores_hallazgos_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             Messenger().run({
                 action: $.ajax,
-                successMessage: '<strong> Hallazgos </strong> <br> Ok',
-                errorMessage: '<strong> Hallazgos </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
+                successMessage: '<strong> Inspecciones </strong> <br> Ok',
+                errorMessage: '<strong> Inspecciones </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
                 showCloseButton: true,
-                progressMessage: '<strong> Hallazgos </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
+                progressMessage: '<strong> Inspecciones </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
             },{        
                 dataType: "json",
                 cache: false,
@@ -43,19 +43,28 @@ var MapaVectoresHallazgos = Class({
                             if(valor.propiedades.resultado == "Negativo"){
                                 var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
                             } else {
-                                var icono = baseUrl + "assets/img/markers/otros/mosquito-rojo.png"
+                                var icono = baseUrl + "assets/img/markers/otros/mosquito.png"
                             }
                             
                             var marcador = new MapaMarcador();
                             marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador("vectores_hallazgos_" + valor.id, null , valor.lng, valor.lat, valor.propiedades, null, icono);
-                            vectores_hallazgos_marcador.push("vectores_hallazgos_" + valor.id);
+                            marcador.posicionarMarcador("vectores_inspecciones_" + valor.id, null , valor.lng, valor.lat, valor.propiedades, null, icono);
+                            
+                            var fecha_hallazgo = moment(valor.propiedades.fecha_hallazgo, "DD/MM/YYYY", true);
+                            
+                            vectores_marcador.push(
+                                {
+                                    "identificador" : "vectores_inspecciones_" + valor.id,
+                                    "tipo" : "INSPECCION",
+                                    "hallazgo" : fecha_hallazgo,
+                                    "resultado": valor.propiedades["resultado"],
+                                    "estadio": valor.propiedades["estado_desarrollo"]
+                                }
+                            );
                         });
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
-                    
-                    console.log(lista_markers);
                }
             });
         }
@@ -66,11 +75,11 @@ var MapaVectoresHallazgos = Class({
      * @returns {undefined}
      */
     remove : function(){
-        var marcador = new MapaMarcador();
-        $.each(vectores_hallazgos_marcador, function(i, identificador){
-            marcador.removerMarcadores("identificador", identificador);
+         var marcador = new MapaMarcador();
+        $.each(vectores_marcador, function(i, marker){
+            marcador.removerMarcadores("identificador", marker.identificador);
         });
         
-        vectores_hallazgos_marcador = [];
+        vectores_marcador = [];
     }
 });

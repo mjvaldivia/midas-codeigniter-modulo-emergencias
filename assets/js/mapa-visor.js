@@ -84,6 +84,9 @@ $(document).ready(function() {
     var formulario = new MapaLayoutFormMareaRoja();
     visor.addOnReadyFunction("buscador marea roja", formulario.addToMap);
     
+    var formulario = new MapaLayoutFormVectores();
+    visor.addOnReadyFunction("buscador vectores", formulario.addToMap);
+    
     //inicia mapa
     visor.bindMapa();
     

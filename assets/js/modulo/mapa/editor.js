@@ -478,17 +478,23 @@ var MapaEditor = Class({
         
         $("#vectores").livequery(function(){
             $(this).click(function(){
-                var carga = new MapaVectores();
-                carga.seteaMapa(map);
+                //var hallazgos = new MapaVectoresHallazgos();
+                var vectores = new MapaVectores();
+                //hallazgos.seteaMapa(map);
+                vectores.seteaMapa(map);
                 if($(this).is(":checked")){
-                    carga.load();
+                    //hallazgos.load();
+                    vectores.load();
+                    $("#contenedor-formulario-vectores").removeClass("hidden");
                 } else {
-                    carga.remove();
+                    //hallazgos.remove();
+                    vectores.remove();
+                    $("#contenedor-formulario-vectores").addClass("hidden");
                 }
             });
         });
         
-        $("#vectores_hallazgos").livequery(function(){
+        /**$("#vectores_hallazgos").livequery(function(){
             $(this).click(function(){
                 var carga = new MapaVectoresHallazgos();
                 carga.seteaMapa(map);
@@ -498,7 +504,7 @@ var MapaEditor = Class({
                     carga.remove();
                 }
             });
-        });
+        });**/
         
         
         

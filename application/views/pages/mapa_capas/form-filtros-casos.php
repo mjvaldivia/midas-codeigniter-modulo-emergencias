@@ -55,7 +55,6 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group clearfix">
-                        
                         <label for="fecha_inicio_desde_casos" class="col-sm-3 text-left control-label required">Desde:</label>
                         <div class="col-sm-9">
                             <div class="input-group">
@@ -64,12 +63,10 @@
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
-                     
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group clearfix">
-                        
                         <label for="fecha_inicio_hasta_casos" class="col-sm-3 text-right control-label required">Hasta:</label>
                         <div class="col-sm-9">
                             <div class="input-group">
@@ -78,7 +75,6 @@
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -103,7 +99,6 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group clearfix">
-
                             <label for="fecha_confirmacion_desde_casos" class="col-sm-3 text-left control-label required">Desde:</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
@@ -112,12 +107,10 @@
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group clearfix">
-
                             <label for="fecha_confirmacion_hasta_casos" class="col-sm-3 text-right control-label required">Hasta:</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
@@ -126,7 +119,6 @@
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

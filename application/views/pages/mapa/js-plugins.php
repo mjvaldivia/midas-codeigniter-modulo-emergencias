@@ -72,7 +72,7 @@
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos_pm.js"); ?>
 
 <?= loadJS("assets/js/modulo/mapa/externo/vectores/casos.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/externo/vectores/hallazgos.js"); ?>
+
 
 <!-- Externos -->
 <?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>
@@ -83,6 +83,7 @@
 <?= loadJS("assets/js/modulo/mapa/layout/capas.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/layout/form/casos_febriles_rango_fecha.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/layout/form/marea_roja.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/form/vectores.js"); ?>
 
 <!-- Permite editar mapa -->
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
