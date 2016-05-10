@@ -7,11 +7,8 @@ class Vectores_hallazgos extends MY_Controller
     function __construct()
     {
         parent::__construct();
-       // $this->login_authentificate->validar();
-
         $this->load->model('hallazgos_model', '_hallazgos_model');
         $this->load->model('usuario_rol_model', '_usuario_rol_model');
-
     }
 
 
