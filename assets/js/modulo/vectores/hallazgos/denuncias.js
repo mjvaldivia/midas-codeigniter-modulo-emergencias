@@ -92,10 +92,14 @@ var Hallazgos = {
             error = true;
             error_msg += 'Debe seleccionar una opción para el resultado <br/>';
         }
-        if(form.estado_desarrollo.value == ""){
+        if (form.resultado_laboratorio.value == 1 && form.estado_desarrollo.value == "") {
             error = true;
             error_msg += 'Debe seleccionar una opción para el estado de desarrollo <br/>';
         }
+        /*if(form.estado_desarrollo.value == ""){
+            error = true;
+            error_msg += 'Debe seleccionar una opción para el estado de desarrollo <br/>';
+        }*/
 
         if(error){
             xModal.danger(error_msg,function(){
