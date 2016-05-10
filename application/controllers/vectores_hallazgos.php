@@ -24,15 +24,20 @@ class Vectores_hallazgos extends MY_Controller
 
         $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $entomologo = false;
+        $admin = false;
         foreach ($roles as $rol) {
             if ($rol['rol_ia_id'] == $rol_model::ENTOMOLOGO or $rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $entomologo = true;
             }
 
+            if($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR){
+                $admin = true;
+            }
+
         }
 
         $data = array(
-            'grilla' => $this->load->view('pages/vectores/hallazgos/grilla', array('listado' => $listar, 'entomologo' => $entomologo), true),
+            'grilla' => $this->load->view('pages/vectores/hallazgos/grilla', array('listado' => $listar, 'entomologo' => $entomologo, 'admin' => $admin), true),
             'entomologo' => $entomologo
         );
         
