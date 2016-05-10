@@ -476,7 +476,7 @@ var MapaEditor = Class({
             });
         });
         
-        $("#vectores").livequery(function(){
+        $("#vectores_marcadores").livequery(function(){
             $(this).click(function(){
                 //var hallazgos = new MapaVectoresHallazgos();
                 var vectores = new MapaVectores();

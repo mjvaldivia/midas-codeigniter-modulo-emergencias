@@ -414,7 +414,7 @@ var MapaElementos = Class({
                     
                     // ****************************************************************
                     //************ carga de capas vectores ***********************
-                    $("#vectores").waitUntilExists(function(){
+                    $("#vectores_marcadores").waitUntilExists(function(){
                         if(parseInt(data.resultado.vectores) == 1){
                             
                             var vectores = new MapaVectores();
@@ -425,9 +425,9 @@ var MapaElementos = Class({
                             hallazgos.seteaMapa(yo.mapa);
                             hallazgos.load();*/
                             
-                            $("#vectores").prop("checked", true);
+                            $("#vectores_marcadores").prop("checked", true);
                         } else {
-                            $("#vectores").prop("checked", false);
+                            $("#vectores_marcadores").prop("checked", false);
                         }
                     });
                     
