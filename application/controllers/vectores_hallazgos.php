@@ -92,9 +92,11 @@ class Vectores_hallazgos extends MY_Controller
         $data['imagenes'] = $arr_imagenes;
 
 
-        $this->layout_assets->addMapaFormulario();
+        /*$this->layout_assets->addMapaFormulario();
         $this->layout_assets->addJs("hallazgos/denuncias.js");
-        $this->layout_template->view('default', 'pages/hallazgos/denuncias_entomologo', $data);
+        $this->layout_template->view('default', 'pages/hallazgos/denuncias_entomologo', $data);*/
+
+        $this->template->parse("default", "pages/vectores/hallazgos/denuncias_entomologo", $data);
     }
 
 

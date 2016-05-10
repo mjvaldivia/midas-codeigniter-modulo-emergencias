@@ -96,6 +96,7 @@ class vectores extends MY_Controller
             'fecha_hallazgo' => Fechas::formatearHtml($vector->fc_fecha_hallazgo_vector),
             'fecha_entrega' => Fechas::formatearHtml($vector->fc_fecha_entrega_vector),
             'comentarios_ciudadano' => $vector->gl_comentario_ciudadano_vector,
+            'js' => $this->load->view("pages/mapa/js-plugins", array(), true)
         );
 
         $imagenes = $this->_vectores_model->getImagenesVector($params['id']);
@@ -116,9 +117,10 @@ class vectores extends MY_Controller
         $data['imagenes'] = $arr_imagenes;
 
 
-        $this->layout_assets->addMapaFormulario();
-        $this->layout_assets->addJs("vectores/denuncias.js");
-        $this->layout_template->view('default', 'pages/vectores/denuncias_entomologo', $data);
+        //$this->layout_assets->addMapaFormulario();
+        //$this->layout_assets->addJs("vectores/denuncias.js");
+        //$this->layout_template->view('default', 'pages/vectores/denuncias_entomologo', $data);
+        $this->template->parse("default", 'pages/vectores/denuncias/denuncias_entomologo', $data);
     }
 
     /**

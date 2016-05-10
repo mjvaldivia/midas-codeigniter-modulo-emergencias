@@ -198,3 +198,7 @@
     </div>
 </div>
 
+
+<?= loadJS("assets/js/modulo/mapa/formulario.js"); ?>
+<?= loadJS("assets/js/modulo/vectores/hallazgos/denuncias.js"); ?>
+
