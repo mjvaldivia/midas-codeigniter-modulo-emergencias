@@ -176,12 +176,14 @@ class Vectores_hallazgos extends MY_Controller
             'texto_entomologo' => $vector->gl_observaciones_resultado_hallazgo,
             'cambiar_coordenadas' => $cambiar_coordenadas
         );
-        $contenido = $this->load->view("pages/hallazgos/pdf_respuesta", $datos, true);
+        $contenido = $this->load->view("pages/vectores/hallazgos/pdf_respuesta", $datos, true);
         $data['contenido'] = strip_tags($contenido);
 
-        $this->layout_assets->addMapaFormulario();
+        /*$this->layout_assets->addMapaFormulario();
         $this->layout_assets->addJs("hallazgos/denuncias.js");
-        $this->layout_template->view('default', 'pages/hallazgos/denuncias', $data);
+        $this->layout_template->view('default', 'pages/hallazgos/denuncias', $data);*/
+
+        $this->template->parse("default", "pages/vectores/hallazgos/denuncias", $data);
     }
 
 
