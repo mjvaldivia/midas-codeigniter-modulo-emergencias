@@ -24,7 +24,7 @@ class vectores extends MY_Controller
         $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $entomologo = false;
         foreach ($roles as $rol) {
-            if ($rol['id'] == $rol_model::ENTOMOLOGO or $rol['id'] == $rol_model::ADMINISTRADOR) {
+            if ($rol['rol_ia_id'] == $rol_model::ENTOMOLOGO or $rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $entomologo = true;
             }
 
