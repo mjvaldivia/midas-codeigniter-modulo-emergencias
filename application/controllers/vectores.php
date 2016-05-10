@@ -51,7 +51,7 @@ class vectores extends MY_Controller
         $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $cambiar_coordenadas = false;
         foreach ($roles as $rol) {
-            if ($rol['id'] == $rol_model::ADMINISTRADOR) {
+            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $cambiar_coordenadas = true;
             }
 
@@ -82,22 +82,16 @@ class vectores extends MY_Controller
 
         $vector = $this->_vectores_model->getById($params['id']);
 
-        $data = array(
-            'id' => $vector->id_vector,
-            'longitud' => $vector->cd_longitud_vector,
-            'latitud' => $vector->cd_latitud_vector,
-            'nombres' => $vector->gl_nombres_vector,
-            'apellidos' => $vector->gl_apellidos_vector,
-            'cedula' => $vector->gl_run_vector,
-            'telefono' => $vector->gl_telefono_vector,
-            'correo' => $vector->gl_email_vector,
-            'direccion' => $vector->gl_direccion_vector,
-            'referencias' => $vector->gl_referencias_vector,
-            'fecha_hallazgo' => Fechas::formatearHtml($vector->fc_fecha_hallazgo_vector),
-            'fecha_entrega' => Fechas::formatearHtml($vector->fc_fecha_entrega_vector),
-            'comentarios_ciudadano' => $vector->gl_comentario_ciudadano_vector,
-            'js' => $this->load->view("pages/mapa/js-plugins", array(), true)
-        );
+        $this->load->model('rol_model');
+        $rol_model = new Rol_Model();
+        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
+        $cambiar_coordenadas = false;
+        foreach ($roles as $rol) {
+            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
+                $cambiar_coordenadas = true;
+            }
+
+        }
 
         $imagenes = $this->_vectores_model->getImagenesVector($params['id']);
 
@@ -114,7 +108,25 @@ class vectores extends MY_Controller
             }
         }
 
-        $data['imagenes'] = $arr_imagenes;
+        
+        $data = array(
+            'id' => $vector->id_vector,
+            'longitud' => $vector->cd_longitud_vector,
+            'latitud' => $vector->cd_latitud_vector,
+            'nombres' => $vector->gl_nombres_vector,
+            'apellidos' => $vector->gl_apellidos_vector,
+            'cedula' => $vector->gl_run_vector,
+            'telefono' => $vector->gl_telefono_vector,
+            'correo' => $vector->gl_email_vector,
+            'direccion' => $vector->gl_direccion_vector,
+            'referencias' => $vector->gl_referencias_vector,
+            'fecha_hallazgo' => Fechas::formatearHtml($vector->fc_fecha_hallazgo_vector),
+            'fecha_entrega' => Fechas::formatearHtml($vector->fc_fecha_entrega_vector),
+            'comentarios_ciudadano' => $vector->gl_comentario_ciudadano_vector,
+            'js' => $this->load->view("pages/mapa/js-plugins", array(), true),
+            'imagenes' => $arr_imagenes,
+            'cambiar_coordenadas' => $cambiar_coordenadas
+        );
 
 
         //$this->layout_assets->addMapaFormulario();
