@@ -30,6 +30,7 @@ var MapaElementos = Class({
             informacion: propiedades,
             tipo: "LINEA",
             geodesic: true,
+            editable: true,
             strokeColor: "#000",
             strokeOpacity: 1.0,
             strokeWeight: 2
