@@ -295,7 +295,6 @@ Class Layout_Menu_Render
                 case "embarazada":
                     $this->usuario->setModulo("casos_febriles");
                     $ver = $this->usuario->getPermisoEmbarazada();
-
                     break;
                 default:
                     $this->usuario->setModulo($datos["permiso"]);
