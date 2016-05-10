@@ -54,6 +54,13 @@
                                 <i class="fa fa-edit"></i>
                             </button>
                         <?php else: ?>
+                            <?php if ($admin): ?>
+                                <button data-rel="<?php echo $row["id_hallazgo"]; ?>" title="Revisar Inspeccion"
+                                        class="btn btn-sm btn-success btn-square revisar-hallazgo" type="button"
+                                        data-hallazgo="<?php echo $row['id_hallazgo']?>">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            <?php endif; ?>
                             <?php /*if (!$entomologo and $row['cd_estado_hallazgo'] > 0 and $row['cd_enviado_hallazgo'] == 0): */ ?><!--
                                 <button data-rel="<?php /*echo $row["id_hallazgo"]; */ ?>" title="Enviar Resultado"
                                         class="btn btn-sm btn-success btn-square revisar-hallazgo" type="button"
