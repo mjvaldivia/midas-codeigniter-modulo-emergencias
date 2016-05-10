@@ -57,7 +57,7 @@
                             <?php if ($admin): ?>
                                 <button data-rel="<?php echo $row["id_hallazgo"]; ?>" title="Revisar Inspeccion"
                                         class="btn btn-sm btn-success btn-square revisar-hallazgo" type="button"
-                                        data-hallazgo="<?php /*echo $row['id_hallazgo'] */ ?>">
+                                        data-hallazgo="<?php echo $row['id_hallazgo']?>">
                                     <i class="fa fa-search"></i>
                                 </button>
                             <?php endif; ?>
