@@ -190,7 +190,7 @@ var MapaEditor = Class({
                 capa : null,
                 informacion: {"NOMBRE" : "Linea agregada"},
                 clickable: false,
-                editable: false,
+                editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
                 strokeWeight: 2
