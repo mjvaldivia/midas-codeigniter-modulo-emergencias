@@ -256,7 +256,7 @@ var MapaEditor = Class({
                           "marea_roja" : $("#marea_roja").is(":checked") ? 1:0,
                           "marea_roja_pm" : $("#marea_roja_pm").is(":checked") ? 1:0,
                           
-                          "vectores" : $("#vectores").is(":checked") ? 1:0,
+                          "vectores" : $("#vectores_marcadores").is(":checked") ? 1:0,
                           "vectores_hallazgos" : $("#vectores_hallazgos").is(":checked") ? 1:0,
                           
                           "kmls" : this.class_kml.listArchivosKml(),
