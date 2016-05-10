@@ -8,7 +8,7 @@ Class Validar{
      * @param string $formato formato de entrada
      * @return boolean
      */
-    public function validarFechaSpanish($fecha, $formato = "d-m-Y h:i"){
+    public function validarFechaSpanish($fecha, $formato = "d-m-Y H:i"){
         $date = DateTime::createFromFormat($formato, $fecha);
         if($date instanceof DateTime){
             return true;
