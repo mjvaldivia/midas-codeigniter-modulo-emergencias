@@ -42,7 +42,7 @@
                                 para ajustar la ubicación
                                 del caso
                                 <?php if($id > 0 and $cambiar_coordenadas):?>
-                                    <button type="button" class="btn btn-sm btn-info pull-right btn-square" onclick="Hallazgos.cambiarCoordenadas(<?php echo $id?>);">Cambiar coordenadas</button>
+                                    <button type="button" class="btn btn-sm btn-info pull-right btn-square" onclick="Vectores.cambiarCoordenadas(<?php echo $id?>);">Cambiar coordenadas</button>
                                 <?php endif;?>
                             </div>
 

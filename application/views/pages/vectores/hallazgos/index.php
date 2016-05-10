@@ -12,7 +12,7 @@
 </div>
 
 <div class="row">
-    <?php if(!$entomologo):?>
+    <?php if(1):?>
     <div class="col-xs-12 text-right">
         <a href="<?php echo base_url('vectores_hallazgos/excel')?>" class="btn btn-primary btn-square" target="_blank"><i class="fa fa-file-excel-o"></i> Descargar Excel</a>
         <a href="<?php echo base_url('vectores_hallazgos/denuncias')?>" class="btn btn-success btn-square"><i class="fa fa-plus"></i> Nueva Inspeccion</a>

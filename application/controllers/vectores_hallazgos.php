@@ -61,6 +61,17 @@ class Vectores_hallazgos extends MY_Controller
 
         $vector = $this->_hallazgos_model->getById($params['id']);
 
+        $this->load->model('rol_model');
+        $rol_model = new Rol_Model();
+        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
+        $cambiar_coordenadas = false;
+        foreach ($roles as $rol) {
+            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
+                $cambiar_coordenadas = true;
+            }
+
+        }
+
         $data = array(
             'id' => $vector->id_hallazgo,
             'longitud' => $vector->cd_longitud_hallazgo,
@@ -71,6 +82,7 @@ class Vectores_hallazgos extends MY_Controller
             'direccion' => $vector->gl_direccion_hallazgo,
             'fecha_hallazgo' => Fechas::formatearHtml($vector->fc_fecha_hallazgo_hallazgo),
             'comentarios_ciudadano' => $vector->gl_comentario_hallazgo,
+            'cambiar_coordenadas' => $cambiar_coordenadas
         );
 
 
@@ -144,11 +156,23 @@ class Vectores_hallazgos extends MY_Controller
                 break;
         }
 
+        $this->load->model('rol_model');
+        $rol_model = new Rol_Model();
+        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
+        $cambiar_coordenadas = false;
+        foreach ($roles as $rol) {
+            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
+                $cambiar_coordenadas = true;
+            }
+
+        }
+
         $datos = array(
             'persona' => $vector->gl_nombres_hallazgo . ' ' . $vector->gl_apellidos_hallazgo,
             'num_denuncia' => $num_denuncia,
             'resultado' => $resultado,
-            'texto_entomologo' => $vector->gl_observaciones_resultado_hallazgo
+            'texto_entomologo' => $vector->gl_observaciones_resultado_hallazgo,
+            'cambiar_coordenadas' => $cambiar_coordenadas
         );
         $contenido = $this->load->view("pages/hallazgos/pdf_respuesta", $datos, true);
         $data['contenido'] = strip_tags($contenido);
