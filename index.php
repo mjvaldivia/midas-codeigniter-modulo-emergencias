@@ -30,7 +30,7 @@ error_reporting(E_ALL ^ E_NOTICE);
  * PROD (produccion)
  */
 defined('ENVIRONMENT')
-    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'development'));
+    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'local'));
 
 
 
@@ -60,6 +60,7 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
+                case 'local':
                     error_reporting(E_ALL ^ E_NOTICE);
 		break;
 

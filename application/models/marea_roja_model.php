@@ -62,7 +62,6 @@ class Marea_Roja_Model extends MY_Model {
                                ->orderBy("id", "DESC");
         
         if(!empty($parametros["fecha_desde"]) && $parametros["fecha_desde"] instanceof DateTime){
-            
             $query->whereAND("DATE_FORMAT(a.fecha,'%Y-%m-%d')", $parametros["fecha_desde"]->format("Y-m-d"), ">=");
         }
         
@@ -70,6 +69,13 @@ class Marea_Roja_Model extends MY_Model {
             $query->whereAND("DATE_FORMAT(a.fecha ,'%Y-%m-%d')", $parametros["fecha_hasta"]->format("Y-m-d"), "<=");
         }
         
+        if(!empty($parametros["region"])){
+            if(is_array($parametros["region"])){
+                $query->whereAND("a.id_region", $parametros["region"], "IN");
+            } else {
+                $query->whereAND("a.id_region", $parametros["region"]);
+            }
+        }
         
         
         $result = $query->getAllResult();

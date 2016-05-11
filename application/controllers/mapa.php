@@ -341,6 +341,8 @@ class Mapa extends MY_Controller {
     public function info_marea_roja(){
         header('Content-type: application/json'); 
         
+        $this->load->model("usuario_region_model","_usuario_region_model");
+        
         $this->load->helper(
             array(
                 "modulo/usuario/usuario",
@@ -351,7 +353,8 @@ class Mapa extends MY_Controller {
         
         $this->load->library(
             array(
-                "core/fecha/fecha_conversion"
+                "core/fecha/fecha_conversion",
+                "core/string/arreglo"
             )
         );
         
@@ -359,7 +362,9 @@ class Mapa extends MY_Controller {
         
         $casos = array();
         
-        $lista = $this->_marea_roja_model->listar();
+        $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
+        
+        $lista = $this->_marea_roja_model->listar(array("region" => $this->arreglo->arrayToArray($lista_regiones, "id_region")));
         if($lista != null){
             foreach($lista as $row){
                 $propiedades = array("MUESTREO N°" => $row["id"]);
