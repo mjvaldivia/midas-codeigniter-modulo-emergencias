@@ -73,7 +73,7 @@ Class Usuario_Form_Element_SelectRegion{
      */
     protected function _listar(){
 
-        return $this->_usuario_region_model->listarRegionPorUsuario(
+        return $this->ci->_usuario_region_model->listarRegionPorUsuario(
                 $this->ci->session->userdata("session_idUsuario")
         );
 

@@ -170,6 +170,8 @@ class Marea_roja extends MY_Controller
      * 
      */
     public function nuevo(){
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL ^ E_NOTICE);
         $this->load->helper(
             array(
                 "modulo/emergencia/emergencia",

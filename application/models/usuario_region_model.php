@@ -29,7 +29,7 @@ class Usuario_Region_Model extends MY_Model{
      * @return array
      */
     public function listarRegionPorUsuario($id_usuario){
-        $result = $this->_query->select("r.*")
+        $result = $this->_query->select("*")
                                ->from($this->_tabla . " a")
                                ->join("regiones r", "r.reg_ia_id = a.id_region", "INNER")
                                ->whereAND("a.id_usuario", $id_usuario)
