@@ -536,7 +536,7 @@ class Mapa extends MY_Controller {
                     $coordenadas = json_decode($row["coordenadas"]);
                     
                     $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $row["fecha"]);
-                    
+                    $propiedades["TIPO"] = "CASOS FEBRILES"; 
                     $casos[] = array(
                         "id" => $row["id"],
                         "fecha_ingreso" => $fecha->format("d/m/Y"),

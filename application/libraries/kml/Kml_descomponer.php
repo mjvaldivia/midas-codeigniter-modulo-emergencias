@@ -441,11 +441,13 @@ Class Kml_descomponer{
         $icono = array();
 
         if(isset($value["IconStyle"]["Icon"])){
-            $icono = array(
-                "icono" => array(
-                    "path" => str_replace(FCPATH, "", $this->_dir_temp . "/" . $value["IconStyle"]["Icon"]["href"])
-                )
-            );
+            
+                $icono = array(
+                    "icono" => array(
+                        "path" => str_replace(FCPATH, "", $this->_dir_temp . "/" . $value["IconStyle"]["Icon"]["href"])
+                    )
+                );
+            
         }
 
         $poligono = array();
