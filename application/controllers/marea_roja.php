@@ -216,6 +216,15 @@ class Marea_roja extends MY_Controller
                 "modulo/comuna/default"
             )
         );
+        
+        $this->load->library(
+            array(
+                "core/fecha/fecha_conversion",
+                "core/string/arreglo"
+            )
+        );
+        
+        $this->load->model("usuario_region_model","_usuario_region_model");
 
         $fecha_desde = null;
         if($params["fecha_desde"]!=""){
@@ -227,10 +236,10 @@ class Marea_roja extends MY_Controller
             $fecha_hasta = DateTime::createFromFormat("d_m_Y", $params["fecha_hasta"]);
         }
         
-
+        $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
 
         $this->load->library("excel");
-        $lista = $this->_marea_roja_model->listar(array("fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta));
+        $lista = $this->_marea_roja_model->listar(array("region" => $this->arreglo->arrayToArray($lista_regiones, "id_region"),"fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta));
         //DIE();
         $datos_excel = array();
         if (!is_null($lista)) {
@@ -304,6 +313,9 @@ class Marea_roja extends MY_Controller
      */
     public function ajax_lista()
     {
+        
+        $this->load->model("usuario_region_model","_usuario_region_model");
+        
         $this->load->helper(array(
                 "modulo/emergencia/emergencia",
                 "modulo/usuario/usuario",
@@ -313,11 +325,14 @@ class Marea_roja extends MY_Controller
         
         $this->load->library(
             array(
-                "core/fecha/fecha_conversion"
+                "core/fecha/fecha_conversion",
+                "core/string/arreglo"
             )
         );
         
-        $lista = $this->_marea_roja_model->listar();
+        $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
+        
+        $lista = $this->_marea_roja_model->listar(array("region" => $this->arreglo->arrayToArray($lista_regiones, "id_region")));
 
         $casos = array();
 

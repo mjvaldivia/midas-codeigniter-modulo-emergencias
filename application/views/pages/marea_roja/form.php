@@ -138,7 +138,7 @@
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="telefono" class="control-label">Región (*):</label>
-                                        <?php echo formElementSelectRegion("region", array($region), array("class" => "form-control")); ?>
+                                        <?php echo formElementSelectRegionUsuario("region", array($region), array("class" => "form-control")); ?>
                                         
                                         <span class="help-block hidden"></span>
                                     </div>

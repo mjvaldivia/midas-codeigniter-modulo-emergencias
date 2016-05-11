@@ -28,6 +28,25 @@ class Usuario_Region_Model extends MY_Model{
      * @param int $id_usuario
      * @return array
      */
+    public function listarRegionPorUsuario($id_usuario){
+        $result = $this->_query->select("r.*")
+                               ->from($this->_tabla . " a")
+                               ->join("regiones r", "r.reg_ia_id = a.id_region", "INNER")
+                               ->whereAND("a.id_usuario", $id_usuario)
+                               ->orderBy("id_region", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * 
+     * @param int $id_usuario
+     * @return array
+     */
     public function listarPorUsuario($id_usuario){
         $result = $this->_query->select("*")
                                ->from()
