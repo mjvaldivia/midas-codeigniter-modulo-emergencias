@@ -1,5 +1,7 @@
 <?php
 
+require_once(APPPATH . 'third_party/Cosof/Form/Select.php');
+
 Class Usuario_Form_Element_SelectRegion{
     
     /**

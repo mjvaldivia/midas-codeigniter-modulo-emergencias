@@ -175,7 +175,8 @@ class Marea_roja extends MY_Controller
                 "modulo/emergencia/emergencia",
                 "modulo/formulario/formulario",
                 "modulo/direccion/region",
-                "modulo/direccion/comuna"
+                "modulo/direccion/comuna",
+                "modulo/usuario/usuario_form"
             )
         );
         
