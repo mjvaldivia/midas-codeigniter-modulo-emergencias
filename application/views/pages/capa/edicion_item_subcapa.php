@@ -93,10 +93,9 @@
 <?php echo $js?>
 <?= loadJS("assets/js/modulo/mapa/formulario.js"); ?>
 <?= loadJS("assets/js/modulo/capa/item/editar.js"); ?>
-<?php if($id_item == 0) { ?>
+<?php if($id_item == 0):?>
 <script type="text/javascript">
 bindMapa();
-<?php } else { ?>
-bindVisor();
-<?php } ?>
 </script>
+<?php endif;?>
+

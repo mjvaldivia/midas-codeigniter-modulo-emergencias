@@ -1,8 +1,4 @@
 $(document).ready(function(){
-    
-}); 
-
-function bindVisor(){
     var visor = new Visor("mapa");
 
     visor.setCenter($("#latitud").val(),$("#longitud").val());
@@ -33,7 +29,8 @@ function bindVisor(){
     
 
     visor.bindMapa();
-}
+}); 
+
 
 function bindMapa (){
     var mapa = new MapaFormulario("mapa");
