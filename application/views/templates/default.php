@@ -39,7 +39,7 @@
     <?= loadCSS("assets/css/style.css", true) ?>
     <?= loadJS("assets/js/Modal_Sipresa.js") ?>
     <?= loadJS("assets/js/xmodal.js") ?>
-    
+    <?php echo layoutCss(); ?>
     <script type="text/javascript">
         
         siteUrl = '<?= site_url("/") ?>';
@@ -268,7 +268,7 @@
         <?= loadJS("assets/js/library/jquery.wait.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
-
+        <?php echo layoutJs(); ?>
         <script type="text/javascript">
             $(document).ready(function () {
                 Utils.listenerCambioRapido();

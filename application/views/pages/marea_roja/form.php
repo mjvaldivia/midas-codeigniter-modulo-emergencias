@@ -37,21 +37,10 @@
                         <div class="col-md-6">
                             <div id="mapa" style="height: 400px"></div>
                             <div class="alert alert-info">Puede mover el marcador para ajustar la ubicación del caso</div>
+                            <div class="col-xs-8">
+                            <?php echo formCoordenadas($latitud, $longitud); ?>
+                            </div>
                             
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="nombre" class="control-label">Latitud(*):</label>
-                                    <input type="text" class="form-control mapa-coordenadas" name="latitud" id="latitud" value="<?php echo $latitud; ?>">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="nombre" class="control-label">Longitud(*):</label>
-                                    <input type="text" class="form-control mapa-coordenadas" name="longitud" id="longitud" value="<?php echo $longitud; ?>">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
                             <div class="col-xs-4">
                                 <div class="form-group clearfix">
                                     <label for="nombre" class="control-label">Calidad de georeferenciación(*):</label>

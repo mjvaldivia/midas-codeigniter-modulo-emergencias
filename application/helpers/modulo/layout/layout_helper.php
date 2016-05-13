@@ -1,5 +1,4 @@
 <?php
-
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Logeado.php");
@@ -11,14 +10,41 @@ require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
 require_once(APPPATH . "helpers/modulo/layout/text/MoreLess.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Imagen.php");
 
+
 /**
- * Despliega el menu
+ * Formulario para coordenadas y conversion de coordenadas
+ * @param string $latitud
+ * @param string $longitud
+ * @return string html
+ */
+function formCoordenadas($latitud = "", $longitud = ""){
+    $ci =& get_instance();
+    $ci->layout_assets->addJs("library/jquery.typing-0.2.0.min.js");
+    $ci->layout_assets->addJs("modulo/mapa/google/extension/geo-encoder.js");
+    $ci->layout_assets->addJs("modulo/layout/form-coordenadas.js");
+    return $ci->load->view(
+        "pages/helpers/modulo/layout/form-coordenadas", 
+        array(
+            "latitud" => $latitud, 
+            "longitud" => $longitud
+        ), 
+        true
+    );
+}
+
+/**
+ * Retorna el menu
+ * @return string hmtl
  */
 function menuRender(){
     $menu = New Layout_Menu_Render();
     return $menu->render();
 }
 
+/**
+ * Agrega los JS para datatables
+ * @return string html
+ */
 function jsDatatable(){
     $ci =& get_instance();
     return $ci->load->view("templates/js-datatable", array(), true);
@@ -154,11 +180,19 @@ function htmlSimulacion(){
     return $simulacion->render();
 }
 
+/**
+ * 
+ * @return type
+ */
 function imagenPerfilUsuario(){
     $imagen = New Layout_Usuario_Imagen();
     return $imagen->render();
 }
 
+/**
+ * 
+ * @return type
+ */
 function estaLogeado(){
     $logeo = New Layout_Usuario_Logeado();
     return $logeo->estaLogeado();
