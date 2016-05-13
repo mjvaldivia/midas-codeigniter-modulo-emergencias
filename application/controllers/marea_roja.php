@@ -45,7 +45,8 @@ class Marea_roja extends MY_Controller
                 "modulo/emergencia/emergencia",
                 "modulo/formulario/formulario",
                 "modulo/direccion/region",
-                "modulo/direccion/comuna"
+                "modulo/direccion/comuna",
+                "modulo/usuario/usuario_form"
             )
         );
         $params = $this->input->get(null, true);
@@ -216,7 +217,8 @@ class Marea_roja extends MY_Controller
             array(
                 "modulo/usuario/usuario",
                 "modulo/formulario/formulario",
-                "modulo/comuna/default"
+                "modulo/comuna/default",
+                "modulo/direccion/region"
             )
         );
         
@@ -242,7 +244,11 @@ class Marea_roja extends MY_Controller
         $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
 
         $this->load->library("excel");
-        $lista = $this->_marea_roja_model->listar(array("region" => $this->arreglo->arrayToArray($lista_regiones, "id_region"),"fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta));
+        $lista = $this->_marea_roja_model->listar(
+            array(
+                "region" => $this->arreglo->arrayToArray($lista_regiones, "id_region"),
+                "fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta)
+        );
         //DIE();
         $datos_excel = array();
         if (!is_null($lista)) {
@@ -282,17 +288,52 @@ class Marea_roja extends MY_Controller
             foreach ($datos_excel as $id => $valores) {
 
                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $valores["FECHA"]);
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, $valores["fecha_ingreso"]);
+                
+                //***********************************************************************************//
+                $fecha = $this->fecha_conversion->fechaToDateTime(
+                    $valores["FECHA"], 
+                    array(
+                        "d/m/Y",
+                        "d-m-Y"
+                    )
+                );
+                
+                if($fecha instanceof DateTime){
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $fecha->format("d/m/Y"));
+                } else {
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, "");
+                }
+                
+                $fecha_ingreso = $this->fecha_conversion->fechaToDateTime(
+                    $valores["fecha_ingreso"], 
+                    array(
+                        //"d/m/Y",
+                        "Y-m-d H:i:s"
+                    )
+                );
+                
+                if($fecha_ingreso instanceof DateTime){
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, $fecha_ingreso->format("d/m/Y"));
+                } else {
+                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, "");
+                }
+
+                //***********************************************************************************//
                 
                 $i = 3;
                 foreach ($columnas as $columna => $valor) {
                
                     if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
-                        if($columna == "COMUNA"){
-                            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreComuna($valores[$columna]));
-                        } else {
-                            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
+                        switch ($columna) {
+                            case "REGION":
+                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreRegion($valores[$columna]));
+                                break;
+                            case "COMUNA":
+                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreComuna($valores[$columna]));
+                                break;
+                            default:
+                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
+                                break;
                         }
                     $i++;
                     }
