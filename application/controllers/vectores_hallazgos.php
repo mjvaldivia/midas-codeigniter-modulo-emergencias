@@ -601,7 +601,7 @@ class Vectores_hallazgos extends MY_Controller
         );
 
         $json = array();
-        if ($this->_vectores_model->update($data, $params['id'])) {
+        if ($this->_hallazgos_model->update($data, $params['id'])) {
             $json['mensaje'] = 'Coordenadas actualizadas';
             $json['estado'] = true;
         } else {
