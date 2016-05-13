@@ -231,6 +231,7 @@ class Marea_roja extends MY_Controller
         
         $this->load->model("usuario_region_model","_usuario_region_model");
 
+        //**************** FILTROS DE BUSQUEDA ***************************//
         $fecha_desde = null;
         if($params["fecha_desde"]!=""){
             $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
@@ -249,14 +250,23 @@ class Marea_roja extends MY_Controller
                 "region" => $this->arreglo->arrayToArray($lista_regiones, "id_region"),
                 "fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta)
         );
-        //DIE();
+        
+        //****************************************************************//
+        
         $datos_excel = array();
         if (!is_null($lista)) {
             
             foreach ($lista as $caso) {
+                $coordenadas = Zend_Json::decode($caso["coordenadas"]);
                 $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
-                $datos_excel[count($datos_excel)-1]["id"] = $caso["id"];
-                $datos_excel[count($datos_excel)-1]["fecha_ingreso"] = $caso["fecha"];
+                
+                $fila = count($datos_excel)-1;
+                
+                $datos_excel[$fila]["id"] = $caso["id"];
+                $datos_excel[$fila]["fecha_ingreso"] = $caso["fecha"];
+                
+                $datos_excel[$fila]["latitud"] = $coordenadas["lat"];
+                $datos_excel[$fila]["longitud"] = $coordenadas["lng"];
             }
 
             $excel = $this->excel->nuevoExcel();
@@ -267,9 +277,10 @@ class Marea_roja extends MY_Controller
                 ->setTitle("Exportación de marea roja")
                 ->setSubject("Emergencias")
                 ->setDescription("Marea roja")
-                ->setKeywords("office 2007 openxml php sumanet")
+                ->setKeywords("office 2007 openxml php emergencias")
                 ->setCategory("Midas");
 
+            //*********************** AGREGANDO COLUMNAS **********************************//
             $columnas = reset($datos_excel);
 
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MUESTREO"); 
@@ -278,11 +289,16 @@ class Marea_roja extends MY_Controller
             
             $i = 3;
             foreach($columnas as $columna => $valor){
-                if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
+                if(!in_array($columna, array("FECHA", "id", "fecha_ingreso", "latitud", "longitud"))){
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                 $i++;
                 }
             }
+            
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, "LATITUD");
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i + 1, 1, "LONGITUD");
+            
+            //*****************************************************************************//
 
             $j = 2;
             foreach ($datos_excel as $id => $valores) {
@@ -307,7 +323,6 @@ class Marea_roja extends MY_Controller
                 $fecha_ingreso = $this->fecha_conversion->fechaToDateTime(
                     $valores["fecha_ingreso"], 
                     array(
-                        //"d/m/Y",
                         "Y-m-d H:i:s"
                     )
                 );
@@ -322,8 +337,8 @@ class Marea_roja extends MY_Controller
                 
                 $i = 3;
                 foreach ($columnas as $columna => $valor) {
-               
-                    if($columna != "FECHA" and $columna != "id" and $columna!="fecha_ingreso"){
+                    
+                    if(!in_array($columna, array("FECHA", "id", "fecha_ingreso", "latitud", "longitud"))){
                         switch ($columna) {
                             case "REGION":
                                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreRegion($valores[$columna]));
@@ -337,8 +352,11 @@ class Marea_roja extends MY_Controller
                         }
                     $i++;
                     }
-                    
                 }
+                
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, $valores["latitud"]);
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i+1, $j, $valores["longitud"]);
+                
                 $j++;
             }
 
