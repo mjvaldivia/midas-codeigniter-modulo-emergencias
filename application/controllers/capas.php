@@ -914,7 +914,6 @@ class Capas extends MY_Controller
                 fclose($geojson);
 
                 $mapsharper = shell_exec('node --expose-gc /usr/bin/mapshaper -i '.$nombre_geojson.' -simplify 35% -o format=geojson '.$tmp_geojson);
-
                 unlink($nombre_geojson);
 
             }else{
