@@ -24,6 +24,7 @@ function formCoordenadas(
     $longitud = "",
     $propiedades = array()
 ){
+        
     $ci =& get_instance();
     $ci->layout_assets->addJs("library/jquery.typing-0.2.0.min.js");
     $ci->layout_assets->addJs("modulo/mapa/google/extension/geo-encoder.js");
@@ -33,7 +34,8 @@ function formCoordenadas(
         array(
             "prefijo" => $prefijo_input,
             "latitud" => $latitud, 
-            "longitud" => $longitud
+            "longitud" => $longitud,
+            "propiedades" => $propiedades
         ), 
         true
     );
