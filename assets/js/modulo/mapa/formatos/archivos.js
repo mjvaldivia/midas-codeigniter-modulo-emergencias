@@ -139,6 +139,9 @@ var MapaArchivos = Class({
      * @returns {void}
      */
     loadArchivos : function(mapa){
+        
+        var tareas = new MapaLoading();
+        tareas.push(1);
         var yo = this;
         this.mapa = mapa;
         $.ajax({         
@@ -152,14 +155,10 @@ var MapaArchivos = Class({
                notificacionError("Ha ocurrido un problema - ", errorThrown);
            },
            success:function(data){
+               tareas.remove(1);
                if(data.cantidad>0){
-                   Messenger().run({
-                       action: $.ajax,
-                       showCloseButton: true,
-                       successMessage: '<strong> KML </strong> <br> Ok',
-                       errorMessage: '<strong> KML </strong> <br> Se produjo un error al cargar',
-                       progressMessage: '<strong> KML </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-                   }, {         
+                   tareas.push(1);
+                   $.ajax({         
                        dataType: "json",
                        cache: false,
                        async: true,
@@ -250,6 +249,7 @@ var MapaArchivos = Class({
                                });
                                yo.updateListaArchivosAgregados();
                            }
+                           tareas.remove(1);
                        }
                    });
                }

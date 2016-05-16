@@ -1,7 +1,11 @@
+
+
 /**
  * Inicio front-end
  */
 $(document).ready(function() {
+    
+
     
     var id = $("#id").val();
     
@@ -11,6 +15,9 @@ $(document).ready(function() {
     visor.seteaHeight(height - 60);
     visor.seteaEmergencia(id);
 
+    var tareas = new MapaLoading();
+    visor.addOnReadyFunction("visor de tareas", tareas.iniciarLoading, true);
+    
      //custom
     var custom = new MapaElementos();
     custom.emergencia(id);
