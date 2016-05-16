@@ -54,18 +54,18 @@ class Marea_roja extends MY_Controller
         $caso = $this->_marea_roja_model->getById($params["id"]);
         if (!is_null($caso)) {
 
-            $data = array("id" => $caso->id);
-
             $propiedades = json_decode($caso->propiedades);
             $coordenadas = json_decode($caso->coordenadas);
+           
+            $data = array("id" => $caso->id);
             
             foreach ($propiedades as $nombre => $valor) {
-                $data[str_replace(" ", "_", strtolower($nombre))] = $valor;
+                $data["propiedades"][str_replace(" ", "_", strtolower($nombre))] = $valor;
             }
 
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
-           
+            
             $this->template->parse("default", "pages/marea_roja/form", $data);
         }
     }

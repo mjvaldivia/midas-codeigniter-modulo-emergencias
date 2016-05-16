@@ -25,7 +25,7 @@
             <td width="10%" align="center">
                 <?php 
                 if($row["comuna"]!=""){
-                    echo nombreComuna($row["comuna"]);
+                    echo nombreComuna($row["id_comuna"]);
                 } else {
                     echo "------";
                 }
