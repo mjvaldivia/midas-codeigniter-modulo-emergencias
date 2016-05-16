@@ -25,6 +25,48 @@
 </div>
 
 <div class="row">
+    <div class="col-lg-12">
+        <div class="portlet portlet-default top-spaced">
+            <div class="portlet-body"> 
+                <div class="row">
+                    
+                    <div class="col-lg-3">
+                        <div class="form-group clearfix">
+                            <label for="region" class="control-label">Región</label>
+                            <?php 
+                                echo formElementSelectRegionUsuario(
+                                    "region", 
+                                    "", 
+                                    array(
+                                        "class" => "form-control region",
+                                        "data-rel" => "comuna"
+                                    )
+                                ); ?>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3">
+                        <div class="form-group clearfix">
+                            <label for="comuna" class="control-label">Comuna</label>
+                            <div id="select-comuna">
+                            <?php echo formSelectComuna("comuna", "", ""); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <button id="buscar" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">
+                            <i class="fa fa-search"></i>
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-lg-12">                        
         <div id="pResultados" class="portlet portlet-default">
             <div class="portlet-body"> 

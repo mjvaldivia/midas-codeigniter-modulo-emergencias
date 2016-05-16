@@ -1,6 +1,9 @@
 $(document).ready(function() {
-    recargaGrilla();
     
+    
+    $("#buscar").click(function(e){
+        recargaGrilla();
+    });
     
     $("#descargar").click(function(e){
         e.preventDefault();
@@ -83,6 +86,9 @@ $(document).ready(function() {
            
         }) ;
     });
+    
+    
+    $("#buscar").trigger("click");
 });
 
 
@@ -91,7 +97,7 @@ function recargaGrilla(){
         dataType: "html",
         cache: false,
         async: true,
-        data: "",
+        data: {"region" : $("#region").val(), "comuna" : $("#comuna").val()},
         type: "post",
         url: siteUrl + "marea_roja/ajax_lista", 
         error: function(xhr, textStatus, errorThrown){

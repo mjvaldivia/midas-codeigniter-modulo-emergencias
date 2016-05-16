@@ -21,6 +21,13 @@ class Marea_roja extends MY_Controller
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
         $this->load->model("modulo_model", "_modulo_model");
+        
+        $this->load->helper(
+            array(
+                "modulo/usuario/usuario_form",
+                "modulo/comuna/form"
+            )
+        );
     }
     
     /**
@@ -171,8 +178,6 @@ class Marea_roja extends MY_Controller
      * 
      */
     public function nuevo(){
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL ^ E_NOTICE);
         $this->load->helper(
             array(
                 "modulo/emergencia/emergencia",
@@ -375,6 +380,7 @@ class Marea_roja extends MY_Controller
      */
     public function ajax_lista()
     {
+        $params = $this->input->post(null, true);
         
         $this->load->model("usuario_region_model","_usuario_region_model");
         
@@ -392,9 +398,19 @@ class Marea_roja extends MY_Controller
             )
         );
         
-        $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
+        if($params["region"]!=""){
+            $lista_regiones[0] = $params["region"];
+        } else {
+            $lista_regiones = $this->arreglo->arrayToArray(
+                $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario')),
+                "id_region"
+            );
+        }
         
-        $lista = $this->_marea_roja_model->listar(array("region" => $this->arreglo->arrayToArray($lista_regiones, "id_region")));
+        $lista = $this->_marea_roja_model->listar(
+            array("region" => $lista_regiones,
+                  "comuna" => $params["comuna"])
+        );
 
         $casos = array();
 

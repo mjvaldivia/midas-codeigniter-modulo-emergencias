@@ -1,12 +1,7 @@
 <?php
 
-require_once(__DIR__ . "/Abstract.php");
-
-/**
- * Clase para crear un elemento select
- */
-Class Cosof_Form_Select extends Cosof_Form_Abstract{
-        
+Class Form_Select{
+    
     /**
      * Campo para valor del option
      * @var string
@@ -31,33 +26,7 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
      */
     protected $_nombre;
     
-        /**
-     * Atributos del elemento
-     * @var array 
-     */
     protected $_atributos = array();
-    
-    /**
-     * Clase del elemento html
-     * @var string 
-     */
-    protected $_class = "form-control";
-    
-    /**
-     * Agregar los atributos
-     * @param array $array
-     */
-    public function addAtributos($array){
-        $this->_atributos = $array;
-    }
-    
-    /**
-     * Añadir la clase del elemento html
-     * @param string $string
-     */
-    public function addClass($string){
-        $this->_class = $string;
-    }
     
     /**
      * Funcion que devuelve resultados
@@ -90,6 +59,13 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
         $this->_option_val = $string;
     }
     
+    /**
+     * 
+     * @param array $atributos
+     */
+    public function setAtributos($atributos){
+        $this->_atributos = $atributos;
+    }
     
     
     /**
@@ -100,9 +76,11 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
      */
     public function render($id, $default){
         $atributos = "";
-        foreach($this->_atributos as $nombre => $valor){
-            $atributos .= " " . $nombre . "=\"".$valor."\"";
-            
+        
+        if(count($this->_atributos) > 0){
+            foreach($this->_atributos as $nombre => $valor){
+                $atributos .= " " . $nombre . "=\"".$valor."\"";
+            }
         }
         //var_dump($this->_atributos);
         $html = "<select name=\"" . $this->_nombre . "\" id=\"" . $this->_limpiaId($id) . "\" ".$atributos.">";
@@ -116,14 +94,14 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
 
                 if(!is_array($default)){
                     if($default == $row[$this->_option_val]){
-                        $selected = " selected=\"true\"";
+                        $selected = "selected=\"selected\"";
                     }
                 } else {
                     $existe = array_search($row[$this->_option_val], $default);
                     if($existe === false){
                         //void
                     } else {
-                        $selected = "selected=\"true\"";
+                        $selected = "selected=\"selected\"";
                     }
                 }
 

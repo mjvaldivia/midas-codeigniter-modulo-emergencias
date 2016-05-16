@@ -6,9 +6,9 @@
             <th width="10%">Fecha ingreso</th>
             <th width="10%">Fecha toma de muestra</th>
             <th width="10%">Recurso</th>
-            <th width="10%">Origen</th>
+            <th width="20%">Origen</th>
             <th width="15%">Comuna</th>
-            <th width="15%">Resultado</th>
+            <th width="10%">Resultado</th>
             <th width="15%">Estado</th>
             <th width="5%">Opciones</th>				
         </tr>
@@ -21,18 +21,18 @@
             <td width="10%"><?php echo $row["fecha_ingreso"]; ?></td>
             <td width="10%"><?php echo $row["fecha_muestra"]; ?></td>
             <td width="10%"><?php echo $row["recurso"]; ?></td>
-            <td width="10%"><?php echo $row["origen"]; ?></td>
+            <td width="20%"><?php echo $row["origen"]; ?></td>
             <td width="10%" align="center">
                 <?php 
                 if($row["comuna"]!=""){
-                    echo nombreComuna($row["id_comuna"]);
+                    echo nombreComuna($row["comuna"]);
                 } else {
                     echo "------";
                 }
                 ?>
             </td>
             
-            <td width="20%"><?php echo $row["resultado"]; ?></td>
+            <td width="10%"><?php echo $row["resultado"]; ?></td>
             
             <td width="20%">
                 
