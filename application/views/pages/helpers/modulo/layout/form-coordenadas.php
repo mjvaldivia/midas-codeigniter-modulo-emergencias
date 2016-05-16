@@ -75,16 +75,16 @@
         </div>
         <div class="col-xs-4">
             <div class="form-group clearfix">
-                <label for="form_coordenadas_utm_minutos" class="control-label">Latitud(*):</label>
-                <input type="text" class="form-control form_coordenadas_utm_input" name="form_coordenadas_utm_latitud" id="form_coordenadas_utm_latitud" value="">
-                <span class="help-block hidden"></span>
+                <label for="form_coordenadas_utm_minutos" class="control-label">Este (*):</label>
+                <input type="text" placeholder="*****" class="form-control form_coordenadas_utm_input" name="form_coordenadas_utm_latitud" id="form_coordenadas_utm_latitud" value="">
+                <span class="help-block">(5 digitos)</span>
             </div>
         </div>
         <div class="col-xs-4">
             <div class="form-group clearfix">
-                <label for="form_coordenadas_utm_longitud" class="control-label">Longitud(*):</label>
-                <input type="text" class="form-control form_coordenadas_utm_input" name="form_coordenadas_utm_longitud" id="form_coordenadas_utm_longitud" value="">
-                <span class="help-block hidden"></span>
+                <label for="form_coordenadas_utm_longitud" class="control-label">Norte (*):</label>
+                <input type="text" placeholder="******" class="form-control form_coordenadas_utm_input" name="form_coordenadas_utm_longitud" id="form_coordenadas_utm_longitud" value="">
+                <span class="help-block">(6 digitos)</span>
             </div>
         </div>
     </div>

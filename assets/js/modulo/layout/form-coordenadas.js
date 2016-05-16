@@ -26,10 +26,12 @@ $(document).ready(function() {
       } 
    });
    
+   $("#form_coordenadas_utm_latitud").mask('00000');
+   $("#form_coordenadas_utm_longitud").mask('000000');
+   
    $("#form_coordenadas_utm_zona").change(function(){
        utmToCoordenadas();
    });
-   
    
    $(".form_coordenadas_utm_input").typing({
         stop: function (event, $elem) {
@@ -46,7 +48,10 @@ $(document).ready(function() {
     });
 });
 
-
+/**
+ * 
+ * @returns {undefined}
+ */
 function gmsToCoordenadas(){
     $("#longitud").val("");
     $("#latitud").val("");
@@ -74,6 +79,10 @@ function gmsToCoordenadas(){
     $("#latitud").trigger("change");
 }
 
+/**
+ * 
+ * @returns {undefined}
+ */
 function utmToCoordenadas(){
     $("#longitud").val("");
     $("#latitud").val("");
@@ -91,6 +100,13 @@ function utmToCoordenadas(){
     }
 }
 
+/**
+ * Formula para grados a coordenadas
+ * @param {float} grados
+ * @param {float} minutos
+ * @param {float} segundos
+ * @returns {Number}
+ */
 function formulaGmsToCoordenadas(grados, minutos, segundos){
     return -( parseFloat(grados) + (parseFloat(minutos)/60 + (parseFloat(segundos)/3600)) );
 }
