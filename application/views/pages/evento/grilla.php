@@ -45,6 +45,14 @@
                         <i class="fa fa-files-o"></i>
                     </a>
                     <?php }?>    
+                        
+                    <?php if(puedeAbrirVisorEmergencia("emergencia")) { ?>
+
+                       <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(siteUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
+                           <i class="fa fa-globe"></i> 
+                       </button>
+
+                    <?php } ?>
                     
 
                     <?php if (puedeEditar("emergencia") and $row['est_ia_id'] > 1) { ?>
