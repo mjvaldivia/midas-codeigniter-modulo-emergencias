@@ -30,7 +30,7 @@ error_reporting(E_ALL ^ E_NOTICE);
  * PROD (produccion)
  */
 defined('ENVIRONMENT')
-    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'local'));
+    || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'development'));
 
 
 
