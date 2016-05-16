@@ -229,6 +229,7 @@ $(document).ready(function() {
         if($($this).data("rel")){
            $($this).change(function(){
                if($(this).val()!=""){
+                   $("#" + $($this).data("rel")).prop("disabled", true);
                     $.ajax({         
                         dataType: "json",
                         cache: false,
