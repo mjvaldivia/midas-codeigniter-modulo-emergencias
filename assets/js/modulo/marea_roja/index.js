@@ -88,11 +88,17 @@ $(document).ready(function() {
     });
     
     
-    $("#buscar").trigger("click");
+    //$("#buscar").trigger("click");
 });
 
 
 function recargaGrilla(){
+    $("#resultados").html(
+        "<div class=\"col-lg-12 text-center\" style=\"height: 100px;\">"
+        + "<i class=\"fa fa-4x fa-spin fa-spinner\"></i>"
+        + "</div>"
+    );
+    $("#pResultados").removeClass("hidden");
     $.ajax({         
         dataType: "html",
         cache: false,

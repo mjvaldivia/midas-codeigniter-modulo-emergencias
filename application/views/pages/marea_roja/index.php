@@ -68,7 +68,7 @@
 
 <div class="row">
     <div class="col-lg-12">                        
-        <div id="pResultados" class="portlet portlet-default">
+        <div id="pResultados" class="portlet portlet-default hidden">
             <div class="portlet-body"> 
                 <div class="row">
                     <div class="col-lg-12">
