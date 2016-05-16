@@ -78,7 +78,7 @@ class Mapa_capas extends MY_Controller {
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
-        
+        $coordenadas = Zend_Json::decode($params["geometry"]);
         $subcapa = $this->_capa_detalle_model->getById($params["capa"]);
         
         if(!is_null($subcapa)){
@@ -100,6 +100,7 @@ class Mapa_capas extends MY_Controller {
                     "nombre_capa"    => $nombre_capa,
                     "nombre_tipo"   => $nombre_tipo,
                     "informacion" => $informacion,
+                    "coordenadas" => $coordenadas,
                     "lista_formas" => json_decode($params["formas"]),
                     "lista_marcadores"  => json_decode($params["marcadores"]))
                 );

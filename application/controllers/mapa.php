@@ -615,7 +615,7 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
-        
+        $coordenadas = Zend_Json::decode($params["geometry"]);
         $this->load->view(
             "pages/mapa/popup-elemento-informacion", 
             array(
@@ -625,6 +625,7 @@ class Mapa extends MY_Controller {
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],
+                "coordenadas" => $coordenadas,
                 "lista_formas" => json_decode($params["formas"]),
                 "lista_marcadores"  => json_decode($params["marcadores"])
             )
@@ -639,7 +640,7 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
-        
+        $coordenadas = Zend_Json::decode($params["geometry"]);
         $this->load->view(
             "pages/mapa/popup-elemento-edicion", 
             array(
@@ -648,6 +649,7 @@ class Mapa extends MY_Controller {
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],
+                "coordenadas" => $coordenadas,
                 "lista_formas" => json_decode($params["formas"]),
                 "lista_marcadores"  => json_decode($params["marcadores"])
             )

@@ -114,6 +114,28 @@ var MapaPoligonoInformacion = Class({
                           "clave" : elemento.clave,
                           "identificador" : elemento.identificador};
         
+        
+        switch(elemento.tipo){
+            case "CIRCULO":
+                var contenido = new MapaInformacionElementoContenido();
+                parametros["geometry"] = JSON.stringify(contenido.coordenadasCirculo(elemento.getCenter(), elemento.getRadius()));
+                break;
+            case "POLIGONO":
+                parametros["geometry"] = JSON.stringify(elemento.getPath());
+                break;
+            case "MULTIPOLIGONO":
+                parametros["geometry"] = JSON.stringify(elemento.getPaths());
+                break;
+            case "RECTANGULO":
+                var bounds = elemento.getBounds();
+                var NE = bounds.getNorthEast();
+                var SW = bounds.getSouthWest();
+                var NW = new google.maps.LatLng(NE.lat(),SW.lng());
+                var SE = new google.maps.LatLng(SW.lat(),NE.lng());
+                parametros["geometry"] = JSON.stringify(new Array(NE,NW,SW,SE));
+                break;
+        }
+        
         if(elemento.capa != null){
             parametros["capa"] = elemento.capa;
             this.dialogoCapa(parametros);
