@@ -91,6 +91,7 @@
                                         <select name="recurso" id="recurso" class="form-control">
                                             <option value="">-- Seleccione un valor --</option>
                                             <option <?php if(strtoupper($recurso) == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
+                                            <option <?php if(strtoupper($recurso) == "ALMEJA JULIANA") echo "selected"; ?> value="ALMEJA JULIANA"> ALMEJA JULIANA </option>
                                             <option <?php if(strtoupper($recurso) == "CHOCHAYUYO") echo "selected"; ?> value="CHOCHAYUYO"> CHOCHAYUYO </option>
                                             <option <?php if(strtoupper($recurso) == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
                                             <option <?php if(strtoupper($recurso) == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
@@ -98,6 +99,7 @@
                                             <option <?php if(strtoupper($recurso) == "CHORO") echo "selected"; ?> value="CHORO"> CHORO </option>
                                             <option <?php if(strtoupper($recurso) == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>
                                             <option <?php if(strtoupper($recurso) == "CULENGUE") echo "selected"; ?> value="CULENGUE"> CULENGUE </option>
+                                            <option <?php if(strtoupper($recurso) == "LAPA") echo "selected"; ?> value="LAPA"> LAPA </option>
                                             <option <?php if(strtoupper($recurso) == "LOCO") echo "selected"; ?> value="LOCO"> LOCO </option>
                                             <option <?php if(strtoupper($recurso) == "LUCHE") echo "selected"; ?> value="LUCHE"> LUCHE </option>
                                             <option <?php if(strtoupper($recurso) == "MACHAS") echo "selected"; ?> value="MACHAS"> MACHAS </option>
