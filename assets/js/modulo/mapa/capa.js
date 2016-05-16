@@ -129,13 +129,10 @@ var MapaCapa = Class({
      * @returns {void}
      */
     addCapa : function(id_subcapa){
+        var tareas = new MapaLoading();
         var yo = this;
-        Messenger().run({
-            action: $.ajax,
-            successMessage: '<strong> Agregando capa </strong> <br> Ok',
-            errorMessage: '<strong> Agregando capa </strong> <br> Se produjo un error al cargar',
-            progressMessage: '<strong> Agregando capa </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-        }, {
+        tareas.push(1);
+        $.ajax({
             dataType: "json",
             cache: false,
             async: true,
@@ -150,6 +147,7 @@ var MapaCapa = Class({
                         yo.listaCapasVisor();
                     }
                 }
+                tareas.remove(1);
             }
         });
     },

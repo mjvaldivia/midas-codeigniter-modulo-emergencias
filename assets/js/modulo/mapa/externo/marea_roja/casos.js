@@ -21,19 +21,14 @@ var MapaMareaRojaCasos = Class({
      * @returns {void}
      */
     load : function(){
+         var tareas = new MapaLoading();
         var yo = this;
         if(marea_roja_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             
             $("#marea_roja").attr("disabled", true);
             $("#marea_roja_pm").attr("disabled", true);
-            
-            Messenger().run({
-                action: $.ajax,
-                successMessage: '<strong> Marea roja </strong> <br> Ok',
-                errorMessage: '<strong> Marea roja </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
-                showCloseButton: true,
-                progressMessage: '<strong> Marea roja </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-            },{        
+            tareas.push(1);
+            $.ajax({        
                 dataType: "json",
                 cache: false,
                 async: true,
@@ -72,6 +67,8 @@ var MapaMareaRojaCasos = Class({
                     
                     $("#marea_roja").attr("disabled", false);
                     $("#marea_roja_pm").attr("disabled", false);
+                    
+                     tareas.remove(1);
                }
             });
         }
