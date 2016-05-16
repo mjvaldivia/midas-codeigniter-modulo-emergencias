@@ -354,6 +354,7 @@ class Capa_Model extends MY_Model
                 /* obtener comuna */
                 $poligono_comuna = 0;
                 if (isset($item->properties->COMUNA)) {
+                    
                     $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
                     if ($comuna) {
@@ -362,11 +363,11 @@ class Capa_Model extends MY_Model
                         $poligono_provincia = $comuna->id_provincia;
                         $poligono_region = $comuna->id_region;
                     }else{
-                        $tmp_comuna[] = $item->properties;
+                        $tmp_comunas[] = $item->properties->COMUNA;
                     }
 
                 }else{
-                    $tmp_comuna[] = $item->properties;
+                    $tmp_comunas[] = $item->properties->COMUNA;
                 }
 
                 /** obtener provincia */
@@ -431,7 +432,6 @@ class Capa_Model extends MY_Model
                 $error = true;
                 $this->db->trans_rollback();
             } else {
-                error_log(count($tmp_comunas));
                 @unlink('media/tmp/' . $params['tmp_file']);
                 
                 if (count($tmp_comunas) > 0) {
