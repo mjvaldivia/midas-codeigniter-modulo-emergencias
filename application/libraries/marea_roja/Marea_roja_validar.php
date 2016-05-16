@@ -43,18 +43,18 @@ Class Marea_roja_validar{
      */
     public function esValido($params){
         
-        if(!$this->validar->validarVacio($params["latitud"])){
+        if(!$this->validar->validarVacio($params["form_coordenadas_latitud"])){
             $this->_correcto = false;
-            $this->_error["latitud"] = "Este dato no puede estar vacío";
+            $this->_error["form_coordenadas_latitud"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["latitud"] = "";
+            $this->_error["form_coordenadas_latitud"] = "";
         }
 
-        if(!$this->validar->validarVacio($params["longitud"])){
+        if(!$this->validar->validarVacio($params["form_coordenadas_longitud"])){
             $this->_correcto = false;
-            $this->_error["longitud"] = "Este dato no puede estar vacío";
+            $this->_error["form_coordenadas_longitud"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["longitud"] = "";
+            $this->_error["form_coordenadas_longitud"] = "";
         }
         
         if(!$this->validar->validarVacio($params["calidad_de_georeferenciacion"])){

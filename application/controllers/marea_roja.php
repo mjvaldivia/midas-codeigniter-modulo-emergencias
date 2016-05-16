@@ -107,8 +107,8 @@ class Marea_roja extends MY_Controller
             
             /** latitud y longitud **/
             $coordenadas = array(
-                "lat" => $params["latitud"],
-                "lng" => $params["longitud"]
+                "lat" => $params["form_coordenadas_latitud"],
+                "lng" => $params["form_coordenadas_longitud"]
             );
             
             unset($params["latitud"]);

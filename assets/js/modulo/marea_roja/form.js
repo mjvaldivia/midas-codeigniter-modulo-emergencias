@@ -22,43 +22,38 @@ $(document).ready(function() {
     });
     
     $("#guardar").click(function(e){
-       e.preventDefault();
-       var parametros = $("#form").serializeArray();
-       guardar(parametros);
+        var boton = buttonStartProcess(this, e)
+        var parametros = $("#form").serializeArray();
+        
+        $.ajax({         
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: parametros,
+            type: "post",
+            url: siteUrl + "marea_roja/guardar", 
+            error: function(xhr, textStatus, errorThrown){
+                 buttonEndProcess(boton);
+            },
+            success:function(data){
+                if(data.correcto == true){
+                    procesaErrores(data.error);
+                    document.location.href = siteUrl + "marea_roja/index/ingresado/correcto";
+                } else {
+                    $("#form_error").removeClass("hidden");
+                    procesaErrores(data.error);
+                    buttonEndProcess(boton);
+                }
+            }
+        }); 
     });
         
     var mapa = new MapaFormulario("mapa");
     mapa.seteaIcono("assets/img/markers/marisco/rojo.png");
-    
-    mapa.seteaLongitud($("#longitud").val());
-    mapa.seteaLatitud($("#latitud").val());
+    mapa.seteaLatitudInput("form_coordenadas_latitud");
+    mapa.seteaLongitudInput("form_coordenadas_longitud");
     mapa.inicio();
     mapa.cargaMapa(); 
     mapa.setMarkerInputs();
     
 });
-
-/**
- * 
- * @returns {undefined}
- */
-function guardar(parametros){
-    $.ajax({         
-         dataType: "json",
-         cache: false,
-         async: false,
-         data: parametros,
-         type: "post",
-         url: siteUrl + "marea_roja/guardar", 
-         error: function(xhr, textStatus, errorThrown){},
-         success:function(data){
-             if(data.correcto == true){
-                 procesaErrores(data.error);
-                 document.location.href = siteUrl + "marea_roja/index/ingresado/correcto";
-             } else {
-                 $("#form_error").removeClass("hidden");
-                 procesaErrores(data.error);
-             }
-         }
-     }); 
-}

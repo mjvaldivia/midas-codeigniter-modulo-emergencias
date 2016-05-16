@@ -1,4 +1,5 @@
 <?php
+
 require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Logeado.php");
@@ -17,7 +18,12 @@ require_once(APPPATH . "helpers/modulo/layout/usuario/Imagen.php");
  * @param string $longitud
  * @return string html
  */
-function formCoordenadas($latitud = "", $longitud = ""){
+function formCoordenadas(
+    $prefijo_input = "form_coordenadas", 
+    $latitud = "", 
+    $longitud = "",
+    $propiedades = array()
+){
     $ci =& get_instance();
     $ci->layout_assets->addJs("library/jquery.typing-0.2.0.min.js");
     $ci->layout_assets->addJs("modulo/mapa/google/extension/geo-encoder.js");
@@ -25,8 +31,28 @@ function formCoordenadas($latitud = "", $longitud = ""){
     return $ci->load->view(
         "pages/helpers/modulo/layout/form-coordenadas", 
         array(
+            "prefijo" => $prefijo_input,
             "latitud" => $latitud, 
             "longitud" => $longitud
+        ), 
+        true
+    );
+}
+
+/**
+ * Formulario para seleccionar coordenada del mapa
+ * @param string $id_html identificador del elemento html donde se cargara el mapa
+ * @return string html
+ */
+function formMapa($id_html){
+    $ci =& get_instance();
+    $ci->layout_assets->addJs("library/jquery.typing-0.2.0.min.js");
+    $ci->layout_assets->addJs("modulo/mapa/formulario.js");
+
+    return $ci->load->view(
+        "pages/helpers/modulo/layout/form-mapa", 
+        array(
+            "identificador" => $id_html,
         ), 
         true
     );

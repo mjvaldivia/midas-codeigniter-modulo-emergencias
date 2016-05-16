@@ -28,6 +28,7 @@ Class Layout_assets{
      * @param string $css
      */
     public function addCss($css){
+        
         if(Zend_Registry::isRegistered("css")){
             $lista_css = Zend_Registry::get("css");
         } else {

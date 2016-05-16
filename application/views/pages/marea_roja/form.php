@@ -35,10 +35,11 @@
                     <div class="portlet-body" style="overflow: visible">
                         <div class="row">
                         <div class="col-md-6">
-                            <div id="mapa" style="height: 400px"></div>
-                            <div class="alert alert-info">Puede mover el marcador para ajustar la ubicación del caso</div>
+                            
+                            <?php echo formMapa("mapa"); ?>
+                            
                             <div class="col-xs-8">
-                            <?php echo formCoordenadas($latitud, $longitud); ?>
+                                <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, this); ?>
                             </div>
                             
                             <div class="col-xs-4">
@@ -104,10 +105,8 @@
                                             <option <?php if(strtoupper($recurso) == "OSTRA CH") echo "selected"; ?> value="OSTRA CH"> OSTRA CH </option>
                                             <option <?php if(strtoupper($recurso) == "OSTRA JP") echo "selected"; ?> value="OSTRA JP"> OSTRA JP </option>
                                             <option <?php if(strtoupper($recurso) == "OSTRAS") echo "selected"; ?> value="OSTRAS"> OSTRAS </option>
-                                            
                                             <option <?php if(strtoupper($recurso) == "PICOROCO") echo "selected"; ?> value="PICOROCO"> PICOROCO </option>
                                             <option <?php if(strtoupper($recurso) == "PIURE") echo "selected"; ?> value="PIURE"> PIURE </option>
-                                            
                                             <option <?php if(strtoupper($recurso) == "TUMBAO") echo "selected"; ?> value="TUMBAO"> TUMBAO </option>
                                         </select>
                                         <span class="help-block hidden"></span>
@@ -233,6 +232,4 @@
     </div>
 </div>
 
-<?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>
-<?= loadJS("assets/js/modulo/mapa/formulario.js") ?>
 <?= loadJS("assets/js/modulo/marea_roja/form.js") ?>
