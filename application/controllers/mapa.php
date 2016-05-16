@@ -380,9 +380,27 @@ class Mapa extends MY_Controller {
                 $propiedades["REGION"] = nombreRegion($propiedades["REGION"]);
                 $propiedades["COMUNA"] = nombreComuna($propiedades["COMUNA"]);
                 
+                // se limpian datos a mostrar
                 unset($propiedades["INGRESADO POR"]);
+                unset($propiedades["FORM COORDENADAS TIPO"]);
+                unset($propiedades["FORM COORDENADAS GMS GRADOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS MINUTOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS SEGUNDOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS GRADOS LNG"]);
+                unset($propiedades["FORM COORDENADAS GMS MINUTOS LNG"]);
+                unset($propiedades["FORM COORDENADAS GMS SEGUNDOS LNG"]);
+                
+                unset($propiedades["FORM COORDENADAS UTM ZONA"]);
+                unset($propiedades["FORM COORDENADAS UTM LATITUD"]);
+                unset($propiedades["FORM COORDENADAS UTM LONGITUD"]);
+                
+                unset($propiedades["FORM COORDENADAS LATITUD"]);
+                unset($propiedades["FORM COORDENADAS LONGITUD"]);
                 
                 $coordenadas = Zend_Json::decode($row["coordenadas"]);
+                
+                $propiedades["latitud"] = $coordenadas["lat"];
+                $propiedades["longitud"] = $coordenadas["lng"];
                 
                 $casos[] = array(
                     "id" => $row["id"],
