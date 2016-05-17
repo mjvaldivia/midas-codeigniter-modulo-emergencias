@@ -9,7 +9,6 @@ $(document).ready(function () {
         }
         mapa.seteaLongitud($("#longitud").val());
         mapa.seteaLatitud($("#latitud").val());
-        console.log('lala');
         mapa.inicio();
         mapa.cargaMapa();
         mapa.setMarkerInputs();
