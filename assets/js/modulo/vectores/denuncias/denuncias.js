@@ -7,9 +7,9 @@ $(document).ready(function () {
             $("#longitud").val(-70.2075248);
             $("#latitud").val(-18.3640923);
         }
+        
         mapa.seteaLongitud($("#longitud").val());
         mapa.seteaLatitud($("#latitud").val());
-        console.log('lala');
         mapa.inicio();
         mapa.cargaMapa();
         mapa.setMarkerInputs();

@@ -228,10 +228,11 @@ var MapaFormulario = Class({
                     
                     var index = place.address_components.length - 2;
                     var region = place.address_components[index].long_name;  
-
+                    console.log(this.input_latitud);
                     $("#" + this.input_longitud).val(parseFloat(place.geometry.location.lng()));
                     $("#" + this.input_latitud).val(parseFloat(place.geometry.location.lat()));
                     $("#" + this.input_longitud).trigger("change");
+                    console.log(parseFloat(place.geometry.location.lng()));
 
                 });
             });
