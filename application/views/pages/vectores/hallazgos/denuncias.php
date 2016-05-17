@@ -20,7 +20,7 @@
                     <input type="hidden" name="id" id="id" value="<?php echo $id ?>"/>
                     <div class="row">
                         <div class="col-xs-12">
-                            <legend>Identificación del hallazgo
+                            <legend>Identificación de la inspección
                                 <div class="pull-right">
                                     <small>(*) Campos obligatorios</small>
                                 </div>
@@ -34,7 +34,7 @@
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
                             <input type="hidden" class="mapa-coordenadas" id="latitud" name="latitud"
-                                   value="<?php echo $latitud ?>"/>
+                                   value="<?php echo $latitud ?>" <?php if($enviado):?> disabled <?php endif;?> />
                             <input type="hidden" class="mapa-coordenadas" id="longitud" name="longitud"
                                    value="<?php echo $longitud ?>"/>
 
@@ -53,12 +53,12 @@
                                 <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Nombres(*)</label>
                                     <input type="text" name="nombres" id="nombres" class="form-control"
-                                           value="<?php echo $nombres ?>"/>
+                                           value="<?php echo $nombres ?>"  <?php if($enviado):?> disabled <?php endif;?>/>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Apellidos(*)</label>
                                     <input type="text" name="apellidos" id="apellidos" class="form-control"
-                                           value="<?php echo $apellidos ?>"/>
+                                           value="<?php echo $apellidos ?>" <?php if($enviado):?> disabled <?php endif;?>/>
                                 </div>
                             </div>
                             <!--<div class="form-group">
@@ -79,19 +79,24 @@
                                 <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Telefóno(s) de contacto</label>
                                     <input type="text" name="telefono" id="telefono" class="form-control"
-                                           value="<?php echo $telefono ?>"/>
+                                           value="<?php echo $telefono ?>" <?php if($enviado):?> disabled <?php endif;?>/>
                                 </div>
-                                <!--<div class="col-xs-12 col-md-6">
+                                <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Correo electrónico(*)</label>
                                     <input type="text" name="correo" id="correo" class="form-control"
-                                           value="<?php /*echo $correo */?>"/>
-                                </div>-->
+                                           value="<?php echo $correo ?>" <?php if($enviado):?> disabled <?php endif;?>/>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <label class="control-label">Dirección/Lugar de Hallazgo del mosquito(*)</label>
                                     <input type="text" name="direccion" id="direccion" class="form-control"
-                                           value="<?php echo $direccion ?>"/>
+                                           value="<?php echo $direccion ?>" <?php if($enviado):?> disabled <?php endif;?>/>
+                                </div>
+                                <div class="col-xs-12">
+                                    <label class="control-label">Referencias de la dirección</label>
+                                    <input type="text" name="referencias" id="referencias" class="form-control"
+                                           value="<?php echo $referencias ?>" <?php if($enviado):?> disabled <?php endif;?>/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -99,7 +104,7 @@
                                     <label class="control-label">Fecha de hallazgo(*)</label>
                                     <input type="text" name="fecha_hallazgo" id="fecha_hallazgo"
                                            class="form-control datepicker-date"
-                                           value="<?php echo $fecha_hallazgo ?>"/>
+                                           value="<?php echo $fecha_hallazgo ?>" <?php if($enviado):?> disabled <?php endif;?>/>
                                 </div>
                                 <!--<div class="col-xs-12 col-md-6">
                                     <label class="control-label">Fecha de entrega(*)</label>
@@ -111,8 +116,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <label class="">Comentarios ciudadano</label>
-                                    <textarea class="form-control" rows="5" id="comentarios_ciudadano" name="comentarios_ciudadano"><?php echo $comentarios_ciudadano?></textarea>
+                                    <label class="">Comentarios de la inspección</label>
+                                    <textarea class="form-control" rows="5" id="comentarios_ciudadano" name="comentarios_ciudadano" <?php if($enviado):?> disabled <?php endif;?>><?php echo $comentarios_ciudadano?></textarea>
                                 </div>
                             </div>
 
@@ -154,7 +159,7 @@
                                         <div class="col-xs-12">
                                             <?php if($contenido != ""): $rows = 15; else: $rows = 5; endif;?>
                                             <textarea class="form-control" rows="<?php echo $rows;?>" id="observaciones_resultado"
-                                                      name="observaciones_resultado"><?php echo $contenido ?></textarea>
+                                                      name="observaciones_resultado" <?php if($enviado):?> disabled <?php endif;?>><?php echo $contenido ?></textarea>
                                         </div>
                                     </div>
 
@@ -180,6 +185,11 @@
 
                         <div class="col-lg-12">
                             <div class="text-right">
+                                 <?php if($enviado):?> 
+                                <button type="button" class="btn btn-primary btn-square"
+                                        onclick="javascript:history.back();">Volver
+                                </button>
+                                <?php else:?>
                                 <?php if ($id > 0 and $estado > 0): ?>
                                     <button type="button" class="btn btn-success btn-square"
                                             onclick="Hallazgos.enviarInforme(this.form,this);">
@@ -195,6 +205,8 @@
                                 <button type="button" class="btn btn-primary btn-square"
                                         onclick="javascript:history.back();">Volver
                                 </button>
+                                    <?php endif;?>
+                                
                             </div>
                         </div>
                     </div>
