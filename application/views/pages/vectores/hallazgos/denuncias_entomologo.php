@@ -83,9 +83,9 @@
                                     <input type="text" name="telefono" id="telefono" class="form-control disabled"
                                            value="<?php echo $telefono ?>" disabled/>
 
-                                    <!--<label class="control-label">Correo electrónico(*)</label>
+                                    <label class="control-label">Correo electrónico(*)</label>
                                     <input type="text" name="correo" id="correo" class="form-control disabled"
-                                           value="<?php /*echo $correo */ ?>" disabled/>-->
+                                           value="<?php echo $correo ?>" disabled/>
 
                                 </div>
                                 <div class="col-xs-12 col-md-6">
@@ -106,7 +106,12 @@
                                 <div class="col-xs-12">
                                     <label class="control-label">Dirección/Lugar de Hallazgo del mosquito(*)</label>
                                     <input type="text" name="direccion" id="direccion" class="form-control disabled"
-                                           value="<?php echo $direccion ?>" disabled/>
+                                           value="<?php echo $direccion ?>" disabled />
+                                </div>
+                                <div class="col-xs-12">
+                                    <label class="control-label">Referencias de la dirección</label>
+                                    <input type="text" name="referencias" id="referencias" class="form-control"
+                                           value="<?php echo $referencias ?>" disabled />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -126,7 +131,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <label class="">Comentarios ciudadano</label>
+                                    <label class="">Comentarios de la inspección</label>
                                     <textarea class="form-control" rows="5" id="comentarios_ciudadano"
                                               name="comentarios_ciudadano"
                                               disabled><?php echo $comentarios_ciudadano ?></textarea>
@@ -163,8 +168,8 @@
                                 <div class="col-xs-12 ">
                                     <label class="control-label col-xs-12 col-md-2">Observaciones</label>
                                     <div class="col-xs-12">
-                                        <textarea class="form-control" rows="5" name="observaciones_resultado"
-                                                  id="observaciones_resultado"></textarea>
+                                        <textarea class="form-control" rows="10" name="observaciones_resultado"
+                                                  id="observaciones_resultado"><?php echo $contenido?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +183,7 @@
                                 <?php if ($id > 0): ?>
                                     <button type="button" class="btn btn-success btn-square"
                                             onclick="Hallazgos.guardarResultado(this.form,this);">
-                                        <i class="fa fa-send"></i> Guardar
+                                        <i class="fa fa-send"></i> Guardar y enviar respuesta
                                     </button>
 
                                 <?php else: ?>

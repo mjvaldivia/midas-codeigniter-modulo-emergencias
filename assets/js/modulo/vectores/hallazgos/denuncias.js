@@ -42,6 +42,10 @@ var Hallazgos = {
             error = true;
             error_msg += 'Telefóno no puede quedar vacío <br/>';
         }
+        if(form.correo.value == ""){
+            error = true;
+            error_msg += 'Email no puede quedar vacío <br/>';
+        }
         if(form.fecha_hallazgo.value == ""){
             error = true;
             error_msg += 'Fecha de Hallazgo no puede quedar vacío <br/>';

@@ -1,19 +1,14 @@
 <?php
 
+class Vectores_hallazgos extends MY_Controller {
 
-class Vectores_hallazgos extends MY_Controller
-{
-
-    function __construct()
-    {
+    function __construct() {
         parent::__construct();
         $this->load->model('hallazgos_model', '_hallazgos_model');
         $this->load->model('usuario_rol_model', '_usuario_rol_model');
     }
 
-
-    public function index()
-    {
+    public function index() {
         $this->load->library('Fechas');
         $this->load->model('rol_model');
         $rol_model = new Rol_Model();
@@ -27,24 +22,22 @@ class Vectores_hallazgos extends MY_Controller
                 $entomologo = true;
             }
 
-            if($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR){
+            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $admin = true;
             }
-
         }
 
         $data = array(
             'grilla' => $this->load->view('pages/vectores/hallazgos/grilla', array('listado' => $listar, 'entomologo' => $entomologo, 'admin' => $admin), true),
             'entomologo' => $entomologo
         );
-        
+
         $this->template->parse("default", "pages/vectores/hallazgos/index", $data);
         //$this->layout_assets->addJs("hallazgos/index.js");
         //$this->layout_template->view('default', 'pages/hallazgos/index', $data);
     }
 
-    public function denuncias()
-    {
+    public function denuncias() {
 
         $this->load->library('Fechas');
         $data = array();
@@ -53,9 +46,7 @@ class Vectores_hallazgos extends MY_Controller
         $this->template->parse("default", "pages/vectores/hallazgos/denuncias", $data);
     }
 
-
-    public function revisarDenuncia()
-    {
+    public function revisarDenuncia() {
 
         $params = $this->uri->uri_to_assoc();
 
@@ -71,7 +62,6 @@ class Vectores_hallazgos extends MY_Controller
             if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $cambiar_coordenadas = true;
             }
-
         }
 
         $data = array(
@@ -82,6 +72,8 @@ class Vectores_hallazgos extends MY_Controller
             'apellidos' => $vector->gl_apellidos_hallazgo,
             'telefono' => $vector->gl_telefono_hallazgo,
             'direccion' => $vector->gl_direccion_hallazgo,
+            'correo' => $vector->gl_email_hallazgo,
+            'referencias' => $vector->gl_referencia_hallazgo,
             'fecha_hallazgo' => Fechas::formatearHtml($vector->fc_fecha_hallazgo_hallazgo),
             'comentarios_ciudadano' => $vector->gl_comentario_hallazgo,
             'cambiar_coordenadas' => $cambiar_coordenadas
@@ -105,17 +97,44 @@ class Vectores_hallazgos extends MY_Controller
 
         $data['imagenes'] = $arr_imagenes;
 
+        $resultado = '';
+        $texto_resultado = '';
+        switch ($vector->cd_estado_hallazgo) {
+            case 1:
+                $resultado = 'SI CORRESPONDE';
+                $texto_resultado = ' nuestro equipo se dirigirá a su domicilio para la inspección correspondiente';
+                break;
+            case 2:
+                $resultado = 'NO CORRESPONDE';
+                $texto_resultado = ' el insecto recolectado no es de importancia sanitaria ';
+                if (!empty($vector->gl_observaciones_resultado_vector)):
+                    $texto_resultado .= ', ' . $vector->gl_observaciones_resultado_vector;
+                endif;
+                break;
+            case 3:
+                $resultado = 'NO ES CONCLUYENTE';
+                $texto_resultado = ' el insecto recolectado no es de importancia sanitaria';
+                break;
+        }
 
-        /*$this->layout_assets->addMapaFormulario();
-        $this->layout_assets->addJs("hallazgos/denuncias.js");
-        $this->layout_template->view('default', 'pages/hallazgos/denuncias_entomologo', $data);*/
+        $datos = array(
+            'persona' => $vector->gl_nombres_hallazgo . ' ' . $vector->gl_apellidos_hallazgo,
+            'num_denuncia' => $num_denuncia,
+            'resultado' => $resultado,
+            'texto_resultado' => $texto_resultado
+        );
+        $contenido = $this->load->view("pages/vectores/hallazgos/pdf_respuesta", $datos, true);
+        $data['contenido'] = strip_tags($contenido);
+
+
+        /* $this->layout_assets->addMapaFormulario();
+          $this->layout_assets->addJs("hallazgos/denuncias.js");
+          $this->layout_template->view('default', 'pages/hallazgos/denuncias_entomologo', $data); */
 
         $this->template->parse("default", "pages/vectores/hallazgos/denuncias_entomologo", $data);
     }
 
-
-    public function revisar()
-    {
+    public function revisar() {
         $params = $this->uri->uri_to_assoc();
 
         $this->load->library('Fechas');
@@ -134,7 +153,10 @@ class Vectores_hallazgos extends MY_Controller
             'comentarios_ciudadano' => $vector->gl_comentario_ciudadano_hallazgo,
             'estado' => $vector->cd_estado_hallazgo,
             'estado_desarrollo' => $vector->cd_estado_desarrollo_hallazgo,
-            'observaciones' => $vector->gl_observaciones_resultado_hallazgo
+            'observaciones' => $vector->gl_observaciones_resultado_hallazgo,
+            'correo' => $vector->gl_email_hallazgo,
+            'referencias' => $vector->gl_referencia_hallazgo,
+            'enviado' => $vector->cd_enviado_hallazgo
         );
 
 
@@ -166,7 +188,6 @@ class Vectores_hallazgos extends MY_Controller
             if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $cambiar_coordenadas = true;
             }
-
         }
 
         $datos = array(
@@ -179,16 +200,14 @@ class Vectores_hallazgos extends MY_Controller
         $contenido = $this->load->view("pages/vectores/hallazgos/pdf_respuesta", $datos, true);
         $data['contenido'] = strip_tags($contenido);
 
-        /*$this->layout_assets->addMapaFormulario();
-        $this->layout_assets->addJs("hallazgos/denuncias.js");
-        $this->layout_template->view('default', 'pages/hallazgos/denuncias', $data);*/
+        /* $this->layout_assets->addMapaFormulario();
+          $this->layout_assets->addJs("hallazgos/denuncias.js");
+          $this->layout_template->view('default', 'pages/hallazgos/denuncias', $data); */
 
         $this->template->parse("default", "pages/vectores/hallazgos/denuncias", $data);
     }
 
-
-    public function guardarDenuncia()
-    {
+    public function guardarDenuncia() {
 
         $params = $this->input->post();
 
@@ -207,13 +226,15 @@ class Vectores_hallazgos extends MY_Controller
                 'gl_direccion_hallazgo' => $params['direccion'],
                 'fc_fecha_hallazgo_hallazgo' => Fechas::formatearBaseDatos($params['fecha_hallazgo']),
                 'gl_comentario_hallazgo' => $params['comentarios_ciudadano'],
-                'cd_estado_hallazgo' => 0
+                'cd_estado_hallazgo' => 0,
+                'gl_email_hallazgo' => $params['correo'],
+                'gl_referencia_hallazgo' => $params['referencias']
             );
 
             $update = $this->_hallazgos_model->update($data, $params['id']);
             if ($insertar) {
                 $json['estado'] = true;
-                /*$json['mensaje'] = 'Se ha generado la denuncia Nº <br/><span style="font-size:64px;text-align: center;display:block;padding:5px" class="bg-primary">' . $insertar . '</span><span style="display:block;font-size:16;text-align:center" class="bg-primary">Este número debe anotarse en el envase que contenga el vector</span><br/>';*/
+                /* $json['mensaje'] = 'Se ha generado la denuncia Nº <br/><span style="font-size:64px;text-align: center;display:block;padding:5px" class="bg-primary">' . $insertar . '</span><span style="display:block;font-size:16;text-align:center" class="bg-primary">Este número debe anotarse en el envase que contenga el vector</span><br/>'; */
                 $json['mensaje'] = 'La información del hallazgo código I-' . $insertar . ' se ha guardado correctamente';
             } else {
                 $json['false'] = false;
@@ -231,14 +252,15 @@ class Vectores_hallazgos extends MY_Controller
                 'gl_direccion_hallazgo' => $params['direccion'],
                 'fc_fecha_hallazgo_hallazgo' => Fechas::formatearBaseDatos($params['fecha_hallazgo']),
                 'gl_comentario_hallazgo' => $params['comentarios_ciudadano'],
-                'cd_estado_hallazgo' => 0
+                'cd_estado_hallazgo' => 0,
+                'gl_email_hallazgo' => $params['correo']
             );
 
             $insertar = $this->_hallazgos_model->insert($data);
 
             if ($insertar) {
                 $json['estado'] = true;
-                /*$json['mensaje'] = 'Se ha generado la denuncia Nº <br/><span style="font-size:64px;text-align: center;display:block;padding:5px" class="bg-primary">' . $insertar . '</span><span style="display:block;font-size:16;text-align:center" class="bg-primary">Este número debe anotarse en el envase que contenga el vector</span><br/>';*/
+                /* $json['mensaje'] = 'Se ha generado la denuncia Nº <br/><span style="font-size:64px;text-align: center;display:block;padding:5px" class="bg-primary">' . $insertar . '</span><span style="display:block;font-size:16;text-align:center" class="bg-primary">Este número debe anotarse en el envase que contenga el vector</span><br/>'; */
                 $json['mensaje'] = 'La información del hallazgo código I-' . $insertar . ' se ha guardado correctamente';
             } else {
                 $json['false'] = false;
@@ -248,13 +270,11 @@ class Vectores_hallazgos extends MY_Controller
 
 
         echo json_encode($json);
-
     }
 
-
-    public function guardarResultado()
-    {
+    public function guardarResultado() {
         $params = $this->input->post();
+        $this->load->model("sendmail_model", "_sendmail");
 
         $data = array(
             'cd_estado_hallazgo' => $params['resultado_laboratorio'],
@@ -265,9 +285,10 @@ class Vectores_hallazgos extends MY_Controller
         );
 
         $json = array();
+        $contenido = nl2br($params['observaciones_resultado']);
         if ($this->_hallazgos_model->update($data, $params['id'])) {
 
-            /*$resultado = '';
+            $resultado = '';
             switch ($params['resultado_laboratorio']) {
                 case 1:
                     $resultado = 'POSITIVO';
@@ -283,26 +304,98 @@ class Vectores_hallazgos extends MY_Controller
             $vector = $this->_hallazgos_model->getById($params['id']);
 
 
-            $this->load->library('sendmail');
+            $this->load->library('mailer');
             $this->load->library('Fechas');
 
             $to = trim($vector->gl_email_hallazgo);
-            $subject = 'Monitoreo - Denuncias';
+            $subject = 'Inspecciones - SEREMI de Salud Arica y Parinacota';
             $msg = '<h3>Monitoreo - Vigilancia de Vectores</h3>';
             $msg .= 'Estimado/a ' . $vector->gl_nombres_hallazgo . ' ' . $vector->gl_apellidos_hallazgo . ' <br/><br/>';
-            $msg .= 'Ud. tiene una respuesta a la denuncia realizada el día <strong>' . Fechas::formatearHtml($vector->fc_fecha_entrega_hallazgo) . '<strong>';
-            $msg .= '<p>El resultado de la denuncia es : <strong>' . $resultado . '</strong></p>';
-            $msg .= date('d/m/Y H:i:s');
+            $msg .= 'Ud. tiene una respuesta a la inspección realizada en su domicilio el día <strong>' .
+                    Fechas::formatearHtml($vector->fc_fecha_hallazgo) . '</strong>, en adjunto podrá revisar el resultado
+        y recomendaciones.';
+            /* $msg .= '<p>El resultado de la denuncia es : <strong>' . $resultado . '</strong></p>';
+              $msg .= '<p>Observaciones : ' . $vector->gl_observaciones_resultado_vector . '</strong></p>';
+              $msg .= date('d/m/Y H:i:s'); */
+            $msg .= '<p>Atte.<br/>Seremi de Salud Arica y Parinacota</p>';
+            //$url_logo = file_get_contents(base_url('assets/img/logo_seremi15.jpg'));
+            $url_logo = file_get_contents(FCPATH . "assets/img/logo_seremi15.jpg");
+            $msg .= '<img src="data:image/jpg;base64,' . base64_encode($url_logo) . '"/>';
 
-            if ($this->sendmail->emailSend($to, null, null, $subject, $msg)) {
-                $json['mensaje'] = 'El resultado ha sido guardado y se le ha enviado un correo a la persona con el aviso';
+            $this->load->library(
+                    array(
+                        "pdf"
+                    )
+            );
+
+            if ($vector->id_hallazgo < 10)
+                $num_denuncia = '00' . $vector->id_hallazgo;
+            elseif ($vector->id_hallazgo < 100)
+                $num_denuncia = '0' . $vector->id_hallazgo;
+            else
+                $num_denuncia = $vector->id_hallazgo;
+
+            $datos = array(
+                'contenido' => $contenido,
+                'url_logo' => 'data:image/jpg;base64,' . base64_encode($url_logo),
+                'imagen00' =>
+                'data:image/jpg;base64,' . base64_encode(file_get_contents(FCPATH . 'assets/img/vectores_zika/imagen00.jpg')),
+                'imagen01' =>
+                'data:image/jpg;base64,' . base64_encode(file_get_contents(FCPATH . 'assets/img/vectores_zika/imagen01.jpg')),
+                'imagen02' =>
+                'data:image/jpg;base64,' . base64_encode(file_get_contents(FCPATH . 'assets/img/vectores_zika/imagen02.jpg'))
+            );
+            $html = $this->load->view("pages/vectores/hallazgos/pdf_envio", $datos, true);
+
+            $pdf = $this->pdf->load();
+            $pdf->imagen_logo = file_get_contents(FCPATH . "assets/img/logo_seremi15.jpg");
+            $pdf->SetFooter($_SERVER['HTTP_HOST'] . '|{PAGENO}/{nb}|' . date('d-m-Y'));
+            $pdf->WriteHTML($html);
+            $ruta_pdf = 'docs/hallazgos/' . $vector->id_hallazgo;
+
+            if (!@mkdir($ruta_pdf, 0777, true) && !is_dir($ruta_pdf)) {
+                $json['mensaje'] = 'No se puede guardar PDF de Respuesta para ser enviado';
+                $json['estado'] = false;
+                $data = array(
+                    'cd_enviado_hallazgo' => 0
+                );
+                $update = $this->_hallazgos_model->update($data, $params['id']);
             } else {
-                $json['mensaje'] = 'El resultado ha sido guardado, pero correo de aviso no ha podido ser enviado';
-            }*/
+                $documento = $pdf->Output(FCPATH . 'docs/hallazgos/' . $vector->id_hallazgo . '/respuesta_inspeccion_' . $num_denuncia . '.pdf', 'F');
 
-            $json['mensaje'] = 'El resultado ha sido guardado';
-            $json['estado'] = true;
+                $attachment = array(FCPATH . '/' . $ruta_pdf . '/respuesta_inspeccion_' . $num_denuncia . '.pdf');
+                //$email = $this->mailer->load();
+                if ($this->_sendmail->emailSend($to, null, null, $subject, $msg, false, $attachment)) {
+                    $json['mensaje'] = 'El resultado ha sido guardado y se le ha enviado un correo a la persona con el aviso';
+                    $data = array(
+                        'cd_enviado_hallazgo' => 1,
+                        'gl_ruta_respuesta_hallazgo' => $ruta_pdf . '/respuesta_inspeccion_' . $num_denuncia . '.pdf'
+                    );
 
+                    $update = $this->_hallazgos_model->update($data, $params['id']);
+                } else {
+                    $data = array(
+                        'cd_enviado_hallazgo' => 0,
+                        'gl_ruta_respuesta_hallazgo' => $ruta_pdf . '/respuesta_inspeccion_' . $num_denuncia . '.pdf'
+                    );
+
+                    $update = $this->_hallazgos_model->update($data, $params['id']);
+                    $json['mensaje'] = 'El resultado ha sido guardado, pero correo de aviso no ha podido ser enviado';
+                }
+
+
+                $json['estado'] = true;
+            }
+
+
+//            if ($this->sendmail->emailSend($to, null, null, $subject, $msg)) {
+//                $json['mensaje'] = 'El resultado ha sido guardado y se le ha enviado un correo a la persona con el aviso';
+//            } else {
+//                $json['mensaje'] = 'El resultado ha sido guardado, pero correo de aviso no ha podido ser enviado';
+//            }
+//
+//            $json['mensaje'] = 'El resultado ha sido guardado';
+//            $json['estado'] = true;
         } else {
             $json['estado'] = false;
             $json['mensaje'] = 'Problemas al guardar el resultado. Intente nuevamente';
@@ -311,11 +404,9 @@ class Vectores_hallazgos extends MY_Controller
         echo json_encode($json);
     }
 
-
-    public function enviarResultado()
-    {
+    public function enviarResultado() {
         $params = $this->input->post();
-
+        $this->load->model("sendmail_model", "_sendmail");
 
         $data = array(
             'cd_enviado_hallazgo' => 1,
@@ -342,7 +433,7 @@ class Vectores_hallazgos extends MY_Controller
                     break;
             }
 
-
+            $this->load->library('mailer');
             $this->load->library('Fechas');
 
             $to = trim($vector->gl_email_hallazgo);
@@ -356,9 +447,9 @@ class Vectores_hallazgos extends MY_Controller
             $msg .= '<img src="data:image/jpg;base64,' . base64_encode($url_logo) . '" />';
 
             $this->load->library(
-                array(
-                    "core/pdf"
-                )
+                    array(
+                        "core/pdf"
+                    )
             );
 
             if ($vector->id_hallazgo < 10)
@@ -413,8 +504,6 @@ class Vectores_hallazgos extends MY_Controller
 
                 $json['estado'] = true;
             }
-
-
         } else {
             $json['estado'] = false;
             $json['mensaje'] = 'Problemas al guardar el resultado. Intente nuevamente';
@@ -423,9 +512,7 @@ class Vectores_hallazgos extends MY_Controller
         echo json_encode($json);
     }
 
-
-    public function adjuntarImagenesInspeccion($id = null)
-    {
+    public function adjuntarImagenesInspeccion($id = null) {
 
         $params = $this->uri->uri_to_assoc();
 
@@ -456,9 +543,7 @@ class Vectores_hallazgos extends MY_Controller
         //$this->layout_template->view('default', 'pages/vectores/hallazgos/upload_imagenes', $data);
     }
 
-
-    public function subirImagenInspeccion()
-    {
+    public function subirImagenInspeccion() {
 
         $params = $this->input->post();
         $imagenes = $this->_hallazgos_model->getImagenesInspeccion($params['id']);
@@ -539,13 +624,9 @@ class Vectores_hallazgos extends MY_Controller
         $data['imagenes'] = $arr_imagenes;
         $this->template->parse("default", "pages/vectores/hallazgos/upload_imagenes", $data);
         //$this->layout_template->view('default', 'pages/hallazgos/upload_imagenes', $data);
-
-
     }
 
-
-    public function verImagenInspeccion()
-    {
+    public function verImagenInspeccion() {
         $params = $this->uri->uri_to_assoc();
 
         $imagen = $this->_hallazgos_model->getImagenInspeccion($params['id'], $params['sha']);
@@ -568,9 +649,7 @@ class Vectores_hallazgos extends MY_Controller
         echo $this->load->view('pages/vectores/hallazgos/ver_imagen', $data, true);
     }
 
-
-    public function eliminarImagen()
-    {
+    public function eliminarImagen() {
         $params = $this->input->post();
 
         $imagen = $this->_hallazgos_model->getImagenInspeccion($params['imagen']);
@@ -590,9 +669,7 @@ class Vectores_hallazgos extends MY_Controller
         echo json_encode($json);
     }
 
-
-    public function cambiarCoordenadas()
-    {
+    public function cambiarCoordenadas() {
         $params = $this->input->post();
 
         $data = array(
@@ -612,9 +689,7 @@ class Vectores_hallazgos extends MY_Controller
         echo json_encode($json);
     }
 
-
-    public function excel()
-    {
+    public function excel() {
 
         $this->load->library("excel");
         $this->load->library("Fechas");
@@ -670,18 +745,18 @@ class Vectores_hallazgos extends MY_Controller
                     'observaciones' => $caso['gl_observaciones_resultado_hallazgo']
                 );
 
-                /*$datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"];*/
+                /* $datos_excel[count($datos_excel)-1]["id_estado"]  = $caso["id_estado"]; */
             }
 
             $excel = $this->excel->nuevoExcel();
             $excel->getProperties()
-                ->setCreator("Midas - Monitoreo")
-                ->setLastModifiedBy("Midas - Monitoreo")
-                ->setTitle("Exportación de Vectores - Denuncias")
-                ->setSubject("Monitoreo")
-                ->setDescription("Denuncias")
-                ->setKeywords("office 2007 openxml php monitoreo")
-                ->setCategory("Midas");
+                    ->setCreator("Midas - Monitoreo")
+                    ->setLastModifiedBy("Midas - Monitoreo")
+                    ->setTitle("Exportación de Vectores - Denuncias")
+                    ->setSubject("Monitoreo")
+                    ->setDescription("Denuncias")
+                    ->setKeywords("office 2007 openxml php monitoreo")
+                    ->setCategory("Midas");
 
             $columnas = reset($datos_excel);
 

@@ -1,14 +1,10 @@
-Estimado (a) <?php echo $persona ?>:
+De nuestra consideración:
 
-Junto con saludarlo(a), nos dirigimos a usted para informarle que la Subsecretaría Regional Ministerial de Salud de Arica y Parinacota, ha recibido su solicitud Nª <?php echo $num_denuncia ?>, que tiene como objetivo…
+Junto con saludarlo(a), y  por especial encargo de la SEREMI de Salud,  señora Giovanna Calle  C., le informamos que la Secretaría Regional Ministerial de la Región de Arica y Parinacota,  ha realizado el análisis técnico de la muestra obtenida en su domicilio.
 
-Al respecto, le podemos informar que el vector entregado <?php echo $resultado ?> al aedes aegypti, el insecto recolectado no es de importancia sanitaria <?php if (!empty($texto_entomologo)): ?>, <?php echo $texto_entomologo ?><?php endif; ?>.
-
-Para su conocimiento, usted puede ver el material educativo que le permita prevenir la presencia del insecto en su vivienda.
-
-Le agradeceremos que pueda difundir este material con sus vecinos.
+Le sugerimos revisar las recomendaciones que el Ministerio de Salud entrega a la comunidad para mantener su vivienda libre de la presencia del mosquito y lo comparta con su entorno cercano.
 
 
-Le saluda atentamente,<br/>
-SEREMI DE SALUD ARICA Y PARINACOTA<br/>
+Atentamente,
 
+SEREMI DE SALUD ARICA Y PARINACOTA
