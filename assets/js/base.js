@@ -1,4 +1,9 @@
-var tablas = {};
+//Sidebar Toggle
+$("#sidebar-toggle").click(function(e) {
+    e.preventDefault();
+    $(".navbar-side").toggleClass("collapsed");
+    $("#page-wrapper").toggleClass("collapsed");
+});
 
 $.fn.hasAttr = function(name) {  
    return this.attr(name) !== undefined;
