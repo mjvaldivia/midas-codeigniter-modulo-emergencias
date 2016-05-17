@@ -199,9 +199,9 @@ var MapaFormulario = Class({
         google.maps.event.addListener(map, "dblclick", function (e) { 
             var lat = e.latLng.lat();
             var lon = e.latLng.lng();
-            $("#" + this.input_latitud).val(lat);
-            $("#" + this.input_longitud).val(lon);
-            $("#" + this.input_longitud).trigger("change");
+            $("#" + yo.input_latitud).val(lat);
+            $("#" + yo.input_longitud).val(lon);
+            $("#" + yo.input_longitud).trigger("change");
         });
         
         this.mapa = map;
