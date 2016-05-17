@@ -237,8 +237,9 @@ var MapaEditor = Class({
      * @returns {void}
      */
     guardar : function(){
+        var tareas = new MapaLoading();
         var custom = new MapaElementos();
-        
+        tareas.push(1);
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                           "zoom" : this.mapa.getZoom(),
@@ -262,13 +263,7 @@ var MapaEditor = Class({
                           "kmls" : this.class_kml.listArchivosKml(),
                           
                           "id" : this.id_emergencia};
-        Messenger().run({
-            action: $.ajax,
-            showCloseButton: true,
-            successMessage: '<strong> Guardar <strong> <br> Ok',
-            errorMessage: '<strong> Guardar <strong> <br> Se produjo un error al guardar',
-            progressMessage: '<strong> Guardar <strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Procesando...'
-        }, {         
+        $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
@@ -288,6 +283,7 @@ var MapaEditor = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
+                tareas.remove(1);
             }
         }); 
     },

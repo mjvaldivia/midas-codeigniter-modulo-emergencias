@@ -229,6 +229,10 @@ var MapaElementos = Class({
      * @returns {void}
      */
     loadCustomElements : function(mapa, mensaje_carga){
+        var tareas = new MapaLoading();
+        
+        
+        
         
         this.mapa = mapa;
         
@@ -297,10 +301,11 @@ var MapaElementos = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
-                
+                tareas.remove(1);
             }
         };
-
+        
+        tareas.push(1);
          $.ajax({         
             dataType: "json",
             cache: false,
@@ -310,9 +315,12 @@ var MapaElementos = Class({
             url: siteUrl + "mapa/ajax_contar_elementos", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
+                tareas.remove(1);
                 if(data.cantidad > 0){
                     if(mensaje_carga){
-                        Messenger().run({
+                        tareas.push(1);
+                        $.ajax(ajax)
+                       /* Messenger().run({
                             action: $.ajax,
                             showCloseButton: true,
                             successMessage: '<strong> Elementos </strong> <br> Ok',
@@ -320,7 +328,7 @@ var MapaElementos = Class({
                             progressMessage: '<strong> Elementos </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
                         },
                         ajax
-                        );
+                        );*/
                 
                         
                     } else {

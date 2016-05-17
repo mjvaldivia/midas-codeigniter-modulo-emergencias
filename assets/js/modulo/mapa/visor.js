@@ -10,6 +10,7 @@ var Visor = Class({
     zoom: 5,
     callback : null,
     
+    
     on_ready_functions : {},
     
     /**

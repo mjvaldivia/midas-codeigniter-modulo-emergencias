@@ -92,6 +92,7 @@
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
 
 <!-- Base del visor-->
+<?= loadJS("assets/js/modulo/mapa/loading.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
