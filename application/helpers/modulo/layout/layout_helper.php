@@ -65,6 +65,9 @@ function formMapa($id_html){
  * @return string hmtl
  */
 function menuRender(){
+    $ci =& get_instance();
+    $ci->load->model("comuna_model");
+    $ci->load->model("region_model");
     $menu = New Layout_Menu_Render();
     return $menu->render();
 }

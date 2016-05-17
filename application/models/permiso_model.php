@@ -159,6 +159,26 @@ class Permiso_Model extends MY_Model {
     
     /**
      * 
+     * @param type $lista_roles
+     * @param type $id_modulo
+     * @param type $accion
+     * @return boolean
+     */
+    public function verPermiso($lista_roles, $id_modulo, $accion){
+        $result = $this->_queryPorRolesModulo($lista_roles, $id_modulo)
+                       ->select("*", false)
+                       ->getOneResult();
+        if(!is_null($result)){
+            $permisos = Zend_Json::decode($result->permisos);
+            if(isset($permisos[$accion]) && $permisos[$accion]==1){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * 
      * @param array $lista_roles
      * @param int $id_submodulo
      * @return boolean
@@ -272,6 +292,26 @@ class Permiso_Model extends MY_Model {
         return false;
     }
     
+     /**
+     * 
+     * @param int $id_rol
+     * @param int $id_modulo
+     * @return array
+     */
+    public function getByRolAndModulo($id_rol, $id_modulo){
+        $result = $this->_query
+                       ->select("*")
+                       ->from($this->_tabla . " m")
+                       ->whereAND("m.rol_ia_id", $id_rol)
+                       ->whereAND("m.per_ia_id", $id_modulo)
+                       ->getOneResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return null;
+        }
+    }
+    
     /**
      * 
      * @param array $lista_roles
@@ -286,6 +326,22 @@ class Permiso_Model extends MY_Model {
                               ->whereAND("p.per_ia_id", $id_submodulo);
         return $query;
         
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function listar(){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->orderBy("per_ia_id", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
 }
 

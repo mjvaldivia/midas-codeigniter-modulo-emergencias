@@ -1,5 +1,8 @@
 <?php
 
+//require_once(FCPATH . "application/models/region_model.php");
+//require_once(FCPATH . "application/models/comuna_model.php");
+
 /**
  * Genera el menu izquierdo
  * para el admin
@@ -176,9 +179,20 @@ Class Layout_Menu_Render
     public function __construct()
     {
         $this->ci =& get_instance();
-        $this->ci->load->library("session");
-        $this->ci->load->library("usuario");
+        $this->ci->load->library(
+            array(
+                "usuario",
+                "session",
+                "core/string/arreglo"
+            )
+        );
+
+        $this->ci->load->model("comuna_model", "_usuario_comuna_model");
         $this->ci->load->model("rol_model", "rol_model");
+        $this->ci->load->model("usuario_region_model", "_usuario_region_model");
+        
+        
+        
         $this->_controller = $this->ci->router->fetch_class();
         $this->_action = $this->ci->router->fetch_method();
         $this->usuario = New Usuario();
@@ -313,9 +327,10 @@ Class Layout_Menu_Render
                     $retorno = false;
 
                     if(isset($menu["acceso"]["region"])){
-                        $regiones_usuario = $this->ci->_usuario_region_model->listarPorUsuario($this->ci->session->userdata('id'));
+                        $regiones_usuario = $this->ci->_usuario_region_model->listarPorUsuario($this->ci->session->userdata('session_idUsuario'));
+                        fb($regiones_usuario);
                         foreach($menu["acceso"]["region"] as $id_region){
-                            if(in_array($id_region, $this->ci->arreglo->arrayToArray($regiones_usuario, "id"))){
+                            if(in_array($id_region, $this->ci->arreglo->arrayToArray($regiones_usuario, "id_region"))){
                                 $retorno = true;
                             }
                         }
@@ -323,21 +338,24 @@ Class Layout_Menu_Render
 
                     if($retorno && isset($menu["acceso"]["comuna"])){
                         $ver_comuna = false;
-                        $comunas_usuario = $this->ci->_usuario_oficina_model->listarComunasPorUsuario($this->ci->session->userdata('id'));
+                        $comunas_usuario = $this->ci->_usuario_comuna_model->listarComunasPorUsuario($this->ci->session->userdata('session_idUsuario'));
+                        fb($comunas_usuario);
+                        
                         foreach($menu["acceso"]["comuna"] as $id_comuna){
-                            if(in_array($id_comuna, $this->ci->arreglo->arrayToArray($comunas_usuario, "id"))){
+                            if(in_array($id_comuna, $this->ci->arreglo->arrayToArray($comunas_usuario, "com_ia_id"))){
                                 $ver_comuna = true;
                             }
                         }
+                        
                         $retorno = $ver_comuna;
                     }
                 }
 
                 if($retorno){
                     if($id_modulo != "All"){
-                        $lista_roles = $this->ci->usuario_rol_model->listarRolesPorUsuario($this->ci->session->userdata('id'));
+                        $lista_roles = $this->ci->usuario_rol_model->listarRolesPorUsuario($this->ci->session->userdata('session_idUsuario'));
                         return $this->ci->permiso_model->verPermiso(
-                            $this->ci->arreglo->arrayToString($lista_roles,",","id"), 
+                            $this->ci->arreglo->arrayToString($lista_roles,",","rol_ia_id"), 
                             $id_modulo, 
                             "ver"
                         );
@@ -349,7 +367,7 @@ Class Layout_Menu_Render
                 $ver = $retorno;
             }
         }
-
+   
         if (isset($menu["rol"]) and $menu["rol"] == "administrador") {
             $roles = explode(",", $this->_session->userdata("session_roles"));
             $existe = array_search(Rol_Model::ADMINISTRADOR, $roles);

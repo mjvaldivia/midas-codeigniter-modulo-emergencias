@@ -46,6 +46,51 @@ class Mantenedor_rol extends MY_Controller {
         $this->load->model("usuario_model", "usuario_model");
     }
     
+    public function correccionPermisos(){
+        $lista = $this->permiso_model->listar();
+        foreach($lista as $permiso){
+            $json = array("ver" => 1,
+                          "ingresar" => 0);
+            
+            if($permiso["bo_editar"] == 1){
+                $json["editar"] = 1;
+            }
+            
+            if($permiso["bo_eliminar"] == 1){
+                $json["eliminar"] = 1;
+            }
+            
+            if($permiso["bo_finalizar_emergencia"] == 1){
+                $json["finalizar"] = 1;
+                $json["conclusiones"] = 1;
+            }
+            
+            if($permiso["bo_reporte_emergencia"] == 1){
+                $json["reporte"] = 1;
+                $json["exportar"] = 1;
+            }
+            
+            if($permiso["bo_visor_emergencia"] == 1){
+                $json["visor"] = 1;
+            }
+            
+            if($permiso["bo_formulario_datos_personales"] == 1){
+                $json["datos_personales"] = 1;
+            }
+            
+            if($permiso["bo_visor_emergencia_guardar"] == 1){
+                $json["guardar"] = 1;
+            }
+            
+            if($permiso["bo_embarazadas"] == 1){
+                $json["embarazadas"] = 1;
+            }
+            
+            $this->permiso_model->update(array("permisos" => Zend_Json::encode($json)), $permiso["rvsp_ia_id"]);
+        }
+        fb($lista);
+    }
+    
     /**
      * Listado de usuarios
      */
@@ -127,31 +172,23 @@ class Mantenedor_rol extends MY_Controller {
         
         //se ingresa el permiso para ver
         $this->permiso_model->query()
-                            ->insertOneToMany("rol_ia_id", "per_ia_id", $params["id"], $params["ver"]);
+                            ->insertOneToMany("rol_ia_id", "per_ia_id", $params["id"], $params["permiso"]["ver"]);
+
         
         $lista_permisos = $this->permiso_model->listarPorRol($params["id"]);
         if(count($lista_permisos)>0){
             foreach($lista_permisos as $permiso)
             {
-                $editar    = $this->_setearPermiso($permiso["per_ia_id"], $params["editar"]);
-                $eliminar  = $this->_setearPermiso($permiso["per_ia_id"], $params["eliminar"]);
-                $finalizar = $this->_setearPermiso($permiso["per_ia_id"], $params["finalizar"]);  
-                $reporte = $this->_setearPermiso($permiso["per_ia_id"], $params["reporte"]);  
-                $visor = $this->_setearPermiso($permiso["per_ia_id"], $params["visor"]);
-                $visor_guardar = $this->_setearPermiso($permiso["per_ia_id"], $params["visor_guardar"]);
-                $activar_alarma = $this->_setearPermiso($permiso["per_ia_id"], $params["activar_alarma"]);
-                $formulario_ver_datos_personales = $this->_setearPermiso($permiso["per_ia_id"], $params["datos_personales"]);
-                $embarazada = $this->_setearPermiso($permiso["per_ia_id"], $params["embarazadas"]);
+                $guardar = array();
+                foreach($params["permiso"] as $accion => $modulos){
+                    foreach($modulos as $id_modulo){
+                        if($id_modulo == $permiso["per_ia_id"]){
+                            $guardar[$accion] = 1;
+                        }
+                    }
+                }
                 
-                $data = array("bo_editar" => $editar,
-                              "bo_eliminar" => $eliminar,
-                              "bo_finalizar_emergencia" => $finalizar,
-                              "bo_reporte_emergencia" => $reporte,
-                              "bo_visor_emergencia" => $visor,
-                              "bo_activar_alarma" => $activar_alarma,
-                              "bo_formulario_datos_personales" => $formulario_ver_datos_personales,
-                              "bo_visor_emergencia_guardar" => $visor_guardar,
-                              "bo_embarazadas" => $embarazada);
+                $data = array("permisos" => Zend_Json::encode($guardar));
                 
                 $this->permiso_model->update($data, $permiso["rvsp_ia_id"]);
             }
@@ -168,11 +205,41 @@ class Mantenedor_rol extends MY_Controller {
      */
     public function form_permisos()
     {
+         $this->load->helper(
+            array(
+                "modulo/permiso/permiso"
+            )
+        );
+        
+        $salida = array();
+        
         $params = $this->input->post(null, true);
         $lista = $this->modulo_model->listarModulosEmergencia();
-        $this->load->view("pages/mantenedor_rol/form-permisos", 
-                          array("lista" => $lista,
-                                "id_rol" => $params["id"]));
+        foreach($lista as $permiso){
+            
+            $permisos_modulo = $this->permiso_model->getByRolAndModulo($params["id"],$permiso["per_ia_id"]);
+            if(!is_null($permisos_modulo)){
+                $acciones = Zend_Json::decode($permisos_modulo->permisos);
+            } else {
+                $acciones = array();
+            }
+            
+            $salida[] = array(
+                "nombre" => $permiso["per_c_nombre"],
+                "id" => $permiso["per_ia_id"],
+                "permiso" => $acciones
+            );
+        }
+        
+        fb($salida);
+        
+        $this->load->view(
+            "pages/mantenedor_rol/form-permisos", 
+            array(
+                "lista" => $salida,
+                "id_rol" => $params["id"]
+            )
+        );
     }
     
     
