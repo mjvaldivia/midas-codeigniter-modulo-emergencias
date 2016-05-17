@@ -52,6 +52,8 @@ var MapaFormulario = Class({
      */
     input_latitud  : "latitud",
     
+    zoom : 4,
+    
     /**
      * Carga de dependencias
      * @returns void
@@ -94,6 +96,15 @@ var MapaFormulario = Class({
      */
     seteaPlaceInput : function(place){
         this.places_input = place;
+    },
+    
+    /**
+     * 
+     * @param {type} zoom
+     * @returns {undefined}
+     */
+    seteaZoom : function(zoom){
+        this.zoom = zoom;
     },
     
     /**
@@ -188,7 +199,7 @@ var MapaFormulario = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud),parseFloat(yo.longitud));
 
         var mapOptions = {
-          zoom: 4,
+          zoom: yo.zoom,
           center: myLatlng,
           disableDoubleClickZoom: true,
           mapTypeId: google.maps.MapTypeId.HYBRID
@@ -276,7 +287,7 @@ var MapaFormulario = Class({
             this.marker = marker;
 
             this.marker.setPosition( new google.maps.LatLng( parseFloat($("#" + this.input_latitud).val()), parseFloat($("#" + this.input_longitud).val())) );
-            this.mapa.setZoom(10);
+            //this.mapa.setZoom(10);
             this.mapa.panTo( new google.maps.LatLng(parseFloat($("#" + this.input_latitud).val()), parseFloat($("#" + this.input_longitud).val())) );
         }
     },

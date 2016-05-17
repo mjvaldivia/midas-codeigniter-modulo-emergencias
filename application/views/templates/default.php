@@ -224,7 +224,7 @@
         <div id="page-wrapper">
 
             <div class="page-content">
-                {body}
+                <?php echo $body; ?>
             </div>   
             <!-- /.page-content -->
 

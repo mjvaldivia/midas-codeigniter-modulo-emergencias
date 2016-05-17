@@ -61,18 +61,17 @@ Class Layout_Menu{
             ),
             "child"      => array()
         ),   
-        
         "Eventos" => array(
             "modulo" => Modulo_Model::SUB_MODULO_EMERGENCIA,
-            "icono" => "fa fa-plus-square",      
-            "child" => array(
-                "Antirrábica" => array(
-                    "controller" => "vacuna_antirrabica",
-                    "action"     => "index"
-                ),
-
+            "icono"      => "fa fa-dashboard",
+            "href" => array(
+                "module"     => NULL,
+                "controller" => "evento",
+                "action"     => "index",
             ),
-        ),
+            "child"      => array()
+        ), 
+        
         
         "Visor" => array(
             "modulo" => Modulo_Model::SUB_MODULO_CAPAS,
@@ -120,17 +119,47 @@ Class Layout_Menu{
             "icono" => "fa fa-plus-square",      
             "child" => array(
                 "Casos febriles" => array(
-                    "controller" => "formulario",
+                    "controller" => "casos_febriles_isla_de_pascua",
                     "action"     => "index",
                 ),
                 "Embarazos" => array(
-                   "accion" => "embarazo",
+                   "accion" => "embarazadas",
                    "controller" => "embarazo",
                    "action"     => "index",
                 )
             ),
         ),
+        
+        "Marea roja" => array(
+            "modulo"       => Modulo_Model::SUB_MAREA_ROJA,
+            "icono"      => "fa fa-plus-square",
+            "href" => array(
+                "controller" => "marea_roja",
+                "action"     => "index",
+            ),
+            "child"      => array()
+        ),
        
+        "Vectores" => array(
+            "modulo" => Modulo_Model::SUB_VECTORES,
+            "icono" => "fa fa-plus-square",      
+            "child" => array(
+                "Denuncias" => array(
+                    "controller" => "vectores",
+                    "action"     => "index",
+                ),
+                "Trampas" => array(
+                   "controller" => "vectores_trampas",
+                   "action"     => "index",
+                ),
+                "Inspecciones" => array(
+                   "controller" => "vectores_hallazgos",
+                   "action"     => "index",
+                )
+            ),
+        ),
+        
+        
         "Usuarios" => array(
             "modulo" => Modulo_Model::USUARIOS,
             "icono" => "fa fa-users",
@@ -161,7 +190,7 @@ Class Layout_Menu{
         $this->ci->load->model("permiso_model","permiso_model");
         $this->ci->load->model("usuario_rol_model","usuario_rol_model");
         $this->ci->load->model("usuario_region_model","_usuario_region_model");
-        $this->ci->load->model("usuario_oficina_model","_usuario_oficina_model");
+        $this->ci->load->model("comuna_model","_usuario_oficina_model");
         
         $this->ci->load->library("core/string/arreglo");
         
@@ -227,9 +256,9 @@ Class Layout_Menu{
             $retorno = false;
             
             if(isset($menu["acceso"]["region"])){
-                $regiones_usuario = $this->ci->_usuario_region_model->listarPorUsuario($this->ci->session->userdata('id'));
+                $regiones_usuario = $this->ci->_usuario_region_model->listarPorUsuario($this->ci->session->userdata('session_idUsuario'));
                 foreach($menu["acceso"]["region"] as $id_region){
-                    if(in_array($id_region, $this->ci->arreglo->arrayToArray($regiones_usuario, "id"))){
+                    if(in_array($id_region, $this->ci->arreglo->arrayToArray($regiones_usuario, "id_region"))){
                         $retorno = true;
                     }
                 }
@@ -237,9 +266,9 @@ Class Layout_Menu{
             
             if($retorno && isset($menu["acceso"]["comuna"])){
                 $ver_comuna = false;
-                $comunas_usuario = $this->ci->_usuario_oficina_model->listarComunasPorUsuario($this->ci->session->userdata('id'));
+                $comunas_usuario = $this->ci->_usuario_oficina_model->listarComunasPorUsuario($this->ci->session->userdata('session_idUsuario'));
                 foreach($menu["acceso"]["comuna"] as $id_comuna){
-                    if(in_array($id_comuna, $this->ci->arreglo->arrayToArray($comunas_usuario, "id"))){
+                    if(in_array($id_comuna, $this->ci->arreglo->arrayToArray($comunas_usuario, "com_ia_id"))){
                         $ver_comuna = true;
                     }
                 }
@@ -249,9 +278,9 @@ Class Layout_Menu{
         
         if($retorno){
             if($id_modulo != "All"){
-                $lista_roles = $this->ci->usuario_rol_model->listarRolesPorUsuario($this->ci->session->userdata('id'));
+                $lista_roles = $this->ci->usuario_rol_model->listarRolesPorUsuario($this->ci->session->userdata('session_idUsuario'));
                 return $this->ci->permiso_model->verPermiso(
-                    $this->ci->arreglo->arrayToString($lista_roles,",","id"), 
+                    $this->ci->arreglo->arrayToString($lista_roles,",","rol_ia_id"), 
                     $id_modulo, 
                     "ver"
                 );
@@ -288,9 +317,9 @@ Class Layout_Menu{
                 $ver = true;
                 
                 if(!empty($datos["accion"])){
-                    $lista_roles = $this->ci->usuario_rol_model->listarRolesPorUsuario($this->ci->session->userdata('id'));
+                    $lista_roles = $this->ci->usuario_rol_model->listarRolesPorUsuario($this->ci->session->userdata('session_idUsuario'));
                     $ver = $this->ci->permiso_model->verPermiso(
-                        $this->ci->arreglo->arrayToString($lista_roles,",","id"), 
+                        $this->ci->arreglo->arrayToString($lista_roles,",","rol_ia_id"), 
                         $modulo, 
                         $datos["accion"]
                     );

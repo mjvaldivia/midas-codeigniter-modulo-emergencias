@@ -1,6 +1,6 @@
 <?php
 
-require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
+require_once(APPPATH . "helpers/core/layout/Menu.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Logeado.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Permiso.php");
@@ -68,7 +68,7 @@ function menuRender(){
     $ci =& get_instance();
     $ci->load->model("comuna_model");
     $ci->load->model("region_model");
-    $menu = New Layout_Menu_Render();
+    $menu = New Layout_Menu();
     return $menu->render();
 }
 

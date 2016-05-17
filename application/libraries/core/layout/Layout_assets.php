@@ -19,8 +19,8 @@ Class Layout_assets{
      * Agrega los JS para agregar un mapa al formulario
      */
     public function addMapaFormulario(){
-        $this->addJs("https://maps.googleapis.com/maps/api/js?libraries=places,drawing&key=AIzaSyBqmaRNgLR0AZU8l7PPITUFJ4EBQD_A_4g");
-        $this->addJs("http://200.55.194.54/emergencias/assets/js/modulo/mapa/formulario.js");
+        //$this->addJs("https://maps.googleapis.com/maps/api/js?libraries=places,drawing&key=AIzaSyBqmaRNgLR0AZU8l7PPITUFJ4EBQD_A_4g");
+       // $this->addJs("http://200.55.194.54/emergencias/assets/js/modulo/mapa/formulario.js");
     }
     
     /**

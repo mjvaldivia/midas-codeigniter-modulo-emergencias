@@ -361,6 +361,12 @@ function notificacionEspera(titulo){
     });
 }
 
+function getController(){
+    var str = window.location.href;
+    var path = str.replace(baseUrl, "").split('/');
+    return path[0];
+}
+
 /**
  * Boquea el boton despues de hacer click
  * @param {type} boton

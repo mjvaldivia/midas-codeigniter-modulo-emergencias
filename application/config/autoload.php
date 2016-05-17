@@ -76,7 +76,11 @@ $autoload['helper'] = array(
     "session",
     "utils",
     "modulo/usuario/usuario",
-    "core/layout_assets_view"
+    "core/layout_assets_view",
+    "core/layout_assets_view",
+    "core/layout_menu",
+    "core/layout_usuario",
+    "core/base"
 );
 
 

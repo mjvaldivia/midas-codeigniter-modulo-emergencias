@@ -23,7 +23,7 @@ Class Layout_template{
      */
     public function view($template, $content, $params){
         $body = $this->_ci->load->view($content, $params, true);
-        $this->_ci->load->view("templates/" . $template, array("content" => $body));
+        $this->_ci->load->view("templates/" . $template, array("body" => $body));
     }
 }
 
