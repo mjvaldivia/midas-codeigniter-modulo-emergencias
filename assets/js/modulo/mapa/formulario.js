@@ -229,9 +229,9 @@ var MapaFormulario = Class({
                     var index = place.address_components.length - 2;
                     var region = place.address_components[index].long_name;  
 
-                    $("#" + this.input_longitud).val(parseFloat(place.geometry.location.lng()));
-                    $("#" + this.input_latitud).val(parseFloat(place.geometry.location.lat()));
-                    $("#" + this.input_longitud).trigger("change");
+                    $("#" + yo.input_longitud).val(parseFloat(place.geometry.location.lng()));
+                    $("#" + yo.input_latitud).val(parseFloat(place.geometry.location.lat()));
+                    $("#" + yo.input_longitud).trigger("change");
 
                 });
             });
