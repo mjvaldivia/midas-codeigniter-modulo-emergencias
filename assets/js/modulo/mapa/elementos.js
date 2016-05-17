@@ -387,40 +387,45 @@ var MapaElementos = Class({
                     // ****************************************************************
                     //************ carga de capas de marea roja ***********************
                     
-                    $("#marea_roja").waitUntilExists(function(){
-                        if(parseInt(data.resultado.marea_roja) == 1){
-                            var marea_roja = new MapaMareaRojaCasos();
-                            marea_roja.seteaMapa(yo.mapa);
-                            marea_roja.load(yo.mapa);
+                    
+                    if(parseInt(data.resultado.marea_roja) == 1){
+                        var marea_roja = new MapaMareaRojaCasos();
+                        marea_roja.seteaMapa(yo.mapa);
+                        marea_roja.load(yo.mapa);
+                        $("#marea_roja").waitUntilExists(function(){
                             $("#marea_roja").prop("checked", true);
-                            
+
                             $("#marea-roja-contenedor-filtro-colores").waitUntilExists(function(){
                                 $("#marea-roja-contenedor-filtro-colores").removeClass("hidden");
                                 $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
                                 $("#marea-roja-pm-contenedor-filtro-colores").find("input").prop("checked", false);
                             });
-                        } else {
+                        });
+                    } else {
+                        $("#marea_roja").waitUntilExists(function(){
                             $("#marea_roja").prop("checked", false);
-                        }
-                    });
-                    
-                    $("#marea_roja_pm").waitUntilExists(function(){
-                        if(parseInt(data.resultado.marea_roja_pm) == 1){
-                            var marea_roja = new MapaMareaRojaCasosPm();
-                            marea_roja.seteaMapa(yo.mapa);
-                            marea_roja.load();
+                        })
+                    }
+
+                    if(parseInt(data.resultado.marea_roja_pm) == 1){
+                        var marea_roja = new MapaMareaRojaCasosPm();
+                        marea_roja.seteaMapa(yo.mapa);
+                        marea_roja.load();
+                        $("#marea_roja_pm").waitUntilExists(function(){
                             $("#marea_roja_pm").prop("checked", true);
-                            
+
                             $("#marea-roja-contenedor-filtro-colores").waitUntilExists(function(){
                                 $("#marea-roja-contenedor-filtro-colores").addClass("hidden");
                                 $("#marea-roja-pm-contenedor-filtro-colores").removeClass("hidden");
                                 $("#marea-roja-contenedor-filtro-colores").find("input").prop("checked", false);
                             });
-                        } else {
+                        });
+                    } else {
+                        $("#marea_roja_pm").waitUntilExists(function(){
                             $("#marea_roja_pm").prop("checked", false);
-                        }
-                    });
-                    
+                        });
+                    }
+                   
                     // ****************************************************************
                     //************ carga de capas vectores ***********************
                     $("#vectores_marcadores").waitUntilExists(function(){
