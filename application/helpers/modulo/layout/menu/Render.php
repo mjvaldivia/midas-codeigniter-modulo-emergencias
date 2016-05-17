@@ -84,9 +84,12 @@ Class Layout_Menu_Render
                                     ),*/ 
 
                                     "Isla de pascua" => array(
-
+                                        "modulo" => Modulo_Model::SUB_CASOS_FEBRILES,
+                                        "acceso" => array(
+                                            "region" => array(Region_Model::REGION_VALPARAISO),
+                                            "comuna" => array(Comuna_Model::ISLA_DE_PASCUA)
+                                        ),
                                         "icon_class" => "fa-warning",      
-                                        "permiso" => "casos_febriles",
                                         "child" => array(
                                             
                                             "Casos febriles" => array(
@@ -282,14 +285,14 @@ Class Layout_Menu_Render
      * @param array $datos
      * @return boolean
      */
-    protected function _ver($datos)
+    protected function _ver($menu)
     {
         $ver = true;
-        if (isset($datos["permiso"])) {
+        if (isset($menu["permiso"])) {
 
-            switch ($datos["permiso"]) {
+            switch ($menu["permiso"]) {
                 case "casos_febriles":
-                    $this->usuario->setModulo($datos["permiso"]);
+                    $this->usuario->setModulo($menu["permiso"]);
                     $ver = $this->usuario->getPermisoReporteEmergencia() || $this->usuario->getPermisoEditar() || $this->usuario->getPermisoEliminar() || $this->usuario->getPermisoActivarAlarma();
                     break;
                 case "embarazada":
@@ -297,13 +300,57 @@ Class Layout_Menu_Render
                     $ver = $this->usuario->getPermisoEmbarazada();
                     break;
                 default:
-                    $this->usuario->setModulo($datos["permiso"]);
+                    $this->usuario->setModulo($menu["permiso"]);
                     $ver = $this->usuario->getPermisoVer();
                     break;
             }
+        } else {
+            $retorno = true;
+            if(isset($menu["modulo"])) {
+                $id_modulo = $menu["modulo"];
+
+                if(isset($menu["acceso"])){
+                    $retorno = false;
+
+                    if(isset($menu["acceso"]["region"])){
+                        $regiones_usuario = $this->ci->_usuario_region_model->listarPorUsuario($this->ci->session->userdata('id'));
+                        foreach($menu["acceso"]["region"] as $id_region){
+                            if(in_array($id_region, $this->ci->arreglo->arrayToArray($regiones_usuario, "id"))){
+                                $retorno = true;
+                            }
+                        }
+                    }
+
+                    if($retorno && isset($menu["acceso"]["comuna"])){
+                        $ver_comuna = false;
+                        $comunas_usuario = $this->ci->_usuario_oficina_model->listarComunasPorUsuario($this->ci->session->userdata('id'));
+                        foreach($menu["acceso"]["comuna"] as $id_comuna){
+                            if(in_array($id_comuna, $this->ci->arreglo->arrayToArray($comunas_usuario, "id"))){
+                                $ver_comuna = true;
+                            }
+                        }
+                        $retorno = $ver_comuna;
+                    }
+                }
+
+                if($retorno){
+                    if($id_modulo != "All"){
+                        $lista_roles = $this->ci->usuario_rol_model->listarRolesPorUsuario($this->ci->session->userdata('id'));
+                        return $this->ci->permiso_model->verPermiso(
+                            $this->ci->arreglo->arrayToString($lista_roles,",","id"), 
+                            $id_modulo, 
+                            "ver"
+                        );
+                    } else {
+                        $retorno = true;
+                    }
+                }
+
+                $ver = $retorno;
+            }
         }
 
-        if (isset($datos["rol"]) and $datos["rol"] == "administrador") {
+        if (isset($menu["rol"]) and $menu["rol"] == "administrador") {
             $roles = explode(",", $this->_session->userdata("session_roles"));
             $existe = array_search(Rol_Model::ADMINISTRADOR, $roles);
             if ($existe === false) {

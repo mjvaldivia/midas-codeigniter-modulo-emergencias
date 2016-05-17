@@ -7,6 +7,10 @@
  */
 class Comuna_Model extends MY_Model
 {    
+    /**
+     * INT
+     */
+    const ISLA_DE_PASCUA = 12;
     
     /**
      * Se utiliza emergencias_simulacion o no

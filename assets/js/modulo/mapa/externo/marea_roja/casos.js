@@ -27,6 +27,7 @@ var MapaMareaRojaCasos = Class({
             
             $("#marea_roja").attr("disabled", true);
             $("#marea_roja_pm").attr("disabled", true);
+            
             tareas.push(1);
             $.ajax({        
                 dataType: "json",
@@ -58,12 +59,17 @@ var MapaMareaRojaCasos = Class({
 
                         });
                         
-                        yo.filtrar();
+                        $("#formulario-marea-roja-contenedor").waitUntilExists(function(){
+                            yo.filtrar();
+                        });
+                        
                     } else {
                         notificacionError("", "No es posible encontrar la información de la marea roja.");
                     }
                     
-                    $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    $("#formulario-marea-roja-contenedor").waitUntilExists(function(){
+                        $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    });
                     
                     $("#marea_roja").attr("disabled", false);
                     $("#marea_roja_pm").attr("disabled", false);
