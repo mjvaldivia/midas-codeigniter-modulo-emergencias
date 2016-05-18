@@ -172,7 +172,7 @@
                             <div class="row">
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
-                                        <label for="numero_de_muestra" class="control-label">N° de muestra (*):</label>
+                                        <label for="numero_de_muestra" class="control-label">N° de acta (*):</label>
                                         <input value="<?php echo $propiedades["numero_de_muestra"]; ?>" class="form-control" name="numero_de_muestra" id="numero_de_muestra">
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -180,13 +180,7 @@
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-                                        <select name="laboratorio" id="laboratorio" class="form-control">
-                                            <option value="">-- Seleccione un valor --</option>
-                                            <option <?php if($propiedades["laboratorio"] == "Puerto Montt") echo "selected" ?> value="Puerto Montt"> Puerto Montt </option>
-                                            <option <?php if($propiedades["laboratorio"] == "Quellón") echo "selected" ?> value="Quellón"> Quellón  </option>
-                                            <option <?php if($propiedades["laboratorio"] == "Castro") echo "selected" ?> value="Castro"> Castro </option>
-                                        </select>
-                                        
+                                        <?php echo formSelectLaboratorio("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>

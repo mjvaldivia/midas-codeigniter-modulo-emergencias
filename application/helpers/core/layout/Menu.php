@@ -63,7 +63,7 @@ Class Layout_Menu{
         ),   
         "Eventos" => array(
             "modulo" => Modulo_Model::SUB_MODULO_EMERGENCIA,
-            "icono"      => "fa fa-dashboard",
+            "icono"      => "fa fa-bullhorn",
             "href" => array(
                 "module"     => NULL,
                 "controller" => "evento",
@@ -75,7 +75,7 @@ Class Layout_Menu{
         
         "Visor" => array(
             "modulo" => Modulo_Model::SUB_MODULO_CAPAS,
-            "icono" => "fa fa-plus-square",      
+            "icono" => "fa fa-globe",      
             "child" => array(
                 "Capas" => array(
                     "accion" => "ver",
@@ -92,7 +92,7 @@ Class Layout_Menu{
         
         "Simulación" => array(
             "modulo"       => Modulo_Model::SUB_SIMULACION,
-            "icono"      => "fa fa-plus-square",
+            "icono"      => "fa fa-flag-checkered",
             "href" => array(
                 "controller" => "session",
                 "action"     => "inicia_simulacion",
@@ -102,7 +102,7 @@ Class Layout_Menu{
         
         "Documentación" => array(
             "modulo"       => Modulo_Model::SUB_DOCUMENTACION,
-            "icono"      => "fa fa-plus-square",
+            "icono"      => "fa fa-book",
             "href" => array(
                 "controller" => "mantenedor_documentos",
                 "action"     => "index",
@@ -116,7 +116,7 @@ Class Layout_Menu{
                 "region" => array(Region_Model::REGION_VALPARAISO),
                 "comuna" => array(Comuna_Model::ISLA_DE_PASCUA)
             ),
-            "icono" => "fa fa-plus-square",      
+            "icono" => "fa fa-warning",      
             "child" => array(
                 "Casos febriles" => array(
                     "controller" => "casos_febriles_isla_de_pascua",
@@ -132,11 +132,16 @@ Class Layout_Menu{
         
         "Marea roja" => array(
             "modulo" => Modulo_Model::SUB_MAREA_ROJA,
-            "icono" => "fa fa-plus-square",      
+            "icono" => "fa fa-warning",      
             "child" => array(
                 "Muestras" => array(
                     "accion" => "muestra",
                     "controller" => "marea_roja",
+                    "action"     => "index",
+                ),
+                "Derivar muestra" => array(
+                    "accion" => "derivar",
+                    "controller" => "marea_roja_derivar",
                     "action"     => "index",
                 ),
                 "Ingreso resultados" => array(
@@ -150,7 +155,7 @@ Class Layout_Menu{
        
         "Vectores" => array(
             "modulo" => Modulo_Model::SUB_VECTORES,
-            "icono" => "fa fa-plus-square",      
+            "icono" => "fa fa-warning",      
             "child" => array(
                 "Denuncias" => array(
                     "controller" => "vectores",

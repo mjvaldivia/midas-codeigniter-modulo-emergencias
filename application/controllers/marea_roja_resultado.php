@@ -76,8 +76,7 @@ class Marea_roja_resultado extends Marea_roja
 
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
-            $this->load->view("pages/marea_roja/resultado/form", $data);
-            //$this->template->parse("default", "pages/marea_roja/resultado/form", $data);
+            $this->_viewEditar($data);
         }
     }
     
@@ -123,6 +122,35 @@ class Marea_roja_resultado extends Marea_roja
                 )
             );
         }
+    }
+    
+    /**
+     * 
+     * @param array $params
+     * @return array
+     */
+    protected function _filtros($params){
+        $this->load->model("usuario_laboratorio_model","_usuario_laboratorio_model");
+        $lista_laboratorios = $this->arreglo->arrayToArray($this->_usuario_laboratorio_model->listarPorUsuario($this->session->userdata('session_idUsuario')),"id_laboratorio");
+        
+        return $this->_marea_roja_model->listar(
+            array(
+                "laboratorio" => $lista_laboratorios,
+                "region" => $this->_filtrosRegion($params),
+                "comuna" => $params["comuna"],
+                "numero_muestra" => $params["muestra"]
+            )
+        );
+    }
+    
+     
+    
+    /**
+     * Funcion para cambiar vista de edicion
+     * @param array $data
+     */
+    protected function _viewEditar($data){
+        $this->load->view("pages/marea_roja/resultado/form", $data);
     }
 }
 

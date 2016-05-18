@@ -3,12 +3,13 @@
     <thead>
         <tr>
             <th>Código</th>
-            <th>Numero muestra</th>
+            <th>N° de acta</th>
             <th width="10%">Fecha ingreso</th>
             <th width="10%">Fecha toma de muestra</th>
             <th width="10%">Recurso</th>
             <th width="20%">Origen</th>
             <th width="15%">Comuna</th>
+            <th width="10%">Laboratorio</th>
             <th width="10%">Resultado</th>
             <th width="15%">Estado</th>
             <th width="5%">Opciones</th>				
@@ -33,7 +34,7 @@
                 }
                 ?>
             </td>
-            
+            <td width="10%" align="center"><?php echo $row["laboratorio"]; ?></td>
             <td width="10%">
                 <?php 
                     if($row["bo_ingreso_resultado"] == 0 or $row["resultado"] == ""){

@@ -33,11 +33,11 @@ $(document).ready(function() {
             $("#numero_de_muestra").val("");
             
             bootbox.dialog({
-                message: "Se ha guardado la muestra correctamente",
+                message: "Se ha guardado correctamente la muestra. <br> Puede ingresar otra muestra en el mismo lugar",
                 title: "Resultado guardar muestra",
                 buttons: {
                     cerrar: {
-                        label: "Volver",
+                        label: "Aceptar",
                         className: "btn-primary fa fa-arrow-right",
                         callback: function() {}
                     }

@@ -21,6 +21,7 @@ class Marea_roja extends MY_Controller
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
         $this->load->model("modulo_model", "_modulo_model");
+        $this->load->model("laboratorio_model", "_laboratorio_model");
         
         $this->load->helper(
             array(
@@ -53,7 +54,8 @@ class Marea_roja extends MY_Controller
                 "modulo/formulario/formulario",
                 "modulo/direccion/region",
                 "modulo/direccion/comuna",
-                "modulo/usuario/usuario_form"
+                "modulo/usuario/usuario_form",
+                "modulo/laboratorio/form"
             )
         );
         $params = $this->input->get(null, true);
@@ -64,7 +66,21 @@ class Marea_roja extends MY_Controller
             $propiedades = json_decode($caso->propiedades);
             $coordenadas = json_decode($caso->coordenadas);
            
-            $data = array("id" => $caso->id);
+            $laboratorio = $this->_laboratorio_model->getById($caso->id_laboratorio);
+            if(is_null($laboratorio)){
+                $laboratorio = $this->_laboratorio_model->getByName($propiedades->{"LABORATORIO"});
+            }
+            
+            $id_laboratorio = "";
+            if(!is_null($laboratorio)){
+                $id_laboratorio = $laboratorio->id;
+            }
+            
+            
+            $data = array(
+                "id" => $caso->id,
+                "id_laboratorio" => $id_laboratorio
+            );
             
             foreach ($propiedades as $nombre => $valor) {
                 $data["propiedades"][str_replace(" ", "_", strtolower($nombre))] = $valor;
@@ -127,13 +143,26 @@ class Marea_roja extends MY_Controller
             $caso = $this->_marea_roja_model->getById($params["id"]);
             unset($params["id"]);
             /*****************/
-
+            
+            
+            
+            
             /** se preparan datos del formulario **/
             $arreglo = array();
+            
+            $laboratorio = $this->_laboratorio_model->getById($params["laboratorio"]);
+            if(is_null($laboratorio)){
+                throw new Exception("No se ingreso el laboratorio");
+            }
+
             foreach ($params as $nombre => $valor) {
                 $nombre = str_replace("_", " ", $nombre);
                 $arreglo[strtoupper($nombre)] = $valor;
             }
+            
+            $arreglo["LABORATORIO"] = $laboratorio->nombre;
+            /*****************************************/
+            
             
             if (is_null($caso)) {
                 $id = $this->_marea_roja_model->insert(
@@ -141,6 +170,7 @@ class Marea_roja extends MY_Controller
                         "fecha" => date("Y-m-d H:i:s"),
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
+                        "id_laboratorio" => $laboratorio->id,
                         "numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
@@ -152,6 +182,7 @@ class Marea_roja extends MY_Controller
                     array(
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
+                        "id_laboratorio" => $laboratorio->id,
                         "numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
@@ -188,7 +219,8 @@ class Marea_roja extends MY_Controller
                 "modulo/formulario/formulario",
                 "modulo/direccion/region",
                 "modulo/direccion/comuna",
-                "modulo/usuario/usuario_form"
+                "modulo/usuario/usuario_form",
+                "modulo/laboratorio/form"
             )
         );
         
@@ -203,6 +235,7 @@ class Marea_roja extends MY_Controller
                 "fecha" => DATE("d/m/Y"),
                 "ingresado" => $params["ingreso"],
                 "region" => Region_Model::LOS_LAGOS,
+                "id_laboratorio" => Laboratorio_Model::LOS_RIOS,
                 "latitud" => "-42.92",
                 "longitud" => "-73.17"
             )
@@ -403,21 +436,9 @@ class Marea_roja extends MY_Controller
                 "core/string/arreglo"
             )
         );
+
         
-        if($params["region"]!=""){
-            $lista_regiones[0] = $params["region"];
-        } else {
-            $lista_regiones = $this->arreglo->arrayToArray(
-                $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario')),
-                "id_region"
-            );
-        }
-        
-        $lista = $this->_marea_roja_model->listar(
-            array("region" => $lista_regiones,
-                  "comuna" => $params["comuna"],
-                  "numero_muestra" => $params["muestra"])
-        );
+        $lista = $this->_filtros($params);
 
         $casos = array();
 
@@ -447,6 +468,14 @@ class Marea_roja extends MY_Controller
                     $fecha_ingreso = $fecha->format("d/m/Y");
                 }
                 
+                $laboratorio = $this->_laboratorio_model->getById($caso["id_laboratorio"]);
+                if(is_null($laboratorio)){
+                    $laboratorio_nombre = $propiedades["LABORATORIO"];
+                } else {
+                    $laboratorio_nombre = $laboratorio->nombre;
+                }
+
+                
                 $casos[] = array(
                     "id" => $caso["id"],
                     "id_usuario" => $caso["id_usuario"],
@@ -457,6 +486,7 @@ class Marea_roja extends MY_Controller
                     "origen" => strtoupper($propiedades["ORIGEN"]),
                     "bo_ingreso_resultado" => $caso["bo_ingreso_resultado"],
                     "comuna" => $caso["id_comuna"],
+                    "laboratorio" => $laboratorio_nombre,
                     "resultado" => $propiedades["RESULTADO"]
                 );
 
@@ -464,6 +494,37 @@ class Marea_roja extends MY_Controller
         }
 
         $this->load->view("pages/marea_roja/muestra/grilla", array("lista" => $casos));
+    }
+    
+    /**
+     * 
+     * @param array $params
+     * @return array
+     */
+    protected function _filtros($params){
+        return $this->_marea_roja_model->listar(
+            array(
+                "region" => $this->_filtrosRegion($params),
+                "comuna" => $params["comuna"]
+            )
+        );
+    }
+    
+    /**
+     * Filtros de region
+     * @param array $params
+     * @return array
+     */
+    protected function _filtrosRegion($params){
+        if($params["region"]!=""){
+            $lista_regiones[0] = $params["region"];
+        } else {
+            $lista_regiones = $this->arreglo->arrayToArray(
+                $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario')),
+                "id_region"
+            );
+        }
+        return $lista_regiones;
     }
 }
 

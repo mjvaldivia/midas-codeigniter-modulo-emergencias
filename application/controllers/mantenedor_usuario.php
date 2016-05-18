@@ -50,13 +50,19 @@ class Mantenedor_usuario extends MY_Controller {
     public function __construct() 
     {
         parent::__construct();
-        $this->load->helper(array("modulo/direccion/region",
-                                  "modulo/usuario/usuario"));
+        $this->load->helper(
+            array(
+                "modulo/direccion/region",
+                "modulo/usuario/usuario",
+                "modulo/laboratorio/form"
+            )
+        );
         $this->load->model("usuario_model", "usuario_model");
         $this->load->model("usuario_oficina_model", "usuario_oficina_model");
         $this->load->model("usuario_region_model", "usuario_region_model");
         $this->load->model("usuario_rol_model", "usuario_rol_model");
         $this->load->model("usuario_ambito_model", "usuario_ambito_model");
+        $this->load->model("usuario_laboratorio_model", "usuario_laboratorio_model");
         $this->load->model("region_model", "region_model");
         $this->load->model("oficina_model", "oficina_model");
     }
@@ -86,8 +92,12 @@ class Mantenedor_usuario extends MY_Controller {
      */
     public function save()
     {
-        $this->load->library(array("mantenedor/usuario/mantenedor_usuario_validar",
-                                   "form/form_select"));
+        $this->load->library(
+            array(
+                "mantenedor/usuario/mantenedor_usuario_validar",
+                "form/form_utilitario_select"
+            )
+        );
         
         $params = $this->input->post(null, true);
 
@@ -98,7 +108,7 @@ class Mantenedor_usuario extends MY_Controller {
                           "usu_c_nombre" => $params["nombre"],
                           "usu_c_apellido_paterno" => $params["apellido_paterno"],
                           "usu_c_apellido_materno" => $params["apellido_materno"],
-                          "sex_ia_id" => $params["sexo"],
+                          //"sex_ia_id" => $params["sexo"],
                           "bo_nacional" => $params["nacional"],
                           "usu_c_email" => $params["email"],
                           "usu_c_telefono" => $params["telefono_fijo"],
@@ -123,11 +133,11 @@ class Mantenedor_usuario extends MY_Controller {
             
             if($params["nacional"] == 1){
                 
-                $lista_regiones = $this->form_select->populateMultiselect($this->region_model->listar(), "reg_ia_id");
+                $lista_regiones = $this->form_utilitario_select->populateMultiselect($this->region_model->listar(), "reg_ia_id");
                 $this->usuario_region_model->query()
                                            ->insertOneToMany("id_usuario", "id_region", $id_usuario, $lista_regiones);
                 
-                $lista_oficinas = $this->form_select->populateMultiselect($this->oficina_model->listar(), "ofi_ia_id");
+                $lista_oficinas = $this->form_utilitario_select->populateMultiselect($this->oficina_model->listar(), "ofi_ia_id");
                 $this->usuario_oficina_model->query()
                                             ->insertOneToMany("usu_ia_id", "ofi_ia_id", $id_usuario, $lista_oficinas);
                 
@@ -143,8 +153,8 @@ class Mantenedor_usuario extends MY_Controller {
             $this->usuario_rol_model->query()
                                     ->insertOneToMany("usu_ia_id", "rol_ia_id", $id_usuario, $params["roles"]);
             
-            $this->usuario_ambito_model->query()
-                                       ->insertOneToMany("usu_ia_id", "amb_ia_id", $id_usuario, $params["ambitos"]);
+            $this->usuario_laboratorio_model->query()
+                                       ->insertOneToMany("id_usuario", "id_laboratorio", $id_usuario, $params["laboratorio"]);
         }
         
         $respuesta = array("correcto" => $correcto,
@@ -160,7 +170,7 @@ class Mantenedor_usuario extends MY_Controller {
     {
         $this->load->helper(array("modulo/usuario/usuario_form",
                                   "modulo/direccion/region"));
-        $this->load->library(array("form/form_select")); 
+        $this->load->library(array("form/form_utilitario_select")); 
         
         $data = array("nacional" => 0);
         
@@ -174,7 +184,7 @@ class Mantenedor_usuario extends MY_Controller {
                           "nombre" => $usuario->usu_c_nombre,
                           "apellido_paterno" => $usuario->usu_c_apellido_paterno,
                           "apellido_materno" => $usuario->usu_c_apellido_materno,
-                          "sexo" => $usuario->sex_ia_id,
+                         // "sexo" => $usuario->sex_ia_id,
                           "telefono_fijo"    => $usuario->usu_c_telefono,
                           "telefono_celular" => $usuario->usu_c_celular,
                           "email" => $usuario->usu_c_email,
@@ -183,16 +193,19 @@ class Mantenedor_usuario extends MY_Controller {
                           "nacional" => $usuario->bo_nacional);
             
             $lista_regiones = $this->usuario_region_model->listarPorUsuario($usuario->usu_ia_id);
-            $data["lista_regiones"] = $this->form_select->populateMultiselect($lista_regiones, "id_region");
+            $data["lista_regiones"] = $this->form_utilitario_select->populateMultiselect($lista_regiones, "id_region");
             
             $lista_oficinas = $this->usuario_oficina_model->listarOficinasPorUsuario($usuario->usu_ia_id);
-            $data["lista_oficinas"] = $this->form_select->populateMultiselect($lista_oficinas, "ofi_ia_id");
+            $data["lista_oficinas"] = $this->form_utilitario_select->populateMultiselect($lista_oficinas, "ofi_ia_id");
             
             $lista_roles    = $this->usuario_rol_model->listarRolesPorUsuario($usuario->usu_ia_id);
-            $data["lista_roles"] = $this->form_select->populateMultiselect($lista_roles, "rol_ia_id");
+            $data["lista_roles"] = $this->form_utilitario_select->populateMultiselect($lista_roles, "rol_ia_id");
             
-            $lista_ambitos  = $this->usuario_ambito_model->listarAmbitosPorUsuario($usuario->usu_ia_id);
-            $data["lista_ambitos"] = $this->form_select->populateMultiselect($lista_ambitos, "amb_ia_id"); 
+            $lista_laboratorios    = $this->usuario_laboratorio_model->listarPorUsuario($usuario->usu_ia_id);
+            $data["lista_laboratorios"] = $this->form_utilitario_select->populateMultiselect($lista_laboratorios, "id_laboratorio");
+            
+            /*$lista_ambitos  = $this->usuario_ambito_model->listarAmbitosPorUsuario($usuario->usu_ia_id);
+            $data["lista_ambitos"] = $this->form_select->populateMultiselect($lista_ambitos, "amb_ia_id"); */
         }
         
         $this->load->view("pages/mantenedor_usuarios/form", $data);

@@ -78,12 +78,12 @@ Class Mantenedor_usuario_validar{
             $this->_error["activo"] = "";
         }
         
-        if(!$this->validar->validarVacio($params["sexo"])){
+        /*if(!$this->validar->validarVacio($params["sexo"])){
             $this->_correcto = false;
             $this->_error["sexo"] = "Debe seleccionar un valor";
         } else {
             $this->_error["sexo"] = "";
-        }
+        }*/
         
         if(!$this->validar->validarVacio($params["cargo"])){
             $this->_correcto = false;

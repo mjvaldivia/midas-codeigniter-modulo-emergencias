@@ -1,6 +1,6 @@
 <?php
 
-Class Form_select{
+Class Form_utilitario_select{
     
     /**
      * Retorna arreglo preparado
