@@ -90,12 +90,12 @@
                                     <i class="fa fa-file-image-o"></i>
                                 </a>
                             <?php endif; ?>
+
+                        <?php else: ?>
                             <?php if ($row['cd_enviado_vector'] == 1 and !empty($row['gl_ruta_respuesta_vector'])): ?>
                                 <a href="<?php echo base_url($row['gl_ruta_respuesta_vector']) ?>" target="_blank"
                                    class="btn btn-primary btn-sm btn-square"><i class="fa fa-file-pdf-o"></i></a>
                             <?php endif; ?>
-                        <?php else: ?>
-
                         <?php endif; ?>
                     </div>
                 </td>
