@@ -17,8 +17,8 @@ $(document).ready(function() {
                     callback: function () {
                         var fecha_desde = $("#fecha_desde").val();
                         var fecha_hasta = $("#fecha_hasta").val();
-                        console.log(siteUrl + "marea_roja/excel/fecha_desde/" + fecha_desde.replace(/\//g, "_") + "/fecha_hasta/" + fecha_hasta.replace(/\//g, "_"));
-                        window.open(siteUrl + "marea_roja/excel/fecha_desde/" + fecha_desde.replace(/\//g, "_") + "/fecha_hasta/" + fecha_hasta.replace(/\//g, "_"), "_blank");
+                        console.log(siteUrl + "marea_roja_1/excel/fecha_desde/" + fecha_desde.replace(/\//g, "_") + "/fecha_hasta/" + fecha_hasta.replace(/\//g, "_"));
+                        window.open(siteUrl + "marea_roja_1/excel/fecha_desde/" + fecha_desde.replace(/\//g, "_") + "/fecha_hasta/" + fecha_hasta.replace(/\//g, "_"), "_blank");
                     }
                 },
                 danger: {
@@ -34,7 +34,7 @@ $(document).ready(function() {
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "marea_roja/ajax_form_excel", 
+            url: siteUrl + "marea_roja_1/ajax_form_excel", 
             error: function(xhr, textStatus, errorThrown){
 
             },
@@ -65,7 +65,7 @@ $(document).ready(function() {
                                  async: true,
                                  data: parametro,
                                  type: "post",
-                                 url: siteUrl + "marea_roja/eliminar", 
+                                 url: siteUrl + "marea_roja_1/eliminar", 
                                  error: function(xhr, textStatus, errorThrown){
 
                                  },
@@ -105,7 +105,7 @@ function recargaGrilla(){
         async: true,
         data: {"region" : $("#region").val(), "comuna" : $("#comuna").val()},
         type: "post",
-        url: siteUrl + "marea_roja/ajax_lista", 
+        url: siteUrl + "marea_roja_1/ajax_lista", 
         error: function(xhr, textStatus, errorThrown){
 
         },

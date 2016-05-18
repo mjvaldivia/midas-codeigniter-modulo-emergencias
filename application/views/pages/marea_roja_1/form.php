@@ -4,9 +4,9 @@
             <h1> Marea roja </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href="#"> Inicio </a></li>
-                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("marea_roja/index") ?>"> Marea roja</a></li>
+                <li><i class="fa fa-list"></i> <a href="<?php echo base_url("marea_roja_1/index") ?>"> Marea roja</a></li>
                 <li class="active"><i class="fa fa-bell"></i> Formulario </li>
-                <li class="pull-right"><a href="<?php echo base_url("marea_roja/index") ?>"> <i class="fa fa-backward"></i> Volver </a></li>
+                <li class="pull-right"><a href="<?php echo base_url("marea_roja_1/index") ?>"> <i class="fa fa-backward"></i> Volver </a></li>
             </ol>
         </div>
     </div>
@@ -25,7 +25,7 @@
             <?php } ?>
             
             
-            <form id="form" autocomplete="off" class="form-vertical" action="<?php echo base_url("marea_roja/guardar") ?>" method="post" role="form">
+            <form id="form" autocomplete="off" class="form-vertical" action="<?php echo base_url("marea_roja_1/guardar") ?>" method="post" role="form">
             <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" /> 
             <div class="col-md-12">
                 <legend>
@@ -172,6 +172,13 @@
                             <div class="row">
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
+                                        <label for="numero_de_muestra" class="control-label">N° de acta (*):</label>
+                                        <input value="<?php echo $propiedades["numero_de_muestra"]; ?>" class="form-control" name="numero_de_muestra" id="numero_de_muestra">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="form-group clearfix">
                                         <label for="resultado" class="control-label">Resultado (*):</label>
                                         <input value="<?php echo $propiedades["resultado"]; ?>" class="form-control" name="resultado" id="resultado">
                                         <span class="help-block hidden"></span>
@@ -180,12 +187,7 @@
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-                                        <select name="laboratorio" id="laboratorio" class="form-control">
-                                            <option value="">-- Seleccione un valor --</option>
-                                            <option <?php if($propiedades["laboratorio"] == "Puerto Montt") echo "selected" ?> value="Puerto Montt"> Puerto Montt </option>
-                                            <option <?php if($propiedades["laboratorio"] == "Quellón") echo "selected" ?> value="Quellón"> Quellón  </option>
-                                            <option <?php if($propiedades["laboratorio"] == "Castro") echo "selected" ?> value="Castro"> Castro </option>
-                                        </select>
+                                        <?php echo formSelectLaboratorio("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
                                         
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -224,7 +226,7 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <button id="guardar" class="btn btn-green" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
-                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("marea_roja/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
+                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("marea_roja_1/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
                     </div>
                 </div>
                 </div>
@@ -235,4 +237,4 @@
     </div>
 </div>
 
-<?= loadJS("assets/js/modulo/marea_roja/form.js") ?>
+<?= loadJS("assets/js/modulo/marea_roja/muestra_1/form.js") ?>

@@ -31,14 +31,14 @@ $(document).ready(function() {
             async: false,
             data: parametros,
             type: "post",
-            url: siteUrl + "marea_roja/guardar", 
+            url: siteUrl + "marea_roja_1/guardar", 
             error: function(xhr, textStatus, errorThrown){
                  buttonEndProcess(boton);
             },
             success:function(data){
                 if(data.correcto == true){
                     procesaErrores(data.error);
-                    document.location.href = siteUrl + "marea_roja/index/ingresado/correcto";
+                    document.location.href = siteUrl + "marea_roja_1/index/ingresado/correcto";
                 } else {
                     $("#form_error").removeClass("hidden");
                     procesaErrores(data.error);
@@ -49,6 +49,7 @@ $(document).ready(function() {
     });
         
     var mapa = new MapaFormulario("mapa");
+    mapa.setZoom(9);
     mapa.seteaIcono("assets/img/markers/marisco/rojo.png");
     mapa.seteaLatitudInput("form_coordenadas_latitud");
     mapa.seteaLongitudInput("form_coordenadas_longitud");

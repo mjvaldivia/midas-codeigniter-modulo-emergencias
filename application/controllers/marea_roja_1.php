@@ -21,11 +21,13 @@ class Marea_roja_1 extends MY_Controller
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
         $this->load->model("modulo_model", "_modulo_model");
+        $this->load->model("laboratorio_model", "_laboratorio_model");
         
         $this->load->helper(
             array(
                 "modulo/usuario/usuario_form",
-                "modulo/comuna/form"
+                "modulo/comuna/form",
+                "modulo/marea_roja/permiso"
             )
         );
     }
@@ -53,7 +55,8 @@ class Marea_roja_1 extends MY_Controller
                 "modulo/formulario/formulario",
                 "modulo/direccion/region",
                 "modulo/direccion/comuna",
-                "modulo/usuario/usuario_form"
+                "modulo/usuario/usuario_form",
+                "modulo/laboratorio/form"
             )
         );
         $params = $this->input->get(null, true);
@@ -64,7 +67,21 @@ class Marea_roja_1 extends MY_Controller
             $propiedades = json_decode($caso->propiedades);
             $coordenadas = json_decode($caso->coordenadas);
            
-            $data = array("id" => $caso->id);
+            $laboratorio = $this->_laboratorio_model->getById($caso->id_laboratorio);
+            if(is_null($laboratorio)){
+                $laboratorio = $this->_laboratorio_model->getByName($propiedades->{"LABORATORIO"});
+            }
+            
+            $id_laboratorio = "";
+            if(!is_null($laboratorio)){
+                $id_laboratorio = $laboratorio->id;
+            }
+            
+            
+            $data = array(
+                "id" => $caso->id,
+                "id_laboratorio" => $id_laboratorio
+            );
             
             foreach ($propiedades as $nombre => $valor) {
                 $data["propiedades"][str_replace(" ", "_", strtolower($nombre))] = $valor;
@@ -128,10 +145,19 @@ class Marea_roja_1 extends MY_Controller
 
             /** se preparan datos del formulario **/
             $arreglo = array();
+            
+            $laboratorio = $this->_laboratorio_model->getById($params["laboratorio"]);
+            if(is_null($laboratorio)){
+                throw new Exception("No se ingreso el laboratorio");
+            }
+
             foreach ($params as $nombre => $valor) {
                 $nombre = str_replace("_", " ", $nombre);
                 $arreglo[strtoupper($nombre)] = $valor;
             }
+            
+            $arreglo["LABORATORIO"] = $laboratorio->nombre;
+            /*****************************************/
             
             if (is_null($caso)) {
                 $id = $this->_marea_roja_model->insert(
@@ -139,8 +165,12 @@ class Marea_roja_1 extends MY_Controller
                         "fecha" => date("Y-m-d H:i:s"),
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
+                        "id_laboratorio" => $laboratorio->id,
+                        "numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
+                        "id_usuario_resultado" => $this->session->userdata('session_idUsuario'),
+                        "bo_ingreso_resultado" => 1,
                         "id_usuario" => $this->session->userdata("session_idUsuario"),
                     )
                 );
@@ -149,6 +179,10 @@ class Marea_roja_1 extends MY_Controller
                     array(
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
+                        "id_laboratorio" => $laboratorio->id,
+                        "numero_muestra" => $params["numero_de_muestra"],
+                        "id_usuario_resultado" => $this->session->userdata('session_idUsuario'),
+                        "bo_ingreso_resultado" => 1,
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
                     ),
@@ -184,7 +218,8 @@ class Marea_roja_1 extends MY_Controller
                 "modulo/formulario/formulario",
                 "modulo/direccion/region",
                 "modulo/direccion/comuna",
-                "modulo/usuario/usuario_form"
+                "modulo/usuario/usuario_form",
+                "modulo/laboratorio/form"
             )
         );
         

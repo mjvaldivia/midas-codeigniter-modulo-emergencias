@@ -9,7 +9,7 @@
                         Descargar excel
                     </a>
         
-                    <a href="<?php echo base_url("marea_roja/nuevo"); ?>" id="nueva" class="btn btn-square btn-green">
+                    <a href="<?php echo base_url("marea_roja_1/nuevo"); ?>" id="nueva" class="btn btn-square btn-green">
                         <i class="fa fa-plus"></i>
                         Nuevo muestreo
                     </a>
@@ -88,4 +88,4 @@
 <?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css"); ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js"); ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js"); ?>
-<?= loadJS("assets/js/modulo/marea_roja/index.js") ?>
+<?= loadJS("assets/js/modulo/marea_roja/muestra_1/index.js") ?>
