@@ -2204,6 +2204,10 @@ input[type="checkbox"]:checked::after,
     width:90% !important;
 }
 
+.modal70 > .modal-dialog{
+    width:70% !important;
+}
+
 .table-hover > tbody > tr:hover{
     background-color: #d9edf7 ;
 }

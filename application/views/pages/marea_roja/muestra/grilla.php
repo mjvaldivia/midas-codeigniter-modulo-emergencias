@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th>Código</th>
+            <th>Numero muestra</th>
             <th width="10%">Fecha ingreso</th>
             <th width="10%">Fecha toma de muestra</th>
             <th width="10%">Recurso</th>
@@ -18,6 +19,7 @@
         <?php foreach($lista as $row){ ?>
         <tr>
             <td width="10%">Muestreo N°<?php echo $row["id"]; ?></td>
+            <td width="10%" align="center"><?php echo $row["numero_muestra"]; ?></td>
             <td width="10%"><?php echo $row["fecha_ingreso"]; ?></td>
             <td width="10%"><?php echo $row["fecha_muestra"]; ?></td>
             <td width="10%"><?php echo $row["recurso"]; ?></td>
@@ -32,35 +34,47 @@
                 ?>
             </td>
             
-            <td width="10%"><?php echo $row["resultado"]; ?></td>
+            <td width="10%">
+                <?php 
+                    if($row["bo_ingreso_resultado"] == 0 or $row["resultado"] == ""){
+                ?>
+                    <span class="label blue"> Esperando ingreso </span>
+                <?php 
+                    } else {
+                        echo $row["resultado"]; 
+                    }
+                 ?>
+            </td>
             
             <td width="20%">
-                
-                <?php
-                if($row["resultado"] == "ND") {
+                <?php 
+                    if($row["bo_ingreso_resultado"] == 1 AND $row["resultado"] != ""){
                 ?>
-                <span class="label blue"> No detectado </span>
-                <?php } else { ?>
-                
-                    <?php
-                    if(((int)$row["resultado"]) >= 80) {
-                    ?>
-                    <span class="label red"> Supera </span>
-                    <?php } ?>
+                        <?php
+                        if($row["resultado"] == "ND") {
+                        ?>
+                        <span class="label blue"> No detectado </span>
+                        <?php } else { ?>
 
-                    <?php
-                    if(((int)$row["resultado"]) < 80 ) {
-                    ?>
-                    <span class="label green"> No supera </span>
-                    <?php } ?>
+                            <?php
+                            if(((int)$row["resultado"]) >= 80) {
+                            ?>
+                            <span class="label red"> Supera </span>
+                            <?php } ?>
+
+                            <?php
+                            if(((int)$row["resultado"]) < 80 ) {
+                            ?>
+                            <span class="label green"> No supera </span>
+                            <?php } ?>
+                        <?php } ?>
                 <?php } ?>
-                
             </td>
             
             <td align="center" width="5%">
                 <div style="width: 150px">
                     <?php if(puedeEditar("marea_roja")) { ?>
-                    <button onclick="document.location.href='<?php echo base_url("marea_roja/editar/?id=" . $row["id"]); ?>'" title="editar" class="btn btn-sm btn-success" type="button" >
+                    <button data-rel="<?php echo $row["id"]; ?>" title="editar" class="btn btn-sm btn-success editar-marea-roja" type="button" >
                         <i class="fa fa-edit"></i>
                     </button>
                     <?php } ?>

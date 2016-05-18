@@ -5,6 +5,14 @@ $(document).ready(function() {
         recargaGrilla();
     });
     
+    $(".editar-marea-roja").livequery(function(){
+        $(this).unbind("click");
+        $(this).click(function(){
+            var id = $(this).data("rel");
+            document.location.href = siteUrl + 'marea_roja/editar/?id=' + id;
+        });
+    });
+    
     $("#descargar").click(function(e){
         e.preventDefault();
         bootbox.dialog({

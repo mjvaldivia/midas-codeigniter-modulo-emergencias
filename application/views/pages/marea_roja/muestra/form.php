@@ -70,10 +70,10 @@
                                         <label for="fuente_de_la_informacion" class="control-label">Fuente de la información:</label>
                                         <select name="fuente_de_la_informacion" id="fuente_de_la_informacion" class="form-control">
                                             <option value="">-- Seleccione un valor --</option>
-                                            <option <?php if($propiedades["fuente_de_la_informacion"] == "SEREMI Monitoreo") echo "selected"; ?> value="SEREMI Monitoreo"> SEREMI Monitoreo </option>
-                                            <option <?php if($propiedades["fuente_de_la_informacion"] == "PSMB") echo "selected"; ?> value="PSMB"> PSMB </option>
+                                            <option selected <?php // if($propiedades["fuente_de_la_informacion"] == "SEREMI Monitoreo") echo "selected"; ?> value="SEREMI Monitoreo"> SEREMI Monitoreo </option>
+                                            <!--<option <?php if($propiedades["fuente_de_la_informacion"] == "PSMB") echo "selected"; ?> value="PSMB"> PSMB </option>
                                             <option <?php if($propiedades["fuente_de_la_informacion"] == "SEREMI Control de desembarco") echo "selected"; ?> value="SEREMI Control de desembarco">SEREMI Control de desembarco </option>
-                                            <option <?php if($propiedades["fuente_de_la_informacion"] == "IFOP") echo "selected"; ?> value="IFOP"> IFOP </option>
+                                            <option <?php if($propiedades["fuente_de_la_informacion"] == "IFOP") echo "selected"; ?> value="IFOP"> IFOP </option>-->
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -172,8 +172,8 @@
                             <div class="row">
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
-                                        <label for="resultado" class="control-label">Resultado (*):</label>
-                                        <input value="<?php echo $propiedades["resultado"]; ?>" class="form-control" name="resultado" id="resultado">
+                                        <label for="numero_de_muestra" class="control-label">N° de muestra (*):</label>
+                                        <input value="<?php echo $propiedades["numero_de_muestra"]; ?>" class="form-control" name="numero_de_muestra" id="numero_de_muestra">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
@@ -223,8 +223,17 @@
                 <div class="col-xs-12 text-right">
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <button id="guardar" class="btn btn-green" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
-                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("marea_roja/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
+                        <button id="guardar-continuar" class="btn btn-green" type="button">
+                            <i class="fa fa-floppy-o"></i> Guardar y continuar con siguiente muestra <i class="fa fa-arrow-right"></i>
+                        </button>
+                        
+                        <button id="guardar-cerrar" class="btn btn-warning" type="button">
+                            <i class="fa fa-floppy-o"></i> Guardar y cerrar
+                        </button>
+                        
+                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("marea_roja/index") ?>'">
+                            <i class="fa fa-ban"></i> Cerrar
+                        </button>
                     </div>
                 </div>
                 </div>
@@ -234,5 +243,3 @@
         </div>
     </div>
 </div>
-
-<?= loadJS("assets/js/modulo/marea_roja/form.js") ?>

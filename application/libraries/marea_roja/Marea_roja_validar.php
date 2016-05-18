@@ -105,11 +105,11 @@ Class Marea_roja_validar{
             $this->_error["comuna"] = "";
         }*/
         
-        if(!$this->validar->validarVacio($params["resultado"])){
+        if(!$this->validar->validarVacio($params["numero_de_muestra"])){
             $this->_correcto = false;
-            $this->_error["resultado"] = "Este dato no puede estar vacío";
+            $this->_error["numero_de_muestra"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["resultado"] = "";
+            $this->_error["numero_de_muestra"] = "";
         }
         
         if(!$this->validar->validarVacio($params["laboratorio"])){

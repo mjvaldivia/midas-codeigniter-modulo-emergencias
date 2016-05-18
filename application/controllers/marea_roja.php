@@ -37,7 +37,7 @@ class Marea_roja extends MY_Controller
     {
         $this->template->parse(
             "default", 
-            "pages/marea_roja/index", 
+            "pages/marea_roja/muestra/index", 
             array()
         );
     }
@@ -73,7 +73,9 @@ class Marea_roja extends MY_Controller
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
             
-            $this->template->parse("default", "pages/marea_roja/form", $data);
+            $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+            $this->layout_assets->addJs("modulo/marea_roja/form.js");
+            $this->template->parse("default", "pages/marea_roja/muestra/form", $data);
         }
     }
     
@@ -139,6 +141,7 @@ class Marea_roja extends MY_Controller
                         "fecha" => date("Y-m-d H:i:s"),
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
+                        "numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
                         "id_usuario" => $this->session->userdata("session_idUsuario"),
@@ -149,6 +152,7 @@ class Marea_roja extends MY_Controller
                     array(
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
+                        "numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
                     ),
@@ -159,7 +163,7 @@ class Marea_roja extends MY_Controller
 
             echo json_encode(
                 array(
-                    "error" => array(),
+                    "error" => $this->marea_roja_validar->getErrores(),
                     "correcto" => true
                 )
             );
@@ -189,10 +193,12 @@ class Marea_roja extends MY_Controller
         );
         
         $params = $this->uri->uri_to_assoc();
-
+        
+        $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+        $this->layout_assets->addJs("modulo/marea_roja/form.js");
         $this->template->parse(
             "default",
-            "pages/marea_roja/form",
+            "pages/marea_roja/muestra/form",
             array(
                 "fecha" => DATE("d/m/Y"),
                 "ingresado" => $params["ingreso"],
@@ -207,7 +213,7 @@ class Marea_roja extends MY_Controller
      * 
      */
     public function ajax_form_excel(){
-        $this->load->view("pages/marea_roja/form_excel", array("fecha" => date("d/m/Y")));
+        $this->load->view("pages/marea_roja/muestra/form_excel", array("fecha" => date("d/m/Y")));
     }
     
     /**
@@ -409,7 +415,8 @@ class Marea_roja extends MY_Controller
         
         $lista = $this->_marea_roja_model->listar(
             array("region" => $lista_regiones,
-                  "comuna" => $params["comuna"])
+                  "comuna" => $params["comuna"],
+                  "numero_muestra" => $params["muestra"])
         );
 
         $casos = array();
@@ -443,10 +450,12 @@ class Marea_roja extends MY_Controller
                 $casos[] = array(
                     "id" => $caso["id"],
                     "id_usuario" => $caso["id_usuario"],
+                    "numero_muestra" => $caso["numero_muestra"],
                     "fecha_ingreso" => $fecha_ingreso,
                     "fecha_muestra" => $fecha_formato,
                     "recurso" => strtoupper($propiedades["RECURSO"]),
                     "origen" => strtoupper($propiedades["ORIGEN"]),
+                    "bo_ingreso_resultado" => $caso["bo_ingreso_resultado"],
                     "comuna" => $caso["id_comuna"],
                     "resultado" => $propiedades["RESULTADO"]
                 );
@@ -454,7 +463,7 @@ class Marea_roja extends MY_Controller
             }
         }
 
-        $this->load->view("pages/marea_roja/grilla", array("lista" => $casos));
+        $this->load->view("pages/marea_roja/muestra/grilla", array("lista" => $casos));
     }
 }
 

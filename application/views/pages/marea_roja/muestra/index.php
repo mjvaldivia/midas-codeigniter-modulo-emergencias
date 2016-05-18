@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1>  Marea roja
+            <h1>  Marea roja - Muestras
                 <div class="pull-right">
 
                     <a target="_blank" id="descargar" class="btn btn-default btn-square">

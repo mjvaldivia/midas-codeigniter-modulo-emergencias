@@ -131,14 +131,22 @@ Class Layout_Menu{
         ),
         
         "Marea roja" => array(
-            "modulo"       => Modulo_Model::SUB_MAREA_ROJA,
-            "icono"      => "fa fa-plus-square",
-            "href" => array(
-                "controller" => "marea_roja",
-                "action"     => "index",
+            "modulo" => Modulo_Model::SUB_MAREA_ROJA,
+            "icono" => "fa fa-plus-square",      
+            "child" => array(
+                "Muestras" => array(
+                    "accion" => "muestra",
+                    "controller" => "marea_roja",
+                    "action"     => "index",
+                ),
+                "Ingreso resultados" => array(
+                   "accion" => "resultados",
+                   "controller" => "marea_roja_resultado",
+                   "action"     => "index",
+                )
             ),
-            "child"      => array()
         ),
+        
        
         "Vectores" => array(
             "modulo" => Modulo_Model::SUB_VECTORES,

@@ -81,6 +81,10 @@ class Marea_Roja_Model extends MY_Model {
             $query->whereAND("a.id_comuna", $parametros["comuna"]);
         }
         
+        if(!empty($parametros["numero_muestra"])){
+            $query->whereAND("a.numero_muestra", $parametros["numero_muestra"]);
+        }
+        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;

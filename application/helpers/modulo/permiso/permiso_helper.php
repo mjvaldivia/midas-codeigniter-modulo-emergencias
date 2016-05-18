@@ -181,6 +181,16 @@ function htmlPermisosEspeciales($id_modulo, $permisos){
                 true
             );
             break;
+        case Modulo_Model::SUB_MAREA_ROJA:
+            $salida = $_ci->load->view(
+                "pages/mantenedor_rol/permisos_especiales/marea-roja", 
+                array(
+                    "id_modulo" => $id_modulo,
+                    "permiso" => $permisos
+                ), 
+                true
+            );
+            break;
         /*case Modulo_Model::HANTA:
             
             return $_ci->load->view(
