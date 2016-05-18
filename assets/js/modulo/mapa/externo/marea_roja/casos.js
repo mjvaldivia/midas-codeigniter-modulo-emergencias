@@ -67,9 +67,9 @@ var MapaMareaRojaCasos = Class({
                         notificacionError("", "No es posible encontrar la información de la marea roja.");
                     }
                     
-                    $("#formulario-marea-roja-contenedor").waitUntilExists(function(){
+                    //$("#formulario-marea-roja-contenedor").waitUntilExists(function(){
                         $("#formulario-marea-roja-contenedor").removeClass("hidden");
-                    });
+                    //});
                     
                     $("#marea_roja").attr("disabled", false);
                     $("#marea_roja_pm").attr("disabled", false);
