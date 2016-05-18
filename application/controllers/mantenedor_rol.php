@@ -49,11 +49,11 @@ class Mantenedor_rol extends MY_Controller {
     public function correccionPermisos(){
         $lista = $this->permiso_model->listar();
         foreach($lista as $permiso){
-            $json = array("ver" => 1,
-                          "ingresar" => 0);
+            $json = array("ver" => 1);
             
             if($permiso["bo_editar"] == 1){
                 $json["editar"] = 1;
+                $json["ingresar"] = 1;
             }
             
             if($permiso["bo_eliminar"] == 1){
