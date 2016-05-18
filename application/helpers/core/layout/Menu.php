@@ -138,7 +138,7 @@ Class Layout_Menu{
             "icono" => "fa fa-warning",      
             "child" => array(
                 "Ingreso de muestras" => array(
-                    "accion" => "muestra",
+                    "accion" => "muestra_con_resultado",
                     "controller" => "marea_roja_1",
                     "action"     => "index",
                 ),

@@ -170,13 +170,13 @@
                                 
                             </div>
                             <div class="row">
-                                <div class="col-xs-3">
+                                <!--<div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="numero_de_muestra" class="control-label">N° de acta (*):</label>
                                         <input value="<?php echo $propiedades["numero_de_muestra"]; ?>" class="form-control" name="numero_de_muestra" id="numero_de_muestra">
                                         <span class="help-block hidden"></span>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="resultado" class="control-label">Resultado (*):</label>
