@@ -46,7 +46,11 @@ class Vectores_hallazgos extends MY_Controller {
     public function denuncias() {
 
         $this->load->library('Fechas');
+
+
         $data = array();
+
+
         //$this->layout_assets->addMapaFormulario();
         //$this->layout_assets->addJs("hallazgos/denuncias.js");
         $this->template->parse("default", "pages/vectores/hallazgos/denuncias", $data);
@@ -64,9 +68,13 @@ class Vectores_hallazgos extends MY_Controller {
         $rol_model = new Rol_Model();
         $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $cambiar_coordenadas = false;
+        $presidencia = false;
         foreach ($roles as $rol) {
             if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $cambiar_coordenadas = true;
+            }
+            if ($rol['rol_ia_id'] == 66) {
+                $presidencia = true;
             }
         }
 
@@ -82,7 +90,8 @@ class Vectores_hallazgos extends MY_Controller {
             'referencias' => $vector->gl_referencia_hallazgo,
             'fecha_hallazgo' => Fechas::formatearHtml($vector->fc_fecha_hallazgo_hallazgo),
             'comentarios_ciudadano' => $vector->gl_comentario_hallazgo,
-            'cambiar_coordenadas' => $cambiar_coordenadas
+            'cambiar_coordenadas' => $cambiar_coordenadas,
+            'presidencia' => $presidencia
         );
 
 
