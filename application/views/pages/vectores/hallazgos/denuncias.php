@@ -43,7 +43,7 @@
                             <div class="alert alert-info top-spaced" style="margin-top:20px">Puede mover el marcador
                                 para ajustar la ubicación
                                 del caso
-                                <?php if ($id > 0): ?>
+                                <?php if ($id > 0 and !$presidencia): ?>
                                     <button type="button" class="btn btn-sm btn-info pull-right btn-square"
                                             onclick="Hallazgos.cambiarCoordenadas(<?php echo $id ?>);">Cambiar
                                         coordenadas
