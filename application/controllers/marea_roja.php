@@ -229,7 +229,7 @@ class Marea_roja extends MY_Controller
         $params = $this->uri->uri_to_assoc();
         
         $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
-        $this->layout_assets->addJs("modulo/marea_roja/form.js");
+        $this->layout_assets->addJs("modulo/marea_roja/muestra/form.js");
         $this->template->parse(
             "default",
             "pages/marea_roja/muestra/form",
@@ -238,8 +238,8 @@ class Marea_roja extends MY_Controller
                 "ingresado" => $params["ingreso"],
                 "region" => Region_Model::LOS_LAGOS,
                 "id_laboratorio" => Laboratorio_Model::LOS_RIOS,
-                "latitud" => "-42.92",
-                "longitud" => "-73.17"
+                "latitud" => "-39.770306907243636",
+                "longitud" => "-73.73030273437502"
             )
         );
     }
