@@ -1,3 +1,5 @@
+var click_en_menu = false;
+
 var MapaInformacionElementoMenu = Class({ 
     elemento : null,
     
@@ -14,7 +16,7 @@ var MapaInformacionElementoMenu = Class({
      * @returns {undefined}
      */
     _hideMenu : function(){
-        if(context_menu!=null){
+        if(context_menu != null){
             context_menu.hide();    
             context_menu = null;
         }
@@ -81,10 +83,12 @@ var MapaInformacionElementoMenu = Class({
         google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
             switch(eventName){
                 case 'informacion_interseccion':
-                    contextMenu.hide();                    
+                    contextMenu.hide();    
+                    
                 break;
                 default:
-                    contextMenu.hide();   
+                    contextMenu.hide(); 
+           
                     var separar = eventName.split("__");
                     var mostrar = jQuery.grep(lista_poligonos, function( a ) {
                         if(separar[1] == "CIRCULO LUGAR EMERGENCIA"){
@@ -96,9 +100,12 @@ var MapaInformacionElementoMenu = Class({
                         }
                     });
                     funcion_popup(mostrar);
+                    
                 break;
             }
-
+            
+            click_en_menu = true;
+            console.log("Click en menu");
 	});
         
         context_menu = contextMenu;
@@ -114,7 +121,7 @@ var MapaInformacionElementoMenu = Class({
      */
     render : function(mapa, lista_elementos, posicion, funcion_popup){
         var yo = this;
-        this._hideMenu();
+        //this._hideMenu();
         
         if(lista_elementos.length == 1){
             funcion_popup(lista_elementos);
