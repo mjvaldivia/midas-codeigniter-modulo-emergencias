@@ -130,11 +130,34 @@ Class Layout_Menu{
             ),
         ),
         
-        "Marea roja" => array(
+        "Marea roja los lagos" => array(
             "modulo" => Modulo_Model::SUB_MAREA_ROJA,
+            "acceso" => array(
+                "region" => array(Region_Model::LOS_LAGOS)
+            ),
             "icono" => "fa fa-warning",      
             "child" => array(
-                "Muestras" => array(
+                "Ingreso de muestras" => array(
+                    "accion" => "muestra",
+                    "controller" => "marea_roja_1",
+                    "action"     => "index",
+                ),
+                "Ingreso resultados" => array(
+                   "accion" => "resultados",
+                   "controller" => "marea_roja_resultado",
+                   "action"     => "index",
+                )
+            ),
+        ),
+        
+        "Marea roja los ríos" => array(
+            "modulo" => Modulo_Model::SUB_MAREA_ROJA,
+            "acceso" => array(
+                "region" => array(Region_Model::LOS_RIOS)
+            ),
+            "icono" => "fa fa-warning",      
+            "child" => array(
+                "Ingreso de muestras" => array(
                     "accion" => "muestra",
                     "controller" => "marea_roja",
                     "action"     => "index",

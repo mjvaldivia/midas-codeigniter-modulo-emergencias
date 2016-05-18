@@ -92,7 +92,7 @@ class Marea_roja extends MY_Controller
             $data["longitud"] = $coordenadas->lng;
             
             $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
-            $this->layout_assets->addJs("modulo/marea_roja/form.js");
+            $this->layout_assets->addJs("modulo/marea_roja/muestra/form.js");
             $this->template->parse("default", "pages/marea_roja/muestra/form", $data);
         }
     }

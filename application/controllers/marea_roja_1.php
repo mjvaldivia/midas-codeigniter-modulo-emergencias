@@ -2,7 +2,7 @@
 
 if (!defined("BASEPATH")) exit("No direct script access allowed");
 
-class Marea_roja extends MY_Controller
+class Marea_roja_1 extends MY_Controller
 {
     
     /**
@@ -37,7 +37,7 @@ class Marea_roja extends MY_Controller
     {
         $this->template->parse(
             "default", 
-            "pages/marea_roja/index", 
+            "pages/marea_roja_1/index", 
             array()
         );
     }
@@ -73,7 +73,7 @@ class Marea_roja extends MY_Controller
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
             
-            $this->template->parse("default", "pages/marea_roja/form", $data);
+            $this->template->parse("default", "pages/marea_roja_1/form", $data);
         }
     }
     
@@ -192,7 +192,7 @@ class Marea_roja extends MY_Controller
 
         $this->template->parse(
             "default",
-            "pages/marea_roja/form",
+            "pages/marea_roja_1/form",
             array(
                 "fecha" => DATE("d/m/Y"),
                 "ingresado" => $params["ingreso"],
@@ -207,7 +207,7 @@ class Marea_roja extends MY_Controller
      * 
      */
     public function ajax_form_excel(){
-        $this->load->view("pages/marea_roja/form_excel", array("fecha" => date("d/m/Y")));
+        $this->load->view("pages/marea_roja_1/form_excel", array("fecha" => date("d/m/Y")));
     }
     
     /**
@@ -454,7 +454,7 @@ class Marea_roja extends MY_Controller
             }
         }
 
-        $this->load->view("pages/marea_roja/grilla", array("lista" => $casos));
+        $this->load->view("pages/marea_roja_1/grilla", array("lista" => $casos));
     }
 }
 
