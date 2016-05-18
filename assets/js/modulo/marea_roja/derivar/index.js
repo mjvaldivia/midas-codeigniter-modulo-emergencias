@@ -13,7 +13,7 @@ $(document).ready(function() {
                 className: "modal70",
                 buttons: {
                     guardar: {
-                        label: "<i class=\"fa fa-save\"></i> Efectuar cambio",
+                        label: "<i class=\"fa fa-check\"></i> Derivar",
                         className: "btn-success",
                         callback: function(e) {
                             
@@ -54,8 +54,8 @@ $(document).ready(function() {
                         }
                     },
                     cerrar: {
-                        label: " Cerrar ventana",
-                        className: "btn-white fa fa-close",
+                        label: "<i class=\"fa fa-close\"></i> Cerrar ventana",
+                        className: "btn-white",
                         callback: function() {}
                     }
                 }

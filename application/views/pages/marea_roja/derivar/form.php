@@ -17,7 +17,7 @@
                             <div class="col-xs-6">
                                 <div class="form-group clearfix">
                                     <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-                                    <input value="<?php echo $propiedades["laboratorio"]; ?>" disabled class="form-control" name="laboratorio" id="laboratorio">
+                                    <input value="<?php echo $propiedades["laboratorio"]; ?>" disabled class="form-control" name="laboratorio_original" id="laboratorio_original">
                                     <span class="help-block hidden"></span>
                                 </div>
                             </div>
