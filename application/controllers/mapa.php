@@ -364,7 +364,16 @@ class Mapa extends MY_Controller {
         
         $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
         
-        $lista = $this->_marea_roja_model->listar(array("region" => $this->arreglo->arrayToArray($lista_regiones, "id_region")));
+        $lista = $this->_marea_roja_model->listar(
+            array(
+                "region" => $this->arreglo->arrayToArray(
+                    $lista_regiones, 
+                    "id_region"
+                ),
+                "ingreso_resultado" => 1
+            )
+        );
+        
         if($lista != null){
             foreach($lista as $row){
                 $propiedades = array("MUESTREO N°" => $row["id"]);

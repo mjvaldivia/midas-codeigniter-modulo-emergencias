@@ -141,7 +141,7 @@ var MapaMareaRojaCasos = Class({
             }
         }
         
-        if(ok){
+        if(ok && marker["resultados"]){
             var slider = $("#marea_roja_resultados").data("ionRangeSlider");
             //console.log(marker["resultados"]);
             if(slider.result.from != 0 && marker["resultados"] == "ND"){
@@ -184,7 +184,7 @@ var MapaMareaRojaCasos = Class({
             }        
         }
         
-        if(ok){
+        if(ok && marker["resultados"]){
             var retorno = false;
             $(".marea-roja-color").each(function(i, obj){
                 if($(obj).is(":checked")){
