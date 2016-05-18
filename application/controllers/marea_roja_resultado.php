@@ -136,8 +136,8 @@ class Marea_roja_resultado extends Marea_roja
         return $this->_marea_roja_model->listar(
             array(
                 "laboratorio" => $lista_laboratorios,
-                "region" => $this->_filtrosRegion($params),
-                "comuna" => $params["comuna"],
+                //"region" => $this->_filtrosRegion($params),
+                //"comuna" => $params["comuna"],
                 "numero_muestra" => $params["muestra"]
             )
         );
