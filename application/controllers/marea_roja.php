@@ -18,6 +18,7 @@ class Marea_roja extends MY_Controller
     {
         parent::__construct();
         sessionValidation();
+        
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
         $this->load->model("modulo_model", "_modulo_model");
@@ -26,7 +27,8 @@ class Marea_roja extends MY_Controller
         $this->load->helper(
             array(
                 "modulo/usuario/usuario_form",
-                "modulo/comuna/form"
+                "modulo/comuna/form",
+                "modulo/marea_roja/permiso"
             )
         );
     }

@@ -74,13 +74,13 @@
             
             <td align="center" width="5%">
                 <div style="width: 150px">
-                    <?php if(puedeEditar("marea_roja")) { ?>
+                    <?php if(permisoMareaRoja("editar")) { ?>
                     <button data-rel="<?php echo $row["id"]; ?>" title="editar" class="btn btn-sm btn-success editar-marea-roja" type="button" >
                         <i class="fa fa-edit"></i>
                     </button>
                     <?php } ?>
                     
-                    <?php if(puedeEliminar("marea_roja")) { ?>
+                    <?php if(permisoMareaRoja("eliminar")) { ?>
                     <button title="Eliminar" class="btn btn-sm btn-danger caso-eliminar" type="button"  data="<?php echo $row["id"] ?>" href="#" >
                         <i class="fa fa-trash"></i>
                     </button>
