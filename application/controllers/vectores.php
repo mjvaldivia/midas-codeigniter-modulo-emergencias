@@ -30,9 +30,18 @@ class vectores extends MY_Controller
 
         }
 
+        $presidencia = false;
+        foreach ($roles as $rol) {
+            if ($rol['rol_ia_id'] == 66) {
+                $presidencia = true;
+            }
+
+        }
+
         $data = array(
-            'grilla' => $this->load->view('pages/vectores/denuncias/grilla', array('listado' => $listar, 'entomologo' => $entomologo), true),
-            'entomologo' => $entomologo
+            'grilla' => $this->load->view('pages/vectores/denuncias/grilla', array('listado' => $listar, 'entomologo' => $entomologo, 'presidencia' => $presidencia), true),
+            'entomologo' => $entomologo,
+            'presidencia' => $presidencia
         );
         //$this->layout_assets->addJs("vectores/index.js");
         

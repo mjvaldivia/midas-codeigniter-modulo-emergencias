@@ -17,6 +17,7 @@ class Vectores_hallazgos extends MY_Controller {
         $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $entomologo = false;
         $admin = false;
+        $presidencia = false;
         foreach ($roles as $rol) {
             if ($rol['rol_ia_id'] == $rol_model::ENTOMOLOGO or $rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $entomologo = true;
@@ -25,11 +26,16 @@ class Vectores_hallazgos extends MY_Controller {
             if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $admin = true;
             }
+
+            if($rol['rol_ia_id'] == 66){
+                $presidencia = true;
+            }
         }
 
         $data = array(
-            'grilla' => $this->load->view('pages/vectores/hallazgos/grilla', array('listado' => $listar, 'entomologo' => $entomologo, 'admin' => $admin), true),
-            'entomologo' => $entomologo
+            'grilla' => $this->load->view('pages/vectores/hallazgos/grilla', array('listado' => $listar, 'entomologo' => $entomologo, 'admin' => $admin, 'presidencia' => $presidencia), true),
+            'entomologo' => $entomologo,
+            'presidencia' => $presidencia
         );
 
         $this->template->parse("default", "pages/vectores/hallazgos/index", $data);
@@ -40,7 +46,11 @@ class Vectores_hallazgos extends MY_Controller {
     public function denuncias() {
 
         $this->load->library('Fechas');
+
+
         $data = array();
+
+
         //$this->layout_assets->addMapaFormulario();
         //$this->layout_assets->addJs("hallazgos/denuncias.js");
         $this->template->parse("default", "pages/vectores/hallazgos/denuncias", $data);
@@ -58,9 +68,13 @@ class Vectores_hallazgos extends MY_Controller {
         $rol_model = new Rol_Model();
         $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $cambiar_coordenadas = false;
+        $presidencia = false;
         foreach ($roles as $rol) {
             if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
                 $cambiar_coordenadas = true;
+            }
+            if ($rol['rol_ia_id'] == 66) {
+                $presidencia = true;
             }
         }
 
@@ -76,7 +90,8 @@ class Vectores_hallazgos extends MY_Controller {
             'referencias' => $vector->gl_referencia_hallazgo,
             'fecha_hallazgo' => Fechas::formatearHtml($vector->fc_fecha_hallazgo_hallazgo),
             'comentarios_ciudadano' => $vector->gl_comentario_hallazgo,
-            'cambiar_coordenadas' => $cambiar_coordenadas
+            'cambiar_coordenadas' => $cambiar_coordenadas,
+            'presidencia' => $presidencia
         );
 
 
@@ -141,6 +156,21 @@ class Vectores_hallazgos extends MY_Controller {
 
         $vector = $this->_hallazgos_model->getById($params['id']);
 
+        $this->load->model('rol_model');
+        $rol_model = new Rol_Model();
+        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
+        $cambiar_coordenadas = false;
+        $presidencia = false;
+        foreach ($roles as $rol) {
+            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
+                $cambiar_coordenadas = true;
+            }
+            if ($rol['rol_ia_id'] == 66) {
+                $presidencia = true;
+            }
+        }
+
+
         $data = array(
             'id' => $vector->id_hallazgo,
             'longitud' => $vector->cd_longitud_hallazgo,
@@ -156,7 +186,9 @@ class Vectores_hallazgos extends MY_Controller {
             'observaciones' => $vector->gl_observaciones_resultado_hallazgo,
             'correo' => $vector->gl_email_hallazgo,
             'referencias' => $vector->gl_referencia_hallazgo,
-            'enviado' => $vector->cd_enviado_hallazgo
+            'enviado' => $vector->cd_enviado_hallazgo,
+            'presidencia' => $presidencia,
+            'cambiar_coordenadas' => $cambiar_coordenadas
         );
 
 
@@ -180,22 +212,15 @@ class Vectores_hallazgos extends MY_Controller {
                 break;
         }
 
-        $this->load->model('rol_model');
-        $rol_model = new Rol_Model();
-        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
-        $cambiar_coordenadas = false;
-        foreach ($roles as $rol) {
-            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
-                $cambiar_coordenadas = true;
-            }
-        }
+
 
         $datos = array(
             'persona' => $vector->gl_nombres_hallazgo . ' ' . $vector->gl_apellidos_hallazgo,
             'num_denuncia' => $num_denuncia,
             'resultado' => $resultado,
             'texto_entomologo' => $vector->gl_observaciones_resultado_hallazgo,
-            'cambiar_coordenadas' => $cambiar_coordenadas
+            'cambiar_coordenadas' => $cambiar_coordenadas,
+            'presidencia' => $presidencia
         );
         $contenido = $this->load->view("pages/vectores/hallazgos/pdf_respuesta", $datos, true);
         $data['contenido'] = strip_tags($contenido);

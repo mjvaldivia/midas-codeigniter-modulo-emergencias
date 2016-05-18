@@ -243,7 +243,6 @@ var MapaFormulario = Class({
                     $("#" + yo.input_longitud).val(parseFloat(place.geometry.location.lng()));
                     $("#" + yo.input_latitud).val(parseFloat(place.geometry.location.lat()));
                     $("#" + yo.input_longitud).trigger("change");
-
                 });
             });
         }

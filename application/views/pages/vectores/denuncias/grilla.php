@@ -58,36 +58,44 @@
                            download>
                             <i class="fa fa-file-pdf-o"></i>
                         </a>
-                        <?php if ($entomologo and $row['cd_estado_vector'] == 0): ?>
-                            <button data-rel="<?php echo $row["id_vector"]; ?>" title="Revisar"
-                                    class="btn btn-sm btn-success btn-square revisar-vector-entomologo" type="button"
-                                    data-vector="<?php echo $row['id_vector'] ?>">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                        <?php endif; ?>
-                        <?php if ($row['cd_estado_vector'] >= 0 and $row['cd_enviado_vector'] == 0): ?>
-                            <button data-rel="<?php echo $row["id_vector"]; ?>" title="Enviar Resultado"
-                                    class="btn btn-sm btn-success btn-square revisar-vector" type="button"
-                                    data-vector="<?php echo $row['id_vector'] ?>">
-                                <i class="fa fa-send"></i>
-                            </button>
-                            <!--<button title="Eliminar" class="btn btn-sm btn-square btn-danger caso-eliminar"
-                                    type="button" data="<?php /*echo $row["id_vector"] */?>" href="#">
+                        <?php if (!$presidencia): ?>
+                            <?php if ($entomologo and $row['cd_estado_vector'] == 0): ?>
+                                <button data-rel="<?php echo $row["id_vector"]; ?>" title="Revisar"
+                                        class="btn btn-sm btn-success btn-square revisar-vector-entomologo"
+                                        type="button"
+                                        data-vector="<?php echo $row['id_vector'] ?>">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            <?php endif; ?>
+                            <?php if ($row['cd_estado_vector'] >= 0 and $row['cd_enviado_vector'] == 0): ?>
+                                <button data-rel="<?php echo $row["id_vector"]; ?>" title="Enviar Resultado"
+                                        class="btn btn-sm btn-success btn-square revisar-vector" type="button"
+                                        data-vector="<?php echo $row['id_vector'] ?>">
+                                    <i class="fa fa-send"></i>
+                                </button>
+                                <!--<button title="Eliminar" class="btn btn-sm btn-square btn-danger caso-eliminar"
+                                    type="button" data="<?php /*echo $row["id_vector"] */ ?>" href="#">
                                 <i class="fa fa-trash"></i>
                             </button>-->
-                        <?php endif; ?>
-                        <?php if ($row['cd_enviado_vector'] == 1 and !empty($row['gl_ruta_respuesta_vector'])): ?>
-                            <a href="<?php echo base_url($row['gl_ruta_respuesta_vector']) ?>" target="_blank"
-                               class="btn btn-primary btn-sm btn-square"><i class="fa fa-file-pdf-o"></i></a>
-                        <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if ($row['cd_enviado_vector'] == 1 and !empty($row['gl_ruta_respuesta_vector'])): ?>
+                                <a href="<?php echo base_url($row['gl_ruta_respuesta_vector']) ?>" target="_blank"
+                                   class="btn btn-primary btn-sm btn-square"><i class="fa fa-file-pdf-o"></i></a>
+                            <?php endif; ?>
 
 
+                            <?php if ($row['cd_estado_vector'] == 0 and !$entomologo): ?>
+                                <a href="<?php echo base_url('vectores/adjuntarImagenesDenuncia/id/' . $row['id_vector']) ?>"
+                                   title="Adjuntar Imagenes" class="btn btn-sm btn-square btn-warning">
+                                    <i class="fa fa-file-image-o"></i>
+                                </a>
+                            <?php endif; ?>
 
-                        <?php if ($row['cd_estado_vector'] == 0 and !$entomologo): ?>
-                            <a href="<?php echo base_url('vectores/adjuntarImagenesDenuncia/id/' . $row['id_vector']) ?>"
-                               title="Adjuntar Imagenes" class="btn btn-sm btn-square btn-warning">
-                                <i class="fa fa-file-image-o"></i>
-                            </a>
+                        <?php else: ?>
+                            <?php if ($row['cd_enviado_vector'] == 1 and !empty($row['gl_ruta_respuesta_vector'])): ?>
+                                <a href="<?php echo base_url($row['gl_ruta_respuesta_vector']) ?>" target="_blank"
+                                   class="btn btn-primary btn-sm btn-square"><i class="fa fa-file-pdf-o"></i></a>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </td>

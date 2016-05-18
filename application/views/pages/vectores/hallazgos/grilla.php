@@ -54,10 +54,10 @@
                                 <i class="fa fa-edit"></i>
                             </button>
                         <?php else: ?>
-                            <?php if ($admin): ?>
+                            <?php if ($admin or $presidencia): ?>
                                 <button data-rel="<?php echo $row["id_hallazgo"]; ?>" title="Revisar Inspeccion"
                                         class="btn btn-sm btn-success btn-square revisar-hallazgo" type="button"
-                                        data-hallazgo="<?php echo $row['id_hallazgo']?>">
+                                        data-hallazgo="<?php echo $row['id_hallazgo'] ?>">
                                     <i class="fa fa-search"></i>
                                 </button>
                             <?php endif; ?>
@@ -78,11 +78,13 @@
 
                         <?php endif; ?>
 
-                        <?php if ($row['cd_estado_hallazgo'] == 0 and !$entomologo): ?>
-                            <a href="<?php echo base_url('vectores_hallazgos/adjuntarImagenesInspeccion/id/' . $row['id_hallazgo']) ?>"
-                               title="Adjuntar Imagenes" class="btn btn-sm btn-square btn-warning">
-                                <i class="fa fa-file-image-o"></i>
-                            </a>
+                        <?php if (!$presidencia): ?>
+                            <?php if ($row['cd_estado_hallazgo'] == 0 and !$entomologo): ?>
+                                <a href="<?php echo base_url('vectores_hallazgos/adjuntarImagenesInspeccion/id/' . $row['id_hallazgo']) ?>"
+                                   title="Adjuntar Imagenes" class="btn btn-sm btn-square btn-warning">
+                                    <i class="fa fa-file-image-o"></i>
+                                </a>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </td>

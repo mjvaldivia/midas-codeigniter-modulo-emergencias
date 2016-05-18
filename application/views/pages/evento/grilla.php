@@ -40,7 +40,7 @@
                 <td width="10%" class="text-center">
                     <div style="width: 200px">
                         
-                    <?php if(puedeVerReporteEmergencia("emergencia")) { ?>
+                    <?php if(puedeAbrirVisorEmergencia("emergencia")) { ?>
                     <a class="expediente btn btn-sm btn-info" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);" title="Bitácora">
                         <i class="fa fa-files-o"></i>
                     </a>
