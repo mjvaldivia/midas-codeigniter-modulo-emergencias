@@ -9,6 +9,9 @@ if (!defined('BASEPATH'))
  */
 class Usuario_Model extends MY_Model {
 
+    
+    const ROXANA_PENA = 153;
+    
     /**
      * Nombre de tabla
      * @var string 

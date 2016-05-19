@@ -284,6 +284,7 @@ class Marea_roja extends MY_Controller
             )
         );
 
+        $this->load->model("usuario_model");
         $this->load->model("usuario_region_model", "_usuario_region_model");
 
         //**************** FILTROS DE BUSQUEDA ***************************//
@@ -304,6 +305,12 @@ class Marea_roja extends MY_Controller
 
                 $datos_excel[$fila]["latitud"] = $coordenadas["lat"];
                 $datos_excel[$fila]["longitud"] = $coordenadas["lng"];
+                
+                if($caso["id_usuario"] != Usuario_Model::ROXANA_PENA){
+                    $datos_excel[$fila]["FISCALIZADOR"] = nombreUsuario($caso["id_usuario"]);
+                } else {
+                    $datos_excel[$fila]["FISCALIZADOR"] = "";
+                }
             }
 
             $excel = $this->excel->nuevoExcel();
@@ -334,6 +341,7 @@ class Marea_roja extends MY_Controller
 
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, "LATITUD");
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i + 1, 1, "LONGITUD");
+  
 
             //*****************************************************************************//
 
