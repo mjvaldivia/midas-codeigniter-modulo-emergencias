@@ -42,4 +42,22 @@ class Marea_Roja_Actas_Model extends MY_Model {
     public function delete($id){
         $this->_query->delete("id_acta", $id);
     }
+
+
+    public function listar($parametros = array()){
+        $query = $this->_query->select("a.*")
+            ->from($this->_tabla . " a")
+            ->orderBy("id_acta", "DESC");
+
+        if(!empty($parametros["id_marea"])){
+            $query->whereAND("a.id_marea", $parametros["id_marea"]);
+        }
+
+        $result = $query->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
 }

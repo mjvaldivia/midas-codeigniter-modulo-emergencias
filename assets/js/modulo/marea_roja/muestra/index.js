@@ -103,6 +103,16 @@ $(document).ready(function() {
             xModal.open(siteUrl + 'marea_roja/adjuntarActa/id/'+id,'Adjuntar Acta Muestra Nº '+id);
         });
     });
+
+
+    $(".ver-acta").livequery(function(){
+        $(this).unbind( "click" );
+        $(this).click(function(e){
+            e.preventDefault();
+            var id = $(this).data("muestra");
+            xModal.open(siteUrl + 'marea_roja/verActas/id/'+id,'Actas para Muestra Nº '+id,'lg');
+        });
+    });
     
     
     //$("#buscar").trigger("click");
