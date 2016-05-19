@@ -180,10 +180,8 @@
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-                                        <select name="laboratorio" id="laboratorio" class="form-control">
-                                            <option selected value="4">Los Ríos</option>
-                                        </select>
-                                        <?php // echo formSelectLaboratorio("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
+                         
+                                        <?php echo formSelectLaboratorioUsuario("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>

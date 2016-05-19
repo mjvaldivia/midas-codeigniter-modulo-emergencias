@@ -56,7 +56,12 @@ class Laboratorio_Model extends MY_Model
     public function listar($parametros = array()){
         $query = $this->_query->select("a.*")
                                ->from($this->_tabla . " a")
-                               ->orderBy("nombre", "DESC");
+                               ->orderBy("a.nombre", "DESC");
+        
+        if(!empty($parametros["usuario"])){
+            $query->join("usuario_laboratorios ul", "ul.id_laboratorio = a.id", "INNER");
+        }
+        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;
