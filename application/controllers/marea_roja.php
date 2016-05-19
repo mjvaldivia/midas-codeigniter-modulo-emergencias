@@ -237,7 +237,7 @@ class Marea_roja extends MY_Controller
                 "fecha" => DATE("d/m/Y"),
                 "ingresado" => $params["ingreso"],
                 "region" => Region_Model::LOS_LAGOS,
-                "id_laboratorio" => Laboratorio_Model::LOS_RIOS,
+                //"id_laboratorio" => Laboratorio_Model::LOS_RIOS,
                 "latitud" => "-39.770306907243636",
                 "longitud" => "-73.73030273437502"
             )
