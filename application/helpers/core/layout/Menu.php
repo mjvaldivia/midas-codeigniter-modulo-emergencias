@@ -130,16 +130,30 @@ Class Layout_Menu{
             ),
         ),
         
-        "Marea roja araucania" => array(
+        "Marea roja" => array(
             "modulo" => Modulo_Model::SUB_MAREA_ROJA,
             "acceso" => array(
-                "region" => array(Region_Model::ARAUCANIA)
+                "region" => array(
+                    Region_Model::ARAUCANIA,
+                    Region_Model::LOS_LAGOS,
+                    Region_Model::LOS_RIOS
+                )
             ),
             "icono" => "fa fa-warning",      
             "child" => array(
                 "Ingreso de muestras" => array(
+                    "accion" => "muestra",
+                    "controller" => "marea_roja",
+                    "action"     => "index",
+                ),
+                "Ingreso de muestras con resultados" => array(
                     "accion" => "muestra_con_resultado",
                     "controller" => "marea_roja_1",
+                    "action"     => "index",
+                ),
+                "Derivar muestra" => array(
+                    "accion" => "derivar",
+                    "controller" => "marea_roja_derivar",
                     "action"     => "index",
                 ),
                 "Ingreso resultados" => array(
@@ -147,9 +161,10 @@ Class Layout_Menu{
                    "controller" => "marea_roja_resultado",
                    "action"     => "index",
                 )
+                
             ),
         ),
-        
+        /*
         "Marea roja los lagos" => array(
             "modulo" => Modulo_Model::SUB_MAREA_ROJA,
             "acceso" => array(
@@ -193,7 +208,7 @@ Class Layout_Menu{
                    "action"     => "index",
                 )
             ),
-        ),
+        ),*/
         
        
         "Vectores" => array(
@@ -269,6 +284,8 @@ Class Layout_Menu{
                     if($lista_hijos['active']){
                         $class = "in";
                     }
+                    
+                    if($lista_hijos != ""){
                     $html .= $this->ci->load->view(
                         "templates/menu/menu-header-child", 
                         array(
@@ -280,6 +297,7 @@ Class Layout_Menu{
                         ), 
                         true
                     );
+                    }
                 } else {
                     $html .= $this->ci->load->view(
                         "templates/menu/menu-header", 

@@ -167,12 +167,17 @@ class Permiso_Model extends MY_Model {
     public function verPermiso($lista_roles, $id_modulo, $accion){
         $result = $this->_queryPorRolesModulo($lista_roles, $id_modulo)
                        ->select("*", false)
-                       ->getOneResult();
+                       ->getAllResult();
         if(!is_null($result)){
-            $permisos = Zend_Json::decode($result->permisos);
-            if(isset($permisos[$accion]) && $permisos[$accion]==1){
-                return true;
+            $retorno = false;
+            foreach($result as $resultado){
+                $permisos = Zend_Json::decode($resultado["permisos"]);
+                if(isset($permisos[$accion]) && $permisos[$accion]==1){
+                    $retorno = true;
+                }
             }
+            
+            return $retorno;
         }
         return false;
     }
