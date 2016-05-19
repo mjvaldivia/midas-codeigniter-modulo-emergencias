@@ -67,19 +67,25 @@ class Marea_roja_derivar extends Marea_roja_resultado
      * @param array $params
      * @return array
      */
-   /* protected function _filtros($params){
+    protected function _filtros($params){
         $this->load->model("usuario_laboratorio_model","_usuario_laboratorio_model");
-        $lista_laboratorios = $this->arreglo->arrayToArray($this->_usuario_laboratorio_model->listarPorUsuario($this->session->userdata('session_idUsuario')),"id_laboratorio");
+        $this->load->model("usuario_region_model", "_usuario_region_model");
         
-        return $this->_marea_roja_model->listar(
-            array(
-                "no-laboratorio" => $lista_laboratorios,
-                "region" => $this->_filtrosRegion($params),
-                "comuna" => $params["comuna"],
-                "numero_muestra" => $params["muestra"]
-            )
-        );
-    }*/
+        $laboratorios = null;
+        
+        $lista_laboratorios = $this->_filtrosLaboratorio();
+        if(!is_null($lista_laboratorios)){
+            return $this->_marea_roja_model->listar(
+                array(
+                    "laboratorio" => $this->arreglo->arrayToArray($lista_laboratorios, "id"),
+                    "ingreso_resultado" => 0,
+                    "numero_muestra" => $params["muestra"]
+                )
+            );
+        } else {
+            return array();
+        }
+    }
     
     /**
      * Funcion para cambiar vista de edicion

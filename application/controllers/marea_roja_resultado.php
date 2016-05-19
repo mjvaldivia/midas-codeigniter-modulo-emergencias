@@ -136,7 +136,6 @@ class Marea_roja_resultado extends Marea_roja
         $laboratorios = null;
         
         $lista_laboratorios = $this->_filtrosLaboratorio();
-        fb($lista_laboratorios);
         if(!is_null($lista_laboratorios)){
             return $this->_marea_roja_model->listar(
                 array(
