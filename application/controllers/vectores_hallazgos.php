@@ -78,6 +78,7 @@ class Vectores_hallazgos extends MY_Controller {
             }
         }
 
+
         $data = array(
             'id' => $vector->id_hallazgo,
             'longitud' => $vector->cd_longitud_hallazgo,
@@ -93,6 +94,13 @@ class Vectores_hallazgos extends MY_Controller {
             'cambiar_coordenadas' => $cambiar_coordenadas,
             'presidencia' => $presidencia
         );
+        $propiedades = json_decode($vector->propiedades_hallazgo);
+        if($propiedades){
+            foreach ($propiedades as $nombre => $valor) {
+                $data["propiedades"][str_replace(" ", "_", strtolower($nombre))] = $valor;
+            }
+        }
+
 
 
         $imagenes = $this->_hallazgos_model->getImagenesInspeccion($params['id']);
@@ -188,7 +196,8 @@ class Vectores_hallazgos extends MY_Controller {
             'referencias' => $vector->gl_referencia_hallazgo,
             'enviado' => $vector->cd_enviado_hallazgo,
             'presidencia' => $presidencia,
-            'cambiar_coordenadas' => $cambiar_coordenadas
+            'cambiar_coordenadas' => $cambiar_coordenadas,
+            'propiedades' => $vector->propiedades_hallazgo
         );
 
 
@@ -240,11 +249,29 @@ class Vectores_hallazgos extends MY_Controller {
 
         $json = array();
 
+        /** latitud y longitud **/
+        $coordenadas = array(
+            "lat" => $params["form_coordenadas_latitud"],
+            "lng" => $params["form_coordenadas_longitud"]
+        );
+
+        unset($params["latitud"]);
+        unset($params["longitud"]);
+
+        $id = $params['id'];
+        unset($params['id']);
+
+        $arreglo = array();
+        foreach ($params as $nombre => $valor) {
+            $nombre = str_replace("_", " ", $nombre);
+            $arreglo[strtoupper($nombre)] = $valor;
+        }
+        
         /* edicion */
-        if (isset($params['id']) and $params['id'] > 0) {
+        if (isset($id) and $id > 0) {
             $data = array(
-                'cd_longitud_hallazgo' => $params['longitud'],
-                'cd_latitud_hallazgo' => $params['latitud'],
+                'cd_longitud_hallazgo' => $params["form_coordenadas_longitud"],
+                'cd_latitud_hallazgo' => $params["form_coordenadas_latitud"],
                 'gl_nombres_hallazgo' => $params['nombres'],
                 'gl_apellidos_hallazgo' => $params['apellidos'],
                 'gl_telefono_hallazgo' => $params['telefono'],
@@ -253,10 +280,11 @@ class Vectores_hallazgos extends MY_Controller {
                 'gl_comentario_hallazgo' => $params['comentarios_ciudadano'],
                 'cd_estado_hallazgo' => 0,
                 'gl_email_hallazgo' => $params['correo'],
-                'gl_referencia_hallazgo' => $params['referencias']
+                'gl_referencia_hallazgo' => $params['referencias'],
+                'propiedades_hallazgo' => json_encode($arreglo)
             );
 
-            $update = $this->_hallazgos_model->update($data, $params['id']);
+            $update = $this->_hallazgos_model->update($data, $id);
             if ($insertar) {
                 $json['estado'] = true;
                 /* $json['mensaje'] = 'Se ha generado la denuncia Nº <br/><span style="font-size:64px;text-align: center;display:block;padding:5px" class="bg-primary">' . $insertar . '</span><span style="display:block;font-size:16;text-align:center" class="bg-primary">Este número debe anotarse en el envase que contenga el vector</span><br/>'; */
@@ -269,8 +297,8 @@ class Vectores_hallazgos extends MY_Controller {
             $data = array(
                 'fc_fecha_registro_hallazgo' => date('Y-m-d H:i:s'),
                 'cd_usuario_fk_hallazgo' => $this->session->userdata("id"),
-                'cd_longitud_hallazgo' => $params['longitud'],
-                'cd_latitud_hallazgo' => $params['latitud'],
+                'cd_longitud_hallazgo' => $params["form_coordenadas_longitud"],
+                'cd_latitud_hallazgo' => $params["form_coordenadas_latitud"],
                 'gl_nombres_hallazgo' => $params['nombres'],
                 'gl_apellidos_hallazgo' => $params['apellidos'],
                 'gl_telefono_hallazgo' => $params['telefono'],
@@ -278,7 +306,8 @@ class Vectores_hallazgos extends MY_Controller {
                 'fc_fecha_hallazgo_hallazgo' => Fechas::formatearBaseDatos($params['fecha_hallazgo']),
                 'gl_comentario_hallazgo' => $params['comentarios_ciudadano'],
                 'cd_estado_hallazgo' => 0,
-                'gl_email_hallazgo' => $params['correo']
+                'gl_email_hallazgo' => $params['correo'],
+                'propiedades_hallazgo' => json_encode($arreglo)
             );
 
             $insertar = $this->_hallazgos_model->insert($data);
