@@ -44,9 +44,7 @@ function formSelectLaboratorioUsuario($nombre, $atributos, $seleccion){
         $lista_regiones = $_ci->_usuario_region_model->listarRegionPorUsuario(
             $_ci->session->userdata('session_idUsuario')
         );
-        
-        fb($lista_regiones);
-        
+                
         $lista = $_ci->_laboratorio_model->listar(
             array("regiones" => $_ci->arreglo->arrayToArray($lista_regiones, "id_region"))
         );

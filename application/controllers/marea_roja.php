@@ -270,32 +270,15 @@ class Marea_roja extends MY_Controller
         $this->load->library(
             array(
                 "core/fecha/fecha_conversion",
-                "core/string/arreglo"
+                "core/string/arreglo",
+                "excel"
             )
         );
 
         $this->load->model("usuario_region_model", "_usuario_region_model");
 
         //**************** FILTROS DE BUSQUEDA ***************************//
-        $fecha_desde = null;
-        if ($params["fecha_desde"] != "") {
-            $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
-        }
-
-        $fecha_hasta = null;
-        if ($params["fecha_hasta"] != "") {
-            $fecha_hasta = DateTime::createFromFormat("d_m_Y", $params["fecha_hasta"]);
-        }
-
-        $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
-
-        $this->load->library("excel");
-        $lista = $this->_marea_roja_model->listar(
-            array(
-                "region" => $this->arreglo->arrayToArray($lista_regiones, "id_region"),
-                "fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta)
-        );
-
+        $lista = $this->_filtrosExcel($params);
         //****************************************************************//
 
         $datos_excel = array();
@@ -334,7 +317,7 @@ class Marea_roja extends MY_Controller
 
             $i = 3;
             foreach ($columnas as $columna => $valor) {
-                if (!in_array($columna, array("FECHA", "id", "fecha_ingreso", "latitud", "longitud"))) {
+                if (!$this->_quitarColumnaExcel($columna)) {
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                     $i++;
                 }
@@ -383,7 +366,7 @@ class Marea_roja extends MY_Controller
                 $i = 3;
                 foreach ($columnas as $columna => $valor) {
 
-                    if (!in_array($columna, array("FECHA", "id", "fecha_ingreso", "latitud", "longitud"))) {
+                    if (!$this->_quitarColumnaExcel($columna)) {
                         switch ($columna) {
                             case "REGION":
                                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreRegion($valores[$columna]));
@@ -498,7 +481,7 @@ class Marea_roja extends MY_Controller
     }
 
     /**
-     *
+     * Filtros para la lista
      * @param array $params
      * @return array
      */
@@ -510,6 +493,64 @@ class Marea_roja extends MY_Controller
                 "comuna" => $params["comuna"]
             )
         );
+    }
+    
+    /**
+     * Filtros para la descarga de excel
+     * @param array $params
+     * @return array
+     */
+    protected function _filtrosExcel($params){
+        $fecha_desde = null;
+        if ($params["fecha_desde"] != "") {
+            $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
+        }
+
+        $fecha_hasta = null;
+        if ($params["fecha_hasta"] != "") {
+            $fecha_hasta = DateTime::createFromFormat("d_m_Y", $params["fecha_hasta"]);
+        }
+        
+        return $this->_marea_roja_model->listar(
+            array(
+                "region" => $this->arreglo->arrayToArray(
+                    $this->_filtrosRegion($params), 
+                    "id_region"
+                ),
+                "fecha_desde" => $fecha_desde, 
+                "fecha_hasta" => $fecha_hasta
+            )
+        );
+    }
+    
+    /**
+     * Quita columnas del excel
+     * @param array $columna
+     * @return boolean
+     */
+    protected function _quitarColumnaExcel($columna){
+        
+        $quitar = array(
+            "FECHA", "id", "fecha_ingreso", "latitud", "longitud",
+            "FORM COORDENADAS TIPO",
+            "FORM COORDENADAS GMS GRADOS LAT",
+            "FORM COORDENADAS GMS MINUTOS LAT",
+            "FORM COORDENADAS GMS SEGUNDOS LAT",
+            "FORM COORDENADAS GMS GRADOS LNG",
+            "FORM COORDENADAS GMS MINUTOS LNG",
+            "FORM COORDENADAS GMS SEGUNDOS LNG",
+            "FORM COORDENADAS UTM ZONA",
+            "FORM COORDENADAS UTM LATITUD",
+            "FORM COORDENADAS UTM LONGITUD",
+            "FORM COORDENADAS LATITUD",
+            "FORM COORDENADAS LONGITUD"
+        );
+        
+        if (!in_array($columna, $quitar)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**

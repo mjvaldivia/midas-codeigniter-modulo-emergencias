@@ -135,7 +135,28 @@ class Marea_roja_resultado extends Marea_roja
         
         $laboratorios = null;
         
-        $lista_laboratorios = $this->_usuario_laboratorio_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
+        $lista_laboratorios = $this->_filtrosLaboratorio();
+        
+        if(!is_null($lista_laboratorios)){
+            return $this->_marea_roja_model->listar(
+                array(
+                    "laboratorio" => $this->arreglo->arrayToArray($lista_laboratorios, "id_laboratorio"),
+                    "numero_muestra" => $params["muestra"]
+                )
+            );
+        } else {
+            return array();
+        }
+    }
+    
+    /**
+     * Filtros por laboratorio
+     * @return array
+     */
+    protected function _filtrosLaboratorio(){
+         $lista_laboratorios = $this->_usuario_laboratorio_model->listarPorUsuario(
+            $this->session->userdata('session_idUsuario')
+        );
         
         //si no tiene laboratorio asociado, se ve por region
         if(is_null($lista_laboratorios)){
@@ -149,14 +170,34 @@ class Marea_roja_resultado extends Marea_roja
 
         }
         
-        if(!is_null($lista_laboratorios)){
+        return $lista_laboratorios;
+    }
+    
+    /**
+     * Filtros para la descarga de excel
+     * @param array $params
+     * @return array
+     */
+    protected function _filtrosExcel($params){
         
-            $laboratorios = $this->arreglo->arrayToArray($lista_laboratorios, "id_laboratorio");
+        $fecha_desde = null;
+        if ($params["fecha_desde"] != "") {
+            $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
+        }
 
+        $fecha_hasta = null;
+        if ($params["fecha_hasta"] != "") {
+            $fecha_hasta = DateTime::createFromFormat("d_m_Y", $params["fecha_hasta"]);
+        }
+        
+        $lista_laboratorios = $this->_filtrosLaboratorio();
+        
+        if(!is_null($lista_laboratorios)){
             return $this->_marea_roja_model->listar(
                 array(
-                    "laboratorio" => $laboratorios,
-                    "numero_muestra" => $params["muestra"]
+                    "laboratorio" => $this->arreglo->arrayToArray($lista_laboratorios, "id_laboratorio"),
+                    "fecha_desde" => $fecha_desde, 
+                    "fecha_hasta" => $fecha_hasta
                 )
             );
         } else {
