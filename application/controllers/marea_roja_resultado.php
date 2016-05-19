@@ -131,16 +131,37 @@ class Marea_roja_resultado extends Marea_roja
      */
     protected function _filtros($params){
         $this->load->model("usuario_laboratorio_model","_usuario_laboratorio_model");
-        $lista_laboratorios = $this->arreglo->arrayToArray($this->_usuario_laboratorio_model->listarPorUsuario($this->session->userdata('session_idUsuario')),"id_laboratorio");
+        $this->load->model("usuario_region_model", "_usuario_region_model");
         
-        return $this->_marea_roja_model->listar(
-            array(
-                "laboratorio" => $lista_laboratorios,
-                //"region" => $this->_filtrosRegion($params),
-                //"comuna" => $params["comuna"],
-                "numero_muestra" => $params["muestra"]
-            )
-        );
+        $laboratorios = null;
+        
+        $lista_laboratorios = $this->_usuario_laboratorio_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
+        
+        //si no tiene laboratorio asociado, se ve por region
+        if(is_null($lista_laboratorios)){
+            $lista_regiones = $this->_usuario_region_model->listarRegionPorUsuario(
+                $this->session->userdata('session_idUsuario')
+            );
+
+            $lista_laboratorios = $this->_laboratorio_model->listar(
+                array("regiones" => $this->arreglo->arrayToArray($lista_regiones, "id_region"))
+            );
+
+        }
+        
+        if(!is_null($lista_laboratorios)){
+        
+            $laboratorios = $this->arreglo->arrayToArray($lista_laboratorios, "id_laboratorio");
+
+            return $this->_marea_roja_model->listar(
+                array(
+                    "laboratorio" => $laboratorios,
+                    "numero_muestra" => $params["muestra"]
+                )
+            );
+        } else {
+            return array();
+        }
     }
     
      
