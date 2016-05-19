@@ -59,9 +59,9 @@ Class Marea_roja_validar{
         
         if(!$this->validar->validarVacio($params["form_coordenadas_calidad_de_georeferenciacion"])){
             $this->_correcto = false;
-            $this->_error["calidad_de_georeferenciacion"] = "Este dato no puede estar vacío";
+            $this->_error["form_coordenadas_calidad_de_georeferenciacion"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["calidad_de_georeferenciacion"] = "";
+            $this->_error["form_coordenadas_calidad_de_georeferenciacion"] = "";
         }
 
         $separada = explode("/", $params["fecha"]);
@@ -104,6 +104,7 @@ Class Marea_roja_validar{
         } else {
             $this->_error["comuna"] = "";
         }*/
+        
         
         if(!$this->validar->validarVacio($params["numero_de_muestra"])){
             $this->_correcto = false;

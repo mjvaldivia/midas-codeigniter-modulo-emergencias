@@ -57,11 +57,11 @@ Class Marea_roja_1_validar{
             $this->_error["form_coordenadas_longitud"] = "";
         }
         
-        if(!$this->validar->validarVacio($params["calidad_de_georeferenciacion"])){
+        if(!$this->validar->validarVacio($params["form_coordenadas_calidad_de_georeferenciacion"])){
             $this->_correcto = false;
-            $this->_error["calidad_de_georeferenciacion"] = "Este dato no puede estar vacío";
+            $this->_error["form_coordenadas_calidad_de_georeferenciacion"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["calidad_de_georeferenciacion"] = "";
+            $this->_error["form_coordenadas_calidad_de_georeferenciacion"] = "";
         }
 
         $separada = explode("/", $params["fecha"]);

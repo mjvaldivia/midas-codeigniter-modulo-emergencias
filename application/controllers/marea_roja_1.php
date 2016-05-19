@@ -119,7 +119,7 @@ class Marea_roja_1 extends MY_Controller
         $this->load->library(
             array(
                 "rut", 
-                "marea_roja/marea_roja_validar"
+                "marea_roja/marea_roja_1_validar"
             )
         );
 
@@ -127,7 +127,7 @@ class Marea_roja_1 extends MY_Controller
 
         $params = $this->input->post(null, true);
 
-        if ($this->marea_roja_validar->esValido($params)) {
+        if ($this->marea_roja_1_validar->esValido($params)) {
             
             /** latitud y longitud **/
             $coordenadas = array(
@@ -193,7 +193,7 @@ class Marea_roja_1 extends MY_Controller
 
             echo json_encode(
                 array(
-                    "error" => array(),
+                    "error" => $this->marea_roja_1_validar->getErrores(),
                     "correcto" => true
                 )
             );
@@ -201,7 +201,7 @@ class Marea_roja_1 extends MY_Controller
         } else {
             echo json_encode(
                 array(
-                    "error" => $this->marea_roja_validar->getErrores(),
+                    "error" => $this->marea_roja_1_validar->getErrores(),
                     "correcto" => false
                 )
             );
