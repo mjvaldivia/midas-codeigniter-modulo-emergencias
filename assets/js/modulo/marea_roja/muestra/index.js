@@ -94,6 +94,15 @@ $(document).ready(function() {
            
         }) ;
     });
+
+    $(".adjuntar-acta").livequery(function(){
+        $(this).unbind( "click" );
+        $(this).click(function(e){
+            e.preventDefault();
+            var id = $(this).data("muestra");
+            xModal.open(siteUrl + 'marea_roja/adjuntarActa/id/'+id,'Adjuntar Acta Muestra Nº '+id);
+        });
+    });
     
     
     //$("#buscar").trigger("click");

@@ -86,6 +86,7 @@
                     </button>
                     <?php } ?>
 
+                    <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta" data-muestra="<?php echo $row['id']?>"><i class="fa fa-file"></i></button>
                 </div>
             </td>
         </tr>
