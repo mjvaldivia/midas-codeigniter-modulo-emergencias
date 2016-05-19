@@ -130,6 +130,26 @@ Class Layout_Menu{
             ),
         ),
         
+        "Marea roja araucania" => array(
+            "modulo" => Modulo_Model::SUB_MAREA_ROJA,
+            "acceso" => array(
+                "region" => array(Region_Model::ARAUCANIA)
+            ),
+            "icono" => "fa fa-warning",      
+            "child" => array(
+                "Ingreso de muestras" => array(
+                    "accion" => "muestra_con_resultado",
+                    "controller" => "marea_roja_1",
+                    "action"     => "index",
+                ),
+                "Ingreso resultados" => array(
+                   "accion" => "resultados",
+                   "controller" => "marea_roja_resultado",
+                   "action"     => "index",
+                )
+            ),
+        ),
+        
         "Marea roja los lagos" => array(
             "modulo" => Modulo_Model::SUB_MAREA_ROJA,
             "acceso" => array(
