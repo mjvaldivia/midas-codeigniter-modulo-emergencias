@@ -138,15 +138,16 @@ Class Layout_Menu{
             "icono" => "fa fa-warning",      
             "child" => array(
                 "Ingreso de muestras" => array(
-                    "accion" => "muestra_con_resultado",
-                    "controller" => "marea_roja_1",
+                    "accion" => "muestra",
+                    "controller" => "marea_roja",
                     "action"     => "index",
                 ),
-                "Ingreso resultados" => array(
-                   "accion" => "resultados",
-                   "controller" => "marea_roja_resultado",
-                   "action"     => "index",
-                )
+                "Derivar muestra" => array(
+                    "accion" => "derivar",
+                    "controller" => "marea_roja_derivar",
+                    "action"     => "index",
+                ),
+                
             ),
         ),
         
