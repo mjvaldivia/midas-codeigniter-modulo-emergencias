@@ -59,7 +59,12 @@ class Laboratorio_Model extends MY_Model
                                ->orderBy("a.nombre", "DESC");
         
         if(!empty($parametros["usuario"])){
-            $query->join("usuario_laboratorios ul", "ul.id_laboratorio = a.id", "INNER");
+            $query->join("usuario_laboratorios ul", "ul.id_laboratorio = a.id", "INNER")
+                  ->whereAND("ul.id_usuario", $parametros["usuario"]);
+        }
+        fb($parametros["regiones"]);
+        if(!empty($parametros["regiones"])){
+            $query->whereAND("a.id_region", $parametros["regiones"], "IN");
         }
         
         $result = $query->getAllResult();
