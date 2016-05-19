@@ -427,6 +427,8 @@ class Marea_roja extends MY_Controller
         $casos = array();
 
         if (!is_null($lista)) {
+            $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
+
             foreach ($lista as $caso) {
 
                 $fecha_formato = "";
@@ -471,7 +473,8 @@ class Marea_roja extends MY_Controller
                     "bo_ingreso_resultado" => $caso["bo_ingreso_resultado"],
                     "comuna" => $caso["id_comuna"],
                     "laboratorio" => $laboratorio_nombre,
-                    "resultado" => $propiedades["RESULTADO"]
+                    "resultado" => $propiedades["RESULTADO"],
+                    "actas" => $this->MareaRojaActasModel->listar(array('id_marea' => $caso['id']))
                 );
 
             }
@@ -654,5 +657,37 @@ class Marea_roja extends MY_Controller
         echo json_encode($json);
 
     }
+
+
+    public function verActas(){
+        $params = $this->uri->uri_to_assoc();
+        $id = $params['id'];
+
+        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
+
+        $arr_actas = array();
+        $listado = $this->MareaRojaActasModel->listar(array('id_marea' => $id));
+        if($listado){
+            $arr_actas = $listado;
+        }
+
+        $this->load->view('pages/marea_roja/muestra/grilla_actas',array('listado'=>$arr_actas));
+    }
+
+
+    public function ver_acta(){
+        $params = $this->uri->uri_to_assoc();
+        $id = $params['id'];
+        $sha = $params['token'];
+
+        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
+
+        $acta = $this->MareaRojaActasModel->getById($id);
+
+        header('Content-type:'.$acta->gl_mime_acta);
+        header('Content-disposition: inline; filename="'.$acta->gl_nombre_acta.'"');
+        echo file_get_contents(FCPATH .$acta->gl_ruta_acta);
+    }
+
 }
 
