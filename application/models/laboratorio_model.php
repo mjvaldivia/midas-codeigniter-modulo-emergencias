@@ -62,7 +62,7 @@ class Laboratorio_Model extends MY_Model
             $query->join("usuario_laboratorios ul", "ul.id_laboratorio = a.id", "INNER")
                   ->whereAND("ul.id_usuario", $parametros["usuario"]);
         }
-        fb($parametros["regiones"]);
+        
         if(!empty($parametros["regiones"])){
             $query->whereAND("a.id_region", $parametros["regiones"], "IN");
         }

@@ -10,9 +10,9 @@ require_once( __DIR__ . "/nombre/Regiones.php");
  */
 function nombreUsuario($id_usuario = null){
     
-    if($id_usuario == ""){
+   /* if($id_usuario == ""){
         return "";
-    } else {
+    } else {*/
     
         $_ci =& get_instance();
         $_ci->load->library("session");
@@ -24,7 +24,7 @@ function nombreUsuario($id_usuario = null){
         $nombre = New Usuario_Nombre_Base();
         $nombre->setUsuario($id_usuario);
         return $nombre;
-    }
+    //}
 }
 
 

@@ -295,6 +295,8 @@ var MapaEditor = Class({
      */
     controlImportar : function (map) {
 
+        var $this = this;
+
         /**
          * Popup para subir kml
          */
@@ -366,6 +368,7 @@ var MapaEditor = Class({
             $(this).click(function(){
                 var marea_roja = new MapaMareaRojaCasos();
                 marea_roja.seteaMapa(map);
+                marea_roja.seteaEmergencia($this.id_emergencia);
                 if($(this).is(":checked")){
                     
                     if($("#marea_roja_pm").is(":checked")){
@@ -395,11 +398,9 @@ var MapaEditor = Class({
         
         $("#marea_roja_pm").livequery(function(){
             $(this).click(function(){
-                
                 var marea_roja_pm = new MapaMareaRojaCasosPm();
-                
                 marea_roja_pm.seteaMapa(map);
-                
+                marea_roja.seteaEmergencia($this.id_emergencia);
                 if($(this).is(":checked")){
                     
                     if($("#marea_roja").is(":checked")){

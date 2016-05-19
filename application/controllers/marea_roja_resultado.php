@@ -136,11 +136,11 @@ class Marea_roja_resultado extends Marea_roja
         $laboratorios = null;
         
         $lista_laboratorios = $this->_filtrosLaboratorio();
-        
+        fb($lista_laboratorios);
         if(!is_null($lista_laboratorios)){
             return $this->_marea_roja_model->listar(
                 array(
-                    "laboratorio" => $this->arreglo->arrayToArray($lista_laboratorios, "id_laboratorio"),
+                    "laboratorio" => $this->arreglo->arrayToArray($lista_laboratorios, "id"),
                     "numero_muestra" => $params["muestra"]
                 )
             );
@@ -154,7 +154,7 @@ class Marea_roja_resultado extends Marea_roja
      * @return array
      */
     protected function _filtrosLaboratorio(){
-         $lista_laboratorios = $this->_usuario_laboratorio_model->listarPorUsuario(
+        $lista_laboratorios = $this->_usuario_laboratorio_model->listarPorUsuario(
             $this->session->userdata('session_idUsuario')
         );
         
@@ -168,8 +168,7 @@ class Marea_roja_resultado extends Marea_roja
                 array("regiones" => $this->arreglo->arrayToArray($lista_regiones, "id_region"))
             );
 
-        }
-        
+        } 
         return $lista_laboratorios;
     }
     

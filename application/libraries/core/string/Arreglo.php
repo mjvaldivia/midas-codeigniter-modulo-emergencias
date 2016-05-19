@@ -9,20 +9,17 @@ Class Arreglo{
      * @return type
      */
     public function arrayToArray($arreglo, $subindice){
-        
-        if(isset($arreglo[0][$subindice])){
-        
-            $salida = array();
-            if(count($arreglo)>0){
+        $salida = array();
+        if(count($arreglo)>0){
+            if(isset($arreglo[0][$subindice])){
                 foreach($arreglo as $valor){
                     $salida[] = $valor[$subindice];
                 }
+            } else {
+                $salida = $arreglo;
             }
-            return $salida;
-        
-        } else {
-            return $arreglo;
         }
+        return $salida;
     }
     
     /**

@@ -386,11 +386,11 @@ var MapaElementos = Class({
                     
                     // ****************************************************************
                     //************ carga de capas de marea roja ***********************
-                    
-                    
+ 
                     if(parseInt(data.resultado.marea_roja) == 1){
                         var marea_roja = new MapaMareaRojaCasos();
                         marea_roja.seteaMapa(yo.mapa);
+                        marea_roja.seteaEmergencia(yo.id_emergencia);
                         marea_roja.load(yo.mapa);
                         $("#marea_roja").waitUntilExists(function(){
                             $("#marea_roja").prop("checked", true);
@@ -410,6 +410,7 @@ var MapaElementos = Class({
                     if(parseInt(data.resultado.marea_roja_pm) == 1){
                         var marea_roja = new MapaMareaRojaCasosPm();
                         marea_roja.seteaMapa(yo.mapa);
+                        marea_roja.seteaEmergencia(yo.id_emergencia);
                         marea_roja.load();
                         $("#marea_roja_pm").waitUntilExists(function(){
                             $("#marea_roja_pm").prop("checked", true);

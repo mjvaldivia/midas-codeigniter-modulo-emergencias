@@ -6,6 +6,8 @@ var MapaMareaRojaCasos = Class({
      * Google maps
      */
     mapa : null,
+    
+    id_emergencia : null,
         
     /**
      * Setea mapa
@@ -14,6 +16,10 @@ var MapaMareaRojaCasos = Class({
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    seteaEmergencia : function (id){
+        this.id_emergencia = id;
     },
     
     /**
@@ -33,7 +39,7 @@ var MapaMareaRojaCasos = Class({
                 dataType: "json",
                 cache: false,
                 async: true,
-                data: "",
+                data: {"id" : yo.id_emergencia},
                 type: "post",
                 url: siteUrl + "mapa/info_marea_roja", 
                 success:function(json){
