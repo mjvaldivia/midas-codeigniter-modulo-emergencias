@@ -153,7 +153,7 @@ class Vigilancia_Casos_febriles extends MY_Controller
     public function guardar()
     {
         $this->load->library(
-            array("modulo/casos_febriles/validar")
+            array("module/casos_febriles/validar")
         );
 
         header('Content-type: application/json');
