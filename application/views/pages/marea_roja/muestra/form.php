@@ -36,26 +36,44 @@
                         <div class="row">
                         <div class="col-md-6">
                             
-                            <?php echo formMapa("mapa"); ?>
-                            
-                            <div class="col-xs-8">
-                                <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, $propiedades); ?>
-                            </div>
-                            
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="nombre" class="control-label">Calidad de georeferenciación(*):</label>
-                                    <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion" class="form-control">
-                                        <option value="">-- seleccione un valor --</option>
-                                        <option <?php if($propiedades["calidad_de_georeferenciacion"] == "GPS (Exacta)") echo "selected"; ?> value="GPS (Exacta)">GPS Exacta</option>
-                                        <option <?php if($propiedades["calidad_de_georeferenciacion"] == "Aproximación confiable") echo "selected"; ?> value="Aproximación confiable">Aproximación confiable</option>
-                                        <option <?php if($propiedades["calidad_de_georeferenciacion"] == "Requiere confirmación") echo "selected"; ?> value="Requiere confirmación">Requiere confirmación</option>
-                                    </select>
-                                    <span class="help-block hidden"></span>
+                            <div class="portlet portlet-default">
+                                <div class="portlet-body"> 
+                                    <?php echo formMapa("mapa"); ?>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, $propiedades); ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                     
                         </div>
                         <div class="col-md-6">
+                            
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    
+                                        <div class="col-xs-3">
+                                            <div class="form-group clearfix">
+                                                <label for="numero_de_muestra" class="control-label">N° de acta (*):</label>
+                                                <input value="<?php echo $propiedades["numero_de_muestra"]; ?>" class="form-control" name="numero_de_muestra" id="numero_de_muestra">
+                                                <span class="help-block hidden"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="form-group clearfix">
+                                                <label for="laboratorio" class="control-label">Laboratorio (*):</label>
+
+                                                <?php echo formSelectLaboratorioUsuario("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
+                                                <span class="help-block hidden"></span>
+                                            </div>
+                                        </div>
+                              
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12">
                             <div class="row">
                                
                                 <div class="col-xs-5">
@@ -169,23 +187,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <div class="form-group clearfix">
-                                        <label for="numero_de_muestra" class="control-label">N° de acta (*):</label>
-                                        <input value="<?php echo $propiedades["numero_de_muestra"]; ?>" class="form-control" name="numero_de_muestra" id="numero_de_muestra">
-                                        <span class="help-block hidden"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-3">
-                                    <div class="form-group clearfix">
-                                        <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-                         
-                                        <?php echo formSelectLaboratorioUsuario("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
-                                        <span class="help-block hidden"></span>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="form-group clearfix">
@@ -202,6 +204,7 @@
                                 </div>
                             </div>-->
    	
+                        </div>
                         </div>
                         </div>
                     </div>
@@ -225,7 +228,7 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <button id="guardar-continuar" class="btn btn-green" type="button">
-                            <i class="fa fa-floppy-o"></i> Guardar y continuar con siguiente muestra <i class="fa fa-arrow-right"></i>
+                            Guardar y continuar con siguiente muestra <i class="fa fa-arrow-right"></i>
                         </button>
                         
                         <button id="guardar-cerrar" class="btn btn-warning" type="button">

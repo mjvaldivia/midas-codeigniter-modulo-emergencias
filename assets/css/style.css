@@ -2369,3 +2369,10 @@ body.modal-open {
     z-index: 1000002 !important;
 }
 
+.form-group.has-error > input{
+    background-color:#f2dede;
+}
+
+.form-group.has-error > select{
+    background-color:#f2dede;
+}

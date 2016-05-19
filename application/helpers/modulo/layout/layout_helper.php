@@ -29,6 +29,12 @@ function formCoordenadas(
     $ci->layout_assets->addJs("library/jquery.typing-0.2.0.min.js");
     $ci->layout_assets->addJs("modulo/mapa/google/extension/geo-encoder.js");
     $ci->layout_assets->addJs("modulo/layout/form-coordenadas.js");
+    
+    // parche para ingresos antiguos
+    if(isset($propiedades["calidad_de_georeferenciacion"])){
+        $propiedades[$prefijo_input . "_calidad_de_georeferenciacion"] = $propiedades["calidad_de_georeferenciacion"];
+    }
+    
     return $ci->load->view(
         "pages/helpers/modulo/layout/form-coordenadas", 
         array(

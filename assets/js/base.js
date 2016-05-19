@@ -3,6 +3,12 @@ $("#sidebar-toggle").click(function(e) {
     e.preventDefault();
     $(".navbar-side").toggleClass("collapsed");
     $("#page-wrapper").toggleClass("collapsed");
+    
+    if($("#navbar-menu").hasClass("collapsed")){
+        $("#sidebar-toggle").children("i").html(" Mostrar menu");
+    } else {
+        $("#sidebar-toggle").children("i").html(" Ocultar menu");
+    }
 });
 
 $.fn.hasAttr = function(name) {  

@@ -90,6 +90,8 @@ class Marea_roja extends MY_Controller
 
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
+            
+            
 
             $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
             $this->layout_assets->addJs("modulo/marea_roja/muestra/form.js");
@@ -177,6 +179,13 @@ class Marea_roja extends MY_Controller
                     )
                 );
             } else {
+                
+                // parche para no borrar resultado si ya fue ingresado
+                $propiedades = Zend_Json::decode($caso->propiedades);
+                if(isset($propiedades["RESULTADO"])){
+                    $arreglo["RESULTADO"] = $propiedades["RESULTADO"];
+                }
+                
                 $this->_marea_roja_model->update(
                     array(
                         "id_region" => $params["region"],

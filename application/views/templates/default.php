@@ -102,7 +102,7 @@
                 <ul class="nav navbar-left">
                     <li class="tooltip-sidebar-toggle">
                         <a href="#" id="sidebar-toggle" data-toogle-param="abajo" data-toggle="tooltip" data-placement="right" title="Mostrar menu">
-                            <i class="fa fa-bars"></i>
+                            <i class="fa fa-bars"> Ocultar menu </i>
                         </a>
                     </li>
                     <!-- You may add more widgets here using <li> -->
@@ -178,7 +178,7 @@
         <!-- end TOP NAVIGATION -->
 
         <!-- begin SIDE NAVIGATION -->
-        <nav class="navbar-side <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
+        <nav id="navbar-menu" class="navbar-side <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
             <div class="navbar-collapse sidebar-collapse collapse">
                 <ul id="side" class="nav navbar-nav side-nav">
 
