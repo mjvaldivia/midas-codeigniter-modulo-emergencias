@@ -270,6 +270,8 @@ Class Layout_Menu{
                     if($lista_hijos['active']){
                         $class = "in";
                     }
+                    
+                    if($lista_hijos != ""){
                     $html .= $this->ci->load->view(
                         "templates/menu/menu-header-child", 
                         array(
@@ -281,6 +283,7 @@ Class Layout_Menu{
                         ), 
                         true
                     );
+                    }
                 } else {
                     $html .= $this->ci->load->view(
                         "templates/menu/menu-header", 
