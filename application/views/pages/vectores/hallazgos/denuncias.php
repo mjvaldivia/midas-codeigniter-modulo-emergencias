@@ -33,13 +33,14 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
-                            <input type="hidden" class="mapa-coordenadas" id="latitud" name="latitud"
-                                   value="<?php echo $latitud ?>" <?php if ($enviado): ?> disabled <?php endif; ?> />
-                            <input type="hidden" class="mapa-coordenadas" id="longitud" name="longitud"
-                                   value="<?php echo $longitud ?>"/>
+
 
                             <div id="mapa" style="height: 500px;" class="col-xs-12"></div>
                             <p></p>
+                            <!--<input type="hidden" class="mapa-coordenadas" id="latitud" name="latitud"
+                                   value="<?php /*echo $latitud */?>" <?php /*if ($enviado): */?> disabled <?php /*endif; */?> />
+                            <input type="hidden" class="mapa-coordenadas" id="longitud" name="longitud"
+                                   value="<?php /*echo $longitud */?>"/>-->
                             <div class="alert alert-info top-spaced" style="margin-top:20px">Puede mover el marcador
                                 para ajustar la ubicación
                                 del caso
@@ -49,6 +50,31 @@
                                         coordenadas
                                     </button>
                                 <?php endif; ?>
+                            </div>
+
+                            <div class="col-xs-8">
+                                <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, $propiedades); ?>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6 top-spaced">
+                                <div class="form-group clearfix">
+                                    <label for="nombre" class="control-label">Calidad de georeferenciación(*):</label>
+                                    <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion"
+                                            class="form-control">
+                                        <option value="">-- seleccione un valor --</option>
+                                        <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "GPS (Exacta)") echo "selected"; ?>
+                                            value="GPS (Exacta)">GPS Exacta
+                                        </option>
+                                        <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "Aproximación confiable") echo "selected"; ?>
+                                            value="Aproximación confiable">Aproximación confiable
+                                        </option>
+                                        <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "Requiere confirmación") echo "selected"; ?>
+                                            value="Requiere confirmación">Requiere confirmación
+                                        </option>
+                                    </select>
+                                    <span class="help-block hidden"></span>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">

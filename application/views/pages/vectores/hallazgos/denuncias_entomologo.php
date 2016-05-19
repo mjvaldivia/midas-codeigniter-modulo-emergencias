@@ -31,19 +31,22 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
-                            <input type="hidden" class="mapa-coordenadas" id="latitud" name="latitud"
-                                   value="<?php echo $latitud ?>"/>
+                            <!--<input type="hidden" class="mapa-coordenadas" id="latitud" name="latitud"
+                                   value="<?php /*echo $latitud */?>"/>
                             <input type="hidden" class="mapa-coordenadas" id="longitud" name="longitud"
-                                   value="<?php echo $longitud ?>"/>
+                                   value="<?php /*echo $longitud */?>"/>-->
 
                             <div id="mapa" style="height: 500px;" class="col-xs-12"></div>
                             <p></p>
                             <div class="alert alert-info top-spaced" style="margin-top:20px">Puede mover el marcador
                                 para ajustar la ubicación
                                 del caso
-                                <?php if($id > 0 and $cambiar_coordenadas):?>
-                                    <button type="button" class="btn btn-sm btn-info pull-right btn-square" onclick="Hallazgos.cambiarCoordenadas(<?php echo $id?>);">Cambiar coordenadas</button>
-                                <?php endif;?>
+                                <?php if ($id > 0 and $cambiar_coordenadas): ?>
+                                    <button type="button" class="btn btn-sm btn-info pull-right btn-square"
+                                            onclick="Hallazgos.cambiarCoordenadas(<?php echo $id ?>);">Cambiar
+                                        coordenadas
+                                    </button>
+                                <?php endif; ?>
                             </div>
 
                             <div class="top-spaced">
@@ -63,6 +66,34 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
+
+                            <?php if (!$entomologo): ?>
+                                <div class="col-xs-8">
+                                    <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, $propiedades); ?>
+                                </div>
+
+                                <div class="col-xs-8 top-spaced">
+                                    <div class="form-group clearfix">
+                                        <label for="nombre" class="control-label">Calidad de
+                                            georeferenciación(*):</label>
+                                        <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion"
+                                                class="form-control">
+                                            <option value="">-- seleccione un valor --</option>
+                                            <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "GPS (Exacta)") echo "selected"; ?>
+                                                value="GPS (Exacta)">GPS Exacta
+                                            </option>
+                                            <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "Aproximación confiable") echo "selected"; ?>
+                                                value="Aproximación confiable">Aproximación confiable
+                                            </option>
+                                            <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "Requiere confirmación") echo "selected"; ?>
+                                                value="Requiere confirmación">Requiere confirmación
+                                            </option>
+                                        </select>
+                                        <span class="help-block hidden"></span>
+
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
@@ -106,12 +137,12 @@
                                 <div class="col-xs-12">
                                     <label class="control-label">Dirección/Lugar de Hallazgo del mosquito(*)</label>
                                     <input type="text" name="direccion" id="direccion" class="form-control disabled"
-                                           value="<?php echo $direccion ?>" disabled />
+                                           value="<?php echo $direccion ?>" disabled/>
                                 </div>
                                 <div class="col-xs-12">
                                     <label class="control-label">Referencias de la dirección</label>
                                     <input type="text" name="referencias" id="referencias" class="form-control"
-                                           value="<?php echo $referencias ?>" disabled />
+                                           value="<?php echo $referencias ?>" disabled/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -169,7 +200,7 @@
                                     <label class="control-label col-xs-12 col-md-2">Observaciones</label>
                                     <div class="col-xs-12">
                                         <textarea class="form-control" rows="10" name="observaciones_resultado"
-                                                  id="observaciones_resultado"><?php echo $contenido?></textarea>
+                                                  id="observaciones_resultado"><?php echo $contenido ?></textarea>
                                     </div>
                                 </div>
                             </div>
