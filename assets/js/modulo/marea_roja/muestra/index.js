@@ -100,7 +100,8 @@ $(document).ready(function() {
         $(this).click(function(e){
             e.preventDefault();
             var id = $(this).data("muestra");
-            xModal.open(siteUrl + 'marea_roja/adjuntarActa/id/'+id,'Adjuntar Acta Muestra Nº '+id);
+            var acta = $(this).data("acta");
+            xModal.open(siteUrl + 'marea_roja/adjuntarActa/id/'+id,'Adjuntar Acta Muestra Nº '+acta);
         });
     });
 
@@ -110,7 +111,8 @@ $(document).ready(function() {
         $(this).click(function(e){
             e.preventDefault();
             var id = $(this).data("muestra");
-            xModal.open(siteUrl + 'marea_roja/verActas/id/'+id,'Actas para Muestra Nº '+id,'lg');
+            var acta = $(this).data("acta");
+            xModal.open(siteUrl + 'marea_roja/verActas/id/'+id,'Actas para Muestra Nº '+acta,'lg');
         });
     });
     

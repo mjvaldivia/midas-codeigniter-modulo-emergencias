@@ -89,11 +89,11 @@
                             <?php } ?>
 
                             <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta"
-                                    data-muestra="<?php echo $row['id'] ?>"><i class="fa fa-upload"></i></button>
+                                    data-muestra="<?php echo $row['id'] ?>" data-acta="<?php echo $row['numero_muestra']?>"><i class="fa fa-upload"></i></button>
 
                             <?php if ($row['actas']): ?>
                                 <button type="button" class="btn btn-sm btn-info ver-acta" title="Ver Acta"
-                                        data-muestra="<?php echo $row['id'] ?>"><i class="fa fa-file-o"></i></button>
+                                        data-muestra="<?php echo $row['id'] ?>"  data-acta="<?php echo $row['numero_muestra']?>"><i class="fa fa-file-o"></i></button>
                             <?php endif; ?>
                         </div>
                     </td>
