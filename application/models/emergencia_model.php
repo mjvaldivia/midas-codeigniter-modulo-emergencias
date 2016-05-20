@@ -62,6 +62,14 @@ class Emergencia_Model extends MY_Model {
     }
     
     /**
+     * @param string $hash 
+     * @return object
+     */
+    public function getByHash($hash){
+        return $this->_query->getById("hash", $hash);
+    }
+    
+    /**
      * 
      * @param array $data
      * @return int identificador del registro ingresado

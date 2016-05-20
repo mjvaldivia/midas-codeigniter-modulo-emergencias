@@ -149,6 +149,8 @@ class Evento extends MY_Controller {
             } else {
                 $data["eme_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
                 
+                $data["hash"] = $this->_nuevoHash();
+                
                 $id = $this->_emergencia_model
                            ->insert($data);
                 
@@ -485,4 +487,34 @@ class Evento extends MY_Controller {
         
         echo json_encode($json);
     }
+    
+    /**
+     * Genera nuevo HASH para el evento
+     * este hash permite acceder al mapa de forma publica
+     * @return string
+     */
+    protected function _nuevoHash(){
+        $this->load->library("core/string/random");
+        $hash = $this->random->rand_string(45);
+        
+        $existe = $this->_emergencia_model->getByHash($hash);
+        if(!is_null($existe)){
+            return $this->_nuevoHash();
+        } else {
+            return $hash;
+        }
+    }
+    
+    /**
+     * Regenera el hash para todos los eventos
+     */
+    
+    /*public function regeneraHash(){
+        $lista = $this->_emergencia_model->listar();
+        foreach($lista as $emergencia){
+            $hash = $this->_nuevoHash();
+            $data["hash"] = $hash;
+            $this->_emergencia_model->update($data, $emergencia["eme_ia_id"]);
+        }
+    }*/
 }

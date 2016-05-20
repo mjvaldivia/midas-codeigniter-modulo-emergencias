@@ -35,7 +35,7 @@ var MapaVectores = Class({
                 async: true,
                 data: "",
                 type: "post",
-                url: siteUrl + "mapa/info_vectores", 
+                url: baseUrl + getController() + "/info_vectores", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
@@ -90,7 +90,7 @@ var MapaVectores = Class({
             async: true,
             data: "",
             type: "post",
-            url: siteUrl + "mapa/info_vectores_hallazgos", 
+            url: baseUrl + getController() + "/info_vectores_hallazgos", 
             success:function(json){
                 if(json.correcto){
                     $.each(json.lista, function(i, valor){

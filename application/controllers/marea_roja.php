@@ -306,6 +306,7 @@ class Marea_roja extends MY_Controller
                 $datos_excel[$fila]["latitud"] = $coordenadas["lat"];
                 $datos_excel[$fila]["longitud"] = $coordenadas["lng"];
                 
+                //se quita a roxana de los fiscalizadores
                 if($caso["id_usuario"] != Usuario_Model::ROXANA_PENA){
                     $datos_excel[$fila]["FISCALIZADOR"] = nombreUsuario($caso["id_usuario"]);
                 } else {
@@ -330,10 +331,12 @@ class Marea_roja extends MY_Controller
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MUESTREO");
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "FECHA DE TOMA DE MUESTRA");
             $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, 1, "FECHA INGRESO");
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, 1, "ACTA");
+            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4, 1, "RESULTADO");
 
-            $i = 3;
+            $i = 5;
             foreach ($columnas as $columna => $valor) {
-                if (!$this->_quitarColumnaExcel($columna)) {
+                if (!$this->_quitarColumnaExcel($columna) AND !in_array($columna, array("NUMERO DE MUESTRA", "RESULTADO"))) {
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                     $i++;
                 }
@@ -390,6 +393,10 @@ class Marea_roja extends MY_Controller
                                 break;
                             case "COMUNA":
                                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreComuna($valores[$columna]));
+                                break;
+                            case "ACTA":
+                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, "NUMERO DE MUESTRA");
+                                
                                 break;
                             default:
                                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));

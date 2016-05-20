@@ -1,9 +1,20 @@
 var MapaLayoutFormMareaRoja = Class({
     
     mapa : null,
-
+    
+    posicion: "LEFT_CENTER",
+    
     __construct : function(div) {
 
+    },
+    
+    /**
+     * 
+     * @param {string} posicion
+     * @returns {undefined}
+     */
+    seteaPosicion : function(posicion){
+      this.posicion = posicion;  
     },
 
     /**
@@ -30,7 +41,7 @@ var MapaLayoutFormMareaRoja = Class({
             success:function(html){
                 $("body").append(html);
 
-                map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('formulario-marea-roja-contenedor'));
+                map.controls[google.maps.ControlPosition[yo.posicion]].push(document.getElementById('formulario-marea-roja-contenedor'));
                 
                 $("#formulario-marea-roja-contenedor").css("top", "60px");
                 
@@ -40,7 +51,7 @@ var MapaLayoutFormMareaRoja = Class({
                 
                 $("#configuracion-filtros-marea-roja").click(function(e){
                     e.preventDefault();
-                    if ($('#filtros-marea-roja').css("display") == "none") {    // you get the idea...
+                    if ($('#filtros-marea-roja').css("display") == "none") { 
                         $("#filtros-marea-roja").show("slow");
                     } else {
                         $("#filtros-marea-roja").hide("slow");
@@ -96,16 +107,16 @@ var MapaLayoutFormMareaRoja = Class({
     filtrar : function(){
         var yo = this;
         
-        if($("#marea_roja").is(":checked")){
-            var marea_roja = new MapaMareaRojaCasos();
-        } else if($("#marea_roja_pm").is(":checked")){
+        if($("#marea_roja_pm").is(":checked")){
             var marea_roja = new MapaMareaRojaCasosPm();
+        } else {
+            var marea_roja = new MapaMareaRojaCasos();
         }
         
         
         marea_roja.seteaMapa(yo.mapa);
         
-        if($("#marea_roja").is(":checked") || $("#marea_roja_pm").is(":checked")){
+        if($("#marea_roja").is(":checked") || $("#marea_roja_pm").is(":checked") || $("#marea_roja").length == 0){
             marea_roja.filtrar();
         }
         

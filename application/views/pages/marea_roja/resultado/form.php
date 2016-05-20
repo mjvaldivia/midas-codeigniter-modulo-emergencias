@@ -46,55 +46,65 @@
 
                             </div>
                         </div>
-                        <div class="col-xs-6">
 
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="form-group clearfix">
-                                        <label for="resultado" class="control-label">Resultado (*):</label>
-                                        <input value="<?php echo $propiedades["resultado"]; ?>" class="form-control"
-                                               name="resultado" id="resultado">
-                                        <span class="help-block hidden"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <div class="form-group clearfix">
-                                        <label for="resultado_fecha" class="control-label">Fecha (*):</label>
-                                        <input
-                                            value="<?php if (empty($propiedades["resultado_fecha"])) echo date('d/m/Y'); else echo $propiedades["resultado_fecha"]; ?>"
-                                            class="form-control datepicker-date" name="resultado_fecha"
-                                            id="resultado_fecha">
-                                        <span class="help-block hidden"></span>
-                                    </div>
+                    </div>
+                    <div class="col-xs-6">
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group clearfix">
+                                    <label for="resultado" class="control-label">Resultado (*):</label>
+                                    <input value="<?php echo $propiedades["resultado"]; ?>" class="form-control numero"
+                                           name="resultado" id="resultado">
+                                    <span class="help-block">Ejemplo formato: 10000.99)</span>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="form-group clearfix">
-                                        <label for="analisis" class="control-label">Tipos de Análisis</label>
-                                        <?php if(in_array('vpm',$analisis)):?>
+                            <div class="col-xs-6">
+                                <div class="form-group clearfix">
+                                    <label for="resultado_fecha" class="control-label">Fecha (*):</label>
+                                    <input value="<?php echo $propiedades["resultado_fecha"]; ?>"
+                                           class="form-control datepicker-date" name="resultado_fecha"
+                                           id="resultado_fecha">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group clearfix">
+                                    <label for="analisis" class="control-label">Tipos de Análisis</label>
+                                    <?php if (in_array('vpm', $analisis)): ?>
                                         <div class="checkbox">
                                             <label> Veneno
                                                 Paralizante de los Mariscos (VPM)</label>
                                         </div>
-                                        <?php endif;?>
-                                        <?php if(in_array('vdm',$analisis)):?>
+                                    <?php endif; ?>
+                                    <?php if (in_array('vdm', $analisis)): ?>
                                         <div class="checkbox">
                                             <label> Veneno
                                                 Diarreico de los Mariscos (VDM)</label>
                                         </div>
-                                        <<?php endif;?>
-                                        <?php if(in_array('vam',$analisis)):?>
+                                        <<?php endif; ?>
+                                    <?php if (in_array('vam', $analisis)): ?>
                                         <div class="checkbox">
                                             <label> Veneno
                                                 Amnésico de los Mariscos (VAM)</label>
                                         </div>
-                                        <?php endif;?>
-                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
+                        </div>
 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="form-group clearfix">
+                            <label for="fuente_de_la_informacion" class="control-label">Fuente de la
+                                información:</label>
+                            <input value="<?php echo $propiedades["fuente_de_la_informacion"]; ?>" disabled
+                                   class="form-control" name="fuente_de_la_informacion" id="fuente_de_la_informacion">
+                            <span class="help-block hidden"></span>
                         </div>
                     </div>
                     <div class="row">

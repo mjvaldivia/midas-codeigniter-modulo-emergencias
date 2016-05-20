@@ -41,7 +41,7 @@ var MapaMareaRojaCasos = Class({
                 async: true,
                 data: {"id" : yo.id_emergencia},
                 type: "post",
-                url: siteUrl + "mapa/info_marea_roja", 
+                url:  baseUrl + getController() + "/info_marea_roja", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
