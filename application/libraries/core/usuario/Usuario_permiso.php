@@ -40,6 +40,7 @@ Class Usuario_permiso{
                 $salida[] = $rol["rol_ia_id"];
             }
         }
+        
         return $salida;
     }
 }

@@ -1,3 +1,11 @@
+.modal90 > .modal-dialog{
+    width:90% !important;
+}
+
+.modal70 > .modal-dialog{
+    width:70% !important;
+}
+
 .form-busqueda{
     top: 10px !important;
     left: 117px !important;

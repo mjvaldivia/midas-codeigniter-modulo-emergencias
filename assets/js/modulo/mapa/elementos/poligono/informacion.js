@@ -49,7 +49,7 @@ var MapaPoligonoInformacion = Class({
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/popup_elemento_info", 
+            url:  baseUrl + getController() + "/popup_elemento_info", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -171,7 +171,7 @@ var MapaPoligonoInformacion = Class({
         
         
         elemento.addListener('click', function(event) {
-            console.log("Evento click en poligono");
+       
             if(!click_en_menu){
                 yo.muestraMenuParaInfoWindow(mapa, yo.elementosSeleccionados(event), event.latLng);  
             } else {
@@ -182,10 +182,12 @@ var MapaPoligonoInformacion = Class({
 
         });
         
-        elemento.addListener('rightclick', function(event) {
-            yo.muestraMenuParaPopup(mapa, yo.elementosSeleccionados(event), event.latLng);  
-        });
-   
+        
+        if(elemento.popup_poligono){
+            elemento.addListener('rightclick', function(event) {
+                yo.muestraMenuParaPopup(mapa, yo.elementosSeleccionados(event), event.latLng);  
+            });
+        }
     },
     
     /**

@@ -27,6 +27,11 @@ var MapaPoligono = Class({
         this.custom = custom;
     },
     
+    /**
+     * 
+     * @param {type} editable
+     * @returns {undefined}
+     */
     seteaEditable : function(editable){
         this.editable = editable;
     },

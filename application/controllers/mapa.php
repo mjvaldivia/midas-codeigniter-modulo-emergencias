@@ -92,6 +92,10 @@ class Mapa extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
+        
+        $this->load->library("module/mapa/mapa_permiso");
+        $this->load->helper("modulo/visor/permiso");
+        
         $this->_validarSession();
         $this->_cargaModel();
     }
@@ -109,7 +113,8 @@ class Mapa extends MY_Controller {
 
         $this->load->model('Permiso_Model','PermisoModel');
         $this->load->model('Modulo_Model','ModuloModel');
-        $guardar = $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
+        
+        $guardar = $this->mapa_permiso->permiso("guardar", $this->session->userdata('session_idUsuario'));
         
         if(!is_null($emergencia)){
             $data = array("id" => $params["id"],
