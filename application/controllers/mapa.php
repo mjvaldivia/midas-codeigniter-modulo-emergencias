@@ -92,11 +92,9 @@ class Mapa extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
-        sessionValidation();
+        $this->_validarSession();
         $this->_cargaModel();
     }
-    
-    
     
     /**
      * Carga de mapa para emergencia
@@ -329,6 +327,8 @@ class Mapa extends MY_Controller {
      * 
      */
     public function info_marea_roja(){
+        
+        $params = $this->input->post(null, true);
         header('Content-type: application/json'); 
         
         $this->load->model("usuario_region_model","_usuario_region_model");
@@ -352,13 +352,13 @@ class Mapa extends MY_Controller {
         
         $casos = array();
         
-        $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
+        $lista_regiones = $this->_emergencia_model->listarRegionesPorEmergencia($params["id"]);
         
         $lista = $this->_marea_roja_model->listar(
             array(
                 "region" => $this->arreglo->arrayToArray(
                     $lista_regiones, 
-                    "id_region"
+                    "reg_ia_id"
                 ),
                 "ingreso_resultado" => 1
             )
@@ -900,5 +900,12 @@ class Mapa extends MY_Controller {
         $this->load->model("capa_detalle_model", "_capa_detalle_model");
         $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
         $this->load->model("archivo_model", "_archivo_model");
+    }
+    
+    /**
+     * 
+     */
+    protected function _validarSession(){
+        sessionValidation();
     }
 }

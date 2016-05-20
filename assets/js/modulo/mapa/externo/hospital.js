@@ -35,7 +35,7 @@ var MapaHospital = Class({
                 async: true,
                 data: "",
                 type: "post",
-                url: siteUrl + "mapa/info_hospitales", 
+                url: baseUrl + getController() + "/info_hospitales", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){

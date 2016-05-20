@@ -244,7 +244,7 @@ var MapaElementos = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_elementos_emergencia", 
+            url: baseUrl + getController() + "/ajax_elementos_emergencia", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -312,7 +312,7 @@ var MapaElementos = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_contar_elementos", 
+            url: baseUrl + getController() + "/ajax_contar_elementos", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 tareas.remove(1);
@@ -356,7 +356,7 @@ var MapaElementos = Class({
             async: false,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_mapa_configuracion", 
+            url: baseUrl + getController() + "/ajax_mapa_configuracion", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                if(data.correcto){
@@ -429,33 +429,22 @@ var MapaElementos = Class({
                    
                     // ****************************************************************
                     //************ carga de capas vectores ***********************
-                    $("#vectores_marcadores").waitUntilExists(function(){
-                        if(parseInt(data.resultado.vectores) == 1){
-                            
-                            var vectores = new MapaVectores();
-                            vectores.seteaMapa(yo.mapa);
-                            vectores.load();
-                            
-                            /*var hallazgos = new MapaVectoresHallazgos();
-                            hallazgos.seteaMapa(yo.mapa);
-                            hallazgos.load();*/
-                            
-                            $("#vectores_marcadores").prop("checked", true);
-                        } else {
-                            $("#vectores_marcadores").prop("checked", false);
-                        }
-                    });
                     
-                    /*$("#vectores_hallazgos").waitUntilExists(function(){
-                        if(parseInt(data.resultado.vectores) == 1){
-                            var vectores = new MapaVectoresHallazgos();
-                            vectores.seteaMapa(yo.mapa);
-                            vectores.load();
-                            $("#vectores_hallazgos").prop("checked", true);
-                        } else {
-                            $("#vectores_hallazgos").prop("checked", false);
-                        }
-                    });*/
+                    if(parseInt(data.resultado.vectores) == 1){
+
+                        var vectores = new MapaVectores();
+                        vectores.seteaMapa(yo.mapa);
+                        vectores.load();
+                        $("#vectores_marcadores").waitUntilExists(function(){                            
+                            $("#vectores_marcadores").prop("checked", true);
+                        });
+                    } else {
+                        $("#vectores_marcadores").waitUntilExists(function(){     
+                            $("#vectores_marcadores").prop("checked", false);
+                        });
+                    }
+                    
+
                     // ***************************************************************
                     //*************** capa de incendios de conaf *********************
                     

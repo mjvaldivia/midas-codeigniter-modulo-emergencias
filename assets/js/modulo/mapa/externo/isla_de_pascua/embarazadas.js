@@ -35,7 +35,7 @@ var MapaIslaDePascuaEmbarazadas = Class({
                 async: true,
                 data: "",
                 type: "post",
-                url: siteUrl + "mapa/info_rapanui_embarazadas", 
+                url: baseUrl + getController() + "/info_rapanui_embarazadas", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){

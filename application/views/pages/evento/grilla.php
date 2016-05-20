@@ -48,7 +48,7 @@
                         
                     <?php if(puedeAbrirVisorEmergencia("emergencia")) { ?>
 
-                       <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(siteUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
+                       <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(baseUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
                            <i class="fa fa-globe"></i> 
                        </button>
 

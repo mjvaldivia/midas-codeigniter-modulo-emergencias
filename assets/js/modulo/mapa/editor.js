@@ -269,7 +269,7 @@ var MapaEditor = Class({
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/save", 
+            url: baseUrl + getController() + "/save", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
