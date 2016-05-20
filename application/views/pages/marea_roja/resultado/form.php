@@ -44,22 +44,22 @@
                     </div>
                     <div class="col-xs-6">
                         
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="form-group clearfix">
-                                        <label for="resultado" class="control-label">Resultado (*):</label>
-                                        <input value="<?php echo $propiedades["resultado"]; ?>" class="form-control" name="resultado" id="resultado">
-                                        <span class="help-block hidden"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <div class="form-group clearfix">
-                                        <label for="resultado_fecha" class="control-label">Fecha (*):</label>
-                                        <input value="<?php echo $propiedades["resultado_fecha"]; ?>" class="form-control datepicker-date" name="resultado_fecha" id="resultado_fecha">
-                                        <span class="help-block hidden"></span>
-                                    </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group clearfix">
+                                    <label for="resultado" class="control-label">Resultado (*):</label>
+                                    <input value="<?php echo $propiedades["resultado"]; ?>" class="form-control numero" name="resultado" id="resultado">
+                                    <span class="help-block">Ejemplo formato: 10000.99)</span>
                                 </div>
                             </div>
+                            <div class="col-xs-6">
+                                <div class="form-group clearfix">
+                                    <label for="resultado_fecha" class="control-label">Fecha (*):</label>
+                                    <input value="<?php echo $propiedades["resultado_fecha"]; ?>" class="form-control datepicker-date" name="resultado_fecha" id="resultado_fecha">
+                                    <span class="help-block hidden"></span>
+                                </div>
+                            </div>
+                        </div>
                       
                     </div>
                 </div>

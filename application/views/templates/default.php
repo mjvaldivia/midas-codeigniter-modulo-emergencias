@@ -266,6 +266,7 @@
         <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
         <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.js") ?>
         <?= loadJS("assets/js/library/jquery.wait.js") ?>
+        <?= loadJS("assets/js/library/jquery.numeric/jquery.numeric.min.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
         <?php echo layoutJs(); ?>

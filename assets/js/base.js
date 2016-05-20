@@ -42,6 +42,9 @@ $(document).ready(function() {
        $(this).addClass("btn btn-primary btn-xs");
     });
     
+    $('.numero:input').livequery(function(){
+        $(this).numeric();
+    });
     
     $(".rut:input").mask('0000000000-A', {reverse: true});
     

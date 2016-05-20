@@ -505,12 +505,16 @@ class Evento extends MY_Controller {
         }
     }
     
-    public function regeneraHash(){
+    /**
+     * Regenera el hash para todos los eventos
+     */
+    
+    /*public function regeneraHash(){
         $lista = $this->_emergencia_model->listar();
         foreach($lista as $emergencia){
             $hash = $this->_nuevoHash();
             $data["hash"] = $hash;
             $this->_emergencia_model->update($data, $emergencia["eme_ia_id"]);
         }
-    }
+    }*/
 }
