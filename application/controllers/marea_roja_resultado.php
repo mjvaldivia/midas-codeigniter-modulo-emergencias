@@ -75,6 +75,9 @@ class Marea_roja_resultado extends Marea_roja
                 $data["propiedades"][str_replace(" ", "_", strtolower($nombre))] = $valor;
             }
 
+            $analisis = explode(',',$caso->tipo_analisis);
+
+            $data['analisis'] = $analisis;
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
             $this->_viewEditar($data);

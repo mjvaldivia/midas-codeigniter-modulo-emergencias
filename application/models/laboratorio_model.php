@@ -56,6 +56,7 @@ class Laboratorio_Model extends MY_Model
     public function listar($parametros = array()){
         $query = $this->_query->select("a.*")
                                ->from($this->_tabla . " a")
+                               ->whereAND("a.cd_estado", 1)
                                ->orderBy("a.nombre", "DESC");
         
         if(!empty($parametros["usuario"])){

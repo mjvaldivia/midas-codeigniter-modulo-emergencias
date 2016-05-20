@@ -34,6 +34,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
         );
         
         $params = $this->input->post(null, true);
+
         
         if ($this->marea_roja_derivar_validar->esValido($params)) {
             $caso = $this->_marea_roja_model->getById($params["id"]);
@@ -41,7 +42,8 @@ class Marea_roja_derivar extends Marea_roja_resultado
 
                 $this->_marea_roja_model->update(
                     array(
-                          "id_laboratorio" => $params["laboratorio"]
+                          "id_laboratorio" => $params["laboratorio"],
+                        "tipo_analisis" => implode(',',$params['analisis'])
                     ), 
                     $caso->id
                 );

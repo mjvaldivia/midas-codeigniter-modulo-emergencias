@@ -48,6 +48,14 @@ Class Marea_roja_derivar_validar{
         } else {
             $this->_error["laboratorio"] = "";
         }
+
+        if(count($params['analisis'] == 0)){
+            $this->_correcto = false;
+            $this->_error["analisis"] = "Falta seleccionar tipos de análisis";
+        }else{
+            $this->_error["analisis"] = "";
+        }
+
         return $this->_correcto;
     }
     
