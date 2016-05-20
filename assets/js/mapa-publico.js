@@ -43,14 +43,17 @@ $(document).ready(function() {
    
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
     
+    /*
     var formulario = new MapaLayoutFormCasosFebrilesFecha();
     visor.addOnReadyFunction("buscador", formulario.addToMap);
+    */
     
+    //visor.addOnReadyFunction("buscador marea roja", formularioMareaRoja);
     
-    visor.addOnReadyFunction("buscador marea roja", formularioMareaRoja);
-    
+    /*
     var formulario = new MapaLayoutFormVectores();
     visor.addOnReadyFunction("buscador vectores", formulario.addToMap);
+    */
     
     //inicia mapa
     visor.bindMapa();

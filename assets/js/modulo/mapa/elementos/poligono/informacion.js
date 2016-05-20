@@ -182,7 +182,8 @@ var MapaPoligonoInformacion = Class({
 
         });
         
-        if(elemento.bo_informacion_poligonos){
+        
+        if(elemento.popup_poligono){
             elemento.addListener('rightclick', function(event) {
                 yo.muestraMenuParaPopup(mapa, yo.elementosSeleccionados(event), event.latLng);  
             });
