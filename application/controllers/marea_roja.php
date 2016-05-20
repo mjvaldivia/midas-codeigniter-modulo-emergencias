@@ -258,168 +258,126 @@ class Marea_roja extends MY_Controller
     {
         $this->load->view("pages/marea_roja/muestra/form_excel", array("fecha" => date("d/m/Y")));
     }
-
+    
     /**
-     * Genera excel para casos de dengue
+     * Retorna el excel
      */
-    public function excel()
-    {
-
+    public function excel_test(){
         $params = $this->uri->uri_to_assoc();
-
-        $this->load->helper(
-            array(
-                "modulo/usuario/usuario",
-                "modulo/formulario/formulario",
-                "modulo/comuna/default",
-                "modulo/direccion/region"
-            )
-        );
-
+        
         $this->load->library(
             array(
-                "core/fecha/fecha_conversion",
-                "core/string/arreglo",
-                "excel"
+                "core/excel/excel_json"
             )
         );
-
-        $this->load->model("usuario_model");
-        $this->load->model("usuario_region_model", "_usuario_region_model");
-
-        //**************** FILTROS DE BUSQUEDA ***************************//
-        $lista = $this->_filtrosExcel($params);
-        //****************************************************************//
-
-        $datos_excel = array();
-        if (!is_null($lista)) {
-
-            foreach ($lista as $caso) {
-                $coordenadas = Zend_Json::decode($caso["coordenadas"]);
-                $datos_excel[] = Zend_Json::decode($caso["propiedades"]);
-
-                $fila = count($datos_excel) - 1;
-
-                $datos_excel[$fila]["id"] = $caso["id"];
-                $datos_excel[$fila]["fecha_ingreso"] = $caso["fecha"];
-
-                $datos_excel[$fila]["latitud"] = $coordenadas["lat"];
-                $datos_excel[$fila]["longitud"] = $coordenadas["lng"];
-                
-                //se quita a roxana de los fiscalizadores
-                if($caso["id_usuario"] != Usuario_Model::ROXANA_PENA){
-                    $datos_excel[$fila]["FISCALIZADOR"] = nombreUsuario($caso["id_usuario"]);
-                } else {
-                    $datos_excel[$fila]["FISCALIZADOR"] = "";
-                }
-            }
-
-            $excel = $this->excel->nuevoExcel();
-
-            $excel->getProperties()
-                ->setCreator("Midas - Emergencias")
-                ->setLastModifiedBy("Midas - Emergencias")
-                ->setTitle("Exportación de marea roja")
-                ->setSubject("Emergencias")
-                ->setDescription("Marea roja")
-                ->setKeywords("office 2007 openxml php emergencias")
-                ->setCategory("Midas");
-
-            //*********************** AGREGANDO COLUMNAS **********************************//
-            $columnas = reset($datos_excel);
-
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 1, "MUESTREO");
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, 1, "FECHA DE TOMA DE MUESTRA");
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, 1, "FECHA INGRESO");
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, 1, "ACTA");
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4, 1, "RESULTADO");
-
-            $i = 5;
-            foreach ($columnas as $columna => $valor) {
-                if (!$this->_quitarColumnaExcel($columna)) {
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
-                    $i++;
-                }
-            }
-
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, "LATITUD");
-            $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i + 1, 1, "LONGITUD");
-  
-
-            //*****************************************************************************//
-
-            $j = 2;
-            foreach ($datos_excel as $id => $valores) {
-
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, $j, $valores["id"]);
-
-                //***********************************************************************************//
-                $fecha = $this->fecha_conversion->fechaToDateTime(
-                    $valores["FECHA"],
-                    array(
+        
+        $this->excel_json->setColumnas(
+            array(
+                "MUESTREO" => array(
+                    "tipo" => "fila",
+                    "valor" => "id"
+                ),
+                "FECHA DE TOMA DE MUESTRA" => array(
+                    "tipo" => "json",
+                    "valor" => "FECHA",
+                    "metodo" => "FECHA",
+                    "formato_entrada" => array(
                         "d/m/Y",
                         "d-m-Y"
-                    )
-                );
-
-                if ($fecha instanceof DateTime) {
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, $fecha->format("d/m/Y"));
-                } else {
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $j, "");
-                }
-
-                $fecha_ingreso = $this->fecha_conversion->fechaToDateTime(
-                    $valores["fecha_ingreso"],
-                    array(
+                    ),
+                    "formato_salida" => "d/m/Y"
+                ),
+                "FECHA INGRESO" => array(
+                    "tipo" => "file",
+                    "valor" => "fecha",
+                    "metodo" => "FECHA",
+                    "formato_entrada" => array(
                         "Y-m-d H:i:s"
-                    )
-                );
-
-                if ($fecha_ingreso instanceof DateTime) {
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, $fecha_ingreso->format("d/m/Y"));
-                } else {
-                    $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2, $j, "");
-                }
-
-                //***********************************************************************************//
-                
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, $j, $valores["NUMERO DE MUESTRA"]);
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4, $j, $valores["RESULTADO"]);
-                
-                $i = 5;
-                foreach ($columnas as $columna => $valor) {
-
-                    if (!$this->_quitarColumnaExcel($columna)) {
-                        switch ($columna) {
-                            case "REGION":
-                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreRegion($valores[$columna]));
-                                break;
-                            case "COMUNA":
-                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreComuna($valores[$columna]));
-                                break;
-                            default:
-                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, ($valores[$columna]));
-                                break;
-                        }
-                        $i++;
-                    }
-                }
-
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, $valores["latitud"]);
-                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i + 1, $j, $valores["longitud"]);
-
-                $j++;
-            }
-
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="marea_roja_' . date('d-m-Y') . '.xlsx"');
-            header('Cache-Control: max-age=0');
-            $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-            $objWriter->save('php://output');
-        } else {
-            echo "No hay registros para generar el excel";
-        }
+                    ),
+                    "formato_salida" => "d/m/Y"
+                ),
+                "ACTA" => array(
+                    "tipo" => "fila",
+                    "valor" => "numero_muestra"
+                ),
+                "RESULTADO" => array(
+                    "tipo" => "json",
+                    "valor" => "RESULTADO"
+                ),
+                "CALIDAD DE GEOREFERENCIACION" => array(
+                    "tipo" => "json",
+                    "valor" => "FORM COORDENADAS CALIDAD DE GEOREFERENCIACION"
+                ),
+                "LABORATORIO" => array(
+                    "tipo" => "json",
+                    "valor" => "LABORATORIO"
+                ),
+                "FUENTE DE LA INFORMACION" => array(
+                    "tipo" => "json",
+                    "valor" => "FUENTE DE LA INFORMACION"
+                ),
+                "RECURSO" => array(
+                    "tipo" => "json",
+                    "valor" => "RECURSO"
+                ),
+                "ORIGEN"  => array(
+                    "tipo" => "json",
+                    "valor" => "ORIGEN"
+                ),
+                "REGION"  => array(
+                    "tipo" => "json",
+                    "valor" => "REGION",
+                    "metodo" => "NOMBRE_REGION"
+                ),
+                "COMUNA"  => array(
+                    "tipo" => "json",
+                    "valor" => "COMUNA",
+                    "metodo" => "NOMBRE_COMUNA"
+                ),
+                "PROFUNDIDAD"  => array(
+                    "tipo" => "json",
+                    "valor" => "PROFUNDIDAD"
+                ),
+                "TEMPERATURA RECURSO"  => array(
+                    "tipo" => "json",
+                    "valor" => "TEMPERATURA"
+                ),
+                "TEMPERATURA AGUA"  => array(
+                    "tipo" => "json",
+                    "valor" => "TEMPERATURA AGUA"
+                ),
+                "VP"  => array(
+                    "tipo" => "json",
+                    "valor" => "VP"
+                ),
+                "OBSERVACIONES"  => array(
+                    "tipo" => "json",
+                    "valor" => "OBSERVACIONES"
+                ),
+                "FISCALIZADOR" => array(
+                    "tipo" => "file",
+                    "valor" => "id_usuario",
+                    "metodo" => "NOMBRE_USUARIO"
+                ),
+                "LATITUD" => array(
+                    "tipo" => "json",
+                    "valor" => "lat"
+                ),
+                "LONGITUD" => array(
+                    "tipo" => "json",
+                    "valor" => "lon"
+                )
+            )
+        );
+     
+        $lista = $this->_filtrosExcel($params);
+        
+        $this->excel_json->setData($lista, array("coordenadas","propiedades"));
+        $this->excel_json->render();
     }
+
+    
+    
 
     /**
      *
@@ -542,6 +500,9 @@ class Marea_roja extends MY_Controller
      * @return array
      */
     protected function _filtrosExcel($params){
+        $this->load->model("usuario_model");
+        $this->load->model("usuario_region_model", "_usuario_region_model");
+        
         $fecha_desde = null;
         if ($params["fecha_desde"] != "") {
             $fecha_desde = DateTime::createFromFormat("d_m_Y", $params["fecha_desde"]);
@@ -561,38 +522,6 @@ class Marea_roja extends MY_Controller
         );
     }
     
-    /**
-     * Quita columnas del excel
-     * @param array $columna
-     * @return boolean
-     */
-    protected function _quitarColumnaExcel($columna){
-        
-        $quitar = array(
-            "FECHA", "id", "fecha_ingreso", "latitud", "longitud",
-            "FORM COORDENADAS TIPO",
-            "FORM COORDENADAS GMS GRADOS LAT",
-            "FORM COORDENADAS GMS MINUTOS LAT",
-            "FORM COORDENADAS GMS SEGUNDOS LAT",
-            "FORM COORDENADAS GMS GRADOS LNG",
-            "FORM COORDENADAS GMS MINUTOS LNG",
-            "FORM COORDENADAS GMS SEGUNDOS LNG",
-            "FORM COORDENADAS UTM ZONA",
-            "FORM COORDENADAS UTM LATITUD",
-            "FORM COORDENADAS UTM LONGITUD",
-            "FORM COORDENADAS LATITUD",
-            "FORM COORDENADAS LONGITUD",
-            "NUMERO DE MUESTRA",
-            "RESULTADO"
-        );
-        
-        if (!in_array($columna, $quitar)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     /**
      * Filtros de region
      * @param array $params
