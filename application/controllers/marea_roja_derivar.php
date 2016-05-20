@@ -80,7 +80,9 @@ class Marea_roja_derivar extends Marea_roja_resultado
                 array(
                     "laboratorio" => $lista_laboratorios,
                     "ingreso_resultado" => 0,
-                    "numero_muestra" => $params["muestra"]
+                    "numero_muestra" => $params["numero_muestra"],
+                    "region" => $params['region'],
+                    "comuna" => $params['comuna']
                 )
             );
         } else {
