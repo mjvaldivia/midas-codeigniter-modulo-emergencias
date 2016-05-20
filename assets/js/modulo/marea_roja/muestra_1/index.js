@@ -17,8 +17,7 @@ $(document).ready(function() {
                     callback: function () {
                         var fecha_desde = $("#fecha_desde").val();
                         var fecha_hasta = $("#fecha_hasta").val();
-                        console.log(siteUrl + "marea_roja_1/excel/fecha_desde/" + fecha_desde.replace(/\//g, "_") + "/fecha_hasta/" + fecha_hasta.replace(/\//g, "_"));
-                        window.open(siteUrl + "marea_roja_1/excel/fecha_desde/" + fecha_desde.replace(/\//g, "_") + "/fecha_hasta/" + fecha_hasta.replace(/\//g, "_"), "_blank");
+                        window.open(siteUrl + "marea_roja/excel/fecha_desde/" + fecha_desde.replace(/\//g, "_") + "/fecha_hasta/" + fecha_hasta.replace(/\//g, "_"), "_blank");
                     }
                 },
                 danger: {
