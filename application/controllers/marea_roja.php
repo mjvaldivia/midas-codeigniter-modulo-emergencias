@@ -352,7 +352,8 @@ class Marea_roja extends MY_Controller
                 ),
                 "OBSERVACIONES"  => array(
                     "tipo" => "json",
-                    "valor" => "OBSERVACIONES"
+                    "valor" => "OBSERVACIONES",
+                    "metodo" => "CORRECCION_SALTO_LINEA"
                 ),
                 "FISCALIZADOR" => array(
                     "tipo" => "file",
@@ -365,7 +366,7 @@ class Marea_roja extends MY_Controller
                 ),
                 "LONGITUD" => array(
                     "tipo" => "json",
-                    "valor" => "lon"
+                    "valor" => "lng"
                 )
             )
         );

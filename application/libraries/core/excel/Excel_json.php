@@ -121,6 +121,9 @@ Class Excel_json{
                 );
                 $salida = $fecha->format($configuracion["formato_salida"]);
                 break;
+            case "CORRECCION_SALTO_LINEA":
+                $salida = str_replace("\n", "", $valor);
+                break;
             default:
                 $salida = $valor;
                 break;
