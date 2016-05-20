@@ -93,20 +93,10 @@ class Mapa extends MY_Controller {
     public function __construct() {
         parent::__construct();
         sessionValidation();
-        $this->load->library("emergencia/emergencia_comuna");
-        $this->load->model("emergencia_model", "_emergencia_model");
-        $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
-        $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
-        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
-        $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
-        $this->load->model("alarma_model", "_alarma_model");
-        $this->load->model("capa_model", "_capa_model");
-        $this->load->model("comuna_model", "_comuna_model");
-        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
-        $this->load->model("capa_detalle_model", "_capa_detalle_model");
-        $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
-        $this->load->model("archivo_model", "_archivo_model");
+        $this->_cargaModel();
     }
+    
+    
     
     /**
      * Carga de mapa para emergencia
@@ -891,5 +881,24 @@ class Mapa extends MY_Controller {
         }
         
         echo json_encode($data);
+    }
+    
+    /**
+     * Carga modelos para visor
+     */
+    protected function _cargaModel(){
+        $this->load->library("emergencia/emergencia_comuna");
+        $this->load->model("emergencia_model", "_emergencia_model");
+        $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
+        $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
+        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
+        $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
+        $this->load->model("alarma_model", "_alarma_model");
+        $this->load->model("capa_model", "_capa_model");
+        $this->load->model("comuna_model", "_comuna_model");
+        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
+        $this->load->model("capa_detalle_model", "_capa_detalle_model");
+        $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
+        $this->load->model("archivo_model", "_archivo_model");
     }
 }
