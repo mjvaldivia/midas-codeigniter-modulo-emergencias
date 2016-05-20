@@ -24,7 +24,7 @@
     <?= loadCSS("assets/js/library/messenger/messenger-theme-flat.css", true) ?>
     <?= loadCSS("assets/js/library/font-awesome-4.4.0/css/font-awesome.css", true) ?>
     <?= loadCSS("assets/js/library/spectrum-colorpicker/spectrum.css") ?>
-    <?= loadCSS("assets/css/style.css", true) ?>
+    
 
     
 </head>
