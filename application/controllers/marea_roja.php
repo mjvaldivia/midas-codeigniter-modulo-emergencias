@@ -398,7 +398,7 @@ class Marea_roja extends MY_Controller
                                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreComuna($valores[$columna]));
                                 break;
                             default:
-                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
+                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, ($valores[$columna]));
                                 break;
                         }
                         $i++;
