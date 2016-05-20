@@ -453,8 +453,12 @@ class Marea_roja extends MY_Controller
         $roles = explode(',',$this->session->userdata('session_roles'));
 
         $subir_acta = false;
+        $editar_muestra = true;
         if(in_array(27,$roles) or in_array(65,$roles)){
             $subir_acta = true;
+        }
+        if(in_array(65,$roles)){
+            $editar_muestra = false;
         }
 
         if (!is_null($lista)) {
@@ -506,7 +510,8 @@ class Marea_roja extends MY_Controller
                     "laboratorio" => $laboratorio_nombre,
                     "resultado" => $propiedades["RESULTADO"],
                     "actas" => $this->MareaRojaActasModel->listar(array('id_marea' => $caso['id'])),
-                    "subir_acta" => $subir_acta
+                    "subir_acta" => $subir_acta,
+                    "editar_muestra" => $editar_muestra
                 );
 
             }
