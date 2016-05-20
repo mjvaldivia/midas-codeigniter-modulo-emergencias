@@ -171,7 +171,7 @@ var MapaPoligonoInformacion = Class({
         
         
         elemento.addListener('click', function(event) {
-            console.log("Evento click en poligono");
+       
             if(!click_en_menu){
                 yo.muestraMenuParaInfoWindow(mapa, yo.elementosSeleccionados(event), event.latLng);  
             } else {
@@ -182,10 +182,11 @@ var MapaPoligonoInformacion = Class({
 
         });
         
-        elemento.addListener('rightclick', function(event) {
-            yo.muestraMenuParaPopup(mapa, yo.elementosSeleccionados(event), event.latLng);  
-        });
-   
+        if(elemento.bo_informacion_poligonos){
+            elemento.addListener('rightclick', function(event) {
+                yo.muestraMenuParaPopup(mapa, yo.elementosSeleccionados(event), event.latLng);  
+            });
+        }
     },
     
     /**

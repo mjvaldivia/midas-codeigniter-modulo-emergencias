@@ -192,7 +192,8 @@ var MapaElementos = Class({
             fillOpacity: 0.35,
             map: this.mapa,
             center: centro,
-            radius: radio
+            radius: radio,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         var circuloClickListener = new MapaInformacionElemento();

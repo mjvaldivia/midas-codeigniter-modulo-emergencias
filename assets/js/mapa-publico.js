@@ -16,6 +16,7 @@ $(document).ready(function() {
     
      //custom
     var custom = new MapaElementos();
+    custom.seteaPopupPoligono(false);
     custom.emergencia(id);
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, true);
     
