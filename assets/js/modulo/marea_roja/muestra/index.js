@@ -133,7 +133,7 @@ function recargaGrilla(){
         dataType: "html",
         cache: false,
         async: true,
-        data: {"region" : $("#region").val(), "comuna" : $("#comuna").val()},
+        data: {"region" : $("#region").val(), "comuna" : $("#comuna").val(), "numero_acta" : $("#numero_acta").val()},
         type: "post",
         url: siteUrl + "marea_roja/ajax_lista", 
         error: function(xhr, textStatus, errorThrown){

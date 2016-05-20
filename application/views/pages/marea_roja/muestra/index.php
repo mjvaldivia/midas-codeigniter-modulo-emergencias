@@ -29,6 +29,14 @@
         <div class="portlet portlet-default top-spaced">
             <div class="portlet-body"> 
                 <div class="row">
+
+                    <div class="col-lg-3">
+                        <div class="form-group clearfix">
+                            <label class="control-label" for="numero_acta">Número de Acta</label>
+                            <input type="text" name="numero_acta" id="numero_acta" class="form-control"/>
+
+                        </div>
+                    </div>
                     
                     <div class="col-lg-3">
                         <div class="form-group clearfix">

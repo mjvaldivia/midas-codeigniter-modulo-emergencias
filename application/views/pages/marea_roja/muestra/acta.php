@@ -14,6 +14,7 @@
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?= loadJS("assets/js/modulo/marea_roja/muestra/index.js") ?>
 
 <script>
     $("#acta").fileinput({
@@ -27,6 +28,7 @@
 
     $('#acta').on('filebatchuploadsuccess', function(event, data) {
         xModal.close();
+        recargaGrilla();
         /*if(data.response.estado == true){
             xModal.success(data.response.mensaje);
         }else{
