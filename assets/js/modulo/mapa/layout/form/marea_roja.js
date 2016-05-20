@@ -40,7 +40,7 @@ var MapaLayoutFormMareaRoja = Class({
                 
                 $("#configuracion-filtros-marea-roja").click(function(e){
                     e.preventDefault();
-                    if ($('#filtros-marea-roja').css("display") == "none") {    // you get the idea...
+                    if ($('#filtros-marea-roja').css("display") == "none") { 
                         $("#filtros-marea-roja").show("slow");
                     } else {
                         $("#filtros-marea-roja").hide("slow");
@@ -96,10 +96,10 @@ var MapaLayoutFormMareaRoja = Class({
     filtrar : function(){
         var yo = this;
         
-        if($("#marea_roja").is(":checked")){
-            var marea_roja = new MapaMareaRojaCasos();
-        } else if($("#marea_roja_pm").is(":checked")){
+        if($("#marea_roja_pm").is(":checked")){
             var marea_roja = new MapaMareaRojaCasosPm();
+        } else {
+            var marea_roja = new MapaMareaRojaCasos();
         }
         
         

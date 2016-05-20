@@ -45,8 +45,8 @@ $(document).ready(function() {
     var formulario = new MapaLayoutFormCasosFebrilesFecha();
     visor.addOnReadyFunction("buscador", formulario.addToMap);
     
-    var formulario = new MapaLayoutFormMareaRoja();
-    visor.addOnReadyFunction("buscador marea roja", formulario.addToMap);
+    
+    visor.addOnReadyFunction("buscador marea roja", formularioMareaRoja);
     
     var formulario = new MapaLayoutFormVectores();
     visor.addOnReadyFunction("buscador vectores", formulario.addToMap);
@@ -61,4 +61,17 @@ $(document).ready(function() {
 
 });
 
-
+/**
+ * Carga formulario con filtros de marea roja
+ * @param {googleMap} mapa
+ * @returns {undefined}
+ */
+function formularioMareaRoja(mapa){
+    var formulario = new MapaLayoutFormMareaRoja();
+    formulario.addToMap(mapa);
+    
+    
+    $("#marea-roja-pm-contenedor-filtro-colores").waitUntilExists(function(){
+        $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
+    });
+}
