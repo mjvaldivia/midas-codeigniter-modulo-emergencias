@@ -112,7 +112,11 @@ Class Excel_json{
                 $salida = nombreComuna($valor);
                 break;
             case "NOMBRE_USUARIO":
-                $salida = (string) nombreUsuario($valor);
+                if(TRIM($valor) == ""){
+                    $salida = "CARGA MASIVA";
+                } else {
+                    $salida = (string) nombreUsuario($valor);
+                }
                 break;
             case "FECHA":
                 $fecha = $this->_ci->fecha_conversion->fechaToDateTime(
