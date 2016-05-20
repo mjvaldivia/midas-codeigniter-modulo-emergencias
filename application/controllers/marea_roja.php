@@ -511,7 +511,8 @@ class Marea_roja extends MY_Controller
         return $this->_marea_roja_model->listar(
             array(
                 "region" => $this->_filtrosRegion($params),
-                "comuna" => $params["comuna"]
+                "comuna" => $params["comuna"],
+                "numero_muestra" => $params["numero_acta"]
             )
         );
     }

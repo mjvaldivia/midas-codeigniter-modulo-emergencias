@@ -95,6 +95,29 @@ $(document).ready(function() {
         }) ;
     });
 
+
+    $(".adjuntar-acta").livequery(function(){
+        $(this).unbind( "click" );
+        $(this).click(function(e){
+            e.preventDefault();
+            var id = $(this).data("muestra");
+            var acta = $(this).data("acta");
+            xModal.open(siteUrl + 'marea_roja/adjuntarActa/id/'+id,'Adjuntar Acta Muestra Nº '+acta);
+        });
+    });
+
+
+    $(".ver-acta").livequery(function(){
+        $(this).unbind( "click" );
+        $(this).click(function(e){
+            e.preventDefault();
+            var id = $(this).data("muestra");
+            var acta = $(this).data("acta");
+            xModal.open(siteUrl + 'marea_roja/verActas/id/'+id,'Actas para Muestra Nº '+acta,100);
+        });
+    });
+    
+
     
 });
 
@@ -110,7 +133,7 @@ function recargaGrilla(){
         dataType: "html",
         cache: false,
         async: true,
-        data: {"region" : $("#region").val(), "comuna" : $("#comuna").val()},
+        data: {"region" : $("#region").val(), "comuna" : $("#comuna").val(), "numero_acta" : $("#numero_acta").val()},
         type: "post",
         url: siteUrl + "marea_roja/ajax_lista", 
         error: function(xhr, textStatus, errorThrown){
