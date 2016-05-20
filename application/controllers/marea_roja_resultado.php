@@ -37,6 +37,7 @@ class Marea_roja_resultado extends Marea_roja
     public function index()
     {
         $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+        $this->layout_assets->addJs("modulo/marea_roja/base.js");
         $this->layout_assets->addJs("modulo/marea_roja/resultado/index.js");
         $this->layout_template->view(
             "default", 
@@ -139,7 +140,7 @@ class Marea_roja_resultado extends Marea_roja
         if(!is_null($lista_laboratorios)){
             return $this->_marea_roja_model->listar(
                 array(
-                    "laboratorio" => $this->arreglo->arrayToArray($lista_laboratorios, "id"),
+                    "laboratorio" => $lista_laboratorios,
                     "numero_muestra" => $params["muestra"]
                 )
             );
@@ -153,6 +154,7 @@ class Marea_roja_resultado extends Marea_roja
      * @return array
      */
     protected function _filtrosLaboratorio(){
+        
         $lista_laboratorios = $this->_usuario_laboratorio_model->listarPorUsuario(
             $this->session->userdata('session_idUsuario')
         );
@@ -166,9 +168,11 @@ class Marea_roja_resultado extends Marea_roja
             $lista_laboratorios = $this->_laboratorio_model->listar(
                 array("regiones" => $this->arreglo->arrayToArray($lista_regiones, "id_region"))
             );
-
-        } 
-        return $lista_laboratorios;
+            
+            return $this->arreglo->arrayToArray($lista_laboratorios, "id");
+        } else {
+            return $this->arreglo->arrayToArray($lista_laboratorios, "id_laboratorio");
+        }
     }
     
     /**

@@ -12,6 +12,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
     public function index()
     {
         $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+        $this->layout_assets->addJs("modulo/marea_roja/base.js");
         $this->layout_assets->addJs("modulo/marea_roja/derivar/index.js");
         $this->layout_template->view(
             "default", 
@@ -70,14 +71,12 @@ class Marea_roja_derivar extends Marea_roja_resultado
     protected function _filtros($params){
         $this->load->model("usuario_laboratorio_model","_usuario_laboratorio_model");
         $this->load->model("usuario_region_model", "_usuario_region_model");
-        
-        $laboratorios = null;
-        
+
         $lista_laboratorios = $this->_filtrosLaboratorio();
         if(!is_null($lista_laboratorios)){
             return $this->_marea_roja_model->listar(
                 array(
-                    "laboratorio" => $this->arreglo->arrayToArray($lista_laboratorios, "id"),
+                    "laboratorio" => $lista_laboratorios,
                     "ingreso_resultado" => 0,
                     "numero_muestra" => $params["muestra"]
                 )

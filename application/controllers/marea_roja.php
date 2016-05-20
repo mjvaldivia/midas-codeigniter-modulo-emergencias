@@ -533,10 +533,7 @@ class Marea_roja extends MY_Controller
         
         return $this->_marea_roja_model->listar(
             array(
-                "region" => $this->arreglo->arrayToArray(
-                    $this->_filtrosRegion($params), 
-                    "id_region"
-                ),
+                "region" => $this->_filtrosRegion($params),
                 "fecha_desde" => $fecha_desde, 
                 "fecha_hasta" => $fecha_hasta
             )

@@ -4,10 +4,10 @@
             <h1>  Marea roja - Derivar
                 <div class="pull-right">
 
-                    <a target="_blank" id="descargar" class="btn btn-default btn-square">
+                    <!--<a target="_blank" id="descargar" class="btn btn-default btn-square">
                         <i class="fa fa-download"></i>
                         Descargar excel
-                    </a>
+                    </a>-->
 
                 </div>
             </h1>
