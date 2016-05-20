@@ -95,6 +95,7 @@ $(document).ready(function() {
         }) ;
     });
 
+
     $(".adjuntar-acta").livequery(function(){
         $(this).unbind( "click" );
         $(this).click(function(e){
@@ -116,8 +117,8 @@ $(document).ready(function() {
         });
     });
     
+
     
-    //$("#buscar").trigger("click");
 });
 
 
