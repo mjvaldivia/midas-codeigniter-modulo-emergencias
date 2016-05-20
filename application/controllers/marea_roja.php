@@ -306,6 +306,7 @@ class Marea_roja extends MY_Controller
                 $datos_excel[$fila]["latitud"] = $coordenadas["lat"];
                 $datos_excel[$fila]["longitud"] = $coordenadas["lng"];
                 
+                //se quita a roxana de los fiscalizadores
                 if($caso["id_usuario"] != Usuario_Model::ROXANA_PENA){
                     $datos_excel[$fila]["FISCALIZADOR"] = nombreUsuario($caso["id_usuario"]);
                 } else {
