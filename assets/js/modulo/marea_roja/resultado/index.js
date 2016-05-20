@@ -94,7 +94,7 @@ function recargaGrilla(){
         data: {
             "region" : $("#region").val(), 
             "comuna" : $("#comuna").val(),
-            "muestra" : $("#numero_muestra").val()
+            "numero_acta" : $("#numero_muestra").val()
         },
         type: "post",
         url: siteUrl + "marea_roja_resultado/ajax_lista", 

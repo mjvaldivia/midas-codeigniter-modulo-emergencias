@@ -75,10 +75,12 @@
                     <td align="center" width="5%">
                         <div style="width: 150px">
                             <?php if (permisoMareaRoja("editar")) { ?>
-                                <button data-rel="<?php echo $row["id"]; ?>" title="editar"
-                                        class="btn btn-sm btn-success editar-marea-roja" type="button">
-                                    <i class="fa fa-edit"></i>
-                                </button>
+                                <?php if ($row['editar_muestra']): ?>
+                                    <button data-rel="<?php echo $row["id"]; ?>" title="editar"
+                                            class="btn btn-sm btn-success editar-marea-roja" type="button">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                <?php endif; ?>
                             <?php } ?>
 
                             <?php if (permisoMareaRoja("eliminar")) { ?>
@@ -88,13 +90,17 @@
                                 </button>
                             <?php } ?>
 
-                            <?php if($row['subir_acta']):?>
-                            <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta"
-                                    data-muestra="<?php echo $row['id'] ?>" data-acta="<?php echo $row['numero_muestra']?>"><i class="fa fa-upload"></i></button>
-                            <?php endif;?>
+                            <?php if ($row['subir_acta']): ?>
+                                <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta"
+                                        data-muestra="<?php echo $row['id'] ?>"
+                                        data-acta="<?php echo $row['numero_muestra'] ?>"><i class="fa fa-upload"></i>
+                                </button>
+                            <?php endif; ?>
                             <?php if ($row['actas']): ?>
                                 <button type="button" class="btn btn-sm btn-info ver-acta" title="Ver Acta"
-                                        data-muestra="<?php echo $row['id'] ?>"  data-acta="<?php echo $row['numero_muestra']?>"><i class="fa fa-file-o"></i></button>
+                                        data-muestra="<?php echo $row['id'] ?>"
+                                        data-acta="<?php echo $row['numero_muestra'] ?>"><i class="fa fa-file-o"></i>
+                                </button>
                             <?php endif; ?>
                         </div>
                     </td>
