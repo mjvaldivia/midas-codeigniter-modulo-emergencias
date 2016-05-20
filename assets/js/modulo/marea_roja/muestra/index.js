@@ -112,7 +112,7 @@ $(document).ready(function() {
             e.preventDefault();
             var id = $(this).data("muestra");
             var acta = $(this).data("acta");
-            xModal.open(siteUrl + 'marea_roja/verActas/id/'+id,'Actas para Muestra Nº '+acta,'lg');
+            xModal.open(siteUrl + 'marea_roja/verActas/id/'+id,'Actas para Muestra Nº '+acta,100);
         });
     });
     
