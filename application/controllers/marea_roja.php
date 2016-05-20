@@ -336,7 +336,7 @@ class Marea_roja extends MY_Controller
 
             $i = 5;
             foreach ($columnas as $columna => $valor) {
-                if (!$this->_quitarColumnaExcel($columna) AND !in_array($columna, array("NUMERO DE MUESTRA", "RESULTADO"))) {
+                if (!$this->_quitarColumnaExcel($columna)) {
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                     $i++;
                 }
@@ -382,8 +382,11 @@ class Marea_roja extends MY_Controller
                 }
 
                 //***********************************************************************************//
-
-                $i = 3;
+                
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, $j, $valores["NUMERO DE MUESTRA"]);
+                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4, $j, $valores["RESULTADO"]);
+                
+                $i = 5;
                 foreach ($columnas as $columna => $valor) {
 
                     if (!$this->_quitarColumnaExcel($columna)) {
@@ -393,10 +396,6 @@ class Marea_roja extends MY_Controller
                                 break;
                             case "COMUNA":
                                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, nombreComuna($valores[$columna]));
-                                break;
-                            case "ACTA":
-                                $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, "NUMERO DE MUESTRA");
-                                
                                 break;
                             default:
                                 $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, $j, strtoupper($valores[$columna]));
@@ -582,7 +581,9 @@ class Marea_roja extends MY_Controller
             "FORM COORDENADAS UTM LATITUD",
             "FORM COORDENADAS UTM LONGITUD",
             "FORM COORDENADAS LATITUD",
-            "FORM COORDENADAS LONGITUD"
+            "FORM COORDENADAS LONGITUD",
+            "NUMERO DE MUESTRA",
+            "RESULTADO"
         );
         
         if (!in_array($columna, $quitar)) {
