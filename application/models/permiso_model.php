@@ -147,7 +147,7 @@ class Permiso_Model extends MY_Model {
         $query = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
                       ->whereAND("m.bo_visor_emergencia", 1)
                       ->select("count(*) as cantidad", false);
-        fb($query->getQuery());
+        
         $result = $query->getOneResult();
         if(!is_null($result)){
             if($result->cantidad > 0){

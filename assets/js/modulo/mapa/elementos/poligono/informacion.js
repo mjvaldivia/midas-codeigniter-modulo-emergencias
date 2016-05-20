@@ -49,7 +49,7 @@ var MapaPoligonoInformacion = Class({
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/popup_elemento_info", 
+            url:  baseUrl + getController() + "/popup_elemento_info", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },

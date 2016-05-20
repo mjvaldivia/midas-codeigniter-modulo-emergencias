@@ -28,7 +28,7 @@
             <div class="portlet-body"> 
                 <div class="row">
                     
-                    <!--<div class="col-lg-3">
+                    <div class="col-lg-3">
                         <div class="form-group clearfix">
                             <label for="region" class="control-label">Región</label>
                             <?php 
@@ -50,7 +50,7 @@
                             <?php echo formSelectComuna("comuna", "", ""); ?>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                     
                     <div class="col-lg-3">
                         <div class="form-group clearfix">

@@ -99,8 +99,6 @@ class Marea_Roja_Model extends MY_Model {
             $query->whereAND("a.id_laboratorio", $parametros["laboratorio"], "NOT IN");
         }
         
-        fb($query->getQuery());
-        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;

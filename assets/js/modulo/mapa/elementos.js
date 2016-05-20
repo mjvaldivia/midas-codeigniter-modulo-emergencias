@@ -1,7 +1,20 @@
 var MapaElementos = Class({
     
+    /**
+     * googleMap
+     */
     mapa : null,
+    
+    /**
+     * Id de la emergencia actual
+     */
     id_emergencia : null,
+    
+    /**
+     * Si esta habilitado o no el popup
+     * con informacion del poligono
+     */
+    bo_informacion_poligonos : true,
     
     /**
      * 
@@ -10,6 +23,13 @@ var MapaElementos = Class({
      */
     emergencia : function(id){
         this.id_emergencia = id;
+    },
+    
+    /**
+     * Habilita o no popup con datos de poligono 
+     */
+    seteaPopupPoligono : function(booleano){
+        this.bo_informacion_poligonos = booleano;
     },
     
     /**
@@ -95,15 +115,19 @@ var MapaElementos = Class({
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: color,
-            fillOpacity: 0.35
+            fillOpacity: 0.35,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         poligono.setMap(this.mapa);
+        
+        
         
         //se agrega evento de click para ver instalaciones
         //dentro de poligono
         var poligonoClickListener = new MapaPoligono();
         poligonoClickListener.addClickListener(poligono, this.mapa);
+        
         
         lista_poligonos.push(poligono);
     },
@@ -132,7 +156,8 @@ var MapaElementos = Class({
             fillColor: color,
             fillOpacity: 0.35,
             map: this.mapa,
-            bounds: coordenadas
+            bounds: coordenadas,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         var circuloClickListener = new MapaPoligonoInformacion();

@@ -30,13 +30,13 @@ $(document).ready(function() {
 
     // menu inferior para elementos cargados
     visor.addOnReadyFunction(
-            "menu inferior", 
-            function(map){
-                $(".top-menu").parent().removeClass("hidden");
-                $(".top-menu").slideupmenu({slideUpSpeed: 150, slideDownSpeed: 200, ease: "easeOutQuad", stopQueue: true});  
-                map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById('slideup-menu'));  
-            }
-            , null
+        "menu inferior", 
+        function(map){
+            $(".top-menu").parent().removeClass("hidden");
+            $(".top-menu").slideupmenu({slideUpSpeed: 150, slideDownSpeed: 200, ease: "easeOutQuad", stopQueue: true});  
+            map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById('slideup-menu'));  
+        }
+        , null
     );
 
    

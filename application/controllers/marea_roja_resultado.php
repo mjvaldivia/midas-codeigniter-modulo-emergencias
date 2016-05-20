@@ -134,6 +134,7 @@ class Marea_roja_resultado extends Marea_roja
      * @return array
      */
     protected function _filtros($params){
+
         $this->load->model("usuario_laboratorio_model","_usuario_laboratorio_model");
         $this->load->model("usuario_region_model", "_usuario_region_model");
 

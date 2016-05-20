@@ -206,7 +206,6 @@ var MapaMareaRojaCasos = Class({
                             }
                         }
                         
-                        
                         if($(obj).data("to") && $(obj).data("to")!=""){
                             if(parseInt(marker["resultados"]) >= parseInt($(obj).data("from")) && parseInt(marker["resultados"]) <= parseInt($(obj).data("to"))){
                                 retorno = true;
