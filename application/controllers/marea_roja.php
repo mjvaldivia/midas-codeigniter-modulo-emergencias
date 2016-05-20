@@ -262,7 +262,7 @@ class Marea_roja extends MY_Controller
     /**
      * Retorna el excel
      */
-    public function excel_test(){
+    public function excel(){
         $params = $this->uri->uri_to_assoc();
         
         $this->load->library(
