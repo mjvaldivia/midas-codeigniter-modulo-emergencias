@@ -58,7 +58,6 @@ class Marea_Roja_Model extends MY_Model {
      */
     public function listar($parametros = array()){
 
-        
         $query = $this->_query->select("a.*")
                                ->from($this->_tabla . " a")
                                ->orderBy("id", "DESC");
