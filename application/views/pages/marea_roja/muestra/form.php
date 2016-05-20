@@ -173,8 +173,15 @@
                                 </div>
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
-                                        <label for="temperatura" class="control-label">Temperatura:</label>
+                                        <label for="temperatura" class="control-label">Tº del Producto:</label>
                                         <input value="<?php echo $propiedades["temperatura"]; ?>" class="form-control" name="temperatura" id="temperatura">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="form-group clearfix">
+                                        <label for="temperatura" class="control-label">Temperatura del agua:</label>
+                                        <input value="<?php echo $propiedades["temperatura_agua"]; ?>" class="form-control" name="temperatura_agua" id="temperatura_agua">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
