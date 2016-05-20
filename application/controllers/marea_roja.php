@@ -336,7 +336,7 @@ class Marea_roja extends MY_Controller
 
             $i = 5;
             foreach ($columnas as $columna => $valor) {
-                if (!$this->_quitarColumnaExcel($columna) AND !in_array($columna, array("NUMERO DE MUESTRA", "RESULTADO"))) {
+                if (!$this->_quitarColumnaExcel($columna)) {
                     $excel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i, 1, $columna);
                     $i++;
                 }
@@ -581,7 +581,9 @@ class Marea_roja extends MY_Controller
             "FORM COORDENADAS UTM LATITUD",
             "FORM COORDENADAS UTM LONGITUD",
             "FORM COORDENADAS LATITUD",
-            "FORM COORDENADAS LONGITUD"
+            "FORM COORDENADAS LONGITUD",
+            "NUMERO DE MUESTRA",
+            "RESULTADO"
         );
         
         if (!in_array($columna, $quitar)) {
