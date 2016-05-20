@@ -26,10 +26,11 @@
     });
 
     $('#acta').on('filebatchuploadsuccess', function(event, data) {
-        if(data.response.estado == true){
+        xModal.close();
+        /*if(data.response.estado == true){
             xModal.success(data.response.mensaje);
         }else{
             xModal.danger(data.response.mensaje);
-        }
+        }*/
     });
 </script>
