@@ -30,7 +30,7 @@ $(document).ready(function() {
     visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
 
     // menu inferior para elementos cargados
-    visor.addOnReadyFunction(
+    /*visor.addOnReadyFunction(
         "menu inferior", 
         function(map){
             $(".top-menu").parent().removeClass("hidden");
@@ -38,7 +38,7 @@ $(document).ready(function() {
             map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById('slideup-menu'));  
         }
         , null
-    );
+    );*/
 
    
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
