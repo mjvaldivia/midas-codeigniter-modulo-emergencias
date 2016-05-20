@@ -1,9 +1,20 @@
 var MapaLayoutFormMareaRoja = Class({
     
     mapa : null,
-
+    
+    posicion: "LEFT_CENTER",
+    
     __construct : function(div) {
 
+    },
+    
+    /**
+     * 
+     * @param {string} posicion
+     * @returns {undefined}
+     */
+    seteaPosicion : function(posicion){
+      this.posicion = posicion;  
     },
 
     /**
@@ -30,7 +41,7 @@ var MapaLayoutFormMareaRoja = Class({
             success:function(html){
                 $("body").append(html);
 
-                map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('formulario-marea-roja-contenedor'));
+                map.controls[google.maps.ControlPosition[yo.posicion]].push(document.getElementById('formulario-marea-roja-contenedor'));
                 
                 $("#formulario-marea-roja-contenedor").css("top", "60px");
                 

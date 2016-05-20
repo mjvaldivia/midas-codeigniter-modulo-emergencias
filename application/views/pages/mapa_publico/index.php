@@ -112,6 +112,7 @@
     <?= loadJS("assets/js/base.js") ?>
     <?php echo layoutJs(); ?>
     <?php echo $js; ?>
+    <?= loadCSS("assets/css/modulo/mapa_publico.css", true) ?>
     <?= loadJS("assets/js/mapa-publico.js"); ?>
 </footer>
 </html>

@@ -68,6 +68,7 @@ $(document).ready(function() {
  */
 function formularioMareaRoja(mapa){
     var formulario = new MapaLayoutFormMareaRoja();
+    formulario.seteaPosicion("TOP_LEFT");
     formulario.addToMap(mapa);
     
     

@@ -3,9 +3,7 @@
     <div class="row">
         <div class="col-lg-12">
             <button id="configuracion-filtros-marea-roja" class="btn btn-white"> 
-                <i class="fa en-linea">
-                    <img width="20px" src="<?php echo base_url("assets/img/markers/marisco/rojo.png") ; ?>">
-                </i> 
+                <i class="fa fa-search"></i> 
                 <div id="configuracion-filtros-marea-roja-resumen" class="en-linea">
                     <strong>Marea roja:</strong> Fechas muestra: todas, Recurso: todos
                 </div>
