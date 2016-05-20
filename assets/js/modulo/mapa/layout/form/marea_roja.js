@@ -105,7 +105,7 @@ var MapaLayoutFormMareaRoja = Class({
         
         marea_roja.seteaMapa(yo.mapa);
         
-        if($("#marea_roja").is(":checked") || $("#marea_roja_pm").is(":checked")){
+        if($("#marea_roja").is(":checked") || $("#marea_roja_pm").is(":checked") || $("#marea_roja").length == 0){
             marea_roja.filtrar();
         }
         

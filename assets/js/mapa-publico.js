@@ -72,6 +72,11 @@ function formularioMareaRoja(mapa){
     
     
     $("#marea-roja-pm-contenedor-filtro-colores").waitUntilExists(function(){
+        
         $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
+        
+        $("#marea-roja-pm-contenedor-filtro-colores").find(".marea-roja-color").each(function(){
+            $(this).prop("checked", false); 
+        });
     });
 }
