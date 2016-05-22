@@ -485,7 +485,6 @@ class Marea_roja extends MY_Controller
      */
     protected function _filtros($params)
     {
-        print_r($params);die();
         return $this->_marea_roja_model->listar(
             array(
                 "region" => $this->_filtrosRegion($params),
