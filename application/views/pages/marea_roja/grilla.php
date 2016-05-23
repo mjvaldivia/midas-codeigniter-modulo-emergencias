@@ -28,12 +28,12 @@
                                 </button>
                             <?php } ?>
 
-                            <?php if (permisoMareaRoja("eliminar")) { ?>
+                           <!-- <?php if (permisoMareaRoja("eliminar")) { ?>
                                 <button <?php if($row["id_laboratorio"] != "") { ?> disabled <?php } ?>  title="Eliminar" class="btn btn-sm btn-red caso-eliminar" type="button"
                                         data="<?php echo $row["id"] ?>" href="#">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                            <?php } ?>
+                            <?php } ?> -->
                             
                             <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta" data-muestra="<?php echo $id ?>" data-acta="<?php echo $numero_muestra ?>">
                                 <i class="fa fa-upload"></i>

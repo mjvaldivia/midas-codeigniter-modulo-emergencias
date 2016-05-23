@@ -141,10 +141,10 @@ Class Layout_Menu{
             ),
             "icono" => "fa fa-warning",      
             "child" => array(
-                /*"Listado de muestras" => array(
-                    "controller" => "marea_roja_lista",
+                "Listado de muestras" => array(
+                    "controller" => "marea_roja_listado",
                     "action"     => "index",
-                ),*/
+                ),
                 "Ingreso de muestras" => array(
                     "accion" => "muestra",
                     "controller" => "marea_roja",

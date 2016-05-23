@@ -25,12 +25,12 @@
                                 </button>
                             <?php } ?>
 
-                            <?php if (permisoMareaRoja("eliminar")) { ?>
+                           <!-- <?php if (permisoMareaRoja("eliminar")) { ?>
                                 <button title="Eliminar" class="btn btn-sm btn-danger caso-eliminar" type="button"
                                         data="<?php echo $row["id"] ?>" href="#">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                            <?php } ?>
+                            <?php } ?>-->
 
                            <?php echo mareaRojaBotonVerActa($row['id'], $row['numero_muestra']); ?>
                         
