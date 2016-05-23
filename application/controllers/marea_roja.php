@@ -250,6 +250,126 @@ class Marea_roja extends MY_Controller
             )
         );
     }
+    
+    public function adjuntarActa()
+    {
+        $params = $this->uri->uri_to_assoc();
+
+        $data = array(
+            'id' => $params['id']
+        );
+        $this->load->view('pages/marea_roja/acta', $data);
+    }
+
+    /**
+     * 
+     */
+    public function subir_acta()
+    {
+
+        $params = $this->uri->uri_to_assoc();
+        $id = $params['id'];
+
+        $error = false;
+        $this->load->helper(array("session", "debug"));
+        $this->load->library("cache");
+        sessionValidation();
+        if (!isset($_FILES)) {
+            show_error("No se han detectado archivos", 500, "Error interno");
+        }
+
+        $tmp_name = $_FILES['acta']['tmp_name'];
+        $total = count($tmp_name);
+        $nombres = $_FILES['acta']['name'];
+        $size = $_FILES['acta']['size'];
+        $type = $_FILES['acta']['type'];
+
+        $binary_path = ('media/doc/marea_roja/muestra/' . $id);
+        if (!is_dir($binary_path)) {
+            @mkdir($binary_path, 0777, true);
+        }
+
+        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
+
+        $json = array();
+        $valido = 0;
+        for ($i = 0; $i < $total; $i++) {
+            $fp = file_get_contents($tmp_name[$i], 'r');
+
+            $nombre = str_replace(' ', '_', $nombres[$i]);
+            $sha = sha1($nombre);
+            $mime = $type[$i];
+            $ruta_archivo = $binary_path . '/' . $nombre;
+            $ftmp = fopen($ruta_archivo, 'w');
+            fwrite($ftmp, $fp);
+            fclose($ftmp);
+            if (is_file($ruta_archivo) and is_readable($ruta_archivo)) {
+                $data = array(
+                    'id_marea' => $id,
+                    'id_usuario' => $this->session->userdata('session_idUsuario'),
+                    'fc_fecha_acta' => date('Y-m-d H:i:s'),
+                    'gl_nombre_acta' => $nombre,
+                    'gl_ruta_acta' => $ruta_archivo,
+                    'gl_mime_acta' => $mime,
+                    'gl_sha_acta' => $sha
+                );
+
+                if($this->MareaRojaActasModel->insert($data)){
+                    $valido++;
+                }
+            }
+
+        }
+
+        if($total == $valido){
+            $json['estado'] = true;
+            $json['mensaje'] = 'Archivo(s) subido(s) correctamente';
+        }elseif($valido > 0 and $total>$valido){
+            $json['estado'] = true;
+            $json['mensaje'] = 'Hubieron algunos archivos que no se subieron';
+        }elseif($valido == 0){
+            $json['estado'] = false;
+            $json['mensaje'] = 'Errores al subir archivos';
+        }
+
+        echo json_encode($json);
+
+    }
+
+    /**
+     * 
+     */
+    public function verActas(){
+        $params = $this->uri->uri_to_assoc();
+        $id = $params['id'];
+
+        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
+
+        $arr_actas = array();
+        $listado = $this->MareaRojaActasModel->listar(array('id_marea' => $id));
+        if($listado){
+            $arr_actas = $listado;
+        }
+
+        $this->load->view('pages/marea_roja/grilla_actas',array('listado'=>$arr_actas));
+    }
+
+    /**
+     * 
+     */
+    public function ver_acta(){
+        $params = $this->uri->uri_to_assoc();
+        $id = $params['id'];
+        $sha = $params['token'];
+
+        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
+
+        $acta = $this->MareaRojaActasModel->getById($id);
+
+        header('Content-type:'.$acta->gl_mime_acta);
+        header('Content-disposition: inline; filename="'.$acta->gl_nombre_acta.'"');
+        echo file_get_contents(FCPATH .$acta->gl_ruta_acta);
+    }
 
     /**
      *
@@ -522,121 +642,6 @@ class Marea_roja extends MY_Controller
             );
         }
         return $lista_regiones;
-    }
-
-
-    public function adjuntarActa()
-    {
-        $params = $this->uri->uri_to_assoc();
-
-        $data = array(
-            'id' => $params['id']
-        );
-        $this->load->view('pages/marea_roja/muestra/acta', $data);
-    }
-
-
-    public function subir_acta()
-    {
-
-        $params = $this->uri->uri_to_assoc();
-        $id = $params['id'];
-
-        $error = false;
-        $this->load->helper(array("session", "debug"));
-        $this->load->library("cache");
-        sessionValidation();
-        if (!isset($_FILES)) {
-            show_error("No se han detectado archivos", 500, "Error interno");
-        }
-
-        $tmp_name = $_FILES['acta']['tmp_name'];
-        $total = count($tmp_name);
-        $nombres = $_FILES['acta']['name'];
-        $size = $_FILES['acta']['size'];
-        $type = $_FILES['acta']['type'];
-
-        $binary_path = ('media/doc/marea_roja/muestra/' . $id);
-        if (!is_dir($binary_path)) {
-            @mkdir($binary_path, 0777, true);
-        }
-
-        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
-
-        $json = array();
-        $valido = 0;
-        for ($i = 0; $i < $total; $i++) {
-            $fp = file_get_contents($tmp_name[$i], 'r');
-
-            $nombre = str_replace(' ', '_', $nombres[$i]);
-            $sha = sha1($nombre);
-            $mime = $type[$i];
-            $ruta_archivo = $binary_path . '/' . $nombre;
-            $ftmp = fopen($ruta_archivo, 'w');
-            fwrite($ftmp, $fp);
-            fclose($ftmp);
-            if (is_file($ruta_archivo) and is_readable($ruta_archivo)) {
-                $data = array(
-                    'id_marea' => $id,
-                    'id_usuario' => $this->session->userdata('session_idUsuario'),
-                    'fc_fecha_acta' => date('Y-m-d H:i:s'),
-                    'gl_nombre_acta' => $nombre,
-                    'gl_ruta_acta' => $ruta_archivo,
-                    'gl_mime_acta' => $mime,
-                    'gl_sha_acta' => $sha
-                );
-
-                if($this->MareaRojaActasModel->insert($data)){
-                    $valido++;
-                }
-            }
-
-        }
-
-        if($total == $valido){
-            $json['estado'] = true;
-            $json['mensaje'] = 'Archivo(s) subido(s) correctamente';
-        }elseif($valido > 0 and $total>$valido){
-            $json['estado'] = true;
-            $json['mensaje'] = 'Hubieron algunos archivos que no se subieron';
-        }elseif($valido == 0){
-            $json['estado'] = false;
-            $json['mensaje'] = 'Errores al subir archivos';
-        }
-
-        echo json_encode($json);
-
-    }
-
-
-    public function verActas(){
-        $params = $this->uri->uri_to_assoc();
-        $id = $params['id'];
-
-        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
-
-        $arr_actas = array();
-        $listado = $this->MareaRojaActasModel->listar(array('id_marea' => $id));
-        if($listado){
-            $arr_actas = $listado;
-        }
-
-        $this->load->view('pages/marea_roja/muestra/grilla_actas',array('listado'=>$arr_actas));
-    }
-
-
-    public function ver_acta(){
-        $params = $this->uri->uri_to_assoc();
-        $id = $params['id'];
-        $sha = $params['token'];
-
-        $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
-
-        $acta = $this->MareaRojaActasModel->getById($id);
-
-        header('Content-type:'.$acta->gl_mime_acta);
-        header('Content-disposition: inline; filename="'.$acta->gl_nombre_acta.'"');
-        echo file_get_contents(FCPATH .$acta->gl_ruta_acta);
     }
 
 }
