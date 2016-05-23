@@ -12,7 +12,7 @@ function mareaRojaBotonVerActa($id, $numero_acta = ""){
     $cantidad = $_ci->_marea_roja_actas_model->contar(array("id_marea" => $id));
     if($cantidad > 0){
         return "<button type=\"button\" class=\"btn btn-sm btn-info ver-acta\" title=\"Ver Acta\"
-                        data-muestra=\" " . $id . "\"
+                        data-muestra=\"" . $id . "\"
                         data-acta=\"" . $numero_acta . "\"><i class=\"fa fa-file-o\"></i>
                 </button>";
     }
