@@ -65,7 +65,7 @@
                                             <div class="form-group clearfix">
                                                 <label for="laboratorio" class="control-label">Laboratorio (*):</label>
 
-                                                <?php echo formSelectLaboratorio("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
+                                                <?php echo formSelectLaboratorioRegionUsuario("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
                                                 <span class="help-block hidden"></span>
                                             </div>
                                         </div>
