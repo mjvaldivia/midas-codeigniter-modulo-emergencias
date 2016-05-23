@@ -26,6 +26,19 @@ var MapaElementos = Class({
     },
     
     /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
      * Habilita o no popup con datos de poligono 
      */
     seteaPopupPoligono : function(booleano){
@@ -270,7 +283,7 @@ var MapaElementos = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: baseUrl + getController() + "/ajax_elementos_emergencia", 
+            url: baseUrl + yo.getController() + "/ajax_elementos_emergencia", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -338,7 +351,7 @@ var MapaElementos = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: baseUrl + getController() + "/ajax_contar_elementos", 
+            url: baseUrl + yo.getController() + "/ajax_contar_elementos", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 tareas.remove(1);
@@ -382,7 +395,7 @@ var MapaElementos = Class({
             async: false,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: baseUrl + getController() + "/ajax_mapa_configuracion", 
+            url: baseUrl + yo.getController() + "/ajax_mapa_configuracion", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                if(data.correcto){

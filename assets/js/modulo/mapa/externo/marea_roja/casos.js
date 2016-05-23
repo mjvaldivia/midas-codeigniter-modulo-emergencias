@@ -23,6 +23,19 @@ var MapaMareaRojaCasos = Class({
     },
     
     /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
      * Carga el KML desde conaf
      * @returns {void}
      */
@@ -41,7 +54,7 @@ var MapaMareaRojaCasos = Class({
                 async: true,
                 data: {"id" : yo.id_emergencia},
                 type: "post",
-                url:  baseUrl + getController() + "/info_marea_roja", 
+                url:  baseUrl + yo.getController() + "/info_marea_roja", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){

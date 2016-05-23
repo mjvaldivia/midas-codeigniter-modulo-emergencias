@@ -16,6 +16,20 @@ var MapaHospital = Class({
         this.mapa = mapa;
     },
     
+    
+    /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
     /**
      * Carga el KML desde conaf
      * @returns {void}
@@ -35,7 +49,7 @@ var MapaHospital = Class({
                 async: true,
                 data: "",
                 type: "post",
-                url: baseUrl + getController() + "/info_hospitales", 
+                url: baseUrl + yo.getController() + "/info_hospitales", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
