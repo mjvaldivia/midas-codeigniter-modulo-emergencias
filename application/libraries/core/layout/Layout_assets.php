@@ -59,6 +59,7 @@ Class Layout_assets{
         }
         
         Zend_Registry::set("js", $lista_js);
+        return $this;
     }
 }
 

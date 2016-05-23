@@ -1,6 +1,6 @@
 <?php echo $js; ?>
 
-<div class="row-mapa">
+<div class="row-mapa" style="height: auto">
 
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
         
@@ -12,7 +12,7 @@
                 <li>
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
-                        <?php if($guardar):?>
+                        <?php if(permisoEvento("guardar")):?>
                             <li>
                                 <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
                             </li>
@@ -30,7 +30,7 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        <?php if($guardar):?>
+                        <?php if(permisoEvento("guardar")):?>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-download"></i> Importar</a>

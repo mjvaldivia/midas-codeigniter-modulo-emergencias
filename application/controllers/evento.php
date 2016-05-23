@@ -52,6 +52,8 @@ class Evento extends MY_Controller {
             )
         );
         
+        $this->load->helper("modulo/evento/permiso");
+        
         $this->usuario->setModulo("alarma");
         
         $this->load->model('emergencia_model','_emergencia_model');
@@ -74,7 +76,22 @@ class Evento extends MY_Controller {
             "year" => date('Y')
         );
         
-        $this->template->parse("default", "pages/evento/index", $data);
+        $this->layout_assets->addJs("library/DataTables-1.10.8/js/jquery.dataTables.js")
+                            ->addJs("library/DataTables-1.10.8/js/dataTables.bootstrap.js")
+                            ->addJs("library/bootbox-4.4.0/bootbox.min.js")
+                            ->addJs("modulo/general/permisos.js")
+                            ->addJs("modulo/mapa/formulario.js")
+                            ->addJs("modulo/evento/grilla.js")
+                            ->addJs("modulo/evento/form/nuevo.js")
+                            ->addJs("modulo/evento/form/editar.js")
+                            ->addJs("modulo/evento/form/finalizar.js")
+                            ->addJs("library/html2canvas/build/html2canvas.js")
+                            ->addJs("modulo/evento/reporte/form.js")
+                            ->addJs("modulo/evento/reporte/mapa/imagen.js")
+                            ->addJs("evento-lista.js");
+        
+        
+        $this->layout_template->view("default", "pages/evento/index", $data);
     }
     
     /**

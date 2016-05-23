@@ -17,10 +17,10 @@
         <div class="col-lg-12 col-sm-12">
             <div class="row">
                 
-                <?php if(puedeVer("alarma")) { ?>
+                <?php if(permisoEvento("ver")) { ?>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="circle-tile">
-                        <a href="<?php if(puedeEditar("alarma")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>">
+                        <a href="<?php if(permisoEvento("editar")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
                                 <i class="fa fa-bullhorn fa-fw fa-3x"></i>
                             </div>
@@ -29,7 +29,7 @@
                             <div class="circle-tile-description text-faded">
                                 Eventos
                             </div>
-                            <a href="<?php if(puedeEditar("alarma")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php if(permisoEvento("editar")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12">
             
-            <?php if(puedeVer("emergencia")) { ?>
+            <?php if(permisoEvento("ver")) { ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="portlet portlet-default">
@@ -151,7 +151,7 @@
             </div>
             <?php } ?>
             
-            <?php if(puedeVer("alarma")) { ?>
+            <?php if(permisoEvento("ver")) { ?>
                 <div class="row top-spaced">
                     <div class="col-lg-12">
                         <div class="portlet portlet-default">
