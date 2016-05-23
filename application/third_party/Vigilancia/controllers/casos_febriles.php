@@ -400,13 +400,13 @@ class Vigilancia_Casos_febriles extends MY_Controller
 
         $this->load->helper(
             array(
-                "module/casos_febriles/form",
-                "module/casos_febriles/permiso",
-                "module/casos_febriles/estado"
+                "modulo/casos_febriles/form",
+                "modulo/casos_febriles/permiso",
+                "modulo/casos_febriles/estado"
             )
         );
 
-        $this->load->library("core/pdf");
+        $this->load->library("pdf");
         
         $params = $this->uri->uri_to_assoc();
         
