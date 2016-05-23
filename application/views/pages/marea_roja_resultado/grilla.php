@@ -17,7 +17,7 @@
         <?php if (count($lista) > 0) { ?>
             <?php foreach ($lista as $row) { ?>
                 <tr>
-                    <td align="center" width="10%">
+                    <td align="left" width="10%">
                         <div style="width: 150px">
                             <?php if (permisoMareaRoja("editar")) { ?>
                                 <button data-rel="<?php echo $row["id"]; ?>" title="Ingresar resultados" class="btn btn-sm btn-success editar-marea-roja" type="button">
@@ -32,10 +32,7 @@
                                 </button>
                             <?php } ?>
 
-                            <button type="button" class="btn btn-sm btn-info ver-acta" title="Ver Acta"
-                                    data-muestra="<?php echo $row['id'] ?>"
-                                    data-acta="<?php echo $row['numero_muestra'] ?>"><i class="fa fa-file-o"></i>
-                            </button>
+                           <?php echo mareaRojaBotonVerActa($row['id'], $row['numero_muestra']); ?>
                         
                         </div>
                     </td>

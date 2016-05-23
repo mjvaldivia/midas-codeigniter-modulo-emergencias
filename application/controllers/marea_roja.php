@@ -514,7 +514,8 @@ class Marea_roja extends MY_Controller
                 "modulo/usuario/usuario",
                 "modulo/comuna/default",
                 "modulo/marea_roja/estado",
-                "modulo/laboratorio/default"
+                "modulo/laboratorio/default",
+                "modulo/marea_roja/acta"
             )
         );
 
@@ -531,7 +532,7 @@ class Marea_roja extends MY_Controller
         $casos = array();
 
         if (!is_null($lista)) {
-            $this->load->model('marea_roja_actas_model','MareaRojaActasModel');
+           
 
             foreach ($lista as $caso) {
 
@@ -573,7 +574,7 @@ class Marea_roja extends MY_Controller
                     "comuna" => $caso["id_comuna"],
                     "id_laboratorio" => $caso["id_laboratorio"],
                     "resultado" => $propiedades["RESULTADO"],
-                    "actas" => $this->MareaRojaActasModel->listar(array('id_marea' => $caso['id'])), 
+                    //"actas" => $this->MareaRojaActasModel->listar(array('id_marea' => $caso['id'])), 
                 );
 
             }

@@ -42,9 +42,45 @@ class Marea_Roja_Actas_Model extends MY_Model {
     public function delete($id){
         $this->_query->delete("id_acta", $id);
     }
+    
+    /**
+     * Cuenta la cantidad de resultados
+     * @param type $parametros
+     * @return int
+     */
+    public function contar($parametros = array()){
+        
+        
+        $result = $this->_listar($parametros)
+                       ->select("count(*) as cantidad", false)
+                      ->getOneResult();
+        if(!is_null($result)){
+            return $result->cantidad;
+        } else {
+            return 0;
+        }
+    }
 
-
+    /**
+     * 
+     * @param array $parametros
+     * @return array
+     */
     public function listar($parametros = array()){
+        $result = $this->_listar($parametros)->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Consulta para listar
+     * @param array $parametros
+     * @return queryBuilder
+     */
+    protected function _listar($parametros = array()){
         $query = $this->_query->select("a.*")
             ->from($this->_tabla . " a")
             ->orderBy("id_acta", "DESC");
@@ -52,12 +88,7 @@ class Marea_Roja_Actas_Model extends MY_Model {
         if(!empty($parametros["id_marea"])){
             $query->whereAND("a.id_marea", $parametros["id_marea"]);
         }
-
-        $result = $query->getAllResult();
-        if(!is_null($result)){
-            return $result;
-        } else {
-            return NULL;
-        }
+        
+        return $query;
     }
 }
