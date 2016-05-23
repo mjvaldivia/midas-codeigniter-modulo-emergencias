@@ -1,4 +1,4 @@
-<div class="tile gray">
+<div class="">
     <div class="row">
         <div class="col-lg-3">
             <div class="form-group clearfix ocultar-al-subir">
@@ -39,7 +39,7 @@
         if(count($lista_archivos)>0){
             foreach($lista_archivos as $archivo){
     ?>
-        <div id="archivo-<?php echo $archivo["id"]; ?>">
+        <div id="archivo-<?php echo $archivo["id"]; ?>" class="archivo-agregado">
             <input type="hidden" name="archivos[]" value="<?php echo $archivo["id"]; ?>" />
             <input type="hidden" name="archivos_hash[]" value="<?php echo $archivo["hash"]; ?>" />
             <hr/>

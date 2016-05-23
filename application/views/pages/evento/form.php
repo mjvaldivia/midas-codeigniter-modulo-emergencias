@@ -163,8 +163,10 @@
                                 </div>
                             </div>
                             
-                            <div class="row">
-                            <div class="col-md-12" style="display: none" id="caja_correos_evento">
+                            
+                            
+                            <div class="row" style="display: none" id="caja_correos_evento">
+                           
                                 <div class="form-group">
                                     <label class="col-xs-12 control-label">Escriba los correos a los cuales desea hacer llegar este evento</label>
                                     <div class="col-xs-12 ">
@@ -172,7 +174,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                 
                             </div>
                         </div>
                     </div>

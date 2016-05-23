@@ -141,10 +141,7 @@ var MantendorDocumentos = Class({
         } 
     },
     
-    /**
-     * Carga la grilla de emergencias en curso
-     * @returns void
-     */
+    
     loadGridArchivos : function(){
         $.ajax({         
             dataType: "html",
