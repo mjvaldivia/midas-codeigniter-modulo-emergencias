@@ -11,7 +11,7 @@ function formSelectLaboratorio($nombre, $atributos, $seleccion){
     $_ci->load->library("core/form/form_select");
     $_ci->load->model("laboratorio_model", "_laboratorio_model");
     $_ci->form_select->setNombre($nombre);
-    $_ci->form_select->populate($_ci->_laboratorio_model->listar());
+    $_ci->form_select->populate($_ci->_laboratorio_model->listar(array("cd_estado" => 1)));
     $_ci->form_select->setOptionId("id");
     $_ci->form_select->setOptionName("nombre");
     $_ci->form_select->setAtributos($atributos);

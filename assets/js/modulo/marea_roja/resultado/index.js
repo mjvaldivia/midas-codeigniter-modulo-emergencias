@@ -54,8 +54,8 @@ $(document).ready(function() {
                         }
                     },
                     cerrar: {
-                        label: " Cerrar ventana",
-                        className: "btn-white fa fa-close",
+                        label: "<i class=\"fa fa-close\"></i> Cerrar ventana",
+                        className: "btn-white",
                         callback: function() {}
                     }
                 }

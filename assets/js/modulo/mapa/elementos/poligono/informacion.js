@@ -169,7 +169,7 @@ var MapaPoligonoInformacion = Class({
     addRightClickListener : function(elemento, mapa){
         var yo = this;
         
-        
+        /*
         elemento.addListener('click', function(event) {
        
             if(!click_en_menu){
@@ -180,7 +180,7 @@ var MapaPoligonoInformacion = Class({
                 menu._hideMenu();
             }
 
-        });
+        });*/
         
         
         if(elemento.popup_poligono){

@@ -41,7 +41,7 @@ class Marea_roja_resultado extends Marea_roja
         $this->layout_assets->addJs("modulo/marea_roja/resultado/index.js");
         $this->layout_template->view(
             "default", 
-            "pages/marea_roja/resultado/index", 
+            "pages/marea_roja_resultado/index", 
             array()
         );
     }
@@ -58,7 +58,8 @@ class Marea_roja_resultado extends Marea_roja
                 "modulo/direccion/region",
                 "modulo/direccion/comuna",
                 "modulo/usuario/usuario_form",
-                "modulo/comuna/default"
+                "modulo/comuna/default",
+                "modulo/laboratorio/default"
             )
         );
         $params = $this->input->post(null, true);
@@ -78,6 +79,7 @@ class Marea_roja_resultado extends Marea_roja
             $analisis = explode(',',$caso->tipo_analisis);
 
             $data['analisis'] = $analisis;
+            $data["id_laboratorio"] = $caso->id_laboratorio;
             $data["latitud"] = $coordenadas->lat;
             $data["longitud"] = $coordenadas->lng;
             $this->_viewEditar($data);
@@ -103,6 +105,7 @@ class Marea_roja_resultado extends Marea_roja
                 $propiedades = Zend_Json::decode($caso->propiedades);
                 $propiedades["RESULTADO"] = $params["resultado"];
                 $propiedades["RESULTADO FECHA"] = $params["resultado_fecha"];
+                $propiedades["VP"] = $params["vp"];
                 
                 $this->_marea_roja_model->update(
                     array("propiedades" => Zend_Json::encode($propiedades),
@@ -218,7 +221,8 @@ class Marea_roja_resultado extends Marea_roja
      * @param array $data
      */
     protected function _viewEditar($data){
-        $this->load->view("pages/marea_roja/resultado/form", $data);
+        $this->load->view("pages/marea_roja_resultado/form", $data);
     }
+
 }
 

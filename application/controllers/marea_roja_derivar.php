@@ -16,7 +16,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
         $this->layout_assets->addJs("modulo/marea_roja/derivar/index.js");
         $this->layout_template->view(
             "default", 
-            "pages/marea_roja/derivar/index", 
+            "pages/marea_roja_derivar/index", 
             array()
         );
     }
@@ -42,7 +42,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
 
                 $this->_marea_roja_model->update(
                     array(
-                          "id_laboratorio" => $params["laboratorio"],
+                        "id_laboratorio" => $params["laboratorio"],
                         "tipo_analisis" => implode(',',$params['analisis'])
                     ), 
                     $caso->id
@@ -64,7 +64,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
             );
         }
     }
-    
+        
     /**
      * 
      * @param array $params
@@ -74,14 +74,14 @@ class Marea_roja_derivar extends Marea_roja_resultado
         $this->load->model("usuario_laboratorio_model","_usuario_laboratorio_model");
         $this->load->model("usuario_region_model", "_usuario_region_model");
 
-        $lista_laboratorios = $this->_filtrosLaboratorio();
-        if(!is_null($lista_laboratorios)){
+        $lista_regiones = $this->_filtrosRegion($params);
+        if(!is_null($lista_regiones)){
             return $this->_marea_roja_model->listar(
                 array(
-                    "laboratorio" => $lista_laboratorios,
+                    //"laboratorio" => $lista_laboratorios,
                     "ingreso_resultado" => 0,
                     "numero_muestra" => $params["numero_muestra"],
-                    "region" => $params['region'],
+                    "region" => $lista_regiones,
                     "comuna" => $params['comuna']
                 )
             );
@@ -96,7 +96,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
      */
     protected function _viewEditar($data){
         $this->load->helper("modulo/laboratorio/form");
-        $this->load->view("pages/marea_roja/derivar/form", $data);
+        $this->load->view("pages/marea_roja_derivar/form", $data);
     }
 }
 

@@ -218,7 +218,9 @@ class Vigilancia_Casos_febriles extends MY_Controller
                         "fecha" => date("Y-m-d H:i:s"),
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
-                        "id_usuario" => $this->session->userdata("id"),
+                        "id_region" => $this->_id_region,
+                        "id_comuna" => $this->_id_comuna,
+                        "id_usuario" => $this->session->userdata("session_idUsuario"),
                         "id_estado" => $id_estado,
                         "enviado_epidemilogico" => $enviado
                     )

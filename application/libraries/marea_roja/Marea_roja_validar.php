@@ -113,12 +113,12 @@ Class Marea_roja_validar{
             $this->_error["numero_de_muestra"] = "";
         }
         
-        if(!$this->validar->validarVacio($params["laboratorio"])){
+        /*if(!$this->validar->validarVacio($params["laboratorio"])){
             $this->_correcto = false;
             $this->_error["laboratorio"] = "Este dato no puede estar vacío";
         } else {
             $this->_error["laboratorio"] = "";
-        }
+        }*/
 
         return $this->_correcto;
     }

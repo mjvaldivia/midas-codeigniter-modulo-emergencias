@@ -61,14 +61,14 @@
                                                 <span class="help-block hidden"></span>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3">
+                                        <!--<div class="col-xs-3">
                                             <div class="form-group clearfix">
                                                 <label for="laboratorio" class="control-label">Laboratorio (*):</label>
 
                                                 <?php echo formSelectLaboratorioRegionUsuario("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
                                                 <span class="help-block hidden"></span>
                                             </div>
-                                        </div>
+                                        </div>-->
                               
                                 </div>
                             </div>
@@ -180,18 +180,18 @@
                                 </div>
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
-                                        <label for="temperatura" class="control-label">Temperatura del agua:</label>
+                                        <label for="temperatura" class="control-label">Tº del agua:</label>
                                         <input value="<?php echo $propiedades["temperatura_agua"]; ?>" class="form-control" name="temperatura_agua" id="temperatura_agua">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <div class="col-xs-3">
+                                <!--<div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="vp" class="control-label">N° VP:</label>
                                         <input value="<?php echo $propiedades["vp"]; ?>" class="form-control" name="vp" id="vp">
                                         <span class="help-block hidden"></span>
                                     </div>
-                                </div>
+                                </div>-->
                                 
                             </div>
                             

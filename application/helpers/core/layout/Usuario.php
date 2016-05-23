@@ -35,7 +35,7 @@ Class Layout_Usuario{
     public function getNombreUsuario($id_usuario){
         $usuario = $this->_ci->_usuario_model->getById($id_usuario);
         if(!is_null($usuario)){
-            return $usuario->nombre . " " . $usuario->apellido_paterno . " " . $usuario->apellido_materno;
+            return $usuario->usu_c_nombre . " " . $usuario->usu_c_apellido_paterno . " " . $usuario->usu_c_apellido_materno;
         }
     }
     
@@ -50,7 +50,7 @@ Class Layout_Usuario{
             return $this->_ci->load->view(
                 "templates/usuario/usuario-menu.php",
                 array(
-                    "nombre_usuario" => $usuario->nombre . " " . $usuario->apellido_paterno . " " . $usuario->apellido_materno,
+                    "nombre_usuario" => $usuario->usu_c_nombre . " " . $usuario->usu_c_apellido_paterno . " " . $usuario->usu_c_apellido_materno,
                     "lista_roles" => $this->htmlListaRoles($id_usuario),
                     "lista_regiones" => $this->htmlListaRegiones($id_usuario)
                 ),
@@ -73,7 +73,7 @@ Class Layout_Usuario{
                 "templates/usuario/usuario-perfil.php",
                 array(
                     "imagen_usuario" => $this->_imagenPerfil($id_usuario),
-                    "nombre_usuario" => $usuario->nombre . " " . $usuario->apellido_paterno . " " . $usuario->apellido_materno
+                    "nombre_usuario" => $usuario->usu_c_nombre . " " . $usuario->usu_c_apellido_paterno . " " . $usuario->usu_c_apellido_materno
                 ),
                 TRUE
             );
