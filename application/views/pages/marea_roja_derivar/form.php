@@ -144,12 +144,7 @@
                             </div>
                         </div>
                         <div class="col-xs-3">
-                            <div class="form-group clearfix">
-                                <label for="vp" class="control-label">N° VP:</label>
-                                <input value="<?php echo $propiedades["vp"]; ?>" disabled class="form-control" name="vp"
-                                       id="vp">
-                                <span class="help-block hidden"></span>
-                            </div>
+                
                         </div>
 
                     </div>
