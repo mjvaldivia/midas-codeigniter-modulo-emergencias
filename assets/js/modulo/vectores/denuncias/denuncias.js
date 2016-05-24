@@ -93,14 +93,22 @@ var Vectores = {
 
         var error = false;
         var error_msg = '';
-        if (form.resultado_laboratorio.value == "") {
+        /*if (form.resultado_laboratorio.value == "") {
             error = true;
             error_msg += 'Debe seleccionar una opción para el resultado <br/>';
+        }*/
+        if (form.mosquito.value == "") {
+            error = true;
+            error_msg += 'Debe seleccionar un tipo de mosquito <br/>';
         }
-        if (form.resultado_laboratorio.value == 1 && form.estado_desarrollo.value == "") {
+        if (form.mosquito.value == "4" && form.nombre_mosquito.value == "") {
+            error = true;
+            error_msg += 'Debe ingresar nombre del mosquito <br/>';
+        }
+        /*if (form.resultado_laboratorio.value == 1 && form.estado_desarrollo.value == "") {
             error = true;
             error_msg += 'Debe seleccionar una opción para el estado de desarrollo <br/>';
-        }
+        }*/
 
         if (error) {
             xModal.danger(error_msg, function () {
