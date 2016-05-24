@@ -68,6 +68,7 @@
                         <option value="CHORO MALTÓN"> CHORO MALTÓN </option>
                         <option value="CHORO ZAPATO"> CHORO ZAPATO </option>
                         <option value="CULENGUE"> CULENGUE </option>
+                        <option value="HUIRO"> HUIRO </option>
                         <option value="LAPA"> LAPA </option>
                         <option value="LOCO"> LOCO </option>
                         <option value="LUCHE"> LUCHE </option>
