@@ -7,7 +7,8 @@ var MapaPoligono = Class({
      * Google map
      */
     mapa : null,
-    
+    custom : false,
+    editable : false,
     /**
      * Setea mapa
      * @param {googleMap} mapa
@@ -15,6 +16,24 @@ var MapaPoligono = Class({
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    /**
+     * 
+     * @param {type} custom
+     * @returns {undefined}
+     */
+    seteaCustom : function(custom){
+        this.custom = custom;
+    },
+    
+    /**
+     * 
+     * @param {type} editable
+     * @returns {undefined}
+     */
+    seteaEditable : function(editable){
+        this.editable = editable;
     },
     
     /**
@@ -69,7 +88,8 @@ var MapaPoligono = Class({
                 nombre: nombre,
                 clave : "poligono_" + id,
                 capa: capa,
-                custom: false,
+                editable: yo.editable,
+                custom: yo.custom,
                 tipo: "POLIGONO",
                 informacion: propiedades,
                 strokeColor: '#000',
@@ -80,7 +100,7 @@ var MapaPoligono = Class({
             });
 
             poligono.setMap(yo.mapa);
-
+          
             //se agrega evento de click para ver instalaciones
             //dentro de poligono
             yo.addClickListener(poligono, yo.mapa);
@@ -97,7 +117,7 @@ var MapaPoligono = Class({
      */
     addClickListener : function(elemento, mapa){
         
-        var informacion = new MapaInformacionElemento();
+        var informacion = new MapaPoligonoInformacion();
         informacion.addRightClickListener(elemento, mapa);
         
     }

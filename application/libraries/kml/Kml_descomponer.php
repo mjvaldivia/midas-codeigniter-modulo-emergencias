@@ -72,19 +72,19 @@ Class Kml_descomponer{
             $this->_findStyles($data);
             $this->_findStylesMap($data);
         }
-        
-       
-
+                
         if(count($this->_placemarks)>0){
             foreach($this->_placemarks as $key => $placemark){
                 if(isset($placemark[0])){
                     foreach($placemark as $elemento){
                         $this->_procesaPunto($elemento);
+                        $this->_procesaPoligono($elemento);
                         $this->_procesaMultiPoligono($elemento);
                         $this->_procesaLinea($elemento);
                     }
                 } else {
                     $this->_procesaPunto($placemark);
+                    $this->_procesaPoligono($placemark);
                     $this->_procesaMultiPoligono($placemark);
                     $this->_procesaLinea($placemark);
                 }
@@ -164,6 +164,46 @@ Class Kml_descomponer{
     }
     
     /**
+     * 
+     * @param type $elemento
+     */
+    protected function _procesaPoligono($elemento){
+        if(isset($elemento["Polygon"])){
+            
+            $data = array("tipo" => "POLIGONO");
+            
+            if(isset($elemento["name"])){
+                $data["nombre"] = $elemento["name"];
+            } else {
+                $data["nombre"] = "SIN NOMBRE";
+            }
+            
+            if(isset($elemento["description"])){
+                $data["descripcion"] = $elemento["description"];
+            } else {
+                $data["descripcion"] = "SIN DESCRIPCIÓN";
+            }
+            
+            if(isset($elemento["styleUrl"])){
+                $id = str_replace("#", "", $elemento["styleUrl"]);
+                if(isset($this->_styles[$id]["poligono"]["color"])){
+                    $data["color"] = $this->_styles[$id]["poligono"]["color"];
+                }
+            }
+            
+            if(isset($elemento["Polygon"]["outerBoundaryIs"])){
+                $data["coordenadas"]["poligono"] = $this->_procesaCoordenadasPoligono($elemento["Polygon"]);
+            } else {
+                foreach($elemento["Polygon"] as $poligono){
+                    $data["coordenadas"]["poligono"] = $this->_procesaCoordenadasPoligono($poligono);
+                }
+            }
+            
+            $this->_elementos[] = $data;
+        }
+    }
+    
+    /**
      * Procesa los datos de los multipoligonos
      * @param array $elemento
      */
@@ -212,7 +252,9 @@ Class Kml_descomponer{
     protected function _procesaCoordenadasPoligono($data)
     {
         $coord = array();
-        $coordenadas = explode(" ", TRIM($data["outerBoundaryIs"]["LinearRing"]["coordinates"]));
+        
+        $texto = str_replace("\n", " ", TRIM($data["outerBoundaryIs"]["LinearRing"]["coordinates"]));
+        $coordenadas = explode(" ", $texto);
         if(count($coordenadas)>0){
             foreach($coordenadas as $string){
                 $latLon = explode(",", $string);
@@ -242,12 +284,33 @@ Class Kml_descomponer{
                 $nombre = "SIN NOMBRE";
             }
             
+            
+            
+            
             if(isset($elemento["description"])){
                 $descripcion = $elemento["description"];
             } else {
                 $descripcion = "SIN DESCRIPCIÓN";
             }
             
+            if(isset($elemento["ExtendedData"])){
+                if(isset($elemento["ExtendedData"]["SchemaData"])){
+                    foreach($elemento["ExtendedData"]["SchemaData"]["SimpleData"] as $simple_data){
+                        if(isset($simple_data["@text"])){
+                            
+                            if($simple_data["@attributes"]["name"] == "PopupInfo"){
+                                $descripcion = $simple_data["@text"];
+                            }
+                            
+                            $propiedades[$simple_data["@attributes"]["name"]] = $simple_data["@text"];
+                        }
+                    }
+                }
+            } else {
+                $propiedades = array("NOMBRE" => $nombre);
+            }
+            
+            //marcador por defecto
             $icono = "";
             if(isset($elemento["styleUrl"])){
                 $id = str_replace("#", "", $elemento["styleUrl"]);
@@ -256,10 +319,18 @@ Class Kml_descomponer{
                 }
             }
             
+            //si no se encuentra un marcador, se copia el marcador por defecto
+            if($icono == ""){
+                $file = "marker_" . $this->_ci->string->rand_string(10) . ".png";
+                copy(FCPATH . "assets/img/markers/spotlight-poi.png", $this->_dir_temp . "/" . $file);
+                $icono = str_replace(FCPATH, "", $this->_dir_temp . "/" . $file);
+            }
+            
             $this->_elementos[] = array(
                 "nombre" => $nombre,
                 "icono" => $icono,
                 "descripcion" => $descripcion,
+                "propiedades" => $propiedades,
                 "tipo" => "PUNTO",
                 "coordenadas" => 
                     array(

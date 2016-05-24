@@ -70,6 +70,10 @@ $(document).ready(function() {
     mapa.seteaLatitud($("#latitud").val());
     mapa.inicio();
     mapa.cargaMapa(); 
+    
+    //if($("#id").val()!=""){
+        mapa.setMarkerInputs();
+    //}
 });
 
 /**

@@ -32,9 +32,9 @@ function sessionValidation()
 function isAdmin() {
     $ci =& get_instance();
 
-    $rolID = $ci->session->userdata('session_roles');
+    $rolID = explode(',',$ci->session->userdata('session_roles'));
     $cambioRapido = $ci->session->userdata('session_cambioRapido');
 
-    return (strrpos($rolID, '27') > -1 || $cambioRapido == 1) ? 1 : 0;
+    return (in_array(27,$rolID) || $cambioRapido == 1) ? 1 : 0;
 }
 

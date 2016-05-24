@@ -114,11 +114,17 @@ var MapaEditor = Class({
         ruler.button();
         
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+            
+            marker.html = "";
+            
             lista_markers.push(marker);
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
-            
+
+            var click = new MapaMarcadorEditar();
+            click.seteaMarker(marker);
+            click.clickListener();
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
@@ -139,7 +145,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             });
             
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(rectangle, mapa);
             
             lista_poligonos.push(rectangle);
@@ -184,7 +190,7 @@ var MapaEditor = Class({
                 capa : null,
                 informacion: {"NOMBRE" : "Linea agregada"},
                 clickable: false,
-                editable: false,
+                editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
                 strokeWeight: 2
@@ -215,7 +221,7 @@ var MapaEditor = Class({
                 fillOpacity: 0.35
             });
             
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(circle, mapa);
             
             lista_poligonos.push(circle);
@@ -231,31 +237,39 @@ var MapaEditor = Class({
      * @returns {void}
      */
     guardar : function(){
-        console.log(this.mapa);
+        var tareas = new MapaLoading();
         var custom = new MapaElementos();
-        
+        tareas.push(1);
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
+                          "zoom" : this.mapa.getZoom(),
+                          "latitud" : this.mapa.getCenter().lat(),
+                          "longitud" : this.mapa.getCenter().lng(),
+                          //"posicion" : yo.mapa.getCenter(),
                           "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),
+                          
                           "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
+                          
                           "casos_febriles" : $("#importar_rapanui_casos").is(":checked") ? 1:0,
                           "casos_febriles_zona" : $("#importar_rapanui_zonas").is(":checked") ? 1:0,
+                          
+                          "marea_roja" : $("#marea_roja").is(":checked") ? 1:0,
+                          "marea_roja_pm" : $("#marea_roja_pm").is(":checked") ? 1:0,
+                          
+                          "vectores" : $("#vectores_marcadores").is(":checked") ? 1:0,
+                          "vectores_hallazgos" : $("#vectores_hallazgos").is(":checked") ? 1:0,
+                          
                           "kmls" : this.class_kml.listArchivosKml(),
+                          
                           "id" : this.id_emergencia};
-        Messenger().run({
-            action: $.ajax,
-            showCloseButton: true,
-            successMessage: '<strong> Guardar <strong> <br> Ok',
-            errorMessage: '<strong> Guardar <strong> <br> Se produjo un error al guardar',
-            progressMessage: '<strong> Guardar <strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Procesando...'
-        }, {         
+        $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/save", 
+            url: baseUrl + getController() + "/save", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -269,6 +283,7 @@ var MapaEditor = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
+                tareas.remove(1);
             }
         }); 
     },
@@ -279,7 +294,9 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlImportar : function (map) {
-        
+
+        var $this = this;
+
         /**
          * Popup para subir kml
          */
@@ -288,6 +305,207 @@ var MapaEditor = Class({
             kml.seteaMapa(map);
             kml.popupUpload();
         });
+        
+<<<<<<< HEAD
+=======
+        /**
+         * Importar datos externos de conaf
+         */
+        $("#importar_sidco").livequery(function(){
+            $(this).click(function(){
+                var sidco = new MapaKmlSidcoConaf();
+                sidco.seteaMapa(map);
+                
+                if($(this).is(":checked")){
+                    console.log("cargando sidco");
+                    sidco.loadKml();
+                } else {
+                    sidco.remove();
+                }
+            });
+        });
+        
+        /**
+         * Importar casos febriles
+         */
+        $("#importar_rapanui_casos").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaCasos();
+                rapanui.seteaMapa(map);
+
+                if($(this).is(":checked")){
+                    rapanui.load();
+                    $("#formulario-casos-rango").removeClass("hidden");
+                } else {
+                    rapanui.remove();
+                    
+                    if(!$("#importar_rapanui_zonas").is(":checked")){
+                        $("#formulario-casos-rango").addClass("hidden");
+                    }
+                }
+            });
+        });
+        
+        /**
+         * Importar casos febriles
+         */
+        $("#importar_rapanui_zonas").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaZonas();
+                rapanui.seteaMapa(map);
+                if($(this).is(":checked")){
+                    rapanui.load();
+                    $("#formulario-casos-rango").removeClass("hidden");
+                } else {
+                    rapanui.remove();
+                    
+                    if(!$("#importar_rapanui_casos").is(":checked")){
+                        $("#formulario-casos-rango").addClass("hidden");
+                    }
+                }
+            });
+        });
+        
+        $("#marea_roja").livequery(function(){
+            $(this).click(function(){
+                var marea_roja = new MapaMareaRojaCasos();
+                marea_roja.seteaMapa(map);
+                marea_roja.seteaEmergencia($this.id_emergencia);
+                if($(this).is(":checked")){
+                    
+                    if($("#marea_roja_pm").is(":checked")){
+                        var marea_roja_pm = new MapaMareaRojaCasosPm();
+                        marea_roja_pm.remove();
+                        $("#marea_roja_pm").prop("checked", false);
+                    }
+                    
+                    marea_roja.load();
+                    
+                    // muestra el formulario
+                    $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    //muestra filtro de colores
+                    $("#marea-roja-contenedor-filtro-colores").removeClass("hidden");
+                    $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
+                    
+                    //se quita seleccion de colores en filtro
+                    $(".marea-roja-color").prop("checked", true);
+                    $("#marea-roja-pm-contenedor-filtro-colores").find("input").prop("checked", false);
+                } else {
+                    marea_roja.remove();
+                    $("#formulario-marea-roja-contenedor").addClass("hidden");
+                }
+            });
+        });
+        
+        $("#marea_roja_pm").livequery(function(){
+            $(this).click(function(){
+                var marea_roja_pm = new MapaMareaRojaCasosPm();
+                marea_roja_pm.seteaMapa(map);
+                marea_roja.seteaEmergencia($this.id_emergencia);
+                if($(this).is(":checked")){
+                    
+                    if($("#marea_roja").is(":checked")){
+                        var marea_roja = new MapaMareaRojaCasos();
+                        marea_roja.remove();
+                        $("#marea_roja").prop("checked", false);
+                    }
+                    
+                     marea_roja_pm.load();
+                    
+                    // muestra el formulario
+                    $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    
+                    //muestra filtro de colores
+                    $("#marea-roja-contenedor-filtro-colores").addClass("hidden");
+                    $("#marea-roja-pm-contenedor-filtro-colores").removeClass("hidden");
+                    
+                    //se quita seleccion de colores en filtro
+                    $(".marea-roja-color").prop("checked", true);
+                    $("#marea-roja-contenedor-filtro-colores").find("input").prop("checked", false);
+                } else {
+                     marea_roja_pm.remove();
+                    $("#formulario-marea-roja-contenedor").addClass("hidden");
+                }
+            });
+        });
+        
+        /**
+         * Importar embarazadas
+         */
+        $("#hospitales").livequery(function(){
+            $(this).click(function(){
+                var hospitales = new MapaHospital();
+                hospitales.seteaMapa(map);
+                if($(this).is(":checked")){
+                    hospitales.load();
+                } else {
+                    hospitales.remove();
+                }
+            });
+        });
+        
+        /**
+         * Importar embarazadas
+         */
+        $("#importar_rapanui_embarazo").livequery(function(){
+            $(this).click(function(){
+                var rapanui = new MapaIslaDePascuaEmbarazadas();
+                rapanui.seteaMapa(map);
+                if($(this).is(":checked")){
+                    rapanui.load();
+                } else {
+                    rapanui.remove();
+                }
+            });
+        });
+>>>>>>> upstream/master
+        
+        /**
+         * Vacunacion rabia
+         */
+        $("#rabia_vacunacion").livequery(function(){
+            $(this).click(function(){
+                var carga = new MapaRabiaVacunacion();
+                carga.seteaMapa(map);
+                if($(this).is(":checked")){
+                    carga.load();
+                } else {
+                    carga.remove();
+                }
+            });
+        });
+        
+        $("#vectores_marcadores").livequery(function(){
+            $(this).click(function(){
+                //var hallazgos = new MapaVectoresHallazgos();
+                var vectores = new MapaVectores();
+                //hallazgos.seteaMapa(map);
+                vectores.seteaMapa(map);
+                if($(this).is(":checked")){
+                    //hallazgos.load();
+                    vectores.load();
+                    $("#contenedor-formulario-vectores").removeClass("hidden");
+                } else {
+                    //hallazgos.remove();
+                    vectores.remove();
+                    $("#contenedor-formulario-vectores").addClass("hidden");
+                }
+            });
+        });
+        
+        /**$("#vectores_hallazgos").livequery(function(){
+            $(this).click(function(){
+                var carga = new MapaVectoresHallazgos();
+                carga.seteaMapa(map);
+                if($(this).is(":checked")){
+                    carga.load();
+                } else {
+                    carga.remove();
+                }
+            });
+        });**/
+        
         
         
         /**
@@ -387,9 +605,7 @@ var MapaEditor = Class({
                         }
                     }
             });
-            
-           
-            
+
             var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                               "id" : this.id_emergencia};
             

@@ -106,23 +106,24 @@ var MapaKmlImportar = Class({
                         bootbox.hideAll();
                         
                         $.each(data.response.elementos, function(i, elemento){
+                            
                             if(elemento["tipo"] == "PUNTO"){
-                                 var marcador = new MapaKmlImportarMarcador();
-                                 marcador.seteaMapa(yo.mapa);
-                                 marcador.posicionarMarcador(
-                                         "kml_" + data.response.hash, 
-                                         null, 
-                                         elemento["coordenadas"]["lat"], 
-                                         elemento["coordenadas"]["lon"], 
-                                         {"NOMBRE" : elemento["nombre"],
-                                          "TIPO" : data.response.nombre}, 
-                                         elemento["descripcion"], 
-                                         baseUrl + elemento["icono"]
+                                var marcador = new MapaKmlImportarMarcador();
+                                marcador.seteaMapa(yo.mapa);
+                                marcador.posicionarMarcador(
+                                    "kml_" + data.response.hash, 
+                                    null, 
+                                    elemento["coordenadas"]["lat"], 
+                                    elemento["coordenadas"]["lon"], 
+                                    elemento["propiedades"], 
+                                    elemento["descripcion"], 
+                                    baseUrl + elemento["icono"]
                                 );
                             }
                             
-                            if(elemento["tipo"] == "MULTIPOLIGONO"){
-                                var poligono = new MapaPoligonoMulti();
+                            if(elemento["tipo"] == "POLIGONO"){
+                                var poligono = new MapaPoligono();
+                                poligono.seteaEditable(false);
                                 poligono.seteaMapa(yo.mapa);
                                 poligono.dibujarPoligono(
                                     "kml_" + data.response.hash,
@@ -131,7 +132,23 @@ var MapaKmlImportar = Class({
                                     elemento["coordenadas"], 
                                     {"NOMBRE" : elemento["nombre"]},
                                     null, 
-                                    elemento["color"]);
+                                    elemento["color"]
+                                );
+                            }
+                            
+                            if(elemento["tipo"] == "MULTIPOLIGONO"){
+                                var poligono = new MapaPoligonoMulti();
+                                poligono.seteaEditable(false);
+                                poligono.seteaMapa(yo.mapa);
+                                poligono.dibujarPoligono(
+                                    "kml_" + data.response.hash,
+                                    elemento["nombre"], 
+                                    null,
+                                    elemento["coordenadas"], 
+                                    {"NOMBRE" : elemento["nombre"]},
+                                    null, 
+                                    elemento["color"]
+                                );
                             }
                             
                             if(elemento["tipo"] == "LINEA"){
@@ -143,7 +160,8 @@ var MapaKmlImportar = Class({
                                     elemento["coordenadas"]["linea"],
                                     {"NOMBRE" : elemento["nombre"]},
                                     null,
-                                    elemento["color"]);
+                                    elemento["color"]
+                                );
                             }
                         });
                         
@@ -158,6 +176,7 @@ var MapaKmlImportar = Class({
                         lista_kml.push(kml);
 
                         var archivos = new MapaArchivos();
+                        archivos.seteaMapa(yo.mapa);
                         archivos.updateListaArchivosAgregados();
                     } else {
                         procesaErrores(data.response.errores);

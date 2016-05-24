@@ -322,7 +322,8 @@ class Capa_Model extends MY_Model
                 $this->db->trans_rollback();
                 return 'Error en lectura de items ';
             }
-
+               
+            $tmp_comunas = array();
             foreach ($items_capa as $item) {
 
                 $geometria = serialize((array)$item->geometry);
@@ -353,17 +354,24 @@ class Capa_Model extends MY_Model
                 /* obtener comuna */
                 $poligono_comuna = 0;
                 if (isset($item->properties->COMUNA)) {
+                    
                     $comuna = $this->ComunaModel->getByNombre($item->properties->COMUNA);
 
                     if ($comuna) {
                         $comuna = $comuna[0];
                         $poligono_comuna = $comuna->com_ia_id;
+                        $poligono_provincia = $comuna->id_provincia;
+                        $poligono_region = $comuna->id_region;
+                    }else{
+                        $tmp_comunas[] = $item->properties->COMUNA;
                     }
 
+                }else{
+                    $tmp_comunas[] = $item->properties->COMUNA;
                 }
 
                 /** obtener provincia */
-                $poligono_provincia = 0;
+                /*$poligono_provincia = 0;
                 if (isset($item->properties->PROVINCIA)) {
                     $provincia = $this->ProvinciaModel->getByNombre($item->properties->PROVINCIA);
 
@@ -372,11 +380,11 @@ class Capa_Model extends MY_Model
                         $poligono_provincia = $provincia->prov_ia_id;
                     }
 
-                }
+                }*/
 
 
                 /** obtener provincia */
-                $poligono_region = 0;
+                /*$poligono_region = 0;
                 if (isset($item->properties->REGION)) {
                     $region = $this->RegionModel->getByNombre($item->properties->REGION);
 
@@ -385,7 +393,7 @@ class Capa_Model extends MY_Model
                         $poligono_region = $region->reg_ia_id;
                     }
 
-                }
+                }*/
 
 
                 $tipo = mb_strtoupper($tipo);
@@ -420,11 +428,12 @@ class Capa_Model extends MY_Model
             );*/
 
             if ($this->db->trans_status() === FALSE) {
+                
                 $error = true;
                 $this->db->trans_rollback();
             } else {
                 @unlink('media/tmp/' . $params['tmp_file']);
-
+                
                 if (count($tmp_comunas) > 0) {
                     $fp_comunas = fopen('media/tmp/comunas_' . $cap_ia_id, 'w');
                     fwrite($fp_comunas, serialize($tmp_comunas));

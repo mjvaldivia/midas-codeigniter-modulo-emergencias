@@ -57,6 +57,8 @@ class Home extends MY_Controller {
         $this->load->model("tipo_emergencia_model", "EmergenciaTipoModel");
         
         sessionValidation();
+        
+        $this->load->helper("modulo/evento/permiso");
     }
     
     /**

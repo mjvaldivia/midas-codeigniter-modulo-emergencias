@@ -52,6 +52,8 @@ class Evento extends MY_Controller {
             )
         );
         
+        $this->load->helper("modulo/evento/permiso");
+        
         $this->usuario->setModulo("alarma");
         
         $this->load->model('emergencia_model','_emergencia_model');
@@ -74,7 +76,22 @@ class Evento extends MY_Controller {
             "year" => date('Y')
         );
         
-        $this->template->parse("default", "pages/evento/index", $data);
+        $this->layout_assets->addJs("library/DataTables-1.10.8/js/jquery.dataTables.js")
+                            ->addJs("library/DataTables-1.10.8/js/dataTables.bootstrap.js")
+                            ->addJs("library/bootbox-4.4.0/bootbox.min.js")
+                            ->addJs("modulo/general/permisos.js")
+                            ->addJs("modulo/mapa/formulario.js")
+                            ->addJs("modulo/evento/grilla.js")
+                            ->addJs("modulo/evento/form/nuevo.js")
+                            ->addJs("modulo/evento/form/editar.js")
+                            ->addJs("modulo/evento/form/finalizar.js")
+                            ->addJs("library/html2canvas/build/html2canvas.js")
+                            ->addJs("modulo/evento/reporte/form.js")
+                            ->addJs("modulo/evento/reporte/mapa/imagen.js")
+                            ->addJs("evento-lista.js");
+        
+        
+        $this->layout_template->view("default", "pages/evento/index", $data);
     }
     
     /**
@@ -148,6 +165,8 @@ class Evento extends MY_Controller {
                
             } else {
                 $data["eme_d_fecha_recepcion"] = DATE("Y-m-d H:i:s");
+                
+                $data["hash"] = $this->_nuevoHash();
                 
                 $id = $this->_emergencia_model
                            ->insert($data);
@@ -485,4 +504,34 @@ class Evento extends MY_Controller {
         
         echo json_encode($json);
     }
+    
+    /**
+     * Genera nuevo HASH para el evento
+     * este hash permite acceder al mapa de forma publica
+     * @return string
+     */
+    protected function _nuevoHash(){
+        $this->load->library("core/string/random");
+        $hash = $this->random->rand_string(45);
+        
+        $existe = $this->_emergencia_model->getByHash($hash);
+        if(!is_null($existe)){
+            return $this->_nuevoHash();
+        } else {
+            return $hash;
+        }
+    }
+    
+    /**
+     * Regenera el hash para todos los eventos
+     */
+    
+    /*public function regeneraHash(){
+        $lista = $this->_emergencia_model->listar();
+        foreach($lista as $emergencia){
+            $hash = $this->_nuevoHash();
+            $data["hash"] = $hash;
+            $this->_emergencia_model->update($data, $emergencia["eme_ia_id"]);
+        }
+    }*/
 }

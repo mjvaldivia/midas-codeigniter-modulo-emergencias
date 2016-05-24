@@ -100,6 +100,7 @@ class Emergencia_Archivo_Model extends MY_Model
         $result = $this->_queryPorEmergenciaReporte($id_emergencia)
                        ->select("a.*,u.usu_c_nombre,u.usu_c_apellido_paterno,u.usu_c_apellido_materno", false)
                        ->join('usuarios u','u.usu_ia_id = a.usu_ia_id','left')
+                       ->orderBy("a.arch_f_fecha", "DESC")
                        ->getAllResult();
         if (!is_null($result)){
            return $result; 
@@ -117,6 +118,7 @@ class Emergencia_Archivo_Model extends MY_Model
         $result = $this->_queryPorEmergenciaNoReporte($id_emergencia)
                        ->select("a.*,u.usu_c_nombre,u.usu_c_apellido_paterno,u.usu_c_apellido_materno", false)
                        ->join('usuarios u','u.usu_ia_id = a.usu_ia_id','left')
+                       ->orderBy("a.arch_f_fecha", "DESC")
                        ->getAllResult();
         if (!is_null($result)){
            return $result; 

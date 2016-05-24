@@ -19,14 +19,35 @@
             </div>
         </div>
         <div class="tile dark-blue">
-        <div class="row">
-            <div class="col-lg-3 text-right"><strong>ELEMENTO:</strong></div>
-            <div class="col-lg-9 text-left"><?php echo $tipo; ?></div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 text-right"><strong>COLOR:</strong></div>
-            <div class="col-lg-9 text-left"><input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="<?php echo $color; ?>"/></div>
-        </div>
+            <div class="row">
+                <div class="col-lg-3 text-right">
+                    <strong>ELEMENTO:</strong>
+                </div>
+                <div class="col-lg-9 text-left">
+                    <?php echo $tipo; ?>
+                </div>
+            </div>
+            <div class="row top-spaced">
+                <div class="col-lg-3 text-right">
+                    <strong>COLOR:</strong>
+                </div>
+                <div class="col-lg-9 text-left">
+                    <input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="<?php echo $color; ?>"/>
+                </div>
+            </div>
+            <?php if($editar_forma && permisoMapa("editar")) { ?>
+            <div class="row top-spaced">
+                <div class="col-lg-3 text-right">
+                    <strong>EDITAR FORMA:</strong>
+                </div>
+                <div class="col-lg-3 text-left">
+                    <select name="editar_forma" id="editar_forma" class="form-control">
+                        <option value="No">No</option>
+                        <option value="Si">Si</option>
+                    </select>
+                </div>
+            </div>
+            <?php } ?>
         </div>
     </div>
     <div class="col-lg-6">

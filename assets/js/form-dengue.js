@@ -72,9 +72,12 @@ $(document).ready(function() {
     mapa.seteaPlaceInput("direccion");
     mapa.seteaLongitud($("#longitud").val());
     mapa.seteaLatitud($("#latitud").val());
-    
     mapa.inicio();
     mapa.cargaMapa(); 
+    
+    //if($("#id").val()!=""){
+        mapa.setMarkerInputs();
+    //}
 });
 
 /**

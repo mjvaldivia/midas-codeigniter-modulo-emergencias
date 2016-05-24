@@ -1,16 +1,27 @@
+
+
 /**
  * Inicio front-end
  */
 $(document).ready(function() {
+    
+
     
     var id = $("#id").val();
     
     var visor = new Visor("mapa");
     
     var height = $(window).height();
+<<<<<<< HEAD
     visor.seteaHeight(height);
+=======
+    visor.seteaHeight(height - 60);
+>>>>>>> upstream/master
     visor.seteaEmergencia(id);
 
+    var tareas = new MapaLoading();
+    visor.addOnReadyFunction("visor de tareas", tareas.iniciarLoading, true);
+    
      //custom
     var custom = new MapaElementos();
     custom.emergencia(id);
@@ -19,6 +30,30 @@ $(document).ready(function() {
     var archivos = new MapaArchivos();
     archivos.seteaEmergencia(id);
     visor.addOnReadyFunction("Carga kml", archivos.loadArchivos, true);
+
+    // menu superior derecho
+    visor.addOnReadyFunction("menu derecho",function(map){
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('menu-derecho'));
+        
+        var menu = new MapaLayoutCapas();
+        menu.seteaMapa(map);
+        menu.seteaEmergencia(id);
+        menu.render();
+        
+        $("#menu-derecho").removeClass("hidden");
+        
+        $(".menu-capa-checkbox").livequery(function(){
+            $(this).click(function(){
+                var id = $(this).val();
+                if($(this).is(":checked")){
+                    capas.addCapa(id);
+                } else {
+                    capas.removeCapa(id);
+                }
+            });
+        });
+    });
+
 
     //capas
     var capas = new MapaCapa();
@@ -30,7 +65,6 @@ $(document).ready(function() {
     editor.seteaEmergencia(id);
     editor.seteaClaseCapa(capas);
     visor.addOnReadyFunction("editor", editor.iniciarEditor, null);
-    
     visor.addOnReadyFunction("instalaciones", editor.controlInstalaciones, null);
     visor.addOnReadyFunction("boton ubicacion emergencia", editor.controlEditar, null);
     visor.addOnReadyFunction("boton para guardar", editor.controlSave, null);
@@ -48,27 +82,22 @@ $(document).ready(function() {
             , null
     );
     
-    // menu superior derecho
-    visor.addOnReadyFunction("menu derecho",function(map){
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('menu-derecho'));
-        
-        $("#menu-derecho").removeClass("hidden");
-        
-        $(".menu-capa-checkbox").click(function(){
-            var id = $(this).val();
-            if($(this).is(":checked")){
-                capas.addCapa(id);
-            } else {
-                capas.removeCapa(id);
-            }
-        });
-    });
+    
     
     // input de busqueda de direcciones
     var buscador = new MapaLayoutInputBusqueda("busqueda");
     visor.addOnReadyFunction("buscador de direcciones", buscador.addToMap);
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
-
+    
+    var formulario = new MapaLayoutFormCasosFebrilesFecha();
+    visor.addOnReadyFunction("buscador", formulario.addToMap);
+    
+    var formulario = new MapaLayoutFormMareaRoja();
+    visor.addOnReadyFunction("buscador marea roja", formulario.addToMap);
+    
+    var formulario = new MapaLayoutFormVectores();
+    visor.addOnReadyFunction("buscador vectores", formulario.addToMap);
+    
     //inicia mapa
     visor.bindMapa();
     

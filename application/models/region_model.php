@@ -2,6 +2,12 @@
 
 class Region_Model extends MY_Model{    
     
+    const ARAUCANIA = 9;
+    const LOS_LAGOS = 10;
+    const LOS_RIOS = 14;
+    const REGION_VALPARAISO = 5;
+    const REGION_ARICA = 15;
+    
     /**
      *
      * @var string 

@@ -8,13 +8,14 @@ class Enviroment{
      */
     protected $_session;
     
+    protected $_ci;
+    
     /**
      * 
      */
     public function __construct() {
         $this->_ci =& get_instance();
         $this->_ci->load->library("session");
-        $this->_session = New CI_Session();
     }
     
     /**
@@ -22,7 +23,7 @@ class Enviroment{
      * @return boolean
      */
     public function esSimulacion(){
-        $enviroment = $this->_session->userdata('session_enviroment');
+        $enviroment = $this->_ci->session->userdata('session_enviroment');
         if($enviroment === false){
             return false;
         } else {
@@ -35,8 +36,8 @@ class Enviroment{
      * @return string
      */
     public function getDatabase(){
-        $enviroment = $this->_session->userdata('session_enviroment');
-        if($enviroment === false){
+        $enviroment = $this->_ci->session->userdata('session_enviroment');
+        if($enviroment === false OR $enviroment == ""){
             return ENVIRONMENT;
         } else {
             $retorno = "";
@@ -59,14 +60,14 @@ class Enviroment{
      * Inicia el ambiente de simulacion
      */
     public function setSimulacion(){
-        $this->_session->set_userdata("session_enviroment", "simulacion");
+        $this->_ci->session->set_userdata("session_enviroment", "simulacion");
     }
     
     /**
      * Cierra ambiente de simulacion
      */
     public function clearSimulacion(){
-        $this->_session->unset_userdata("session_enviroment");
+        $this->_ci->session->unset_userdata("session_enviroment");
     }
     
  

@@ -3,7 +3,7 @@
         <div class="page-title">
             <h1> Eventos
                 <small><i class="fa fa-arrow-right"></i> Gestión de Eventos</small>
-                <?php if(puedeEditar("alarma")){ ?>
+                <?php if(permisoEvento("ingresar")){ ?>
                 <div class="pull-right">
                     <a href="#" id="nueva" class="btn btn-green btn-square">
                         <i class="fa fa-plus"></i>
@@ -78,24 +78,3 @@
 </div>
 
 <?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
-
-<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
-
-
-<?= loadJS("assets/js/modulo/general/permisos.js") ?>
-
-<?= loadJS("assets/js/modulo/mapa/formulario.js"); ?>
-
-<?= loadJS("assets/js/modulo/evento/grilla.js") ?>
-<?= loadJS("assets/js/modulo/evento/form/nuevo.js") ?>
-<?= loadJS("assets/js/modulo/evento/form/editar.js") ?>
-<?= loadJS("assets/js/modulo/evento/form/finalizar.js") ?>
-
-
-<?= loadJS("assets/js/library/html2canvas/build/html2canvas.js"); ?>
-<?= loadJS("assets/js/modulo/evento/reporte/form.js") ?>
-<?= loadJS("assets/js/modulo/evento/reporte/mapa/imagen.js") ?>
-
-<?= loadJS("assets/js/evento-lista.js") ?>

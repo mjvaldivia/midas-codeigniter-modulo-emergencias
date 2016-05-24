@@ -31,42 +31,39 @@
                     <div style="width: 220px">
                         <div class="row">
 						
-
+                            <?php if(permisoEvento("bitacora")) { ?>
                             <button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
                                     <i class="fa fa-files-o"></i>
                             </button>
-
+                            <?php } ?>
                                     
-                                  <?php if (puedeEditar("emergencia")) { ?>
-                                      <button title="Editar" class="btn btn-sm btn-success emergencia-editar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
-                                          <i class="fa fa-edit"></i>
-                                      </button>
+                            <?php if (permisoEvento("editar")) { ?>
+                                <button title="Editar" class="btn btn-sm btn-success emergencia-editar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            <?php } ?>
 
-                                  <?php } ?>
-                                  
-                                  <?php if(puedeAbrirVisorEmergencia("emergencia")) { ?>
+                            <?php if(permisoEvento("visor")) { ?>
+                                <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(baseUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
+                                    <i class="fa fa-globe"></i> 
+                                </button>
+                            <?php } ?>
 
-                                      <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(siteUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
-                                          <i class="fa fa-globe"></i> 
-                                      </button>
+                            <?php if (permisoEvento("finalizar")) { ?>
 
-                                  <?php } ?>
-                                  
-                                  <?php if (puedeFinalizarEmergencia("emergencia")) { ?>
+                                <button title="Finalizar emergencia" class="btn btn-sm btn-warning emergencia-cerrar" type="button" data="<?php echo $row["eme_ia_id"] ?>" href="#">
+                                    <i class="fa fa-thumb-tack"></i> 
+                                </button>
 
-                                      <button title="Finalizar emergencia" class="btn btn-sm btn-warning emergencia-cerrar" type="button" data="<?php echo $row["eme_ia_id"] ?>" href="#">
-                                          <i class="fa fa-thumb-tack"></i> 
-                                      </button>
+                            <?php } ?>
 
-                                  <?php } ?>
-                                  
-                                  <?php if(puedeVerReporteEmergencia("emergencia")) { ?>
+                            <?php if(permisoEvento("reporte")) { ?>
 
-                                      <button title="Reporte" class="btn btn-sm btn-info emergencia-reporte" type="button"  data="<?php echo $row["eme_ia_id"] ?>" data-rel="<?php echo $row["ala_ia_id"] ?>" href="#">
-                                          <i class="fa fa-file-text-o"></i>
-                                      </button>
+                                <button title="Reporte" class="btn btn-sm btn-info emergencia-reporte" type="button"  data="<?php echo $row["eme_ia_id"] ?>" data-rel="<?php echo $row["ala_ia_id"] ?>" href="#">
+                                    <i class="fa fa-file-text-o"></i>
+                                </button>
 
-                                  <?php } ?>
+                            <?php } ?>
                         </div>
                     </div>
                 </td>                

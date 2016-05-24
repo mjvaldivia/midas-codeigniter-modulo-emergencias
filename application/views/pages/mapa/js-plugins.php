@@ -4,6 +4,8 @@
 <?= loadJS("assets/js/library/livequery/jquery.livequery.min.js", true) ?>
 <!-- Estilos mapa mapa -->
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
+<?= loadCSS("assets/js/library/ionslider/css/ion.rangeSlider.css"); ?>
+<?= loadCSS("assets/js/library/ionslider/css/ion.rangeSlider.skinHTML5.css"); ?>
 
 <!-- Plugin para menu slider up -->
 <?= loadCSS("assets/js/library/slideupmenu-1.0/style.css"); ?>
@@ -25,10 +27,12 @@
 <?= loadJS("assets/js/modulo/mapa/google/extension/markerwithlabel.js"); ?>
 
 <!-- Popup con informacion de un elemento -->
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/contenido.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/edicion.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento/menu.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/informacion/elemento.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/contenido.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/edicion.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion/menu.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/elementos/poligono/informacion.js"); ?>
+
+<?= loadJS("assets/js/modulo/mapa/elementos/marcador/editar.js"); ?>
 
 <!-- ELEMENTOS -->
 <!-- Circulo -->
@@ -67,13 +71,23 @@
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/zonas.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/embarazadas.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/rabia/vacunacion.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos_pm.js"); ?>
+
+<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos.js"); ?>
+
 
 <!-- Externos -->
 <?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>
-
+<?= loadJS("assets/js/modulo/mapa/externo/hospital.js"); ?>
 <!-- LAYOUT -->
 <?= loadJS("assets/js/modulo/mapa/layout/input/busqueda.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/layout/ambito.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/capas.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/form/casos_febriles_rango_fecha.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/form/marea_roja.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/layout/form/vectores.js"); ?>
 
 <!-- Permite editar mapa -->
 <?= loadJS("assets/js/modulo/mapa/editor.js"); ?>
@@ -82,9 +96,14 @@
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
 
 <!-- Base del visor-->
+<?= loadJS("assets/js/modulo/mapa/loading.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 
-<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>
+
+
+<?php echo jsDatatable(); ?>
+
+
+<?= loadJS("assets/js/library/ionslider/js/ion-rangeSlider/ion.rangeSlider.min.js"); ?>
+
