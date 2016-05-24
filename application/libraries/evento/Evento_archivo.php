@@ -33,6 +33,12 @@ Class Evento_archivo{
     protected $_path = "";
     
     /**
+     * Si se eliminan o no los archivos no agregados
+     * @var boolean
+     */
+    protected $_eliminar = true;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -43,6 +49,14 @@ Class Evento_archivo{
         $this->_ci->load->model("archivo_model", "_archivo_model");
         
         
+    }
+    
+    /**
+     * 
+     * @param boolean $boolean
+     */
+    public function setEliminar($boolean){
+        $this->_eliminar = $boolean;
     }
     
     /**
@@ -89,14 +103,26 @@ Class Evento_archivo{
      */
     public function guardar(){
         
-        //se elimina el archivo fisico si no esta asignado a ningun otro evento
-        $this->_ci->_emergencia_archivo_model
-                  ->deleteArchivoNotIn($this->_evento->eme_ia_id, $this->_agregados);
+        if($this->_eliminar){
+            //se elimina el archivo fisico si no esta asignado a ningun otro evento
+            $this->_ci->_emergencia_archivo_model
+                      ->deleteArchivoNotIn($this->_evento->eme_ia_id, $this->_agregados);
         
-        //se elimina la relacion
-        $this->_ci->_emergencia_archivo_model
-                  ->query()
-                  ->insertOneToMany("id_emergencia", "id_archivo", $this->_evento->eme_ia_id, $this->_agregados);        
+        
+            //se elimina la relacion
+            $this->_ci->_emergencia_archivo_model
+                      ->query()
+                      ->insertOneToMany("id_emergencia", "id_archivo", $this->_evento->eme_ia_id, $this->_agregados);        
+        } else {
+            foreach($this->_agregados as $archivo){
+                $this->_ci->_emergencia_archivo_model->insert(
+                    array(
+                        "id_archivo" => $archivo,
+                        "id_emergencia" => $this->_evento->eme_ia_id
+                    )
+                );
+            }
+        }
     }
     
     /**

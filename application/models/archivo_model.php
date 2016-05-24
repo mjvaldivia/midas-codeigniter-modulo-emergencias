@@ -113,6 +113,11 @@ class Archivo_Model extends MY_Model {
                                ->from($this->_tabla . " a")
                                ->orderBy("a.arch_f_fecha", "DESC");
         
+        if(!empty($parametros["evento"])){
+            $query->join("emergencias_archivo e", "e.id_archivo = a.arch_ia_id", "INNER")
+                  ->whereAND("e.id_emergencia", $parametros["evento"]);
+        }
+        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;
@@ -432,16 +437,9 @@ class Archivo_Model extends MY_Model {
      */
     public function remove($id_archivo){
         $archivo = $this->getById($id_archivo);
-        if(!is_null($archivo)){
-            
-            $this->load->model("archivo_alarma_model", "archivo_alarma_model");
-            $this->archivo_alarma_model->deletePorArchivo($id_archivo);
-            
-            $this->load->model("archivo_emevisor_model", "archivo_emevisor_model");
-            $this->archivo_emevisor_model->deletePorArchivo($id_archivo);
-            
+        if(!is_null($archivo)){            
             $this->query()->delete("arch_ia_id", $id_archivo);
-            @unlink("./" . $archivo->arch_c_nombre);
+            unlink(FCPATH . $archivo->path);
         }
     }
 

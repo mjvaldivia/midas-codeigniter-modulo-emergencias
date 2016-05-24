@@ -1,4 +1,4 @@
-<div class="tile gray">
+<div class="">
     <div class="row">
         <div class="col-lg-3">
             <div class="form-group clearfix ocultar-al-subir">
@@ -23,7 +23,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group clearfix top-spaced">
-                <button id="upload-adjunto-start" class="btn btn-success"> <i class="fa fa-plus"></i> Agregar </button>
+                <button id="upload-adjunto-start" class="btn btn-success"> <i class="fa fa-upload"></i> Subir archivo a emergencia </button>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
         if(count($lista_archivos)>0){
             foreach($lista_archivos as $archivo){
     ?>
-        <div id="archivo-<?php echo $archivo["id"]; ?>">
+        <div id="archivo-<?php echo $archivo["id"]; ?>" class="archivo-agregado">
             <input type="hidden" name="archivos[]" value="<?php echo $archivo["id"]; ?>" />
             <input type="hidden" name="archivos_hash[]" value="<?php echo $archivo["hash"]; ?>" />
             <hr/>

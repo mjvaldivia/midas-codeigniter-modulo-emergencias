@@ -78,6 +78,7 @@ class Evento extends MY_Controller {
         
         $this->layout_assets->addJs("library/DataTables-1.10.8/js/jquery.dataTables.js")
                             ->addJs("library/DataTables-1.10.8/js/dataTables.bootstrap.js")
+                            ->addJs("library/jquery.easyPaginate.js")
                             ->addJs("library/bootbox-4.4.0/bootbox.min.js")
                             ->addJs("modulo/general/permisos.js")
                             ->addJs("modulo/mapa/formulario.js")
@@ -189,7 +190,7 @@ class Evento extends MY_Controller {
                  );
 
             $this->_guardarFormularioTipoEmergencia($id);
-            $this->_guardarArchivos($id,$this->session->userdata('session_idUsuario'));
+            //$this->_guardarArchivos($id,$this->session->userdata('session_idUsuario'));
         }
 
         $respuesta = array(
@@ -222,8 +223,10 @@ class Evento extends MY_Controller {
      * Formulario para nueva alarma
      */
     public function nueva(){
+
         $this->load->helper(array("modulo/emergencia/emergencia_form",
-                                  "modulo/direccion/comuna"));
+                                  "modulo/direccion/comuna",
+                                  "modulo/alarma/alarma_form"));
         $data = array("form_name" => "form_nueva");
         $this->load->view("pages/evento/form", $data);
     }
@@ -233,7 +236,8 @@ class Evento extends MY_Controller {
      */
     public function editar(){
         $this->load->helper(array("modulo/emergencia/emergencia_form",
-                                  "modulo/direccion/comuna"));
+                                  "modulo/direccion/comuna",
+                                  "modulo/alarma/alarma_form"));
         
         $params = $this->uri->uri_to_assoc();
         $alarma = $this->_emergencia_model->getById($params["id"]);
@@ -429,7 +433,7 @@ class Evento extends MY_Controller {
      * Guarda archivos adjuntos
      * @param int $id_evento
      */
-    protected function _guardarArchivos($id_evento,$id_usuario){
+    protected function _guardarArchivos($id_evento, $id_usuario){
         $this->load->library("evento/evento_archivo");
         
         $params = $this->input->post(null, true);
