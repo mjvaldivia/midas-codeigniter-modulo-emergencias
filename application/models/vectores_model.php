@@ -54,7 +54,7 @@ class vectores_model extends MY_Model {
     }
 
     /**
-     * Lista alarmas de acuerdo a parametros
+     * Lista
      * @param array $parametros
      * @return array
      */
