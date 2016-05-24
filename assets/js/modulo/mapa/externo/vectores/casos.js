@@ -146,7 +146,7 @@ var MapaVectores = Class({
      * @returns {Boolean}
      */
     verFiltros : function(marker){
-        console.log(marker);
+        
         var yo = this;
         var ok = true;
             
