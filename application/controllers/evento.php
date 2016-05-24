@@ -190,7 +190,7 @@ class Evento extends MY_Controller {
                  );
 
             $this->_guardarFormularioTipoEmergencia($id);
-            $this->_guardarArchivos($id,$this->session->userdata('session_idUsuario'));
+            //$this->_guardarArchivos($id,$this->session->userdata('session_idUsuario'));
         }
 
         $respuesta = array(

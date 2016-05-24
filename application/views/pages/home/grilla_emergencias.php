@@ -44,8 +44,8 @@
                             <?php } ?>
                             
                             <?php if (permisoEvento("editar")) { ?>
-                                <button title="Documentos" class="btn btn-sm btn-success" type="button" onclick="window.open(baseUrl + 'evento_documentos/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
-                                    <i class="fa fa-upload"></i>
+                                <button title="Documentos" class="btn btn-sm btn-white" type="button" onclick="window.open(baseUrl + 'evento_documentos/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
+                                    <i class="fa fa-file"></i>
                                 </button>
                             <?php } ?>
 

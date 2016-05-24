@@ -1,12 +1,12 @@
 <?= loadCSS("assets/js/library/dropzone/css/dropzone.css") ?>
 
-<input type="hidden" name="id" value="<?php echo $id; ?>" />
+<input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
 
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
             <h1><?php echo $nombre; ?>
-                <small><i class="fa fa-arrow-right"></i> Librer&iacute;a de documentos</small>
+                <small><i class="fa fa-arrow-right"></i> Documentos</small>
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i> <a href="<?= site_url() ?>"> Inicio </a></li>

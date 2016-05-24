@@ -113,6 +113,11 @@ class Archivo_Model extends MY_Model {
                                ->from($this->_tabla . " a")
                                ->orderBy("a.arch_f_fecha", "DESC");
         
+        if(!empty($parametros["evento"])){
+            $query->join("emergencias_archivo e", "e.id_archivo = a.arch_ia_id", "INNER")
+                  ->whereAND("e.id_emergencia", $parametros["evento"]);
+        }
+        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;

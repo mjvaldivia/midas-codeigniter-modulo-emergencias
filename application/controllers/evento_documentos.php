@@ -27,7 +27,9 @@ Class Evento_documentos extends Mantenedor_documentos {
                                 ->addJs("library/DataTables-1.10.8/js/dataTables.bootstrap.js")
                                 ->addJs("library/bootbox-4.4.0/bootbox.min.js")
                                 ->addJs("library/dropzone/dropzone.js")
-                                ->addJs("modulo/mantenedor/documentos.js");    
+                                ->addJs("modulo/documentos/base.js")
+                                ->addJs("modulo/evento_documentos/documentos.js")
+                                ->addJs("modulo/evento_documentos/index.js");    
             
             
             $this->template->parse(
@@ -41,6 +43,16 @@ Class Evento_documentos extends Mantenedor_documentos {
         } else {
             throw new Exception("El evento no existe");
         }
+    }
+    
+    /**
+     * Retorna grilla de alarmas
+     */
+    public function ajax_grilla_documentos(){
+        $params = $this->input->post(null, true);
+        $this->load->helper(array("modulo/usuario/usuario"));
+        $lista = $this->archivo_model->buscar(array("evento" => $params["id"]));
+        $this->load->view("pages/mantenedor_documentos/grilla_documentos", array("lista" => $lista));
     }
 }
 
