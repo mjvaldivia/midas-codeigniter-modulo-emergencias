@@ -42,10 +42,10 @@
                         </button>
                     <?php } ?>
                     <?php if (permisoEvento("editar")) { ?>
-                                <button title="Documentos" class="btn btn-sm btn-white" type="button" onclick="window.open(baseUrl + 'evento_documentos/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
-                                    <i class="fa fa-file"></i>
-                                </button>
-                            <?php } ?>
+                        <button title="Documentos" class="btn btn-sm btn-white" type="button" onclick="window.open(baseUrl + 'evento_documentos/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
+                            <i class="fa fa-file"></i>
+                        </button>
+                    <?php } ?>
                     <?php if(permisoEvento("visor")) { ?>
                         <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(baseUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
                             <i class="fa fa-globe"></i> 

@@ -37,14 +37,20 @@
                 <td width="10%">
                     <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
                 </td>
-                <td width="10%" class="text-center">
-                    <div style="width: 200px">
+                <td width="10%" class="text-left">
+                    <div style="width: 230px">
                         
                     <?php if(permisoEvento("bitacora")) { ?>
                     <a class="expediente btn btn-sm btn-info" href="javascript:void(0);" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);" title="Bitácora">
                         <i class="fa fa-files-o"></i>
                     </a>
                     <?php }?>    
+                        
+                    <?php if (permisoEvento("editar") and $row['est_ia_id'] < 3) { ?>
+                        <button title="Documentos" class="btn btn-sm btn-white" type="button" onclick="window.open(baseUrl + 'evento_documentos/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
+                            <i class="fa fa-file"></i>
+                        </button>
+                    <?php } ?>    
                         
                     <?php if(permisoEvento("visor")) { ?>
 
