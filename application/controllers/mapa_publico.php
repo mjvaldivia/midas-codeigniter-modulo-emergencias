@@ -34,21 +34,6 @@ class Mapa_publico extends Mapa {
     }
     
     /**
-     * Se quitan marcadores de marea roja
-     */
-    public function info_marea_roja(){
-
-        header('Content-type: application/json'); 
-
-        echo Zend_Json::encode(
-            array(
-                "correcto" => true,
-                "lista" => array()
-            )
-        );
-    }
-    
-    /**
      * No se verifica que el usuario este logeado
      */
     protected function _validarSession(){

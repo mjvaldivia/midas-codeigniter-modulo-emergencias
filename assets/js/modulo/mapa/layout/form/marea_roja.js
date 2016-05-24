@@ -16,6 +16,10 @@ var MapaLayoutFormMareaRoja = Class({
     seteaPosicion : function(posicion){
       this.posicion = posicion;  
     },
+    
+    addExcelToMap : function(map){
+        
+    },
 
     /**
      * Agrega el buscador al mapa
