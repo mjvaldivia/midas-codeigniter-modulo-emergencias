@@ -92,8 +92,6 @@ class Mapa extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
-        
-       
         $this->load->helper("modulo/evento/permiso");
         $this->_validarSession();
         $this->_cargaModel();
