@@ -24,10 +24,10 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#gallery" data-toggle="tab"> <i class="fa fa-list"></i> Librer&iacute;a</a>
                     </li>
-                    <?php if(puedeEditar("documentacion")) { ?>
+                    
                     <li><a href="#upload" data-toggle="tab"> <i class="fa fa-upload"></i> Subir Archivo</a>
                     </li>
-                    <?php } ?>
+
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="gallery">

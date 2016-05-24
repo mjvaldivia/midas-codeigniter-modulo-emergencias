@@ -165,6 +165,10 @@ var MantendorDocumentos = Class({
               + "<i class=\"fa fa-4x fa-spin fa-spinner\"></i>"
             + "</div>"
         );
+
+        $("#seleccionadas-cantidad").html("0");
+        $("#div-archivos-seleccionados").addClass("hidden");
+        $(".seleccion-archivo").prop( "checked", false );
         
         this._ajaxLoadArchivos();
     },
