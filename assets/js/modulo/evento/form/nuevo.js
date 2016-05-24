@@ -119,6 +119,8 @@ var EventoFormNuevo = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 $(this).parent().parent().parent().remove();
+                
+                
             });
         });
         
@@ -174,7 +176,7 @@ var EventoFormNuevo = Class({
                         $("#div-pasos").hide();
                     }
                     yo.btnPaso1();
-                    yo.bindUpload();
+                    //yo.bindUpload();
                 }
             });
         });      
@@ -389,6 +391,9 @@ var EventoFormNuevo = Class({
         this.bindSelectEmergenciaTipo();
         this.estadoEventoChange();
         setInputCorreos("destinatario", $("#id").val());
+        
+        
+        
     },
     
     /**

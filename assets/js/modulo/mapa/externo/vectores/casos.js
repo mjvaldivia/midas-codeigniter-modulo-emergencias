@@ -21,16 +21,16 @@ var MapaVectores = Class({
      * @returns {elementosAnonym$0.controlador.controller|String}
      */
     getController : function(){
-      var controller = getController();  
-      if(controller == "mapa" || controller == "mapa_publico"){
-          return controller;
-      } else {
-          return "mapa";
-      }
+        var controller = getController();  
+        if(controller == "mapa" || controller == "mapa_publico"){
+            return controller;
+        } else {
+            return "mapa";
+        }
     },
     
     /**
-     * Carga el KML desde conaf
+     * Carga vectores
      * @returns {void}
      */
     load : function(){
@@ -78,7 +78,7 @@ var MapaVectores = Class({
 
                         });
                     } else {
-                        notificacionError("", "No es posible encontrar la información de los casos febriles.");
+                        notificacionError("", "No es posible encontrar la información de los vectores.");
                     }
                     
                     yo.loadInspecciones();
@@ -88,7 +88,10 @@ var MapaVectores = Class({
         }
     },
     
-    
+    /**
+     * Carga inspecciones
+     * @returns {undefined}
+     */
     loadInspecciones : function(){
         var yo = this;
         Messenger().run({
@@ -131,7 +134,7 @@ var MapaVectores = Class({
                         );
                     });
                 } else {
-                    notificacionError("", "No es posible encontrar la información de los casos febriles.");
+                    notificacionError("", "No es posible encontrar la información de los vectores.");
                 }
                 
                 $("#contenedor-formulario-vectores").removeClass("hidden");
@@ -204,7 +207,7 @@ var MapaVectores = Class({
         }
         
         if(ok){
-            if($("#vectores_resultado").val()!=""){
+            if($("#vectores_resultado").val() != ""){
                 if(marker["resultado"] &&  $("#vectores_resultado").val() != marker["resultado"].toUpperCase()){
                     ok = false;
                 }

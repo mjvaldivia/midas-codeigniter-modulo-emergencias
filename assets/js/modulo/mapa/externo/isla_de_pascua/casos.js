@@ -17,7 +17,7 @@ var MapaIslaDePascuaCasos = Class({
         this.mapa = mapa;
     },
     
-        /**
+    /**
      * Parche para corregir mapa en reporte
      * @returns {elementosAnonym$0.controlador.controller|String}
      */

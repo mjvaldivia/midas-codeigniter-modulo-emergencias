@@ -34,10 +34,15 @@ Class Layout_assets{
         } else {
             $lista_css = array();
         }
-        
-        $lista_css[] = $css;
+        if(strpos($css, "http") === false){
+            $lista_css[] = base_url("assets/" . $css);
+        } else {
+            $lista_css[] = $css;
+        }
+
         
         Zend_Registry::set("css", $lista_css);
+        return $this;
     }
     
     /**

@@ -35,7 +35,7 @@
                                 </button>
                             <?php } ?> -->
                             
-                            <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta" data-muestra="<?php echo $id ?>" data-acta="<?php echo $numero_muestra ?>">
+                            <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta" data-muestra="<?php echo $row['id'] ?>" data-acta="<?php echo $row['numero_muestra'] ?>">
                                 <i class="fa fa-upload"></i>
                             </button>
                             

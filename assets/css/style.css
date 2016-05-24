@@ -2412,3 +2412,15 @@ body.modal-open {
     background-color: lightgray;
     border-color: gray;
 }
+
+/* Cosmetic only */
+#easyPaginate {width:300px;}
+#easyPaginate img {display:block;margin-bottom:10px;}
+.easyPaginateNav {padding-top:20px}
+.easyPaginateNav a {padding:5px}
+.easyPaginateNav a.current {font-weight:bold;text-decoration:underline;}
+
+.responsive-width-white-space {
+    font-size: 0.8vw;
+    white-space: normal !important;
+}
