@@ -204,7 +204,7 @@ var MapaVectores = Class({
         }
         
         if(ok){
-            if($("#vectores_resultado").val()!=""){
+            if($("#vectores_resultado").val() != ""){
                 if(marker["resultado"] &&  $("#vectores_resultado").val() != marker["resultado"].toUpperCase()){
                     ok = false;
                 }
