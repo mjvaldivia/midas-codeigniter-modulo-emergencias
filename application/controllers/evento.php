@@ -433,7 +433,7 @@ class Evento extends MY_Controller {
      * Guarda archivos adjuntos
      * @param int $id_evento
      */
-    protected function _guardarArchivos($id_evento,$id_usuario){
+    protected function _guardarArchivos($id_evento, $id_usuario){
         $this->load->library("evento/evento_archivo");
         
         $params = $this->input->post(null, true);

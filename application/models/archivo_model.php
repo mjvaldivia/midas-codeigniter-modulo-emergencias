@@ -437,16 +437,9 @@ class Archivo_Model extends MY_Model {
      */
     public function remove($id_archivo){
         $archivo = $this->getById($id_archivo);
-        if(!is_null($archivo)){
-            
-            $this->load->model("archivo_alarma_model", "archivo_alarma_model");
-            $this->archivo_alarma_model->deletePorArchivo($id_archivo);
-            
-            $this->load->model("archivo_emevisor_model", "archivo_emevisor_model");
-            $this->archivo_emevisor_model->deletePorArchivo($id_archivo);
-            
+        if(!is_null($archivo)){            
             $this->query()->delete("arch_ia_id", $id_archivo);
-            @unlink("./" . $archivo->arch_c_nombre);
+            unlink(FCPATH . $archivo->path);
         }
     }
 

@@ -23,7 +23,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group clearfix top-spaced">
-                <button id="upload-adjunto-start" class="btn btn-success"> <i class="fa fa-plus"></i> Agregar </button>
+                <button id="upload-adjunto-start" class="btn btn-success"> <i class="fa fa-upload"></i> Subir archivo a emergencia </button>
             </div>
         </div>
     </div>

@@ -11,7 +11,23 @@ var MantendorDocumentos = Class({
         this.loadGridArchivos();
         this.bindDropzone();
         this.bindArchivos();
+        this.bindSearch();
+    },
+    
+    bindSearch : function(){
+        var $this = this;
+        $("#button-search").click(function(e){
+            e.preventDefault();
+            $this.loadGridArchivos();
+        });
         
+        $("#search").keypress(function (evt) {
+            var charCode = evt.charCode || evt.keyCode;
+            if (charCode  == 13) {
+                $this.loadGridArchivos();
+                return false;
+            }
+       });
     },
     
     bindArchivos : function(){
@@ -143,6 +159,17 @@ var MantendorDocumentos = Class({
     
     
     loadGridArchivos : function(){
+        
+        $("#div-grilla-documentos").html(
+            "<div class=\"col-lg-12 text-center\">"
+              + "<i class=\"fa fa-4x fa-spin fa-spinner\"></i>"
+            + "</div>"
+        );
+        
+        this._ajaxLoadArchivos();
+    },
+    
+    _ajaxLoadArchivos : function(){
         $.ajax({         
             dataType: "html",
             cache: false,

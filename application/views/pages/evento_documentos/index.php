@@ -1,12 +1,11 @@
-<?= loadCSS("assets/js/library/dropzone/css/dropzone.css") ?>
 
 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
 
 <div class="row">
     <div class="col-lg-12">
         <div class="page-title">
-            <h1><?php echo $nombre; ?>
-                <small><i class="fa fa-arrow-right"></i> Documentos</small>
+            <h1>Documentos
+                <small><i class="fa fa-arrow-right"></i> <?php echo $nombre; ?></small>
             </h1>
             <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i> <a href="<?= site_url() ?>"> Inicio </a></li>
@@ -34,8 +33,8 @@
                     <div class="tab-pane fade in active" id="gallery">
                         <div class="col-lg-12">
                             <div class="row top-spaced">
-                                <div class="col-lg-4">
-                                    <!--<input type="hidden" name="taghidden" id="taghidden" value="<?php echo $this->tag; ?>" />
+                                <div class="col-lg-8">
+                                    <input type="hidden" name="taghidden" id="taghidden" value="<?php echo $this->tag; ?>" />
                                     <form method="get" action="/imagegallery/index">
                                     <div class="input-group">
                                         <input id="search" name="search" class="form-control" placeholder="Buscar..." type="text" value="<?php echo $this->search; ?>">
@@ -44,51 +43,46 @@
                                             <button id="button-search" class="btn btn-default" type="button">Ir!</button>
                                         </span>
                                     </div>
-                                    </form>-->
+                                    </form>
                                 </div>
                                 
-                                <?php if(puedeEliminar("documentacion")) { ?>
-                                <div class="col-lg-5">
-                                    <div id="div-archivos-seleccionados" class="alert alert-warning hidden" style="padding: 7px; text-align: center;">
-                                        <strong><span id="seleccionadas-cantidad"><?php echo $cantidad; ?></span></strong>
-                                        Archivos seleccionados
+                                <div class="col-lg-4 text-right">
+                                    
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div id="div-archivos-seleccionados" class="hidden">
+                                                <strong><span id="seleccionadas-cantidad"><?php echo $cantidad; ?></span></strong>
+                                                Archivos seleccionados
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="col-lg-3" style="text-align: right">
+                                    
+                                    <div class="row" style="position: relative;">
+                                        <div class="col-lg-12">
 
-                                    <button data-toggle="tooltip"  id="clear-all" class="btn btn-info" title="Limpiar todos los archivos seleccionados">
-                                        <i class="fa fa-eraser"></i>
-                                        Limpiar selección
-                                    </button>
+                                            <button data-toggle="tooltip"  id="clear-all" class="btn btn-info" title="Limpiar todos los archivos seleccionados">
+                                                <i class="fa fa-eraser"></i>
+                                                Limpiar seleccionados
+                                            </button>
 
-                                    <button data-toggle="tooltip"  id="delete-all" class="btn btn-danger" title="Borrar todos los archivos seleccionados">
-                                        <i class="fa fa-ban"></i>
-                                        Borrar
-                                    </button>
-                                </div>
-                                <?php } ?>
-                            </div>
-
-                            <div class="row">
-                                <!--<div class="col-lg-2">
-                                    <?php //echo $this->Tags($this->search); ?>
-                                </div>-->
-                                <div id="div-grilla-documentos" class="col-lg-12">
-                                    <div class="col-lg-12 text-center">
-                                        <i class="fa fa-4x fa-spin fa-spinner"></i>
+                                            <button data-toggle="tooltip"  id="delete-all" class="btn btn-danger" title="Borrar todos los archivos seleccionados">
+                                                <i class="fa fa-ban"></i>
+                                                Borrar seleccionados
+                                            </button>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <?php //echo $this->GalleryTotal($this->search, $this->tag); ?>
+                            <div class="row top-spaced">
+                                <div id="div-grilla-documentos" >
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <?php if(puedeEditar("documentacion")) { ?>
+                    
                     <div class="tab-pane fade " id="upload">
                         <div class="col-lg-12 top-spaced">
                             <div class="row">
@@ -98,18 +92,19 @@
                             </div>
                             <div class="row top-spaced">
                                 <div class="col-lg-12">
-                                    <form action="<?php echo site_url("mantenedor_documentos/upload"); ?>" class="dropzone" enctype="multipart/form-data" id="my-awesome-dropzone">
-                                        
-                                    </form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <?php echo formElementEventoArchivos(""); ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <?php } ?>
+                 
                     <div class="clearfix"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
