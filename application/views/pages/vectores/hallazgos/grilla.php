@@ -38,11 +38,15 @@
                     <?php if ($row['cd_estado_hallazgo'] == 0): ?>
                         <span class="label label-default">En Revisión</span>
                     <?php elseif ($row['cd_estado_hallazgo'] == 1): ?>
-                        <span class="label label-danger">Positivo</span>
+                        <span class="label label-danger">Aedes</span>
                     <?php elseif ($row['cd_estado_hallazgo'] == 2): ?>
                         <span class="label label-primary">Negativo</span>
                     <?php elseif ($row['cd_estado_hallazgo'] == 3): ?>
-                        <span class="label label-info">No concluyente</span>
+                        <span class="label label-info">Negativo</span>
+                    <?php elseif ($row['cd_estado_hallazgo'] == 4): ?>
+                        <span class="label label-info">Negativo</span>
+                    <?php else: ?>
+                        <span class="label label-info">Sin información</span>
                     <?php endif; ?>
                 </td>
                 <td align="center" width="100">
