@@ -34,6 +34,7 @@ Class Excel_json{
             array(
                 "core/fecha/fecha_conversion",
                 "core/string/arreglo",
+                "core/string/random",
                 "excel"
             )
         );
@@ -91,6 +92,16 @@ Class Excel_json{
                 
             }
         }
+    }
+    
+    public function getExcel(){
+        $objWriter = PHPExcel_IOFactory::createWriter($this->_excel, 'Excel2007');
+        $hash = $this->_ci->random->rand_string(20);
+        
+        $path = FCPATH . "media/tmp/" . $hash . ".xlsx";
+        $objWriter->save(FCPATH . "media/tmp/" . $hash . ".xlsx");
+        return array("path" => $path,
+                     "nombre" => 'marea_roja_' . date('d-m-Y') . '.xlsx');
     }
     
     /**

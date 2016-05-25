@@ -22,6 +22,7 @@ $(document).ready(function() {
     custom.addOnLoadFunction("Datos externos" , function(data, mapa){
         if(parseInt(data.resultado.marea_roja) == 1 || parseInt(data.resultado.marea_roja_pm) == 1){
             var formulario = new MapaLayoutFormMareaRoja();
+            formulario.seteaEmergencia(id);
             formulario.addExcelToMap(mapa);
         }
     });

@@ -2,6 +2,8 @@ var MapaLayoutFormMareaRoja = Class({
     
     mapa : null,
     
+    id_emergencia : null,
+    
     posicion: "LEFT_CENTER",
     
     __construct : function(div) {
@@ -17,7 +19,39 @@ var MapaLayoutFormMareaRoja = Class({
       this.posicion = posicion;  
     },
     
+    seteaEmergencia : function(id){
+        this.id_emergencia = id;
+    },
+    
     addExcelToMap : function(map){
+        
+        var $this = this;
+        
+        $("body").append("<div id=\"mapa-boton-exportar-marea-roja\" class=\"mapa-menu-derecho\">"
+                        + "<button id=\"boton-exportar-marea-roja\" class=\"btn btn-primary\"> <i class=\"fa fa-download\"></i> Exportar tomas de muestra </button>"
+                        +"</div>");
+                
+        map.controls[google.maps.ControlPosition["TOP_LEFT"]].push(document.getElementById('mapa-boton-exportar-marea-roja'));
+        
+        
+        $("#boton-exportar-marea-roja").on("click", function(e){
+            var boton = buttonStartProcess(this, e);
+            $.ajax({         
+                dataType: "json",
+                cache: false,
+                async: true,
+                data: {"id" : $this.id_emergencia},
+                type: "post",
+                url: siteUrl + "mapa_publico/marea_roja_exportar", 
+                error: function(xhr, textStatus, errorThrown){
+
+                },
+                success:function(data){
+                    buttonEndProcess(boton);
+                    window.open(baseUrl + "archivo/download_temporal/hash/" + data.hash,"_blank");
+                }
+            });
+        });
         
     },
 
