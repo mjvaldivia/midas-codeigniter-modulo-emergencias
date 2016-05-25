@@ -72,9 +72,7 @@
         <?= loadJS("assets/js/library/jquery.jcombo/jquery.jcombo.js", true) ?>
         <?= loadJS("assets/js/library/qtip/jquery.qtip.min.js", true) ?>
         
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.min.css") ?>
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.boostrap.css") ?>
-        <?= loadJS("assets/js/library/chosen_v1.4.2/chosen.jquery.min.js") ?>
+
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2.css", true) ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>
         <?= loadJS("assets/js/library/select2-4.0.0/js/select2.js", true) ?>
@@ -93,14 +91,7 @@
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                Utils.listenerCambioRapido();
-                Utils.toggleNavbarMethod();
-                Utils.ajaxRequestMonitor();
-                $(window).resize(Utils.toggleNavbarMethod);
-            });
-        </script>
+        
 
 <?php echo $js; ?>
 </head>
@@ -123,8 +114,7 @@
                                 <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a id="btn-ubicacion-emergencia" href="javascript:void(0)"><i class="fa fa-bullhorn"></i> Nueva Ubicación emergencia</a></li>
-                            <li class="divider"></li>
+
                         <?php endif;?>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
@@ -181,40 +171,7 @@
                         </li>
                     </ul>
                 </li>
-                 <li class="dropdown dropdown-large">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-warning"></i> Vigilancia <b class="caret"></b></a>
 
-                    <ul id="capas-fijas-menu" class="dropdown-menu dropdown-menu-large row" style="overflow-y: scroll; width:90%">
-                        
-                        
-                    </ul>
-                </li>
-                <li class="dropdown dropdown-large">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-building"></i> Instalaciones <b class="caret"></b></a>
-
-                    <ul id="instalaciones-menu" class="dropdown-menu dropdown-menu-large row" style="overflow-y: scroll">
-                        <li class="col-sm-3">
-                            <ul id="instalaciones-columna-1" class="instalaciones-columna">
-
-                            </ul>
-                        </li>
-                        <li class="col-sm-3">
-                            <ul id="instalaciones-columna-2" class="instalaciones-columna">
-
-                            </ul>
-                        </li>
-                        <li class="col-sm-3">
-                            <ul id="instalaciones-columna-3" class="instalaciones-columna">
-
-                            </ul>
-                        </li>
-                        <li class="col-sm-3">
-                            <ul id="instalaciones-columna-4" class="instalaciones-columna">
-
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
                 </ul>
              </div><!-- /.navbar-collapse -->
         </div>

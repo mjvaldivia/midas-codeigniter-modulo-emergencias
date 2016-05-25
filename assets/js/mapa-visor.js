@@ -12,11 +12,9 @@ $(document).ready(function() {
     var visor = new Visor("mapa");
     
     var height = $(window).height();
-<<<<<<< HEAD
+
     visor.seteaHeight(height);
-=======
-    visor.seteaHeight(height - 60);
->>>>>>> upstream/master
+
     visor.seteaEmergencia(id);
 
     var tareas = new MapaLoading();
