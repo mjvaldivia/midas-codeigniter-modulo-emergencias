@@ -110,7 +110,7 @@ class Rest extends MY_Controller
                     $json['data'][$i]['lon'] = $item['cd_longitud_hallazgo'];
                     $json['data'][$i]['lat'] = $item['cd_latitud_hallazgo'];
                     if ($item['cd_estado_hallazgo'] == 1) {
-                        $json['data'][$i]['resultado'] = 'Aedes';
+                        $json['data'][$i]['resultado'] = 'POSITIVO';
 
                         if ($item['cd_estado_desarrollo_hallazgo'] == 1)
                             $json['data'][$i]['estado_desarrollo'] = 'Larva';

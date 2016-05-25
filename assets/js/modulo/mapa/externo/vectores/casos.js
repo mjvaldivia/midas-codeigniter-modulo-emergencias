@@ -53,7 +53,7 @@ var MapaVectores = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            if(valor.propiedades.resultado == "Aedes"){
+                            if(valor.propiedades.resultado == "POSITIVO"){
                                 var icono = baseUrl + "assets/img/markers/otros/radar_rojo.png"
                             } else {
                                 var icono = baseUrl + "assets/img/markers/otros/radar.png"
@@ -111,7 +111,7 @@ var MapaVectores = Class({
                 if(json.correcto){
                     $.each(json.lista, function(i, valor){
 
-                        if(valor.propiedades.resultado == "Aedes"){
+                        if(valor.propiedades.resultado == "POSITIVO"){
                             var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
                         } else {
                             var icono = baseUrl + "assets/img/markers/otros/mosquito.png"
