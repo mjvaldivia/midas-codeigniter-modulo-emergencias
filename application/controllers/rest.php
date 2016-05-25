@@ -62,6 +62,7 @@ class Rest extends MY_Controller
                     $json['data'][$i]['lon'] = $item['cd_longitud_vector'];
                     $json['data'][$i]['lat'] = $item['cd_latitud_vector'];
                     
+                    $json['data'][$i]['resultado_final'] = "NEGATIVO";
                     if ($item['cd_estado_vector'] == 1) {
                         $json['data'][$i]['resultado_final'] = "POSITIVO";
                         $json['data'][$i]['resultado'] = 'Aedes';
@@ -112,6 +113,7 @@ class Rest extends MY_Controller
                     $json['data'][$i]['id'] = $item["id_hallazgo"];
                     $json['data'][$i]['lon'] = $item['cd_longitud_hallazgo'];
                     $json['data'][$i]['lat'] = $item['cd_latitud_hallazgo'];
+                    $json['data'][$i]['resultado_final'] = "NEGATIVO";
                     if ($item['cd_estado_hallazgo'] == 1) {
                         $json['data'][$i]['resultado_final'] = "POSITIVO";
                         $json['data'][$i]['resultado'] = 'Aedes';
