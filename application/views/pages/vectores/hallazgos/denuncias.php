@@ -157,21 +157,30 @@
                                         <label class="control-label text-bold">Resultado</label>
                                     </div>
                                     <div class="col-xs-12 ">
-                                        <label class="control-label col-xs-12 col-md-2">Aedes aegypti</label>
+                                        <label class="control-label col-xs-12 col-md-2">Mosquito</label>
                                         <div class="col-xs-12 col-md-4">
-                                            <select name="resultado_laboratorio" id="resultado_laboratorio"
+                                            <!--<select name="resultado_laboratorio" id="resultado_laboratorio"
                                                     class="form-control" disabled>
                                                 <option value=""></option>
-                                                <option value="1" <?php if ($estado == 1): ?> selected <?php endif ?> >
+                                                <option value="1" <?php /*if ($estado == 1): */?> selected <?php /*endif */?> >
                                                     Positivo
                                                 </option>
-                                                <option value="2" <?php if ($estado == 2): ?> selected <?php endif ?> >
+                                                <option value="2" <?php /*if ($estado == 2): */?> selected <?php /*endif */?> >
                                                     Negativo
                                                 </option>
-                                                <option value="3" <?php if ($estado == 3): ?> selected <?php endif ?> >
+                                                <option value="3" <?php /*if ($estado == 3): */?> selected <?php /*endif */?> >
                                                     No concluyente
                                                 </option>
+                                            </select>-->
+                                            <select name="mosquito" id="mosquito" class="form-control" disabled>
+                                                <option value="1" <?php if($estado == 1) echo 'selected'?> >Aedes</option>
+                                                <option value="2" <?php if($estado == 2) echo 'selected'?> >Culex</option>
+                                                <option value="3" <?php if($estado == 3) echo 'selected'?> >Anopheles</option>
+                                                <option value="4" <?php if($estado == 4) echo 'selected'?> >No culicido</option>
                                             </select>
+                                            <?php if($estado == 4):?>
+                                                <input type="text" class="form-control" name="nombre_mosquito" id="nombre_mosquito" placeholder="Escriba nombre del mosquito" disabled value="<?php echo $nombre_mosquito?>" />
+                                            <?php endif;?>
                                         </div>
                                         <label class="control-label col-xs-12 col-md-3">Estado desarrollo</label>
                                         <div class="col-xs-12 col-md-3">
