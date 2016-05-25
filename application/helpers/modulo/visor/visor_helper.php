@@ -225,7 +225,7 @@ function visorElementoCoordenadas($tipo, $coordenadas){
 
             break;
         case "POLIGONO":
-            foreach($coordenadas["j"] as $latLon){
+            foreach($coordenadas as $latLon){
                 $lista[] = array(
                     "latitud" => $latLon["lat"],
                     "longitud" => $latLon["lng"]
