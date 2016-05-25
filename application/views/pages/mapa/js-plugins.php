@@ -73,7 +73,7 @@
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos_pm.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos-v0.1.js"); ?>
 
 
 <!-- Externos -->
