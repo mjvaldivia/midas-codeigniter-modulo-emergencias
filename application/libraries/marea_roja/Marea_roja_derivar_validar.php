@@ -42,6 +42,7 @@ Class Marea_roja_derivar_validar{
      * @return boolean
      */
     public function esValido($params){
+        fb($params);
         if(!$this->validar->validarVacio($params["laboratorio"])){
             $this->_correcto = false;
             $this->_error["laboratorio"] = "Este dato no puede estar vacío";
@@ -49,7 +50,7 @@ Class Marea_roja_derivar_validar{
             $this->_error["laboratorio"] = "";
         }
 
-        if(count($params['analisis'] == 0)){
+        if(count($params['analisis']) == 0){
             $this->_correcto = false;
             $this->_error["analisis"] = "Falta seleccionar tipos de análisis";
         }else{

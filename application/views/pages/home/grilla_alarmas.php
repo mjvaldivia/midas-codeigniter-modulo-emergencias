@@ -30,32 +30,41 @@
                 <td>
                     <?php echo textMoreLess($row["eme_c_lugar_emergencia"]); ?>
                 </td>
-                <td class="text-right">
-                    <?php if(permisoEvento("bitacora")) { ?>
-                        <button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
-                            <i class="fa fa-files-o"></i>
-                        </button>
-                    <?php } ?>
-                    <?php if (permisoEvento("editar")) { ?>
-                        <button title="Editar" class="btn btn-sm btn-success emergencia-editar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                    <?php } ?>
-                    <?php if(permisoEvento("visor")) { ?>
-                        <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(baseUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
-                            <i class="fa fa-globe"></i> 
-                        </button>
-                    <?php } ?>
-                    <?php if (permisoEvento("activar")) { ?>
-                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-purple" href="#">
-                                <i class="fa fa-bullhorn"></i>
-                            </a>
-                    <?php } ?>
-                    <?php if (permisoEvento("eliminar")) { ?>
-                            <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-danger" href="#">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                    <?php } ?>
+                <td width="10%" align="center">
+                    <div style="width: 220px">
+                        <div class="row">
+                            <?php if(permisoEvento("bitacora")) { ?>
+                                <button title="Bitácora" class="btn btn-sm btn-primary" type="button" onclick="xModal.open('<?php echo base_url('evento/expediente/id/'.$row['eme_ia_id'])?>','Bitácora',75);">
+                                    <i class="fa fa-files-o"></i>
+                                </button>
+                            <?php } ?>
+                            <?php if (permisoEvento("editar")) { ?>
+                                <button title="Editar" class="btn btn-sm btn-success emergencia-editar" type="button"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            <?php } ?>
+                            <?php if (permisoEvento("editar")) { ?>
+                                <button title="Documentos" class="btn btn-sm btn-white" type="button" onclick="window.open(baseUrl + 'evento_documentos/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');"  data="<?php echo $row["eme_ia_id"] ?>" class="emergencia-editar" href="#">
+                                    <i class="fa fa-file"></i>
+                                </button>
+                            <?php } ?>
+                            <?php if(permisoEvento("visor")) { ?>
+                                <button title="Abrir visor" class="btn btn-sm btn-default" type="button"  onclick="window.open(baseUrl + 'mapa/index/id/<?php echo $row["eme_ia_id"]; ?>', '_self');" href="#">
+                                    <i class="fa fa-globe"></i> 
+                                </button>
+                            <?php } ?>
+                            <?php if (permisoEvento("activar")) { ?>
+                                    <a data="<?php echo $row["eme_ia_id"]; ?>" class="emergencia-nueva btn btn-sm btn-purple" href="#">
+                                        <i class="fa fa-bullhorn"></i>
+                                    </a>
+                            <?php } ?>
+                            <?php if (permisoEvento("eliminar")) { ?>
+                                    <a data="<?php echo $row["eme_ia_id"]; ?>" class="alarma-eliminar btn btn-sm btn-danger" href="#">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                            <?php } ?>
+                        </div>
+                    </div>
                 </td>
                 
             </tr>

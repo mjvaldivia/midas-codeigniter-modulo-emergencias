@@ -142,7 +142,8 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
             var circuloClickListener = new MapaPoligonoInformacion();
@@ -170,7 +171,8 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
             yo.class_poligono.addClickListener(polygon, mapa);
@@ -218,7 +220,8 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
             var circuloClickListener = new MapaPoligonoInformacion();

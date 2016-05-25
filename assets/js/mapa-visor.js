@@ -22,11 +22,19 @@ $(document).ready(function() {
     var tareas = new MapaLoading();
     visor.addOnReadyFunction("visor de tareas", tareas.iniciarLoading, true);
     
-     //custom
+     //carga elementos guardados en mapa
     var custom = new MapaElementos();
     custom.emergencia(id);
+    custom.addOnLoadFunction("Datos externos" , function(data, mapa){
+        //se cargan capas externas
+        var externo = new MapaExterno();
+        externo.seteaMapa(mapa);
+        externo.seteaEmergencia(id);
+        externo.loadCapasExternas(data);
+    });
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, true);
     
+    //se cargar archivos importados
     var archivos = new MapaArchivos();
     archivos.seteaEmergencia(id);
     visor.addOnReadyFunction("Carga kml", archivos.loadArchivos, true);
@@ -55,12 +63,12 @@ $(document).ready(function() {
     });
 
 
-    //capas
+    //Carga de capas guardadas en mapa
     var capas = new MapaCapa();
     capas.emergencia(id);
     visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
     
-    //editor
+    //Carga el editor de mapa
     var editor = new MapaEditor();
     editor.seteaEmergencia(id);
     editor.seteaClaseCapa(capas);
@@ -84,7 +92,7 @@ $(document).ready(function() {
     
     
     
-    // input de busqueda de direcciones
+    // formularios para datos externos
     var buscador = new MapaLayoutInputBusqueda("busqueda");
     visor.addOnReadyFunction("buscador de direcciones", buscador.addToMap);
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);

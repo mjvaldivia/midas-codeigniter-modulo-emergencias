@@ -44,9 +44,9 @@ class vectores extends MY_Controller
             'presidencia' => $presidencia
         );
         //$this->layout_assets->addJs("vectores/index.js");
-        
+
         $this->template->parse("default", "pages/vectores/denuncias/index", $data);
-        
+
     }
 
     /**
@@ -71,7 +71,7 @@ class vectores extends MY_Controller
             'cambiar_coordenadas' => $cambiar_coordenadas,
             "js" => $this->load->view("pages/mapa/js-plugins", array(), true)
         );
-        
+
         /*$this->layout_assets->addMapaFormulario();
         $this->layout_assets->addJs("vectores/denuncias.js");
         $this->layout_template->view('default', 'pages/vectores/denuncias', $data);*/
@@ -117,7 +117,7 @@ class vectores extends MY_Controller
             }
         }
 
-        
+
         $data = array(
             'id' => $vector->id_vector,
             'longitud' => $vector->cd_longitud_vector,
@@ -171,7 +171,8 @@ class vectores extends MY_Controller
             'comentarios_ciudadano' => $vector->gl_comentario_ciudadano_vector,
             'estado' => $vector->cd_estado_vector,
             'estado_desarrollo' => $vector->cd_estado_desarrollo_vector,
-            'observaciones' => $vector->gl_observaciones_resultado_vector
+            'observaciones' => $vector->gl_observaciones_resultado_vector,
+            'nombre_mosquito' => $vector->gl_nombre_mosquito_vector
         );
 
 
@@ -190,16 +191,18 @@ class vectores extends MY_Controller
                 $texto_resultado = ' nuestro equipo se dirigirá a su domicilio para la inspección correspondiente';
                 break;
             case 2:
+            case 3:
+            case 4:
                 $resultado = 'NO CORRESPONDE';
                 $texto_resultado = ' el insecto recolectado no es de importancia sanitaria ';
                 if (!empty($vector->gl_observaciones_resultado_vector)):
                     $texto_resultado .= ', ' . $vector->gl_observaciones_resultado_vector;
                 endif;
                 break;
-            case 3:
+            /*case 3:
                 $resultado = 'NO ES CONCLUYENTE';
                 $texto_resultado = ' el insecto recolectado no es de importancia sanitaria';
-                break;
+                break;*/
         }
 
         $datos = array(
@@ -372,12 +375,17 @@ class vectores extends MY_Controller
     {
         $params = $this->input->post();
 
+        $nombre_mosquito = '';
+        if ($params['mosquito'] == 4)
+            $nombre_mosquito = $params['nombre_mosquito'];
+
         $data = array(
-            'cd_estado_vector' => $params['resultado_laboratorio'],
+            'cd_estado_vector' => $params['mosquito'],
             'cd_estado_desarrollo_vector' => $params['estado_desarrollo'],
             'fc_fecha_resultado_vector' => date('Y-m-d H:i:s'),
             'cd_entomologo_fk_vector' => $this->session->userdata('id'),
-            'gl_observaciones_resultado_vector' => $params['observaciones_resultado']
+            'gl_observaciones_resultado_vector' => $params['observaciones_resultado'],
+            'gl_nombre_mosquito_vector' => $nombre_mosquito
         );
 
         $json = array();
@@ -432,7 +440,7 @@ class vectores extends MY_Controller
     public function enviarResultado()
     {
         $params = $this->input->post();
-        $this->load->model("sendmail_model","_sendmail");
+        $this->load->model("sendmail_model", "_sendmail");
 
         $data = array(
             'cd_enviado_vector' => 1,
@@ -452,11 +460,11 @@ class vectores extends MY_Controller
                     $resultado = 'SI CORRESPONDE';
                     break;
                 case 2:
+                case 3:
+                case 4:
                     $resultado = 'NO CORRESPONDE';
                     break;
-                case 3:
-                    $resultado = 'NO ES CONCLUYENTE';
-                    break;
+
             }
 
 
@@ -733,7 +741,7 @@ class vectores extends MY_Controller
 
         $this->load->library('Fechas');
 
-        $arr_imagenes = array();    
+        $arr_imagenes = array();
         if ($imagenes) {
             foreach ($imagenes as $img) {
                 $arr_imagenes[] = array(
@@ -749,7 +757,7 @@ class vectores extends MY_Controller
         $data['imagenes'] = $arr_imagenes;
 
         $this->template->parse("default", 'pages/vectores/denuncias/upload_imagenes', $data);
-       // $this->layout_template->view('default', 'pages/vectores/upload_imagenes', $data);
+        // $this->layout_template->view('default', 'pages/vectores/upload_imagenes', $data);
 
 
     }
@@ -826,11 +834,13 @@ class vectores extends MY_Controller
                 if ($caso['cd_estado_vector'] == 0):
                     $resultado = 'En Revisión';
                 elseif ($caso['cd_estado_vector'] == 1):
-                    $resultado = 'Positivo';
+                    $resultado = 'Aedes';
                 elseif ($caso['cd_estado_vector'] == 2):
-                    $resultado = 'Negativo';
+                    $resultado = 'Culex';
                 elseif ($caso['cd_estado_vector'] == 3):
-                    $resultado = 'No concluyente';
+                    $resultado = 'Anopheles';
+                elseif ($caso['cd_estado_vector'] == 4):
+                    $resultado = 'No culicido ('.$caso['gl_nombre_mosquito_vector'].')';
                 endif;
 
                 $estadio_desarrollo = '';

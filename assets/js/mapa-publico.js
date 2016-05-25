@@ -18,6 +18,15 @@ $(document).ready(function() {
     var custom = new MapaElementos();
     custom.seteaPopupPoligono(false);
     custom.emergencia(id);
+    
+    custom.addOnLoadFunction("Datos externos" , function(data, mapa){
+        if(parseInt(data.resultado.marea_roja) == 1 || parseInt(data.resultado.marea_roja_pm) == 1){
+            var formulario = new MapaLayoutFormMareaRoja();
+            formulario.seteaEmergencia(id);
+            formulario.addExcelToMap(mapa);
+        }
+    });
+    
     visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, true);
     
     var archivos = new MapaArchivos();
@@ -29,32 +38,8 @@ $(document).ready(function() {
     capas.emergencia(id);
     visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
 
-    // menu inferior para elementos cargados
-    /*visor.addOnReadyFunction(
-        "menu inferior", 
-        function(map){
-            $(".top-menu").parent().removeClass("hidden");
-            $(".top-menu").slideupmenu({slideUpSpeed: 150, slideDownSpeed: 200, ease: "easeOutQuad", stopQueue: true});  
-            map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById('slideup-menu'));  
-        }
-        , null
-    );*/
-
-   
     visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
-    
-    /*
-    var formulario = new MapaLayoutFormCasosFebrilesFecha();
-    visor.addOnReadyFunction("buscador", formulario.addToMap);
-    */
-    
-    //visor.addOnReadyFunction("buscador marea roja", formularioMareaRoja);
-    
-    /*
-    var formulario = new MapaLayoutFormVectores();
-    visor.addOnReadyFunction("buscador vectores", formulario.addToMap);
-    */
-    
+
     //inicia mapa
     visor.bindMapa();
     
@@ -62,26 +47,4 @@ $(document).ready(function() {
     $("#sidebar-toggle").click(function(){
         visor.resizeMap();
     });
-
 });
-
-/**
- * Carga formulario con filtros de marea roja
- * @param {googleMap} mapa
- * @returns {undefined}
- */
-function formularioMareaRoja(mapa){
-    var formulario = new MapaLayoutFormMareaRoja();
-    formulario.seteaPosicion("TOP_LEFT");
-    formulario.addToMap(mapa);
-    
-    
-    $("#marea-roja-pm-contenedor-filtro-colores").waitUntilExists(function(){
-        
-        $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
-        
-        $("#marea-roja-pm-contenedor-filtro-colores").find(".marea-roja-color").each(function(){
-            $(this).prop("checked", false); 
-        });
-    });
-}

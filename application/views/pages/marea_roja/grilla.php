@@ -2,17 +2,18 @@
     <table id="grilla-emergencia" class="table table-hover datatable paginada hidden">
         <thead>
         <tr>
-            <th width="5%">Opciones</th>
+            <th>Opciones</th>
             <th>Código</th>
             <th>N° de acta</th>
-            <th width="10%">Fecha ingreso</th>
-            <th width="10%">Fecha toma de muestra</th>
-            <th width="10%">Laboratorio</th>
-            <th width="10%">Resultado</th>
-            <th width="15%">Estado</th>
-            <th width="10%">Recurso</th>
-            <th width="20%">Origen</th>
-            <th width="15%">Comuna</th>
+            <th>Fecha ingreso</th>
+            <th>Fecha toma de muestra</th>
+            <th>Laboratorio</th>
+            <th>Resultado</th>
+            <th>Estado</th>
+            <th>Recurso</th>
+            <th>Origen</th>
+            <th>Comuna</th>
+            <th>Fiscalizador</th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +36,7 @@
                                 </button>
                             <?php } ?> -->
                             
-                            <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta" data-muestra="<?php echo $id ?>" data-acta="<?php echo $numero_muestra ?>">
+                            <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta" data-muestra="<?php echo $row['id'] ?>" data-acta="<?php echo $row['numero_muestra'] ?>">
                                 <i class="fa fa-upload"></i>
                             </button>
                             
@@ -82,6 +83,10 @@
                     
                     <td width="10%" align="center">
                         <?php echo nombreComuna($row["comuna"]); ?>
+                    </td>
+                    
+                    <td width="10%" align="center">
+                        <?php echo nombreUsuario($row["id_usuario"]); ?>
                     </td>
                 </tr>
             <?php } ?>

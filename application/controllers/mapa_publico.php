@@ -33,19 +33,60 @@ class Mapa_publico extends Mapa {
         }
     }
     
-    /**
-     * Se quitan marcadores de marea roja
-     */
-    public function info_marea_roja(){
-
+    public function marea_roja_exportar(){
         header('Content-type: application/json'); 
-
-        echo Zend_Json::encode(
+        
+        $params = $this->input->post(null, true);
+        
+        $this->load->model("marea_roja_model", "_marea_roja_model");
+        $this->load->library(
             array(
-                "correcto" => true,
-                "lista" => array()
+                "core/excel/excel_json",
+                "core/string/arreglo",
+                "core/archivo/archivo_cache"
             )
         );
+        
+        $this->excel_json->setColumnas(
+            array(
+                "REGION"  => array(
+                    "tipo" => "json",
+                    "valor" => "REGION",
+                    "metodo" => "NOMBRE_REGION"
+                ),
+                "ORIGEN"  => array(
+                    "tipo" => "json",
+                    "valor" => "ORIGEN"
+                ),
+                "RECURSO" => array(
+                    "tipo" => "json",
+                    "valor" => "RECURSO"
+                ),
+                "RESULTADO" => array(
+                    "tipo" => "json",
+                    "valor" => "RESULTADO"
+                )
+            )
+        );
+        
+        $casos = array();
+        $lista_regiones = $this->_emergencia_model->listarRegionesPorEmergencia($params["id"]);
+        
+        $lista = $this->_marea_roja_model->listar(
+            array(
+                "region" => $this->arreglo->arrayToArray(
+                    $lista_regiones, 
+                    "reg_ia_id"
+                ),
+                "ingreso_resultado" => 1
+            )
+        );
+        
+        $this->excel_json->setData($lista, array("coordenadas","propiedades"));
+        $excel = $this->excel_json->getExcel();
+        
+        echo Zend_Json::encode(array("hash" => $this->archivo_cache->cache($excel["path"], $excel["nombre"])));
+        unlink($excel["path"]);
     }
     
     /**

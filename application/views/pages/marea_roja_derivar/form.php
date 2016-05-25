@@ -64,7 +64,7 @@
                                     <div class="form-group clearfix">
                                         <label for="analisis" class="control-label">Tipos de Análisis(*)</label>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="analisis[]" id="vpm" value="vpm"> Veneno
+                                            <label><input id="analisis" type="checkbox" name="analisis[]" id="vpm" value="vpm"> Veneno
                                                 Paralizante de los Mariscos (VPM)</label>
                                         </div>
                                         <div class="checkbox">
@@ -74,6 +74,7 @@
                                         <div class="checkbox">
                                             <label><input type="checkbox" name="analisis[]" id="vam" value="vam"> Veneno Amnésico de los Mariscos (VAM)</label>
                                         </div>
+                                        <span class="help-block hidden"></span>
                                     </div>
                                 </div>
                             </div>

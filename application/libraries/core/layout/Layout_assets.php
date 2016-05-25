@@ -24,6 +24,16 @@ Class Layout_assets{
     }
     
     /**
+     * Añade libreria datatable
+     */
+    public function addDataTable(){
+        
+        $this->addCss("js/library/DataTables-1.10.8/css/dataTables.bootstrap.css");
+        $this->addJs("library/DataTables-1.10.8/js/jquery.dataTables.js")
+             ->addJs("library/DataTables-1.10.8/js/dataTables.bootstrap.js");
+    }
+    
+    /**
      * Añade css al stack
      * @param string $css
      */
@@ -34,10 +44,15 @@ Class Layout_assets{
         } else {
             $lista_css = array();
         }
-        
-        $lista_css[] = $css;
+        if(strpos($css, "http") === false){
+            $lista_css[] = base_url("assets/" . $css);
+        } else {
+            $lista_css[] = $css;
+        }
+
         
         Zend_Registry::set("css", $lista_css);
+        return $this;
     }
     
     /**

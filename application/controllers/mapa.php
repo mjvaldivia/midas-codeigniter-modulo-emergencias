@@ -93,9 +93,6 @@ class Mapa extends MY_Controller {
     public function __construct() {
         header("Access-Control-Allow-Origin: *");
         parent::__construct();
-
-        
-       
         $this->load->helper("modulo/evento/permiso");
         $this->_validarSession();
         $this->_cargaModel();
