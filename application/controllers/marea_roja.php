@@ -38,6 +38,11 @@ class Marea_roja extends MY_Controller
      */
     public function index()
     {
+        $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+        $this->layout_assets->addDataTable();
+        $this->layout_assets->addJs("modulo/marea_roja/base.js");
+        $this->layout_assets->addJs("modulo/marea_roja/muestra/index.js");
+        
         $this->template->parse(
             "default",
             "pages/marea_roja/index",
