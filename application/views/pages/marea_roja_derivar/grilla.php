@@ -10,7 +10,7 @@
             <th width="10%">Recurso</th>
             <th width="20%">Origen</th>
             <th width="15%">Comuna</th>
-            
+            <th>Fiscalizador</th>
             
         </tr>
         </thead>
@@ -59,7 +59,9 @@
                     <td width="10%" align="center">
                         <?php echo nombreComuna($row["comuna"]); ?>
                     </td>
-                    
+                    <td width="10%" align="center">
+                        <?php echo nombreUsuario($row["id_usuario"]); ?>
+                    </td>
                 </tr>
             <?php } ?>
         <?php } ?>

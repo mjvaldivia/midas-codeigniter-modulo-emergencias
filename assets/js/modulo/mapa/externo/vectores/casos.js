@@ -53,10 +53,10 @@ var MapaVectores = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            if(valor.propiedades.resultado == "Negativo"){
-                                var icono = baseUrl + "assets/img/markers/otros/radar.png"
-                            } else {
+                            if(valor.propiedades.resultado == "Aedes"){
                                 var icono = baseUrl + "assets/img/markers/otros/radar_rojo.png"
+                            } else {
+                                var icono = baseUrl + "assets/img/markers/otros/radar.png"
                             }
                             //var icono = baseUrl + "assets/img/markers/vectores.png"
                             
@@ -111,10 +111,10 @@ var MapaVectores = Class({
                 if(json.correcto){
                     $.each(json.lista, function(i, valor){
 
-                        if(valor.propiedades.resultado == "Negativo"){
-                            var icono = baseUrl + "assets/img/markers/otros/mosquito.png"
-                        } else {
+                        if(valor.propiedades.resultado == "Aedes"){
                             var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
+                        } else {
+                            var icono = baseUrl + "assets/img/markers/otros/mosquito.png"
                         }
 
                         var marcador = new MapaMarcador();

@@ -65,6 +65,13 @@ class Home extends MY_Controller {
      * Index
      */
     public function index () {
+        
+        $this->load->library("evento/evento_form_frontend");
+        
+        $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+        $this->layout_assets->addDataTable();
+        $this->evento_form_frontend->AddFrontend();
+        
         $this->template->parse("default", 
                                "pages/home/index", 
                                 array());

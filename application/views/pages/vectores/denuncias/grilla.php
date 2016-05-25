@@ -44,11 +44,15 @@
                     <?php if ($row['cd_estado_vector'] == 0): ?>
                         <span class="label label-default">En Revisión</span>
                     <?php elseif ($row['cd_estado_vector'] == 1): ?>
-                        <span class="label label-danger">Positivo</span>
+                        <span class="label label-danger">Aedes</span>
                     <?php elseif ($row['cd_estado_vector'] == 2): ?>
                         <span class="label label-primary">Negativo</span>
                     <?php elseif ($row['cd_estado_vector'] == 3): ?>
-                        <span class="label label-info">No concluyente</span>
+                        <span class="label label-info">Negativo</span>
+                    <?php elseif ($row['cd_estado_vector'] == 4): ?>
+                        <span class="label label-info">Negativo</span>
+                    <?php else: ?>
+                        <span class="label label-info">Sin información</span>
                     <?php endif; ?>
                 </td>
                 <td align="center" width="100">

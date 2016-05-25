@@ -64,6 +64,11 @@ Class Excel_json{
         }
     }
     
+    /**
+     * Recorre los datos y llena el excel
+     * @param array $data
+     * @param array $json_fields
+     */
     public function setData($data, $json_fields = array()){
         if(count($data)>0){
             $j = 2;
@@ -88,6 +93,9 @@ Class Excel_json{
         }
     }
     
+    /**
+     * Retorna el excel a la salida de la vista
+     */
     public function render(){
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="marea_roja_' . date('d-m-Y') . '.xlsx"');
@@ -96,6 +104,13 @@ Class Excel_json{
         $objWriter->save('php://output');
     }
     
+    /**
+     * Asigna el valor a la celda
+     * @param array $configuracion
+     * @param int $fila
+     * @param array $json
+     * @return string
+     */
     protected function _procesaValor($configuracion, $fila, $json){
         if($configuracion["tipo"] == "json"){
             $valor = $json[$configuracion["valor"]];
