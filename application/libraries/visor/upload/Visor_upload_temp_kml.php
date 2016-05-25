@@ -103,10 +103,11 @@ Class Visor_upload_temp_kml{
             $upload->addFilter('Rename', array('target' => $this->_target , 'overwrite' => true));
         }
 
-        $upload->receive();
+        
 
 
         if($correcto){
+            $upload->receive();
             $retorno = $this->_saveToCache();
         }
         
