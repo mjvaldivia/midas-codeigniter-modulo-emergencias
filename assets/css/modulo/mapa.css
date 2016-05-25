@@ -254,3 +254,11 @@
     color: #8a6d3b;
     background-color: #f7f0ce;
 }
+
+.mapa-menu-derecho {
+    margin-right: 20px;
+    margin-top: 10px;
+    padding-left: 0;
+    width: 100%;
+    z-index: 50 !important;
+}

@@ -12,6 +12,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
     public function index()
     {
         $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+        $this->layout_assets->addDataTable();
         $this->layout_assets->addJs("modulo/marea_roja/base.js");
         $this->layout_assets->addJs("modulo/marea_roja/derivar/index.js");
         $this->layout_template->view(

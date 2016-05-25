@@ -23,7 +23,7 @@ Class Archivo_cache{
         $this->_ci->load->library(
             array(
                 "core/string/random", 
-                "core/zend/cache"
+                "cache"
             )
         );
     }
@@ -51,9 +51,15 @@ Class Archivo_cache{
             $nombre = basename($ubicacion);
         }
         
+        if(is_file($ubicacion)){
+            $archivo = file_get_contents($ubicacion);
+        } else {
+            $archivo = $ubicacion;
+        }
+        
         $cache->save(
             array(
-                "archivo" => file_get_contents($ubicacion),
+                "archivo" => $archivo,
                 "archivo_nombre" => $nombre,
                 "mime" => mime_content_type($ubicacion),
                 "tipo" => pathinfo($ubicacion, PATHINFO_EXTENSION)

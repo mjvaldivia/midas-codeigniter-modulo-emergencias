@@ -509,7 +509,10 @@ class Vigilancia_Casos_febriles extends MY_Controller
      * 
      */
     public function grafico(){
-        $this->layout_assets->addJs("modulo/casos_febriles/grafico.js");
+        $this->layout_assets->addJs("modulo/casos_febriles/grafico.js")
+                            ->addJs("library/amcharts/amcharts.js")
+                            ->addJs("library/amcharts/pie.js")
+                            ->addJs("library/amcharts/serial.js");
         $this->layout_template->view(
             "default", 
             "pages/casos_febriles/grafico", 
@@ -524,7 +527,13 @@ class Vigilancia_Casos_febriles extends MY_Controller
     public function json_grafico()
     {
         header('Content-type: application/json');
-        $lista = $this->_rapanui_dengue_model->listar();
+        
+        $lista = $this->_rapanui_dengue_model->listar(
+            array(
+                "region" => $this->_id_region,
+                "comuna" => $this->_id_comuna
+            )
+        );
 
 
 

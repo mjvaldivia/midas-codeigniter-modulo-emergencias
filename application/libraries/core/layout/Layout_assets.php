@@ -24,6 +24,16 @@ Class Layout_assets{
     }
     
     /**
+     * Añade libreria datatable
+     */
+    public function addDataTable(){
+        
+        $this->addCss("js/library/DataTables-1.10.8/css/dataTables.bootstrap.css");
+        $this->addJs("library/DataTables-1.10.8/js/jquery.dataTables.js")
+             ->addJs("library/DataTables-1.10.8/js/dataTables.bootstrap.js");
+    }
+    
+    /**
      * Añade css al stack
      * @param string $css
      */

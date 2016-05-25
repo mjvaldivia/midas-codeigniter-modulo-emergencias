@@ -5,9 +5,9 @@
 
             </h1>
             <ol class="breadcrumb">
-                <li><i class="fa fa-dashboard"></i><a href="<?php echo base_url("casos_febriles") ?>"> Casos Febriles </a></li>
+                <li><i class="fa fa-dashboard"></i><a href="<?php echo base_url(getController()); ?>"> Casos Febriles </a></li>
                 <li class="active"><i class="fa fa-area-chart"></i> Gráficos</li>
-                <li class="pull-right"><a href="<?php echo base_url("casos_febriles") ?>"> <i class="fa fa-backward"></i> Volver </a></li>
+                <li class="pull-right"><a href="<?php echo base_url(getController()); ?>"> <i class="fa fa-backward"></i> Volver </a></li>
             </ol>
         </div>
     </div>
