@@ -96,7 +96,8 @@ var MapaPoligono = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: color,
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
 
             poligono.setMap(yo.mapa);
