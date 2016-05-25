@@ -53,7 +53,7 @@ var MapaVectores = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            if(valor.propiedades.resultado == "POSITIVO"){
+                            if(valor.propiedades.resultado_final == "POSITIVO"){
                                 var icono = baseUrl + "assets/img/markers/otros/radar_rojo.png"
                             } else {
                                 var icono = baseUrl + "assets/img/markers/otros/radar.png"
@@ -71,6 +71,7 @@ var MapaVectores = Class({
                                     "identificador" : "vectores_" + valor.id,
                                     "tipo" : "VECTOR",
                                     "fecha_hallazgo" : fecha_hallazgo,
+                                    "resultado_final" : valor.propiedades["resultado_final"],
                                     "resultado": valor.propiedades["resultado"],
                                     "estadio": valor.propiedades["estado_desarrollo"]
                                 }
@@ -111,7 +112,7 @@ var MapaVectores = Class({
                 if(json.correcto){
                     $.each(json.lista, function(i, valor){
 
-                        if(valor.propiedades.resultado == "POSITIVO"){
+                        if(valor.propiedades.resultado_final == "POSITIVO"){
                             var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
                         } else {
                             var icono = baseUrl + "assets/img/markers/otros/mosquito.png"
@@ -128,6 +129,7 @@ var MapaVectores = Class({
                                 "identificador" : "vectores_inspecciones_" + valor.id,
                                 "tipo" : "INSPECCION",
                                 "fecha_hallazgo" : fecha_hallazgo,
+                                "resultado_final" : valor.propiedades["resultado_final"],
                                 "resultado": valor.propiedades["resultado"],
                                 "estadio": valor.propiedades["estado_desarrollo"]
                             }
@@ -208,7 +210,8 @@ var MapaVectores = Class({
         
         if(ok){
             if($("#vectores_resultado").val() != ""){
-                if(marker["resultado"] &&  $("#vectores_resultado").val() != marker["resultado"].toUpperCase()){
+                
+                if(marker["resultado_final"] &&  $("#vectores_resultado").val() != marker["resultado_final"].toUpperCase()){
                     ok = false;
                 }
             }
