@@ -121,7 +121,8 @@ var MapaPoligonoInformacion = Class({
                 parametros["geometry"] = JSON.stringify(contenido.coordenadasCirculo(elemento.getCenter(), elemento.getRadius()));
                 break;
             case "POLIGONO":
-                parametros["geometry"] = JSON.stringify(elemento.getPath());
+                console.log(elemento.getPath().getArray());
+                parametros["geometry"] = JSON.stringify(elemento.getPath().getArray());
                 break;
             case "MULTIPOLIGONO":
                 parametros["geometry"] = JSON.stringify(elemento.getPaths());
@@ -168,7 +169,7 @@ var MapaPoligonoInformacion = Class({
      */
     addRightClickListener : function(elemento, mapa){
         var yo = this;
-        
+        console.log("Click para poligono");
         /*
         elemento.addListener('click', function(event) {
        
@@ -185,6 +186,7 @@ var MapaPoligonoInformacion = Class({
         
         if(elemento.popup_poligono){
             elemento.addListener('rightclick', function(event) {
+                console.log("Boton derecho presionado");
                 yo.muestraMenuParaPopup(mapa, yo.elementosSeleccionados(event), event.latLng);  
             });
         }
