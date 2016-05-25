@@ -36,27 +36,19 @@ var MapaArchivos = Class({
         var lista = kml;
      
         $.each(lista, function(i, json){ 
-           if(i == 0){
-               html += "<li class=\"\">\n"
-                 + "<div class=\"row\">"
-                 + "<div class=\"col-xs-1\"></div>\n"
-                 + "<div class=\"col-xs-2 badge alert-info\">Tipo archivo</div>\n"
-                 + "<div class=\"col-xs-4 badge alert-info\">Descripción</div>"
-                 + "<div class=\"col-xs-4 badge alert-info\">Nombre</div>"
-                 + "<div class=\"col-xs-1 badge alert-info\"></div>"
-                 + "</div>"
-                 + "</li>";
+            
+           if(i!=0){
+               html += "<li class=\"divider\"></li>";
            } 
             
-           html += "<li data=\"" + json.hash + "\" class=\"\">\n"
+           html += "<li data=\"" + json.hash + "\" class=\"\">\n<a href=\"#\" data-hash=\"" + json.hash + "\" data-rel=\"" + json.id + "\" class=\"ver-detalle-archivo\">"
                  + "<div class=\"row\">"
-                 + "<div class=\"col-xs-1\"><input checked=\"checked\" class=\"ocultar-archivo-importado\" type=\"checkbox\" data-rel=\"" + json.hash + "\"/></div>\n"
+                 + "<div class=\"col-xs-2 text-center\"><input checked=\"checked\" class=\"ocultar-archivo-importado\" type=\"checkbox\" data-rel=\"" + json.hash + "\"/></div>\n"
                  + "<div class=\"col-xs-2\">(" + json.tipo + ")</div>\n"
                  + "<div class=\"col-xs-4\"> " + json.nombre + "</div>"
                  + "<div class=\"col-xs-4\"> " + json.archivo + "</div>"
-                 + "<div class=\"col-xs-1\"><button data-rel=\"" + json.hash + "\" title=\"Quitar archivo\" class=\"btn btn-xs btn-danger btn-quitar-archivo\"> <i class=\"fa fa-remove\"></i></button></div>"
                  + "</div>"
-                 + "</li>";
+                 + "</a></li>";
          
            cantidad++;
         });
