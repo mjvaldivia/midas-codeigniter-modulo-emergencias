@@ -13,7 +13,6 @@
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
 
 <!-- Extensiones para el mapa -->
-<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.label.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.ruler.js"); ?>
 <?= loadCSS("assets/js/modulo/mapa/google/extension/maps.google.buttons.css") ?>

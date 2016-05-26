@@ -284,15 +284,15 @@
             <h3>
                 <i class="fa fa-sign-out text-green"></i> ¿Realmente desea salir?
             </h3>
-            <p>Seleccione "Salir" si <br> desea cerrar la sesión actual.</p>
+            <p>Seleccione "Cerrar" si <br> desea cerrar la sesión actual.</p>
             <ul class="list-inline">
                 <li>
                     <a href="<?= site_url("session/logout") ?>" class="btn btn-green">
-                        <strong>Salir</strong>
+                        <strong>Cerrar</strong>
                     </a>
                 </li>
                 <li>
-                    <button class="logout_close btn btn-green">Cerrar</button>
+                    <button class="logout_close btn btn-green">Volver</button>
                 </li>
             </ul>
         </div>
