@@ -66,7 +66,12 @@ if (defined('ENVIRONMENT'))
 
 		case 'testing':
 		case 'production':
+<<<<<<< HEAD
+			//error_reporting(E_ALL);
+			ini_set('display_errors', '0');
+=======
                     error_reporting(0);
+>>>>>>> aebf6dc3352c87ad75289a9b51410374f470bb6f
 		break;
 
 		default:
