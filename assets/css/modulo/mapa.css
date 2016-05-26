@@ -1,6 +1,8 @@
 #page-wrapper{
    padding-left: 0;
    padding-right: 0;
+   min-height: 100px;
+   padding-bottom: 0;
 }
 
 
@@ -41,8 +43,12 @@
 
 #busqueda {
   margin-top: 9px;
+  z-index: 60 !important;
 }
 
+#region{
+    z-index: 60 !important;
+}
 
 
 #menu-derecho{
@@ -50,6 +56,7 @@
     margin-top: 10px;
     padding-left: 0px;
     margin-right: 20px;
+    z-index:50 !important;
 }
 
 #menu-derecho > .navbar-nav > li > a {
@@ -182,7 +189,8 @@
 }
 .dropdown-menu-large .dropdown-header {
   color: #428bca;
-  font-size: 18px;
+  font-size: 15px;
+  white-space: normal; 
 }
 @media (max-width: 768px) {
   .dropdown-menu-large {
@@ -210,4 +218,47 @@
     width: 40px;     
     border: 2px solid black;
     white-space: nowrap;
+}
+
+.en-linea{
+    display: inline-block;
+}
+
+.form-busqueda{
+    top: 50px !important;
+    left: 10px !important;
+    background-color: transparent;
+    width: auto;
+    z-index:40 !important;
+ }
+ 
+ .panel-mapa{
+    margin-bottom: 0px;
+}
+
+.portlet {
+    margin-bottom: 0px;
+}
+
+.portlet .filtros-header {
+    padding: 0px;
+}
+
+#contenedor-mapa-tareas-loading{
+    right: 50px !important;
+    margin-bottom: 20px;
+    background-color: #FFF;
+    width: 170px;
+    height: 20px;
+    font-size:15px;
+    color: #8a6d3b;
+    background-color: #f7f0ce;
+}
+
+.mapa-menu-derecho {
+    margin-right: 20px;
+    margin-top: 10px;
+    padding-left: 0;
+    width: 100%;
+    z-index: 50 !important;
 }

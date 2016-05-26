@@ -17,10 +17,10 @@
         <div class="col-lg-12 col-sm-12">
             <div class="row">
                 
-                <?php if(puedeVer("alarma")) { ?>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <?php if(permisoEvento("ver")) { ?>
+                <div class="col-lg-3 col-md-6 col-sm-6 tile-menu">
                     <div class="circle-tile">
-                        <a href="<?php if(puedeEditar("alarma")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>">
+                        <a href="<?php if(permisoEvento("editar")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>">
                             <div class="circle-tile-heading orange">
                                 <i class="fa fa-bullhorn fa-fw fa-3x"></i>
                             </div>
@@ -29,47 +29,16 @@
                             <div class="circle-tile-description text-faded">
                                 Eventos
                             </div>
-                            <a href="<?php if(puedeEditar("alarma")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                            <a href="<?php if(permisoEvento("editar")) { echo site_url("evento/index/tab/nuevo"); } else {echo site_url("evento/index/tab/listado");} ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
                 <?php } ?>
-                
-                <?php /*if(puedeVer("emergencia")) { */?><!--
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div class="circle-tile">
-                        <a href="<?/*= site_url("emergencia/listado/estado/en_curso") */?>">
-                            <div class="circle-tile-heading red">
-                                <i class="fa fa-bullhorn fa-fw fa-3x"></i>
-                            </div>
-                        </a>
-                        <div class="circle-tile-content red">
-                            <div class="circle-tile-description text-faded">
-                                Emergencias
-                            </div>
-                            <a href="<?/*= site_url("emergencia/listado/estado/en_curso") */?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                --><?php /*} */?>
+
                 
                 <?php if(puedeVer("capas")) { ?>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div class="circle-tile">
-                        <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>">
-                            <div class="circle-tile-heading blue">
-                                <i class="fa fa-object-group fa-fw fa-3x"></i>
-                            </div>
-                        </a>
-                        <div class="circle-tile-content blue">
-                            <div class="circle-tile-description text-faded">
-                                Capas
-                            </div>
-                            <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                
+                <div class="col-lg-3 col-md-6 col-sm-6 tile-menu">
                     <div class="circle-tile">
                         <a href="<?php echo site_url("visor"); ?>">
                             <div class="circle-tile-heading dark-blue">
@@ -84,10 +53,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 tile-menu">
+                    <div class="circle-tile">
+                        <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>">
+                            <div class="circle-tile-heading blue">
+                                <i class="fa fa-object-group fa-fw fa-3x"></i>
+                            </div>
+                        </a>
+                        <div class="circle-tile-content blue">
+                            <div class="circle-tile-description text-faded">
+                                Capas
+                            </div>
+                            <a href="<?php if(puedeEditar("capas")) { echo site_url("capas/ingreso/tab/nuevo"); } else { echo site_url("capas/ingreso/tab/listado"); } ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
                 <?php } ?>
                 
                 <?php if(puedeVer("simulacion")) { ?>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-2 col-md-4 col-sm-6 tile-menu">
                     <div class="circle-tile">
                         <a href="<?= site_url("/session/inicia_simulacion") ?>">
                             <div class="circle-tile-heading green">
@@ -105,7 +90,7 @@
                 <?php } ?>
                 
                 <?php if(puedeVer("documentacion")) { ?>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-2 col-md-4 col-sm-6 tile-menu">
                     <div class="circle-tile">
                         <a href="<?= site_url("/mantenedor_documentos/index") ?>">
                             <div class="circle-tile-heading dark-gray">
@@ -122,7 +107,7 @@
                 </div>
                 <?php } ?>
                 
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <!--<div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="circle-tile">
                         <a href="<?= site_url("soportes/bandeja_usuario") ?>">
                             <div class="circle-tile-heading gray">
@@ -136,14 +121,14 @@
                             <a href="<?= site_url("soportes/bandeja_usuario") ?>" class="circle-tile-footer">Mas información <i class="fa fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12 col-sm-12">
             
-            <?php if(puedeVer("emergencia")) { ?>
+            <?php if(permisoEvento("ver")) { ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="portlet portlet-default">
@@ -166,7 +151,7 @@
             </div>
             <?php } ?>
             
-            <?php if(puedeVer("alarma")) { ?>
+            <?php if(permisoEvento("ver")) { ?>
                 <div class="row top-spaced">
                     <div class="col-lg-12">
                         <div class="portlet portlet-default">
@@ -235,36 +220,6 @@
     </div>-->
     <?php } ?>
 </div>
-<?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js") ?>
-<?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
-
-<?= loadCSS("assets/js/library/daterangepicker/daterangepicker.css", true) ?>
-<?= loadCSS("assets/js/library/fullcalendar/fullcalendar.css", true) ?>
-<?= loadCSS("assets/js/library/morris/morris.css", true) ?>
-
-<?= loadJS("assets/js/library/daterangepicker/moment.js", true) ?>
-<?= loadJS("assets/js/library/daterangepicker/daterangepicker.js", true) ?>
-
-<?= loadJS("assets/js/library/fullcalendar/fullcalendar.min.js", true) ?>
-<?= loadJS("assets/js/library/fullcalendar/lang-all.js", true) ?>
-
-<?= loadJS("assets/js/library/morris/raphael-2.1.0.min.js", true) ?>
-<?= loadJS("assets/js/library/morris/morris.js", true) ?>
-
-<?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js", true) ?>
-
-
-<?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.min.css") ?>
-<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.min.js") ?>
-<?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
-
-<?= loadJS("assets/js/modulo/general/permisos.js") ?>
-
-<?= loadJS("assets/js/modulo/mapa/formulario.js"); ?>
-<?= loadJS("assets/js/modulo/evento/form/nuevo.js") ?>
-<?= loadJS("assets/js/modulo/evento/form/editar.js") ?>
-<?= loadJS("assets/js/modulo/evento/form/finalizar.js") ?>
 
 <?= loadJS("assets/js/library/html2canvas/build/html2canvas.js"); ?>
 <?= loadJS("assets/js/modulo/evento/reporte/form.js") ?>

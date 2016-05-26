@@ -23,6 +23,7 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->load->library(array("cache"));
+        $this->load->model("comuna_model","comuna_model");
     }
     
     /**
@@ -57,6 +58,30 @@ class Capa_Detalle_Elemento_Model extends MY_Model {
      */
     public function insert($data){
         return $this->_query->insert($data);
+    }
+    
+    public function listarPorComunaRegion($id_subcapa, $id_region){
+        $comunas = $this->comuna_model->getComunasPorRegion($id_region);
+        $lista_comunas = array();
+        
+        foreach($comunas as $com){
+            $lista_comunas[] = $com->com_ia_id;
+        }
+        
+        $query = $this->_query->select("p.*")
+                              ->from($this->_tabla . " p")
+                              ->whereAND("p.poligono_capitem", $id_subcapa, "=");
+        
+        $query->addWhere("p.poligono_comuna IN (".  implode(",", $lista_comunas)  . ")");
+   
+        $result = $query->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+        
+        
     }
     
     /**

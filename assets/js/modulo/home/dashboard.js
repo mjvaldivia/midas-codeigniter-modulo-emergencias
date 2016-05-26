@@ -30,9 +30,9 @@ var Dashboard = Class({
      * @returns void
      */
     loadDashboard : function(){
-        this.loadMapa();
-        this.loadGraficoEmergenciasMes();
-        this.loadCalendario();
+        //this.loadMapa();
+        //this.loadGraficoEmergenciasMes();
+        //this.loadCalendario();
         this.loadGrid();
         
     },

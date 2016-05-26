@@ -1,7 +1,35 @@
 var MapaElementos = Class({
     
+    /**
+     * googleMap
+     */
     mapa : null,
+    
+    /**
+     * Id de la emergencia actual
+     */
     id_emergencia : null,
+    
+    /**
+     * Si esta habilitado o no el popup
+     * con informacion del poligono
+     */
+    bo_informacion_poligonos : true,
+    
+    on_load_functions : {},
+    
+     /**
+     * Añade funciones a ejecutar cuando el mapa esta cargado
+     * @param {string} index identificador de la funcion para debug
+     * @param {function} funcion funcion a ejecutar
+     * @returns {void}
+     */
+    addOnLoadFunction : function(index, funcion, parametros){
+        this.on_load_functions[index] = {"funcion" : funcion,
+                                          "parametros" : parametros};
+    },
+    
+
     
     /**
      * 
@@ -12,6 +40,34 @@ var MapaElementos = Class({
         this.id_emergencia = id;
     },
     
+    /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
+     * Habilita o no popup con datos de poligono 
+     */
+    seteaPopupPoligono : function(booleano){
+        this.bo_informacion_poligonos = booleano;
+    },
+    
+    /**
+     * 
+     * @param {type} id
+     * @param {type} propiedades
+     * @param {type} coordenadas
+     * @param {type} color
+     * @returns {undefined}
+     */
     dibujarLinea : function(id, propiedades, coordenadas, color){
         var yo = this;
         var linea = new google.maps.Polyline({
@@ -22,6 +78,7 @@ var MapaElementos = Class({
             informacion: propiedades,
             tipo: "LINEA",
             geodesic: true,
+            editable: true,
             strokeColor: "#000",
             strokeOpacity: 1.0,
             strokeWeight: 2
@@ -81,20 +138,24 @@ var MapaElementos = Class({
             capa: null,
             informacion: propiedades,
             clickable: true,
-            editable: true,
+            editable: false,
             strokeColor: '#000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: color,
-            fillOpacity: 0.35
+            fillOpacity: 0.35,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         poligono.setMap(this.mapa);
+        
+        
         
         //se agrega evento de click para ver instalaciones
         //dentro de poligono
         var poligonoClickListener = new MapaPoligono();
         poligonoClickListener.addClickListener(poligono, this.mapa);
+        
         
         lista_poligonos.push(poligono);
     },
@@ -123,13 +184,13 @@ var MapaElementos = Class({
             fillColor: color,
             fillOpacity: 0.35,
             map: this.mapa,
-            bounds: coordenadas
+            bounds: coordenadas,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
-        var circuloClickListener = new MapaInformacionElemento();
+        var circuloClickListener = new MapaPoligonoInformacion();
         circuloClickListener.addRightClickListener(rectangle, this.mapa);
         
-
         lista_poligonos.push(rectangle);
     },
     
@@ -159,7 +220,8 @@ var MapaElementos = Class({
             fillOpacity: 0.35,
             map: this.mapa,
             center: centro,
-            radius: radio
+            radius: radio,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         var circuloClickListener = new MapaInformacionElemento();
@@ -221,9 +283,12 @@ var MapaElementos = Class({
      * @returns {void}
      */
     loadCustomElements : function(mapa, mensaje_carga){
+        var tareas = new MapaLoading();
+        
+        
+        
         
         this.mapa = mapa;
-        
         
         var yo = this;
         
@@ -233,7 +298,7 @@ var MapaElementos = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_elementos_emergencia", 
+            url: baseUrl + yo.getController() + "/ajax_elementos_emergencia", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -279,33 +344,37 @@ var MapaElementos = Class({
                         }
                     });
                     
-                    if(!bo_lugar_emergencia){
+                    /*if(!bo_lugar_emergencia){
                         var lugar_alarma = new MapaMarcadorLugarAlarma();
                         lugar_alarma.seteaEmergencia(yo.id_emergencia);
                         lugar_alarma.marcador(yo.mapa);   
-                    }
+                    }*/
                     
                     yo.listaElementosVisor();
                     
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
-                
+                tareas.remove(1);
             }
         };
-
+        
+        tareas.push(1);
          $.ajax({         
             dataType: "json",
             cache: false,
-            async: false,
+            async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_contar_elementos", 
+            url: baseUrl + yo.getController() + "/ajax_contar_elementos", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
+                tareas.remove(1);
                 if(data.cantidad > 0){
                     if(mensaje_carga){
-                        Messenger().run({
+                        tareas.push(1);
+                        $.ajax(ajax)
+                       /* Messenger().run({
                             action: $.ajax,
                             showCloseButton: true,
                             successMessage: '<strong> Elementos </strong> <br> Ok',
@@ -313,22 +382,23 @@ var MapaElementos = Class({
                             progressMessage: '<strong> Elementos </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
                         },
                         ajax
-                        );
+                        );*/
                 
                         
                     } else {
                         $.ajax(ajax);
                     }
                 } else {
-                    var lugar_alarma = new MapaMarcadorLugarAlarma();
+                   /* var lugar_alarma = new MapaMarcadorLugarAlarma();
                     lugar_alarma.seteaEmergencia(yo.id_emergencia);
-                    lugar_alarma.marcador(yo.mapa);
-                    
+                    lugar_alarma.marcador(yo.mapa);  */ 
                 }
                 yo.loadConfiguracion(mensaje_carga);
             }
         });
     },
+    
+    
     
     /**
      * 
@@ -342,41 +412,21 @@ var MapaElementos = Class({
             async: false,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_mapa_configuracion", 
+            url: baseUrl + yo.getController() + "/ajax_mapa_configuracion", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                if(data.correcto){
                    
-                   if(data.resultado.casos_febriles == 1){
-                        var sidco = new MapaIslaDePascuaCasos();
-                            sidco.seteaMapa(yo.mapa);
-                            sidco.load();
-                            $("#importar_rapanui_casos").prop("checked", true);
-                        } else {
-                            $("#importar_rapanui_casos").prop("checked", false);
-                   }
-                   
-                   if(data.resultado.casos_febriles_zona == 1){
-                        var sidco = new MapaIslaDePascuaZonas();
-                            sidco.seteaMapa(yo.mapa);
-                            sidco.load();
-                            $("#importar_rapanui_zonas").prop("checked", true);
-                        } else {
-                            $("#importar_rapanui_zonas").prop("checked", false);
-                   }
-                   
-                   if(data.resultado.sidco == 1){
-                        var sidco = new MapaKmlSidcoConaf();
-                        sidco.seteaMapa(yo.mapa);
-                        sidco.loadKml(mensaje_carga);
-                        $("#importar_sidco").prop("checked", true);
-                   } else {
-                       $("#importar_sidco").prop("checked", false);
-                   }
-                   
-                   if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
-                       yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
-                   }
+                    $.each(yo.on_load_functions, function(i, funcion){
+                        console.log("Carga de " + i);
+                        funcion.funcion(data, yo.mapa);
+                    });
+
+                    
+                    if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
+                        yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
+                    }
+
                }
             }
         });

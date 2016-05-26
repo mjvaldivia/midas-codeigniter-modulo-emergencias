@@ -41,6 +41,10 @@ var EventoFormNuevo = Class({
         this.callBackGuardar = options.callBackGuardar;
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     bindUpload : function (){
         $("#upload-adjunto").fileinput({
             language: "es",
@@ -115,6 +119,8 @@ var EventoFormNuevo = Class({
             $(this).click(function(e){
                 e.preventDefault();
                 $(this).parent().parent().parent().remove();
+                
+                
             });
         });
         
@@ -170,7 +176,7 @@ var EventoFormNuevo = Class({
                         $("#div-pasos").hide();
                     }
                     yo.btnPaso1();
-                    yo.bindUpload();
+                    //yo.bindUpload();
                 }
             });
         });      
@@ -288,36 +294,20 @@ var EventoFormNuevo = Class({
      * 
      * @returns {undefined}
      */
-    bindMapa : function(){
+    bindMapa : function(){        
         var mapa = new MapaFormulario("mapa");
+        mapa.seteaIcono("assets/img/referencia.png");
         mapa.seteaPlaceInput("nombre_lugar");
-        
         if($("#longitud").val() != "" && $("#latitud").val() != ""){
             mapa.setLongitud($("#longitud").val());
             mapa.setLatitud($("#latitud").val());
-            
-            /*if($("#geozone").val() == ""){
-                $.ajax({         
-                    dataType: "json",
-                    cache: false,
-                    async: false,
-                    data: "",
-                    type: "post",
-                    url: siteUrl + "session/getMinMaxUsr", 
-                    error: function(xhr, textStatus, errorThrown){
-
-                    },
-                    success:function(data){
-                        $("#geozone").val(data.com_c_geozone);
-                    }
-                }); 
-            } 
-            
-            mapa.setGeozone($("#geozone").val());*/
         }
-
         mapa.inicio();
         mapa.cargaMapa(); 
+
+        if($("#eme_id").val()!=""){
+            mapa.setMarkerInputs();
+        }
     } ,
     
 
@@ -401,6 +391,9 @@ var EventoFormNuevo = Class({
         this.bindSelectEmergenciaTipo();
         this.estadoEventoChange();
         setInputCorreos("destinatario", $("#id").val());
+        
+        
+        
     },
     
     /**

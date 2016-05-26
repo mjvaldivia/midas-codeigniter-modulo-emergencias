@@ -7,7 +7,9 @@ var Visor = Class({
     id_div_mapa : "",
     latitud : "-36.82013519999999",
     longitud : "-73.0443904",
+    zoom: 5,
     callback : null,
+    
     
     on_ready_functions : {},
     
@@ -28,6 +30,28 @@ var Visor = Class({
      */
     seteaEmergencia : function(id){
         this.id_emergencia = id;
+    },
+    
+    /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
+     * 
+     * @param {type} zoom
+     * @returns {undefined}
+     */
+    seteaZoom : function(zoom){
+        this.zoom = zoom;
     },
     
     /**
@@ -81,11 +105,13 @@ var Visor = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_posicion_lugar_emergencia", 
+            url: baseUrl + yo.getController() + "/ajax_posicion_lugar_emergencia", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){
+                    yo.mapa.setZoom(parseInt(data.resultado.zoom));
                     yo.centrarMapa(data.resultado.lat, data.resultado.lon);
+                    
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
@@ -124,7 +150,7 @@ var Visor = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud), parseFloat(yo.longitud));
 
         var mapOptions = {
-          zoom: 17,
+          zoom: yo.zoom,
           scaleControl: true,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -183,6 +209,9 @@ var Visor = Class({
      * @returns {void}
      */
     resizeMap : function(){
+        //var height = $(window).height();
+        //$("#" + this.id_div_mapa).css("height", height - 50);
+
         var yo = this;
         if(typeof this.mapa =="undefined") return;
         setTimeout( function(){yo.resize();} , 400);

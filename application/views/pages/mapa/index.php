@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
 
     <meta charset="utf-8">
@@ -73,9 +72,7 @@
         <?= loadJS("assets/js/library/jquery.jcombo/jquery.jcombo.js", true) ?>
         <?= loadJS("assets/js/library/qtip/jquery.qtip.min.js", true) ?>
         
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.min.css") ?>
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.boostrap.css") ?>
-        <?= loadJS("assets/js/library/chosen_v1.4.2/chosen.jquery.min.js") ?>
+
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2.css", true) ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>
         <?= loadJS("assets/js/library/select2-4.0.0/js/select2.js", true) ?>
@@ -94,21 +91,17 @@
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                Utils.listenerCambioRapido();
-                Utils.toggleNavbarMethod();
-                Utils.ajaxRequestMonitor();
-                $(window).resize(Utils.toggleNavbarMethod);
-            });
-        </script>
+        
 
 <?php echo $js; ?>
 </head>
-<div class="row-mapa">
+
+<div class="row-mapa" style="height: auto">
+
 
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
-
+        
+        
         <div class="row">
             <div class="collapse navbar-collapse hidden" id="menu-derecho">
                 <ul class="nav navbar-nav navbar-left">
@@ -116,12 +109,13 @@
                 <li>
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
-                        <?php if($guardar):?>
-                        <li>
-                            <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
-                        </li>
+                        <?php if(permisoEvento("guardar")):?>
+                            <li>
+                                <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
+                            </li>
+                            <li class="divider"></li>
+
                         <?php endif;?>
-                        <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
                             <ul class="dropdown-menu">
@@ -132,6 +126,7 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
+                        <?php if(permisoEvento("guardar")):?>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-download"></i> Importar</a>
@@ -146,10 +141,37 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        
+                        <?php endif;?>
                     </ul>
                 </li>
                 
+                <li class="dropdown dropdown-large">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-object-group"></i> Capas <b class="caret"></b></a>
+
+                    <ul id="capas-menu" class="dropdown-menu dropdown-menu-large row" style="overflow-y: scroll; width:90%">
+                        <li class="col-sm-3">
+                            <ul id="capas-columna-1" class="capas-columna">
+
+                            </ul>
+                        </li>
+                        <li class="col-sm-3">
+                            <ul id="capas-columna-2" class="capas-columna">
+
+                            </ul>
+                        </li>
+                        <li class="col-sm-3">
+                            <ul id="capas-columna-3" class="capas-columna">
+
+                            </ul>
+                        </li>
+                        <li class="col-sm-3">
+                            <ul id="capas-columna-4" class="capas-columna">
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
                 </ul>
              </div><!-- /.navbar-collapse -->
         </div>

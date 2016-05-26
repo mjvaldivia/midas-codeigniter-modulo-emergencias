@@ -147,13 +147,38 @@ class Permiso_Model extends MY_Model {
         $query = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
                       ->whereAND("m.bo_visor_emergencia", 1)
                       ->select("count(*) as cantidad", false);
-        fb($query->getQuery());
+        
         $result = $query->getOneResult();
         if(!is_null($result)){
             if($result->cantidad > 0){
                 return true;
             }
         }  
+        return false;
+    }
+    
+    /**
+     * 
+     * @param type $lista_roles
+     * @param type $id_modulo
+     * @param type $accion
+     * @return boolean
+     */
+    public function verPermiso($lista_roles, $id_modulo, $accion){
+        $result = $this->_queryPorRolesModulo($lista_roles, $id_modulo)
+                       ->select("*", false)
+                       ->getAllResult();
+        if(!is_null($result)){
+            $retorno = false;
+            foreach($result as $resultado){
+                $permisos = Zend_Json::decode($resultado["permisos"]);
+                if(isset($permisos[$accion]) && $permisos[$accion]==1){
+                    $retorno = true;
+                }
+            }
+            
+            return $retorno;
+        }
         return false;
     }
     
@@ -185,6 +210,27 @@ class Permiso_Model extends MY_Model {
     public function tienePermisoVerFormularioDatosPersonales($lista_roles, $id_submodulo){
         $result = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
                        ->whereAND("m.bo_formulario_datos_personales", 1)
+                       ->select("count(*) as cantidad", false)
+                       ->getOneResult();
+        if(!is_null($result)){
+            if($result->cantidad > 0){
+                return true;
+            }
+        }
+            
+        return false;
+        
+    }
+    
+    /**
+     * 
+     * @param array $lista_roles
+     * @param int $id_submodulo
+     * @return boolean
+     */
+    public function tienePermisoEmbarazadas($lista_roles, $id_submodulo){
+        $result = $this->_queryPorRolesModulo($lista_roles, $id_submodulo)
+                       ->whereAND("m.bo_embarazadas", 1)
                        ->select("count(*) as cantidad", false)
                        ->getOneResult();
         if(!is_null($result)){
@@ -251,6 +297,26 @@ class Permiso_Model extends MY_Model {
         return false;
     }
     
+     /**
+     * 
+     * @param int $id_rol
+     * @param int $id_modulo
+     * @return array
+     */
+    public function getByRolAndModulo($id_rol, $id_modulo){
+        $result = $this->_query
+                       ->select("*")
+                       ->from($this->_tabla . " m")
+                       ->whereAND("m.rol_ia_id", $id_rol)
+                       ->whereAND("m.per_ia_id", $id_modulo)
+                       ->getOneResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return null;
+        }
+    }
+    
     /**
      * 
      * @param array $lista_roles
@@ -265,6 +331,22 @@ class Permiso_Model extends MY_Model {
                               ->whereAND("p.per_ia_id", $id_submodulo);
         return $query;
         
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function listar(){
+        $result = $this->_query->select("*")
+                               ->from()
+                               ->orderBy("per_ia_id", "ASC")
+                               ->getAllResult();
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
 }
 

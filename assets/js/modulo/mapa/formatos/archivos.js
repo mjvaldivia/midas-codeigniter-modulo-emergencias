@@ -7,6 +7,15 @@ var MapaArchivos = Class({
     
     /**
      * 
+     * @param {googleMap} mapa
+     * @returns {undefined}
+     */
+    seteaMapa : function(mapa){
+      this.mapa = mapa;  
+    },
+    
+    /**
+     * 
      * @param {int} id identificador emergencias
      * @returns {undefined}
      */
@@ -14,6 +23,10 @@ var MapaArchivos = Class({
         this.id_emergencia = id;
     },
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     updateListaArchivosAgregados : function(){
         var kml = this.listArchivosKml();
                 
@@ -26,7 +39,8 @@ var MapaArchivos = Class({
            if(i == 0){
                html += "<li class=\"\">\n"
                  + "<div class=\"row\">"
-                 + "<div class=\"col-xs-3 badge alert-info\">Tipo archivo</div>\n"
+                 + "<div class=\"col-xs-1\"></div>\n"
+                 + "<div class=\"col-xs-2 badge alert-info\">Tipo archivo</div>\n"
                  + "<div class=\"col-xs-4 badge alert-info\">Descripción</div>"
                  + "<div class=\"col-xs-4 badge alert-info\">Nombre</div>"
                  + "<div class=\"col-xs-1 badge alert-info\"></div>"
@@ -36,7 +50,8 @@ var MapaArchivos = Class({
             
            html += "<li data=\"" + json.hash + "\" class=\"\">\n"
                  + "<div class=\"row\">"
-                 + "<div class=\"col-xs-3\">(" + json.tipo + ")</div>\n"
+                 + "<div class=\"col-xs-1\"><input checked=\"checked\" class=\"ocultar-archivo-importado\" type=\"checkbox\" data-rel=\"" + json.hash + "\"/></div>\n"
+                 + "<div class=\"col-xs-2\">(" + json.tipo + ")</div>\n"
                  + "<div class=\"col-xs-4\"> " + json.nombre + "</div>"
                  + "<div class=\"col-xs-4\"> " + json.archivo + "</div>"
                  + "<div class=\"col-xs-1\"><button data-rel=\"" + json.hash + "\" title=\"Quitar archivo\" class=\"btn btn-xs btn-danger btn-quitar-archivo\"> <i class=\"fa fa-remove\"></i></button></div>"
@@ -57,7 +72,45 @@ var MapaArchivos = Class({
 
         $("#lista_importados_agregados").html(html);
         
+        this.bindCheckVisualizar();
         
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    bindCheckVisualizar : function(){
+        var yo = this;
+        $(".ocultar-archivo-importado").livequery(function(){
+           $(this).unbind("click");
+           $(this).click(function(){
+                var hash = $(this).attr("data-rel"); 
+                if($(this).is(":checked")){
+                    jQuery.grep(lista_markers, function( a ) {
+                        if(a["identificador"] == "kml_" + hash ){
+                            a.setVisible(true);
+                        }
+                    });
+                    jQuery.grep(lista_poligonos, function( a ) {
+                        if(a["identificador"] == "kml_" + hash){
+                            a.setMap(yo.mapa);
+                        }
+                    });
+                } else {
+                    jQuery.grep(lista_markers, function( a ) {
+                        if(a["identificador"] == "kml_" + hash ){
+                            a.setVisible(false);
+                        }
+                    });
+                    jQuery.grep(lista_poligonos, function( a ) {
+                        if(a["identificador"] == "kml_" + hash){
+                            a.setMap(null);
+                        }
+                    });
+                }
+           });
+        });
     },
     
      /**
@@ -86,8 +139,11 @@ var MapaArchivos = Class({
      * @returns {void}
      */
     loadArchivos : function(mapa){
+        
+        var tareas = new MapaLoading();
+        tareas.push(1);
         var yo = this;
-
+        this.mapa = mapa;
         $.ajax({         
            dataType: "json",
            cache: false,
@@ -99,14 +155,10 @@ var MapaArchivos = Class({
                notificacionError("Ha ocurrido un problema - ", errorThrown);
            },
            success:function(data){
+               tareas.remove(1);
                if(data.cantidad>0){
-                   Messenger().run({
-                       action: $.ajax,
-                       showCloseButton: true,
-                       successMessage: '<strong> KML </strong> <br> Ok',
-                       errorMessage: '<strong> KML </strong> <br> Se produjo un error al cargar',
-                       progressMessage: '<strong> KML </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-                   }, {         
+                   tareas.push(1);
+                   $.ajax({         
                        dataType: "json",
                        cache: false,
                        async: true,
@@ -123,6 +175,7 @@ var MapaArchivos = Class({
                                        
                                         $.each(elemento.elementos, function(i, row){
                                             var coordenadas = jQuery.parseJSON(row.coordenadas);
+                                            
                                             if(row["tipo"] == "PUNTO"){
                                                 var marcador = new MapaKmlImportarMarcador();
                                                 marcador.seteaMapa(mapa);
@@ -141,6 +194,21 @@ var MapaArchivos = Class({
                                             if(row["tipo"] == "MULTIPOLIGONO"){
                                                
                                                 var poligono = new MapaPoligonoMulti();
+                                                poligono.seteaMapa(mapa);
+                                                poligono.dibujarPoligono(
+                                                    "kml_" + elemento.hash,
+                                                    row.nombre, 
+                                                    null,
+                                                    coordenadas, 
+                                                    {"NOMBRE" : row.nombre,
+                                                    "TIPO" : elemento.nombre},
+                                                    null, 
+                                                    row.color);
+                                            }
+                                            
+                                            if(row["tipo"] == "POLIGONO"){
+                                               
+                                                var poligono = new MapaPoligono();
                                                 poligono.seteaMapa(mapa);
                                                 poligono.dibujarPoligono(
                                                     "kml_" + elemento.hash,
@@ -181,6 +249,7 @@ var MapaArchivos = Class({
                                });
                                yo.updateListaArchivosAgregados();
                            }
+                           tareas.remove(1);
                        }
                    });
                }

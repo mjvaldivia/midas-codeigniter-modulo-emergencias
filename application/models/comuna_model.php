@@ -7,6 +7,10 @@
  */
 class Comuna_Model extends MY_Model
 {    
+    /**
+     * INT
+     */
+    const ISLA_DE_PASCUA = 12;
     
     /**
      * Se utiliza emergencias_simulacion o no
@@ -36,6 +40,28 @@ class Comuna_Model extends MY_Model
      */
     public function getOneByName($nombre){
         return $this->_query->getById("com_c_nombre", $nombre);
+    }
+    
+    /**
+     * 
+     * @param int $id_usuario
+     * @return array
+     */
+    public function listarComunasPorRegion($id_region){
+        $result = $this->_query
+                      ->select("c.*")
+                      ->from($this->_tabla . " c")
+                      ->join("provincias p", "p.prov_ia_id = c.prov_ia_id", "INNER")
+                      ->join("regiones r", "r.reg_ia_id = p.reg_ia_id", "INNER")
+                      ->whereAND("r.reg_ia_id", $id_region)
+                      ->orderBy("c.com_c_nombre", "ASC")
+                      ->getAllResult();
+
+        if(!is_null($result)){
+            return $result;
+        } else {
+            return NULL;
+        }
     }
     
     /**
@@ -87,7 +113,7 @@ class Comuna_Model extends MY_Model
         $query = "select c.* from ".$this->_tabla." c
                 left join provincias p on p.prov_ia_id = c.prov_ia_id 
                 left join regiones r on r.reg_ia_id = p.reg_ia_id 
-                where r.reg_ia_id = ?";
+                where r.reg_ia_id = ? ORDER BY c.com_c_nombre ASC";
         $result = $this->db->query($query,array($id_region));
 
         if($result->num_rows() > 0){
@@ -99,7 +125,7 @@ class Comuna_Model extends MY_Model
 
 
     public function getByNombre($nombre){
-        $query = 'select c.* from '.$this->_tabla.' c
+        $query = 'select c.*, p.prov_ia_id as id_provincia, r.reg_ia_id as id_region from '.$this->_tabla.' c
                 left join provincias p on p.prov_ia_id = c.prov_ia_id
                 left join regiones r on r.reg_ia_id = p.reg_ia_id
                 where c.com_c_nombre like "%'.$nombre.'%" limit 1';

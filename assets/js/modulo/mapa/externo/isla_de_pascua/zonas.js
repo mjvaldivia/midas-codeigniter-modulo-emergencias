@@ -1,6 +1,6 @@
-var rapanui_ebola_zonas = [];
+var casos_febriles_zonas = [];
 
-var MapaIslaDePascuaZonas = Class({  
+var MapaIslaDePascuaZonas = Class({ extends : MapaIslaDePascuaCasos}, {
     
     /**
      * Google maps
@@ -18,12 +18,30 @@ var MapaIslaDePascuaZonas = Class({
     },
     
     /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
      * Carga el KML desde conaf
      * @returns {void}
      */
     load : function(){
         var yo = this;
-        if(rapanui_ebola_zonas.length == 0){ //si ya esta cargado no se vuelve a cargar
+        if(casos_febriles_zonas.length == 0){ //si ya esta cargado no se vuelve a cargar
+            
+            var parametros = {"desde" : $("#fecha_desde_casos").val(),
+                              "hasta" : $("#fecha_hasta_casos").val(),
+                              "estado" : $("#estado_casos").val()};
+            
             Messenger().run({
                 action: $.ajax,
                 successMessage: 'Información del casos cargada correctamente',
@@ -34,15 +52,22 @@ var MapaIslaDePascuaZonas = Class({
                 dataType: "json",
                 cache: false,
                 async: true,
-                data: "",
+                data: parametros ,
                 type: "post",
-                url: siteUrl + "mapa/info_rapanui_dengue", 
+                url: baseUrl + yo.getController() + "/info_rapanui_dengue", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
+                            var lista_id_enfermedades = [];
+                            
                             switch(valor.id_estado){
                                 case "1":
+                                    
+                                    $.each(valor.enfermedades, function(i, enfermedad){
+                                        lista_id_enfermedades.push(enfermedad.id);
+                                    });
+                                    
                                     var zona = {
                                         "radio" : 200,
                                         "propiedades" : {"TIPO" : "CASO FEBRIL",
@@ -92,17 +117,55 @@ var MapaIslaDePascuaZonas = Class({
                                                        posicion, 
                                                        zona.radio, 
                                                        zona.color);
+                                                       
+                                var fecha_inicio = moment(valor.propiedades["FECHA DE INICIO DE SINTOMAS"], "DD/MM/YYYY", true);
+                                var fecha_ingreso = moment(valor.fecha_ingreso, "DD/MM/YYYY", true);
+                                var fecha_confirmacion = moment(valor.propiedades["CONCLUSION FECHA"], "DD/MM/YYYY", true);
 
-
-                                rapanui_ebola_zonas.push("rapanui_dengue_" + valor.id);
+                                casos_febriles_zonas.push(
+                                    {
+                                        "identificador" : identificador,
+                                        "fecha_inicio" : fecha_inicio,
+                                        "fecha_ingreso" : fecha_ingreso,
+                                        "fecha_confirmacion" : fecha_confirmacion,
+                                        "estado" : valor.id_estado,
+                                        "enfermedades" : lista_id_enfermedades
+                                    }
+                                );
                             }
                         });
+                        yo.filtrar();
                     } else {
                         notificacionError("", "No es posible encontrar la información de los casos febriles.");
                     }
+                    $("#formulario-casos-rango").removeClass("hidden");
                }
             });
         }
+    },
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    filtrar : function(){
+        var yo = this;
+        $.each(casos_febriles_zonas, function(i, marker){
+            var ok = yo.verFiltros(marker);
+            if(!ok){
+                jQuery.grep(lista_poligonos, function( a ) {
+                    if(a["identificador"] == marker.identificador){
+                        a.setMap(null);
+                    }
+                });
+            } else {
+                jQuery.grep(lista_poligonos, function( a ) {
+                    if(a["identificador"] == marker.identificador){
+                        a.setMap(yo.mapa);
+                    }
+                });
+            }
+        });
     },
     
     /**
@@ -111,11 +174,10 @@ var MapaIslaDePascuaZonas = Class({
      */
     remove : function(){        
         var poligono = new MapaPoligono();
-        $.each(rapanui_ebola_zonas, function(i, identificador){
-            poligono.removerPoligono("id", identificador);
+        $.each(casos_febriles_zonas, function(i, zona){
+            poligono.removerPoligono("clave", zona.identificador);
         });
-        
-        rapanui_ebola_zonas = [];
+        casos_febriles_zonas = [];
     }
 });
 

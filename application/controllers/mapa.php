@@ -93,20 +93,10 @@ class Mapa extends MY_Controller {
     public function __construct() {
         header("Access-Control-Allow-Origin: *");
         parent::__construct();
-        //sessionValidation();
-        $this->load->library("emergencia/emergencia_comuna");
-        $this->load->model("emergencia_model", "_emergencia_model");
-        $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
-        $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
-        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
-        $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
-        $this->load->model("alarma_model", "_alarma_model");
-        $this->load->model("capa_model", "_capa_model");
-        $this->load->model("comuna_model", "_comuna_model");
-        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
-        $this->load->model("capa_detalle_model", "_capa_detalle_model");
-        $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
-        $this->load->model("archivo_model", "_archivo_model");
+        $this->load->helper("modulo/evento/permiso");
+        $this->_validarSession();
+        $this->_cargaModel();
+
     }
     
     /**
@@ -122,13 +112,16 @@ class Mapa extends MY_Controller {
 
         //$this->load->model('Permiso_Model','PermisoModel');
         $this->load->model('Modulo_Model','ModuloModel');
+
         $guardar = true; // $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
 
+
         if(!is_null($emergencia)){
-            $data = array("id" => $emergencia->eme_ia_id,
-                          "guardar" => $guardar,
+            $data = array("id" => $params["id"],
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
+
             $this->load->view("pages/mapa/index", $data);
+
         } else {
             throw new Exception(__METHOD__ . " - La emergencia no existe");
         }
@@ -185,10 +178,17 @@ class Mapa extends MY_Controller {
             
             $this->visor_guardar_configuracion
                  ->setEmergencia($emergencia->eme_ia_id)
+                 ->setZoom($_POST["zoom"])
+                 ->setLatitud($_POST["latitud"])
+                 ->setLongitud($_POST["longitud"])
                  ->setSidcoConaf($_POST["sidco"])
                  ->setCasosFebriles($_POST["casos_febriles"])
                  ->setCasosFebrilesZona($_POST["casos_febriles_zona"])
                  ->setTipoMapa($_POST["tipo_mapa"])
+                 ->setMareaRoja($_POST["marea_roja"])
+                 ->setMareaRojaPm($_POST["marea_roja_pm"])
+                 ->setVectores($_POST["vectores"])
+                 ->setVectoresHallazgos($_POST["vectores_hallazgos"])
                  ->guardar();
             
             
@@ -202,6 +202,240 @@ class Mapa extends MY_Controller {
         echo json_encode($data);
     }
     
+    /**
+     * 
+     */
+    public function info_hospitales(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("hospital_model", "_hospital_model");
+        
+        $lista = $this->_hospital_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "HOSPITAL";
+
+                
+                $coordenadas = json_decode($row["coordenadas"]);
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
+                                 "id_estado" => $row["id_estado"],
+                                 "lat" => $coordenadas->lat,
+                                 "lng" => $coordenadas->lng);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    /**
+     * 
+     */
+    public function info_vectores(){
+        $this->load->library("visor/externo/visor_externo_vectores");
+        header('Content-type: application/json'); 
+        $casos = array();
+
+        
+        $lista = $this->visor_externo_vectores->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+
+                $propiedades = $row;
+                
+                $propiedades["TIPO"] = "VECTORES";
+                
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $row["lat"],
+                                 "lng" => $row["lon"]);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    /**
+     * 
+     */
+    public function info_vectores_hallazgos(){
+        $this->load->library("visor/externo/visor_externo_hallazgos");
+        header('Content-type: application/json'); 
+        $casos = array();
+
+        
+        $lista = $this->visor_externo_hallazgos->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+
+                $propiedades = $row;
+                $propiedades["TIPO"] = "INSPECCIONES";
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $row["lat"],
+                                 "lng" => $row["lon"]);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    /**
+     * 
+     */
+    public function info_rabia_vacunacion(){
+        $this->load->helper("modulo/usuario/usuario");
+        header('Content-type: application/json'); 
+        $casos = array();
+        $this->load->model("rabia_vacunacion_model", "_rabia_vacunacion_model");
+        
+        $lista = $this->_rabia_vacunacion_model->listar();
+        if($lista != null){
+            foreach($lista as $row){
+
+                $propiedades = Zend_Json::decode($row["propiedades"]);
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "VACUNACIÓN RABIA";
+
+                
+                $coordenadas = json_decode($row["coordenadas"]);
+                $casos[] = array("id" => $row["id"],
+                                 "propiedades" => $propiedades,
+                                 "lat" => $coordenadas->lat,
+                                 "lng" => $coordenadas->lng);
+            }
+        }
+        
+        echo json_encode(array(
+            "correcto" => true,
+            "lista" => $casos)
+        );
+    }
+    
+    /**
+     * 
+     */
+    public function info_marea_roja(){
+        
+        $params = $this->input->post(null, true);
+        header('Content-type: application/json'); 
+        
+        $this->load->model("usuario_region_model","_usuario_region_model");
+        
+        $this->load->helper(
+            array(
+                "modulo/usuario/usuario",
+                "modulo/direccion/region",
+                "modulo/comuna/default"
+            )
+        );
+        
+        $this->load->library(
+            array(
+                "core/fecha/fecha_conversion",
+                "core/string/arreglo"
+            )
+        );
+        
+        $this->load->model("marea_roja_model", "_marea_roja_model");
+        
+        $casos = array();
+        
+        $lista_regiones = $this->_emergencia_model->listarRegionesPorEmergencia($params["id"]);
+        
+        $lista = $this->_marea_roja_model->listar(
+            array(
+                "region" => $this->arreglo->arrayToArray(
+                    $lista_regiones, 
+                    "reg_ia_id"
+                ),
+                "ingreso_resultado" => 1
+            )
+        );
+        
+        if($lista != null){
+            foreach($lista as $row){
+                $propiedades = array("MUESTREO N°" => $row["id"]);
+                
+                $json = Zend_Json::decode($row["propiedades"]);
+                
+                foreach($json as $key => $value){
+                    $propiedades[$key] = $value;
+                }
+                
+                $propiedades["INGRESADO POR"] = (string) nombreUsuario($row["id_usuario"]);
+                $propiedades["TIPO"] = "MAREA ROJA";
+                $propiedades["REGION"] = nombreRegion($propiedades["REGION"]);
+                $propiedades["COMUNA"] = nombreComuna($propiedades["COMUNA"]);
+                
+                // se limpian datos a mostrar
+                unset($propiedades["INGRESADO POR"]);
+                unset($propiedades["FORM COORDENADAS TIPO"]);
+                unset($propiedades["FORM COORDENADAS GMS GRADOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS MINUTOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS SEGUNDOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS GRADOS LNG"]);
+                unset($propiedades["FORM COORDENADAS GMS MINUTOS LNG"]);
+                unset($propiedades["FORM COORDENADAS GMS SEGUNDOS LNG"]);
+                
+                unset($propiedades["FORM COORDENADAS UTM ZONA"]);
+                unset($propiedades["FORM COORDENADAS UTM LATITUD"]);
+                unset($propiedades["FORM COORDENADAS UTM LONGITUD"]);
+                
+                unset($propiedades["FORM COORDENADAS LATITUD"]);
+                unset($propiedades["FORM COORDENADAS LONGITUD"]);
+                
+                $coordenadas = Zend_Json::decode($row["coordenadas"]);
+                
+                $propiedades["latitud"] = $coordenadas["lat"];
+                $propiedades["longitud"] = $coordenadas["lng"];
+                
+                $casos[] = array(
+                    "id" => $row["id"],
+                    
+                    "fecha_muestra" => $this->fecha_conversion->fechaToDateTime(
+                        $propiedades["FECHA"],
+                        array(
+                            "d-m-Y",
+                            "d/m/Y"
+                        )
+                    )->format("d-m-Y"),
+                    
+                    "resultado" => $propiedades["RESULTADO"],
+                    "fecha" => $propiedades["FECHA"],
+                    "propiedades" => $propiedades,
+                    "lat" => $coordenadas["lat"],
+                    "lng" => $coordenadas["lng"]
+                );
+            }
+        }
+        
+        echo Zend_Json::encode(
+            array(
+                "correcto" => true,
+                "lista" => $casos
+            )
+        );
+    }
+    
+    /**
+     * 
+     */
     public function info_rapanui_embarazadas(){
         $this->load->helper("modulo/usuario/usuario");
         header('Content-type: application/json'); 
@@ -255,6 +489,22 @@ class Mapa extends MY_Controller {
         header('Content-type: application/json'); 
         $casos = array();
         
+        $params = $this->input->post(null, true);
+        
+        /*$fecha_desde = null;
+        $fecha_hasta = null;
+        
+        $fecha = DateTime::createFromFormat("d/m/Y", $params["desde"]);
+        if($fecha instanceof DateTime){
+            $fecha_desde = $fecha;
+        }
+        
+        $fecha = DateTime::createFromFormat("d/m/Y", $params["hasta"]);
+        if($fecha instanceof DateTime){
+            $fecha_hasta = $fecha;
+        }*/
+        
+        
         $this->load->model("casos_febriles_estado_model");
         $this->load->model("casos_febriles_enfermedades_model", "_casos_febriles_enfermedades_model");
         $this->load->model("casos_febriles_model", "_rapanui_dengue_model");
@@ -262,37 +512,67 @@ class Mapa extends MY_Controller {
         $lista = $this->_rapanui_dengue_model->listar();
         if($lista != null){
             foreach($lista as $row){
-                
+                $ok = true;
                 $propiedades = Zend_Json::decode($row["propiedades"]);
-                $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
                 
-                if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
-                    unset($propiedades["RUN"]);
-                    unset($propiedades["NOMBRE"]);
-                    unset($propiedades["APELLIDO"]);
-                    unset($propiedades["TELEFONO"]);
-                    unset($propiedades["NUMERO PASAPORTE"]);
-                }
-                
-                $enfermedades_confirmadas = array();
-                if($row["id_estado"] == Casos_Febriles_Estado_Model::CONFIRMADO){
-                    $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($row["id"]);
-                    if(!is_null($lista_enfermedades)){
-                        foreach($lista_enfermedades as $enfermedad){
-                            $enfermedades_confirmadas[] = strtoupper(substr($enfermedad["nombre"], 0, 1));
+                /*$fecha_sintomas = DateTime::createFromFormat("d/m/Y", $propiedades["FECHA DE INICIO DE SINTOMAS"]);
+                if($fecha_desde instanceof DateTime){
+                   
+                    if($fecha_sintomas instanceof DateTime){
+                        if($fecha_desde > $fecha_sintomas){
+                            $ok = false;
                         }
                     }
                 }
                 
-                $coordenadas = json_decode($row["coordenadas"]);
-                $casos[] = array(
-                    "id" => $row["id"],
-                    "id_estado" => $row["id_estado"],
-                    "propiedades" => $propiedades,
-                    "enfermedades" => $enfermedades_confirmadas,
-                    "lat" => $coordenadas->lat,
-                    "lng" => $coordenadas->lng
-                );
+                if($fecha_hasta instanceof DateTime){
+                   
+                    if($fecha_sintomas instanceof DateTime){
+                        if($fecha_hasta < $fecha_sintomas){
+                            $ok = false;
+                        }
+                    }
+                }*/
+
+                if($ok){
+                    $propiedades["MÉDICO"] = (string) nombreUsuario($row["id_usuario"]);
+
+                    if(!puedeVerFormularioDatosPersonales("casos_febriles")) {
+                        unset($propiedades["RUN"]);
+                        unset($propiedades["NOMBRE"]);
+                        unset($propiedades["APELLIDO"]);
+                        unset($propiedades["TELEFONO"]);
+                        unset($propiedades["NUMERO PASAPORTE"]);
+                    }
+
+                    $enfermedades_confirmadas = array();
+                    if($row["id_estado"] == Casos_Febriles_Estado_Model::CONFIRMADO){
+                        $lista_enfermedades = $this->_casos_febriles_enfermedades_model->listarPorCaso($row["id"]);
+                        if(!is_null($lista_enfermedades)){
+                            foreach($lista_enfermedades as $enfermedad){
+                                $enfermedades_confirmadas[] = array(
+                                    "id" => $enfermedad["id_enfermedad"],
+                                    "letra" => strtoupper(substr($enfermedad["nombre"], 0, 1)),
+                                    "nombre" => strtoupper($enfermedad["nombre"])
+                                );
+                            }
+                        }
+                    }
+
+                    $coordenadas = json_decode($row["coordenadas"]);
+                    
+                    $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $row["fecha"]);
+                    $propiedades["TIPO"] = "CASOS FEBRILES"; 
+                    $casos[] = array(
+                        "id" => $row["id"],
+                        "fecha_ingreso" => $fecha->format("d/m/Y"),
+                        "id_estado" => $row["id_estado"],
+                        "propiedades" => $propiedades,
+                        "enfermedades" => $enfermedades_confirmadas,
+                        "lat" => $coordenadas->lat,
+                        "lng" => $coordenadas->lng
+                    );
+                }
             }
         }
         
@@ -300,6 +580,15 @@ class Mapa extends MY_Controller {
             "correcto" => true,
             "lista" => $casos)
         );
+    }
+    
+    /**
+     * 
+     */
+    public function popup_marcador_editar(){
+        $this->load->library("String");
+        $params = $this->input->post(null, true);        
+        $this->load->view("pages/mapa/popup-marcador-editar", array("html" => $params["html"]));
     }
     
     /**
@@ -329,7 +618,7 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
-        
+        $coordenadas = Zend_Json::decode($params["geometry"]);
         $this->load->view(
             "pages/mapa/popup-elemento-informacion", 
             array(
@@ -339,6 +628,7 @@ class Mapa extends MY_Controller {
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],
+                "coordenadas" => $coordenadas,
                 "lista_formas" => json_decode($params["formas"]),
                 "lista_marcadores"  => json_decode($params["marcadores"])
             )
@@ -353,7 +643,7 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
-        
+        $coordenadas = Zend_Json::decode($params["geometry"]);
         $this->load->view(
             "pages/mapa/popup-elemento-edicion", 
             array(
@@ -362,6 +652,7 @@ class Mapa extends MY_Controller {
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],
+                "coordenadas" => $coordenadas,
                 "lista_formas" => json_decode($params["formas"]),
                 "lista_marcadores"  => json_decode($params["marcadores"])
             )
@@ -467,10 +758,16 @@ class Mapa extends MY_Controller {
 
         $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
         if(!is_null($configuracion)){
-            $resultado["resultado"] = array("sidco" => $configuracion->kml_sidco,
-                                            "casos_febriles" => $configuracion->bo_casos_febriles,
-                                            "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
-                                            "tipo_mapa" => $configuracion->tipo_mapa);
+            $resultado["resultado"] = array(
+                "sidco" => $configuracion->kml_sidco,
+                "casos_febriles" => $configuracion->bo_casos_febriles,
+                "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
+                "marea_roja" => $configuracion->bo_marea_roja,
+                "marea_roja_pm" => $configuracion->bo_marea_roja_pm,
+                "vectores" => $configuracion->bo_vectores,
+                "vectores_hallazgos" => $configuracion->bo_vectores_hallazgos,
+                "tipo_mapa" => $configuracion->tipo_mapa
+            );
         }
         
         echo json_encode($resultado);
@@ -556,34 +853,63 @@ class Mapa extends MY_Controller {
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
             
-            $lugar_emergencia = $this->_emergencia_elementos_model->getPrimerLugarEmergencia($emergencia->eme_ia_id);
-            if(!is_null($lugar_emergencia)){
-                
-                $coordenadas = Zend_Json::decode($lugar_emergencia->coordenadas);
-  
-                $data = array(
-                    "correcto"  => true,
-                    "resultado" => array(
-                        "lat" => $coordenadas["center"]["lat"],
-                        "lon" => $coordenadas["center"]["lng"],
-                        "nombre" => $emergencia->eme_c_nombre_emergencia,
-                        "zona" => "")
-                );
+            $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($emergencia->eme_ia_id);
+            if(!is_null($configuracion) && ($configuracion->latitud!="" && $configuracion->longitud!="")){
+                $latitud = $configuracion->latitud;
+                $longitud = $configuracion->longitud;
+                $zoom = $configuracion->zoom;
             } else {
-                if($emergencia->eme_c_utm_lat != "" AND $emergencia->eme_c_utm_lng!=""){
-                    $data = array("correcto"  => true,
-                                  "resultado" => array("lat" => $emergencia->eme_c_utm_lat,
-                                                       "lon" => $emergencia->eme_c_utm_lng,
-                                                       "nombre" => $emergencia->eme_c_nombre_emergencia,
-                                                       "zona" => ""));
+                $lugar_emergencia = $this->_emergencia_elementos_model->getPrimerLugarEmergencia($emergencia->eme_ia_id);
+                if(!is_null($lugar_emergencia)){
+                    $coordenadas = Zend_Json::decode($lugar_emergencia->coordenadas);
+                    $latitud = $coordenadas["center"]["lat"];
+                    $longitud = $coordenadas["center"]["lng"];
                 } else {
-                    $data["error"] = "El lugar de la emergencia no fue encontrado";
+                    $latitud = $emergencia->eme_c_utm_lat;
+                    $longitud = $emergencia->eme_c_utm_lng;
                 }
+                $zoom = 17;
             }
+
+            $data = array(
+                "correcto"  => true,
+                "resultado" => array(
+                    "lat" => $latitud,
+                    "lon" => $longitud,
+                    "nombre" => $emergencia->eme_c_nombre_emergencia,
+                    "zoom" => $zoom)
+            );
+            
         } else {
             $data["error"] = "La emergencia no existe";
         }
         
         echo json_encode($data);
+    }
+    
+    /**
+     * Carga modelos para visor
+     */
+    protected function _cargaModel(){
+        $this->load->library("emergencia/emergencia_comuna");
+        $this->load->model("emergencia_model", "_emergencia_model");
+        $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
+        $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
+        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
+        $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
+        $this->load->model("alarma_model", "_alarma_model");
+        $this->load->model("capa_model", "_capa_model");
+        $this->load->model("comuna_model", "_comuna_model");
+        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
+        $this->load->model("capa_detalle_model", "_capa_detalle_model");
+        $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
+        $this->load->model("archivo_model", "_archivo_model");
+    }
+    
+    /**
+     * 
+     */
+    protected function _validarSession(){
+        sessionValidation();
     }
 }

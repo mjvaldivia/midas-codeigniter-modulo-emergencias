@@ -9,25 +9,28 @@ if (!defined("BASEPATH"))
 class Archivo extends MY_Controller {
 
     public function upload_temporal(){
-        $this->load->model("archivo_tipo_model", "_archivo_tipo_model");
-        
         header('Content-type: application/json');
         
         $this->load->library(array(
-            "visor/upload/visor_upload_temp_kml")
+            "core/archivo/upload")
         );
+        
+        $this->load->helper(array(
+           "modulo/archivo/archivo" 
+        ));
         
         $params = $this->input->post(null, true);
         
         $correcto = true;
         $error    = "";
           
-        $retorno_archivo = $this->visor_upload_temp_kml->upload(
+        $retorno_archivo = $this->upload->upload(
             array(
                 'png',
                 'jpg',
                 'jpeg',
                 'bmp',
+                'tif',
                 'pdf',
                 'doc',
                 'dot',
@@ -62,18 +65,13 @@ class Archivo extends MY_Controller {
             $correcto = false;
             $error = $retorno_archivo["mensaje"];  
         }  
-        
-        $nombre_tipo = "";
-        $tipo = $this->_archivo_tipo_model->getById($params["tipo"]);
-        if(!is_null($tipo)){
-            $nombre_tipo = $tipo->nombre;
-        }
+
         
         $retorno = array("correcto" => $correcto,
                          "descripcion" => $params["descripcion"],
-                         "archivo" => $retorno_archivo["archivo_nombre"],
                          "tipo" => $params["tipo"],
-                         "nombre_tipo" => $nombre_tipo,
+                         "nombre_tipo" => nombreArchivoTipo($params["tipo"]),
+                         "archivo" => $retorno_archivo["archivo_nombre"],
                          "hash" => $retorno_archivo["hash"],
                          "errores" => $error);
         
@@ -138,6 +136,7 @@ class Archivo extends MY_Controller {
 
         sessionValidation();
         $params = $this->uri->uri_to_assoc();
+        fb($params);
         $this->load->model("archivo_model", "ArchivoModel");
         $this->ArchivoModel->descargar($params['hash']);
     }

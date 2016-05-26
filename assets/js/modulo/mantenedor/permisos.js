@@ -1,4 +1,4 @@
-var MantenedorPermisos = Class({
+var MantenedorRoles = Class({
     
     /**
      * Carga de dependencias
@@ -406,5 +406,5 @@ var MantenedorPermisos = Class({
  * Inicio front-end
  */
 $(document).ready(function() {
-    var listado = new MantenedorPermisos();	
+    var listado = new MantenedorRoles();	
 });

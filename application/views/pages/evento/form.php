@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-lg-8 text-left">
                             <div class="row">
-                                <div class="col-md-3 col-xs-12">
+                                <div class="col-md-5 col-xs-12">
                                     <div class="form-group clearfix ">
                                         <label for="fecha_emergencia" class="control-label">Ocurrencia del evento:</label>
                                         <div class="input-group col-sm-12" id="div-fecha">
@@ -59,7 +59,7 @@
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-9 col-xs-12">
+                                <div class="col-md-7 col-xs-12">
                                     <div class="form-group clearfix">
                                         <label for="nombre-emergencia" class="control-label">Nombre del Evento (*):</label>
                                         <input value="<?php echo $nombre_emergencia; ?>" class="form-control" name="nombre_emergencia" id="nombre_emergencia">
@@ -163,8 +163,10 @@
                                 </div>
                             </div>
                             
-                            <div class="row">
-                            <div class="col-md-12" style="display: none" id="caja_correos_evento">
+                            
+                            
+                            <div class="row" style="display: none" id="caja_correos_evento">
+                           
                                 <div class="form-group">
                                     <label class="col-xs-12 control-label">Escriba los correos a los cuales desea hacer llegar este evento</label>
                                     <div class="col-xs-12 ">
@@ -172,7 +174,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                 
                             </div>
                         </div>
                     </div>

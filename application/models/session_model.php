@@ -8,6 +8,13 @@
 class Session_Model extends MY_Model
 {
     
+    
+    /**
+     * Se utiliza emergencias_simulacion o no
+     * @var type 
+     */
+    protected $_bo_simulacion = false;
+    
     public function obtenerDatosMIDAS($rut) {
         $sql = "
         select rut,nombres,apellidos,email from (
@@ -140,7 +147,6 @@ class Session_Model extends MY_Model
                 $resultadoOperacion = true;
                 break;
             }
-//            dump($this->session->all_userdata());die;
         }
         return $resultadoOperacion;
     }

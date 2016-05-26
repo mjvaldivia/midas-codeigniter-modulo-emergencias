@@ -11,7 +11,7 @@
 
 
     <title>MIDAS :: Módulo de emergencias</title>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&key=AIzaSyBqmaRNgLR0AZU8l7PPITUFJ4EBQD_A_4g"></script>
+   <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&key=AIzaSyBqmaRNgLR0AZU8l7PPITUFJ4EBQD_A_4g"></script>
     <script type='text/javascript' src="<?= base_url("/assets/js/library/jquery-2.1.4/jquery.min.js") ?>"></script>
     
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url("/assets/img/favicon.ico") ?>"/>
@@ -22,6 +22,8 @@
     
     <?= loadCSS("assets/js/library/messenger/messenger.css", true) ?>
     <?= loadCSS("assets/js/library/messenger/messenger-theme-flat.css", true) ?>
+    
+
     
     <?= loadJS("assets/js/library/joii-3.1.3/joii.min.js", true) ?>
     <?= loadCSS("assets/js/library/selectize-0.12.1/css/selectize.bootstrap3.css") ?>
@@ -37,7 +39,7 @@
     <?= loadCSS("assets/css/style.css", true) ?>
     <?= loadJS("assets/js/Modal_Sipresa.js") ?>
     <?= loadJS("assets/js/xmodal.js") ?>
-    
+    <?php echo layoutCss(); ?>
     <script type="text/javascript">
         
         siteUrl = '<?= site_url("/") ?>';
@@ -100,7 +102,7 @@
                 <ul class="nav navbar-left">
                     <li class="tooltip-sidebar-toggle">
                         <a href="#" id="sidebar-toggle" data-toogle-param="abajo" data-toggle="tooltip" data-placement="right" title="Mostrar menu">
-                            <i class="fa fa-bars"></i>
+                            <i class="fa fa-bars"> Ocultar menu </i>
                         </a>
                     </li>
                     <!-- You may add more widgets here using <li> -->
@@ -114,28 +116,13 @@
                     <!-- begin MESSAGES DROPDOWN -->
                     <?= htmlSimulacion(); ?>
 
-                    
-                    <!--<li class="dropdown">
-                        <a href="#" class="-link dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-scroll dropdown-alerts">
-
-                        
-                            <li class="dropdown-header">
-                                <i class="fa fa-envelope"></i> No hay mensajes nuevos
-                            </li>
-
-                            
-                        </ul>
-                    </li>-->
                     <!-- /.dropdown -->
                     <!-- end MESSAGES DROPDOWN -->
                     <!-- begin USER ACTIONS DROPDOWN -->
                     <?php if(estaLogeado()) { ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i> {session_nombres} <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-user"></i> <?php echo nombreUsuario(); ?> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             
@@ -191,10 +178,22 @@
         <!-- end TOP NAVIGATION -->
 
         <!-- begin SIDE NAVIGATION -->
-        <nav class="navbar-side <?= menuCollapsed("navbar"); ?> <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
-            <div class="navbar-collapse sidebar-collapse <?= menuCollapsed("sidebar"); ?>">
+        <nav id="navbar-menu" class="navbar-side <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
+            <div class="navbar-collapse sidebar-collapse collapse">
                 <ul id="side" class="nav navbar-nav side-nav">
+
                     <li class="side-user hidden-xs">
+                        <?php echo imagenPerfilUsuario(); ?>
+                        <p class="welcome">
+                            <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
+                        </p>
+                        <p class="name tooltip-sidebar-logout">
+                            <?php echo nombreUsuario(); ?>
+                             <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
+                        </p>
+                        <div class="clearfix"></div>
+                    </li>
+                    <!--<li class="side-user hidden-xs">
                         
                         <p class="welcome">
                             <i class="fa fa-key"></i> Has iniciado sesi&oacute;n como
@@ -203,7 +202,7 @@
                             {session_nombres} <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
                         </p>
                         <div class="clearfix"></div>
-                    </li>
+                    </li>-->
                     <!--<li class="nav-search">
                         <form role="form">
                             <input type="search" class="form-control" placeholder="Buscar...">
@@ -222,10 +221,10 @@
         <!-- end SIDE NAVIGATION -->
 
         <!-- begin MAIN PAGE CONTENT -->
-        <div id="page-wrapper" class="<?= menuCollapsed("navbar"); ?>">
+        <div id="page-wrapper">
 
             <div class="page-content">
-                {body}
+                <?php echo $body; ?>
             </div>   
             <!-- /.page-content -->
 
@@ -246,13 +245,15 @@
         <?= loadJS("assets/js/library/jquery.jcombo/jquery.jcombo.js", true) ?>
         <?= loadJS("assets/js/library/qtip/jquery.qtip.min.js", true) ?>
         
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.min.css") ?>
-        <?= loadCSS("assets/js/library/chosen_v1.4.2/chosen.boostrap.css") ?>
-        <?= loadJS("assets/js/library/chosen_v1.4.2/chosen.jquery.min.js") ?>
+        <?= loadCSS("assets/js/library/chosen_v1.5.1/chosen.min.css") ?>
+       
+        <?= loadJS("assets/js/library/chosen_v1.5.1/chosen.jquery.min.js") ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2.css", true) ?>
         <?= loadCSS("assets/js/library/select2-4.0.0/css/select2-bootstrap.css", true) ?>
         <?= loadJS("assets/js/library/select2-4.0.0/js/select2.js", true) ?>
         
+        <?= loadJS("assets/js/library/ckeditor-4.5.7/ckeditor.js") ?>
+        <?= loadJS("assets/js/library/bootstrap-ckeditor-modal-fix.js") ?>
         <?= loadJS("assets/js/library/jquery.mask-1.10.8/jquery.mask.js") ?>
         
         <?= loadJS("assets/js/library/moment-2.11.2/moment.min.js") ?>
@@ -263,15 +264,17 @@
         <?= loadJS("assets/js/library/messenger/messenger.min.js", true) ?>
         <?= loadJS("assets/js/library/messenger/messenger-theme-flat.js", true) ?>
         <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
-        <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.min.js") ?>
+        <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.js") ?>
+        <?= loadJS("assets/js/library/jquery.wait.js") ?>
+        <?= loadJS("assets/js/library/jquery.numeric/jquery.numeric.min.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
-
+        <?php echo layoutJs(); ?>
         <script type="text/javascript">
             $(document).ready(function () {
                 Utils.listenerCambioRapido();
                 Utils.toggleNavbarMethod();
-                Utils.ajaxRequestMonitor();
+                //Utils.ajaxRequestMonitor();
                 $(window).resize(Utils.toggleNavbarMethod);
             });
         </script>

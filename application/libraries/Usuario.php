@@ -80,6 +80,15 @@ Class Usuario{
             case "casos_febriles":
                 $this->_id_modulo = Modulo_Model::SUB_CASOS_FEBRILES;
                 break;
+            case "marea_roja":
+                $this->_id_modulo = Modulo_Model::SUB_MAREA_ROJA;
+                break;
+             case "marea_roja":
+                $this->_id_modulo = Modulo_Model::SUB_MAREA_ROJA;
+                break;
+            case "vectores":
+                $this->_id_modulo = Modulo_Model::SUB_VECTORES;
+                break;
             default:
                 throw new Exception("No se encontro el modulo");
                 break;
@@ -193,6 +202,19 @@ Class Usuario{
      */
     public function getPermisoVerFormularioDatosPersonales(){
         $permiso = $this->_permiso_model->tienePermisoVerFormularioDatosPersonales($this->listarRoles(), $this->_id_modulo);
+        if($permiso){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getPermisoEmbarazada(){
+        $permiso = $this->_permiso_model->tienePermisoEmbarazadas($this->listarRoles(), $this->_id_modulo);
         if($permiso){
             return true;
         } else {

@@ -26,6 +26,8 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                      nombre : nombre,
                      clave : "poligono_" + id,
                      capa: capa,
+                     custom: yo.custom,
+                     editable: yo.editable,
                      informacion: propiedades,
                      tipo: "POLIGONO",
                      strokeColor: '#000',

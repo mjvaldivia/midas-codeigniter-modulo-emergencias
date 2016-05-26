@@ -58,6 +58,7 @@ var MapaMarcador = Class({
 
         marker = new google.maps.Marker({
             position: posicion,
+            custom : false,
             identificador: id,
             clave : "marcador_" + id,
             capa: capa,
@@ -72,6 +73,8 @@ var MapaMarcador = Class({
         lista_markers.push(marker);
         google.maps.event.trigger(yo.mapa, 'marcador_cargado');
     },
+    
+
     
     /**
      * Popup con informacion

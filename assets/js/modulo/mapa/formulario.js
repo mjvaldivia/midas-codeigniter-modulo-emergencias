@@ -43,6 +43,18 @@ var MapaFormulario = Class({
     longitud : -71.613353,
     
     /**
+     * Id del input para rescatar longitud
+     */
+    input_longitud : "longitud",
+    
+    /**
+     * Id del input para rescatar latitud
+     */
+    input_latitud  : "latitud",
+    
+    zoom : 4,
+    
+    /**
      * Carga de dependencias
      * @returns void
      */
@@ -60,6 +72,24 @@ var MapaFormulario = Class({
     },
     
     /**
+     * 
+     * @param {string} nombre
+     * @returns {undefined}
+     */
+    seteaLatitudInput : function(nombre){
+        this.input_latitud = nombre;
+    },
+    
+    /**
+     * 
+     * @param {string} nombre
+     * @returns {undefined}
+     */
+    seteaLongitudInput : function(nombre){
+        this.input_longitud = nombre
+    },
+    
+    /**
      * Setea el id del input de busqueda de direcciones
      * @param {string} place
      * @returns {void}
@@ -69,12 +99,23 @@ var MapaFormulario = Class({
     },
     
     /**
+     * 
+     * @param {type} zoom
+     * @returns {undefined}
+     */
+    seteaZoom : function(zoom){
+        this.zoom = zoom;
+    },
+    
+    /**
      * Setea el valor de la latitud del centro del mapa
      * @param {string} latitud
      * @returns {undefined}
      */
     seteaLatitud : function(latitud){
-      this.latitud = latitud;  
+        if(latitud != ""){
+            this.latitud = latitud;
+        }
     },
     
     /**
@@ -83,7 +124,9 @@ var MapaFormulario = Class({
      * @returns {undefined}
      */
     seteaLongitud : function(longitud){
-      this.longitud = longitud;  
+        if(longitud != ""){
+            this.longitud = longitud;
+        }
     },
     
     /**
@@ -95,12 +138,20 @@ var MapaFormulario = Class({
 
         google.maps.event.addDomListener(window, 'load', this.initialize());
         google.maps.event.addDomListener(window, "resize", this.resizeMap());
-        
-        $(".mapa-coordenadas").keyup(function(){
+                
+        $("#" + this.input_latitud).keyup(function(){
+            yo.setMarkerInputs();
+        });
+
+        $("#" + this.input_latitud).change(function(){
             yo.setMarkerInputs();
         });
         
-        $(".mapa-coordenadas").change(function(){
+        $("#" + this.input_longitud).keyup(function(){
+            yo.setMarkerInputs();
+        });
+
+        $("#" + this.input_longitud).change(function(){
             yo.setMarkerInputs();
         });
         
@@ -148,26 +199,22 @@ var MapaFormulario = Class({
         var myLatlng = new google.maps.LatLng(parseFloat(yo.latitud),parseFloat(yo.longitud));
 
         var mapOptions = {
-          zoom: 13,
+          zoom: yo.zoom,
           center: myLatlng,
+          disableDoubleClickZoom: true,
           mapTypeId: google.maps.MapTypeId.HYBRID
         };
 
         map = new google.maps.Map(document.getElementById(this.id_div_mapa), mapOptions);
 
-
-        marker = new google.maps.Marker({
-            position: myLatlng,
-            draggable:true,
-            map: map,
-            icon: baseUrl + yo.icon
-        });  
-        
-        google.maps.event.addListener(marker, 'dragend', function (){
-            yo.setInputs(marker.getPosition());
+        google.maps.event.addListener(map, "dblclick", function (e) { 
+            var lat = e.latLng.lat();
+            var lon = e.latLng.lng();
+            $("#" + yo.input_latitud).val(lat);
+            $("#" + yo.input_longitud).val(lon);
+            $("#" + yo.input_longitud).trigger("change");
         });
-
-        this.marker = marker;
+        
         this.mapa = map;
     },
     
@@ -193,9 +240,9 @@ var MapaFormulario = Class({
                     var index = place.address_components.length - 2;
                     var region = place.address_components[index].long_name;  
 
-                    $('#longitud').val(parseFloat(place.geometry.location.lng()));
-                    $('#latitud').val(parseFloat(place.geometry.location.lat()));
-                    $('.mapa-coordenadas').trigger("change");
+                    $("#" + yo.input_longitud).val(parseFloat(place.geometry.location.lng()));
+                    $("#" + yo.input_latitud).val(parseFloat(place.geometry.location.lat()));
+                    $("#" + yo.input_longitud).trigger("change");
                 });
             });
         }
@@ -208,8 +255,8 @@ var MapaFormulario = Class({
      * @returns {void}
      */
     setInputs : function(posicion){
-        $('#longitud').val(parseFloat(posicion.lng()));
-        $('#latitud').val(parseFloat(posicion.lat()));
+        $("#" + this.input_longitud).val(parseFloat(posicion.lng()));
+        $("#" + this.input_latitud).val(parseFloat(posicion.lat()));
     },
     
     /**
@@ -218,8 +265,30 @@ var MapaFormulario = Class({
      * @returns {undefined}
      */
     setMarkerInputs : function(){
-        this.marker.setPosition( new google.maps.LatLng( parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
-        this.mapa.panTo( new google.maps.LatLng(parseFloat($('#latitud').val()), parseFloat($('#longitud').val())) );
+        if($("#" + this.input_latitud).val() != "" && $("#" + this.input_longitud).val() != ""){
+            var yo = this;
+
+            if(this.marker != null){
+                this.marker.setMap(null);
+                this.marker = null;
+            }
+
+            var marker = new google.maps.Marker({
+                draggable:true,
+                map: yo.mapa,
+                icon: baseUrl + yo.icon
+            });  
+
+            google.maps.event.addListener(marker, 'dragend', function (){
+                yo.setInputs(marker.getPosition());
+            });
+
+            this.marker = marker;
+
+            this.marker.setPosition( new google.maps.LatLng( parseFloat($("#" + this.input_latitud).val()), parseFloat($("#" + this.input_longitud).val())) );
+            //this.mapa.setZoom(10);
+            this.mapa.panTo( new google.maps.LatLng(parseFloat($("#" + this.input_latitud).val()), parseFloat($("#" + this.input_longitud).val())) );
+        }
     },
     
     /**

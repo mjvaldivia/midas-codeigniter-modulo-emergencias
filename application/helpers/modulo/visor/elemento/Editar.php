@@ -58,11 +58,27 @@ Class Visor_Elemento_Editar{
      * @return string html
      */
     public function render(){
+        
+        switch ($this->_tipo) {
+            case "POLIGONO":
+            case "RECTANGULO":
+            case "CIRCULO":
+                $editar_forma = true;
+                break;
+            default:
+                $editar_forma = false;
+                break;
+        }
+        
+        
         return $this->_ci->load->view(
             "pages/mapa/form/elemento-editar", 
-            array("tipo" => $this->_tipo,
-                  "color" => $this->_color,
-                  "propiedades" => $this->_propiedades), 
+            array(
+                "tipo" => $this->_tipo,
+                "editar_forma" => $editar_forma,
+                "color" => $this->_color,
+                "propiedades" => $this->_propiedades
+            ), 
             true
         );
     }

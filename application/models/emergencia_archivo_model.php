@@ -100,6 +100,7 @@ class Emergencia_Archivo_Model extends MY_Model
         $result = $this->_queryPorEmergenciaReporte($id_emergencia)
                        ->select("a.*,u.usu_c_nombre,u.usu_c_apellido_paterno,u.usu_c_apellido_materno", false)
                        ->join('usuarios u','u.usu_ia_id = a.usu_ia_id','left')
+                       ->orderBy("a.arch_f_fecha", "DESC")
                        ->getAllResult();
         if (!is_null($result)){
            return $result; 
@@ -117,6 +118,7 @@ class Emergencia_Archivo_Model extends MY_Model
         $result = $this->_queryPorEmergenciaNoReporte($id_emergencia)
                        ->select("a.*,u.usu_c_nombre,u.usu_c_apellido_paterno,u.usu_c_apellido_materno", false)
                        ->join('usuarios u','u.usu_ia_id = a.usu_ia_id','left')
+                       ->orderBy("a.arch_f_fecha", "DESC")
                        ->getAllResult();
         if (!is_null($result)){
            return $result; 
@@ -132,8 +134,51 @@ class Emergencia_Archivo_Model extends MY_Model
      */
     public function listaPorEmergencia($id_emergencia){
         $result = $this->_queryPorEmergencia($id_emergencia)
-                       ->select("a.*, CONCAT_WS(\" - \", t.nombre, a.arch_c_descripcion) as nombre_completo ", false)
+                       ->select("a.*, "
+                              . "CONCAT_WS(\" - \", t.nombre, a.arch_c_descripcion) as nombre_completo ", false)
                        ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
+    
+    /**
+     * Lista
+     * @param array $parametros
+     * @return array
+     */
+    public function listar($parametros){
+        $query = $this->_query
+                    ->select("a.*")
+                    ->from($this->_tabla . " ea")
+                    ->join("archivo a", "a.arch_ia_id = ea.id_archivo", "INNER")
+                    ->join("archivo_tipo t", "t.id = a.arch_c_tipo")
+                    ->orderBy("arch_f_fecha","DESC");
+        
+        if(!empty($parametros["emergencia"])){
+            $query->whereAND("ea.id_emergencia", $parametros["emergencia"]);
+        }
+        
+        if(!empty($parametros["search"])){
+            $query->whereCondOr(
+                array(
+                    array(
+                          "campo" => "a.arch_c_nombre",
+                          "condicion" => "LIKE",
+                          "valor" => "%" . $parametros["search"] . "%"
+                    ),
+                    array(
+                          "campo" => "a.arch_c_descripcion",
+                          "condicion" => "LIKE",
+                          "valor" => "%" . $parametros["search"] . "%"
+                    ),
+                )
+            );
+        }
+
+        $result = $query->getAllResult();
         if (!is_null($result)){
            return $result; 
         } else {

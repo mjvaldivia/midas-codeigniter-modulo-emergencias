@@ -11,7 +11,7 @@
         
                     <a href="<?php echo base_url("embarazo/nuevo"); ?>" id="nueva" class="btn btn-square btn-green">
                         <i class="fa fa-plus"></i>
-                        Nuevo caso
+                        Nuevo embarazo
                     </a>
 
                 </div>
@@ -46,4 +46,4 @@
 <?= loadCSS("assets/js/library/DataTables-1.10.8/css/dataTables.bootstrap.css"); ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/jquery.dataTables.js"); ?>
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js"); ?>
-<?= loadJS("assets/js/embarazos.js") ?>
+<?= loadJS("assets/js/modulo/embarazos/index.js") ?>

@@ -114,4 +114,5 @@
 <?= loadJS("assets/js/library/DataTables-1.10.8/js/dataTables.bootstrap.js") ?>
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js", true) ?>
 <?= loadJS("assets/js/library/dropzone/dropzone.js") ?>
+<?= loadJS("assets/js/modulo/documentos/base.js") ?>
 <?= loadJS("assets/js/modulo/mantenedor/documentos.js") ?>

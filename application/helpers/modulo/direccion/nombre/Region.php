@@ -1,13 +1,7 @@
 <?php
 
 Class Direccion_Nombre_Region{
-    
-    /**
-     *
-     * @var Region_Model 
-     */
-    protected $_region_model;
-    
+        
     /**
      *
      * @var array 
@@ -20,8 +14,7 @@ Class Direccion_Nombre_Region{
      */
     public function __construct() {
         $this->_ci =& get_instance();
-        $this->_ci->load->model("region_model");
-        $this->_region_model = New Region_Model();
+        $this->_ci->load->model("region_model","_region_model");
     }
     
     /**
@@ -41,7 +34,14 @@ Class Direccion_Nombre_Region{
      * @param int $id
      */
     public function setId($id){
-        $this->_region = $this->_region_model->getById($id);
+        if(Zend_Registry::isRegistered("region_id_" . $id)){
+            $this->_region = Zend_Registry::get("region_id_" . $id);
+        } else {
+            $this->_region = $this->_ci->_region_model->getById($id);
+            Zend_Registry::set("region_id_" . $id, $this->_region);
+        }
+        
+        return $this->_region;
     }
 }
 

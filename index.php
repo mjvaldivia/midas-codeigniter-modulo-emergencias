@@ -33,6 +33,7 @@ defined('ENVIRONMENT')
     || define('ENVIRONMENT', (getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'development'));
 
 
+
 set_include_path(
         '.' . PATH_SEPARATOR . realpath(dirname(__FILE__)).'/application/third_party'
         .PATH_SEPARATOR . get_include_path()
@@ -59,13 +60,18 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
+                case 'local':
                     error_reporting(E_ALL ^ E_NOTICE);
 		break;
 
 		case 'testing':
 		case 'production':
+<<<<<<< HEAD
 			//error_reporting(E_ALL);
 			ini_set('display_errors', '0');
+=======
+                    error_reporting(0);
+>>>>>>> aebf6dc3352c87ad75289a9b51410374f470bb6f
 		break;
 
 		default:

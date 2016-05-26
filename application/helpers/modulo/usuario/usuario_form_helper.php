@@ -8,7 +8,7 @@ require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectRoles.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectAmbito.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectOficina.php");
 require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectPerfil.php");
-
+require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectRegion.php");
 /**
  * 
  * @param string $input_nombre
@@ -18,6 +18,20 @@ require_once(APPPATH . "helpers/modulo/usuario/form/element/SelectPerfil.php");
  */
 function formElementSelectCargo($input_nombre, $input_valor = "", $atributos){
     $select = New Usuario_Form_Element_SelectCargo();
+    $select->setAtributos($atributos);
+    $select->setNombre($input_nombre);
+    return $select->render($input_valor);
+}
+
+/**
+ * 
+ * @param string $input_nombre
+ * @param int $input_valor
+ * @param array $atributos
+ * @return string html
+ */
+function formElementSelectRegionUsuario($input_nombre, $input_valor = "", $atributos){
+    $select = New Usuario_Form_Element_SelectRegion();
     $select->setAtributos($atributos);
     $select->setNombre($input_nombre);
     return $select->render($input_valor);

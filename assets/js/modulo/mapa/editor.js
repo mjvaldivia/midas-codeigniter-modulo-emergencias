@@ -114,11 +114,17 @@ var MapaEditor = Class({
         ruler.button();
         
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+            
+            marker.html = "";
+            
             lista_markers.push(marker);
             
             var elemento = new MapaElementos();
             elemento.listaElementosVisor();
-            
+
+            var click = new MapaMarcadorEditar();
+            click.seteaMarker(marker);
+            click.clickListener();
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
@@ -136,10 +142,11 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(rectangle, mapa);
             
             lista_poligonos.push(rectangle);
@@ -164,7 +171,8 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
             yo.class_poligono.addClickListener(polygon, mapa);
@@ -184,7 +192,7 @@ var MapaEditor = Class({
                 capa : null,
                 informacion: {"NOMBRE" : "Linea agregada"},
                 clickable: false,
-                editable: false,
+                editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
                 strokeWeight: 2
@@ -212,10 +220,11 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
-            var circuloClickListener = new MapaInformacionElemento();
+            var circuloClickListener = new MapaPoligonoInformacion();
             circuloClickListener.addRightClickListener(circle, mapa);
             
             lista_poligonos.push(circle);
@@ -231,31 +240,39 @@ var MapaEditor = Class({
      * @returns {void}
      */
     guardar : function(){
-        console.log(this.mapa);
+        var tareas = new MapaLoading();
         var custom = new MapaElementos();
-        
+        tareas.push(1);
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
+                          "zoom" : this.mapa.getZoom(),
+                          "latitud" : this.mapa.getCenter().lat(),
+                          "longitud" : this.mapa.getCenter().lng(),
+                          //"posicion" : yo.mapa.getCenter(),
                           "tipo_mapa" : this.mapa.getMapTypeId(),
                           "elementos" : custom.listCustomElements(),
+                          
                           "sidco" : $("#importar_sidco").is(":checked") ? 1:0,
+                          
                           "casos_febriles" : $("#importar_rapanui_casos").is(":checked") ? 1:0,
                           "casos_febriles_zona" : $("#importar_rapanui_zonas").is(":checked") ? 1:0,
+                          
+                          "marea_roja" : $("#marea_roja").is(":checked") ? 1:0,
+                          "marea_roja_pm" : $("#marea_roja_pm").is(":checked") ? 1:0,
+                          
+                          "vectores" : $("#vectores_marcadores").is(":checked") ? 1:0,
+                          "vectores_hallazgos" : $("#vectores_hallazgos").is(":checked") ? 1:0,
+                          
                           "kmls" : this.class_kml.listArchivosKml(),
+                          
                           "id" : this.id_emergencia};
-        Messenger().run({
-            action: $.ajax,
-            showCloseButton: true,
-            successMessage: '<strong> Guardar <strong> <br> Ok',
-            errorMessage: '<strong> Guardar <strong> <br> Se produjo un error al guardar',
-            progressMessage: '<strong> Guardar <strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Procesando...'
-        }, {         
+        $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/save", 
+            url: baseUrl + getController() + "/save", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -269,6 +286,7 @@ var MapaEditor = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
+                tareas.remove(1);
             }
         }); 
     },
@@ -279,7 +297,9 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlImportar : function (map) {
-        
+
+        var $this = this;
+
         /**
          * Popup para subir kml
          */
@@ -288,6 +308,10 @@ var MapaEditor = Class({
             kml.seteaMapa(map);
             kml.popupUpload();
         });
+        
+
+       
+        
         
         
         /**
@@ -387,9 +411,7 @@ var MapaEditor = Class({
                         }
                     }
             });
-            
-           
-            
+
             var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                               "id" : this.id_emergencia};
             

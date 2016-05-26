@@ -119,7 +119,6 @@ class Mapa_kml extends MY_Controller {
      * Sube KML a archivo temporal
      */
     public function upload_kml(){
-        error_reporting(0);
         header('Content-type: application/json');
         
         $this->load->library(
@@ -189,7 +188,7 @@ class Mapa_kml extends MY_Controller {
         $this->zip->add($hash . ".kml", $file_path);
         unlink($file_path);
         
-        
+        if(count($params["images"])>0){
         foreach($params["images"] as $codigo){
             if($imagen = $cache->load($codigo)){
                 $file_path = FCPATH . "media/tmp/" . $imagen["name"];
@@ -197,6 +196,7 @@ class Mapa_kml extends MY_Controller {
                 $this->zip->add("icons/" . $imagen["name"], $file_path);
                 unlink($file_path);
             }
+        }
         }
 
         $kmz = file_get_contents($this->zip->create());
@@ -247,6 +247,7 @@ class Mapa_kml extends MY_Controller {
                 $this->kml_create->addPoligon("PRUEBA", $elemento["coordenadas"], $elemento["color"], $elemento["informacion"]);
             }
             
+    
             $lista_marcadores = Zend_Json::decode($params["marcadores"]);
             foreach($lista_marcadores as $marcador){
                 $this->kml_create->addMarker($marcador["posicion"], $marcador["icono"], $marcador["informacion"]);
