@@ -75,7 +75,7 @@
                                 </td>
                                 <td></td>
                                 <td width="10%">
-                                    <button data-tipo="marcador" data-rel="<?php echo $row["id"] ;?>" class="btn btn-danger btn-xs archivo-eliminar-elemento"> <i class="fa fa-remove"></i> Eliminar </button>
+                                    <!--<button data-tipo="marcador" data-rel="<?php echo $row["id"] ;?>" class="btn btn-danger btn-xs archivo-eliminar-elemento"> <i class="fa fa-remove"></i> Eliminar </button>-->
                                 </td>
                             </tr>
                         <?php } ?>
@@ -105,7 +105,7 @@
                                     <?php echo $row["propiedades"] ;?>
                                 </td>
                                 <td width="10%">
-                                    <button data-tipo="poligono" data-rel="<?php echo $row["id"] ;?>" class="btn btn-danger btn-xs archivo-eliminar-elemento"> <i class="fa fa-remove"></i> Eliminar </button>
+                                    <!--<button data-tipo="poligono" data-rel="<?php echo $row["id"] ;?>" class="btn btn-danger btn-xs archivo-eliminar-elemento"> <i class="fa fa-remove"></i> Eliminar </button>-->
                                 </td>
                             </tr>
                         <?php } ?>
