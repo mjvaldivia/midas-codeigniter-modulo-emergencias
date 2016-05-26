@@ -314,6 +314,7 @@ class Vectores_hallazgos extends MY_Controller
                 'gl_comentario_hallazgo' => $params['comentarios_ciudadano'],
                 'cd_estado_hallazgo' => 0,
                 'gl_email_hallazgo' => $params['correo'],
+                'gl_referencia_hallazgo' => $params['referencias'],
                 'propiedades_hallazgo' => json_encode($arreglo)
             );
 
