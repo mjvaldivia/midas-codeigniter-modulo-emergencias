@@ -516,31 +516,73 @@ var MapaEditor = Class({
            exportar.makeMapa();
         });
         
-        /**
-         * Quitar archivo subido
-         */
-        $(".btn-quitar-archivo").livequery(function(){
+        $(".ver-detalle-archivo").livequery(function(){
             $(this).click(function(){
-                var id = $(this).attr("data-rel");
-                
-                lista_kml = jQuery.grep(lista_kml, function( a ) {
-                    if(a["hash"] == id){
-                        var marcador = new MapaMarcador();
-                        marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
+                var id = $(this).data("rel");
+                var hash = $(this).data("hash");
+                bootbox.dialog({
+                    message: "<div id=\"contenido-popup-informacion-archivo\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Detalle archivo importado",
+                    className: "modal90",
+                    buttons: {
                         
-                        var poligono = new MapaPoligono();
-                        poligono.removerPoligono("identificador", "kml_" + a["hash"]);
-                        
-                        return false;
-                    } else {
-                        return true;
+                        guardar: {
+                            label: " Efectuar cambios",
+                            className: "btn-success fa fa-check",
+                            callback: function() {
+
+                               
+                            }
+                        },
+                        eliminar: {
+                            label: " Quitar elemento",
+                            className: "btn-danger fa fa-remove",
+                            callback: function() {
+                                lista_kml = jQuery.grep(lista_kml, function( a ) {
+                                    if(a["hash"] == hash){
+                                        var marcador = new MapaMarcador();
+                                        marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
+
+                                        var poligono = new MapaPoligono();
+                                        poligono.removerPoligono("identificador", "kml_" + a["hash"]);
+
+                                        return false;
+                                    } else {
+                                        return true;
+                                    }
+                                });
+
+                                var archivo = new MapaArchivos();
+                                archivo.updateListaArchivosAgregados();
+                            }
+                        },
+                        cerrar: {
+                            label: " Cerrar ventana",
+                            className: "btn-white fa fa-close",
+                            callback: function() {}
+                        }
                     }
                 });
+
+                $.ajax({         
+                    dataType: "html",
+                    cache: false,
+                    async: true,
+                    data: {"id" : id},
+                    type: "post",
+                    url:  baseUrl + "mapa_kml/popup_informacion_archivo", 
+                    error: function(xhr, textStatus, errorThrown){
+                        notificacionError("Ha ocurrido un problema", errorThrown);
+                    },
+                    success:function(data){
+                        $("#contenido-popup-informacion-archivo").html(data);
+                    }
+                }); 
                 
-                var archivo = new MapaArchivos();
-                archivo.updateListaArchivosAgregados();
             });
         });
+        
+      
 
     },
     

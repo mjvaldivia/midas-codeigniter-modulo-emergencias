@@ -123,59 +123,28 @@
                 <div id="slideup-menu" class="top-menu">
                     <div class="btn-group">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                            Capas <span class="caret caret-up"></span>
+                           <span id="cantidad_capas_agregadas" class="badge">0</span> Capas <span class="caret caret-up"></span>
                         </button>
-                        <ul id="lista_capas_agregadas" class="dropdown-menu drop-up" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                        <ul id="lista_capas_agregadas" class="dropdown-menu drop-up" style="width:480px" role="menu">
+                            
                         </ul>
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                            Elementos <span class="caret caret-up"></span>
+                           <span id="cantidad_elementos_agregados" class="badge">0</span> Elementos <span class="caret caret-up"></span>
                         </button>
-                        <ul id="lista_elementos_agregados" class="dropdown-menu drop-up" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                        <ul id="lista_elementos_agregados" class="dropdown-menu drop-up" style="width:480px" role="menu">
+
                         </ul>
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                            Importados <span class="caret caret-up"></span>
+                           <span id="cantidad_elementos_importados" class="badge">0</span> Importados <span class="caret caret-up"></span>
                         </button>
                         <ul id="lista_importados_agregados" class="dropdown-menu drop-up" style="width:480px" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-                    <!--
-                    <div class="top-menu-main">
-                        <ul id="lista_capas_agregadas" class="demo-menu">
 
                         </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Capas <span id="cantidad_capas_agregadas" class="badge">0</span></a> 
                     </div>
-                    <div class="top-menu-main">
-                        <ul id="lista_elementos_agregados" class="demo-menu">
-
-                        </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Elementos <span id="cantidad_elementos_agregados" class="badge">0</span></a> 
-                    </div>
-                    <div class="top-menu-main">
-                        <ul id="lista_importados_agregados" class="demo-menu">
-
-                        </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Importados <span id="cantidad_elementos_importados" class="badge">0</span></a> 
-                    </div>-->
                 </div>
             </div>
         </div>

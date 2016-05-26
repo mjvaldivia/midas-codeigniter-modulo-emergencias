@@ -39,6 +39,34 @@ class Mapa_kml extends MY_Controller {
     }
     
     /**
+     * 
+     */
+    public function popup_informacion_archivo(){
+        $params = $this->input->post(null, true);
+        $archivo = $this->_emergencia_kml_model->getById($params["id"]);
+        if(!is_null($archivo)){
+            
+            $puntos = $this->_emergencia_kml_elemento_model->listaPorTipo($params["id"], array("PUNTO"));
+            $zonas  = $this->_emergencia_kml_elemento_model->listaPorTipo(
+                $params["id"], 
+                array(
+                    "POLIGONO",
+                    "MULTIPOLIGONO"
+                )
+            );
+            
+            
+            $data = array("id" => $archivo->id,
+                          "archivo" => $archivo->archivo,
+                          "nombre" => $archivo->nombre,
+                          "tipo" => $archivo->tipo,
+                          "puntos" => $puntos,
+                          "zonas"  => $zonas);
+            $this->load->view("pages/mapa_kml/popup-informacion", $data);
+        }
+    }
+    
+    /**
      * Retorna cantidad de archivos subidos por una emergencia
      */
     public function ajax_contar_kml_emergencia(){
