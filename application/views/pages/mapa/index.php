@@ -109,13 +109,13 @@
                 <li>
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
-                        <?php if(permisoEvento("guardar")):?>
+                       
                             <li>
                                 <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
                             </li>
                             <li class="divider"></li>
 
-                        <?php endif;?>
+                       
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-upload"></i> Exportar</a>
                             <ul class="dropdown-menu">
@@ -126,7 +126,7 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        <?php if(permisoEvento("guardar")):?>
+                        
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-download"></i> Importar</a>
@@ -141,7 +141,7 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        <?php endif;?>
+                       
                     </ul>
                 </li>
                 
