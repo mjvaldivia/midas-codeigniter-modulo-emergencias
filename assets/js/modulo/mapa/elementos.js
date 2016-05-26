@@ -422,10 +422,10 @@ var MapaElementos = Class({
                if(data.correcto){
                    
                     $.each(yo.on_load_functions, function(i, funcion){
-                        console.log("Carga de " + i);
                         funcion.funcion(data, yo.mapa);
                     });
 
+                    
                     
                     if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
                         yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
@@ -623,8 +623,6 @@ var MapaElementos = Class({
                     break;
                 
             }
-            
-            console.log(elemento.informacion);
             
             if(elemento.informacion.NOMBRE){
                 data["nombre"] = elemento.informacion.NOMBRE;

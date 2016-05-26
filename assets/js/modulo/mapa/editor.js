@@ -264,7 +264,7 @@ var MapaEditor = Class({
                           "vectores_hallazgos" : $("#vectores_hallazgos").is(":checked") ? 1:0,
                           
                           "kmls" : this.class_kml.listArchivosKml(),
-                          
+                          "kmls_ocultos" : this.getArchivosImportadosOcultos(),
                           "id" : this.id_emergencia};
         $.ajax({         
             dataType: "json",
@@ -289,6 +289,21 @@ var MapaEditor = Class({
                 tareas.remove(1);
             }
         }); 
+    },
+    
+    /**
+     * 
+     * @returns {object}
+     */
+    getArchivosImportadosOcultos : function(){
+        var ocultos = {};
+        $(".ocultar-archivo-importado").each(function(i, elemento){
+            console.log(elemento);
+           if(!($(elemento).is(":checked"))){
+               ocultos[i] = $(elemento).val();
+           } 
+        });
+        return ocultos;
     },
     
     /**
