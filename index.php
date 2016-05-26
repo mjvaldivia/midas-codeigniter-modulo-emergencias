@@ -1,5 +1,8 @@
 <?php
-error_reporting(E_ALL ^ E_NOTICE);
+
+// error_reporting(E_ALL);
+//    ini_set('display_errors', '1');
+
 //echo "Estimado  usuario favor usar nuevo sitio web, ingrese mediante <a href='http://midas.minsal.cl'>http://midas.minsal.cl</a>";die;
 
 /*
@@ -66,12 +69,8 @@ if (defined('ENVIRONMENT'))
 
 		case 'testing':
 		case 'production':
-<<<<<<< HEAD
-			//error_reporting(E_ALL);
+			error_reporting(E_ALL);
 			ini_set('display_errors', '0');
-=======
-                    error_reporting(0);
->>>>>>> aebf6dc3352c87ad75289a9b51410374f470bb6f
 		break;
 
 		default:
