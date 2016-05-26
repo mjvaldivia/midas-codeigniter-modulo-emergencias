@@ -910,6 +910,6 @@ class Mapa extends MY_Controller {
      * 
      */
     protected function _validarSession(){
-        sessionValidation();
+       // sessionValidation();
     }
 }
