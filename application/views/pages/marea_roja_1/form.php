@@ -81,7 +81,7 @@
                                             <option value="">-- Seleccione un valor --</option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "ALMEJA JULIANA") echo "selected"; ?> value="ALMEJA JULIANA"> ALMEJA JULIANA </option>
-                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHOCHAYUYO") echo "selected"; ?> value="CHOCHAYUYO"> CHOCHAYUYO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHOCHAYUYO" || strtoupper($propiedades["recurso"]) == "COCHAYUYO") { echo "selected"; } ?> value="COCHAYUYO"> COCHAYUYO </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
