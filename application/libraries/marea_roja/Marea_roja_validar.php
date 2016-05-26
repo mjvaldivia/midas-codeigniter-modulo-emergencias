@@ -43,25 +43,25 @@ Class Marea_roja_validar{
      */
     public function esValido($params){
         
-        if(!$this->validar->validarVacio($params["latitud"])){
+        if(!$this->validar->validarVacio($params["form_coordenadas_latitud"])){
             $this->_correcto = false;
-            $this->_error["latitud"] = "Este dato no puede estar vacío";
+            $this->_error["form_coordenadas_latitud"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["latitud"] = "";
+            $this->_error["form_coordenadas_latitud"] = "";
         }
 
-        if(!$this->validar->validarVacio($params["longitud"])){
+        if(!$this->validar->validarVacio($params["form_coordenadas_longitud"])){
             $this->_correcto = false;
-            $this->_error["longitud"] = "Este dato no puede estar vacío";
+            $this->_error["form_coordenadas_longitud"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["longitud"] = "";
+            $this->_error["form_coordenadas_longitud"] = "";
         }
         
-        if(!$this->validar->validarVacio($params["calidad_de_georeferenciacion"])){
+        if(!$this->validar->validarVacio($params["form_coordenadas_calidad_de_georeferenciacion"])){
             $this->_correcto = false;
-            $this->_error["calidad_de_georeferenciacion"] = "Este dato no puede estar vacío";
+            $this->_error["form_coordenadas_calidad_de_georeferenciacion"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["calidad_de_georeferenciacion"] = "";
+            $this->_error["form_coordenadas_calidad_de_georeferenciacion"] = "";
         }
 
         $separada = explode("/", $params["fecha"]);
@@ -105,19 +105,20 @@ Class Marea_roja_validar{
             $this->_error["comuna"] = "";
         }*/
         
-        if(!$this->validar->validarVacio($params["resultado"])){
+        
+        if(!$this->validar->validarVacio($params["numero_de_muestra"])){
             $this->_correcto = false;
-            $this->_error["resultado"] = "Este dato no puede estar vacío";
+            $this->_error["numero_de_muestra"] = "Este dato no puede estar vacío";
         } else {
-            $this->_error["resultado"] = "";
+            $this->_error["numero_de_muestra"] = "";
         }
         
-        if(!$this->validar->validarVacio($params["laboratorio"])){
+        /*if(!$this->validar->validarVacio($params["laboratorio"])){
             $this->_correcto = false;
             $this->_error["laboratorio"] = "Este dato no puede estar vacío";
         } else {
             $this->_error["laboratorio"] = "";
-        }
+        }*/
 
         return $this->_correcto;
     }

@@ -56,10 +56,19 @@ class Casos_Febriles_Model extends MY_Model {
      * @param array $parametros
      * @return array
      */
-    public function listar(){
+    public function listar($parametros = array()){
         $query = $this->_query->select("a.*")
                                ->from($this->_tabla . " a")
-                               ->orderBy("id", "DESC");
+                               ->orderBy("a.id", "DESC");
+        
+        if(!empty($parametros["region"])){
+            $query->whereAND("a.id_region", $parametros["region"]);
+        }
+        
+        if(!empty($parametros["comuna"])){
+            $query->whereAND("a.id_comuna", $parametros["comuna"]);
+        }
+        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;

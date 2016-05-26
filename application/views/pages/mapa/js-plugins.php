@@ -63,6 +63,8 @@
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/formatos/kml/importar/marcador.js"); ?>
 
+<?= loadJS("assets/js/modulo/mapa/externo/externo.js"); ?>
+
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/zonas.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/isla_de_pascua/embarazadas.js"); ?>
@@ -70,12 +72,12 @@
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos_pm.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos-v0.1.js"); ?>
 
 
 <!-- Externos -->
-<?= loadJS("assets/js/modulo/mapa/externo/sidco-conaf.js"); ?>
-<?= loadJS("assets/js/modulo/mapa/externo/hospital.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/conaf/sidco-conaf.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/hospital/hospital.js"); ?>
 <!-- LAYOUT -->
 <?= loadJS("assets/js/modulo/mapa/layout/input/busqueda.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/layout/ambito.js"); ?>
@@ -91,6 +93,7 @@
 <?= loadJS("assets/js/modulo/mapa/capa.js"); ?>
 
 <!-- Base del visor-->
+<?= loadJS("assets/js/modulo/mapa/loading.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/visor.js"); ?>
 
 <?= loadJS("assets/js/library/bootbox-4.4.0/bootbox.min.js") ?>

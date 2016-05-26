@@ -10,6 +10,7 @@ var Visor = Class({
     zoom: 5,
     callback : null,
     
+    
     on_ready_functions : {},
     
     /**
@@ -29,6 +30,19 @@ var Visor = Class({
      */
     seteaEmergencia : function(id){
         this.id_emergencia = id;
+    },
+    
+    /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
     },
     
     /**
@@ -91,7 +105,7 @@ var Visor = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_posicion_lugar_emergencia", 
+            url: baseUrl + yo.getController() + "/ajax_posicion_lugar_emergencia", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                 if(data.correcto){

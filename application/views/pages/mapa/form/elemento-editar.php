@@ -35,7 +35,7 @@
                     <input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="<?php echo $color; ?>"/>
                 </div>
             </div>
-            <?php if($editar_forma) { ?>
+            <?php if($editar_forma && permisoEvento("editar")) { ?>
             <div class="row top-spaced">
                 <div class="col-lg-3 text-right">
                     <strong>EDITAR FORMA:</strong>

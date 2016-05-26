@@ -1,7 +1,35 @@
 var MapaElementos = Class({
     
+    /**
+     * googleMap
+     */
     mapa : null,
+    
+    /**
+     * Id de la emergencia actual
+     */
     id_emergencia : null,
+    
+    /**
+     * Si esta habilitado o no el popup
+     * con informacion del poligono
+     */
+    bo_informacion_poligonos : true,
+    
+    on_load_functions : {},
+    
+     /**
+     * Añade funciones a ejecutar cuando el mapa esta cargado
+     * @param {string} index identificador de la funcion para debug
+     * @param {function} funcion funcion a ejecutar
+     * @returns {void}
+     */
+    addOnLoadFunction : function(index, funcion, parametros){
+        this.on_load_functions[index] = {"funcion" : funcion,
+                                          "parametros" : parametros};
+    },
+    
+
     
     /**
      * 
@@ -10,6 +38,26 @@ var MapaElementos = Class({
      */
     emergencia : function(id){
         this.id_emergencia = id;
+    },
+    
+    /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
+     * Habilita o no popup con datos de poligono 
+     */
+    seteaPopupPoligono : function(booleano){
+        this.bo_informacion_poligonos = booleano;
     },
     
     /**
@@ -95,15 +143,19 @@ var MapaElementos = Class({
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: color,
-            fillOpacity: 0.35
+            fillOpacity: 0.35,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         poligono.setMap(this.mapa);
+        
+        
         
         //se agrega evento de click para ver instalaciones
         //dentro de poligono
         var poligonoClickListener = new MapaPoligono();
         poligonoClickListener.addClickListener(poligono, this.mapa);
+        
         
         lista_poligonos.push(poligono);
     },
@@ -132,7 +184,8 @@ var MapaElementos = Class({
             fillColor: color,
             fillOpacity: 0.35,
             map: this.mapa,
-            bounds: coordenadas
+            bounds: coordenadas,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         var circuloClickListener = new MapaPoligonoInformacion();
@@ -167,7 +220,8 @@ var MapaElementos = Class({
             fillOpacity: 0.35,
             map: this.mapa,
             center: centro,
-            radius: radio
+            radius: radio,
+            popup_poligono: this.bo_informacion_poligonos
         });
         
         var circuloClickListener = new MapaInformacionElemento();
@@ -195,17 +249,21 @@ var MapaElementos = Class({
                case "POLIGONO":
                case "RECTANGULO":
                case "CIRCULO":
-                   preview = "<div class=\"color-capa-preview\" style=\"background-color:" + data.color + "; height: 20px;width: 20px;\"></div>";
+                   preview = "<div class=\"color-capa-preview\" style=\"background-color:" + data.color + "; height: 20px;width: 20px;margin-left:9px\"></div>";
                    break;
                default:
                    preview = "<img style=\"height:20px\" src=\"" + data.icono + "\" >";
                    break;
            }
-                 
-           html += "<li data=\"" + data.id + "\" class=\"\">\n"
-                 + "<div class=\"row\"><div class=\"col-xs-2\">" + preview + "</div><div class=\"col-xs-10\"> " + data.tipo + "</div>"
+           
+           if(i!=0){
+               html += "<li class=\"divider\"></li>";
+           } 
+            
+           html += "<li data=\"" + data.id + "\" class=\"\"><a href=\"#\">\n"
+                 + "<div class=\"row\"><div class=\"col-xs-2 text-center\">" + preview + "</div><div class=\"col-xs-10\"> " + data.nombre + "</div>"
                  + "</div>\n"
-                 + "</li>";
+                 + "</a></li>";
            
            
            cantidad++;
@@ -229,6 +287,10 @@ var MapaElementos = Class({
      * @returns {void}
      */
     loadCustomElements : function(mapa, mensaje_carga){
+        var tareas = new MapaLoading();
+        
+        
+        
         
         this.mapa = mapa;
         
@@ -240,7 +302,7 @@ var MapaElementos = Class({
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_elementos_emergencia", 
+            url: baseUrl + yo.getController() + "/ajax_elementos_emergencia", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -297,22 +359,26 @@ var MapaElementos = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
-                
+                tareas.remove(1);
             }
         };
-
+        
+        tareas.push(1);
          $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_contar_elementos", 
+            url: baseUrl + yo.getController() + "/ajax_contar_elementos", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
+                tareas.remove(1);
                 if(data.cantidad > 0){
                     if(mensaje_carga){
-                        Messenger().run({
+                        tareas.push(1);
+                        $.ajax(ajax)
+                       /* Messenger().run({
                             action: $.ajax,
                             showCloseButton: true,
                             successMessage: '<strong> Elementos </strong> <br> Ok',
@@ -320,7 +386,7 @@ var MapaElementos = Class({
                             progressMessage: '<strong> Elementos </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
                         },
                         ajax
-                        );
+                        );*/
                 
                         
                     } else {
@@ -336,6 +402,8 @@ var MapaElementos = Class({
         });
     },
     
+    
+    
     /**
      * 
      * @returns {undefined}
@@ -348,119 +416,21 @@ var MapaElementos = Class({
             async: false,
             data: "id=" + yo.id_emergencia,
             type: "post",
-            url: siteUrl + "mapa/ajax_mapa_configuracion", 
+            url: baseUrl + yo.getController() + "/ajax_mapa_configuracion", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
                if(data.correcto){
                    
-                    // ************ carga de capas de casos febriles *******************
-                    $("#importar_rapanui_casos").waitUntilExists(function(){
-                        if(parseInt(data.resultado.casos_febriles) == 1){
-                            var sidco = new MapaIslaDePascuaCasos();
-                                sidco.seteaMapa(yo.mapa);
-                                sidco.load();
-                                $("#importar_rapanui_casos").prop("checked", true);
-                        } else {
-                                $("#importar_rapanui_casos").prop("checked", false);
-                        }
+                    $.each(yo.on_load_functions, function(i, funcion){
+                        funcion.funcion(data, yo.mapa);
                     });
+
                     
-                    $("#importar_rapanui_zonas").waitUntilExists(function(){
-                        if(parseInt(data.resultado.casos_febriles_zona) == 1){
-                            var sidco = new MapaIslaDePascuaZonas();
-                            sidco.seteaMapa(yo.mapa);
-                            sidco.load();
-                            $("#importar_rapanui_zonas").prop("checked", true);
-                        } else {
-                            $("#importar_rapanui_zonas").prop("checked", false);
-                        }
-                    });
-                    
-                    // ****************************************************************
-                    //************ carga de capas de marea roja ***********************
-                    
-                    $("#marea_roja").waitUntilExists(function(){
-                        if(parseInt(data.resultado.marea_roja) == 1){
-                            var marea_roja = new MapaMareaRojaCasos();
-                            marea_roja.seteaMapa(yo.mapa);
-                            marea_roja.load(yo.mapa);
-                            $("#marea_roja").prop("checked", true);
-                            
-                            $("#marea-roja-contenedor-filtro-colores").waitUntilExists(function(){
-                                $("#marea-roja-contenedor-filtro-colores").removeClass("hidden");
-                                $("#marea-roja-pm-contenedor-filtro-colores").addClass("hidden");
-                                $("#marea-roja-pm-contenedor-filtro-colores").find("input").prop("checked", false);
-                            });
-                        } else {
-                            $("#marea_roja").prop("checked", false);
-                        }
-                    });
-                    
-                    $("#marea_roja_pm").waitUntilExists(function(){
-                        if(parseInt(data.resultado.marea_roja_pm) == 1){
-                            var marea_roja = new MapaMareaRojaCasosPm();
-                            marea_roja.seteaMapa(yo.mapa);
-                            marea_roja.load();
-                            $("#marea_roja_pm").prop("checked", true);
-                            
-                            $("#marea-roja-contenedor-filtro-colores").waitUntilExists(function(){
-                                $("#marea-roja-contenedor-filtro-colores").addClass("hidden");
-                                $("#marea-roja-pm-contenedor-filtro-colores").removeClass("hidden");
-                                $("#marea-roja-contenedor-filtro-colores").find("input").prop("checked", false);
-                            });
-                        } else {
-                            $("#marea_roja_pm").prop("checked", false);
-                        }
-                    });
-                    
-                    // ****************************************************************
-                    //************ carga de capas vectores ***********************
-                    $("#vectores_marcadores").waitUntilExists(function(){
-                        if(parseInt(data.resultado.vectores) == 1){
-                            
-                            var vectores = new MapaVectores();
-                            vectores.seteaMapa(yo.mapa);
-                            vectores.load();
-                            
-                            /*var hallazgos = new MapaVectoresHallazgos();
-                            hallazgos.seteaMapa(yo.mapa);
-                            hallazgos.load();*/
-                            
-                            $("#vectores_marcadores").prop("checked", true);
-                        } else {
-                            $("#vectores_marcadores").prop("checked", false);
-                        }
-                    });
-                    
-                    /*$("#vectores_hallazgos").waitUntilExists(function(){
-                        if(parseInt(data.resultado.vectores) == 1){
-                            var vectores = new MapaVectoresHallazgos();
-                            vectores.seteaMapa(yo.mapa);
-                            vectores.load();
-                            $("#vectores_hallazgos").prop("checked", true);
-                        } else {
-                            $("#vectores_hallazgos").prop("checked", false);
-                        }
-                    });*/
-                    // ***************************************************************
-                    //*************** capa de incendios de conaf *********************
-                    
-                    $("#importar_sidco").waitUntilExists(function(){
-                        if(parseInt(data.resultado.sidco) == 1){
-                             var sidco = new MapaKmlSidcoConaf();
-                             sidco.seteaMapa(yo.mapa);
-                             sidco.loadKml(mensaje_carga);
-                             $("#importar_sidco").prop("checked", true);
-                        } else {
-                            $("#importar_sidco").prop("checked", false);
-                        }
-                    });
                     
                     if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
                         yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
                     }
-                   
-                   
+
                }
             }
         });
@@ -580,6 +550,9 @@ var MapaElementos = Class({
             
             switch(elemento.tipo){
                 case "PUNTO":
+                    
+                    
+                    
                     data = {"tipo" : "PUNTO",
                             "clave" : elemento.clave,
                             "icono" : elemento.getIcon(),
@@ -650,7 +623,13 @@ var MapaElementos = Class({
                     break;
                 
             }
-
+            
+            if(elemento.informacion.NOMBRE){
+                data["nombre"] = elemento.informacion.NOMBRE;
+            } else {
+                data["nombre"] = data.tipo;
+            }
+            
             if(data != null){
                 parametro[i] = JSON.stringify(data);
             }

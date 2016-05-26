@@ -46,5 +46,24 @@ class Emergencia_Kml_Elemento_Model extends MY_Model
             return NULL;
         }
     }
+    
+    /**
+     * 
+     * @param int $id_kml
+     * @param string $tipo
+     * @return array
+     */
+    public function listaPorTipo($id_kml, $tipos){
+        $result = $this->_query->select("*")
+                               ->from($this->_tabla)
+                               ->whereAND("id_kml", $id_kml)
+                               ->whereAND("tipo", $tipos, "IN")
+                               ->getAllResult();
+        if (!is_null($result)){
+           return $result; 
+        } else {
+            return NULL;
+        }
+    }
 }
 

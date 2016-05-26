@@ -1,6 +1,6 @@
 <?php echo $js; ?>
 
-<div class="row-mapa">
+<div class="row-mapa" style="height: auto">
 
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
         
@@ -12,7 +12,7 @@
                 <li>
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-files-o"></i> Archivo <b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">
-                        <?php if($guardar):?>
+                        <?php if(permisoEvento("guardar")):?>
                             <li>
                                 <a id="btn-guardar" href="javascript:void(0)"><i class="fa fa-save"></i> Guardar</a>
                             </li>
@@ -30,7 +30,7 @@
                                 <li class="divider"></li>
                             </ul>
                         </li>
-                        <?php if($guardar):?>
+                        <?php if(permisoEvento("guardar")):?>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
                             <a href="javascript:void(0)"><i class="fa fa-download"></i> Importar</a>
@@ -117,24 +117,33 @@
         <!-- Menu slideup para mostrar elementos cargados en el mapa -->
         <div class="row hidden">
             <div class="col-lg-12">
+                
+                
+                
                 <div id="slideup-menu" class="top-menu">
-                    <div class="top-menu-main">
-                        <ul id="lista_capas_agregadas" class="demo-menu">
-
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                           <span id="cantidad_capas_agregadas" class="badge">0</span> Capas <span class="caret caret-up"></span>
+                        </button>
+                        <ul id="lista_capas_agregadas" class="dropdown-menu drop-up" style="width:480px" role="menu">
+                            
                         </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Capas <span id="cantidad_capas_agregadas" class="badge">0</span></a> 
                     </div>
-                    <div class="top-menu-main">
-                        <ul id="lista_elementos_agregados" class="demo-menu">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                           <span id="cantidad_elementos_agregados" class="badge">0</span> Elementos <span class="caret caret-up"></span>
+                        </button>
+                        <ul id="lista_elementos_agregados" class="dropdown-menu drop-up" style="width:480px" role="menu">
 
                         </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Elementos <span id="cantidad_elementos_agregados" class="badge">0</span></a> 
                     </div>
-                    <div class="top-menu-main">
-                        <ul id="lista_importados_agregados" class="demo-menu">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                           <span id="cantidad_elementos_importados" class="badge">0</span> Importados <span class="caret caret-up"></span>
+                        </button>
+                        <ul id="lista_importados_agregados" class="dropdown-menu drop-up" style="width:480px" role="menu">
 
                         </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Importados <span id="cantidad_elementos_importados" class="badge">0</span></a> 
                     </div>
                 </div>
             </div>

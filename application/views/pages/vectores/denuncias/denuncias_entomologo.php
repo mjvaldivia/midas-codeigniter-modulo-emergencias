@@ -134,7 +134,7 @@
                                     <label class="control-label text-bold">Resultado</label>
                                 </div>
                                 <div class="col-xs-12 ">
-                                    <label class="control-label col-xs-12 col-md-2">Aedes aegypti</label>
+                                    <!--<label class="control-label col-xs-12 col-md-2">Aedes aegypti</label>
                                     <div class="col-xs-12 col-md-4">
                                         <select name="resultado_laboratorio" id="resultado_laboratorio"
                                                 class="form-control">
@@ -143,6 +143,18 @@
                                             <option value="2">Negativo</option>
                                             <option value="3">No concluyente</option>
                                         </select>
+                                    </div>-->
+                                    <label class="control-label col-xs-12 col-md-2">Mosquito</label>
+                                    <div class="col-xs-12 col-md-4">
+                                        <select name="mosquito" id="mosquito" onchange="if(this.value==4){$('#nombre_mosquito').show();}else{$('#nombre_mosquito').hide();}"
+                                                class="form-control">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Aedes</option>
+                                            <option value="2">Culex</option>
+                                            <option value="3">Anopheles</option>
+                                            <option value="4">No culicido</option>
+                                        </select>
+                                        <input type="text" class="form-control" style="display:none" name="nombre_mosquito" id="nombre_mosquito" placeholder="Escriba nombre del mosquito" />
                                     </div>
                                     <label class="control-label col-xs-12 col-md-3">Estado desarrollo</label>
                                     <div class="col-xs-12 col-md-3">

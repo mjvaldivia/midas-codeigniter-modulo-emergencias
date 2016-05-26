@@ -57,12 +57,21 @@ class Home extends MY_Controller {
         $this->load->model("tipo_emergencia_model", "EmergenciaTipoModel");
         
         sessionValidation();
+        
+        $this->load->helper("modulo/evento/permiso");
     }
     
     /**
      * Index
      */
     public function index () {
+        
+        $this->load->library("evento/evento_form_frontend");
+        
+        $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
+        $this->layout_assets->addDataTable();
+        $this->evento_form_frontend->AddFrontend();
+        
         $this->template->parse("default", 
                                "pages/home/index", 
                                 array());

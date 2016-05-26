@@ -9,7 +9,7 @@ var MapaInformacionElementoEdicion = Class({
     dialogoLugarEmergencia : function(clave, parametros){
         this.dialogo(
             "Datos del lugar de la emergencia",
-            siteUrl + "mapa/popup_lugar_emergencia_edicion",
+             baseUrl + getController() + "/popup_lugar_emergencia_edicion",
             clave, 
             parametros,
             function(elem, valor){
@@ -42,7 +42,7 @@ var MapaInformacionElementoEdicion = Class({
     dialogoElemento : function(clave, parametros){
         this.dialogo(
             "Datos del elemento",
-            siteUrl + "mapa/popup_elemento_edicion",
+            baseUrl + getController() + "/popup_elemento_edicion",
             clave, 
             parametros,
             function(elem, valor){

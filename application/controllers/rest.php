@@ -61,8 +61,11 @@ class Rest extends MY_Controller
                     $json['data'][$i]['id'] = $item["id_vector"];
                     $json['data'][$i]['lon'] = $item['cd_longitud_vector'];
                     $json['data'][$i]['lat'] = $item['cd_latitud_vector'];
+                    
+                    $json['data'][$i]['resultado_final'] = "NEGATIVO";
                     if ($item['cd_estado_vector'] == 1) {
-                        $json['data'][$i]['resultado'] = 'Positivo';
+                        $json['data'][$i]['resultado_final'] = "POSITIVO";
+                        $json['data'][$i]['resultado'] = 'Aedes';
                         if ($item['cd_estado_desarrollo_vector'] == 1)
                             $json['data'][$i]['estado_desarrollo'] = 'Larva';
                         elseif ($item['cd_estado_desarrollo_vector'] == 2)
@@ -72,8 +75,13 @@ class Rest extends MY_Controller
                         else
                             $json['data'][$i]['estado_desarrollo'] = 'No definido';
                     } elseif ($item['cd_estado_vector'] == 2) {
-                        $json['data'][$i]['resultado'] = 'Negativo';
+                        $json['data'][$i]['resultado'] = 'Culex';
+                    } elseif ($item['cd_estado_vector'] == 3) {
+                        $json['data'][$i]['resultado'] = 'Anopheles';
+                    } elseif ($item['cd_estado_vector'] == 2) {
+                        $json['data'][$i]['resultado'] = 'No culicido ('.$item['gl_nombre_mosquito_vector'].')';
                     }
+                    
                     $json['data'][$i]['fecha_hallazgo'] = Fechas::formatearHtml($item['fc_fecha_hallazgo_vector']);
                     $json['data'][$i]['fecha_resultado'] = Fechas::formatearHtml($item['fc_fecha_resultado_vector']);
                     $json['data'][$i]['observaciones'] = Fechas::formatearHtml($item['gl_observaciones_resultado_vector']);
@@ -105,9 +113,10 @@ class Rest extends MY_Controller
                     $json['data'][$i]['id'] = $item["id_hallazgo"];
                     $json['data'][$i]['lon'] = $item['cd_longitud_hallazgo'];
                     $json['data'][$i]['lat'] = $item['cd_latitud_hallazgo'];
+                    $json['data'][$i]['resultado_final'] = "NEGATIVO";
                     if ($item['cd_estado_hallazgo'] == 1) {
-                        $json['data'][$i]['resultado'] = 'Positivo';
-
+                        $json['data'][$i]['resultado_final'] = "POSITIVO";
+                        $json['data'][$i]['resultado'] = 'Aedes';
                         if ($item['cd_estado_desarrollo_hallazgo'] == 1)
                             $json['data'][$i]['estado_desarrollo'] = 'Larva';
                         elseif ($item['cd_estado_desarrollo_hallazgo'] == 2)
@@ -117,7 +126,11 @@ class Rest extends MY_Controller
                         else
                             $json['data'][$i]['estado_desarrollo'] = 'No definido';
                     } elseif ($item['cd_estado_hallazgo'] == 2) {
-                        $json['data'][$i]['resultado'] = 'Negativo';
+                        $json['data'][$i]['resultado'] = 'Culex';
+                    } elseif ($item['cd_estado_hallazgo'] == 3) {
+                        $json['data'][$i]['resultado'] = 'Anopheles';
+                    } elseif ($item['cd_estado_hallazgo'] == 2) {
+                        $json['data'][$i]['resultado'] = 'No culicido ('.$item['gl_nombre_mosquito_vector'].')';
                     }
                     $json['data'][$i]['fecha_hallazgo'] = Fechas::formatearHtml($item['fc_fecha_hallazgo_hallazgo']);
                     $json['data'][$i]['fecha_resultado'] = Fechas::formatearHtml($item['fc_fecha_resultado_hallazgo']);

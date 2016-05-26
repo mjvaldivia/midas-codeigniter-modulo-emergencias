@@ -1,4 +1,15 @@
-var tablas = {};
+//Sidebar Toggle
+$("#sidebar-toggle").click(function(e) {
+    e.preventDefault();
+    $(".navbar-side").toggleClass("collapsed");
+    $("#page-wrapper").toggleClass("collapsed");
+    
+    if($("#navbar-menu").hasClass("collapsed")){
+        $("#sidebar-toggle").children("i").html(" Mostrar menu");
+    } else {
+        $("#sidebar-toggle").children("i").html(" Ocultar menu");
+    }
+});
 
 $.fn.hasAttr = function(name) {  
    return this.attr(name) !== undefined;
@@ -31,6 +42,9 @@ $(document).ready(function() {
        $(this).addClass("btn btn-primary btn-xs");
     });
     
+    $('.numero:input').livequery(function(){
+        $(this).numeric();
+    });
     
     $(".rut:input").mask('0000000000-A', {reverse: true});
     
@@ -194,36 +208,7 @@ $(document).ready(function() {
             }
         });  
     });
-    
-   /* $("#sidebar-toggle").click(function(e) {
-        e.preventDefault();
-        $(".navbar-side").toggleClass("collapsed");
-        $("#page-wrapper").toggleClass("collapsed");
         
-        if($(".navbar-side").hasClass("collapsed")){
-            $(this).qtip('option', 'content.text', 'Mostrar menu'); 
-        } else {
-            $(this).qtip('option', 'content.text', 'Ocultar menu'); 
-        }
-        
-        $.ajax({         
-            dataType: "json",
-            cache: false,
-            async: true,
-            data: "",
-            type: "post",
-            url: siteUrl + "home/ajax_menu_collapse", 
-            error: function(xhr, textStatus, errorThrown){
-
-            },
-            success:function(json){
-
-            }
-        });
-        
-    });*/
-    
-    
     /**
      * configuracion tooltip
      */
@@ -250,6 +235,43 @@ $(document).ready(function() {
 
             }
         });
+    });
+    
+    
+    $(".region").livequery(function(){
+        var $this = this;
+        if($($this).data("rel")){
+           $($this).change(function(){
+               if($(this).val()!=""){
+                   $("#" + $($this).data("rel")).prop("disabled", true);
+                    $.ajax({         
+                        dataType: "json",
+                        cache: false,
+                        async: false,
+                        data: {"id" : $(this).val()},
+                        type: "post",
+                        url: siteUrl + "comuna/json_comunas_region", 
+                        error: function(xhr, textStatus, errorThrown){
+
+                        },
+                        success:function(data){
+                            $("#" + $($this).data("rel")).html("");
+                            $("#" + $($this).data("rel")).prop("disabled", false);
+                            $("#" + $($this).data("rel")).append("<option value=\"\"> -- Todas -- </option>");
+                            $.each(data.comunas, function(i, val){
+                                $("#" + $($this).data("rel")).append("<option value=\"" + val.com_ia_id + "\">" + val.com_c_nombre + "</option>");
+                            });
+                        }
+                    }); 
+                } else {
+                    $("#" + $($this).data("rel")).html("");
+                    $("#" + $($this).data("rel")).prop("disabled", true);
+                    $("#" + $($this).data("rel")).append("<option value=\"\"> -- Seleccione la region -- </option>");
+                }
+            });
+           
+           $($this).trigger("change");
+        } 
     });
 });
 
@@ -346,6 +368,12 @@ function notificacionEspera(titulo){
         type: 'info',
         showCloseButton: true
     });
+}
+
+function getController(){
+    var str = window.location.href;
+    var path = str.replace(baseUrl, "").split('/');
+    return path[0];
 }
 
 /**

@@ -6,6 +6,8 @@ var MapaMareaRojaCasos = Class({
      * Google maps
      */
     mapa : null,
+    
+    id_emergencia : null,
         
     /**
      * Setea mapa
@@ -16,62 +18,85 @@ var MapaMareaRojaCasos = Class({
         this.mapa = mapa;
     },
     
+    seteaEmergencia : function (id){
+        this.id_emergencia = id;
+    },
+    
+    /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
     /**
      * Carga el KML desde conaf
      * @returns {void}
      */
     load : function(){
+         var tareas = new MapaLoading();
         var yo = this;
         if(marea_roja_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
             
             $("#marea_roja").attr("disabled", true);
             $("#marea_roja_pm").attr("disabled", true);
             
-            Messenger().run({
-                action: $.ajax,
-                successMessage: '<strong> Marea roja </strong> <br> Ok',
-                errorMessage: '<strong> Marea roja </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
-                showCloseButton: true,
-                progressMessage: '<strong> Marea roja </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-            },{        
+            tareas.push(1);
+            $.ajax({        
                 dataType: "json",
                 cache: false,
                 async: true,
-                data: "",
+                data: {"id" : yo.id_emergencia},
                 type: "post",
-                url: siteUrl + "mapa/info_marea_roja", 
+                url:  baseUrl + yo.getController() + "/info_marea_roja", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            var icono = yo.coloresIcono(valor);
+                            if(valor.resultado && valor.resultado != ""){
                             
-                            var marcador = new MapaMarcador();
-                            marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
-                            
-                            var fecha_muestra = moment(valor.fecha_muestra, "DD-MM-YYYY", true);
-                            
-                            marea_roja_marcador.push(
-                                {
-                                    "identificador" : "marea_roja_" + valor.id,
-                                    "fecha_muestra" : fecha_muestra,
-                                    "recurso": valor.propiedades["RECURSO"],
-                                    "resultados": valor.propiedades["RESULTADO"]
-                                }
-                            );
+                                var icono = yo.coloresIcono(valor);
+
+                                var marcador = new MapaMarcador();
+                                marcador.seteaMapa(yo.mapa);
+                                marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
+
+                                var fecha_muestra = moment(valor.fecha_muestra, "DD-MM-YYYY", true);
+
+                                marea_roja_marcador.push(
+                                    {
+                                        "identificador" : "marea_roja_" + valor.id,
+                                        "fecha_muestra" : fecha_muestra,
+                                        "recurso": valor.propiedades["RECURSO"],
+                                        "resultados": valor.propiedades["RESULTADO"]
+                                    }
+                                );
+                            }
 
                         });
                         
-                        yo.filtrar();
+                        $("#formulario-marea-roja-contenedor").waitUntilExists(function(){
+                            yo.filtrar();
+                        });
+                        
                     } else {
                         notificacionError("", "No es posible encontrar la información de la marea roja.");
                     }
                     
-                    $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    //$("#formulario-marea-roja-contenedor").waitUntilExists(function(){
+                        $("#formulario-marea-roja-contenedor").removeClass("hidden");
+                    //});
                     
                     $("#marea_roja").attr("disabled", false);
                     $("#marea_roja_pm").attr("disabled", false);
+                    
+                     tareas.remove(1);
                }
             });
         }
@@ -138,7 +163,7 @@ var MapaMareaRojaCasos = Class({
             }
         }
         
-        if(ok){
+        if(ok && marker["resultados"]){
             var slider = $("#marea_roja_resultados").data("ionRangeSlider");
             //console.log(marker["resultados"]);
             if(slider.result.from != 0 && marker["resultados"] == "ND"){
@@ -181,7 +206,7 @@ var MapaMareaRojaCasos = Class({
             }        
         }
         
-        if(ok){
+        if(ok && marker["resultados"]){
             var retorno = false;
             $(".marea-roja-color").each(function(i, obj){
                 if($(obj).is(":checked")){
@@ -196,7 +221,6 @@ var MapaMareaRojaCasos = Class({
                                 retorno = true;
                             }
                         }
-                        
                         
                         if($(obj).data("to") && $(obj).data("to")!=""){
                             if(parseInt(marker["resultados"]) >= parseInt($(obj).data("from")) && parseInt(marker["resultados"]) <= parseInt($(obj).data("to"))){

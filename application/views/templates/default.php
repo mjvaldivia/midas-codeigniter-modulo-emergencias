@@ -39,7 +39,7 @@
     <?= loadCSS("assets/css/style.css", true) ?>
     <?= loadJS("assets/js/Modal_Sipresa.js") ?>
     <?= loadJS("assets/js/xmodal.js") ?>
-    
+    <?php echo layoutCss(); ?>
     <script type="text/javascript">
         
         siteUrl = '<?= site_url("/") ?>';
@@ -102,7 +102,7 @@
                 <ul class="nav navbar-left">
                     <li class="tooltip-sidebar-toggle">
                         <a href="#" id="sidebar-toggle" data-toogle-param="abajo" data-toggle="tooltip" data-placement="right" title="Mostrar menu">
-                            <i class="fa fa-bars"></i>
+                            <i class="fa fa-bars"> Ocultar menu </i>
                         </a>
                     </li>
                     <!-- You may add more widgets here using <li> -->
@@ -178,7 +178,7 @@
         <!-- end TOP NAVIGATION -->
 
         <!-- begin SIDE NAVIGATION -->
-        <nav class="navbar-side <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
+        <nav id="navbar-menu" class="navbar-side <?php if(!estaLogeado()) { ?> hidden <?php } ?>" role="navigation">
             <div class="navbar-collapse sidebar-collapse collapse">
                 <ul id="side" class="nav navbar-nav side-nav">
 
@@ -224,7 +224,12 @@
         <div id="page-wrapper">
 
             <div class="page-content">
-                {body}
+                <?php echo $body; ?>
+                <!--<div class="row">
+                    <div class="col-lg-12">
+                        <?php echo "GIT:" . GIT; ?>
+                    </div>
+                </div>-->
             </div>   
             <!-- /.page-content -->
 
@@ -266,9 +271,10 @@
         <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
         <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.js") ?>
         <?= loadJS("assets/js/library/jquery.wait.js") ?>
+        <?= loadJS("assets/js/library/jquery.numeric/jquery.numeric.min.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
-
+        <?php echo layoutJs(); ?>
         <script type="text/javascript">
             $(document).ready(function () {
                 Utils.listenerCambioRapido();

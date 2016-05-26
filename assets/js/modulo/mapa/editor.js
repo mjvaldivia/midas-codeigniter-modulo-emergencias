@@ -142,7 +142,8 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
             var circuloClickListener = new MapaPoligonoInformacion();
@@ -170,7 +171,8 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
             yo.class_poligono.addClickListener(polygon, mapa);
@@ -218,7 +220,8 @@ var MapaEditor = Class({
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: '#ffff00',
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
             
             var circuloClickListener = new MapaPoligonoInformacion();
@@ -237,8 +240,9 @@ var MapaEditor = Class({
      * @returns {void}
      */
     guardar : function(){
+        var tareas = new MapaLoading();
         var custom = new MapaElementos();
-        
+        tareas.push(1);
         var yo = this;
         var parametros = {"capas" : this.class_capa.retornaIdCapas(),
                           "zoom" : this.mapa.getZoom(),
@@ -260,21 +264,15 @@ var MapaEditor = Class({
                           "vectores_hallazgos" : $("#vectores_hallazgos").is(":checked") ? 1:0,
                           
                           "kmls" : this.class_kml.listArchivosKml(),
-                          
+                          "kmls_ocultos" : this.getArchivosImportadosOcultos(),
                           "id" : this.id_emergencia};
-        Messenger().run({
-            action: $.ajax,
-            showCloseButton: true,
-            successMessage: '<strong> Guardar <strong> <br> Ok',
-            errorMessage: '<strong> Guardar <strong> <br> Se produjo un error al guardar',
-            progressMessage: '<strong> Guardar <strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Procesando...'
-        }, {         
+        $.ajax({         
             dataType: "json",
             cache: false,
             async: true,
             data: parametros,
             type: "post",
-            url: siteUrl + "mapa/save", 
+            url: baseUrl + getController() + "/save", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
@@ -288,8 +286,24 @@ var MapaEditor = Class({
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }
+                tareas.remove(1);
             }
         }); 
+    },
+    
+    /**
+     * 
+     * @returns {object}
+     */
+    getArchivosImportadosOcultos : function(){
+        var ocultos = {};
+        $(".ocultar-archivo-importado").each(function(i, elemento){
+            console.log(elemento);
+           if(!($(elemento).is(":checked"))){
+               ocultos[i] = $(elemento).val();
+           } 
+        });
+        return ocultos;
     },
     
     /**
@@ -298,6 +312,8 @@ var MapaEditor = Class({
      * @returns {void}
      */
     controlImportar : function (map) {
+
+        var $this = this;
 
         /**
          * Popup para subir kml
@@ -370,6 +386,7 @@ var MapaEditor = Class({
             $(this).click(function(){
                 var marea_roja = new MapaMareaRojaCasos();
                 marea_roja.seteaMapa(map);
+                marea_roja.seteaEmergencia($this.id_emergencia);
                 if($(this).is(":checked")){
                     
                     if($("#marea_roja_pm").is(":checked")){
@@ -399,11 +416,9 @@ var MapaEditor = Class({
         
         $("#marea_roja_pm").livequery(function(){
             $(this).click(function(){
-                
                 var marea_roja_pm = new MapaMareaRojaCasosPm();
-                
                 marea_roja_pm.seteaMapa(map);
-                
+                marea_roja.seteaEmergencia($this.id_emergencia);
                 if($(this).is(":checked")){
                     
                     if($("#marea_roja").is(":checked")){
@@ -516,31 +531,73 @@ var MapaEditor = Class({
            exportar.makeMapa();
         });
         
-        /**
-         * Quitar archivo subido
-         */
-        $(".btn-quitar-archivo").livequery(function(){
+        $(".ver-detalle-archivo").livequery(function(){
             $(this).click(function(){
-                var id = $(this).attr("data-rel");
-                
-                lista_kml = jQuery.grep(lista_kml, function( a ) {
-                    if(a["hash"] == id){
-                        var marcador = new MapaMarcador();
-                        marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
+                var id = $(this).data("rel");
+                var hash = $(this).data("hash");
+                bootbox.dialog({
+                    message: "<div id=\"contenido-popup-informacion-archivo\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+                    title: "<i class=\"fa fa-arrow-right\"></i> Detalle archivo importado",
+                    className: "modal90",
+                    buttons: {
                         
-                        var poligono = new MapaPoligono();
-                        poligono.removerPoligono("identificador", "kml_" + a["hash"]);
-                        
-                        return false;
-                    } else {
-                        return true;
+                        guardar: {
+                            label: " Efectuar cambios",
+                            className: "btn-success fa fa-check",
+                            callback: function() {
+
+                               
+                            }
+                        },
+                        eliminar: {
+                            label: " Quitar elemento",
+                            className: "btn-danger fa fa-remove",
+                            callback: function() {
+                                lista_kml = jQuery.grep(lista_kml, function( a ) {
+                                    if(a["hash"] == hash){
+                                        var marcador = new MapaMarcador();
+                                        marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
+
+                                        var poligono = new MapaPoligono();
+                                        poligono.removerPoligono("identificador", "kml_" + a["hash"]);
+
+                                        return false;
+                                    } else {
+                                        return true;
+                                    }
+                                });
+
+                                var archivo = new MapaArchivos();
+                                archivo.updateListaArchivosAgregados();
+                            }
+                        },
+                        cerrar: {
+                            label: " Cerrar ventana",
+                            className: "btn-white fa fa-close",
+                            callback: function() {}
+                        }
                     }
                 });
+
+                $.ajax({         
+                    dataType: "html",
+                    cache: false,
+                    async: true,
+                    data: {"id" : id},
+                    type: "post",
+                    url:  baseUrl + "mapa_kml/popup_informacion_archivo", 
+                    error: function(xhr, textStatus, errorThrown){
+                        notificacionError("Ha ocurrido un problema", errorThrown);
+                    },
+                    success:function(data){
+                        $("#contenido-popup-informacion-archivo").html(data);
+                    }
+                }); 
                 
-                var archivo = new MapaArchivos();
-                archivo.updateListaArchivosAgregados();
             });
         });
+        
+      
 
     },
     

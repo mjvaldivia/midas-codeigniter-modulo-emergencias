@@ -1,6 +1,6 @@
 <?php
 
-require_once(APPPATH . "helpers/modulo/layout/menu/Render.php");
+require_once(APPPATH . "helpers/core/layout/Menu.php");
 require_once(APPPATH . "helpers/modulo/layout/menu/Collapse.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Logeado.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Permiso.php");
@@ -11,14 +11,77 @@ require_once(APPPATH . "helpers/modulo/layout/tab/Show.php");
 require_once(APPPATH . "helpers/modulo/layout/text/MoreLess.php");
 require_once(APPPATH . "helpers/modulo/layout/usuario/Imagen.php");
 
+
 /**
- * Despliega el menu
+ * Formulario para coordenadas y conversion de coordenadas
+ * @param string $latitud
+ * @param string $longitud
+ * @return string html
+ */
+function formCoordenadas(
+    $prefijo_input = "form_coordenadas", 
+    $latitud = "", 
+    $longitud = "",
+    $propiedades = array()
+){
+        
+    $ci =& get_instance();
+    $ci->layout_assets->addJs("library/jquery.typing-0.2.0.min.js");
+    $ci->layout_assets->addJs("modulo/mapa/google/extension/geo-encoder.js");
+    $ci->layout_assets->addJs("modulo/layout/form-coordenadas.js");
+    
+    // parche para ingresos antiguos
+    if(isset($propiedades["calidad_de_georeferenciacion"])){
+        $propiedades[$prefijo_input . "_calidad_de_georeferenciacion"] = $propiedades["calidad_de_georeferenciacion"];
+    }
+    
+    return $ci->load->view(
+        "pages/helpers/modulo/layout/form-coordenadas", 
+        array(
+            "prefijo" => $prefijo_input,
+            "latitud" => $latitud, 
+            "longitud" => $longitud,
+            "propiedades" => $propiedades
+        ), 
+        true
+    );
+}
+
+/**
+ * Formulario para seleccionar coordenada del mapa
+ * @param string $id_html identificador del elemento html donde se cargara el mapa
+ * @return string html
+ */
+function formMapa($id_html){
+    $ci =& get_instance();
+    $ci->layout_assets->addJs("library/jquery.typing-0.2.0.min.js");
+    $ci->layout_assets->addJs("modulo/mapa/formulario.js");
+
+    return $ci->load->view(
+        "pages/helpers/modulo/layout/form-mapa", 
+        array(
+            "identificador" => $id_html,
+        ), 
+        true
+    );
+}
+
+/**
+ * Retorna el menu
+ * @return string hmtl
  */
 function menuRender(){
-    $menu = New Layout_Menu_Render();
+    $ci =& get_instance();
+    $ci->load->model("comuna_model");
+    $ci->load->model("region_model");
+    $menu = New Layout_Menu();
     return $menu->render();
 }
 
+/**
+ * Agrega los JS para datatables
+ * @return string html
+ */
 function jsDatatable(){
     $ci =& get_instance();
     return $ci->load->view("templates/js-datatable", array(), true);
@@ -154,11 +217,19 @@ function htmlSimulacion(){
     return $simulacion->render();
 }
 
+/**
+ * 
+ * @return type
+ */
 function imagenPerfilUsuario(){
     $imagen = New Layout_Usuario_Imagen();
     return $imagen->render();
 }
 
+/**
+ * 
+ * @return type
+ */
 function estaLogeado(){
     $logeo = New Layout_Usuario_Logeado();
     return $logeo->estaLogeado();

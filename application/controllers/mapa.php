@@ -92,20 +92,9 @@ class Mapa extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
-        sessionValidation();
-        $this->load->library("emergencia/emergencia_comuna");
-        $this->load->model("emergencia_model", "_emergencia_model");
-        $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
-        $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
-        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
-        $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
-        $this->load->model("alarma_model", "_alarma_model");
-        $this->load->model("capa_model", "_capa_model");
-        $this->load->model("comuna_model", "_comuna_model");
-        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
-        $this->load->model("capa_detalle_model", "_capa_detalle_model");
-        $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
-        $this->load->model("archivo_model", "_archivo_model");
+        $this->load->helper("modulo/evento/permiso");
+        $this->_validarSession();
+        $this->_cargaModel();
     }
     
     /**
@@ -121,11 +110,11 @@ class Mapa extends MY_Controller {
 
         $this->load->model('Permiso_Model','PermisoModel');
         $this->load->model('Modulo_Model','ModuloModel');
-        $guardar = $this->PermisoModel->tienePermisoVisorEmergenciaGuardar($this->session->userdata('session_roles'),7);
+        
+      
         
         if(!is_null($emergencia)){
             $data = array("id" => $params["id"],
-                          "guardar" => $guardar,
                           "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
 
             
@@ -197,6 +186,7 @@ class Mapa extends MY_Controller {
                  ->setMareaRojaPm($_POST["marea_roja_pm"])
                  ->setVectores($_POST["vectores"])
                  ->setVectoresHallazgos($_POST["vectores_hallazgos"])
+                 ->setArchivosOcultos($_POST["kmls_ocultos"])
                  ->guardar();
             
             
@@ -339,6 +329,8 @@ class Mapa extends MY_Controller {
      * 
      */
     public function info_marea_roja(){
+        
+        $params = $this->input->post(null, true);
         header('Content-type: application/json'); 
         
         $this->load->model("usuario_region_model","_usuario_region_model");
@@ -362,9 +354,18 @@ class Mapa extends MY_Controller {
         
         $casos = array();
         
-        $lista_regiones = $this->_usuario_region_model->listarPorUsuario($this->session->userdata('session_idUsuario'));
+        $lista_regiones = $this->_emergencia_model->listarRegionesPorEmergencia($params["id"]);
         
-        $lista = $this->_marea_roja_model->listar(array("region" => $this->arreglo->arrayToArray($lista_regiones, "id_region")));
+        $lista = $this->_marea_roja_model->listar(
+            array(
+                "region" => $this->arreglo->arrayToArray(
+                    $lista_regiones, 
+                    "reg_ia_id"
+                ),
+                "ingreso_resultado" => 1
+            )
+        );
+        
         if($lista != null){
             foreach($lista as $row){
                 $propiedades = array("MUESTREO N°" => $row["id"]);
@@ -380,9 +381,27 @@ class Mapa extends MY_Controller {
                 $propiedades["REGION"] = nombreRegion($propiedades["REGION"]);
                 $propiedades["COMUNA"] = nombreComuna($propiedades["COMUNA"]);
                 
+                // se limpian datos a mostrar
                 unset($propiedades["INGRESADO POR"]);
+                unset($propiedades["FORM COORDENADAS TIPO"]);
+                unset($propiedades["FORM COORDENADAS GMS GRADOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS MINUTOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS SEGUNDOS LAT"]);
+                unset($propiedades["FORM COORDENADAS GMS GRADOS LNG"]);
+                unset($propiedades["FORM COORDENADAS GMS MINUTOS LNG"]);
+                unset($propiedades["FORM COORDENADAS GMS SEGUNDOS LNG"]);
+                
+                unset($propiedades["FORM COORDENADAS UTM ZONA"]);
+                unset($propiedades["FORM COORDENADAS UTM LATITUD"]);
+                unset($propiedades["FORM COORDENADAS UTM LONGITUD"]);
+                
+                unset($propiedades["FORM COORDENADAS LATITUD"]);
+                unset($propiedades["FORM COORDENADAS LONGITUD"]);
                 
                 $coordenadas = Zend_Json::decode($row["coordenadas"]);
+                
+                $propiedades["latitud"] = $coordenadas["lat"];
+                $propiedades["longitud"] = $coordenadas["lng"];
                 
                 $casos[] = array(
                     "id" => $row["id"],
@@ -597,7 +616,7 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
-        
+        $coordenadas = Zend_Json::decode($params["geometry"]);
         $this->load->view(
             "pages/mapa/popup-elemento-informacion", 
             array(
@@ -607,6 +626,7 @@ class Mapa extends MY_Controller {
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],
+                "coordenadas" => $coordenadas,
                 "lista_formas" => json_decode($params["formas"]),
                 "lista_marcadores"  => json_decode($params["marcadores"])
             )
@@ -621,7 +641,7 @@ class Mapa extends MY_Controller {
         
         $params = $this->input->post(null, true);
         $informacion = json_decode($params["informacion"]);
-        
+        $coordenadas = Zend_Json::decode($params["geometry"]);
         $this->load->view(
             "pages/mapa/popup-elemento-edicion", 
             array(
@@ -630,6 +650,7 @@ class Mapa extends MY_Controller {
                 "informacion" => $informacion,
                 "identificador" => $params["identificador"],
                 "clave" => $params["clave"],
+                "coordenadas" => $coordenadas,
                 "lista_formas" => json_decode($params["formas"]),
                 "lista_marcadores"  => json_decode($params["marcadores"])
             )
@@ -733,17 +754,21 @@ class Mapa extends MY_Controller {
                                                 "tipo_mapa" => ""));
         $params = $this->input->post(null, true);
 
-        $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
-        if(!is_null($configuracion)){
+        $mapa = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
+        if(!is_null($mapa)){
+            
+            $configuracion = Zend_Json::decode($mapa->configuracion);
+            
             $resultado["resultado"] = array(
-                "sidco" => $configuracion->kml_sidco,
-                "casos_febriles" => $configuracion->bo_casos_febriles,
-                "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
-                "marea_roja" => $configuracion->bo_marea_roja,
-                "marea_roja_pm" => $configuracion->bo_marea_roja_pm,
-                "vectores" => $configuracion->bo_vectores,
-                "vectores_hallazgos" => $configuracion->bo_vectores_hallazgos,
-                "tipo_mapa" => $configuracion->tipo_mapa
+                "sidco" => $configuracion["bo_kml_sidco"],
+                "casos_febriles" => $configuracion["bo_casos_febriles"],
+                "casos_febriles_zona" => $configuracion["bo_casos_febriles_zona"],
+                "marea_roja" => $configuracion["bo_marea_roja"],
+                "marea_roja_pm" => $configuracion["bo_marea_roja_pm"],
+                "vectores" => $configuracion["bo_vectores"],
+                "vectores_hallazgos" => $configuracion["bo_vectores_hallazgos"],
+                "archivos_ocultos" => $configuracion["archivos_ocultos"],
+                "tipo_mapa" => $mapa->tipo_mapa
             );
         }
         
@@ -862,5 +887,31 @@ class Mapa extends MY_Controller {
         }
         
         echo json_encode($data);
+    }
+    
+    /**
+     * Carga modelos para visor
+     */
+    protected function _cargaModel(){
+        $this->load->library("emergencia/emergencia_comuna");
+        $this->load->model("emergencia_model", "_emergencia_model");
+        $this->load->model("emergencia_capa_model", "_emergencia_capas_model");
+        $this->load->model("emergencia_elemento_model", "_emergencia_elementos_model");
+        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
+        $this->load->model("emergencia_comuna_model","_emergencia_comuna_model");
+        $this->load->model("alarma_model", "_alarma_model");
+        $this->load->model("capa_model", "_capa_model");
+        $this->load->model("comuna_model", "_comuna_model");
+        $this->load->model("capa_detalle_elemento_model", "_capa_detalle_elemento_model");
+        $this->load->model("capa_detalle_model", "_capa_detalle_model");
+        $this->load->model("categoria_cobertura_model", "_tipo_capa_model");
+        $this->load->model("archivo_model", "_archivo_model");
+    }
+    
+    /**
+     * 
+     */
+    protected function _validarSession(){
+        sessionValidation();
     }
 }

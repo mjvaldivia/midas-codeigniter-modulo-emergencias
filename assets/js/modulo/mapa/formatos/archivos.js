@@ -36,25 +36,20 @@ var MapaArchivos = Class({
         var lista = kml;
      
         $.each(lista, function(i, json){ 
-           if(i == 0){
-               html += "<li class=\"\">\n"
-                 + "<div class=\"row\">"
-                 + "<div class=\"col-xs-1\"></div>\n"
-                 + "<div class=\"col-xs-2 badge alert-info\">Tipo archivo</div>\n"
-                 + "<div class=\"col-xs-4 badge alert-info\">Descripción</div>"
-                 + "<div class=\"col-xs-4 badge alert-info\">Nombre</div>"
-                 + "<div class=\"col-xs-1 badge alert-info\"></div>"
-                 + "</div>"
-                 + "</li>";
+            
+           if(i!=0){
+               html += "<li class=\"divider\"></li>";
            } 
             
            html += "<li data=\"" + json.hash + "\" class=\"\">\n"
+                 
                  + "<div class=\"row\">"
-                 + "<div class=\"col-xs-1\"><input checked=\"checked\" class=\"ocultar-archivo-importado\" type=\"checkbox\" data-rel=\"" + json.hash + "\"/></div>\n"
+                 + "<div class=\"col-xs-2 text-center\"><input checked=\"checked\" name=\"archivos_importados_ocultos[]\" class=\"ocultar-archivo-importado\" type=\"checkbox\" value=\"" + json.id + "\" data-rel=\"" + json.hash + "\"/></div>\n"
+                 + "<a href=\"#\" data-hash=\"" + json.hash + "\" data-rel=\"" + json.id + "\" class=\"ver-detalle-archivo\">"
                  + "<div class=\"col-xs-2\">(" + json.tipo + ")</div>\n"
                  + "<div class=\"col-xs-4\"> " + json.nombre + "</div>"
                  + "<div class=\"col-xs-4\"> " + json.archivo + "</div>"
-                 + "<div class=\"col-xs-1\"><button data-rel=\"" + json.hash + "\" title=\"Quitar archivo\" class=\"btn btn-xs btn-danger btn-quitar-archivo\"> <i class=\"fa fa-remove\"></i></button></div>"
+                 + "</a>"
                  + "</div>"
                  + "</li>";
          
@@ -87,29 +82,39 @@ var MapaArchivos = Class({
            $(this).click(function(){
                 var hash = $(this).attr("data-rel"); 
                 if($(this).is(":checked")){
-                    jQuery.grep(lista_markers, function( a ) {
-                        if(a["identificador"] == "kml_" + hash ){
-                            a.setVisible(true);
-                        }
-                    });
-                    jQuery.grep(lista_poligonos, function( a ) {
-                        if(a["identificador"] == "kml_" + hash){
-                            a.setMap(yo.mapa);
-                        }
-                    });
+                    yo.ocultarMostrarElementos(hash, true);
                 } else {
-                    jQuery.grep(lista_markers, function( a ) {
-                        if(a["identificador"] == "kml_" + hash ){
-                            a.setVisible(false);
-                        }
-                    });
-                    jQuery.grep(lista_poligonos, function( a ) {
-                        if(a["identificador"] == "kml_" + hash){
-                            a.setMap(null);
-                        }
-                    });
+                    yo.ocultarMostrarElementos(hash, false);
                 }
            });
+        });
+    },
+    
+    /**
+     * 
+     * @param {type} hash
+     * @param {type} mostrar
+     * @returns {undefined}
+     */
+    ocultarMostrarElementos : function(hash, mostrar){
+        var $this = this;
+        jQuery.grep(lista_markers, function( a ) {
+            if(a["identificador"] == "kml_" + hash ){
+                if(mostrar){
+                    a.setVisible(true);
+                } else {
+                    a.setVisible(false);
+                }
+            }
+        });
+        jQuery.grep(lista_poligonos, function( a ) {
+            if(a["identificador"] == "kml_" + hash){
+                if(mostrar){
+                    a.setMap($this.mapa);
+                } else {
+                    a.setMap(null);
+                }
+            }
         });
     },
     
@@ -139,6 +144,9 @@ var MapaArchivos = Class({
      * @returns {void}
      */
     loadArchivos : function(mapa){
+        
+        var tareas = new MapaLoading();
+        tareas.push(1);
         var yo = this;
         this.mapa = mapa;
         $.ajax({         
@@ -152,14 +160,10 @@ var MapaArchivos = Class({
                notificacionError("Ha ocurrido un problema - ", errorThrown);
            },
            success:function(data){
+               tareas.remove(1);
                if(data.cantidad>0){
-                   Messenger().run({
-                       action: $.ajax,
-                       showCloseButton: true,
-                       successMessage: '<strong> KML </strong> <br> Ok',
-                       errorMessage: '<strong> KML </strong> <br> Se produjo un error al cargar',
-                       progressMessage: '<strong> KML </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-                   }, {         
+                   tareas.push(1);
+                   $.ajax({         
                        dataType: "json",
                        cache: false,
                        async: true,
@@ -244,12 +248,22 @@ var MapaArchivos = Class({
                                         };            
                                         
                                         lista_kml.push(kml);
-                                       
-                                       
                                     }
+                                    
+                                    if(elemento.oculto){
+                                        yo.ocultarMostrarElementos(elemento.hash, false);
+                                        $(".ocultar-archivo-importado[value='" + elemento.id + "']").waitUntilExists(function(){
+                                            $(this).prop("checked", false);
+                                        });
+                                    }
+                                    
                                });
-                               yo.updateListaArchivosAgregados();
+                               
+                                if($("#lista_importados_agregados").length > 0){
+                                    yo.updateListaArchivosAgregados();
+                                }
                            }
+                           tareas.remove(1);
                        }
                    });
                }

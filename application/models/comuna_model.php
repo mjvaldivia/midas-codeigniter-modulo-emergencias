@@ -7,6 +7,10 @@
  */
 class Comuna_Model extends MY_Model
 {    
+    /**
+     * INT
+     */
+    const ISLA_DE_PASCUA = 12;
     
     /**
      * Se utiliza emergencias_simulacion o no
@@ -121,7 +125,7 @@ class Comuna_Model extends MY_Model
 
 
     public function getByNombre($nombre){
-        $query = 'select c.* from '.$this->_tabla.' c
+        $query = 'select c.*, p.prov_ia_id as id_provincia, r.reg_ia_id as id_region from '.$this->_tabla.' c
                 left join provincias p on p.prov_ia_id = c.prov_ia_id
                 left join regiones r on r.reg_ia_id = p.reg_ia_id
                 where c.com_c_nombre like "%'.$nombre.'%" limit 1';

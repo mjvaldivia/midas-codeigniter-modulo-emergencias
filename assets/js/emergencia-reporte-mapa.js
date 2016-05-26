@@ -12,7 +12,10 @@ $(document).ready(function() {
     visor.seteaHeight(500);
     visor.seteaEmergencia(id);
     visor.setCenter(parseFloat(lat),parseFloat(lon));
-
+    
+    var tareas = new MapaLoading();
+    visor.addOnReadyFunction("visor de tareas", tareas.iniciarLoading, true);
+    
     //custom
     var custom = new MapaElementos();
     custom.emergencia(id);

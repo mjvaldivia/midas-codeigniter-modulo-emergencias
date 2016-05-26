@@ -129,13 +129,10 @@ var MapaCapa = Class({
      * @returns {void}
      */
     addCapa : function(id_subcapa){
+        var tareas = new MapaLoading();
         var yo = this;
-        Messenger().run({
-            action: $.ajax,
-            successMessage: '<strong> Agregando capa </strong> <br> Ok',
-            errorMessage: '<strong> Agregando capa </strong> <br> Se produjo un error al cargar',
-            progressMessage: '<strong> Agregando capa </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-        }, {
+        tareas.push(1);
+        $.ajax({
             dataType: "json",
             cache: false,
             async: true,
@@ -150,6 +147,7 @@ var MapaCapa = Class({
                         yo.listaCapasVisor();
                     }
                 }
+                tareas.remove(1);
             }
         });
     },
@@ -223,7 +221,7 @@ var MapaCapa = Class({
                 preview = "<img style=\"height:20px\" src=\"" + capa.icono + "\" >";
             } else {
                 if(capa.color != ""){
-                    preview = "<div class=\"color-capa-preview\" style=\"background-color:" + capa.color + "; height: 20px;width: 20px;\"></div>";
+                    preview = "<div class=\"color-capa-preview\" style=\"background-color:" + capa.color + "; height: 20px;width: 20px; margin-left:9px\"></div>";
                 }
             }
             
@@ -243,6 +241,10 @@ var MapaCapa = Class({
         var cantidad = 0;
        
         $.each(capas_visor, function(i, data){
+           
+           if(i!=0){
+               html += "<li class=\"divider\"></li>";
+           } 
            
            html += "<li data=\"" + data.id + "\" class=\"\">\n"
                  + "<div class=\"row\"><div class=\"col-xs-2\">" + data.preview + "</div><div class=\"col-xs-10\"> " + data.nombre + "</div>"
@@ -310,9 +312,10 @@ var MapaCapa = Class({
      * @returns {void}
      */
     capasPorEmergencia : function(map){
-        console.log("Cargando informacion de capas asociadas a emergencia");
-        var yo = this;
+        var tareas = new MapaLoading();
         
+        var yo = this;
+        tareas.push(1);
         $.ajax({         
             dataType: "json",
             cache: false,
@@ -322,14 +325,10 @@ var MapaCapa = Class({
             url: siteUrl + "mapa_capas/ajax_contar_capas_comuna", 
             error: function(xhr, textStatus, errorThrown){},
             success:function(data){
+                tareas.remove(1);
                 if(data.cantidad > 0){
-                    Messenger().run({
-                        action: $.ajax,
-                        successMessage: '<strong> Capas </strong> <br> Ok',
-                        errorMessage: '<strong> Capas </strong> <br> Se produjo un error al cargar',
-                        showCloseButton: true,
-                        progressMessage: '<strong> Capas </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-                    }, {        
+                    tareas.push(1);
+                    $.ajax({        
                         dataType: "json",
                         cache: false,
                         async: true,
@@ -347,6 +346,7 @@ var MapaCapa = Class({
                             } else {
                                 notificacionError("Ha ocurrido un problema", data.error);
                             }
+                            tareas.remove(1);
                         }
                     });
                 }

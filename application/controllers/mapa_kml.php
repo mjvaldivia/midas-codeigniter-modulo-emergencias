@@ -21,6 +21,12 @@ class Mapa_kml extends MY_Controller {
     public $_emergencia_model;
     
     /**
+     *
+     * @var Emergencia_Mapa_Configuracion_Model 
+     */
+    public $_emergencia_mapa_configuracion_model;
+    
+    /**
      * 
      */
     public function __construct() {
@@ -28,6 +34,7 @@ class Mapa_kml extends MY_Controller {
         $this->load->model("emergencia_kml_model", "_emergencia_kml_model");
         $this->load->model("emergencia_kml_elemento_model", "_emergencia_kml_elemento_model");
         $this->load->model("emergencia_model", "_emergencia_model");
+        $this->load->model("emergencia_mapa_configuracion_model","_emergencia_mapa_configuracion_model");
     }
     
     /**
@@ -36,6 +43,34 @@ class Mapa_kml extends MY_Controller {
      */
     public function popup_importar_kml(){
         $this->load->view("pages/mapa_kml/popup-importar-kml", array());
+    }
+    
+    /**
+     * 
+     */
+    public function popup_informacion_archivo(){
+        $params = $this->input->post(null, true);
+        $archivo = $this->_emergencia_kml_model->getById($params["id"]);
+        if(!is_null($archivo)){
+            
+            $puntos = $this->_emergencia_kml_elemento_model->listaPorTipo($params["id"], array("PUNTO"));
+            $zonas  = $this->_emergencia_kml_elemento_model->listaPorTipo(
+                $params["id"], 
+                array(
+                    "POLIGONO",
+                    "MULTIPOLIGONO"
+                )
+            );
+            
+            
+            $data = array("id" => $archivo->id,
+                          "archivo" => $archivo->archivo,
+                          "nombre" => $archivo->nombre,
+                          "tipo" => $archivo->tipo,
+                          "puntos" => $puntos,
+                          "zonas"  => $zonas);
+            $this->load->view("pages/mapa_kml/popup-informacion", $data);
+        }
     }
     
     /**
@@ -61,13 +96,28 @@ class Mapa_kml extends MY_Controller {
         $params = $this->input->post(null, true);
         $emergencia = $this->_emergencia_model->getById($params["id"]);
         if(!is_null($emergencia)){
+            
+            
+            $configuracion = array();
+            $mapa = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
+            if(!is_null($mapa)){
+                $configuracion = Zend_Json::decode($mapa->configuracion);    
+            }
+            
+            
             $lista_elementos = $this->_emergencia_kml_model->listaPorEmergencia($emergencia->eme_ia_id);
             if(count($lista_elementos)>0){
                 foreach($lista_elementos as $elemento){
+                    $oculto = false;
+                    if(isset($configuracion["archivos_ocultos"]) && in_array($elemento["id"], $configuracion["archivos_ocultos"])){
+                        $oculto = true;
+                    }
+                    
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array(
                         "id" => $elemento["id"],
                         "hash" => "archivo_importado_" . $elemento["id"],
+                        "oculto" => $oculto,
                         "tipo" => strtoupper($elemento["tipo"]),
                         "nombre" => strtoupper($elemento["nombre"]),
                         "archivo" => $elemento["archivo"],

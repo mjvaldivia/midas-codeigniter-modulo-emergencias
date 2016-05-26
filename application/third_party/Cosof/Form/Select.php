@@ -116,14 +116,14 @@ Class Cosof_Form_Select extends Cosof_Form_Abstract{
 
                 if(!is_array($default)){
                     if($default == $row[$this->_option_val]){
-                        $selected = "selected=\"selected\"";
+                        $selected = " selected=\"true\"";
                     }
                 } else {
                     $existe = array_search($row[$this->_option_val], $default);
                     if($existe === false){
                         //void
                     } else {
-                        $selected = "selected=\"selected\"";
+                        $selected = "selected=\"true\"";
                     }
                 }
 

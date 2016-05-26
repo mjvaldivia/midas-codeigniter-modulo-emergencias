@@ -2204,6 +2204,10 @@ input[type="checkbox"]:checked::after,
     width:90% !important;
 }
 
+.modal70 > .modal-dialog{
+    width:70% !important;
+}
+
 .table-hover > tbody > tr:hover{
     background-color: #d9edf7 ;
 }
@@ -2365,3 +2369,81 @@ body.modal-open {
     z-index: 1000002 !important;
 }
 
+.form-group.has-error > input{
+    background-color:#f2dede;
+}
+
+.form-group.has-error > select{
+    background-color:#f2dede;
+}
+
+
+/** Menu de boton hacia arriba **/
+.caret-up {
+    /* Safari */
+    -webkit-transform: rotate(-180deg);
+    
+    /* Firefox */
+    -moz-transform: rotate(-180deg);
+    
+    /* IE */
+    -ms-transform: rotate(-180deg);
+    
+    /* Opera */
+    -o-transform: rotate(-180deg);
+    
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=6);
+
+}
+
+.drop-up {
+    top: auto;
+    bottom: 100% !important;
+}
+
+
+.btn-success.disabled, .btn-success[disabled], fieldset[disabled] .btn-success, .btn-success.disabled:hover, .btn-success[disabled]:hover, fieldset[disabled] .btn-success:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus, fieldset[disabled] .btn-success:focus, .btn-success.disabled.focus, .btn-success.focus[disabled], fieldset[disabled] .btn-success.focus, .btn-success.disabled:active, .btn-success[disabled]:active, fieldset[disabled] .btn-success:active, .btn-success.disabled.active, .btn-success.active[disabled], fieldset[disabled] .btn-success.active {
+    background-color: lightgray;
+    border-color: gray;
+}
+
+.btn-red.disabled, .btn-red[disabled], fieldset[disabled] .btn-red, .btn-red.disabled:hover, .btn-red[disabled]:hover, fieldset[disabled] .btn-red:hover, .btn-red.disabled:focus, .btn-red[disabled]:focus, fieldset[disabled] .btn-red:focus, .btn-red.disabled:active, .btn-red[disabled]:active, fieldset[disabled] .btn-red:active, .btn-red.disabled.active, .btn-red.active[disabled], fieldset[disabled] .btn-red.active {
+    background-color: lightgray;
+    border-color: gray;
+}
+
+/* Cosmetic only */
+#easyPaginate {width:300px;}
+#easyPaginate img {display:block;margin-bottom:10px;}
+.easyPaginateNav {padding-top:20px}
+.easyPaginateNav a {padding:5px}
+.easyPaginateNav a.current {font-weight:bold;text-decoration:underline;}
+
+.responsive-width-white-space {
+    font-size: 0.8vw;
+    white-space: normal !important;
+}
+
+.caret-up {
+    /* Safari */
+    -webkit-transform: rotate(-180deg);
+    
+    /* Firefox */
+    -moz-transform: rotate(-180deg);
+    
+    /* IE */
+    -ms-transform: rotate(-180deg);
+    
+    /* Opera */
+    -o-transform: rotate(-180deg);
+    
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=6);
+
+}
+
+.drop-up {
+    top: auto;
+    bottom: 100% !important;
+}

@@ -318,8 +318,13 @@ class QueryBuilder{
      */
     public function getAllResult(){
         $query = $this->getQuery();
+        
+        try{
+            $result = $this->_db->query($query, $this->valores);
+        } catch (Exception $e){
+            fb($e->getMessage());
+        }
 
-        $result = $this->_db->query($query, $this->valores);
         $this->_clear();
         if ($result->num_rows() > 0){
             return $result->result_array();

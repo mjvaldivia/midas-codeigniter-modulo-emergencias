@@ -18,6 +18,19 @@ var MapaIslaDePascuaCasos = Class({
     },
     
     /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
      * Carga el KML desde conaf
      * @returns {void}
      */
@@ -41,7 +54,7 @@ var MapaIslaDePascuaCasos = Class({
                 async: true,
                 data: parametros,
                 type: "post",
-                url: siteUrl + "mapa/info_rapanui_dengue", 
+                url: baseUrl + yo.getController() + "/info_rapanui_dengue", 
                 success:function(json){
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){

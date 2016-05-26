@@ -16,11 +16,11 @@
         <div id="pResultados" class="portlet portlet-default">
             <div class="portlet-body">
 
-                <form class="form-horizontal" role="form" enctype="multipart/form-data" >
+                <form class="form-horizontal" role="form" enctype="multipart/form-data">
                     <input type="hidden" name="id" id="id" value="<?php echo $id ?>"/>
                     <div class="row">
                         <div class="col-xs-12">
-                            <legend>Identificación del hallazgo
+                            <legend>Identificación de la inspección
                                 <div class="pull-right">
                                     <small>(*) Campos obligatorios</small>
                                 </div>
@@ -33,65 +33,99 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
-                            <input type="hidden" class="mapa-coordenadas" id="latitud" name="latitud"
-                                   value="<?php echo $latitud ?>"/>
-                            <input type="hidden" class="mapa-coordenadas" id="longitud" name="longitud"
-                                   value="<?php echo $longitud ?>"/>
+
 
                             <div id="mapa" style="height: 500px;" class="col-xs-12"></div>
                             <p></p>
+                            <!--<input type="hidden" class="mapa-coordenadas" id="latitud" name="latitud"
+                                   value="<?php /*echo $latitud */?>" <?php /*if ($enviado): */?> disabled <?php /*endif; */?> />
+                            <input type="hidden" class="mapa-coordenadas" id="longitud" name="longitud"
+                                   value="<?php /*echo $longitud */?>"/>-->
                             <div class="alert alert-info top-spaced" style="margin-top:20px">Puede mover el marcador
                                 para ajustar la ubicación
                                 del caso
-                                <?php if($id > 0):?>
-                                    <button type="button" class="btn btn-sm btn-info pull-right btn-square" onclick="Hallazgos.cambiarCoordenadas(<?php echo $id?>);">Cambiar coordenadas</button>
-                                <?php endif;?>
+                                <?php if ($id > 0 and !$presidencia): ?>
+                                    <button type="button" class="btn btn-sm btn-info pull-right btn-square"
+                                            onclick="Hallazgos.cambiarCoordenadas(<?php echo $id ?>);">Cambiar
+                                        coordenadas
+                                    </button>
+                                <?php endif; ?>
                             </div>
+
+                            <div class="col-xs-12">
+                                <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, $propiedades); ?>
+                            </div>
+
+                            <!--<div class="col-xs-12 col-md-6 top-spaced">
+                                <div class="form-group clearfix">
+                                    <label for="nombre" class="control-label">Calidad de georeferenciación(*):</label>
+                                    <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion"
+                                            class="form-control">
+                                        <option value="">-- seleccione un valor --</option>
+                                        <option <?php /*if ($propiedades["calidad_de_georeferenciacion"] == "GPS (Exacta)") echo "selected"; */?>
+                                            value="GPS (Exacta)">GPS Exacta
+                                        </option>
+                                        <option <?php /*if ($propiedades["calidad_de_georeferenciacion"] == "Aproximación confiable") echo "selected"; */?>
+                                            value="Aproximación confiable">Aproximación confiable
+                                        </option>
+                                        <option <?php /*if ($propiedades["calidad_de_georeferenciacion"] == "Requiere confirmación") echo "selected"; */?>
+                                            value="Requiere confirmación">Requiere confirmación
+                                        </option>
+                                    </select>
+                                    <span class="help-block hidden"></span>
+
+                                </div>
+                            </div>-->
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
                                 <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Nombres(*)</label>
                                     <input type="text" name="nombres" id="nombres" class="form-control"
-                                           value="<?php echo $nombres ?>"/>
+                                           value="<?php echo $nombres ?>" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>/>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Apellidos(*)</label>
                                     <input type="text" name="apellidos" id="apellidos" class="form-control"
-                                           value="<?php echo $apellidos ?>"/>
+                                           value="<?php echo $apellidos ?>" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>/>
                                 </div>
                             </div>
                             <!--<div class="form-group">
                                 <div class="col-xs-12 col-md-6">
                                     <label class="control-label">RUN o Pasaporte(*)</label>
                                     <input type="text" name="cedula" id="cedula" class="form-control"
-                                           value="<?php /*echo $cedula */?>"/>
+                                           value="<?php /*echo $cedula */ ?>"/>
                                 </div>
-                                <?php /*if ($id > 0): */?>
+                                <?php /*if ($id > 0): */ ?>
                                     <div class="col-xs-12 col-md-6">
                                         <label class="control-label">Número Denuncia</label>
                                         <input type="text" name="apellidos" id="apellidos" class="form-control"
-                                               value="<?php /*echo $id */?>" disabled/>
+                                               value="<?php /*echo $id */ ?>" disabled/>
                                     </div>
-                                <?php /*endif; */?>
+                                <?php /*endif; */ ?>
                             </div>-->
                             <div class="form-group">
                                 <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Telefóno(s) de contacto</label>
                                     <input type="text" name="telefono" id="telefono" class="form-control"
-                                           value="<?php echo $telefono ?>"/>
+                                           value="<?php echo $telefono ?>" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>/>
                                 </div>
-                                <!--<div class="col-xs-12 col-md-6">
+                                <div class="col-xs-12 col-md-6">
                                     <label class="control-label">Correo electrónico(*)</label>
                                     <input type="text" name="correo" id="correo" class="form-control"
-                                           value="<?php /*echo $correo */?>"/>
-                                </div>-->
+                                           value="<?php echo $correo ?>" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>/>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <label class="control-label">Dirección/Lugar de Hallazgo del mosquito(*)</label>
                                     <input type="text" name="direccion" id="direccion" class="form-control"
-                                           value="<?php echo $direccion ?>"/>
+                                           value="<?php echo $direccion ?>" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>/>
+                                </div>
+                                <div class="col-xs-12">
+                                    <label class="control-label">Referencias de la dirección</label>
+                                    <input type="text" name="referencias" id="referencias" class="form-control"
+                                           value="<?php echo $referencias ?>" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -99,20 +133,21 @@
                                     <label class="control-label">Fecha de hallazgo(*)</label>
                                     <input type="text" name="fecha_hallazgo" id="fecha_hallazgo"
                                            class="form-control datepicker-date"
-                                           value="<?php echo $fecha_hallazgo ?>"/>
+                                           value="<?php echo $fecha_hallazgo ?>" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>/>
                                 </div>
                                 <!--<div class="col-xs-12 col-md-6">
                                     <label class="control-label">Fecha de entrega(*)</label>
                                     <input type="text" name="fecha_entrega" id="fecha_entrega"
                                            class="form-control datepicker-date"
-                                           value="<?php /*if(empty($fecha_entrega)) echo date('d/m/Y'); else echo $fecha_entrega; */?>"/>
+                                           value="<?php /*if(empty($fecha_entrega)) echo date('d/m/Y'); else echo $fecha_entrega; */ ?>"/>
                                 </div>-->
 
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <label class="">Comentarios ciudadano</label>
-                                    <textarea class="form-control" rows="5" id="comentarios_ciudadano" name="comentarios_ciudadano"><?php echo $comentarios_ciudadano?></textarea>
+                                    <label class="">Comentarios de la inspección</label>
+                                    <textarea class="form-control" rows="5" id="comentarios_ciudadano"
+                                              name="comentarios_ciudadano" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>><?php echo $comentarios_ciudadano ?></textarea>
                                 </div>
                             </div>
 
@@ -122,39 +157,59 @@
                                         <label class="control-label text-bold">Resultado</label>
                                     </div>
                                     <div class="col-xs-12 ">
-                                        <label class="control-label col-xs-12 col-md-2">Aedes aegypti</label>
+                                        <label class="control-label col-xs-12 col-md-2">Mosquito</label>
                                         <div class="col-xs-12 col-md-4">
-                                            <select name="resultado_laboratorio" id="resultado_laboratorio"
+                                            <!--<select name="resultado_laboratorio" id="resultado_laboratorio"
                                                     class="form-control" disabled>
                                                 <option value=""></option>
-                                                <option value="1" <?php if ($estado == 1): ?> selected <?php endif ?> >
+                                                <option value="1" <?php /*if ($estado == 1): */?> selected <?php /*endif */?> >
                                                     Positivo
                                                 </option>
-                                                <option value="2" <?php if ($estado == 2): ?> selected <?php endif ?> >
+                                                <option value="2" <?php /*if ($estado == 2): */?> selected <?php /*endif */?> >
                                                     Negativo
                                                 </option>
-                                                <option value="3" <?php if ($estado == 3): ?> selected <?php endif ?> >
+                                                <option value="3" <?php /*if ($estado == 3): */?> selected <?php /*endif */?> >
                                                     No concluyente
                                                 </option>
+                                            </select>-->
+                                            <select name="mosquito" id="mosquito" class="form-control" disabled>
+                                                <option value="1" <?php if($estado == 1) echo 'selected'?> >Aedes</option>
+                                                <option value="2" <?php if($estado == 2) echo 'selected'?> >Culex</option>
+                                                <option value="3" <?php if($estado == 3) echo 'selected'?> >Anopheles</option>
+                                                <option value="4" <?php if($estado == 4) echo 'selected'?> >No culicido</option>
                                             </select>
+                                            <?php if($estado == 4):?>
+                                                <input type="text" class="form-control" name="nombre_mosquito" id="nombre_mosquito" placeholder="Escriba nombre del mosquito" disabled value="<?php echo $nombre_mosquito?>" />
+                                            <?php endif;?>
                                         </div>
                                         <label class="control-label col-xs-12 col-md-3">Estado desarrollo</label>
                                         <div class="col-xs-12 col-md-3">
                                             <select name="estado_desarrollo" id="estado_desarrollo"
                                                     class="form-control" disabled>
                                                 <option value=""></option>
-                                                <option value="1" <?php if($estado_desarrollo == 1):?> selected <?php endif;?> >Larva</option>
-                                                <option value="2" <?php if($estado_desarrollo == 2):?> selected <?php endif;?> >Pupa</option>
-                                                <option value="3" <?php if($estado_desarrollo == 3):?> selected <?php endif;?> >Adulto</option>
+                                                <option
+                                                    value="1" <?php if ($estado_desarrollo == 1): ?> selected <?php endif; ?> >
+                                                    Larva
+                                                </option>
+                                                <option
+                                                    value="2" <?php if ($estado_desarrollo == 2): ?> selected <?php endif; ?> >
+                                                    Pupa
+                                                </option>
+                                                <option
+                                                    value="3" <?php if ($estado_desarrollo == 3): ?> selected <?php endif; ?> >
+                                                    Adulto
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 ">
                                         <label class="control-label col-xs-12 col-md-2">Observaciones</label>
                                         <div class="col-xs-12">
-                                            <?php if($contenido != ""): $rows = 15; else: $rows = 5; endif;?>
-                                            <textarea class="form-control" rows="<?php echo $rows;?>" id="observaciones_resultado"
-                                                      name="observaciones_resultado"><?php echo $contenido ?></textarea>
+                                            <?php if ($contenido != ""): $rows = 15;
+                                            else: $rows = 5; endif; ?>
+                                            <textarea class="form-control" rows="<?php echo $rows; ?>"
+                                                      id="observaciones_resultado"
+                                                      name="observaciones_resultado" <?php if ($enviado or $presidencia): ?> disabled <?php endif; ?>><?php echo $contenido ?></textarea>
                                         </div>
                                     </div>
 
@@ -180,21 +235,29 @@
 
                         <div class="col-lg-12">
                             <div class="text-right">
-                                <?php if ($id > 0 and $estado > 0): ?>
-                                    <button type="button" class="btn btn-success btn-square"
-                                            onclick="Hallazgos.enviarInforme(this.form,this);">
-                                        <i class="fa fa-send"></i> Guardar y informar a persona
+                                <?php if ($enviado or $presidencia): ?>
+                                    <button type="button" class="btn btn-primary btn-square"
+                                            onclick="javascript:history.back();">Volver
                                     </button>
-
                                 <?php else: ?>
-                                    <button type="button" class="btn btn-success btn-square"
-                                            onclick="Hallazgos.guardar(this.form,this);">
-                                        <i class="fa fa-send"></i> Guardar y enviar a encargado de vectores
+                                    <?php if ($id > 0 and $estado > 0): ?>
+                                        <button type="button" class="btn btn-success btn-square"
+                                                onclick="Hallazgos.enviarInforme(this.form,this);">
+                                            <i class="fa fa-send"></i> Guardar y informar a persona
+                                        </button>
+
+                                    <?php else: ?>
+                                        <button type="button" class="btn btn-success btn-square"
+                                                onclick="Hallazgos.guardar(this.form,this);">
+                                            <i class="fa fa-send"></i> Guardar y enviar a encargado de vectores
+                                        </button>
+                                    <?php endif; ?>
+                                    <button type="button" class="btn btn-primary btn-square"
+                                            onclick="javascript:history.back();">Volver
                                     </button>
                                 <?php endif; ?>
-                                <button type="button" class="btn btn-primary btn-square"
-                                        onclick="javascript:history.back();">Volver
-                                </button>
+
+
                             </div>
                         </div>
                     </div>

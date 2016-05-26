@@ -35,43 +35,51 @@
                     <div class="portlet-body" style="overflow: visible">
                         <div class="row">
                         <div class="col-md-6">
-                            <div id="mapa" style="height: 400px"></div>
-                            <div class="alert alert-info">Puede mover el marcador para ajustar la ubicación del caso</div>
                             
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="nombre" class="control-label">Latitud(*):</label>
-                                    <input type="text" class="form-control mapa-coordenadas" name="latitud" id="latitud" value="<?php echo $latitud; ?>">
-                                    <span class="help-block hidden"></span>
+                            <div class="portlet portlet-default">
+                                <div class="portlet-body"> 
+                                    <?php echo formMapa("mapa"); ?>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, $propiedades); ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="nombre" class="control-label">Longitud(*):</label>
-                                    <input type="text" class="form-control mapa-coordenadas" name="longitud" id="longitud" value="<?php echo $longitud; ?>">
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group clearfix">
-                                    <label for="nombre" class="control-label">Calidad de georeferenciación(*):</label>
-                                    <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion" class="form-control">
-                                        <option value="">-- seleccione un valor --</option>
-                                        <option <?php if($calidad_de_georeferenciacion == "GPS (Exacta)") echo "selected"; ?> value="GPS (Exacta)">GPS Exacta</option>
-                                        <option <?php if($calidad_de_georeferenciacion == "Aproximación confiable") echo "selected"; ?> value="Aproximación confiable">Aproximación confiable</option>
-                                        <option <?php if($calidad_de_georeferenciacion == "Requiere confirmación") echo "selected"; ?> value="Requiere confirmación">Requiere confirmación</option>
-                                    </select>
-                                    <span class="help-block hidden"></span>
-                                </div>
-                            </div>
+                     
                         </div>
                         <div class="col-md-6">
+                            
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    
+                                        <div class="col-xs-3">
+                                            <div class="form-group clearfix">
+                                                <label for="numero_de_muestra" class="control-label">N° de acta (*):</label>
+                                                <input value="<?php echo $propiedades["numero_de_muestra"]; ?>" class="form-control" name="numero_de_muestra" id="numero_de_muestra">
+                                                <span class="help-block hidden"></span>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-xs-3">
+                                            <div class="form-group clearfix">
+                                                <label for="laboratorio" class="control-label">Laboratorio (*):</label>
+
+                                                <?php echo formSelectLaboratorioRegionUsuario("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
+                                                <span class="help-block hidden"></span>
+                                            </div>
+                                        </div>-->
+                              
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12">
                             <div class="row">
                                
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="fecha" class="control-label">Fecha de toma de muestra(*):</label>
-                                        <input value="<?php echo $fecha; ?>" class="form-control datepicker-date" name="fecha" id="fecha">
+                                        <input value="<?php echo $propiedades["fecha"]; ?>" class="form-control datepicker-date" name="fecha" id="fecha">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
@@ -80,10 +88,10 @@
                                         <label for="fuente_de_la_informacion" class="control-label">Fuente de la información:</label>
                                         <select name="fuente_de_la_informacion" id="fuente_de_la_informacion" class="form-control">
                                             <option value="">-- Seleccione un valor --</option>
-                                            <option <?php if($recurso == "SEREMI Monitoreo") echo "selected"; ?> value="SEREMI Monitoreo"> SEREMI Monitoreo </option>
-                                            <option <?php if($recurso == "PSMB") echo "selected"; ?> value="PSMB"> PSMB </option>
-                                            <option <?php if($recurso == "SEREMI Control de desembarco") echo "selected"; ?> value="SEREMI Control de desembarco">SEREMI Control de desembarco </option>
-                                            <option <?php if($recurso == "IFOP") echo "selected"; ?> value="IFOP"> IFOP </option>
+                                            <option selected <?php // if($propiedades["fuente_de_la_informacion"] == "SEREMI Monitoreo") echo "selected"; ?> value="SEREMI Monitoreo"> SEREMI Monitoreo </option>
+                                            <!--<option <?php if($propiedades["fuente_de_la_informacion"] == "PSMB") echo "selected"; ?> value="PSMB"> PSMB </option>
+                                            <option <?php if($propiedades["fuente_de_la_informacion"] == "SEREMI Control de desembarco") echo "selected"; ?> value="SEREMI Control de desembarco">SEREMI Control de desembarco </option>
+                                            <option <?php if($propiedades["fuente_de_la_informacion"] == "IFOP") echo "selected"; ?> value="IFOP"> IFOP </option>-->
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -100,26 +108,28 @@
                                         <label for="recurso" class="control-label">Recurso (*):</label>
                                         <select name="recurso" id="recurso" class="form-control">
                                             <option value="">-- Seleccione un valor --</option>
-                                            <option <?php if(strtoupper($recurso) == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
-                                            <option <?php if(strtoupper($recurso) == "CHOCHAYUYO") echo "selected"; ?> value="CHOCHAYUYO"> CHOCHAYUYO </option>
-                                            <option <?php if(strtoupper($recurso) == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
-                                            <option <?php if(strtoupper($recurso) == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
-                                            <option <?php if(strtoupper($recurso) == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
-                                            <option <?php if(strtoupper($recurso) == "CHORO") echo "selected"; ?> value="CHORO"> CHORO </option>
-                                            <option <?php if(strtoupper($recurso) == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>
-                                            <option <?php if(strtoupper($recurso) == "CULENGUE") echo "selected"; ?> value="CULENGUE"> CULENGUE </option>
-                                            <option <?php if(strtoupper($recurso) == "LOCO") echo "selected"; ?> value="LOCO"> LOCO </option>
-                                            <option <?php if(strtoupper($recurso) == "LUCHE") echo "selected"; ?> value="LUCHE"> LUCHE </option>
-                                            <option <?php if(strtoupper($recurso) == "MACHAS") echo "selected"; ?> value="MACHAS"> MACHAS </option>
-                                            <option <?php if(strtoupper($recurso) == "NAVAJUELA") echo "selected"; ?> value="NAVAJUELA"> NAVAJUELA </option>
-                                            <option <?php if(strtoupper($recurso) == "OSTRA CH") echo "selected"; ?> value="OSTRA CH"> OSTRA CH </option>
-                                            <option <?php if(strtoupper($recurso) == "OSTRA JP") echo "selected"; ?> value="OSTRA JP"> OSTRA JP </option>
-                                            <option <?php if(strtoupper($recurso) == "OSTRAS") echo "selected"; ?> value="OSTRAS"> OSTRAS </option>
-                                            
-                                            <option <?php if(strtoupper($recurso) == "PICOROCO") echo "selected"; ?> value="PICOROCO"> PICOROCO </option>
-                                            <option <?php if(strtoupper($recurso) == "PIURE") echo "selected"; ?> value="PIURE"> PIURE </option>
-                                            
-                                            <option <?php if(strtoupper($recurso) == "TUMBAO") echo "selected"; ?> value="TUMBAO"> TUMBAO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "ALMEJA JULIANA") echo "selected"; ?> value="ALMEJA JULIANA"> ALMEJA JULIANA </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHOCHAYUYO" || strtoupper($propiedades["recurso"]) == "COCHAYUYO") { echo "selected"; } ?> value="COCHAYUYO"> COCHAYUYO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO") echo "selected"; ?> value="CHORO"> CHORO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO MALTÓN") echo "selected"; ?> value="CHORO MALTÓN"> CHORO MALTÓN </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CULENGUE") echo "selected"; ?> value="CULENGUE"> CULENGUE </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "HUIRO") echo "selected"; ?> value="HUIRO"> HUIRO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "LAPA") echo "selected"; ?> value="LAPA"> LAPA </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "LOCO") echo "selected"; ?> value="LOCO"> LOCO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "LUCHE") echo "selected"; ?> value="LUCHE"> LUCHE </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "MACHAS") echo "selected"; ?> value="MACHAS"> MACHAS </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "NAVAJUELA") echo "selected"; ?> value="NAVAJUELA"> NAVAJUELA </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "OSTRA CH") echo "selected"; ?> value="OSTRA CH"> OSTRA CH </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "OSTRA JP") echo "selected"; ?> value="OSTRA JP"> OSTRA JP </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "OSTRAS") echo "selected"; ?> value="OSTRAS"> OSTRAS </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "PICOROCO") echo "selected"; ?> value="PICOROCO"> PICOROCO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "PIURE") echo "selected"; ?> value="PIURE"> PIURE </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "TUMBAO") echo "selected"; ?> value="TUMBAO"> TUMBAO </option>
                                         </select>
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -127,7 +137,7 @@
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="origen" class="control-label">Origen (*):</label>
-                                        <input value="<?php echo $origen; ?>" class="form-control" name="origen" id="origen">
+                                        <input value="<?php echo $propiedades["origen"]; ?>" class="form-control" name="origen" id="origen">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
@@ -138,7 +148,7 @@
                                 <div class="col-xs-5">
                                     <div class="form-group clearfix">
                                         <label for="telefono" class="control-label">Región (*):</label>
-                                        <?php echo formElementSelectRegionUsuario("region", array($region), array("class" => "form-control")); ?>
+                                        <?php echo formElementSelectRegionUsuario("region", array($propiedades["region"]), array("class" => "form-control")); ?>
                                         
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -147,7 +157,7 @@
                                 <div class="col-xs-4">
                                     <div class="form-group clearfix">
                                         <label for="fecha_de_nacimiento" class="control-label">Comuna:</label>
-                                        <?php echo formElementSelectComuna("comuna", $comuna, $region); ?>
+                                        <?php echo formElementSelectComuna("comuna", $propiedades["comuna"], $propiedades["region"]); ?>
                                         
                                         <span class="help-block hidden"></span>
                                     </div>
@@ -158,58 +168,51 @@
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="profundidad" class="control-label">Profundidad:</label>
-                                        <input value="<?php echo $profundidad; ?>" class="form-control" name="profundidad" id="profundidad">
+                                        <input value="<?php echo $propiedades["profundidad"]; ?>" class="form-control" name="profundidad" id="profundidad">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
                                 <div class="col-xs-3">
                                     <div class="form-group clearfix">
-                                        <label for="temperatura" class="control-label">Temperatura:</label>
-                                        <input value="<?php echo $temperatura; ?>" class="form-control" name="temperatura" id="temperatura">
+                                        <label for="temperatura" class="control-label">Tº del Producto:</label>
+                                        <input value="<?php echo $propiedades["temperatura"]; ?>" class="form-control" name="temperatura" id="temperatura">
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
                                 <div class="col-xs-3">
+                                    <div class="form-group clearfix">
+                                        <label for="temperatura" class="control-label">Tº del agua:</label>
+                                        <input value="<?php echo $propiedades["temperatura_agua"]; ?>" class="form-control" name="temperatura_agua" id="temperatura_agua">
+                                        <span class="help-block hidden"></span>
+                                    </div>
+                                </div>
+                                <!--<div class="col-xs-3">
                                     <div class="form-group clearfix">
                                         <label for="vp" class="control-label">N° VP:</label>
-                                        <input value="<?php echo $vp; ?>" class="form-control" name="vp" id="vp">
+                                        <input value="<?php echo $propiedades["vp"]; ?>" class="form-control" name="vp" id="vp">
                                         <span class="help-block hidden"></span>
                                     </div>
-                                </div>
+                                </div>-->
                                 
                             </div>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <div class="form-group clearfix">
-                                        <label for="resultado" class="control-label">Resultado (*):</label>
-                                        <input value="<?php echo $resultado; ?>" class="form-control" name="resultado" id="resultado">
-                                        <span class="help-block hidden"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-3">
-                                    <div class="form-group clearfix">
-                                        <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-                                        <select name="laboratorio" id="laboratorio" class="form-control">
-                                            <option value="">-- Seleccione un valor --</option>
-                                            <option <?php if($laboratorio == "Puerto Montt") echo "selected" ?> value="Puerto Montt"> Puerto Montt </option>
-                                            <option <?php if($laboratorio == "Quellón") echo "selected" ?> value="Quellón"> Quellón  </option>
-                                            <option <?php if($laboratorio == "Castro") echo "selected" ?> value="Castro"> Castro </option>
-                                        </select>
-                                        
-                                        <span class="help-block hidden"></span>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="form-group clearfix">
                                         <label for="observaciones" class="control-label ">Observaciones:</label>
-                                        <textarea name="observaciones" class="form-control" id="observaciones"><?php echo $observaciones; ?></textarea>
+                                        <textarea name="observaciones" class="form-control" id="observaciones"><?php echo $propiedades["observaciones"]; ?></textarea>
                                         <span class="help-block hidden"></span>
                                     </div>
                                 </div>
                             </div>
+
+                            <!--<div class="row">
+                                <div class="col-xs-12">
+
+                                </div>
+                            </div>-->
    	
+                        </div>
                         </div>
                         </div>
                     </div>
@@ -232,8 +235,17 @@
                 <div class="col-xs-12 text-right">
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <button id="guardar" class="btn btn-green" type="button"><i class="fa fa-floppy-o"></i> Guardar</button>
-                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("marea_roja/index") ?>'"><i class="fa fa-ban"></i> Cancelar</button>
+                        <button id="guardar-continuar" class="btn btn-green" type="button">
+                            Guardar y continuar con siguiente muestra <i class="fa fa-arrow-right"></i>
+                        </button>
+                        
+                        <button id="guardar-cerrar" class="btn btn-warning" type="button">
+                            <i class="fa fa-floppy-o"></i> Guardar y cerrar
+                        </button>
+                        
+                        <button class="btn btn-white" type="reset" onClick="document.location.href='<?php echo base_url("marea_roja/index") ?>'">
+                            <i class="fa fa-ban"></i> Cerrar
+                        </button>
                     </div>
                 </div>
                 </div>
@@ -243,7 +255,3 @@
         </div>
     </div>
 </div>
-
-<?= loadJS("assets/js/library/jquery.typing-0.2.0/jquery.typing.min.js") ?>
-<?= loadJS("assets/js/modulo/mapa/formulario.js") ?>
-<?= loadJS("assets/js/modulo/marea_roja/form.js") ?>

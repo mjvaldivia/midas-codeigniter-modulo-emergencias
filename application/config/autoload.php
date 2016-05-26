@@ -52,7 +52,13 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array("enviroment","session","template");
+$autoload['libraries'] = array(
+    "enviroment",
+    "session",
+    "template",
+    "core/layout/layout_assets",
+    "core/layout/layout_template"
+);
 
 
 /*
@@ -65,7 +71,17 @@ $autoload['libraries'] = array("enviroment","session","template");
 */
 
 
-$autoload['helper'] = array("assets","session","utils","modulo/usuario/usuario");
+$autoload['helper'] = array(
+    "assets",
+    "session",
+    "utils",
+    "modulo/usuario/usuario",
+    "core/layout_assets_view",
+    "core/layout_assets_view",
+    "core/layout_menu",
+    "core/layout_usuario",
+    "core/base"
+);
 
 
 

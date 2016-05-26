@@ -1,82 +1,97 @@
 <div data-row="100">
-<table id="grilla-emergencia" class="table table-hover datatable paginada hidden">
-    <thead>
+    <table id="grilla-emergencia" class="table table-hover datatable paginada hidden">
+        <thead>
         <tr>
+            <th>Opciones</th>
             <th>Código</th>
-            <th width="10%">Fecha ingreso</th>
-            <th width="10%">Fecha toma de muestra</th>
-            <th width="10%">Recurso</th>
-            <th width="10%">Origen</th>
-            <th width="15%">Comuna</th>
-            <th width="15%">Resultado</th>
-            <th width="15%">Estado</th>
-            <th width="5%">Opciones</th>				
+            <th>N° de acta</th>
+            <th>Fecha ingreso</th>
+            <th>Fecha toma de muestra</th>
+            <th>Laboratorio</th>
+            <th>Resultado</th>
+            <th>Estado</th>
+            <th>Recurso</th>
+            <th>Origen</th>
+            <th>Comuna</th>
+            <th>Fiscalizador</th>
         </tr>
-    </thead>
-    <tbody>
-        <?php if(count($lista)>0){ ?>
-        <?php foreach($lista as $row){ ?>
-        <tr>
-            <td width="10%">Muestreo N°<?php echo $row["id"]; ?></td>
-            <td width="10%"><?php echo $row["fecha_ingreso"]; ?></td>
-            <td width="10%"><?php echo $row["fecha_muestra"]; ?></td>
-            <td width="10%"><?php echo $row["recurso"]; ?></td>
-            <td width="10%"><?php echo $row["origen"]; ?></td>
-            <td width="10%" align="center">
-                <?php 
-                if($row["comuna"]!=""){
-                    echo nombreComuna($row["comuna"]);
-                } else {
-                    echo "------";
-                }
-                ?>
-            </td>
-            
-            <td width="20%"><?php echo $row["resultado"]; ?></td>
-            
-            <td width="20%">
-                
-                <?php
-                if($row["resultado"] == "ND") {
-                ?>
-                <span class="label blue"> No detectado </span>
-                <?php } else { ?>
-                
-                    <?php
-                    if(((int)$row["resultado"]) >= 80) {
-                    ?>
-                    <span class="label red"> Supera </span>
-                    <?php } ?>
+        </thead>
+        <tbody>
+        <?php if (count($lista) > 0) { ?>
+            <?php foreach ($lista as $row) { ?>
+                <tr>
+                    <td align="left" width="5%">
+                        <div style="width: 150px">
+                            
+                            <?php if (permisoMareaRoja("editar")) { ?>
+                                <button <?php if($row["id_laboratorio"] != "") { ?> disabled <?php } ?> data-rel="<?php echo $row["id"]; ?>" title="Ingresar muestra" class="btn btn-sm btn-success editar-marea-roja" type="button">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            <?php } ?>
 
-                    <?php
-                    if(((int)$row["resultado"]) < 80 ) {
-                    ?>
-                    <span class="label green"> No supera </span>
-                    <?php } ?>
-                <?php } ?>
-                
-            </td>
-            
-            <td align="center" width="5%">
-                <div style="width: 150px">
-                    <?php if(puedeEditar("marea_roja")) { ?>
-                    <button onclick="document.location.href='<?php echo base_url("marea_roja/editar/?id=" . $row["id"]); ?>'" title="editar" class="btn btn-sm btn-success" type="button" >
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <?php } ?>
+                           <!-- <?php if (permisoMareaRoja("eliminar")) { ?>
+                                <button <?php if($row["id_laboratorio"] != "") { ?> disabled <?php } ?>  title="Eliminar" class="btn btn-sm btn-red caso-eliminar" type="button"
+                                        data="<?php echo $row["id"] ?>" href="#">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            <?php } ?> -->
+                            
+                            <button type="button" class="btn btn-sm btn-primary adjuntar-acta" title="Adjuntar Acta" data-muestra="<?php echo $row['id'] ?>" data-acta="<?php echo $row['numero_muestra'] ?>">
+                                <i class="fa fa-upload"></i>
+                            </button>
+                            
+                            <?php echo mareaRojaBotonVerActa($row['id'], $row['numero_muestra']); ?>
+     
+                        </div>
+                    </td>
                     
-                    <?php if(puedeEliminar("marea_roja")) { ?>
-                    <button title="Eliminar" class="btn btn-sm btn-danger caso-eliminar" type="button"  data="<?php echo $row["id"] ?>" href="#" >
-                        <i class="fa fa-trash"></i>
-                    </button>
-                    <?php } ?>
+                    <td width="10%">
+                        Muestreo N°<?php echo $row["id"]; ?>
+                    </td>
+                    
+                    <td width="10%" align="center">
+                        <?php echo $row["numero_muestra"]; ?>
+                    </td>
+                    
+                    <td width="10%">
+                        <?php echo $row["fecha_ingreso"]; ?>
+                    </td>
+                    
+                    <td width="10%">
+                        <?php echo $row["fecha_muestra"]; ?>
+                    </td>
+                    
+                    <td width="10%" align="center">
+                        <?php echo laboratorioNombre($row["id_laboratorio"]); ?>
+                    </td>
+                    
+                    <td width="10%">
+                        <?php echo mareaRojaEstadoEsperaResultado($row["resultado"], $row["bo_ingreso_resultado"]); ?>
+                    </td>
 
-                </div>
-            </td>
-        </tr>
+                    <td width="20%">
+                        <?php echo mareaRojaEstadoResultado($row["resultado"], $row["bo_ingreso_resultado"]); ?>
+                    </td>
+                    
+                    <td width="10%">
+                        <?php echo $row["recurso"]; ?>
+                    </td>
+                    
+                    <td width="20%">
+                        <?php echo $row["origen"]; ?>
+                    </td>
+                    
+                    <td width="10%" align="center">
+                        <?php echo nombreComuna($row["comuna"]); ?>
+                    </td>
+                    
+                    <td width="10%" align="center">
+                        <?php echo nombreUsuario($row["id_usuario"]); ?>
+                    </td>
+                </tr>
+            <?php } ?>
         <?php } ?>
-        <?php } ?>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
 </div>

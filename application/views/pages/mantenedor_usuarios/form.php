@@ -22,15 +22,7 @@
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
-                        <div class="col-lg-4 text-left">
-                            <div class="form-group clearfix">
-                                <label for="sexo" class="control-label">Sexo (*):</label>
-                                <div class="input-group col-sm-12">
-                                    <?php echo formElementSelectSexo("sexo", $sexo, array("class" => "form-control")) ?>
-                                </div>
-                                <span class="help-block hidden"></span>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-md-4 text-left">
@@ -193,16 +185,17 @@
                     <div class="row">
                         <div class="col-md-12 text-left" style="margin-bottom: 220px">
                             <div class="form-group clearfix">
-                                <label for="email" class="control-label">Ambito:</label>
+                                <label for="email" class="control-label">Laboratorio:</label>
                                 <div class="input-group col-sm-12">
-                                    <?php echo formElementSelectAmbito("ambitos[]", $lista_ambitos, array("data-placeholder" => "Seleccione",
-                                                                                                          "class"    => "form-control select2-tags", 
-                                                                                                          "multiple" => "multiple")) ?>
+                                    <?php echo formSelectLaboratorio("laboratorio[]", array("data-placeholder" => "Seleccione",
+                                                                                                                 "class"    => "form-control select2-tags", 
+                                                                                                                 "multiple" => "multiple"),$lista_laboratorios) ?>
                                 </div>
                                 <span class="help-block hidden"></span>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

@@ -203,3 +203,38 @@ function visorElementosTotales($lista){
     return $html->render();
 }
 
+/**
+ * Genera tabla con las coordenadas de un poligono
+ * @param string $tipo
+ * @param array $coordenadas
+ * @return string html
+ */
+function visorElementoCoordenadas($tipo, $coordenadas){
+    $_ci =& get_instance();
+    
+    $lista = array();
+    switch ($tipo) {
+        case "CIRCULO":
+        case "RECTANGULO":
+            foreach($coordenadas as $latLon){
+                $lista[] = array(
+                    "latitud" => $latLon["lat"],
+                    "longitud" => $latLon["lng"]
+                );
+            }
+
+            break;
+        case "POLIGONO":
+            foreach($coordenadas as $latLon){
+                $lista[] = array(
+                    "latitud" => $latLon["lat"],
+                    "longitud" => $latLon["lng"]
+                );
+            }
+            break;
+        default:
+            break;
+    }
+    
+    return $_ci->load->view("pages/mapa/grilla-coordenadas", array("lista" => $lista), true);
+}

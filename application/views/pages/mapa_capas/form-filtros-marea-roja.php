@@ -3,9 +3,7 @@
     <div class="row">
         <div class="col-lg-12">
             <button id="configuracion-filtros-marea-roja" class="btn btn-white"> 
-                <i class="fa en-linea">
-                    <img width="20px" src="<?php echo base_url("assets/img/markers/marisco/rojo.png") ; ?>">
-                </i> 
+                <i class="fa fa-search"></i> 
                 <div id="configuracion-filtros-marea-roja-resumen" class="en-linea">
                     <strong>Marea roja:</strong> Fechas muestra: todas, Recurso: todos
                 </div>
@@ -61,13 +59,17 @@
                 <div class="col-sm-12">
                      <select name="marea_roja_recurso[]" id="marea_roja_recurso" class="form-control select2-tags" multiple="true">
                         <option value="ALMEJAS"> ALMEJAS </option>
+                        <option value="ALMEJA JULIANA"> ALMEJA JULIANA </option>
                         <option value="COCHAYUYO"> COCHAYUYO </option>
                         <option value="CHOLGAS"> CHOLGAS </option>
                         <option value="CHORITO"> CHORITO </option>
                         <option value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
                         <option value="CHORO"> CHORO </option>
+                        <option value="CHORO MALTÓN"> CHORO MALTÓN </option>
                         <option value="CHORO ZAPATO"> CHORO ZAPATO </option>
                         <option value="CULENGUE"> CULENGUE </option>
+                        <option value="HUIRO"> HUIRO </option>
+                        <option value="LAPA"> LAPA </option>
                         <option value="LOCO"> LOCO </option>
                         <option value="LUCHE"> LUCHE </option>
                         <option value="MACHAS"> MACHAS </option>

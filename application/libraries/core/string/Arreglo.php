@@ -2,11 +2,21 @@
 
 Class Arreglo{
     
+    /**
+     * 
+     * @param type $arreglo
+     * @param type $subindice
+     * @return type
+     */
     public function arrayToArray($arreglo, $subindice){
         $salida = array();
         if(count($arreglo)>0){
-            foreach($arreglo as $valor){
-                $salida[] = $valor[$subindice];
+            if(isset($arreglo[0][$subindice])){
+                foreach($arreglo as $valor){
+                    $salida[] = $valor[$subindice];
+                }
+            } else {
+                $salida = $arreglo;
             }
         }
         return $salida;

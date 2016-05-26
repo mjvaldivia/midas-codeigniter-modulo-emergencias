@@ -61,9 +61,16 @@ Class Usuario_Form_Element_SelectRegion{
      */
     public function render($default = array()){
         $this->_element->setNombre($this->_nombre);
-        $this->_element->populate($this->_listar());
+        
+        $lista = $this->_listar();
+        $this->_element->populate($lista);
         $this->_element->setOptionId("reg_ia_id");
         $this->_element->setOptionName("reg_c_nombre");
+
+        if((count($default)==0 OR is_null($default) OR $default == "") && count($lista) == 1){
+            $default = $lista[0]["reg_ia_id"];
+        }
+        
         return $this->_element->render($this->_nombre, $default);
     }
     
@@ -74,7 +81,7 @@ Class Usuario_Form_Element_SelectRegion{
     protected function _listar(){
 
         return $this->ci->_usuario_region_model->listarRegionPorUsuario(
-                $this->ci->session->userdata("session_idUsuario")
+            $this->ci->session->userdata("session_idUsuario")
         );
 
     }
