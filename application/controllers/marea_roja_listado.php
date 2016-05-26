@@ -11,7 +11,9 @@ class Marea_roja_listado extends Marea_roja
      */
     public function index()
     {
+        $this->layout_assets->addJs("library/bootbox-4.4.0/bootbox.min.js");
         $this->layout_assets->addDataTable();
+        $this->layout_assets->addJs("modulo/marea_roja/base.js");
         $this->layout_assets->addJs("modulo/marea_roja/listado/index.js");
         $this->layout_template->view(
             "default", 

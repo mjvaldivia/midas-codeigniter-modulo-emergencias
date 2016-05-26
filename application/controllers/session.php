@@ -180,16 +180,7 @@ class Session extends MY_Controller {
     }
 
     public function autentificar() {
-
-        $this->load->library(array(
-            "template"
-        ));
-        $this->load->helper(array(
-            "debug",
-            "session",
-            "url"
-        ));
-
+        //$this->session->sess_destroy();
         $params = $this->uri->uri_to_assoc();
         $this->load->model("session_model", "SessionModel");
 

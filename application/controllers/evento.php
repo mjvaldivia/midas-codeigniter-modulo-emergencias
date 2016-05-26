@@ -129,6 +129,10 @@ class Evento extends MY_Controller {
         
         $se_envia_email = false;
         
+        /*if(trim($params['latitud']) == "" OR trim($params['longitud']) == ""){
+            
+        }*/
+        
  
         $params = $this->input->post(null, true);
 

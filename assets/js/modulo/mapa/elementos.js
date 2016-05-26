@@ -261,8 +261,10 @@ var MapaElementos = Class({
            } 
             
            html += "<li data=\"" + data.id + "\" class=\"\"><a href=\"#\">\n"
-                 + "<div class=\"row\"><div class=\"col-xs-2 text-center\">" + preview + "</div><div class=\"col-xs-10\"> " + data.nombre + "</div>"
-                 + "</div>\n"
+                    + "<div class=\"row\">"
+                       + "<div class=\"col-xs-2 text-center\">" + preview + "</div>"
+                       + "<div class=\"col-xs-10\"> " + data.nombre + "</div>"
+                    + "</div>\n"
                  + "</a></li>";
            
            
@@ -279,6 +281,34 @@ var MapaElementos = Class({
         }
 
         $("#lista_elementos_agregados").html(html);
+    },
+    
+    /*
+    function alternateColor(color, textId, myInterval) {
+    if(!myInterval){
+        myInterval = 200;    
+    }
+    var colors = ['grey', color];
+    var currentColor = 1;
+    document.getElementById(textId).style.color = colors[0];
+    setInterval(function() {
+        document.getElementById(textId).style.color = colors[currentColor];
+        if (currentColor < colors.length-1) {
+            ++currentColor;
+        } else {
+            currentColor = 0;
+        }
+    }, myInterval);
+}
+alternateColor('yellow','myText');*/
+    
+    
+    iluminarPoligono : function(elemento, color){
+        $.each(lista_poligonos, function(i, forma){
+           forma.color_original = forma.getFillColor();
+           forma.setFillColor("gray");
+        });
+        elemento.setFillColor("yellow");    
     },
     
     /**
