@@ -225,6 +225,11 @@
 
             <div class="page-content">
                 <?php echo $body; ?>
+                <!--<div class="row">
+                    <div class="col-lg-12">
+                        <?php echo "GIT:" . GIT; ?>
+                    </div>
+                </div>-->
             </div>   
             <!-- /.page-content -->
 
