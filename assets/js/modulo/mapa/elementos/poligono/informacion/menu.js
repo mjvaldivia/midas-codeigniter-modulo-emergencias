@@ -31,7 +31,7 @@ var MapaInformacionElementoMenu = Class({
      */
     _menu : function(mapa, lista_elementos, posicion, funcion_popup){
         var yo = this;
-        
+        yo._hideMenu();
         var contextMenuOptions={}; 
         
         contextMenuOptions.classNames = {
@@ -77,6 +77,7 @@ var MapaInformacionElementoMenu = Class({
         ); 
         
         google.maps.event.addListener(contextMenu, 'loaded', function(e){ 
+            
             contextMenu.show(posicion);
         }); 
 
@@ -84,7 +85,6 @@ var MapaInformacionElementoMenu = Class({
             switch(eventName){
                 case 'informacion_interseccion':
                     contextMenu.hide();    
-                    
                 break;
                 default:
                     contextMenu.hide(); 
@@ -100,12 +100,9 @@ var MapaInformacionElementoMenu = Class({
                         }
                     });
                     funcion_popup(mostrar);
-                    
                 break;
             }
-            
             click_en_menu = true;
-            console.log("Click en menu");
 	});
         
         context_menu = contextMenu;
