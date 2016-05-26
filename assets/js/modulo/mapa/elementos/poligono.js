@@ -9,6 +9,10 @@ var MapaPoligono = Class({
     mapa : null,
     custom : false,
     editable : false,
+    
+    
+    clave_primaria : null,
+    
     /**
      * Setea mapa
      * @param {googleMap} mapa
@@ -16,6 +20,10 @@ var MapaPoligono = Class({
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    seteaClavePrimaria : function(id){
+        this.clave_primaria = id;  
     },
     
     /**
@@ -83,6 +91,7 @@ var MapaPoligono = Class({
             });
            
             var poligono = new google.maps.Polygon({
+                clave_primaria : yo.clave_primaria,
                 paths: puntos,
                 identificador: id,
                 nombre: nombre,

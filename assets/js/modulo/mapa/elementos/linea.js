@@ -4,6 +4,8 @@ var MapaLinea = Class({
      */
     mapa : null,
     
+    clave_primaria : null,
+    
     /**
      * Setea mapa
      * @param {googleMap} mapa
@@ -11,6 +13,10 @@ var MapaLinea = Class({
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    seteaClavePrimaria : function(id){
+        this.clave_primaria = id;  
     },
     
     /**
@@ -27,6 +33,7 @@ var MapaLinea = Class({
         var yo = this;
         
         var linea = new google.maps.Polyline({
+            clave_primaria : yo.clave_primaria,
             path: yo.coordenadas(geometry),
             identificador: id,
             clave : "poligono_" + id,

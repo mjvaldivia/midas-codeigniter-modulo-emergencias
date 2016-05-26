@@ -591,6 +591,53 @@ var MapaEditor = Class({
                     },
                     success:function(data){
                         $("#contenido-popup-informacion-archivo").html(data);
+                        
+                        $(".archivo-eliminar-elemento").livequery(function(){
+                            $(this).unbind("click");
+                            $(this).click(function(){
+                                var primaria = $(this).data("rel");
+                                var tipo = $(this).data("tipo");
+                                console.log(tipo);
+                                console.log(hash);
+                                console.log(primaria);
+                                if(tipo == "marcador"){
+                                    var marcadores = jQuery.grep(lista_markers, function( a ) {
+                                        if(a["identificador"] == "kml_" + hash && a["clave_primaria"] == primaria){
+                                            return true;
+                                        }
+                                    });
+                                    
+                                    $.each(marcadores, function(i, marker){
+                                        marker.setMap(null); 
+                                    });
+                                    
+                                    lista_markers = jQuery.grep(lista_markers, function( a ) {
+                                        if(a["identificador"] == "kml_" + hash && a["clave_primaria"] == primaria){
+                                            return false;
+                                        }
+                                    });
+                                } else if(tipo == "poligono"){
+                                    var poligonos = jQuery.grep(lista_poligonos, function( a ) {
+                                        console.log("Identificador: " + a["identificador"] + " Primaria:" + a["clave_primaria"]);
+                                        if(a["identificador"] == "kml_" + hash){
+                                            return true;
+                                        }
+                                    });
+                                    
+                                    console.log(poligonos);
+                                    
+                                    $.each(poligonos, function(i, marker){
+                                        marker.setMap(null); 
+                                    });
+                                    
+                                    lista_poligonos = jQuery.grep(lista_poligonos, function( a ) {
+                                        if(a["identificador"] == "kml_" + hash){
+                                            return false;
+                                        }
+                                    });
+                                }
+                            });
+                        });
                     }
                 }); 
                 
