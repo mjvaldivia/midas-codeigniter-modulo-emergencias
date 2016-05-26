@@ -41,6 +41,13 @@ var MapaInformacionElementoMenu = Class({
 
         var menuItems=[]; 
        
+       
+        menuItems.push({
+            className:'context_menu_item', 
+            eventName:'cerrar', 
+            label:'<div class=\"row\"> <div class=\"col-xs-12 text-right\"> <i class=\"fa fa-close\"></i> </div><div> '
+        });
+       
         if(lista_elementos.length > 1){
           /*  menuItems.push({
                 className:'context_menu_item', 
@@ -52,21 +59,21 @@ var MapaInformacionElementoMenu = Class({
         }
                 
         $.each(lista_elementos, function(i, elemento){
-            
-            if(elemento.capa == null){
-                var nombre = elemento.informacion.NOMBRE;
-            } else {
-                var nombre = elemento.nombre;
+            if(elemento.getVisible() && elemento.getMap() != null){
+                if(elemento.capa == null){
+                    var nombre = elemento.informacion.NOMBRE;
+                } else {
+                    var nombre = elemento.nombre;
+                }
+                menuItems.push({
+                    className:'context_menu_item', 
+                    eventName:'informacion_elemento__' + elemento.tipo + "__" + elemento.clave + "__" + elemento.identificador, 
+                    label:'<div class="row">'
+                           + '<div class="col-xs-2"><div class="color-capa-preview" style="background-color:' + elemento.fillColor + '"></div></div>'
+                           + '<div class="col-xs-10">' + nombre + '</div>'
+                        + '</div>'
+                });
             }
-            
-            menuItems.push({
-                className:'context_menu_item', 
-                eventName:'informacion_elemento__' + elemento.tipo + "__" + elemento.clave + "__" + elemento.identificador, 
-                label:'<div class="row">'
-                       + '<div class="col-xs-2"><div class="color-capa-preview" style="background-color:' + elemento.fillColor + '"></div></div>'
-                       + '<div class="col-xs-10">' + nombre + '</div>'
-                    + '</div>'
-            });
         });
         
         contextMenuOptions.menuItems = menuItems; 
