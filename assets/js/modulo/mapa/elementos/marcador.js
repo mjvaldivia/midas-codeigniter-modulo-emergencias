@@ -6,6 +6,7 @@ var MapaMarcador = Class({
     
     draggable : false,
 
+    clave_primaria : null,
     
     /**
      * Setea mapa
@@ -14,6 +15,10 @@ var MapaMarcador = Class({
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    seteaClavePrimaria : function(id){
+        this.clave_primaria = id;  
     },
     
     /**
@@ -57,6 +62,7 @@ var MapaMarcador = Class({
         var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
 
         marker = new google.maps.Marker({
+            clave_primaria : yo.clave_primaria,
             position: posicion,
             custom : false,
             identificador: id,

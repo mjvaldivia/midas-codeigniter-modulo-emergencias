@@ -249,17 +249,23 @@ var MapaElementos = Class({
                case "POLIGONO":
                case "RECTANGULO":
                case "CIRCULO":
-                   preview = "<div class=\"color-capa-preview\" style=\"background-color:" + data.color + "; height: 20px;width: 20px;\"></div>";
+                   preview = "<div class=\"color-capa-preview\" style=\"background-color:" + data.color + "; height: 20px;width: 20px;margin-left:9px\"></div>";
                    break;
                default:
                    preview = "<img style=\"height:20px\" src=\"" + data.icono + "\" >";
                    break;
            }
-                 
-           html += "<li data=\"" + data.id + "\" class=\"\">\n"
-                 + "<div class=\"row\"><div class=\"col-xs-2\">" + preview + "</div><div class=\"col-xs-10\"> " + data.tipo + "</div>"
-                 + "</div>\n"
-                 + "</li>";
+           
+           if(i!=0){
+               html += "<li class=\"divider\"></li>";
+           } 
+            
+           html += "<li data=\"" + data.id + "\" class=\"\"><a href=\"#\">\n"
+                    + "<div class=\"row\">"
+                       + "<div class=\"col-xs-2 text-center\">" + preview + "</div>"
+                       + "<div class=\"col-xs-10\"> " + data.nombre + "</div>"
+                    + "</div>\n"
+                 + "</a></li>";
            
            
            cantidad++;
@@ -275,6 +281,34 @@ var MapaElementos = Class({
         }
 
         $("#lista_elementos_agregados").html(html);
+    },
+    
+    /*
+    function alternateColor(color, textId, myInterval) {
+    if(!myInterval){
+        myInterval = 200;    
+    }
+    var colors = ['grey', color];
+    var currentColor = 1;
+    document.getElementById(textId).style.color = colors[0];
+    setInterval(function() {
+        document.getElementById(textId).style.color = colors[currentColor];
+        if (currentColor < colors.length-1) {
+            ++currentColor;
+        } else {
+            currentColor = 0;
+        }
+    }, myInterval);
+}
+alternateColor('yellow','myText');*/
+    
+    
+    iluminarPoligono : function(elemento, color){
+        $.each(lista_poligonos, function(i, forma){
+           forma.color_original = forma.getFillColor();
+           forma.setFillColor("gray");
+        });
+        elemento.setFillColor("yellow");    
     },
     
     /**
@@ -418,10 +452,10 @@ var MapaElementos = Class({
                if(data.correcto){
                    
                     $.each(yo.on_load_functions, function(i, funcion){
-                        console.log("Carga de " + i);
                         funcion.funcion(data, yo.mapa);
                     });
 
+                    
                     
                     if(data.resultado.tipo_mapa != "" && data.resultado.tipo_mapa != null){
                         yo.mapa.setMapTypeId(data.resultado.tipo_mapa);
@@ -546,6 +580,9 @@ var MapaElementos = Class({
             
             switch(elemento.tipo){
                 case "PUNTO":
+                    
+                    
+                    
                     data = {"tipo" : "PUNTO",
                             "clave" : elemento.clave,
                             "icono" : elemento.getIcon(),
@@ -616,7 +653,13 @@ var MapaElementos = Class({
                     break;
                 
             }
-
+            
+            if(elemento.informacion.NOMBRE){
+                data["nombre"] = elemento.informacion.NOMBRE;
+            } else {
+                data["nombre"] = data.tipo;
+            }
+            
             if(data != null){
                 parametro[i] = JSON.stringify(data);
             }

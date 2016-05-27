@@ -189,6 +189,7 @@ class Mapa extends MY_Controller {
                  ->setMareaRojaPm($_POST["marea_roja_pm"])
                  ->setVectores($_POST["vectores"])
                  ->setVectoresHallazgos($_POST["vectores_hallazgos"])
+                 ->setArchivosOcultos($_POST["kmls_ocultos"])
                  ->guardar();
             
             
@@ -756,17 +757,21 @@ class Mapa extends MY_Controller {
                                                 "tipo_mapa" => ""));
         $params = $this->input->post(null, true);
 
-        $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
-        if(!is_null($configuracion)){
+        $mapa = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
+        if(!is_null($mapa)){
+            
+            $configuracion = Zend_Json::decode($mapa->configuracion);
+            
             $resultado["resultado"] = array(
-                "sidco" => $configuracion->kml_sidco,
-                "casos_febriles" => $configuracion->bo_casos_febriles,
-                "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
-                "marea_roja" => $configuracion->bo_marea_roja,
-                "marea_roja_pm" => $configuracion->bo_marea_roja_pm,
-                "vectores" => $configuracion->bo_vectores,
-                "vectores_hallazgos" => $configuracion->bo_vectores_hallazgos,
-                "tipo_mapa" => $configuracion->tipo_mapa
+                "sidco" => $configuracion["bo_kml_sidco"],
+                "casos_febriles" => $configuracion["bo_casos_febriles"],
+                "casos_febriles_zona" => $configuracion["bo_casos_febriles_zona"],
+                "marea_roja" => $configuracion["bo_marea_roja"],
+                "marea_roja_pm" => $configuracion["bo_marea_roja_pm"],
+                "vectores" => $configuracion["bo_vectores"],
+                "vectores_hallazgos" => $configuracion["bo_vectores_hallazgos"],
+                "archivos_ocultos" => $configuracion["archivos_ocultos"],
+                "tipo_mapa" => $mapa->tipo_mapa
             );
         }
         

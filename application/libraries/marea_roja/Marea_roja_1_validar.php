@@ -84,6 +84,13 @@ Class Marea_roja_1_validar{
             $this->_error["recurso"] = "";
         }
         
+        if(!$this->validar->validarVacio($params["resultado"])){
+            $this->_correcto = false;
+            $this->_error["resultado"] = "Este dato no puede estar vacío";
+        } else {
+            $this->_error["resultado"] = "";
+        }
+        
         if(!$this->validar->validarVacio($params["origen"])){
             $this->_correcto = false;
             $this->_error["origen"] = "Este dato no puede estar vacío";

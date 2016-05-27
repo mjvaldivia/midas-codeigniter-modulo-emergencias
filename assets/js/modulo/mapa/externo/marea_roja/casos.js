@@ -59,22 +59,25 @@ var MapaMareaRojaCasos = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            var icono = yo.coloresIcono(valor);
+                            if(valor.resultado && valor.resultado != ""){
                             
-                            var marcador = new MapaMarcador();
-                            marcador.seteaMapa(yo.mapa);
-                            marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
-                            
-                            var fecha_muestra = moment(valor.fecha_muestra, "DD-MM-YYYY", true);
-                            
-                            marea_roja_marcador.push(
-                                {
-                                    "identificador" : "marea_roja_" + valor.id,
-                                    "fecha_muestra" : fecha_muestra,
-                                    "recurso": valor.propiedades["RECURSO"],
-                                    "resultados": valor.propiedades["RESULTADO"]
-                                }
-                            );
+                                var icono = yo.coloresIcono(valor);
+
+                                var marcador = new MapaMarcador();
+                                marcador.seteaMapa(yo.mapa);
+                                marcador.posicionarMarcador("marea_roja_" + valor.id, null, valor.lng, valor.lat, valor.propiedades, null, icono);
+
+                                var fecha_muestra = moment(valor.fecha_muestra, "DD-MM-YYYY", true);
+
+                                marea_roja_marcador.push(
+                                    {
+                                        "identificador" : "marea_roja_" + valor.id,
+                                        "fecha_muestra" : fecha_muestra,
+                                        "recurso": valor.propiedades["RECURSO"],
+                                        "resultados": valor.propiedades["RESULTADO"]
+                                    }
+                                );
+                            }
 
                         });
                         

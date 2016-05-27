@@ -68,31 +68,31 @@
                             </div>
 
                             <?php if (!$entomologo): ?>
-                                <div class="col-xs-8">
+                                <div class="col-xs-12">
                                     <?php echo formCoordenadas("form_coordenadas", $latitud, $longitud, $propiedades); ?>
                                 </div>
 
-                                <div class="col-xs-8 top-spaced">
+                                <!--<div class="col-xs-8 top-spaced">
                                     <div class="form-group clearfix">
                                         <label for="nombre" class="control-label">Calidad de
                                             georeferenciación(*):</label>
                                         <select id="calidad_de_georeferenciacion" name="calidad_de_georeferenciacion"
                                                 class="form-control">
                                             <option value="">-- seleccione un valor --</option>
-                                            <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "GPS (Exacta)") echo "selected"; ?>
+                                            <option <?php /*if ($propiedades["calidad_de_georeferenciacion"] == "GPS (Exacta)") echo "selected"; */?>
                                                 value="GPS (Exacta)">GPS Exacta
                                             </option>
-                                            <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "Aproximación confiable") echo "selected"; ?>
+                                            <option <?php /*if ($propiedades["calidad_de_georeferenciacion"] == "Aproximación confiable") echo "selected"; */?>
                                                 value="Aproximación confiable">Aproximación confiable
                                             </option>
-                                            <option <?php if ($propiedades["calidad_de_georeferenciacion"] == "Requiere confirmación") echo "selected"; ?>
+                                            <option <?php /*if ($propiedades["calidad_de_georeferenciacion"] == "Requiere confirmación") echo "selected"; */?>
                                                 value="Requiere confirmación">Requiere confirmación
                                             </option>
                                         </select>
                                         <span class="help-block hidden"></span>
 
                                     </div>
-                                </div>
+                                </div>-->
                             <?php endif; ?>
                         </div>
                         <div class="col-xs-12 col-md-6">
