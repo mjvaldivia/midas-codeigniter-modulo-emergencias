@@ -43,6 +43,19 @@ var MapaEditor = Class({
         this.class_kml = new MapaArchivos();
     },
     
+     /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
     /**
      * Carga el editor
      * @param {type} mapa
@@ -272,7 +285,7 @@ var MapaEditor = Class({
             async: true,
             data: parametros,
             type: "post",
-            url: baseUrl + getController() + "/save", 
+            url: baseUrl + yo.getController() + "/save", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },
