@@ -20,6 +20,7 @@ var MapaLineaMulti = Class({ extends : MapaLinea}, {
 
             var linea = new google.maps.Polyline({
                 clave_primaria : yo.clave_primaria,
+                relacion: yo.relacion,
                 id : id,
                 path: coord,
                 identificador: id,

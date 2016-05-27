@@ -76,38 +76,54 @@ Class Visor_guardar_kml{
                         "kml"    =>$file["archivo"]
                     );
                     
-                    $id = $this->_emergencia_kml_model->query()->insert($data);
-       
-                    if(count($file["elementos"])>0){
-                        foreach($file["elementos"] as $elemento){
-                            
-                            $data_elemento = array(
-                                "id_kml" => $id,
-                                "nombre" => $elemento["nombre"],
-                                "tipo" => $elemento["tipo"],
-                                "propiedades" => $elemento["descripcion"],
-                                "coordenadas" => Zend_Json::encode($elemento["coordenadas"])
-                            );
-                            
-                            if($elemento["tipo"] == "PUNTO"){
-                                $data_elemento["icono"] = $this->_saveIcon($id, $elemento["icono"]);
-                            }
-                            
-                            if($elemento["tipo"] == "MULTIPOLIGONO" || $elemento["tipo"] == "LINEA"){
-                                $data_elemento["color"] = $elemento["color"];
-                            }
-                            
-                            $this->_emergencia_kml_elemento_model->insert(
+                    $id = $this->_emergencia_kml_model->query()->insert($data);             
+                    $guardados[] = $id;
+                } else {
+                    $id = $kml->id;
+                    $guardados[] = $kml->id;
+                }
+                
+                $elementos_guardados = array();
+                if(count($kml_seleccionado["elementos"])>0){
+                    foreach($kml_seleccionado["elementos"] as $elemento_json){
+                        $elemento = Zend_Json::decode($elemento_json);
+                        
+                        
+                        $coordenadas = array("poligono" => array());
+                        foreach($elemento["coordenadas"] as $elemento_coordenada){
+                            $coordenadas["poligono"][] = array($elemento_coordenada["lng"], $elemento_coordenada["lat"]);
+                        }
+                        
+                        $data_elemento = array(
+                            "id_kml" => $id,
+                            "nombre" => $elemento["nombre"],
+                            "tipo" => $elemento["tipo"],
+                            "propiedades" => Zend_Json::encode($elemento["propiedades"]),
+                            "coordenadas" => Zend_Json::encode($coordenadas)
+                        );
+
+                        if($elemento["tipo"] == "PUNTO"){
+                            $data_elemento["icono"] = $this->_saveIcon($id, $elemento["icono"]);
+                        }
+
+                        if($elemento["tipo"] == "MULTIPOLIGONO" || $elemento["tipo"] == "POLIGONO" || $elemento["tipo"] == "LINEA"){
+                            $data_elemento["color"] = $elemento["color"];
+                        }
+                        
+                        $existe = $this->_emergencia_kml_elemento_model->getById($elemento["primaria"]);
+
+                        if(!is_null($existe)){
+                            $this->_emergencia_kml_elemento_model->update($data_elemento, $existe->id);
+                            $elementos_guardados[] = $existe->id;
+                        } else {
+                            $elementos_guardados[] = $this->_emergencia_kml_elemento_model->insert(
                                 $data_elemento
                             );
                         }
                     }
-                    
-                    
-                    $guardados[] = $id;
-                } else {
-                    $guardados[] = $kml->id;
                 }
+                
+                $this->_emergencia_kml_elemento_model->deleteNotIn($id, $elementos_guardados);
             }    
         }
         $this->_emergencia_kml_model->deleteNotIn($this->_id_emergencia, $guardados);

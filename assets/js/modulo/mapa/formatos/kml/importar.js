@@ -110,8 +110,9 @@ var MapaKmlImportar = Class({
                             if(elemento["tipo"] == "PUNTO"){
                                 var marcador = new MapaKmlImportarMarcador();
                                 marcador.seteaMapa(yo.mapa);
+                                poligono.seteaRelacion(data.response.hash);
                                 marcador.posicionarMarcador(
-                                    "kml_" + data.response.hash, 
+                                    "kml_" + data.response.hash + "_" + i, 
                                     null, 
                                     elemento["coordenadas"]["lat"], 
                                     elemento["coordenadas"]["lon"], 
@@ -125,8 +126,9 @@ var MapaKmlImportar = Class({
                                 var poligono = new MapaPoligono();
                                 poligono.seteaEditable(false);
                                 poligono.seteaMapa(yo.mapa);
+                                poligono.seteaRelacion(data.response.hash);
                                 poligono.dibujarPoligono(
-                                    "kml_" + data.response.hash,
+                                    "kml_" + data.response.hash + "_" + i,
                                     elemento["nombre"], 
                                     null,
                                     elemento["coordenadas"], 
@@ -140,8 +142,9 @@ var MapaKmlImportar = Class({
                                 var poligono = new MapaPoligonoMulti();
                                 poligono.seteaEditable(false);
                                 poligono.seteaMapa(yo.mapa);
+                                poligono.seteaRelacion(data.response.hash);
                                 poligono.dibujarPoligono(
-                                    "kml_" + data.response.hash,
+                                    "kml_" + data.response.hash + "_" + i,
                                     elemento["nombre"], 
                                     null,
                                     elemento["coordenadas"], 
@@ -154,8 +157,9 @@ var MapaKmlImportar = Class({
                             if(elemento["tipo"] == "LINEA"){
                                 var linea = new MapaLineaMulti();
                                 linea.seteaMapa(yo.mapa);
+                                poligono.seteaRelacion(data.response.hash);
                                 linea.dibujarLinea(
-                                    "kml_" + data.response.hash, 
+                                    "kml_" + data.response.hash + "_" + i, 
                                     null, 
                                     elemento["coordenadas"]["linea"],
                                     {"NOMBRE" : elemento["nombre"]},

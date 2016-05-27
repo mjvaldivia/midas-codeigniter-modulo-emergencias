@@ -13,6 +13,8 @@ var MapaKmlImportarMarcador = Class({ extends : MapaMarcador}, {
         var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
 
         var marker = new google.maps.Marker({
+            clave_primaria : yo.clave_primaria,
+            relacion: yo.relacion,
             position: posicion,
             identificador: id,
             clave : "marcador_" + id,

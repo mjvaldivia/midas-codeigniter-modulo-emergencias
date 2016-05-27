@@ -553,39 +553,30 @@ alternateColor('yellow','myText');*/
         });
     },
     
-    /**
-     * Retorna lista de elementos personalizados
-     * @returns {String}
-     */
-    listCustomElements : function(){
+    
+    listElements : function(function_marcador, function_forma){
         
         var parametro = {};
         
-        var custom_element = jQuery.grep(lista_poligonos, function( a ) {
-            if(a.custom){
-                return true;
-            }
-        });
-        
-        var custom_markers = jQuery.grep(lista_markers, function( a ) {
-            if(a.custom){
-                return true;
-            }
-        });
+        var custom_element = function_marcador();
+        var custom_markers = function_forma();
         
         var custom = $.merge(custom_element, custom_markers);
         
         $.each(custom, function(i, elemento){
             var data = null;
             
+            var primaria = null;
+            if(elemento.clave_primaria){
+                primaria = elemento.clave_primaria;
+            }
+            
             switch(elemento.tipo){
                 case "PUNTO":
-                    
-                    
-                    
                     data = {"tipo" : "PUNTO",
                             "clave" : elemento.clave,
                             "icono" : elemento.getIcon(),
+                            "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
                             "coordenadas" : elemento.getPosition()};
@@ -613,6 +604,7 @@ alternateColor('yellow','myText');*/
                             "clave" : elemento.clave,
                             "icono" : elemento.getIcon(),
                             "color" : color,
+                            "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
                             "coordenadas" : {"center" : elemento.getPosition(),
@@ -622,6 +614,7 @@ alternateColor('yellow','myText');*/
                     data = {"tipo" : "POLIGONO",
                             "clave" : elemento.clave,
                             "color" : elemento.fillColor,
+                            "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
                             "coordenadas" : elemento.getPath().getArray()};
@@ -630,6 +623,7 @@ alternateColor('yellow','myText');*/
                     data = {"tipo" : "RECTANGULO",
                             "clave" : elemento.clave,
                             "color" : elemento.fillColor,
+                            "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
                             "coordenadas" : elemento.getBounds()};
@@ -638,6 +632,7 @@ alternateColor('yellow','myText');*/
                     data = {"tipo" : "CIRCULO",
                             "clave" : elemento.clave,
                             "color" : elemento.fillColor,
+                            "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
                             "coordenadas" : {"center" : elemento.getCenter(),
@@ -647,6 +642,7 @@ alternateColor('yellow','myText');*/
                     data = {"tipo" : "LINEA",
                             "clave" : elemento.clave,
                             "color" : elemento.strokeColor,
+                            "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
                             "coordenadas" : elemento.getPath().getArray()};
@@ -665,6 +661,29 @@ alternateColor('yellow','myText');*/
             }
         });
         return parametro;
+    },
+    
+    /**
+     * Retorna lista de elementos personalizados
+     * @returns {String}
+     */
+    listCustomElements : function(){
+        return this.listElements(
+            function(){
+                return jQuery.grep(lista_markers, function( a ) {
+                    if(a.custom){
+                        return true;
+                    }
+                });
+            },
+            function(){
+                return jQuery.grep(lista_poligonos, function( a ) {
+                    if(a.custom){
+                        return true;
+                    }
+                });
+            }
+        );
     }
 });
 

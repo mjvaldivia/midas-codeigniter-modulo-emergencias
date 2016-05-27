@@ -4,7 +4,15 @@ var MapaLinea = Class({
      */
     mapa : null,
     
+    /**
+     * Si el elemento tiene clave en BD
+     */
     clave_primaria : null,
+    
+    /**
+     * String de relacion con otro elemento (KML u otro)
+     */
+    relacion: null,
     
     /**
      * Setea mapa
@@ -15,8 +23,20 @@ var MapaLinea = Class({
         this.mapa = mapa;
     },
     
+    /**
+     * 
+     * @param {type} id
+     * @returns {undefined}
+     */
     seteaClavePrimaria : function(id){
         this.clave_primaria = id;  
+    },
+    
+    /**
+     * @param {int} id
+     */
+    seteaRelacion : function(relacion){
+        this.relacion = relacion;
     },
     
     /**
@@ -34,6 +54,7 @@ var MapaLinea = Class({
         
         var linea = new google.maps.Polyline({
             clave_primaria : yo.clave_primaria,
+            relacion: yo.relacion,
             path: yo.coordenadas(geometry),
             identificador: id,
             clave : "poligono_" + id,

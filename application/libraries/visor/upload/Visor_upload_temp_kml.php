@@ -75,7 +75,7 @@ Class Visor_upload_temp_kml{
         
         $upload = New Zend_File_Transfer();
         $upload->addValidator('Extension', false, $extenciones);
-        $upload->addValidator('FilesSize', false, array('min' => '0.001kB', 'max' => '100MB'));
+        $upload->addValidator('FilesSize', false, array('min' => '0.001kB', 'max' => '64MB'));
         $file = $upload->getFileInfo();
         foreach($file as $field_name => $file_data){
 
@@ -107,7 +107,7 @@ Class Visor_upload_temp_kml{
 
 
         if($correcto){
-            $upload->receive();
+            fb($upload->receive());
             $retorno = $this->_saveToCache();
         }
         

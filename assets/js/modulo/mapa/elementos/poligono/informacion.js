@@ -145,7 +145,7 @@ var MapaPoligonoInformacion = Class({
                 if(elemento.custom == true) {
                     this.dialogoEdicion(elemento.clave, parametros);
                 } else {
-                    this.dialogoInformacion(parametros);
+                    this.dialogoEdicion(elemento.clave, parametros);
                 }
             } else {
                 if(elemento.custom == true) {
@@ -169,7 +169,7 @@ var MapaPoligonoInformacion = Class({
      */
     addRightClickListener : function(elemento, mapa){
         var yo = this;
-        console.log("Click para poligono");
+       
         /*
         elemento.addListener('click', function(event) {
        

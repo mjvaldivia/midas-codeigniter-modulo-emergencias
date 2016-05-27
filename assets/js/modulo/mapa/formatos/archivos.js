@@ -99,7 +99,7 @@ var MapaArchivos = Class({
     ocultarMostrarElementos : function(hash, mostrar){
         var $this = this;
         jQuery.grep(lista_markers, function( a ) {
-            if(a["identificador"] == "kml_" + hash ){
+            if(a["relacion"] ==  hash ){
                 if(mostrar){
                     a.setVisible(true);
                 } else {
@@ -108,7 +108,7 @@ var MapaArchivos = Class({
             }
         });
         jQuery.grep(lista_poligonos, function( a ) {
-            if(a["identificador"] == "kml_" + hash){
+            if(a["relacion"] ==  hash){
                 if(mostrar){
                     a.setMap($this.mapa);
                 } else {
@@ -123,15 +123,42 @@ var MapaArchivos = Class({
      * @returns {String}
      */
     listArchivosKml : function(){
+        var $this = this;
         var lista = {};
         $.each(lista_kml, function(i, kml){
             lista[i] = {"id" : kml.id,
                         "hash" : kml.hash,
                         "tipo" : kml.tipo,
                         "archivo" : kml.archivo,
-                        "nombre" : kml.nombre};
+                        "nombre" : kml.nombre,
+                        "elementos" : $this.listElementosKml(kml.hash)};
         });
         return lista;
+    },
+    
+    /**
+     * Lista elementos contenidos en el KML
+     * @param {type} hash
+     * @returns {unresolved}
+     */
+    listElementosKml : function(hash){
+        var elementos = new MapaElementos();
+        return elementos.listElements(
+            function(){
+                return jQuery.grep(lista_markers, function( a ) {
+                    if(a["relacion"] ==  hash ){
+                        return true;
+                    }
+                });
+            },
+            function(){
+                return jQuery.grep(lista_poligonos, function( a ) {
+                    if(a["relacion"] == hash){
+                        return true;
+                    }
+                });
+            }
+        );
     },
     
     quitarElementos : function(hash){
@@ -184,9 +211,10 @@ var MapaArchivos = Class({
                                             if(row["tipo"] == "PUNTO"){
                                                 var marcador = new MapaKmlImportarMarcador();
                                                 marcador.seteaMapa(mapa);
-                                                marcador.seteaClavePrimaria(elemento.id);
+                                                marcador.seteaClavePrimaria(row.id);
+                                                poligono.seteaRelacion(elemento.hash);
                                                 marcador.posicionarMarcador(
-                                                        "kml_" + elemento.hash, 
+                                                        "kml_" + elemento.hash + "_" + row.id, 
                                                         null, 
                                                         coordenadas.lat, 
                                                         coordenadas.lon, 
@@ -201,9 +229,10 @@ var MapaArchivos = Class({
                                                
                                                 var poligono = new MapaPoligonoMulti();
                                                 poligono.seteaMapa(mapa);
-                                                poligono.seteaClavePrimaria(elemento.id);
+                                                poligono.seteaClavePrimaria(row.id);
+                                                poligono.seteaRelacion(elemento.hash);
                                                 poligono.dibujarPoligono(
-                                                    "kml_" + elemento.hash,
+                                                    "kml_" + elemento.hash + "_" + row.id,
                                                     row.nombre, 
                                                     null,
                                                     coordenadas, 
@@ -216,11 +245,11 @@ var MapaArchivos = Class({
                                             if(row["tipo"] == "POLIGONO"){
                                                
                                                 var poligono = new MapaPoligono();
-                                               // poligono.seteaCustom(true);
                                                 poligono.seteaMapa(mapa);
-                                                poligono.seteaClavePrimaria(elemento.id);
+                                                poligono.seteaClavePrimaria(row.id);
+                                                poligono.seteaRelacion(elemento.hash);
                                                 poligono.dibujarPoligono(
-                                                    "kml_" + elemento.hash,
+                                                    "kml_" + elemento.hash + "_" + row.id,
                                                     row.nombre, 
                                                     null,
                                                     coordenadas, 
@@ -232,10 +261,10 @@ var MapaArchivos = Class({
                                             
                                             if(row["tipo"] == "LINEA"){
                                                 var linea = new MapaLineaMulti();
-                                                linea.seteaClavePrimaria(elemento.id);
+                                                linea.seteaClavePrimaria(row.id);
                                                 linea.seteaMapa(mapa);
                                                 linea.dibujarLinea(
-                                                    "kml_" + elemento.hash,
+                                                    "kml_" + elemento.hash + "_" + row.id,
                                                     null, 
                                                     coordenadas.linea, 
                                                     {"NOMBRE" : row.nombre},
