@@ -19,6 +19,7 @@ var MapaKmlImportarMarcador = Class({ extends : MapaMarcador}, {
             identificador: id,
             clave : "marcador_" + id,
             capa: capa,
+            tipo: "PUNTO",
             informacion : propiedades,
             informacion_html : informacion,
             draggable: yo.draggable,

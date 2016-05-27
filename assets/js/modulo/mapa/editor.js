@@ -240,6 +240,7 @@ var MapaEditor = Class({
      * @returns {void}
      */
     guardar : function(){
+        $("#btn-guardar").prop("disabled", true);
         var tareas = new MapaLoading();
         var custom = new MapaElementos();
         tareas.push(1);
@@ -278,11 +279,20 @@ var MapaEditor = Class({
             },
             success:function(data){
                 if(data.correcto){
+                   /* */
+                    
+                    var archivos = new MapaArchivos();
+                    archivos.seteaEmergencia(yo.id_emergencia);
+                    archivos.seteaMapa(yo.mapa);
+                    archivos.quitarArchivos();
+                    archivos.loadArchivos(yo.mapa);
+                    
                     var elemento_custom = new MapaElementos();
                     elemento_custom.emergencia(yo.id_emergencia);
                     elemento_custom.removeCustomElements();
                     elemento_custom.loadCustomElements(yo.mapa, false);
                     
+                    $("#btn-guardar").prop("disabled", false);
                 } else {
                     notificacionError("Ha ocurrido un problema", data.error);
                 }

@@ -161,6 +161,50 @@ var MapaArchivos = Class({
         );
     },
     
+    
+    quitarArchivos : function(){
+        $.each(lista_kml, function(i, kml){
+            console.log(kml);
+            console.log(lista_markers);
+            console.log(lista_poligonos);
+            var ocultar = jQuery.grep(lista_markers, function( a ) {
+                if(a["relacion"] ==  kml.hash){
+                    return true;
+                }
+            });
+            
+            $.each(ocultar , function(i, marcador){
+                marcador.setMap(null); 
+            });
+            
+            lista_markers = jQuery.grep(lista_markers, function( a ) {
+                if(a["relacion"] != kml.hash){
+                    return true;
+                }
+            });
+            
+            var ocultar = jQuery.grep(lista_poligonos, function( a ) {
+                if(a["relacion"] == kml.hash){
+                    return true;
+                }
+            });
+            
+            $.each(ocultar , function(i, poligono){
+                poligono.setMap(null); 
+            });
+            
+            lista_poligonos = jQuery.grep(lista_poligonos, function( a ) {
+                if(a["relacion"] != kml.hash){
+                    return true;
+                }
+            });
+        });
+        
+        lista_kml = [];
+        this.updateListaArchivosAgregados();
+    },
+    
+    
     quitarElementos : function(hash){
         
     },
@@ -207,17 +251,17 @@ var MapaArchivos = Class({
                                        
                                         $.each(elemento.elementos, function(i, row){
                                             var coordenadas = jQuery.parseJSON(row.coordenadas);
-                                            
+                                          
                                             if(row["tipo"] == "PUNTO"){
                                                 var marcador = new MapaKmlImportarMarcador();
                                                 marcador.seteaMapa(mapa);
                                                 marcador.seteaClavePrimaria(row.id);
-                                                poligono.seteaRelacion(elemento.hash);
+                                                marcador.seteaRelacion(elemento.hash);
                                                 marcador.posicionarMarcador(
                                                         "kml_" + elemento.hash + "_" + row.id, 
                                                         null, 
-                                                        coordenadas.lat, 
                                                         coordenadas.lon, 
+                                                        coordenadas.lat, 
                                                         {"NOMBRE" : row.nombre,
                                                          "TIPO" : elemento.nombre}, 
                                                         row.propiedades, 
@@ -262,6 +306,7 @@ var MapaArchivos = Class({
                                             if(row["tipo"] == "LINEA"){
                                                 var linea = new MapaLineaMulti();
                                                 linea.seteaClavePrimaria(row.id);
+                                                linea.seteaRelacion(elemento.hash);
                                                 linea.seteaMapa(mapa);
                                                 linea.dibujarLinea(
                                                     "kml_" + elemento.hash + "_" + row.id,

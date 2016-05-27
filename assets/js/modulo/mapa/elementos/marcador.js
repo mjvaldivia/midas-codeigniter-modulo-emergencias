@@ -89,6 +89,7 @@ var MapaMarcador = Class({
             identificador: id,
             clave : "marcador_" + id,
             capa: capa,
+            tipo: "PUNTO",
             informacion : propiedades,
             draggable: yo.draggable,
             map: yo.mapa,

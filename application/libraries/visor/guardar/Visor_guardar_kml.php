@@ -37,7 +37,7 @@ Class Visor_guardar_kml{
      */
     public function __construct() {
         $this->_ci =& get_instance();
-        $this->_ci->load->library(array("cache"));
+        $this->_ci->load->library(array("cache", "core/string/random"));
         $this->_ci->load->model("emergencia_kml_model");
         $this->_ci->load->model("emergencia_kml_elemento_model");
         $this->_emergencia_kml_model = $this->_ci->emergencia_kml_model;
@@ -88,11 +88,20 @@ Class Visor_guardar_kml{
                     foreach($kml_seleccionado["elementos"] as $elemento_json){
                         $elemento = Zend_Json::decode($elemento_json);
                         
-                        
-                        $coordenadas = array("poligono" => array());
-                        foreach($elemento["coordenadas"] as $elemento_coordenada){
-                            $coordenadas["poligono"][] = array($elemento_coordenada["lng"], $elemento_coordenada["lat"]);
+                        switch ($elemento["tipo"]) {
+                            case "PUNTO":
+                                $coordenadas = array("lat" => $elemento["coordenadas"]["lat"], "lon" => $elemento["coordenadas"]["lng"]);
+                                break;
+                            case "POLIGONO":
+                                $coordenadas = array("poligono" => array());
+                                foreach($elemento["coordenadas"] as $elemento_coordenada){
+                                    $coordenadas["poligono"][] = array($elemento_coordenada["lng"], $elemento_coordenada["lat"]);
+                                }
+                                break;
+                            default:
+                                break;
                         }
+                        
                         
                         $data_elemento = array(
                             "id_kml" => $id,
@@ -103,7 +112,7 @@ Class Visor_guardar_kml{
                         );
 
                         if($elemento["tipo"] == "PUNTO"){
-                            $data_elemento["icono"] = $this->_saveIcon($id, $elemento["icono"]);
+                            $data_elemento["icono"] = $this->_saveIcon($id, $elemento["primaria"], $elemento["icono"]);
                         }
 
                         if($elemento["tipo"] == "MULTIPOLIGONO" || $elemento["tipo"] == "POLIGONO" || $elemento["tipo"] == "LINEA"){
@@ -126,7 +135,23 @@ Class Visor_guardar_kml{
                 $this->_emergencia_kml_elemento_model->deleteNotIn($id, $elementos_guardados);
             }    
         }
+        
         $this->_emergencia_kml_model->deleteNotIn($this->_id_emergencia, $guardados);
+        $this->_limpiarIconosEliminados();
+        
+    }
+    
+    /**
+     * 
+     */
+    protected function _limpiarIconosEliminados(){
+        if(count($this->_lista_iconos) > 0){
+            foreach($this->_lista_iconos as $icono){
+                if(is_file($icono)){
+                    unlink($icono);
+                }
+            }
+        }
     }
     
     /**
@@ -135,33 +160,45 @@ Class Visor_guardar_kml{
      * @param string $icono_path
      * @return string
      */
-    protected function _saveIcon($id_kml, $icono_path){
+    protected function _saveIcon($id_kml, $id_elemento, $icono_path){
         
-        $existe = array_search($icono_path, $this->_lista_iconos);
-        if($existe === false){
-            if(!is_dir(FCPATH . "media/doc/kml")){
-                mkdir(FCPATH . "media/doc/kml");
+        if(!is_dir(FCPATH . "media/doc/kml")){
+            mkdir(FCPATH . "media/doc/kml");
+        }
+
+        if(!is_dir(FCPATH . "media/doc/kml/" . $id_kml)){
+            mkdir(FCPATH . "media/doc/kml/" . $id_kml);
+        }
+
+        $relative_path = str_replace(base_url(), "", $icono_path);
+        
+        $icono_anterior = "";
+        if($id_elemento != ""){
+            $elemento = $this->_emergencia_kml_elemento_model->getById($id_elemento);
+            if(!is_null($elemento)){
+                $icono_anterior = $elemento->icono;
             }
-
-            if(!is_dir(FCPATH . "media/doc/kml/" . $id_kml)){
-                mkdir(FCPATH . "media/doc/kml/" . $id_kml);
-            }
-
-            $info = pathinfo(FCPATH . $icono_path);
-
-            $icono = file_get_contents(FCPATH . $icono_path);
-            
-            $file = FCPATH . "media/doc/kml/" . $id_kml . "/" . $info["filename"] . "." . $info["extension"];
-            file_put_contents($file, $icono);
-            
-            $this->_lista_iconos["media/doc/kml/" . $id_kml . "/" . $info["filename"] . "." . $info["extension"]] = $icono_path;
-            
-            unlink(FCPATH . $icono_path);
-            
-            return "media/doc/kml/" . $id_kml . "/" . $info["filename"] . "." . $info["extension"];
         }
         
-        return $existe;
+       
+        
+        if($icono_anterior != $relative_path && is_file($relative_path)){
+            $info = pathinfo(FCPATH . $relative_path);
+            $icono = file_get_contents(FCPATH . $relative_path);
+            
+            $relative_path_final = "media/doc/kml/" . $id_kml . "/" . $this->_ci->random->rand_string(20) . "." . $info["extension"];
+            
+            $file = FCPATH . $relative_path_final;
+            file_put_contents($file, $icono);
+            
+            $this->_lista_iconos[] = FCPATH . $relative_path;
+            //unlink(FCPATH . $relative_path);
+
+            return $relative_path_final;
+        } else {
+            return $icono_anterior;
+        }
+
     }
 }
 

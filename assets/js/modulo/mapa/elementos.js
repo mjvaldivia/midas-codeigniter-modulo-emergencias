@@ -650,6 +650,10 @@ alternateColor('yellow','myText');*/
                 
             }
             
+            if(data == null){
+                console.log(elemento);
+            }
+            
             if(elemento.informacion.NOMBRE){
                 data["nombre"] = elemento.informacion.NOMBRE;
             } else {
