@@ -8,6 +8,7 @@
             <th>Laboratorio</th>
             <th>Resultado</th>
             <th>Estado</th>
+            <th>Validado</th>
             <th>Recurso</th>
             <th>Origen</th>
             <th>Comuna</th>
@@ -26,36 +27,31 @@
                                 </button>
                             <?php } ?>
 
-                           <!-- <?php if (permisoMareaRoja("eliminar")) { ?>
-                                <button title="Eliminar" class="btn btn-sm btn-danger caso-eliminar" type="button"
-                                        data="<?php echo $row["id"] ?>" href="#">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            <?php } ?>-->
+                            <?php if (permisoMareaRoja("validar")) { ?>
+                                <?php echo mareaRojaBotonValidar($row['id'], $row["bo_ingreso_resultado"], $row["bo_validado"]); ?>
+                            <?php } ?>
 
-                           <?php echo mareaRojaBotonVerActa($row['id'], $row['numero_muestra']); ?>
+                            <?php echo mareaRojaBotonVerActa($row['id'], $row['numero_muestra']); ?>
                         
                         </div>
                     </td>
-                    
                     <td width="5%" align="center">
                         <?php echo $row["numero_muestra"]; ?>
                     </td>
-   
                     <td width="10%">
                         <?php echo $row["fecha_muestra"]; ?>
                     </td>
-                    
                     <td width="10%" align="center">
                         <?php echo laboratorioNombre($row["id_laboratorio"]); ?>
                     </td>
-                    
                     <td width="10%">
                         <?php echo mareaRojaEstadoEsperaResultado($row["resultado"], $row["bo_ingreso_resultado"]); ?>
                     </td>
-
                     <td width="10%">
                         <?php echo mareaRojaEstadoResultado($row["resultado"], $row["bo_ingreso_resultado"]); ?>
+                    </td>
+                    <td width="10%">
+                        <?php echo mareaRojaEstadoValidado($row["bo_ingreso_resultado"], $row["bo_validado"]); ?>
                     </td>
                     <td width="10%">
                         <?php echo $row["recurso"]; ?>

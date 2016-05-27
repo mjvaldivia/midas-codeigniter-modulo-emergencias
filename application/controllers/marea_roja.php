@@ -576,6 +576,7 @@ class Marea_roja extends MY_Controller
                     "recurso" => strtoupper($propiedades["RECURSO"]),
                     "origen" => strtoupper($propiedades["ORIGEN"]),
                     "bo_ingreso_resultado" => $caso["bo_ingreso_resultado"],
+                    "bo_validado" => $caso["bo_validado"],
                     "comuna" => $caso["id_comuna"],
                     "id_laboratorio" => $caso["id_laboratorio"],
                     "resultado" => $propiedades["RESULTADO"],

@@ -216,6 +216,7 @@ var MapaArchivos = Class({
                                             if(row["tipo"] == "POLIGONO"){
                                                
                                                 var poligono = new MapaPoligono();
+                                               // poligono.seteaCustom(true);
                                                 poligono.seteaMapa(mapa);
                                                 poligono.seteaClavePrimaria(elemento.id);
                                                 poligono.dibujarPoligono(

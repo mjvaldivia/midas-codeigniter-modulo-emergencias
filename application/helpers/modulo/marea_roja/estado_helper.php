@@ -30,6 +30,22 @@ function mareaRojaEstadoResultado($resultado, $bo_ingreso_resultado = 0){
 }
 
 /**
+ * 
+ * @param type $bo_ingreso_resultado
+ * @param type $bo_validado
+ * @return string
+ */
+function mareaRojaEstadoValidado($bo_ingreso_resultado, $bo_validado){
+    if($bo_ingreso_resultado == 1){
+        if($bo_validado == 1){
+            return "<span class=\"label green\">Validado</span>";
+        } else {
+            return "<span class=\"label orange\">Esperando validación</span>";
+        }
+    }
+}
+
+/**
  * Muestra estado si se ha ingresado resultado o no
  * @param string $resultado
  * @param int $bo_ingreso_resultado

@@ -362,7 +362,8 @@ class Mapa extends MY_Controller {
                     $lista_regiones, 
                     "reg_ia_id"
                 ),
-                "ingreso_resultado" => 1
+                "ingreso_resultado" => 1,
+                "validado" => "1"
             )
         );
         

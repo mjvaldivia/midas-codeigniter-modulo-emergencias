@@ -22,11 +22,12 @@ class Marea_roja_resultado extends Marea_roja
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
         $this->load->model("modulo_model", "_modulo_model");
-        
+
         $this->load->helper(
             array(
                 "modulo/usuario/usuario_form",
-                "modulo/comuna/form"
+                "modulo/comuna/form",
+                "modulo/marea_roja/validar"
             )
         );
     }
@@ -48,44 +49,42 @@ class Marea_roja_resultado extends Marea_roja
         );
     }
     
+    public function validar(){
+        $data = $this->_editar();
+        $this->_viewValidar($data);
+    }
+    
     /**
      *
      */
     public function editar()
     {
-        $this->load->helper(
-            array(
-                "modulo/emergencia/emergencia",
-                "modulo/formulario/formulario",
-                "modulo/direccion/region",
-                "modulo/direccion/comuna",
-                "modulo/usuario/usuario_form",
-                "modulo/comuna/default",
-                "modulo/laboratorio/default"
-            )
-        );
+        $data = $this->_editar();
+        $this->_viewEditar($data);
+    }
+    
+    /**
+     * Guarda validacion
+     */
+    public function guardar_validar(){
         $params = $this->input->post(null, true);
-
         $caso = $this->_marea_roja_model->getById($params["id"]);
         if (!is_null($caso)) {
-
-            $propiedades = json_decode($caso->propiedades);
-            $coordenadas = json_decode($caso->coordenadas);
-           
-            $data = array("id" => $caso->id);
-            
-            foreach ($propiedades as $nombre => $valor) {
-                $data["propiedades"][str_replace(" ", "_", strtolower($nombre))] = $valor;
-            }
-
-            $analisis = explode(',',$caso->tipo_analisis);
-
-            $data['analisis'] = $analisis;
-            $data["id_laboratorio"] = $caso->id_laboratorio;
-            $data["latitud"] = $coordenadas->lat;
-            $data["longitud"] = $coordenadas->lng;
-            $this->_viewEditar($data);
+            $data = array(
+                "bo_validado" => 1,
+                "id_usuario_validado" => $this->session->userdata('session_idUsuario')
+            );
+            $this->_marea_roja_model->update(
+                $data, 
+                $caso->id
+            );
         }
+        echo json_encode(
+            array(
+                "error" => array(),
+                "correcto" => true
+            )
+        );
     }
     
     /**
@@ -134,6 +133,51 @@ class Marea_roja_resultado extends Marea_roja
     }
     
     /**
+     * Recupera datos para cargar formulario
+     * @return array
+     */
+    protected function _editar(){
+        $data = array();
+        $this->load->helper(
+            array(
+                "modulo/emergencia/emergencia",
+                "modulo/formulario/formulario",
+                "modulo/direccion/region",
+                "modulo/direccion/comuna",
+                "modulo/usuario/usuario_form",
+                "modulo/comuna/default",
+                "modulo/laboratorio/default"
+            )
+        );
+        $params = $this->input->post(null, true);
+
+        $caso = $this->_marea_roja_model->getById($params["id"]);
+        if (!is_null($caso)) {
+
+            $propiedades = json_decode($caso->propiedades);
+            $coordenadas = json_decode($caso->coordenadas);
+           
+            $data = array("id" => $caso->id);
+            
+            foreach ($propiedades as $nombre => $valor) {
+                $data["propiedades"][str_replace(" ", "_", strtolower($nombre))] = $valor;
+            }
+            
+            $analisis = array();
+            if($caso->tipo_analisis != ""){
+                $analisis = explode(',',$caso->tipo_analisis);
+            }
+            
+            $data['analisis'] = $analisis;
+            $data["id_laboratorio"] = $caso->id_laboratorio;
+            $data["latitud"] = $coordenadas->lat;
+            $data["longitud"] = $coordenadas->lng;
+            
+        }
+        return $data;
+    }
+    
+    /**
      * 
      * @param array $params
      * @return array
@@ -150,7 +194,8 @@ class Marea_roja_resultado extends Marea_roja
                     "laboratorio" => $lista_laboratorios,
                     "numero_muestra" => $params["numero_acta"],
                     "region" => $params['region'],
-                    "comuna" => $params['comuna']
+                    "comuna" => $params['comuna'],
+                    "validado" => $params["validado"]
                 )
             );
         } else {
@@ -216,7 +261,13 @@ class Marea_roja_resultado extends Marea_roja
         }
     }
     
-     
+    /**
+     * Funcion para desplegar formulario para validar
+     * @param array $data
+     */
+    protected function _viewValidar($data){
+        $this->load->view("pages/marea_roja_resultado/form-validar", $data);
+    }
     
     /**
      * Funcion para cambiar vista de edicion

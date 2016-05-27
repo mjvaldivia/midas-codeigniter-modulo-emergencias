@@ -98,6 +98,14 @@ class Marea_Roja_Model extends MY_Model {
             $query->whereAND("a.id_laboratorio", $parametros["laboratorio"], "NOT IN");
         }
         
+        if(isset($parametros["validado"])){
+            if($parametros["validado"] == "0"){
+                $query->whereAND("a.bo_validado", 0);
+            }elseif($parametros["validado"] == "1"){
+                $query->whereAND("a.bo_validado", 1);
+            }
+        }
+        
         $result = $query->getAllResult();
         if(!is_null($result)){
             return $result;

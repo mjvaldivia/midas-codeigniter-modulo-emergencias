@@ -5,7 +5,7 @@
  */
 $(document).ready(function() {
     
-
+    $("#sidebar-toggle").trigger("click");
     
     var id = $("#id").val();
     

@@ -28,7 +28,7 @@
             <div class="portlet-body">
                 <div class="row">
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="form-group clearfix">
                             <label for="numero_muestra" class="control-label">N° de muestra</label>
                             <input type="text" class="form-control" id="numero_muestra" name="numero_muestra"/>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="form-group clearfix">
                             <label for="comuna" class="control-label">Comuna</label>
                             <div id="select-comuna">
@@ -57,7 +57,18 @@
                             </div>
                         </div>
                     </div>
-
+                    
+                    <div class="col-lg-2">
+                        <div class="form-group clearfix">
+                            <label for="validado" class="control-label">Validado</label>
+                            <select name="validado" id="validado" class="form-control">
+                                <option value=""> Todos </option>
+                                <option value="1"> Si </option>
+                                <option value="0"> No </option>
+                            </select>
+                            
+                        </div>
+                    </div>
 
                     <div class="col-lg-2">
                         <button id="buscar" type="button" class="btn btn-primary btn-square btn-buscar top-spaced">

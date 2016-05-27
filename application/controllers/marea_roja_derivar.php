@@ -5,7 +5,7 @@ if (!defined("BASEPATH")) exit("No direct script access allowed");
 require_once(__DIR__ . "/marea_roja_resultado.php");
 
 class Marea_roja_derivar extends Marea_roja_resultado
-{
+{ 
     /**
      *
      */

@@ -17,6 +17,9 @@
             <input <?php echo checkboxPermisosChecked("resultados", $permiso); ?> name="permiso[resultados][]" id="reporte_<?php echo $id_modulo ?>" type="checkbox" value="<?php echo $id_modulo ?>">
             Ingreso de resultados
         </div>
-
+        <div class="col-sm-6">
+            <input <?php echo checkboxPermisosChecked("validar", $permiso); ?> name="permiso[validar][]" id="reporte_<?php echo $id_modulo ?>" type="checkbox" value="<?php echo $id_modulo ?>">
+            Validar resultados
+        </div>
     </div>
 </div>
