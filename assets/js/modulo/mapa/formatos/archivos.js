@@ -250,99 +250,100 @@ var MapaArchivos = Class({
                        },
                        success:function(data){
                            if(data.correcto){
-                               $.each(data.resultado.elemento, function(id, elemento){
-                                   if(elemento.tipo == "KMZ" || elemento.tipo == "KML"){
-                                        if(elemento.elementos != null){
-                                        $.each(elemento.elementos, function(i, row){
-                                            var coordenadas = jQuery.parseJSON(row.coordenadas);
-                                          
-                                            if(row["tipo"] == "PUNTO"){
-                                                var marcador = new MapaKmlImportarMarcador();
-                                                marcador.seteaMapa(mapa);
-                                                marcador.seteaClavePrimaria(row.id);
-                                                marcador.seteaRelacion(elemento.hash);
-                                                marcador.posicionarMarcador(
-                                                        "kml_" + elemento.hash + "_" + row.id, 
-                                                        null, 
-                                                        coordenadas.lon, 
-                                                        coordenadas.lat, 
-                                                        {"NOMBRE" : row.nombre,
-                                                         "TIPO" : elemento.nombre}, 
-                                                        row.propiedades, 
-                                                        baseUrl + row.icono
-                                               );
-                                            } 
-                                           
-                                            if(row["tipo"] == "MULTIPOLIGONO"){
-                                               
-                                                var poligono = new MapaPoligonoMulti();
-                                                poligono.seteaMapa(mapa);
-                                                poligono.seteaClavePrimaria(row.id);
-                                                poligono.seteaRelacion(elemento.hash);
-                                                poligono.dibujarPoligono(
-                                                    "kml_" + elemento.hash + "_" + row.id,
-                                                    row.nombre, 
-                                                    null,
-                                                    coordenadas, 
-                                                    {"NOMBRE" : row.nombre,
-                                                    "TIPO" : elemento.nombre},
-                                                    null, 
-                                                    row.color);
-                                            }
-                                            
-                                            if(row["tipo"] == "POLIGONO"){
-                                               
-                                                var poligono = new MapaPoligono();
-                                                poligono.seteaMapa(mapa);
-                                                poligono.seteaClavePrimaria(row.id);
-                                                poligono.seteaRelacion(elemento.hash);
-                                                poligono.dibujarPoligono(
-                                                    "kml_" + elemento.hash + "_" + row.id,
-                                                    row.nombre, 
-                                                    null,
-                                                    coordenadas, 
-                                                    {"NOMBRE" : row.nombre,
-                                                    "TIPO" : elemento.nombre},
-                                                    null, 
-                                                    row.color);
-                                            }
-                                            
-                                            if(row["tipo"] == "LINEA"){
-                                                var linea = new MapaLineaMulti();
-                                                linea.seteaClavePrimaria(row.id);
-                                                linea.seteaRelacion(elemento.hash);
-                                                linea.seteaMapa(mapa);
-                                                linea.dibujarLinea(
-                                                    "kml_" + elemento.hash + "_" + row.id,
-                                                    null, 
-                                                    coordenadas.linea, 
-                                                    {"NOMBRE" : row.nombre},
-                                                    null,
-                                                    row.color);
-                                            }
-                                        });
-                                    
-                                        kml = {
-                                            "id" : elemento.id,
-                                            "tipo" : elemento.tipo,
-                                            "hash" : elemento.hash,
-                                            "nombre" : elemento.nombre, 
-                                            "archivo" : elemento.archivo
-                                        };            
-                                        
-                                        lista_kml.push(kml);
-                                        }
-                                    }
-                                    
-                                    if(elemento.oculto){
-                                        yo.ocultarMostrarElementos(elemento.hash, false);
-                                        $(".ocultar-archivo-importado[value='" + elemento.id + "']").waitUntilExists(function(){
-                                            $(this).prop("checked", false);
-                                        });
-                                    }
-                                    
-                               });
-                               
+                                if(data.resultado.elemento != null){
+                                    $.each(data.resultado.elemento, function(id, elemento){
+                                        if(elemento.tipo == "KMZ" || elemento.tipo == "KML"){
+                                             if(elemento.elementos != null){
+                                             $.each(elemento.elementos, function(i, row){
+                                                 var coordenadas = jQuery.parseJSON(row.coordenadas);
+
+                                                 if(row["tipo"] == "PUNTO"){
+                                                     var marcador = new MapaKmlImportarMarcador();
+                                                     marcador.seteaMapa(mapa);
+                                                     marcador.seteaClavePrimaria(row.id);
+                                                     marcador.seteaRelacion(elemento.hash);
+                                                     marcador.posicionarMarcador(
+                                                             "kml_" + elemento.hash + "_" + row.id, 
+                                                             null, 
+                                                             coordenadas.lon, 
+                                                             coordenadas.lat, 
+                                                             {"NOMBRE" : row.nombre,
+                                                              "TIPO" : elemento.nombre}, 
+                                                             row.propiedades, 
+                                                             baseUrl + row.icono
+                                                    );
+                                                 } 
+
+                                                 if(row["tipo"] == "MULTIPOLIGONO"){
+
+                                                     var poligono = new MapaPoligonoMulti();
+                                                     poligono.seteaMapa(mapa);
+                                                     poligono.seteaClavePrimaria(row.id);
+                                                     poligono.seteaRelacion(elemento.hash);
+                                                     poligono.dibujarPoligono(
+                                                         "kml_" + elemento.hash + "_" + row.id,
+                                                         row.nombre, 
+                                                         null,
+                                                         coordenadas, 
+                                                         {"NOMBRE" : row.nombre,
+                                                         "TIPO" : elemento.nombre},
+                                                         null, 
+                                                         row.color);
+                                                 }
+
+                                                 if(row["tipo"] == "POLIGONO"){
+
+                                                     var poligono = new MapaPoligono();
+                                                     poligono.seteaMapa(mapa);
+                                                     poligono.seteaClavePrimaria(row.id);
+                                                     poligono.seteaRelacion(elemento.hash);
+                                                     poligono.dibujarPoligono(
+                                                         "kml_" + elemento.hash + "_" + row.id,
+                                                         row.nombre, 
+                                                         null,
+                                                         coordenadas, 
+                                                         {"NOMBRE" : row.nombre,
+                                                         "TIPO" : elemento.nombre},
+                                                         null, 
+                                                         row.color);
+                                                 }
+
+                                                 if(row["tipo"] == "LINEA"){
+                                                     var linea = new MapaLineaMulti();
+                                                     linea.seteaClavePrimaria(row.id);
+                                                     linea.seteaRelacion(elemento.hash);
+                                                     linea.seteaMapa(mapa);
+                                                     linea.dibujarLinea(
+                                                         "kml_" + elemento.hash + "_" + row.id,
+                                                         null, 
+                                                         coordenadas.linea, 
+                                                         {"NOMBRE" : row.nombre},
+                                                         null,
+                                                         row.color);
+                                                 }
+                                             });
+
+                                             kml = {
+                                                 "id" : elemento.id,
+                                                 "tipo" : elemento.tipo,
+                                                 "hash" : elemento.hash,
+                                                 "nombre" : elemento.nombre, 
+                                                 "archivo" : elemento.archivo
+                                             };            
+
+                                             lista_kml.push(kml);
+                                             }
+                                         }
+
+                                         if(elemento.oculto){
+                                             yo.ocultarMostrarElementos(elemento.hash, false);
+                                             $(".ocultar-archivo-importado[value='" + elemento.id + "']").waitUntilExists(function(){
+                                                 $(this).prop("checked", false);
+                                             });
+                                         }
+
+                                     });
+                                }
                                 if($("#lista_importados_agregados").length > 0){
                                     yo.updateListaArchivosAgregados();
                                 }
