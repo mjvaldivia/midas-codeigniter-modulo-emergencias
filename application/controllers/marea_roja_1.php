@@ -20,6 +20,7 @@ class Marea_roja_1 extends MY_Controller
         sessionValidation();
         $this->load->model("marea_roja_model", "_marea_roja_model");
         $this->load->model("region_model", "_region_model");
+        $this->load->model("comuna_model", "_comuna_model");
         $this->load->model("modulo_model", "_modulo_model");
         $this->load->model("laboratorio_model", "_laboratorio_model");
         
@@ -159,12 +160,19 @@ class Marea_roja_1 extends MY_Controller
             $arreglo["LABORATORIO"] = $laboratorio->nombre;
             /*****************************************/
             
+            $id_comuna = null;
+            $comuna = $this->_comuna_model->getById($params["comuna"]);
+            if(!is_null($comuna)){
+                $id_comuna = $comuna->com_ia_id;
+            }
+            
+            
             if (is_null($caso)) {
                 $id = $this->_marea_roja_model->insert(
                     array(
                         "fecha" => date("Y-m-d H:i:s"),
                         "id_region" => $params["region"],
-                        "id_comuna" => $params["comuna"],
+                        "id_comuna" => $id_comuna,
                         "id_laboratorio" => $laboratorio->id,
                         //"numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
@@ -178,7 +186,7 @@ class Marea_roja_1 extends MY_Controller
                 $this->_marea_roja_model->update(
                     array(
                         "id_region" => $params["region"],
-                        "id_comuna" => $params["comuna"],
+                        "id_comuna" => $id_comuna,
                         "id_laboratorio" => $laboratorio->id,
                         //"numero_muestra" => $params["numero_de_muestra"],
                         "id_usuario_resultado" => $this->session->userdata('session_idUsuario'),
