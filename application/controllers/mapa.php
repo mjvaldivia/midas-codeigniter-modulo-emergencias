@@ -585,9 +585,58 @@ class Mapa extends MY_Controller {
      * 
      */
     public function popup_marcador_editar(){
-        $this->load->library("String");
-        $params = $this->input->post(null, true);        
-        $this->load->view("pages/mapa/popup-marcador-editar", array("html" => $params["html"]));
+        $this->load->library(
+            array("String",
+                  "core/string/random")
+        );
+        
+        $params = $this->input->post(null, true);      
+        
+        if(is_array($params["propiedades"])){
+            $bo_editor_texto = false;
+        } else {
+            $bo_editor_texto = true;
+        }
+        
+        $id = null;
+        $marcador = $this->_emergencia_elementos_model->getById($params["id"]);
+        if(!is_null($marcador)){
+            $id = $marcador->id;
+        }
+        
+        
+        // carga el icono de forma temporal
+        //para ver sus propiedades
+        $imagen = array();
+        $file_content = file_get_contents($params["icono"]);
+        $file_temp = FCPATH . "/media/tmp/" . $this->random->rand_string(15);
+        file_put_contents($file_temp, $file_content);
+        
+        $imagen["name"] = "Icono";
+        $imagen["file"] = $params["icono"];
+        
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); 
+        $imagen["type"] = finfo_file($finfo, $file_temp);
+        finfo_close($finfo);
+        
+        $imagen["size"] = filesize($file_temp);
+        
+        unlink($file_temp);
+        
+        
+        
+        $this->load->view(
+            "pages/mapa/popup-marcador-editar", 
+            array(
+                "id" => $id,
+                "clave" => $params["clave"],
+                "icono" => $params["icono"],
+                "imagen" => $imagen,
+                "bo_editor_texto" => $bo_editor_texto,
+                "propiedades" => $params["propiedades"],
+                "html" => $params["html"]
+            )
+        );
     }
     
     /**
@@ -793,13 +842,22 @@ class Mapa extends MY_Controller {
 
                     $clave = "elemento_" . $elemento["id"];
                     
+                    $icono = "";
+                    if($elemento["icono"] != ""){
+                        $bo_url_icono_valida = Zend_Uri::check($elemento["icono"]);
+                        if($bo_url_icono_valida){
+                            $icono = $elemento["icono"];
+                        } else {
+                            $icono = base_url($elemento["icono"]);
+                        }
+                    }
                     
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array("tipo" => $elemento["tipo"],
                                                                             "propiedades" => json_decode($elemento["propiedades"]),
                                                                             "coordenadas" => json_decode($elemento["coordenadas"]),
                                                                             "color" => $elemento["color"],
-                                                                            "icono" => $elemento["icono"],
+                                                                            "icono" => $icono,
                                                                             "clave" => $clave);
                     
                 }

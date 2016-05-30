@@ -75,12 +75,12 @@ Class Archivo_save{
             $dir = "";
             foreach($directorios as $path){
                 $dir .= "/" . $path;
-                if(!is_dir(FCPATH . "docs/" . $dir)){
-                    mkdir(FCPATH . "docs/".$dir, 0755);
+                if(!is_dir(FCPATH . "media/doc/" . $dir)){
+                    mkdir(FCPATH . "media/doc/".$dir, 0755);
                 }
             }
             
-            $this->_ruta = "docs" . $dir . "/" . $hash . "." . $documento["tipo"];
+            $this->_ruta = "media/doc" . $dir . "/" . $hash . "." . $documento["tipo"];
             file_put_contents(FCPATH . $this->_ruta, $documento["archivo"]);
             
             $this->_nombre = $documento["archivo_nombre"];

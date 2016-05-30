@@ -170,9 +170,7 @@ var MapaArchivos = Class({
     
     quitarArchivos : function(){
         $.each(lista_kml, function(i, kml){
-            console.log(kml);
-            console.log(lista_markers);
-            console.log(lista_poligonos);
+           
             var ocultar = jQuery.grep(lista_markers, function( a ) {
                 if(a["relacion"] ==  kml.hash){
                     return true;
@@ -254,7 +252,7 @@ var MapaArchivos = Class({
                            if(data.correcto){
                                $.each(data.resultado.elemento, function(id, elemento){
                                    if(elemento.tipo == "KMZ" || elemento.tipo == "KML"){
-                                       
+                                        if(elemento.elementos != null){
                                         $.each(elemento.elementos, function(i, row){
                                             var coordenadas = jQuery.parseJSON(row.coordenadas);
                                           
@@ -323,7 +321,7 @@ var MapaArchivos = Class({
                                                     row.color);
                                             }
                                         });
-                                       
+                                    
                                         kml = {
                                             "id" : elemento.id,
                                             "tipo" : elemento.tipo,
@@ -333,6 +331,7 @@ var MapaArchivos = Class({
                                         };            
                                         
                                         lista_kml.push(kml);
+                                        }
                                     }
                                     
                                     if(elemento.oculto){

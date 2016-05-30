@@ -102,7 +102,7 @@ var MapaElementos = Class({
         var yo = this;
         var posicion = new google.maps.LatLng(parseFloat(coordenadas.lat), parseFloat(coordenadas.lng));
 
-        marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             id : id,
             tipo : "PUNTO",
             position: posicion,
@@ -115,6 +115,14 @@ var MapaElementos = Class({
             map: yo.mapa,
             icon: icono
         });  
+        
+        var click = new MapaMarcadorEditar();
+        click.seteaMarker(marker);
+        click.clickListener();
+        
+        var elemento_marcador = new MapaMarcador();
+        elemento_marcador.seteaMapa(yo.mapa);
+        elemento_marcador.informacionMarcador(marker);
         
         lista_markers.push(marker);
     },
@@ -576,6 +584,7 @@ alternateColor('yellow','myText');*/
                     data = {"tipo" : "PUNTO",
                             "clave" : elemento.clave,
                             "icono" : elemento.getIcon(),
+                            "hash" : elemento.icono_hash,
                             "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,

@@ -262,3 +262,12 @@
     width: 100%;
     z-index: 50 !important;
 }
+
+.jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb {
+    border: 1px solid #e1e1e1;
+    height: 70px;
+    min-height: 70px;
+    overflow: hidden;
+    position: relative;
+    width: 70px;
+}

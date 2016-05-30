@@ -15,6 +15,7 @@ $(document).ready(function() {
     visor.seteaHeight(height - 60);
     visor.seteaEmergencia(id);
     
+    // modifica tamaño de visor cuando cambia tamaño ventana
     $(window).resize(function() {
         var height = $(window).height();
         visor.seteaHeight(height - 60);

@@ -125,6 +125,10 @@ var MapaEditor = Class({
             var click = new MapaMarcadorEditar();
             click.seteaMarker(marker);
             click.clickListener();
+            
+            var elemento_marcador = new MapaMarcador();
+            elemento_marcador.seteaMapa(yo.mapa);
+            elemento_marcador.informacionMarcador(marker);
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {

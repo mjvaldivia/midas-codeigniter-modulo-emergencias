@@ -1,5 +1,9 @@
 <!-- Estilos mapa mapa -->
+<?= loadCSS("assets/js/library/jquery.filer-1.0.5/css/jquery.filer.css"); ?>
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
+
+
+
 <?= loadCSS("assets/js/library/ionslider/css/ion.rangeSlider.css"); ?>
 <?= loadCSS("assets/js/library/ionslider/css/ion.rangeSlider.skinHTML5.css"); ?>
 
@@ -11,6 +15,9 @@
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?= loadJS("assets/js/library/jquery.filer-1.0.5/js/jquery.filer.min.js") ?>
+
+
 
 <!-- Extensiones para el mapa -->
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.label.js"); ?>
