@@ -7,22 +7,28 @@ Class Mapa_conversor_coordenadas{
      * @param float $coordenada
      */
     public function gradosToGms($coordenada){
-        $coordenada = abs((float) $coordenada);
-        fb($coordenada);
-        $grados = (int) $coordenada;
-        
-        $decimales = ($coordenada - $grados);
-        fb($decimales);
-        
-        $minutos = (($decimales)* 60);
-        
-        fb($minutos);
-        
-        $segundos = (int) ( ($minutos - ((int) $minutos)) * 60 );
-        
-        return array("grados" => (string) $grados . "°",
-                     "minutos" => (string)( (int) $minutos ) . "''",
-                     "segundos" => (string) ($segundos) .  "'");
+        if($coordenada != ""){
+            $coordenada = abs((float) $coordenada);
+
+            $grados = (int) $coordenada;
+
+            $decimales = ($coordenada - $grados);
+
+
+            $minutos = (($decimales)* 60);
+
+
+
+            $segundos = (int) ( ($minutos - ((int) $minutos)) * 60 );
+
+            return array("grados" => (string) $grados . "°",
+                         "minutos" => (string)( (int) $minutos ) . "''",
+                         "segundos" => (string) ($segundos) .  "'");
+        } else {
+            return array("grados" => "",
+                         "minutos" => "",
+                         "segundos" => "");
+        }
     }
 }
 
