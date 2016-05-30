@@ -44,7 +44,7 @@ var MapaArchivos = Class({
            html += "<li data=\"" + json.hash + "\" class=\"\">\n"
                  
                  + "<div class=\"row\">"
-                 + "<div class=\"col-xs-2 text-center\">\n"
+                 + "<div class=\"col-xs-2 text-right\">\n"
                     + "<input checked=\"checked\" name=\"archivos_importados_ocultos[]\" class=\"ocultar-archivo-importado\" type=\"checkbox\" value=\"" + json.id + "\" data-rel=\"" + json.hash + "\"/>"
                  + "</div>\n"
                  + "<div class=\"col-xs-10\">\n"

@@ -14,6 +14,12 @@ $(document).ready(function() {
     var height = $(window).height();
     visor.seteaHeight(height - 60);
     visor.seteaEmergencia(id);
+    
+    $(window).resize(function() {
+        var height = $(window).height();
+        visor.seteaHeight(height - 60);
+        visor.resize();
+    });
 
     var tareas = new MapaLoading();
     visor.addOnReadyFunction("visor de tareas", tareas.iniciarLoading, true);
