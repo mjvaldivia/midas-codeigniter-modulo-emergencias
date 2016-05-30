@@ -211,24 +211,25 @@ function visorElementosTotales($lista){
  */
 function visorElementoCoordenadas($tipo, $coordenadas){
     $_ci =& get_instance();
-    
+    $_ci->load->library("module/mapa/mapa_conversor_coordenadas");
     $lista = array();
     switch ($tipo) {
         case "CIRCULO":
         case "RECTANGULO":
-            foreach($coordenadas as $latLon){
-                $lista[] = array(
-                    "latitud" => $latLon["lat"],
-                    "longitud" => $latLon["lng"]
-                );
-            }
-
-            break;
         case "POLIGONO":
             foreach($coordenadas as $latLon){
+                $gms_lat = $_ci->mapa_conversor_coordenadas->gradosToGms($latLon["lat"]);
+                $gms_lon = $_ci->mapa_conversor_coordenadas->gradosToGms($latLon["lng"]);
+
                 $lista[] = array(
-                    "latitud" => $latLon["lat"],
-                    "longitud" => $latLon["lng"]
+                    "decimales_latitud" => $latLon["lat"],
+                    "decimales_longitud" => $latLon["lng"],
+                    "gms_grados_latitud" => $gms_lat["grados"],
+                    "gms_minutos_latitud" => $gms_lat["minutos"],
+                    "gms_segundos_latitud" => $gms_lat["segundos"],
+                    "gms_grados_longitud" => $gms_lon["grados"],
+                    "gms_minutos_longitud" => $gms_lon["minutos"],
+                    "gms_segundos_longitud" => $gms_lon["segundos"],
                 );
             }
             break;
