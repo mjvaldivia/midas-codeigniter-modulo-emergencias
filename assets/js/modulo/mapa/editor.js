@@ -570,10 +570,10 @@ var MapaEditor = Class({
                                 lista_kml = jQuery.grep(lista_kml, function( a ) {
                                     if(a["hash"] == hash){
                                         var marcador = new MapaMarcador();
-                                        marcador.removerMarcadores("identificador", "kml_" + a["hash"]);
+                                        marcador.removerMarcadores("relacion", a["hash"]);
 
                                         var poligono = new MapaPoligono();
-                                        poligono.removerPoligono("identificador", "kml_" + a["hash"]);
+                                        poligono.removerPoligono("relacion", a["hash"]);
 
                                         return false;
                                     } else {
