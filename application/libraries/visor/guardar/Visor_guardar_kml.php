@@ -98,6 +98,12 @@ Class Visor_guardar_kml{
                                     $coordenadas["poligono"][] = array($elemento_coordenada["lng"], $elemento_coordenada["lat"]);
                                 }
                                 break;
+                            case "LINEA":
+                                $coordenadas = array("linea" => array());
+                                foreach($elemento["coordenadas"] as $elemento_coordenada){
+                                    $coordenadas["linea"][] = array($elemento_coordenada["lat"], $elemento_coordenada["lng"]);
+                                }
+                                break;
                             default:
                                 break;
                         }

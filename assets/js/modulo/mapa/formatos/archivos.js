@@ -255,6 +255,7 @@ var MapaArchivos = Class({
                                         if(elemento.tipo == "KMZ" || elemento.tipo == "KML"){
                                              if(elemento.elementos != null){
                                              $.each(elemento.elementos, function(i, row){
+                                                 
                                                  var coordenadas = jQuery.parseJSON(row.coordenadas);
 
                                                  if(row["tipo"] == "PUNTO"){
@@ -309,6 +310,9 @@ var MapaArchivos = Class({
                                                  }
 
                                                  if(row["tipo"] == "LINEA"){
+                                                   
+                                                      
+                                                     
                                                      var linea = new MapaLineaMulti();
                                                      linea.seteaClavePrimaria(row.id);
                                                      linea.seteaRelacion(elemento.hash);
@@ -316,7 +320,7 @@ var MapaArchivos = Class({
                                                      linea.dibujarLinea(
                                                          "kml_" + elemento.hash + "_" + row.id,
                                                          null, 
-                                                         coordenadas.linea, 
+                                                         coordenadas, 
                                                          {"NOMBRE" : row.nombre},
                                                          null,
                                                          row.color);

@@ -155,6 +155,7 @@ var MapaKmlImportar = Class({
                             }
                             
                             if(elemento["tipo"] == "LINEA"){
+                                console.log(elemento["coordenadas"]["linea"]);
                                 var linea = new MapaLineaMulti();
                                 linea.seteaMapa(yo.mapa);
                                 linea.seteaRelacion(data.response.hash);
