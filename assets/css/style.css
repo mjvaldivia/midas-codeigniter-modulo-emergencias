@@ -2447,3 +2447,8 @@ body.modal-open {
     top: auto;
     bottom: 100% !important;
 }
+
+
+.gmnoprint a, .gmnoprint span {
+    display:none;
+}

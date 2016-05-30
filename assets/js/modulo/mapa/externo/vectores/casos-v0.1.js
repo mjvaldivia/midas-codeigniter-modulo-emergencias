@@ -34,15 +34,11 @@ var MapaVectores = Class({
      * @returns {void}
      */
     load : function(){
+        var tareas = new MapaLoading();
         var yo = this;
         if(vectores_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
-            Messenger().run({
-                action: $.ajax,
-                successMessage: '<strong> Vectores </strong> <br> Ok',
-                errorMessage: '<strong> Vectores </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
-                showCloseButton: true,
-                progressMessage: '<strong> Vectores</strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-            },{        
+            tareas.push(1);
+            $.ajax({       
                 dataType: "json",
                 cache: false,
                 async: true,
@@ -94,14 +90,9 @@ var MapaVectores = Class({
      * @returns {undefined}
      */
     loadInspecciones : function(){
+        var tareas = new MapaLoading();
         var yo = this;
-        Messenger().run({
-            action: $.ajax,
-            successMessage: '<strong> Inspecciones </strong> <br> Ok',
-            errorMessage: '<strong> Inspecciones </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
-            showCloseButton: true,
-            progressMessage: '<strong> Inspecciones </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-        },{        
+        $.ajax({        
             dataType: "json",
             cache: false,
             async: true,
@@ -141,6 +132,7 @@ var MapaVectores = Class({
                 
                 $("#contenedor-formulario-vectores").removeClass("hidden");
                 yo.filtrar();
+                tareas.remove(1);
            }
         });
     },

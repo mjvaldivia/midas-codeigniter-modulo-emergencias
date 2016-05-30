@@ -121,7 +121,6 @@ var MapaPoligonoInformacion = Class({
                 parametros["geometry"] = JSON.stringify(contenido.coordenadasCirculo(elemento.getCenter(), elemento.getRadius()));
                 break;
             case "POLIGONO":
-                console.log(elemento.getPath().getArray());
                 parametros["geometry"] = JSON.stringify(elemento.getPath().getArray());
                 break;
             case "MULTIPOLIGONO":
