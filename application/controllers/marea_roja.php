@@ -28,7 +28,8 @@ class Marea_roja extends MY_Controller
             array(
                 "modulo/usuario/usuario_form",
                 "modulo/comuna/form",
-                "modulo/marea_roja/permiso"
+                "modulo/marea_roja/permiso",
+                "modulo/marea_roja/form"
             )
         );
     }
@@ -156,10 +157,13 @@ class Marea_roja extends MY_Controller
             /** se preparan datos del formulario **/
             $arreglo = array();
 
-           /* $laboratorio = $this->_laboratorio_model->getById($params["laboratorio"]);
-            if (is_null($laboratorio)) {
-                throw new Exception("No se ingreso el laboratorio");
-            }*/
+            $id_laboratorio = null;
+            if($params["laboratorio"] != ""){
+                $laboratorio = $this->_laboratorio_model->getById($params["laboratorio"]);
+                if (!is_null($laboratorio)) {
+                    $id_laboratorio = $laboratorio->id;
+                }
+            }
 
             foreach ($params as $nombre => $valor) {
                 $nombre = str_replace("_", " ", $nombre);
@@ -176,7 +180,7 @@ class Marea_roja extends MY_Controller
                         "fecha" => date("Y-m-d H:i:s"),
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
-                        //"id_laboratorio" => $laboratorio->id,
+                        "id_laboratorio" => $id_laboratorio,
                         "numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
@@ -195,7 +199,7 @@ class Marea_roja extends MY_Controller
                     array(
                         "id_region" => $params["region"],
                         "id_comuna" => $params["comuna"],
-                        //"id_laboratorio" => $laboratorio->id,
+                        "id_laboratorio" => $id_laboratorio,
                         "numero_muestra" => $params["numero_de_muestra"],
                         "propiedades" => json_encode($arreglo),
                         "coordenadas" => json_encode($coordenadas),
