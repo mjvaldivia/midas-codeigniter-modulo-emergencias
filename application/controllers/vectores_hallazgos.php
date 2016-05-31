@@ -15,8 +15,8 @@ class Vectores_hallazgos extends MY_Controller
         $this->load->library('Fechas');
         $this->load->model('rol_model');
         $rol_model = new Rol_Model();
-        $listar = $this->_hallazgos_model->listar();
-
+        //$listar = $this->_hallazgos_model->listar();
+        $listar = null;
         $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
         $entomologo = false;
         $admin = false;
@@ -225,7 +225,7 @@ class Vectores_hallazgos extends MY_Controller
             case 4:
                 $resultado = 'NO CORRESPONDE';
                 break;
-            
+
         }
 
 
@@ -872,6 +872,125 @@ class Vectores_hallazgos extends MY_Controller
         } else {
             echo "No hay registros para generar el excel";
         }
+    }
+
+
+    public function ajax_lista()
+    {
+        $this->load->library('Fechas');
+        $this->load->model('rol_model');
+        $rol_model = new Rol_Model();
+        $params = $this->input->post();
+        //print_r($params);
+        $draw = $params['draw'];
+        $columnas = $params['columnas'];
+        $order = $params['order'][0];
+        $start = $params['start'];
+        $length = $params['length'];
+        $search = $params['search'];
+
+        $data = array(
+            'columnas' => $columnas,
+            'order' => $order,
+            'start' => $start,
+            'length' => $length,
+            'search' => $search
+        );
+
+        $listado = $this->_hallazgos_model->listadoInspecciones($data);
+
+        $roles = $this->_usuario_rol_model->listarRolesPorUsuario($this->session->userdata('session_idUsuario'));
+        $entomologo = false;
+        $admin = false;
+        $presidencia = false;
+        foreach ($roles as $rol) {
+            if ($rol['rol_ia_id'] == $rol_model::ENTOMOLOGO or $rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
+                $entomologo = true;
+            }
+
+            if ($rol['rol_ia_id'] == $rol_model::ADMINISTRADOR) {
+                $admin = true;
+            }
+
+            if ($rol['rol_ia_id'] == 66) {
+                $presidencia = true;
+            }
+        }
+
+        $arr_listado = array();
+        $arr_listado['draw'] = intval($draw);
+        $arr_listado['recordsTotal'] = intval($this->_hallazgos_model->getNumeroInspecciones());
+        $arr_listado['recordsFiltered'] = intval($listado['total']);
+        if ($listado['listado']) {
+            foreach ($listado['listado'] as $row) {
+                $botones = '<div class="btn-group">';
+                if ($entomologo and $row['cd_estado_hallazgo'] == 0):
+                    $botones .= '<button data-rel="' . $row["id_hallazgo"] . '" title="Revisar"
+                                    class="btn btn-sm btn-success btn-square revisar-hallazgo-entomologo" type="button"
+                                    data-hallazgo="' . $row['id_hallazgo'] . '">
+                                <i class="fa fa-edit"></i>
+                            </button>';
+                else:
+                    if ($admin or $presidencia):
+                        $botones .= '<button data-rel="' . $row["id_hallazgo"] . '" title="Revisar Inspeccion"
+                                        class="btn btn-sm btn-success btn-square revisar-hallazgo" type="button"
+                                        data-hallazgo="' . $row['id_hallazgo'] . '">
+                                    <i class="fa fa-search"></i>
+                                </button>';
+                    endif;
+
+
+                endif;
+
+                if (!$presidencia):
+                    if ($row['cd_estado_hallazgo'] == 0 and !$entomologo):
+                        $botones .= '<a href="' . base_url('vectores_hallazgos/adjuntarImagenesInspeccion/id/' . $row['id_hallazgo']) . '"
+                                   title="Adjuntar Imagenes" class="btn btn-sm btn-square btn-warning">
+                                    <i class="fa fa-file-image-o"></i>
+                                </a>';
+                    endif;
+                endif;
+                $botones .= '</div>';
+                $estado = '';
+                if ($row['cd_estado_hallazgo'] == 0 and $row['cd_enviado_hallazgo'] == 0):
+                    $estado = '<span class="label label-primary">Ingresado</span>';
+                elseif ($row['cd_estado_hallazgo'] > 0 and $row['cd_enviado_hallazgo'] == 0):
+                    $estado = '<span class="label label-info">Revisado -  Respondido</span>';
+                elseif ($row['cd_estado_hallazgo'] > 0 and $row['cd_enviado_hallazgo'] == 1):
+                    $estado = '<span class="label label-success">Enviado</span>';
+                endif;
+
+                $resultado = '';
+                if ($row['cd_estado_hallazgo'] == 0):
+                    $resultado = '<span class="label label-default">En Revisión</span>';
+                elseif ($row['cd_estado_hallazgo'] == 1):
+                    $resultado = '<span class="label label-danger">Aedes</span>';
+                elseif ($row['cd_estado_hallazgo'] == 2):
+                    $resultado = '<span class="label label-primary">Negativo</span>';
+                elseif ($row['cd_estado_hallazgo'] == 3):
+                    $resultado = '<span class="label label-primary">Negativo</span>';
+                elseif ($row['cd_estado_hallazgo'] == 4):
+                    $resultado = '<span class="label label-primary">Negativo</span>';
+                else:
+                    $resultado = '<span class="label label-info">Sin información</span>';
+                endif;
+
+                $arr_listado['data'][] = array(
+                    $row['codigo'],
+                    Fechas::formatearHtml($row['fecha_registro']),
+                    $row['nombre'],
+                    $row['direccion'],
+                    $row['telefono'],
+                    Fechas::formatearHtml($row['fecha_hallazgo']),
+                    $estado,
+                    $resultado,
+                    $botones
+                );
+            }
+        }
+
+        echo json_encode($arr_listado);
+        //print_r($listado);
     }
 
 }
