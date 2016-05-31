@@ -131,6 +131,7 @@ Class Upload{
     protected function _saveToCache(){
         $cache = $this->_ci->cache->iniciar();
         $cache->save(array("archivo" => file_get_contents($this->_target),
+                           "size" => filesize($this->_target),
                            "archivo_nombre" => $this->_file_name,
                            "mime" => $this->_mime,
                            "tipo" => $this->_file_ext) , 

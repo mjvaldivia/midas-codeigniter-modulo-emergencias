@@ -587,10 +587,12 @@ class Mapa extends MY_Controller {
     public function popup_marcador_editar(){
         $this->load->library(
             array("String",
+                  "cache",
                   "core/string/random")
         );
         
-        $params = $this->input->post(null, true);      
+        $params = $this->input->post(null, true);  
+        $params_url = $this->uri->uri_to_assoc();
         
         if(is_array($params["propiedades"])){
             $bo_editor_texto = false;
@@ -603,28 +605,33 @@ class Mapa extends MY_Controller {
         if(!is_null($marcador)){
             $id = $marcador->id;
         }
-        
-        
-        // carga el icono de forma temporal
-        //para ver sus propiedades
+
         $imagen = array();
-        $file_content = file_get_contents($params["icono"]);
-        $file_temp = FCPATH . "/media/tmp/" . $this->random->rand_string(15);
-        file_put_contents($file_temp, $file_content);
         
-        $imagen["name"] = "Icono";
-        $imagen["file"] = $params["icono"];
-        
-        $finfo = finfo_open(FILEINFO_MIME_TYPE); 
-        $imagen["type"] = finfo_file($finfo, $file_temp);
-        finfo_close($finfo);
-        
-        $imagen["size"] = filesize($file_temp);
-        
-        unlink($file_temp);
-        
-        
-        
+        $es_cache = strpos($params["icono"], "hash");
+        if($es_cache === false){
+            $relative_path = str_replace(base_url(), "", $params["icono"]);
+            if(is_file(FCPATH . $relative_path)){
+                $imagen["name"] = basename(FCPATH . $relative_path);
+                $imagen["file"] = $params["icono"];
+                
+                $finfo = finfo_open(FILEINFO_MIME_TYPE); 
+                $imagen["type"] = finfo_file($finfo, FCPATH . $relative_path);
+                finfo_close($finfo);
+                
+                $imagen["size"] = filesize(FCPATH . $relative_path);
+            }
+        } else {
+            $cache = $this->cache->iniciar();
+            $separado = explode("/" , $params["icono"]);
+            if($imagen_cache = $cache->load($separado[count($separado)-1])){
+                $imagen["name"] = $imagen_cache["archivo_nombre"];
+                $imagen["file"] = $params["icono"];
+                $imagen["type"] = $imagen_cache["mime"];
+                $imagen["size"] = $imagen_cache["size"];
+            }
+        }
+
         $this->load->view(
             "pages/mapa/popup-marcador-editar", 
             array(
