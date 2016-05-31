@@ -294,7 +294,12 @@ class Vigilancia_Casos_febriles extends MY_Controller
 
         $this->load->library("excel");
         
-        $lista = $this->_rapanui_dengue_model->listar();
+        $lista = $this->_rapanui_dengue_model->listar(
+            array(
+                "region" => $this->_id_region,
+                "comuna" => $this->_id_comuna
+            )
+        );
 
         $datos_excel = array();
         if (!is_null($lista)) {
