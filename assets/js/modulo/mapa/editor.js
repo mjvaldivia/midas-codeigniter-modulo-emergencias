@@ -116,6 +116,7 @@ var MapaEditor = Class({
         google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
             
             marker.html = "";
+            marker.clave = yo.uniqID(21);
             
             lista_markers.push(marker);
             
@@ -129,6 +130,7 @@ var MapaEditor = Class({
             var elemento_marcador = new MapaMarcador();
             elemento_marcador.seteaMapa(yo.mapa);
             elemento_marcador.informacionMarcador(marker);
+            
         });
         
         google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {

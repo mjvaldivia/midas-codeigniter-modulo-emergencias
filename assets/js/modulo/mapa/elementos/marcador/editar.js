@@ -132,6 +132,7 @@ var MapaMarcadorEditar = Class({
     clickListener : function(){
         var yo = this;
         this.marker.addListener('rightclick', function(event) {
+            console.log(yo.marker.clave);
             var parametros = {"id" : yo.marker.id,
                               "clave" : yo.marker.clave,
                               "html" : yo.marker.html,
