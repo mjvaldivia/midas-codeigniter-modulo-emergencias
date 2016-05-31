@@ -1,5 +1,12 @@
 var MapaInformacionElementoEdicion = Class({ 
     
+    mapa : null,
+    
+    
+    seteaMapa : function(mapa){
+      this.mapa = mapa;  
+    },
+    
     /**
      * 
      * @param {type} clave
@@ -172,19 +179,23 @@ var MapaInformacionElementoEdicion = Class({
                         //recarga menu inferior con elementos cargados
                         var elemento = new MapaElementos();
                         elemento.listaElementosVisor();
+                        $(".sp-choose").trigger("click");
                     }
                 },
                 eliminar: {
                     label: " Quitar elemento",
                     className: "btn-danger fa fa-remove",
                     callback: function() {
+                        $(".sp-choose").trigger("click");
                         funcion_remove();
                     }
                 },
                 cerrar: {
                     label: " Cerrar ventana",
                     className: "btn-white fa fa-close",
-                    callback: function() {}
+                    callback: function() {
+                        $(".sp-choose").trigger("click");
+                    }
                 }
             }
         });

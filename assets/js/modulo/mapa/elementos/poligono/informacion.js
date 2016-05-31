@@ -1,5 +1,8 @@
 var MapaPoligonoInformacion = Class({ 
     
+    mapa : null,
+    
+    
     /**
      * Muestra dialogo que muestra informacion y permite editar 
      * datos del lugar de la emergencia
@@ -9,6 +12,7 @@ var MapaPoligonoInformacion = Class({
      */
     dialogoLugarEmergencia : function(identificador, parametros){
         var dialogo = new MapaInformacionElementoEdicion();
+        dialogo.seteaMapa(this.mapa);
         dialogo.dialogoLugarEmergencia(identificador, parametros);
     },
     
@@ -21,6 +25,7 @@ var MapaPoligonoInformacion = Class({
      */
     dialogoEdicion : function(clave, parametros){
         var dialogo = new MapaInformacionElementoEdicion();
+        dialogo.seteaMapa(this.mapa);
         dialogo.dialogoElemento(clave, parametros);
     },
     
@@ -320,7 +325,7 @@ var MapaPoligonoInformacion = Class({
     preparaPopupInformacion : function(mapa,lista_elementos){
         
         var yo = this;
-
+        yo.mapa = mapa;
         var contenido = new MapaInformacionElementoContenido();
 
         var elemento_principal = null;
