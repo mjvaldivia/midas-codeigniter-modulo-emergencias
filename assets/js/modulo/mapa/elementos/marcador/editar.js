@@ -132,7 +132,7 @@ var MapaMarcadorEditar = Class({
     clickListener : function(){
         var yo = this;
         this.marker.addListener('rightclick', function(event) {
-            console.log(yo.marker.clave);
+ 
             var parametros = {"id" : yo.marker.id,
                               "clave" : yo.marker.clave,
                               "html" : yo.marker.html,
@@ -160,7 +160,7 @@ var MapaMarcadorEditar = Class({
                             }
                             
                             if($("#texto_marcador").length > 0){
-                                marcador[0]["informacion"] = CKEDITOR.instances.texto_marcador.getData();
+                                marcador[0]["informacion_html"] = CKEDITOR.instances.texto_marcador.getData();
                             } else {
                                 var informacion = {};
 
@@ -170,9 +170,6 @@ var MapaMarcadorEditar = Class({
                                 
                                 marcador[0]["informacion"] = informacion;
                             }
-                            
-                            /*marcador[0].infoWindow.setMap(null);
-                            marcador[0].infoWindow = null; */
                             
                             var elemento_marcador = new MapaMarcador();
                             elemento_marcador.seteaMapa(marcador[0].getMap());

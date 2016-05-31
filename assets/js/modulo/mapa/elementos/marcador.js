@@ -110,9 +110,15 @@ var MapaMarcador = Class({
      * @returns {void}
      */
     informacionMarcador : function(marker){
+        if(marker["infoWindow"]){
+            marker["infoWindow"].setMap(null);
+        }
+        
+        
         var yo = this;
         var markerContent = '<div class="info_content">';
         var propiedades = marker.informacion;
+        
         
         
         $.each(propiedades, function(nombre, valor){
@@ -123,13 +129,13 @@ var MapaMarcador = Class({
         
         markerContent += '</div>';
           
-        var infoWindow = new google.maps.InfoWindow({
+        marker["infoWindow"] = new google.maps.InfoWindow({
             content: markerContent
         });  
           
           
         google.maps.event.addListener(marker, 'click', function () {
-            infoWindow.open(yo.mapa, this);
+            marker["infoWindow"].open(yo.mapa, this);
         });
     }
     
