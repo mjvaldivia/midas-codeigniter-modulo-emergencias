@@ -140,7 +140,7 @@ var MapaMarcadorEditar = Class({
                               "propiedades" : yo.marker.informacion};
             
             bootbox.dialog({
-                message: "<div id=\"contenido-popup\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
+                message: "<div class=\"row\"><div id=\"contenido-popup\" class=\"col-lg-12 text-center\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div></div>",
                 title: "<i class=\"fa fa-arrow-right\"></i> Datos del marcador",
                 className: "modal70",
                 buttons: {

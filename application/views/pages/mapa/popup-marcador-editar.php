@@ -2,7 +2,7 @@
     <input type="hidden" name="id_marcador" id="id_marcador" value="<?php echo $id; ?>"/>
     <input type="hidden" name="clave_marcador" id="clave_marcador" value="<?php echo $clave; ?>"/>
     
-<div class="col-lg-12">
+<div class="col-lg-12 text-left">
     <div class="row">
                  
         <div class="row">
