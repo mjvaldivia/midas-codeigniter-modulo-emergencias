@@ -220,6 +220,7 @@ var MapaMarcadorEditar = Class({
                 },
                 success:function(data){
                     $("#contenido-popup").html(data);
+                    console.log($("#texto_marcador").length);
                     if($("#texto_marcador").length > 0){
                         CKEDITOR.config.scayt_autoStartup = true;
                         CKEDITOR.config.scayt_sLang = "es_ES";

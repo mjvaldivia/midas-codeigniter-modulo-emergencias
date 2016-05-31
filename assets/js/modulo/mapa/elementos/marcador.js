@@ -110,29 +110,32 @@ var MapaMarcador = Class({
      * @returns {void}
      */
     informacionMarcador : function(marker){
+        
         if(marker["infoWindow"]){
             marker["infoWindow"].setMap(null);
         }
         
         
         var yo = this;
-        var markerContent = '<div class="info_content">';
-        var propiedades = marker.informacion;
-        
-        
-        
-        $.each(propiedades, function(nombre, valor){
-            if(valor != ""){
-                markerContent += '<div class="col-xs-12"><strong>' + nombre +':</strong> ' + valor + '</div>';
-            }
-        });
-        
-        markerContent += '</div>';
-          
+        if(marker.informacion_html && marker.informacion_html != ""){
+            var markerContent =  marker.informacion_html;
+            marker.html = marker.informacion_html;
+        } else {
+            var markerContent = '<div class="info_content">';
+            var propiedades = marker.informacion;
+
+            $.each(propiedades, function(nombre, valor){
+                if(valor != ""){
+                    markerContent += '<div class="col-xs-12"><strong>' + nombre +':</strong> ' + valor + '</div>';
+                }
+            });
+
+            markerContent += '</div>';
+        }
+         
         marker["infoWindow"] = new google.maps.InfoWindow({
             content: markerContent
-        });  
-          
+        }); 
           
         google.maps.event.addListener(marker, 'click', function () {
             marker["infoWindow"].open(yo.mapa, this);

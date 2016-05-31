@@ -22,7 +22,7 @@
         <div class="col-lg-12 top-spaced">
             <?php if($bo_editor_texto) { ?>
             <legend> Contenido </legend>
-            <textarea id="texto-marcador"><?php echo $html; ?></textarea>
+            <textarea id="texto_marcador"><?php echo $html; ?></textarea>
             <?php } else { ?>
                 <div class="row">
                     <div class="col-lg-12">

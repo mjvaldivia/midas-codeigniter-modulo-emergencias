@@ -176,8 +176,6 @@ Class Visor_guardar_kml{
             mkdir(FCPATH . "media/doc/kml/" . $id_kml);
         }
 
-        $relative_path = str_replace(base_url(), "", $icono_path);
-        
         $icono_anterior = "";
         if($id_elemento != ""){
             $elemento = $this->_emergencia_kml_elemento_model->getById($id_elemento);
@@ -186,19 +184,38 @@ Class Visor_guardar_kml{
             }
         }
         
-       
+        $actualizar = false;
         
-        if($icono_anterior != $relative_path && is_file($relative_path)){
-            $info = pathinfo(FCPATH . $relative_path);
-            $icono = file_get_contents(FCPATH . $relative_path);
+        $es_cache = strpos($icono_path, "hash");
+        if($es_cache === false){
+            $relative_path_icon = str_replace(base_url(), "", $icono_path);
+            if(is_file(FCPATH . $relative_path_icon)){
+                $relative_path = $relative_path_icon;
+                 $info = pathinfo(FCPATH . $relative_path);
+                 $icono = file_get_contents(FCPATH . $relative_path);
+                 
+                 if($icono_anterior != $relative_path && is_file(FCPATH . $relative_path)){
+                     $actualizar = true;
+                     $this->_lista_iconos[] = FCPATH . $relative_path;
+                 }
+                 
+            }
+        } else {
+            $cache = $this->_ci->cache->iniciar();
+            $separado = explode("/" , $icono_path);
+            if($imagen_cache = $cache->load($separado[count($separado)-1])){
+                $icono = $imagen_cache["archivo"];
+                $info["extension"] = $imagen_cache["tipo"];
+                $actualizar = true;
+            }
+        }
+
+        if($actualizar){
             
             $relative_path_final = "media/doc/kml/" . $id_kml . "/" . $this->_ci->random->rand_string(20) . "." . $info["extension"];
             
             $file = FCPATH . $relative_path_final;
             file_put_contents($file, $icono);
-            
-            $this->_lista_iconos[] = FCPATH . $relative_path;
-            //unlink(FCPATH . $relative_path);
 
             return $relative_path_final;
         } else {

@@ -594,7 +594,7 @@ class Mapa extends MY_Controller {
         $params = $this->input->post(null, true);  
         $params_url = $this->uri->uri_to_assoc();
         
-        if(is_array($params["propiedades"])){
+        if(TRIM($params["html"]) == ""){
             $bo_editor_texto = false;
         } else {
             $bo_editor_texto = true;
