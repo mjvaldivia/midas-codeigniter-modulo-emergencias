@@ -130,7 +130,7 @@ Class Layout_Menu{
             ),
         ),
         
-        "Arica y parinacota" => array(
+       /* "Arica y parinacota" => array(
             "modulo" => Modulo_Model::SUB_CASOS_FEBRILES,
             "acceso" => array(
                 "region" => array(Region_Model::REGION_ARICA)
@@ -142,7 +142,7 @@ Class Layout_Menu{
                     "action"     => "index",
                 )
             ),
-        ),
+        ),*/
         
         "Marea roja" => array(
             "modulo" => Modulo_Model::SUB_MAREA_ROJA,

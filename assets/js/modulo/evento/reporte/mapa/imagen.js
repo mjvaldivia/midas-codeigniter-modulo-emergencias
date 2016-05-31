@@ -37,6 +37,17 @@ var EventoReporteMapaImagen = Class({
     crearImagen : function(){
         var yo = this;
         
+        var transform=$(".gm-style>div:first>div").css("transform")
+        var comp=transform.split(",") //split up the transform matrix
+        var mapleft=parseFloat(comp[4]) //get left value
+        var maptop=parseFloat(comp[5])  //get top value
+        $(".gm-style>div:first>div").css({ //get the map container. not sure if stable
+          "transform":"none",
+          "left":mapleft,
+          "top":maptop,
+        });
+        
+        
         html2canvas($('#' +  yo.div),
         {
             proxy : baseUrl + "html2canvas.proxy.php",
@@ -47,6 +58,12 @@ var EventoReporteMapaImagen = Class({
                 var img = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
                 
                 var temp_hash = yo.crearImagenTemporal(img);
+                
+                $(".gm-style>div:first>div").css({
+                    left:0,
+                    top:0,
+                    "transform":transform
+                });
                 
                 //ejecuta funciones despues de generar imagen temporal
                 $.each(yo.on_ready_functions, function(i, funcion){
