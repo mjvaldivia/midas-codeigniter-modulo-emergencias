@@ -225,6 +225,8 @@ var MapaMarcadorEditar = Class({
                         CKEDITOR.config.scayt_autoStartup = true;
                         CKEDITOR.config.scayt_sLang = "es_ES";
                         CKEDITOR.config.extraPlugins = 'justify';
+                        CKEDITOR.config.allowedContent = true;
+                        CKEDITOR.config.extraAllowedContent = "td[style]";
                         CKEDITOR.replace( "texto_marcador" );
                     } else {
                         var edicion = new MapaInformacionElementoEdicion();

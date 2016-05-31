@@ -34,7 +34,7 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                      tipo: "POLIGONO",
                      strokeColor: '#000',
                      strokeOpacity: 0.8,
-                     strokeWeight: 2,
+                     strokeWeight: 1,
                      fillColor: color,
                      fillOpacity: 0.35
                  });

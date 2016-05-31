@@ -185,7 +185,6 @@ var MapaPoligonoInformacion = Class({
         
         if(elemento.popup_poligono){
             elemento.addListener('rightclick', function(event) {
-                console.log("Boton derecho presionado");
                 yo.muestraMenuParaPopup(mapa, yo.elementosSeleccionados(event), event.latLng);  
             });
         }

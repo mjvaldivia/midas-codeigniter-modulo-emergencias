@@ -35,6 +35,20 @@
                     <input name="color_editar" id="color_editar" placeholder="Color del poligono" type='text' class="colorpicker required" value="<?php echo $color; ?>"/>
                 </div>
             </div>
+            <?php // if(permisoEvento("editar")) { ?>
+            <!--<div class="row top-spaced">
+                <div class="col-lg-3 text-right">
+                    <strong>MOVER:</strong>
+                </div>
+                <div class="col-lg-3 text-left">
+                    <select name="editar_mover" id="editar_mover" class="form-control">
+                        <option value="No" selected>No</option>
+                        <option value="1">Al frente</option>
+                        <option value="1">Al fondo</option>
+                    </select>
+                </div>
+            </div>-->
+            <?php // } ?>
             <?php if($editar_forma && permisoEvento("editar")) { ?>
             <div class="row top-spaced">
                 <div class="col-lg-3 text-right">

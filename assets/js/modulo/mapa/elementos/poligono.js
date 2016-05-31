@@ -123,7 +123,7 @@ var MapaPoligono = Class({
                 informacion: propiedades,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 fillColor: color,
                 fillOpacity: 0.35,
                 popup_poligono: true

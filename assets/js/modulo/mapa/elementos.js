@@ -588,6 +588,7 @@ alternateColor('yellow','myText');*/
                             "primaria" : primaria,
                             "id" : elemento.id,
                             "propiedades" : elemento.informacion,
+                            "html" : elemento.html,
                             "coordenadas" : elemento.getPosition()};
                     break;
                 case "PUNTO LUGAR EMERGENCIA":

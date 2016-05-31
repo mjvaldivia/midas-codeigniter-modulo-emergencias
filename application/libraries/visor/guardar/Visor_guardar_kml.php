@@ -108,12 +108,17 @@ Class Visor_guardar_kml{
                                 break;
                         }
                         
+                        if(isset($elemento["html"]) && $elemento["html"]!=""){
+                            $propiedades = $elemento["html"];
+                        } else {
+                            Zend_Json::encode($elemento["propiedades"]);
+                        }
                         
                         $data_elemento = array(
                             "id_kml" => $id,
                             "nombre" => $elemento["nombre"],
                             "tipo" => $elemento["tipo"],
-                            "propiedades" => Zend_Json::encode($elemento["propiedades"]),
+                            "propiedades" => $propiedades,
                             "coordenadas" => Zend_Json::encode($coordenadas)
                         );
 

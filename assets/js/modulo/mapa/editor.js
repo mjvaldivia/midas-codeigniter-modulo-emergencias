@@ -93,7 +93,7 @@ var MapaEditor = Class({
                 editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 fillColor: '#ffff00',
                 fillOpacity: 0.35
             },
@@ -146,7 +146,7 @@ var MapaEditor = Class({
                 editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 fillColor: '#ffff00',
                 fillOpacity: 0.35,
                 popup_poligono: true
@@ -175,7 +175,7 @@ var MapaEditor = Class({
                 editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 fillColor: '#ffff00',
                 fillOpacity: 0.35,
                 popup_poligono: true
@@ -201,7 +201,7 @@ var MapaEditor = Class({
                 editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
-                strokeWeight: 2
+                strokeWeight: 1
             });
             
             yo.class_poligono.addClickListener(polyline, mapa);
@@ -224,7 +224,7 @@ var MapaEditor = Class({
                 editable: true,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 fillColor: '#ffff00',
                 fillOpacity: 0.35,
                 popup_poligono: true
