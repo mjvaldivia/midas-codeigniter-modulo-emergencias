@@ -108,7 +108,7 @@
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHOCHAYUYO" || strtoupper($propiedades["recurso"]) == "COCHAYUYO") { echo "selected"; } ?> value="COCHAYUYO"> COCHAYUYO </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
-                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
+                                           
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO") echo "selected"; ?> value="CHORO"> CHORO </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO MALTÓN") echo "selected"; ?> value="CHORO MALTÓN"> CHORO MALTÓN </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>

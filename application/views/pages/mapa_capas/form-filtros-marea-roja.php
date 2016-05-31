@@ -63,7 +63,7 @@
                         <option value="COCHAYUYO"> COCHAYUYO </option>
                         <option value="CHOLGAS"> CHOLGAS </option>
                         <option value="CHORITO"> CHORITO </option>
-                        <option value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
+                        
                         <option value="CHORO"> CHORO </option>
                         <option value="CHORO MALTÓN"> CHORO MALTÓN </option>
                         <option value="CHORO ZAPATO"> CHORO ZAPATO </option>
