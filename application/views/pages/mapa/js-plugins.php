@@ -1,6 +1,6 @@
 <!-- Estilos mapa mapa -->
 <?= loadCSS("assets/js/library/jquery.filer-1.0.5/css/jquery.filer.css"); ?>
-<?= loadCSS("assets/css/modulo/mapa.css"); ?>
+
 
 
 

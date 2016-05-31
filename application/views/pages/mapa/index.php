@@ -1,3 +1,4 @@
+<?= loadCSS("assets/css/modulo/mapa.css"); ?>
 <?php echo $js; ?>
 
 <div class="row-mapa" style="height: auto">

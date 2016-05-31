@@ -61,8 +61,7 @@ Class Emergencia_reporte extends MY_Controller {
             $data = array("id" => $emergencia->eme_ia_id,
                           "lat" => $emergencia->eme_c_utm_lat,
                           "lon" => $emergencia->eme_c_utm_lng,
-                          "nombre" => strtoupper($emergencia->eme_c_nombre_emergencia),
-                          "js" => $this->load->view("pages/mapa/js-plugins", array(), true));
+                          "nombre" => strtoupper($emergencia->eme_c_nombre_emergencia));
             $this->load->view("pages/emergencia_reporte/index.php", $data);
         }
     }

@@ -50,7 +50,6 @@ var EventoReporteMapaImagen = Class({
                 
                 //ejecuta funciones despues de generar imagen temporal
                 $.each(yo.on_ready_functions, function(i, funcion){
-                    console.log("Carga de " + i);
                     funcion.funcion(temp_hash, funcion.parametros);
                 });
             }
