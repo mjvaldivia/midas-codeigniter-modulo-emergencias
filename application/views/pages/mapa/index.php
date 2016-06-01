@@ -89,6 +89,10 @@
         <?= loadJS("assets/js/library/messenger/messenger-theme-flat.js", true) ?>
         <?= loadJS("assets/js/library/spectrum-colorpicker/spectrum.js") ?>
         <?= loadJS("assets/js/library/selectize-0.12.1/js/standalone/selectize.min.js") ?>
+         <?= loadJS("assets/js/library/jquery.wait.js") ?>
+    <?= loadCSS("assets/js/library/chosen_v1.5.1/chosen.min.css") ?>
+       
+        <?= loadJS("assets/js/library/chosen_v1.5.1/chosen.jquery.min.js") ?>
         <?= loadJS("assets/js/base.js") ?>
         <?= loadJS("assets/js/utils.js") ?>
 
