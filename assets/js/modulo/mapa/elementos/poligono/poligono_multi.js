@@ -36,7 +36,8 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                      strokeOpacity: 0.8,
                      strokeWeight: 1,
                      fillColor: color,
-                     fillOpacity: 0.35
+                     fillOpacity: 0.35,
+                     popup_poligono: yo.bo_informacion_poligonos
                  });
                  poligono.setMap(yo.mapa);
 
