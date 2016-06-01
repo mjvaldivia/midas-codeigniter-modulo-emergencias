@@ -34,8 +34,7 @@
     <?= loadCSS("assets/js/library/font-awesome-4.4.0/css/font-awesome.css", true) ?>
     <?= loadCSS("assets/js/library/spectrum-colorpicker/spectrum.css") ?>
     
-    <?= loadJS("assets/js/library/ckeditor-4.5.7/ckeditor.js") ?>
-    <?= loadJS("assets/js/library/bootstrap-ckeditor-modal-fix.js") ?>
+    
     
     <!-- THEME STYLES - Include these on every page. -->
     <?= loadCSS("assets/css/style.css", true) ?>
@@ -104,6 +103,8 @@
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
 
 <?php echo $js; ?>
+    <?= loadJS("assets/js/library/ckeditor-4.5.7/ckeditor.js") ?>
+    <?= loadJS("assets/js/library/bootstrap-ckeditor-modal-fix.js") ?>
 </head>
 
 <div class="row-mapa" style="height: auto">
