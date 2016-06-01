@@ -44,6 +44,7 @@ class Marea_roja_derivar extends Marea_roja_resultado
                 $this->_marea_roja_model->update(
                     array(
                         "id_laboratorio" => $params["laboratorio"],
+                        "id_usuario_derivacion" => $this->session->userdata("session_idUsuario"),
                         "tipo_analisis" => implode(',',$params['analisis'])
                     ), 
                     $caso->id
