@@ -39,6 +39,7 @@ $(document).ready(function() {
     
     var archivos = new MapaArchivos();
     archivos.seteaEmergencia(id);
+    archivos.seteaPopupPoligono(false);
     visor.addOnReadyFunction("Carga kml", archivos.loadArchivos, true);
 
     //capas

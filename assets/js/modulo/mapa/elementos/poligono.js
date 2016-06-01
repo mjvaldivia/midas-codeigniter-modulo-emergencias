@@ -21,12 +21,25 @@ var MapaPoligono = Class({
     relacion: null,
     
     /**
+     * Si esta habilitado o no el popup
+     * con informacion del poligono
+     */
+    bo_informacion_poligonos : true,
+    
+    /**
      * Setea mapa
      * @param {googleMap} mapa
      * @returns {undefined}
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    /**
+     * Habilita o no popup con datos de poligono 
+     */
+    seteaPopupPoligono : function(booleano){
+        this.bo_informacion_poligonos = booleano;
     },
     
     /**
@@ -126,7 +139,7 @@ var MapaPoligono = Class({
                 strokeWeight: 1,
                 fillColor: color,
                 fillOpacity: 0.35,
-                popup_poligono: true
+                popup_poligono: yo.bo_informacion_poligonos
             });
 
             poligono.setMap(yo.mapa);

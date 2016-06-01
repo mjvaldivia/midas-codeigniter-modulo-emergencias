@@ -8,15 +8,29 @@ var MapaInformacionElementoEdicion = Class({
     },
     
     /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
+    
+    /**
      * 
      * @param {type} clave
      * @param {type} parametros
      * @returns {undefined}
      */
     dialogoLugarEmergencia : function(clave, parametros){
+        var $this = this;
         this.dialogo(
             "Datos del lugar de la emergencia",
-             baseUrl + getController() + "/popup_lugar_emergencia_edicion",
+             baseUrl + $this.getController() + "/popup_lugar_emergencia_edicion",
             clave, 
             parametros,
             function(elem, valor){
@@ -47,9 +61,10 @@ var MapaInformacionElementoEdicion = Class({
      * @returns {undefined}
      */
     dialogoElemento : function(clave, parametros){
+        var $this = this;
         this.dialogo(
             "Datos del elemento",
-            baseUrl + getController() + "/popup_elemento_edicion",
+            baseUrl + $this.getController() + "/popup_elemento_edicion",
             clave, 
             parametros,
             function(elem, valor){

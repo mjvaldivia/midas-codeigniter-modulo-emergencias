@@ -2452,3 +2452,8 @@ body.modal-open {
 .gmnoprint a, .gmnoprint span {
     display:none;
 }
+
+
+.jFiler-theme-default .jFiler-input {
+    width: 100% !important;
+}

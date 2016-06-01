@@ -2,6 +2,18 @@ var MapaPoligonoInformacion = Class({
     
     mapa : null,
     
+    /**
+     * Parche para corregir mapa en reporte
+     * @returns {elementosAnonym$0.controlador.controller|String}
+     */
+    getController : function(){
+      var controller = getController();  
+      if(controller == "mapa" || controller == "mapa_publico"){
+          return controller;
+      } else {
+          return "mapa";
+      }
+    },
     
     /**
      * Muestra dialogo que muestra informacion y permite editar 
@@ -35,6 +47,7 @@ var MapaPoligonoInformacion = Class({
      * @returns {undefined}
      */
     dialogoInformacion : function(parametros){
+        var $this = this;
         bootbox.dialog({
             message: "<div id=\"contenido-popup-informacion-capas\"><i class=\"fa fa-4x fa-spin fa-spinner\"></i></div>",
             title: "<i class=\"fa fa-arrow-right\"></i> Datos del elemento",
@@ -54,7 +67,7 @@ var MapaPoligonoInformacion = Class({
             async: true,
             data: parametros,
             type: "post",
-            url:  baseUrl + getController() + "/popup_elemento_info", 
+            url:  baseUrl + $this.getController() + "/popup_elemento_info", 
             error: function(xhr, textStatus, errorThrown){
                 notificacionError("Ha ocurrido un problema", errorThrown);
             },

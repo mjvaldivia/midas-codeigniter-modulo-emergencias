@@ -6,6 +6,12 @@ var MapaArchivos = Class({
     id_emergencia : null,
     
     /**
+     * Si esta habilitado o no el popup
+     * con informacion del poligono
+     */
+    bo_informacion_poligonos : true,
+    
+    /**
      * 
      * @param {googleMap} mapa
      * @returns {undefined}
@@ -21,6 +27,13 @@ var MapaArchivos = Class({
      */
     seteaEmergencia : function(id){
         this.id_emergencia = id;
+    },
+    
+    /**
+     * Habilita o no popup con datos de poligono 
+     */
+    seteaPopupPoligono : function(booleano){
+        this.bo_informacion_poligonos = booleano;
     },
     
     /**
@@ -279,6 +292,7 @@ var MapaArchivos = Class({
 
                                                      var poligono = new MapaPoligonoMulti();
                                                      poligono.seteaMapa(mapa);
+                                                     poligono.seteaPopupPoligono(yo.bo_informacion_poligonos);
                                                      poligono.seteaClavePrimaria(row.id);
                                                      poligono.seteaRelacion(elemento.hash);
                                                      poligono.dibujarPoligono(
@@ -296,6 +310,7 @@ var MapaArchivos = Class({
 
                                                      var poligono = new MapaPoligono();
                                                      poligono.seteaMapa(mapa);
+                                                     poligono.seteaPopupPoligono(yo.bo_informacion_poligonos);
                                                      poligono.seteaClavePrimaria(row.id);
                                                      poligono.seteaRelacion(elemento.hash);
                                                      poligono.dibujarPoligono(
