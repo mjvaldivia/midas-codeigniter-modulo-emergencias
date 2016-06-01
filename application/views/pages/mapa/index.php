@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,6 +94,9 @@
 
         
 
+=======
+<?= loadCSS("assets/css/modulo/mapa.css"); ?>
+>>>>>>> upstream/master
 <?php echo $js; ?>
 </head>
 
@@ -180,24 +184,33 @@
         <!-- Menu slideup para mostrar elementos cargados en el mapa -->
         <div class="row hidden">
             <div class="col-lg-12">
+                
+                
+                
                 <div id="slideup-menu" class="top-menu">
-                    <div class="top-menu-main">
-                        <ul id="lista_capas_agregadas" class="demo-menu">
-
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                           <span id="cantidad_capas_agregadas" class="badge">0</span> Capas <span class="caret caret-up"></span>
+                        </button>
+                        <ul id="lista_capas_agregadas" class="dropdown-menu drop-up" style="width:480px" role="menu">
+                            
                         </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Capas <span id="cantidad_capas_agregadas" class="badge">0</span></a> 
                     </div>
-                    <div class="top-menu-main">
-                        <ul id="lista_elementos_agregados" class="demo-menu">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                           <span id="cantidad_elementos_agregados" class="badge">0</span> Elementos <span class="caret caret-up"></span>
+                        </button>
+                        <ul id="lista_elementos_agregados" class="dropdown-menu drop-up" style="width:480px" role="menu">
 
                         </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Elementos <span id="cantidad_elementos_agregados" class="badge">0</span></a> 
                     </div>
-                    <div class="top-menu-main">
-                        <ul id="lista_importados_agregados" class="demo-menu">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                           <span id="cantidad_elementos_importados" class="badge">0</span> Importados <span class="caret caret-up"></span>
+                        </button>
+                        <ul id="lista_importados_agregados" class="dropdown-menu drop-up" style="width:480px" role="menu">
 
                         </ul>
-                        <a href="javascript:void(0)" class="menu-item-text">Importados <span id="cantidad_elementos_importados" class="badge">0</span></a> 
                     </div>
                 </div>
             </div>

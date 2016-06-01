@@ -64,7 +64,7 @@ $(document).ready(function() {
     $("#guardar").click(function(e){
        e.preventDefault();
        var parametros = $("#form-dengue").serializeArray();
-       guardar(parametros);
+       guardar(parametros, this, e);
     });
     
     var mapa = new MapaFormulario("mapa");
@@ -85,8 +85,8 @@ $(document).ready(function() {
  * 
  * @returns {undefined}
  */
-function guardar(parametros){
-    
+function guardar(parametros, $this, e){
+    var boton = buttonStartProcess($this, e)
     $.ajax({         
          dataType: "json",
          cache: false,
@@ -103,6 +103,7 @@ function guardar(parametros){
                  $("#form_error").removeClass("hidden");
                  procesaErrores(data.error);
              }
+             buttonEndProcess(boton);
          }
      }); 
 }

@@ -34,15 +34,11 @@ var MapaVectores = Class({
      * @returns {void}
      */
     load : function(){
+        var tareas = new MapaLoading();
         var yo = this;
         if(vectores_marcador.length == 0){ //si ya esta cargado no se vuelve a cargar
-            Messenger().run({
-                action: $.ajax,
-                successMessage: '<strong> Vectores </strong> <br> Ok',
-                errorMessage: '<strong> Vectores </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
-                showCloseButton: true,
-                progressMessage: '<strong> Vectores</strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-            },{        
+            tareas.push(1);
+            $.ajax({       
                 dataType: "json",
                 cache: false,
                 async: true,
@@ -53,7 +49,7 @@ var MapaVectores = Class({
                     if(json.correcto){
                         $.each(json.lista, function(i, valor){
                             
-                            if(valor.propiedades.resultado == "Aedes"){
+                            if(valor.propiedades.resultado_final == "POSITIVO"){
                                 var icono = baseUrl + "assets/img/markers/otros/radar_rojo.png"
                             } else {
                                 var icono = baseUrl + "assets/img/markers/otros/radar.png"
@@ -71,6 +67,7 @@ var MapaVectores = Class({
                                     "identificador" : "vectores_" + valor.id,
                                     "tipo" : "VECTOR",
                                     "fecha_hallazgo" : fecha_hallazgo,
+                                    "resultado_final" : valor.propiedades["resultado_final"],
                                     "resultado": valor.propiedades["resultado"],
                                     "estadio": valor.propiedades["estado_desarrollo"]
                                 }
@@ -93,14 +90,9 @@ var MapaVectores = Class({
      * @returns {undefined}
      */
     loadInspecciones : function(){
+        var tareas = new MapaLoading();
         var yo = this;
-        Messenger().run({
-            action: $.ajax,
-            successMessage: '<strong> Inspecciones </strong> <br> Ok',
-            errorMessage: '<strong> Inspecciones </strong> <br> No se pudo recuperar la información de los casos. <br/> Espere para reintentar',
-            showCloseButton: true,
-            progressMessage: '<strong> Inspecciones </strong> <br> <i class=\"fa fa-spin fa-spinner\"></i> Cargando...'
-        },{        
+        $.ajax({        
             dataType: "json",
             cache: false,
             async: true,
@@ -111,7 +103,7 @@ var MapaVectores = Class({
                 if(json.correcto){
                     $.each(json.lista, function(i, valor){
 
-                        if(valor.propiedades.resultado == "Aedes"){
+                        if(valor.propiedades.resultado_final == "POSITIVO"){
                             var icono = baseUrl + "assets/img/markers/otros/mosquito-3.png"
                         } else {
                             var icono = baseUrl + "assets/img/markers/otros/mosquito.png"
@@ -128,6 +120,7 @@ var MapaVectores = Class({
                                 "identificador" : "vectores_inspecciones_" + valor.id,
                                 "tipo" : "INSPECCION",
                                 "fecha_hallazgo" : fecha_hallazgo,
+                                "resultado_final" : valor.propiedades["resultado_final"],
                                 "resultado": valor.propiedades["resultado"],
                                 "estadio": valor.propiedades["estado_desarrollo"]
                             }
@@ -139,6 +132,7 @@ var MapaVectores = Class({
                 
                 $("#contenedor-formulario-vectores").removeClass("hidden");
                 yo.filtrar();
+                tareas.remove(1);
            }
         });
     },
@@ -208,7 +202,8 @@ var MapaVectores = Class({
         
         if(ok){
             if($("#vectores_resultado").val() != ""){
-                if(marker["resultado"] &&  $("#vectores_resultado").val() != marker["resultado"].toUpperCase()){
+                
+                if(marker["resultado_final"] &&  $("#vectores_resultado").val() != marker["resultado_final"].toUpperCase()){
                     ok = false;
                 }
             }

@@ -74,7 +74,7 @@ class Home extends MY_Controller {
         
         $this->template->parse("default", 
                                "pages/home/index", 
-                                array());
+                                array("js" => $this->load->view("pages/mapa/js-plugins", array(), true)));
     }
     
     /**

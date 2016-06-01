@@ -168,7 +168,7 @@ var Visor = Class({
         });
         
         google.maps.event.addListener(map, 'click', function(e){
-            console.log(e);
+            
         });
 
         yo.contextMenu(map);

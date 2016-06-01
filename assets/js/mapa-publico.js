@@ -11,6 +11,14 @@ $(document).ready(function() {
     visor.seteaHeight(height);
     visor.seteaEmergencia(id);
 
+    // modifica tamaño de visor cuando cambia tamaño ventana
+    $(window).resize(function() {
+        var height = $(window).height();
+        visor.seteaHeight(height);
+        visor.resize();
+    });
+
+
     var tareas = new MapaLoading();
     visor.addOnReadyFunction("visor de tareas", tareas.iniciarLoading, true);
     

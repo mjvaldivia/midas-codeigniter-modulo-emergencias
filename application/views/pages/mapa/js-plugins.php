@@ -3,7 +3,11 @@
 <?= loadCSS("assets/js/library/messenger/messenger-theme-flat.css", true) ?>
 <?= loadJS("assets/js/library/livequery/jquery.livequery.min.js", true) ?>
 <!-- Estilos mapa mapa -->
-<?= loadCSS("assets/css/modulo/mapa.css"); ?>
+<?= loadCSS("assets/js/library/jquery.filer-1.0.5/css/jquery.filer.css"); ?>
+
+
+
+
 <?= loadCSS("assets/js/library/ionslider/css/ion.rangeSlider.css"); ?>
 <?= loadCSS("assets/js/library/ionslider/css/ion.rangeSlider.skinHTML5.css"); ?>
 
@@ -15,9 +19,11 @@
 <?= loadCSS("assets/js/library/bootstrap-fileinput/css/fileinput.css") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput.js") ?>
 <?= loadJS("assets/js/library/bootstrap-fileinput/js/fileinput_locale_es.js") ?>
+<?= loadJS("assets/js/library/jquery.filer-1.0.5/js/jquery.filer.min.js") ?>
+
+
 
 <!-- Extensiones para el mapa -->
-<?= loadJS("assets/js/modulo/mapa/google/extension/geo-encoder.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.label.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/google/extension/maps.google.ruler.js"); ?>
 <?= loadCSS("assets/js/modulo/mapa/google/extension/maps.google.buttons.css") ?>
@@ -77,7 +83,7 @@
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos.js"); ?>
 <?= loadJS("assets/js/modulo/mapa/externo/marea_roja/casos_pm.js"); ?>
 
-<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos.js"); ?>
+<?= loadJS("assets/js/modulo/mapa/externo/vectores/casos-v0.1.js"); ?>
 
 
 <!-- Externos -->

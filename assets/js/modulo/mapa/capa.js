@@ -221,7 +221,7 @@ var MapaCapa = Class({
                 preview = "<img style=\"height:20px\" src=\"" + capa.icono + "\" >";
             } else {
                 if(capa.color != ""){
-                    preview = "<div class=\"color-capa-preview\" style=\"background-color:" + capa.color + "; height: 20px;width: 20px;\"></div>";
+                    preview = "<div class=\"color-capa-preview\" style=\"background-color:" + capa.color + "; height: 20px;width: 20px; margin-left:9px\"></div>";
                 }
             }
             
@@ -241,6 +241,10 @@ var MapaCapa = Class({
         var cantidad = 0;
        
         $.each(capas_visor, function(i, data){
+           
+           if(i!=0){
+               html += "<li class=\"divider\"></li>";
+           } 
            
            html += "<li data=\"" + data.id + "\" class=\"\">\n"
                  + "<div class=\"row\"><div class=\"col-xs-2\">" + data.preview + "</div><div class=\"col-xs-10\"> " + data.nombre + "</div>"

@@ -78,7 +78,8 @@ class Mapa_publico extends Mapa {
                     $lista_regiones, 
                     "reg_ia_id"
                 ),
-                "ingreso_resultado" => 1
+                "ingreso_resultado" => 1,
+                "validado" => "1"
             )
         );
         

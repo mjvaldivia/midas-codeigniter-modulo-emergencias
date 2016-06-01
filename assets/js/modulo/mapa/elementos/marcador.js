@@ -6,6 +6,15 @@ var MapaMarcador = Class({
     
     draggable : false,
 
+    /**
+     * Si el elemento tiene clave en BD
+     */
+    clave_primaria : null,
+    
+    /**
+     * String de relacion con otro elemento (KML u otro)
+     */
+    relacion: null,
     
     /**
      * Setea mapa
@@ -14,6 +23,22 @@ var MapaMarcador = Class({
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    /**
+     * 
+     * @param {type} id
+     * @returns {undefined}
+     */
+    seteaClavePrimaria : function(id){
+        this.clave_primaria = id;  
+    },
+    
+    /**
+     * @param {int} id
+     */
+    seteaRelacion : function(relacion){
+        this.relacion = relacion;
     },
     
     /**
@@ -57,11 +82,14 @@ var MapaMarcador = Class({
         var posicion = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
 
         marker = new google.maps.Marker({
+            clave_primaria : yo.clave_primaria,
+            relacion: yo.relacion,
             position: posicion,
             custom : false,
             identificador: id,
             clave : "marcador_" + id,
             capa: capa,
+            tipo: "PUNTO",
             informacion : propiedades,
             draggable: yo.draggable,
             map: yo.mapa,
@@ -82,26 +110,35 @@ var MapaMarcador = Class({
      * @returns {void}
      */
     informacionMarcador : function(marker){
+        
+        if(marker["infoWindow"]){
+            marker["infoWindow"].setMap(null);
+        }
+        
+        
         var yo = this;
-        var markerContent = '<div class="info_content">';
-        var propiedades = marker.informacion;
-        
-        
-        $.each(propiedades, function(nombre, valor){
-            if(valor != ""){
-                markerContent += '<div class="col-xs-12"><strong>' + nombre +':</strong> ' + valor + '</div>';
-            }
-        });
-        
-        markerContent += '</div>';
-          
-        var infoWindow = new google.maps.InfoWindow({
+        if(marker.informacion_html && marker.informacion_html != ""){
+            var markerContent =  marker.informacion_html;
+            marker.html = marker.informacion_html;
+        } else {
+            var markerContent = '<div class="info_content">';
+            var propiedades = marker.informacion;
+
+            $.each(propiedades, function(nombre, valor){
+                if(valor != ""){
+                    markerContent += '<div class="col-xs-12"><strong>' + nombre +':</strong> ' + valor + '</div>';
+                }
+            });
+
+            markerContent += '</div>';
+        }
+         
+        marker["infoWindow"] = new google.maps.InfoWindow({
             content: markerContent
-        });  
-          
+        }); 
           
         google.maps.event.addListener(marker, 'click', function () {
-            infoWindow.open(yo.mapa, this);
+            marker["infoWindow"].open(yo.mapa, this);
         });
     }
     

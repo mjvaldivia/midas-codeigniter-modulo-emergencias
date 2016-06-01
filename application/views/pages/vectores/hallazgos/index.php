@@ -34,5 +34,5 @@
     </div>
 </div>
 
-<?= loadJS("assets/js/modulo/vectores/hallazgos/index.js"); ?>
 <?php echo jsDatatable(); ?>
+<?= loadJS("assets/js/modulo/vectores/hallazgos/index.js"); ?>

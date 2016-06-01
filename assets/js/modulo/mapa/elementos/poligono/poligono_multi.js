@@ -21,6 +21,8 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                 });
            
                 var poligono = new google.maps.Polygon({
+                     clave_primaria : yo.clave_primaria,
+                     relacion: yo.relacion,
                      paths: coord,
                      identificador: id,
                      nombre : nombre,
@@ -32,7 +34,7 @@ var MapaPoligonoMulti = Class({ extends : MapaPoligono}, {
                      tipo: "POLIGONO",
                      strokeColor: '#000',
                      strokeOpacity: 0.8,
-                     strokeWeight: 2,
+                     strokeWeight: 1,
                      fillColor: color,
                      fillOpacity: 0.35
                  });

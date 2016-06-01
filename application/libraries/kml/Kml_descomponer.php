@@ -81,12 +81,14 @@ Class Kml_descomponer{
                         $this->_procesaPoligono($elemento);
                         $this->_procesaMultiPoligono($elemento);
                         $this->_procesaLinea($elemento);
+                        $this->_procesaMultiLinea($elemento);
                     }
                 } else {
                     $this->_procesaPunto($placemark);
                     $this->_procesaPoligono($placemark);
                     $this->_procesaMultiPoligono($placemark);
                     $this->_procesaLinea($placemark);
+                    $this->_procesaMultiLinea($placemark);
                 }
             }
         }
@@ -105,6 +107,48 @@ Class Kml_descomponer{
      * @param array $elemento
      */
     protected function _procesaLinea($elemento)
+    {
+        
+        if(isset($elemento["LineString"])){
+            
+            $data = array("tipo" => "LINEA");
+            
+            if(isset($elemento["name"])){
+                $data["nombre"] = $elemento["name"];
+            } else {
+                $data["nombre"] = "SIN NOMBRE";
+            }
+            
+            if(isset($elemento["description"])){
+                $data["descripcion"] = $elemento["description"];
+            } else {
+                $data["descripcion"] = "SIN DESCRIPCIÓN";
+            }
+            
+            if(isset($elemento["styleUrl"])){
+                $id = str_replace("#", "", $elemento["styleUrl"]);
+                if(isset($this->_styles[$id]["linea"]["color"])){
+                    $data["color"] = $this->_styles[$id]["linea"]["color"];
+                }
+            }
+            
+            if(isset($elemento["LineString"]["coordinates"])){
+                $data["coordenadas"]["linea"][] = $this->_procesaCoordenadasLinea($elemento["LineString"]["coordinates"]);
+            } else {
+                foreach($elemento["LineString"] as $linea){
+                    $data["coordenadas"]["linea"][] = $this->_procesaCoordenadasLinea($linea["coordinates"]);
+                }
+            }
+                        
+            $this->_elementos[] = $data;
+        }
+    }
+    
+    /**
+     * 
+     * @param array $elemento
+     */
+    protected function _procesaMultiLinea($elemento)
     {
         
         if(isset($elemento["MultiGeometry"]["LineString"])){
@@ -167,8 +211,8 @@ Class Kml_descomponer{
      * 
      * @param type $elemento
      */
-    protected function _procesaPoligono($elemento){
-        if(isset($elemento["Polygon"])){
+    protected function _procesaPoligono($elemento, $tipo = "Polygon"){
+        if(isset($elemento[$tipo])){
             
             $data = array("tipo" => "POLIGONO");
             
@@ -191,10 +235,10 @@ Class Kml_descomponer{
                 }
             }
             
-            if(isset($elemento["Polygon"]["outerBoundaryIs"])){
+            if(isset($elemento[$tipo]["outerBoundaryIs"])){
                 $data["coordenadas"]["poligono"] = $this->_procesaCoordenadasPoligono($elemento["Polygon"]);
             } else {
-                foreach($elemento["Polygon"] as $poligono){
+                foreach($elemento[$tipo] as $poligono){
                     $data["coordenadas"]["poligono"] = $this->_procesaCoordenadasPoligono($poligono);
                 }
             }
@@ -202,7 +246,7 @@ Class Kml_descomponer{
             $this->_elementos[] = $data;
         }
     }
-    
+       
     /**
      * Procesa los datos de los multipoligonos
      * @param array $elemento

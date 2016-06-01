@@ -130,6 +130,20 @@ Class Layout_Menu{
             ),
         ),
         
+       /* "Arica y parinacota" => array(
+            "modulo" => Modulo_Model::SUB_CASOS_FEBRILES,
+            "acceso" => array(
+                "region" => array(Region_Model::REGION_ARICA)
+            ),
+            "icono" => "fa fa-warning",      
+            "child" => array(
+                "Casos febriles" => array(
+                    "controller" => "casos_febriles_arica_y_parinacota",
+                    "action"     => "index",
+                )
+            ),
+        ),*/
+        
         "Marea roja" => array(
             "modulo" => Modulo_Model::SUB_MAREA_ROJA,
             "acceso" => array(
@@ -168,51 +182,7 @@ Class Layout_Menu{
                 
             ),
         ),
-        /*
-        "Marea roja los lagos" => array(
-            "modulo" => Modulo_Model::SUB_MAREA_ROJA,
-            "acceso" => array(
-                "region" => array(Region_Model::LOS_LAGOS)
-            ),
-            "icono" => "fa fa-warning",      
-            "child" => array(
-                "Ingreso de muestras" => array(
-                    "accion" => "muestra_con_resultado",
-                    "controller" => "marea_roja_1",
-                    "action"     => "index",
-                ),
-                "Ingreso resultados" => array(
-                   "accion" => "resultados",
-                   "controller" => "marea_roja_resultado",
-                   "action"     => "index",
-                )
-            ),
-        ),
-        
-        "Marea roja los ríos" => array(
-            "modulo" => Modulo_Model::SUB_MAREA_ROJA,
-            "acceso" => array(
-                "region" => array(Region_Model::LOS_RIOS)
-            ),
-            "icono" => "fa fa-warning",      
-            "child" => array(
-                "Ingreso de muestras" => array(
-                    "accion" => "muestra",
-                    "controller" => "marea_roja",
-                    "action"     => "index",
-                ),
-                "Derivar muestra" => array(
-                    "accion" => "derivar",
-                    "controller" => "marea_roja_derivar",
-                    "action"     => "index",
-                ),
-                "Ingreso resultados" => array(
-                   "accion" => "resultados",
-                   "controller" => "marea_roja_resultado",
-                   "action"     => "index",
-                )
-            ),
-        ),*/
+       
         
        
         "Vectores" => array(

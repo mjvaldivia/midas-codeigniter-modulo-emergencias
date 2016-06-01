@@ -14,7 +14,7 @@ $(document).ready(function() {
                     $("#" + prefijo + "_mensaje").addClass("hidden");
                     
                     $("#" + prefijo + "_contenedor_gms").addClass("hidden");
-                    $("#" + prefijo + "_contenedo_utm").addClass("hidden");
+                    $("#" + prefijo + "_contenedor_utm").addClass("hidden");
                     break;
                 case "gms":
                     $("." + prefijo + "_mapa_coordenadas").addClass("disabled");

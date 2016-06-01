@@ -1,5 +1,8 @@
 var EventoReporteForm = Class({
     
+    
+    visor : null,
+    
     /**
      * Identificador de la emergencia
      */
@@ -74,6 +77,7 @@ var EventoReporteForm = Class({
      * @returns {Boolean}
      */
     mostrarReporte : function(){
+        this.visor.resize();
         var imagen = new EventoReporteMapaImagen("mapa");
         imagen.addOnReadyFunction("carga pdf", this.generarPdf, this.id_emergencia);
         imagen.crearImagen();
@@ -150,7 +154,38 @@ var EventoReporteForm = Class({
             success:function(html){
                 $("#contenido-popup-reporte").html(html);
                 
+                var id = $("#id").val();
+                var lat = $("#lat").val();
+                var lon = $("#lon").val();
 
+                var visor = new Visor("mapa");
+
+                visor.seteaHeight(500);
+                visor.seteaEmergencia(id);
+                visor.setCenter(parseFloat(lat),parseFloat(lon));
+
+                var tareas = new MapaLoading();
+                visor.addOnReadyFunction("visor de tareas", tareas.iniciarLoading, true);
+
+                //custom
+                var custom = new MapaElementos();
+                custom.emergencia(id);
+                visor.addOnReadyFunction("elementos personalizados", custom.loadCustomElements, null);
+
+                 var archivos = new MapaArchivos();
+                archivos.seteaEmergencia(id);
+                visor.addOnReadyFunction("Carga kml", archivos.loadArchivos, true);
+
+                //capas
+                var capas = new MapaCapa();
+                capas.emergencia(id);
+                visor.addOnReadyFunction("capas asociadas a la emergencia", capas.capasPorEmergencia, null);
+                visor.addOnReadyFunction("centrar mapa", visor.centrarLugarEmergencia);
+                //inicia mapa
+                visor.bindMapa();
+                
+                yo.visor = visor;
+                
                 setInputCorreos("destinatario", $("#id").val());
               
             }

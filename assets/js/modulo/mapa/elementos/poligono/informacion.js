@@ -1,5 +1,8 @@
 var MapaPoligonoInformacion = Class({ 
     
+    mapa : null,
+    
+    
     /**
      * Muestra dialogo que muestra informacion y permite editar 
      * datos del lugar de la emergencia
@@ -9,6 +12,7 @@ var MapaPoligonoInformacion = Class({
      */
     dialogoLugarEmergencia : function(identificador, parametros){
         var dialogo = new MapaInformacionElementoEdicion();
+        dialogo.seteaMapa(this.mapa);
         dialogo.dialogoLugarEmergencia(identificador, parametros);
     },
     
@@ -21,6 +25,7 @@ var MapaPoligonoInformacion = Class({
      */
     dialogoEdicion : function(clave, parametros){
         var dialogo = new MapaInformacionElementoEdicion();
+        dialogo.seteaMapa(this.mapa);
         dialogo.dialogoElemento(clave, parametros);
     },
     
@@ -121,7 +126,7 @@ var MapaPoligonoInformacion = Class({
                 parametros["geometry"] = JSON.stringify(contenido.coordenadasCirculo(elemento.getCenter(), elemento.getRadius()));
                 break;
             case "POLIGONO":
-                parametros["geometry"] = JSON.stringify(elemento.getPath());
+                parametros["geometry"] = JSON.stringify(elemento.getPath().getArray());
                 break;
             case "MULTIPOLIGONO":
                 parametros["geometry"] = JSON.stringify(elemento.getPaths());
@@ -144,7 +149,7 @@ var MapaPoligonoInformacion = Class({
                 if(elemento.custom == true) {
                     this.dialogoEdicion(elemento.clave, parametros);
                 } else {
-                    this.dialogoInformacion(parametros);
+                    this.dialogoEdicion(elemento.clave, parametros);
                 }
             } else {
                 if(elemento.custom == true) {
@@ -168,7 +173,7 @@ var MapaPoligonoInformacion = Class({
      */
     addRightClickListener : function(elemento, mapa){
         var yo = this;
-        
+       
         /*
         elemento.addListener('click', function(event) {
        
@@ -320,7 +325,7 @@ var MapaPoligonoInformacion = Class({
     preparaPopupInformacion : function(mapa,lista_elementos){
         
         var yo = this;
-
+        yo.mapa = mapa;
         var contenido = new MapaInformacionElementoContenido();
 
         var elemento_principal = null;

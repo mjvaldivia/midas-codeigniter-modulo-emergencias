@@ -37,7 +37,7 @@ Class Visor_guardar_kml{
      */
     public function __construct() {
         $this->_ci =& get_instance();
-        $this->_ci->load->library(array("cache"));
+        $this->_ci->load->library(array("cache", "core/string/random"));
         $this->_ci->load->model("emergencia_kml_model");
         $this->_ci->load->model("emergencia_kml_elemento_model");
         $this->_emergencia_kml_model = $this->_ci->emergencia_kml_model;
@@ -76,41 +76,93 @@ Class Visor_guardar_kml{
                         "kml"    =>$file["archivo"]
                     );
                     
-                    $id = $this->_emergencia_kml_model->query()->insert($data);
-       
-                    if(count($file["elementos"])>0){
-                        foreach($file["elementos"] as $elemento){
-                            
-                            $data_elemento = array(
-                                "id_kml" => $id,
-                                "nombre" => $elemento["nombre"],
-                                "tipo" => $elemento["tipo"],
-                                "propiedades" => $elemento["descripcion"],
-                                "coordenadas" => Zend_Json::encode($elemento["coordenadas"])
-                            );
-                            
-                            if($elemento["tipo"] == "PUNTO"){
-                                $data_elemento["icono"] = $this->_saveIcon($id, $elemento["icono"]);
-                            }
-                            
-                            if($elemento["tipo"] == "MULTIPOLIGONO" || $elemento["tipo"] == "LINEA"){
-                                $data_elemento["color"] = $elemento["color"];
-                            }
-                            
-                            $this->_emergencia_kml_elemento_model->insert(
+                    $id = $this->_emergencia_kml_model->query()->insert($data);             
+                    $guardados[] = $id;
+                } else {
+                    $id = $kml->id;
+                    $guardados[] = $kml->id;
+                }
+                
+                $elementos_guardados = array();
+                if(count($kml_seleccionado["elementos"])>0){
+                    foreach($kml_seleccionado["elementos"] as $elemento_json){
+                        $elemento = Zend_Json::decode($elemento_json);
+                        
+                        switch ($elemento["tipo"]) {
+                            case "PUNTO":
+                                $coordenadas = array("lat" => $elemento["coordenadas"]["lat"], "lon" => $elemento["coordenadas"]["lng"]);
+                                break;
+                            case "POLIGONO":
+                                $coordenadas = array("poligono" => array());
+                                foreach($elemento["coordenadas"] as $elemento_coordenada){
+                                    $coordenadas["poligono"][] = array($elemento_coordenada["lng"], $elemento_coordenada["lat"]);
+                                }
+                                break;
+                            case "LINEA":
+                                $coordenadas = array("linea" => array());
+                                foreach($elemento["coordenadas"] as $elemento_coordenada){
+                                    $coordenadas["linea"][] = array($elemento_coordenada["lat"], $elemento_coordenada["lng"]);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                        if(isset($elemento["html"]) && $elemento["html"]!=""){
+                            $propiedades = $elemento["html"];
+                        } else {
+                            Zend_Json::encode($elemento["propiedades"]);
+                        }
+                        
+                        $data_elemento = array(
+                            "id_kml" => $id,
+                            "nombre" => $elemento["nombre"],
+                            "tipo" => $elemento["tipo"],
+                            "propiedades" => $propiedades,
+                            "coordenadas" => Zend_Json::encode($coordenadas)
+                        );
+
+                        if($elemento["tipo"] == "PUNTO"){
+                            $data_elemento["icono"] = $this->_saveIcon($id, $elemento["primaria"], $elemento["icono"]);
+                        }
+
+                        if($elemento["tipo"] == "MULTIPOLIGONO" || $elemento["tipo"] == "POLIGONO" || $elemento["tipo"] == "LINEA"){
+                            $data_elemento["color"] = $elemento["color"];
+                        }
+                        
+                        $existe = $this->_emergencia_kml_elemento_model->getById($elemento["primaria"]);
+
+                        if(!is_null($existe)){
+                            $this->_emergencia_kml_elemento_model->update($data_elemento, $existe->id);
+                            $elementos_guardados[] = $existe->id;
+                        } else {
+                            $elementos_guardados[] = $this->_emergencia_kml_elemento_model->insert(
                                 $data_elemento
                             );
                         }
                     }
-                    
-                    
-                    $guardados[] = $id;
-                } else {
-                    $guardados[] = $kml->id;
                 }
+                
+                $this->_emergencia_kml_elemento_model->deleteNotIn($id, $elementos_guardados);
             }    
         }
+        
         $this->_emergencia_kml_model->deleteNotIn($this->_id_emergencia, $guardados);
+        $this->_limpiarIconosEliminados();
+        
+    }
+    
+    /**
+     * 
+     */
+    protected function _limpiarIconosEliminados(){
+        if(count($this->_lista_iconos) > 0){
+            foreach($this->_lista_iconos as $icono){
+                if(is_file($icono)){
+                    unlink($icono);
+                }
+            }
+        }
     }
     
     /**
@@ -119,33 +171,62 @@ Class Visor_guardar_kml{
      * @param string $icono_path
      * @return string
      */
-    protected function _saveIcon($id_kml, $icono_path){
+    protected function _saveIcon($id_kml, $id_elemento, $icono_path){
         
-        $existe = array_search($icono_path, $this->_lista_iconos);
-        if($existe === false){
-            if(!is_dir(FCPATH . "media/doc/kml")){
-                mkdir(FCPATH . "media/doc/kml");
+        if(!is_dir(FCPATH . "media/doc/kml")){
+            mkdir(FCPATH . "media/doc/kml");
+        }
+
+        if(!is_dir(FCPATH . "media/doc/kml/" . $id_kml)){
+            mkdir(FCPATH . "media/doc/kml/" . $id_kml);
+        }
+
+        $icono_anterior = "";
+        if($id_elemento != ""){
+            $elemento = $this->_emergencia_kml_elemento_model->getById($id_elemento);
+            if(!is_null($elemento)){
+                $icono_anterior = $elemento->icono;
             }
-
-            if(!is_dir(FCPATH . "media/doc/kml/" . $id_kml)){
-                mkdir(FCPATH . "media/doc/kml/" . $id_kml);
-            }
-
-            $info = pathinfo(FCPATH . $icono_path);
-
-            $icono = file_get_contents(FCPATH . $icono_path);
-            
-            $file = FCPATH . "media/doc/kml/" . $id_kml . "/" . $info["filename"] . "." . $info["extension"];
-            file_put_contents($file, $icono);
-            
-            $this->_lista_iconos["media/doc/kml/" . $id_kml . "/" . $info["filename"] . "." . $info["extension"]] = $icono_path;
-            
-            unlink(FCPATH . $icono_path);
-            
-            return "media/doc/kml/" . $id_kml . "/" . $info["filename"] . "." . $info["extension"];
         }
         
-        return $existe;
+        $actualizar = false;
+        
+        $es_cache = strpos($icono_path, "hash");
+        if($es_cache === false){
+            $relative_path_icon = str_replace(base_url(), "", $icono_path);
+            if(is_file(FCPATH . $relative_path_icon)){
+                $relative_path = $relative_path_icon;
+                 $info = pathinfo(FCPATH . $relative_path);
+                 $icono = file_get_contents(FCPATH . $relative_path);
+                 
+                 if($icono_anterior != $relative_path && is_file(FCPATH . $relative_path)){
+                     $actualizar = true;
+                     $this->_lista_iconos[] = FCPATH . $relative_path;
+                 }
+                 
+            }
+        } else {
+            $cache = $this->_ci->cache->iniciar();
+            $separado = explode("/" , $icono_path);
+            if($imagen_cache = $cache->load($separado[count($separado)-1])){
+                $icono = $imagen_cache["archivo"];
+                $info["extension"] = $imagen_cache["tipo"];
+                $actualizar = true;
+            }
+        }
+
+        if($actualizar){
+            
+            $relative_path_final = "media/doc/kml/" . $id_kml . "/" . $this->_ci->random->rand_string(20) . "." . $info["extension"];
+            
+            $file = FCPATH . $relative_path_final;
+            file_put_contents($file, $icono);
+
+            return $relative_path_final;
+        } else {
+            return $icono_anterior;
+        }
+
     }
 }
 

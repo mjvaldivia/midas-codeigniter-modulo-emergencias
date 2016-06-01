@@ -189,6 +189,7 @@ class Mapa extends MY_Controller {
                  ->setMareaRojaPm($_POST["marea_roja_pm"])
                  ->setVectores($_POST["vectores"])
                  ->setVectoresHallazgos($_POST["vectores_hallazgos"])
+                 ->setArchivosOcultos($_POST["kmls_ocultos"])
                  ->guardar();
             
             
@@ -364,7 +365,8 @@ class Mapa extends MY_Controller {
                     $lista_regiones, 
                     "reg_ia_id"
                 ),
-                "ingreso_resultado" => 1
+                "ingreso_resultado" => 1,
+                "validado" => "1"
             )
         );
         
@@ -586,9 +588,65 @@ class Mapa extends MY_Controller {
      * 
      */
     public function popup_marcador_editar(){
-        $this->load->library("String");
-        $params = $this->input->post(null, true);        
-        $this->load->view("pages/mapa/popup-marcador-editar", array("html" => $params["html"]));
+        $this->load->library(
+            array("String",
+                  "cache",
+                  "core/string/random")
+        );
+        
+        $params = $this->input->post(null, true);  
+        $params_url = $this->uri->uri_to_assoc();
+        
+        if(TRIM($params["html"]) == ""){
+            $bo_editor_texto = false;
+        } else {
+            $bo_editor_texto = true;
+        }
+        
+        $id = null;
+        $marcador = $this->_emergencia_elementos_model->getById($params["id"]);
+        if(!is_null($marcador)){
+            $id = $marcador->id;
+        }
+
+        $imagen = array();
+        
+        $es_cache = strpos($params["icono"], "hash");
+        if($es_cache === false){
+            $relative_path = str_replace(base_url(), "", $params["icono"]);
+            if(is_file(FCPATH . $relative_path)){
+                $imagen["name"] = basename(FCPATH . $relative_path);
+                $imagen["file"] = $params["icono"];
+                
+                $finfo = finfo_open(FILEINFO_MIME_TYPE); 
+                $imagen["type"] = finfo_file($finfo, FCPATH . $relative_path);
+                finfo_close($finfo);
+                
+                $imagen["size"] = filesize(FCPATH . $relative_path);
+            }
+        } else {
+            $cache = $this->cache->iniciar();
+            $separado = explode("/" , $params["icono"]);
+            if($imagen_cache = $cache->load($separado[count($separado)-1])){
+                $imagen["name"] = $imagen_cache["archivo_nombre"];
+                $imagen["file"] = $params["icono"];
+                $imagen["type"] = $imagen_cache["mime"];
+                $imagen["size"] = $imagen_cache["size"];
+            }
+        }
+
+        $this->load->view(
+            "pages/mapa/popup-marcador-editar", 
+            array(
+                "id" => $id,
+                "clave" => $params["clave"],
+                "icono" => $params["icono"],
+                "imagen" => $imagen,
+                "bo_editor_texto" => $bo_editor_texto,
+                "propiedades" => $params["propiedades"],
+                "html" => $params["html"]
+            )
+        );
     }
     
     /**
@@ -756,17 +814,21 @@ class Mapa extends MY_Controller {
                                                 "tipo_mapa" => ""));
         $params = $this->input->post(null, true);
 
-        $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
-        if(!is_null($configuracion)){
+        $mapa = $this->_emergencia_mapa_configuracion_model->getByEmergencia($params["id"]);
+        if(!is_null($mapa)){
+            
+            $configuracion = Zend_Json::decode($mapa->configuracion);
+            
             $resultado["resultado"] = array(
-                "sidco" => $configuracion->kml_sidco,
-                "casos_febriles" => $configuracion->bo_casos_febriles,
-                "casos_febriles_zona" => $configuracion->bo_casos_febriles_zona,
-                "marea_roja" => $configuracion->bo_marea_roja,
-                "marea_roja_pm" => $configuracion->bo_marea_roja_pm,
-                "vectores" => $configuracion->bo_vectores,
-                "vectores_hallazgos" => $configuracion->bo_vectores_hallazgos,
-                "tipo_mapa" => $configuracion->tipo_mapa
+                "sidco" => $configuracion["bo_kml_sidco"],
+                "casos_febriles" => $configuracion["bo_casos_febriles"],
+                "casos_febriles_zona" => $configuracion["bo_casos_febriles_zona"],
+                "marea_roja" => $configuracion["bo_marea_roja"],
+                "marea_roja_pm" => $configuracion["bo_marea_roja_pm"],
+                "vectores" => $configuracion["bo_vectores"],
+                "vectores_hallazgos" => $configuracion["bo_vectores_hallazgos"],
+                "archivos_ocultos" => $configuracion["archivos_ocultos"],
+                "tipo_mapa" => $mapa->tipo_mapa
             );
         }
         
@@ -790,13 +852,22 @@ class Mapa extends MY_Controller {
 
                     $clave = "elemento_" . $elemento["id"];
                     
+                    $icono = "";
+                    if($elemento["icono"] != ""){
+                        $bo_url_icono_valida = Zend_Uri::check($elemento["icono"]);
+                        if($bo_url_icono_valida){
+                            $icono = $elemento["icono"];
+                        } else {
+                            $icono = base_url($elemento["icono"]);
+                        }
+                    }
                     
                     $data["correcto"] = true;
                     $data["resultado"]["elemento"][$elemento["id"]] = array("tipo" => $elemento["tipo"],
                                                                             "propiedades" => json_decode($elemento["propiedades"]),
                                                                             "coordenadas" => json_decode($elemento["coordenadas"]),
                                                                             "color" => $elemento["color"],
-                                                                            "icono" => $elemento["icono"],
+                                                                            "icono" => $icono,
                                                                             "clave" => $clave);
                     
                 }

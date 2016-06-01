@@ -9,6 +9,17 @@ var MapaPoligono = Class({
     mapa : null,
     custom : false,
     editable : false,
+    
+    /**
+     * Si el elemento tiene clave en BD
+     */
+    clave_primaria : null,
+    
+    /**
+     * String de relacion con otro elemento (KML u otro)
+     */
+    relacion: null,
+    
     /**
      * Setea mapa
      * @param {googleMap} mapa
@@ -16,6 +27,22 @@ var MapaPoligono = Class({
      */
     seteaMapa : function(mapa){
         this.mapa = mapa;
+    },
+    
+    /**
+     * 
+     * @param {int} id
+     * @returns {undefined}
+     */
+    seteaClavePrimaria : function(id){
+        this.clave_primaria = id;  
+    },
+    
+    /**
+     * @param {int} id
+     */
+    seteaRelacion : function(relacion){
+        this.relacion = relacion;
     },
     
     /**
@@ -83,6 +110,8 @@ var MapaPoligono = Class({
             });
            
             var poligono = new google.maps.Polygon({
+                clave_primaria : yo.clave_primaria,
+                relacion: yo.relacion,
                 paths: puntos,
                 identificador: id,
                 nombre: nombre,
@@ -94,9 +123,10 @@ var MapaPoligono = Class({
                 informacion: propiedades,
                 strokeColor: '#000',
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 fillColor: color,
-                fillOpacity: 0.35
+                fillOpacity: 0.35,
+                popup_poligono: true
             });
 
             poligono.setMap(yo.mapa);

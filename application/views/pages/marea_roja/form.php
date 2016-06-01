@@ -61,14 +61,9 @@
                                                 <span class="help-block hidden"></span>
                                             </div>
                                         </div>
-                                        <!--<div class="col-xs-3">
-                                            <div class="form-group clearfix">
-                                                <label for="laboratorio" class="control-label">Laboratorio (*):</label>
-
-                                                <?php echo formSelectLaboratorioRegionUsuario("laboratorio", array("class" => "form-control"), $id_laboratorio); ?>
-                                                <span class="help-block hidden"></span>
-                                            </div>
-                                        </div>-->
+                                        <div class="col-xs-3">
+                                            <?php echo mareaRojaLaboratorioMuestra($id_laboratorio); ?>
+                                        </div>
                               
                                 </div>
                             </div>
@@ -110,10 +105,10 @@
                                             <option value="">-- Seleccione un valor --</option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "ALMEJAS") echo "selected"; ?> value="ALMEJAS"> ALMEJAS </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "ALMEJA JULIANA") echo "selected"; ?> value="ALMEJA JULIANA"> ALMEJA JULIANA </option>
-                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHOCHAYUYO") echo "selected"; ?> value="CHOCHAYUYO"> CHOCHAYUYO </option>
+                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHOCHAYUYO" || strtoupper($propiedades["recurso"]) == "COCHAYUYO") { echo "selected"; } ?> value="COCHAYUYO"> COCHAYUYO </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHOLGAS") echo "selected"; ?> value="CHOLGAS"> CHOLGAS </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITO") echo "selected"; ?> value="CHORITO"> CHORITO </option>
-                                            <option <?php if(strtoupper($propiedades["recurso"]) == "CHORITOS QUILMAHUE") echo "selected"; ?> value="CHORITOS QUILMAHUE"> CHORITOS QUILMAHUE </option>
+                                           
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO") echo "selected"; ?> value="CHORO"> CHORO </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO MALTÓN") echo "selected"; ?> value="CHORO MALTÓN"> CHORO MALTÓN </option>
                                             <option <?php if(strtoupper($propiedades["recurso"]) == "CHORO ZAPATO") echo "selected"; ?> value="CHORO ZAPATO"> CHORO ZAPATO </option>

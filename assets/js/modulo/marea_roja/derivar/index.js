@@ -3,6 +3,8 @@ $(document).ready(function() {
         recargaGrilla();
     });
     
+    
+    
     $(".editar-marea-roja").livequery(function(){
         $(this).unbind("click");
         $(this).click(function(){
@@ -42,8 +44,7 @@ $(document).ready(function() {
                                     } else {
                                         $("#form_error").removeClass("hidden");
                                         procesaErrores(data.error);
-                                    }  
-    ;
+                                    }
                                     $(boton).children("i").removeClass("fa-spin fa-spinner");
                                     $(boton).children("i").addClass("fa-save");
                                     $(boton).prop("disabled", false);

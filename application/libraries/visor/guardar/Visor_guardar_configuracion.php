@@ -69,6 +69,12 @@ Class Visor_guardar_configuracion{
     protected $_bo_vectores_hallazgos;
     
     /**
+     * Lista de archivos que estan ocultos
+     * @var array 
+     */
+    protected $_lista_archivos_ocultos;
+    
+    /**
      *
      * @var string 
      */
@@ -219,28 +225,40 @@ Class Visor_guardar_configuracion{
     
     /**
      * 
+     * @param array $lista_archivos
+     */
+    public function setArchivosOcultos($lista_archivos){
+        $this->_lista_archivos_ocultos = $lista_archivos;
+        return $this;
+    }
+    
+    /**
+     * 
      */
     public function guardar(){
-        $data = array(
-            "id_emergencia" => $this->_id_emergencia,
-            "tipo_mapa" => $this->_tipo_mapa,
-            "zoom" => $this->_zoom,
-            "latitud" => $this->_latitud,
-            "longitud" => $this->_longitud,
-            "kml_sidco"     => $this->_bo_sidco_conaf,
-            
-            "bo_casos_febriles" => $this->_bo_casos_febriles,
+        
+        $configuracion = array(
+            "bo_kml_sidco"           => $this->_bo_sidco_conaf,
+            "bo_casos_febriles"      => $this->_bo_casos_febriles,
             "bo_casos_febriles_zona" => $this->_bo_casos_febriles_zona,
-            
-            "bo_marea_roja" => $this->_bo_marea_roja,
-            "bo_marea_roja_pm" => $this->_bo_marea_roja_pm,
-            
-            "bo_vectores" => $this->_bo_vectores,
-            "bo_vectores_hallazgos" => $this->_bo_vectores_hallazgos
+            "bo_marea_roja"          => $this->_bo_marea_roja,
+            "bo_marea_roja_pm"       => $this->_bo_marea_roja_pm,
+            "bo_vectores"            => $this->_bo_vectores,
+            "bo_vectores_hallazgos"  => $this->_bo_vectores_hallazgos,
+            "archivos_ocultos"       => $this->_lista_archivos_ocultos
         );
         
-        $configuracion = $this->_emergencia_mapa_configuracion_model->getByEmergencia($this->_id_emergencia);
-        if(is_null($configuracion)){
+        $data = array(
+            "id_emergencia" => $this->_id_emergencia,
+            "tipo_mapa"     => $this->_tipo_mapa,
+            "zoom"          => $this->_zoom,
+            "latitud"       => $this->_latitud,
+            "longitud"      => $this->_longitud,
+            "configuracion" => Zend_Json::encode($configuracion)
+        );
+        
+        $mapa = $this->_emergencia_mapa_configuracion_model->getByEmergencia($this->_id_emergencia);
+        if(is_null($mapa)){
             $this->_emergencia_mapa_configuracion_model->insert($data);
         } else {
             $this->_emergencia_mapa_configuracion_model->updatePorEmergencia($this->_id_emergencia, $data);

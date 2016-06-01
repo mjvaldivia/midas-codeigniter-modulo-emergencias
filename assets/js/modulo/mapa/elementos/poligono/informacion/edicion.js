@@ -1,5 +1,12 @@
 var MapaInformacionElementoEdicion = Class({ 
     
+    mapa : null,
+    
+    
+    seteaMapa : function(mapa){
+      this.mapa = mapa;  
+    },
+    
     /**
      * 
      * @param {type} clave
@@ -126,22 +133,69 @@ var MapaInformacionElementoEdicion = Class({
                             }
                         });
                         
+                        /*if($("#editar_mover").val()!="No"){
+                            
+                            var este = jQuery.grep(lista_poligonos, function( a ) {
+                                if(funcion_elemento(a, clave)){
+                                    return true;
+                                }
+                            });
+                            
+                            console.log(este[0]);
+                            
+                            var mapa = este[0].getMap();
+                            este[0].setMap(null);
+                            
+                            var otros = jQuery.grep(lista_poligonos, function( a ) {
+                                if(a.getMap() != null && !funcion_elemento(a, clave)){
+                                    a.setMap(null);
+                                    return true;
+                                }
+                            });
+                            
+                            console.log(otros);
+                            
+                            if($("#editar_mover").val() == "1"){
+                                
+                                $.each(otros, function(i, elemento){
+                                   elemento.setMap(mapa); 
+                                });
+                                
+                                este[0].setMap(mapa);
+                                
+                            } else {
+
+                                este[0].setMap(mapa);
+                                
+                                $.each(otros, function(i, elemento){
+                                   elemento.setMap(mapa); 
+                                });
+                                
+                                
+                            }
+                        }*/
+                        
+                        
                         //recarga menu inferior con elementos cargados
                         var elemento = new MapaElementos();
                         elemento.listaElementosVisor();
+                        $(".sp-choose").trigger("click");
                     }
                 },
                 eliminar: {
                     label: " Quitar elemento",
                     className: "btn-danger fa fa-remove",
                     callback: function() {
+                        $(".sp-choose").trigger("click");
                         funcion_remove();
                     }
                 },
                 cerrar: {
                     label: " Cerrar ventana",
                     className: "btn-white fa fa-close",
-                    callback: function() {}
+                    callback: function() {
+                        $(".sp-choose").trigger("click");
+                    }
                 }
             }
         });

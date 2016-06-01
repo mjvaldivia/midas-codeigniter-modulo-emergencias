@@ -56,26 +56,30 @@ var MapaInformacionElementoContenido = Class({
         var yo = this;
         
         $.each(lista_poligonos, function(i, forma){
-            if(forma.clave != elemento.clave){
-                var existe = jQuery.grep(yo.formas, function( a ) {
-                    if(a["clave"] == forma.clave && a.nombre == forma.nombre){
-                        return true;
-                    }
-                });
-                
-                if(existe.length == 0){
-                
-                    var bo_forma_dentro_de_poligono = yo.elementoContainsElemento(elemento, forma, true);
-
-                    if(bo_forma_dentro_de_poligono){
-                        var data = {"clave" : forma.clave,
-                                    "nombre" : forma.nombre,
-                                    "informacion" : forma.informacion};
-                        if(forma.capa != null){
-                            data["CAPA"] = forma.capa;
+            
+            if(forma.getVisible() && forma.getMap() != null){
+            
+                if(forma.clave != elemento.clave){
+                    var existe = jQuery.grep(yo.formas, function( a ) {
+                        if(a["clave"] == forma.clave && a.nombre == forma.nombre){
+                            return true;
                         }
+                    });
 
-                        yo.formas.push(data);
+                    if(existe.length == 0){
+
+                        var bo_forma_dentro_de_poligono = yo.elementoContainsElemento(elemento, forma, true);
+
+                        if(bo_forma_dentro_de_poligono){
+                            var data = {"clave" : forma.clave,
+                                        "nombre" : forma.nombre,
+                                        "informacion" : forma.informacion};
+                            if(forma.capa != null){
+                                data["CAPA"] = forma.capa;
+                            }
+
+                            yo.formas.push(data);
+                        }
                     }
                 }
             }
