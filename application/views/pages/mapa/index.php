@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,9 +98,8 @@
 
         
 
-=======
 <?= loadCSS("assets/css/modulo/mapa.css"); ?>
->>>>>>> upstream/master
+
 <?php echo $js; ?>
 </head>
 
