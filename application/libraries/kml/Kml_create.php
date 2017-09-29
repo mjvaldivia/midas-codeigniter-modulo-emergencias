@@ -122,7 +122,7 @@ Class Kml_create{
         $folder,
         $nombre, 
         $id_style,
-        array $coordenadas = array()
+        $coordenadas = array()
     ){
         $placemark = $folder->addChild("Placemark");
         $placemark->addChild("name", $nombre);
